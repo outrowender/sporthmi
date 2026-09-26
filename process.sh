@@ -4,7 +4,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if [ -e "$1" ]; then
 JXE="$1"
 else
-JXE=car_lsd.jxe
+JXE=MU1326-lsd.jxe
 #JXE=bench_vw_lsd.jxe
 fi
 
