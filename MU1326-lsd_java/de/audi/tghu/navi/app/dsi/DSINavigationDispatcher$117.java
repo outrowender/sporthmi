@@ -1,0 +1,27 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.navi.app.dsi;
+
+import de.audi.tghu.command.CommandResponse;
+import de.audi.tghu.navi.app.dsi.DSINavigationDispatcher;
+import de.audi.tghu.navi.app.dsi.IDSINavigationHandler;
+import org.dsi.ifc.base.DSIListener;
+import org.dsi.ifc.global.NavLocation;
+
+class DSINavigationDispatcher$117
+extends CommandResponse {
+    private final /* synthetic */ NavLocation[] val$poisEnteringProximityRange;
+    private final /* synthetic */ DSINavigationDispatcher this$0;
+
+    DSINavigationDispatcher$117(DSINavigationDispatcher dSINavigationDispatcher, NavLocation[] navLocationArray) {
+        this.this$0 = dSINavigationDispatcher;
+        this.val$poisEnteringProximityRange = navLocationArray;
+    }
+
+    @Override
+    public void call(DSIListener dSIListener) {
+        ((IDSINavigationHandler)dSIListener).updatePOIsEnteringProximityRange(this.val$poisEnteringProximityRange);
+    }
+}
+

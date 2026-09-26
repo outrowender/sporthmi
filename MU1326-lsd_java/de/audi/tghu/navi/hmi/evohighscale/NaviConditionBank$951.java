@@ -1,0 +1,28 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.navi.hmi.evohighscale;
+
+import de.audi.atip.hmi.model.AbstractCondition;
+import de.audi.tghu.navi.hmi.evohighscale.NaviConditionBank;
+import de.audi.tghu.navi.hmi.evohighscale.NaviScreenFactory;
+
+class NaviConditionBank$951
+extends AbstractCondition {
+    private final /* synthetic */ NaviConditionBank this$0;
+
+    NaviConditionBank$951(NaviConditionBank naviConditionBank) {
+        this.this$0 = naviConditionBank;
+    }
+
+    @Override
+    public int[] getModelIds() {
+        return new int[]{442, 4594, 5583, 5602};
+    }
+
+    @Override
+    public boolean evaluate(int n) {
+        return NaviScreenFactory.evalCond413242(n);
+    }
+}
+

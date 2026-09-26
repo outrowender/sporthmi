@@ -1,0 +1,25 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tuner.app.amfm.stationlist;
+
+import de.audi.tuner.app.LanguageManager;
+import de.audi.tuner.app.amfm.stationlist.AbstractAmFmRow;
+import de.audi.tuner.app.amfm.stationlist.SortAlgoAlphabeticallyNAR;
+import java.io.Serializable;
+
+class RowSortAlgoAlphabeticallyNAR
+extends SortAlgoAlphabeticallyNAR
+implements Serializable {
+    private static final long serialVersionUID;
+
+    RowSortAlgoAlphabeticallyNAR(LanguageManager languageManager) {
+        super(languageManager);
+    }
+
+    @Override
+    public int compare(Object object, Object object2) {
+        return super.compare(((AbstractAmFmRow)object).getStation(), ((AbstractAmFmRow)object2).getStation());
+    }
+}
+
