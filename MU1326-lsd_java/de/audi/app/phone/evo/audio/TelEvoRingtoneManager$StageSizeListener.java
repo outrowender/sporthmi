@@ -1,0 +1,33 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.app.phone.evo.audio;
+
+import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.evo.audio.TelEvoRingtoneManager;
+import de.audi.app.phone.evo.util.AbstractTelStageChangeListener;
+
+class TelEvoRingtoneManager$StageSizeListener
+extends AbstractTelStageChangeListener {
+    private final /* synthetic */ TelEvoRingtoneManager this$0;
+
+    public TelEvoRingtoneManager$StageSizeListener(TelEvoRingtoneManager telEvoRingtoneManager, ITelApplication iTelApplication) {
+        this.this$0 = telEvoRingtoneManager;
+        super(iTelApplication, "App.Phone.Audio");
+    }
+
+    @Override
+    protected void smallStageShown() {
+        this.log.log(1078071040, "[TelEvoRingtoneManager.StageSizeListener#smallStageShown]");
+        TelEvoRingtoneManager.access$202(this.this$0, true);
+        TelEvoRingtoneManager.access$100(this.this$0);
+    }
+
+    @Override
+    protected void largeStateShown() {
+        this.log.log(1078071040, "[TelEvoRingtoneManager.StageSizeListener#largeStateShown]");
+        TelEvoRingtoneManager.access$202(this.this$0, false);
+        TelEvoRingtoneManager.access$100(this.this$0);
+    }
+}
+
