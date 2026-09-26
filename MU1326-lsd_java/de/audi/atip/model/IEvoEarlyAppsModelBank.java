@@ -1,0 +1,86 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.model;
+
+public interface IEvoEarlyAppsModelBank {
+    public static final int AUX_COMBINED_WINDOWS_AVAILABLE_CHOICE;
+    public static final int PARKING_EVO_VPS_FAILURE_CHOICE;
+    public static final int AUX_COMBINED_KEY_ACTIVATION_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_DRIVER_AVAILABLE_CHOICE;
+    public static final int PARKING_SWITCHING_FRONT_REAR_AVAILABLE_CHOICE;
+    public static final int GOODBYE_TARGET_RANGE_AVAILABLE_CHOICE;
+    public static final int CHARGE_TIMER1_AVAILABLE_CHOICE;
+    public static final int AUX_AC_HEATING_COIL_ICON_AVAILABLE_CHOICE;
+    public static final int PARKING_EVO_PDC_FAILURE_CHOICE;
+    public static final int CHARGE_ELECTRICAL_CLIMATE_AVAILABLE_CHOICE;
+    public static final int AUX_AC_HEATING_TIMER2_CLIMATE_SYSTEM_TYPE_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_POPUP_SHOW_CHOICE;
+    public static final int NEXT_CHARGE_TIMER_ALLOW_PARKHEATER_AVAILABLE_EVO_CHOICE;
+    public static final int CHARGE_ETRON_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ZONES_BUTTON;
+    public static final int AUX_AC_TIMER1_TYPE_RIGHT_DRAWER_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_SUSTAINING_MODE_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_BUTTON;
+    public static final int GOODBYE_AUX_AC_TIMER2_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_SELECTION_MENU;
+    public static final int PARKING_APS_VOLUME_TONE_AVAILABLE_CHOICE;
+    public static final int AUX_AC_IMMEDIATE_OFF_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_FOCUSED_MODE_CHOICE;
+    public static final int CHARGE_TIMER1_AVAILABLE_EVO_CHOICE;
+    public static final int AUX_AC_HEATING_TIMER1_CLIMATE_SYSTEM_TYPE_AVAILABLE_CHOICE;
+    public static final int PARKING_OPS_AUTO_ACTIVATION_AVAILABLE_CHOICE;
+    public static final int AUX_AC_TIMER2_TYPE_RIGHT_DRAWER_AVAILABLE_CHOICE;
+    public static final int PARKING_SYSTEM_FOCUS_OPT_DRAWER_PROPERTY;
+    public static final int PARKING_APS_VOLUME_FRONT_CHOICE;
+    public static final int CHARGE_TIMER2_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ALLOW_WINDOWS_CHOICE;
+    public static final int PARKING_VPS_SHOW_OPS_SUBSTITUTE_REPRESENTATION_CHOICE;
+    public static final int AUX_AC_IMMEDIATE_ON_AVAILABLE_CHOICE;
+    public static final int PARKING_POPUP_ABORT_AVAILABLE_CHOICE;
+    public static final int PARKING_APS_VOLUME_FRONT_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ALLOW_BACK_LEFT_ZONE_CHOICE;
+    public static final int AUX_COMBINED_ZONES_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ALLOW_DRIVERZONE_CHOICE;
+    public static final int AUX_AC_NOW_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ALLOW_KEY_ACTIVATION_CHOICE;
+    public static final int AUX_AC_TIMER1_RIGHT_DRAWER_PROGRAMMING_AVAILABLE_CHOICE;
+    public static final int AUX_AC_THERMOMETER_ICON_TIMER2_AVAILABLE_CHOICE;
+    public static final int CHARISMA_ETRON_H_K_TIMEOUT_CHOICE;
+    public static final int AUX_AC_TIMER2_RIGHT_DRAWER_PROGRAMMING_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_BACK_RIGHT_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_HYBRID_MODE_AVAILABLE_CHOICE;
+    public static final int CHARGE_HEATING_COIL_ICON_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ALLOW_BACK_RIGHT_ZONE_CHOICE;
+    public static final int AUX_COMBINED_OPTIONS_BUTTON;
+    public static final int AUX_COMBINED_CODRIVER_AVAILABLE_CHOICE;
+    public static final int CHARGE_THERMOMETER_ICON_AVAILABLE_CHOICE;
+    public static final int PARKING_SETTINGS_APS_AVAILABLE_CHOICE;
+    public static final int GOODBYE_AUX_AC_TIMER1_AVAILABLE_CHOICE;
+    public static final int CHARGE_HEATING_COIL_ICON_TIMER2_AVAILABLE_CHOICE;
+    public static final int PARKING_ABORT_OPS_STANDALONE_POPUP_RANGE;
+    public static final int AUX_COMBINED_BACK_LEFT_AVAILABLE_CHOICE;
+    public static final int CHARGE_THERMOMETER_ICON_TIMER2_AVAILABLE_CHOICE;
+    public static final int PARKING_APS_VOLUME_REAR_AVAILABLE_CHOICE;
+    public static final int AUX_AC_TIMER2_AVAILABLE_EVO_CHOICE;
+    public static final int PARKING_VPS_CAMERA_CLEANING_AVAILABLE_CHOICE;
+    public static final int CHARGE_ETRON_EV_MODE_AVAILABLE_CHOICE;
+    public static final int AUX_VARIANT_CHOICE;
+    public static final int NEXT_CHARGE_TIMER2_ALLOW_PARKHEATER_AVAILABLE_EVO_CHOICE;
+    public static final int CAR_SYSTEM_SEAT_B_F_S_SHOW_CHOICE;
+    public static final int AUX_AC_HEATING_COIL_ICON_TIMER2_AVAILABLE_CHOICE;
+    public static final int CHARGE_TIMER2_AVAILABLE_EVO_CHOICE;
+    public static final int SEAT_SETTINGS_CODRIVER_POS_BY_DRIVER_RETURN_BUTTON;
+    public static final int AUX_COMBINED_OPTIONS_AVAILABLE_CHOICE;
+    public static final int AUX_AC_TIMER1_AVAILABLE_EVO_CHOICE;
+    public static final int AUX_AC_IMMEDIATE_TYPE_RIGHT_DRAWER_AVAILABLE_CHOICE;
+    public static final int CAR_SYSTEM_SEAT_F_S_SHOW_CHOICE;
+    public static final int CHARGE_ETRON_CHARGING_MODE_AVAILABLE_CHOICE;
+    public static final int PARKING_APS_VOLUME_REAR_CHOICE;
+    public static final int PARKING_APS_ENTERTAINMENT_LOWERING_AVAILABLE_CHOICE;
+    public static final int GOODBYE_REMAINING_CHARGE_TIME_AVAILABLE_CHOICE;
+    public static final int AUX_AC_THERMOMETER_ICON_AVAILABLE_CHOICE;
+    public static final int NEXT_CHARGE_TIMER_ALLOW_PARKHEATER_AVAILABLE_CHOICE;
+    public static final int AUX_COMBINED_ALLOW_CODRIVERZONE_CHOICE;
+}
+

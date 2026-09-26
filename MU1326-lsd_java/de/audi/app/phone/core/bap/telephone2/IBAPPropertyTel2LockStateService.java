@@ -1,0 +1,10 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.app.phone.core.bap.telephone2;
+
+public interface IBAPPropertyTel2LockStateService {
+    default public void updateLockStatePUKNewPINRequired() {
+    }
+}
+

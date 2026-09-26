@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.utils.dispatching;
+
+public interface ITimerListener {
+    default public void fireTimer() {
+    }
+
+    default public void cancelTimer() {
+    }
+}
+
