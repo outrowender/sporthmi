@@ -1,0 +1,569 @@
+Summary for /home/wender/Documents/mib2-lsd-patching/MU1326-lsd.jar
+Decompiled with CFR 0.152
+
+
+java.lang.Long
+----------------------------
+
+toBinaryString(long )
+  Unable to fully structure code
+toHexString(long )
+  Unable to fully structure code
+toOctalString(long )
+  Unable to fully structure code
+
+
+java.lang.String
+----------------------------
+
+toLowerCase(java.util.Locale )
+  Unable to fully structure code
+
+
+java.lang.Integer
+----------------------------
+
+toBinaryString(int )
+  Unable to fully structure code
+toHexString(int )
+  Unable to fully structure code
+toOctalString(int )
+  Unable to fully structure code
+
+
+java.text.CharSet
+----------------------------
+
+doUnion(java.lang.String )
+  Unable to fully structure code
+
+
+java.util.HashMap
+----------------------------
+
+findEntry(java.lang.Object int )
+  Unable to fully structure code
+
+
+java.math.BigDecimal
+----------------------------
+
+divide(java.math.BigDecimal int int )
+  Unable to fully structure code
+
+
+java.math.BigInteger
+----------------------------
+
+<init>(byte[] )
+  Handled unverifiable bytecode (illegal stack merge).
+and(java.math.BigInteger )
+  Unable to fully structure code
+or(java.math.BigInteger )
+  Unable to fully structure code
+xor(java.math.BigInteger )
+  Unable to fully structure code
+andNot(java.math.BigInteger )
+  Unable to fully structure code
+
+
+java.util.LinkedList
+----------------------------
+
+contains(java.lang.Object )
+  Unable to fully structure code
+indexOf(java.lang.Object )
+  Unable to fully structure code
+lastIndexOf(java.lang.Object )
+  Unable to fully structure code
+remove(java.lang.Object )
+  Unable to fully structure code
+
+
+java.util.AbstractMap
+----------------------------
+
+containsKey(java.lang.Object )
+  Unable to fully structure code
+containsValue(java.lang.Object )
+  Unable to fully structure code
+get(java.lang.Object )
+  Unable to fully structure code
+remove(java.lang.Object )
+  Unable to fully structure code
+
+
+java.util.Collections
+----------------------------
+
+indexOfSubList(java.util.List java.util.List )
+  Unable to fully structure code
+
+
+java.util.AbstractList
+----------------------------
+
+indexOf(java.lang.Object )
+  Unable to fully structure code
+lastIndexOf(java.lang.Object )
+  Unable to fully structure code
+
+
+java.text.MessageFormat
+----------------------------
+
+formatImpl(java.lang.Object[] java.lang.StringBuffer java.text.FieldPosition java.util.Vector )
+  Unable to fully structure code
+
+
+com.ibm.oti.locale.Locale
+----------------------------
+
+getContents()
+  Exception : java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+
+
+java.util.StringTokenizer
+----------------------------
+
+nextToken()
+  Unable to fully structure code
+
+
+de.audi.tghu.sds.sm.SDSSMM
+----------------------------
+
+init()
+  Exception : java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+
+
+com.ibm.j9.bluez.crypto.CL3
+----------------------------
+
+log2(int )
+  Unable to fully structure code
+dsaParamGen(int byte[] java.util.Random )
+  Unable to fully structure code
+
+
+com.ibm.j9.bluez.crypto.ASN1
+----------------------------
+
+decodeObject(int byte[] int int )
+  Unable to fully structure code
+
+
+java.util.AbstractCollection
+----------------------------
+
+contains(java.lang.Object )
+  Unable to fully structure code
+remove(java.lang.Object )
+  Unable to fully structure code
+
+
+java.util.jar.Attributes$Name
+----------------------------
+
+<init>(java.lang.String )
+  Unable to fully structure code
+
+
+com.ibm.oti.util.DefaultPolicy
+----------------------------
+
+loadKeystore(java.net.URL java.lang.String[] )
+  Loose catch block
+
+
+java.util.ListResourceBundle$1
+----------------------------
+
+findNext()
+  Unable to fully structure code
+
+
+com.ibm.oti.locale.Locale_en_CA
+----------------------------
+
+getContents()
+  Exception : java.lang.ArrayIndexOutOfBoundsException
+
+
+de.audi.atip.model.NaviModelBank
+----------------------------
+
+createModel(int )
+  Exception : java.lang.ArrayIndexOutOfBoundsException
+
+
+de.audi.tuner.app.RadioObjectIds
+----------------------------
+
+getAmFmId(int long int int boolean )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+java.text.RuleBasedBreakIterator
+----------------------------
+
+handleNext()
+  Unable to fully structure code
+
+
+java.util.Hashtable$HashIterator
+----------------------------
+
+hasNext()
+  Unable to fully structure code
+
+
+de.audi.tghu.sds.sm.SDSSMMActions
+----------------------------
+
+execTransitionAction(de.audi.atip.statemachine.SMServices int int )
+  Exception : java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 4
+
+
+java.util.HashMap$HashMapIterator
+----------------------------
+
+hasNext()
+  Unable to fully structure code
+
+
+com.ibm.j9.bluez.crypto.BigInteger
+----------------------------
+
+<init>(int byte[] )
+  Unable to fully structure code
+divBig(com.ibm.j9.bluez.crypto.BigInteger com.ibm.j9.bluez.crypto.BigInteger int int int boolean )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+java.util.Hashtable$HashEnumerator
+----------------------------
+
+hasMoreElements()
+  Unable to fully structure code
+
+
+java.util.PropertyResourceBundle$1
+----------------------------
+
+findNext()
+  Unable to fully structure code
+
+
+de.audi.app.settings.etc.ETCHandler
+----------------------------
+
+updateCardError(org.dsi.ifc.tollcollect.TCCardError int )
+  Unable to fully structure code
+
+
+com.ibm.oti.lang.reflect.ProxyMethod
+----------------------------
+
+matchMethod(java.lang.reflect.Method )
+  Unable to fully structure code
+
+
+de.audi.tghu.car.sm.CarSMMInitStates
+----------------------------
+
+initStateFlagList()
+  Exception : java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+initStateSuperstateList()
+  Exception : java.lang.ArrayIndexOutOfBoundsException
+initStateDHSList()
+  Exception : java.lang.ArrayIndexOutOfBoundsException
+
+
+de.audi.tghu.fwhmi.HMIEventDispatcher
+----------------------------
+
+getMaxEventTime()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+com.ibm.oti.connection.http.Connection
+----------------------------
+
+readln()
+  Unable to fully structure code
+
+
+com.ibm.oti.util.ExtendedResourceBundle$1
+----------------------------
+
+findNext()
+  Unable to fully structure code
+
+
+de.audi.tghu.navi.app.map.dsi.ZoomHandler
+----------------------------
+
+getRecommendedZoom()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+java.util.LinkedHashMap$LinkedHashIterator
+----------------------------
+
+remove()
+  Unable to fully structure code
+
+
+com.ibm.oti.security.provider.KeyFactoryDSA
+----------------------------
+
+engineGetKeySpec(java.security.Key java.lang.Class )
+  Unable to fully structure code
+
+
+de.esolutions.fw.util.commons.error.Floater
+----------------------------
+
+waste(int )
+  Unable to fully structure code
+
+
+de.audi.app.car.core.bcme.AbstractTADComponent
+----------------------------
+
+setMaxAngle(int float )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.audi.app.navi.favorite.NaviFavoriteHandlerEvo
+----------------------------
+
+getFavoritesBapEntries()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.audi.app.media.evo.source.SourceListHMIHandler
+----------------------------
+
+slotsChanged(de.audi.app.media.source.ISource[] )
+  Unable to fully structure code
+
+
+de.esolutions.hmi.widgets.audi.base.eal.EALManager
+----------------------------
+
+setMainAreaMaterialProperties(boolean float float )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+com.ibm.oti.net.www.protocol.http.HttpURLConnection
+----------------------------
+
+readln()
+  Unable to fully structure code
+
+
+de.audi.atip.utils.reactive.operations.LogOperation
+----------------------------
+
+decorateSink(de.audi.atip.utils.reactive.observables.Sink )
+  Handled unverifiable bytecode (illegal jump).
+
+
+de.audi.tghu.media.hmi.evohighscale.MediaScreenBag1
+----------------------------
+
+mEDIAOPT(de.audi.tghu.media.hmi.evohighscale.MediaScreenFactory int )
+  Exception : java.lang.ArrayIndexOutOfBoundsException: Index 198 out of bounds for length 198
+
+
+com.ibm.oti.connection.ssl.Connection$SSLInputStream
+----------------------------
+
+available()
+  Unable to fully structure code
+read()
+  Unable to fully structure code
+read(byte[] int int )
+  Unable to fully structure code
+
+
+de.esolutions.hmi.widgets.audi.base.eal.WrappedLayer
+----------------------------
+
+updateLtrNode()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.audi.tghu.phone.hmi.evohighscale.PhoneScreenBag1$6
+----------------------------
+
+createListItem(int de.audi.atip.hmi.model.ListCell[] )
+  Exception : java.lang.ArrayIndexOutOfBoundsException
+
+
+de.esolutions.hmi.widgets.audi.base.eal.WrappedNode3D
+----------------------------
+
+unclip()
+  Handled unverifiable bytecode (illegal stack merge).
+clip()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.audi.tghu.phone.hmi.evohighscale.PhoneScreenBag1$10
+----------------------------
+
+createListItem(int de.audi.atip.hmi.model.ListCell[] )
+  Exception : java.lang.ArrayIndexOutOfBoundsException
+
+
+de.esolutions.fw.util.commons.job.StatisticInterceptor
+----------------------------
+
+<init>(de.esolutions.fw.util.commons.job.DispatcherBase de.esolutions.fw.util.commons.job.IJobLogger int int )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.fw.util.tracing.protocol.ProtocolHandler
+----------------------------
+
+handleIncomingMessage()
+  Unable to fully structure code
+
+
+de.esolutions.hmi.widgets.audi.base.eal.Car3DResourceHandler
+----------------------------
+
+<clinit>()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.widgets.WaitAnimController
+----------------------------
+
+getProgress()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController
+----------------------------
+
+getScreenAreaTransformation(int int )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+edu.emory.mathcs.backport.java.util.concurrent.ArrayBlockingQueue
+----------------------------
+
+offer(java.lang.Object long edu.emory.mathcs.backport.java.util.concurrent.TimeUnit )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 7[UNCONDITIONALDOLOOP]
+poll(long edu.emory.mathcs.backport.java.util.concurrent.TimeUnit )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 7[UNCONDITIONALDOLOOP]
+
+
+de.esolutions.fw.util.commons.threading.ThreadPool$DefaultRunnable
+----------------------------
+
+run()
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [7[TRYBLOCK]], but top level block is 28[WHILELOOP]
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.MirrorRendererHigh
+----------------------------
+
+applyMirror(boolean )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListController2
+----------------------------
+
+setDefaultState(boolean )
+  Unable to fully structure code
+
+
+edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap
+----------------------------
+
+findNode(java.lang.Comparable )
+  Unable to fully structure code
+addIndex(edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$Index edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListMap$HeadIndex int )
+  Unable to fully structure code
+findNear(java.lang.Object int )
+  Unable to fully structure code
+
+
+edu.emory.mathcs.backport.java.util.concurrent.PriorityBlockingQueue
+----------------------------
+
+poll(long edu.emory.mathcs.backport.java.util.concurrent.TimeUnit )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 7[UNCONDITIONALDOLOOP]
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractDynamicSidebar
+----------------------------
+
+setParentXCoordinate(boolean )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.SuggestionRendererHigh
+----------------------------
+
+render(de.esolutions.hmi.widgets.audi.base.RedrawContext )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+edu.emory.mathcs.backport.java.util.concurrent.AbstractExecutorService
+----------------------------
+
+doInvokeAny(java.util.Collection boolean long )
+  Unable to fully structure code
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.FingerTraceRendererHigh
+----------------------------
+
+connect(de.esolutions.hmi.widgets.audi.base.InitializationContext )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.TouchRendererHighArabia
+----------------------------
+
+applyProperties(de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.SpellerRendererEuropeHigh
+----------------------------
+
+applyProperties(de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh )
+  Handled unverifiable bytecode (illegal stack merge).
+setNodeColoring(de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D boolean )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.SplitGlassplateRendererHigh
+----------------------------
+
+applyPropertiesParking(int de.esolutions.hmi.widgets.audi.evo.widgets.entdrawer.EntertainmentDrawerState )
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.high.widgets.SeatVisualizationRendererHigh
+----------------------------
+
+updateFunctionIconsAndCursorOpacity()
+  Handled unverifiable bytecode (illegal stack merge).
+
+
+de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$BounceCursor
+----------------------------
+
+getAnimationStart()
+  Handled unverifiable bytecode (illegal stack merge).
+getAnimationTarget()
+  Handled unverifiable bytecode (illegal stack merge).
