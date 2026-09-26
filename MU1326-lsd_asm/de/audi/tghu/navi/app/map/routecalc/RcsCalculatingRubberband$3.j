@@ -1,0 +1,173 @@
+.version 50 0 
+.class super [103] 
+.super [105] 
+.field private final synthetic [106] [107] 
+
+.method [109] : [110] 
+    .attribute [108] .code stack 3 locals 0 
+L0:     aload_0 
+L1:     aload_1 
+L2:     putfield [23] 
+L5:     aload_0 
+L6:     iload_2 
+L7:     iload_3 
+L8:     invokespecial [22] 
+L11:    return 
+L12:    
+    .end code 
+.end method 
+
+.method public [111] : [112] 
+    .attribute [108] .code stack 4 locals 0 
+L0:     aload_0 
+L1:     getfield [14] 
+L4:     invokevirtual [15] 
+L7:     invokevirtual [16] 
+L10:    ifne L38 
+L13:    aload_0 
+L14:    getfield [14] 
+L17:    invokevirtual [17] 
+L20:    ldc [2] 
+L22:    ldc [3] 
+L24:    invokevirtual [18] 
+L27:    pop 
+L28:    aload_0 
+L29:    invokevirtual [19] 
+L32:    invokeinterface [24] 0 
+L37:    return 
+L38:    aload_0 
+L39:    getfield [14] 
+L42:    invokevirtual [17] 
+L45:    ldc [4] 
+L47:    ldc [5] 
+L49:    aload_1 
+L50:    invokevirtual [20] 
+L53:    pop 
+L54:    aload_0 
+L55:    getfield [14] 
+L58:    invokevirtual [15] 
+L61:    getfield [21] 
+L64:    invokeinterface [25] 0 
+L69:    aload_1 
+L70:    putfield [26] 
+L73:    aload_0 
+L74:    invokevirtual [19] 
+L77:    invokeinterface [24] 0 
+L82:    return 
+L83:    nop 
+L84:    
+    .end code 
+.end method 
+.const [1] = Int 0 
+.const [2] = Int -1601830656 
+.const [3] = String [27] 
+.const [4] = Int -2137614336 
+.const [5] = String [28] 
+.const [6] = Class [29] 
+.const [7] = Class [30] 
+.const [8] = Class [31] 
+.const [9] = Class [32] 
+.const [10] = Class [33] 
+.const [11] = Class [34] 
+.const [12] = Class [35] 
+.const [13] = Class [36] 
+.const [14] = Field [37] [38] 
+.const [15] = Method [39] [40] 
+.const [16] = Method [41] [42] 
+.const [17] = Method [43] [44] 
+.const [18] = Method [45] [46] 
+.const [19] = Method [47] [48] 
+.const [20] = Method [49] [50] 
+.const [21] = Field [51] [52] 
+.const [22] = Method [53] [54] 
+.const [23] = Field [55] [56] 
+.const [24] = InterfaceMethod [57] [58] 
+.const [25] = InterfaceMethod [59] [60] 
+.const [26] = Field [61] [62] 
+.const [27] = Utf8 'RcsCalculatingRubberband#finishPrepareRubberbandAndStart#NotifyRubberbandPrepared() - not in rubberband state anymore!' 
+.const [28] = Utf8 'RcsCalculatingRubberband#finishPrepareRubberbandAndStart#rgGetRouteBoundingRectangleResult( %1 )' 
+.const [29] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband$3 
+.const [30] = Utf8 de/audi/tghu/navi/app/command/via/RgGetRouteBoundingRect 
+.const [31] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband 
+.const [32] = Utf8 de/audi/tghu/navi/app/map/routecalc/RouteCalcSM 
+.const [33] = Utf8 de/audi/atip/log/LogChannel 
+.const [34] = Utf8 de/audi/tghu/command/ICommandList 
+.const [35] = Utf8 de/audi/tghu/navi/app/map/routecalc/IRouteCalculator$IRouteCalcEnv 
+.const [36] = Utf8 de/audi/tghu/navi/app/map/MapDataContainer 
+.const [37] = Class [63] 
+.const [38] = NameAndType [64] [65] 
+.const [39] = Class [66] 
+.const [40] = NameAndType [67] [68] 
+.const [41] = Class [69] 
+.const [42] = NameAndType [70] [71] 
+.const [43] = Class [72] 
+.const [44] = NameAndType [73] [74] 
+.const [45] = Class [75] 
+.const [46] = NameAndType [76] [77] 
+.const [47] = Class [78] 
+.const [48] = NameAndType [79] [80] 
+.const [49] = Class [81] 
+.const [50] = NameAndType [82] [83] 
+.const [51] = Class [84] 
+.const [52] = NameAndType [85] [86] 
+.const [53] = Class [87] 
+.const [54] = NameAndType [88] [89] 
+.const [55] = Class [90] 
+.const [56] = NameAndType [91] [92] 
+.const [57] = Class [93] 
+.const [58] = NameAndType [94] [95] 
+.const [59] = Class [96] 
+.const [60] = NameAndType [97] [98] 
+.const [61] = Class [99] 
+.const [62] = NameAndType [100] [101] 
+.const [63] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband$3 
+.const [64] = Utf8 this$0 
+.const [65] = Utf8 Lde/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband; 
+.const [66] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband 
+.const [67] = Utf8 getStateMachine 
+.const [68] = Utf8 ()Lde/audi/tghu/navi/app/map/routecalc/RouteCalcSM; 
+.const [69] = Utf8 de/audi/tghu/navi/app/map/routecalc/RouteCalcSM 
+.const [70] = Utf8 isCalculatingRubberband 
+.const [71] = Utf8 ()Z 
+.const [72] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband 
+.const [73] = Utf8 getLogger 
+.const [74] = Utf8 ()Lde/audi/atip/log/LogChannel; 
+.const [75] = Utf8 de/audi/atip/log/LogChannel 
+.const [76] = Utf8 log 
+.const [77] = Utf8 (ILjava/lang/String;)Z 
+.const [78] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband$3 
+.const [79] = Utf8 getCommandList 
+.const [80] = Utf8 ()Lde/audi/tghu/command/ICommandList; 
+.const [81] = Utf8 de/audi/atip/log/LogChannel 
+.const [82] = Utf8 log 
+.const [83] = Utf8 (ILjava/lang/String;Ljava/lang/Object;)Z 
+.const [84] = Utf8 de/audi/tghu/navi/app/map/routecalc/RouteCalcSM 
+.const [85] = Utf8 naviMap 
+.const [86] = Utf8 Lde/audi/tghu/navi/app/map/routecalc/IRouteCalculator$IRouteCalcEnv; 
+.const [87] = Utf8 de/audi/tghu/navi/app/command/via/RgGetRouteBoundingRect 
+.const [88] = Utf8 <init> 
+.const [89] = Utf8 (ZI)V 
+.const [90] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband$3 
+.const [91] = Utf8 this$0 
+.const [92] = Utf8 Lde/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband; 
+.const [93] = Utf8 de/audi/tghu/command/ICommandList 
+.const [94] = Utf8 commandFinished 
+.const [95] = Utf8 ()V 
+.const [96] = Utf8 de/audi/tghu/navi/app/map/routecalc/IRouteCalculator$IRouteCalcEnv 
+.const [97] = Utf8 getMapDataContainer 
+.const [98] = Utf8 ()Lde/audi/tghu/navi/app/map/MapDataContainer; 
+.const [99] = Utf8 de/audi/tghu/navi/app/map/MapDataContainer 
+.const [100] = Utf8 rubberbandViewPort 
+.const [101] = Utf8 Lorg/dsi/ifc/global/NavRectangle; 
+.const [102] = Utf8 de/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband$3 
+.const [103] = Class [102] 
+.const [104] = Utf8 de/audi/tghu/navi/app/command/via/RgGetRouteBoundingRect 
+.const [105] = Class [104] 
+.const [106] = Utf8 this$0 
+.const [107] = Utf8 Lde/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband; 
+.const [108] = Utf8 Code 
+.const [109] = Utf8 <init> 
+.const [110] = Utf8 (Lde/audi/tghu/navi/app/map/routecalc/RcsCalculatingRubberband;ZI)V 
+.const [111] = Utf8 rgGetRouteBoundingRectangleResult 
+.const [112] = Utf8 (Lorg/dsi/ifc/global/NavRectangle;)V 
+.end class 
