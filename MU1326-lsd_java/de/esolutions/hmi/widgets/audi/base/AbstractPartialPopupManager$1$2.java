@@ -1,0 +1,36 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.esolutions.hmi.widgets.audi.base;
+
+import de.audi.atip.hmi.view.IPartialPopupListener;
+import de.esolutions.hmi.widgets.audi.base.AbstractPartialPopupManager;
+import de.esolutions.hmi.widgets.audi.base.AbstractPartialPopupManager$1;
+import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
+import java.util.ArrayList;
+
+class AbstractPartialPopupManager$1$2
+implements Runnable {
+    private final /* synthetic */ IPartialPopupListener val$ppListener;
+    private final /* synthetic */ AbstractPartialPopupManager$1 this$1;
+
+    AbstractPartialPopupManager$1$2(AbstractPartialPopupManager$1 abstractPartialPopupManager$1, IPartialPopupListener iPartialPopupListener) {
+        this.this$1 = abstractPartialPopupManager$1;
+        this.val$ppListener = iPartialPopupListener;
+    }
+
+    @Override
+    public void run() {
+        int[] nArray;
+        if (this.val$ppListener != null && (nArray = this.val$ppListener.getPPIDsForCallbacks()) != null) {
+            for (int i2 = 0; i2 < nArray.length; ++i2) {
+                Integer n = new Integer(nArray[i2]);
+                ArrayList arrayList = (ArrayList)AbstractPartialPopupManager.access$100(AbstractPartialPopupManager$1.access$000(this.this$1)).get(n);
+                if (arrayList == null || !arrayList.contains(this.val$ppListener)) continue;
+                IWidgetLogChannel.logChannelPopups.log(-2137614336, "PartialPopupManager#removeService remove(ppListener): %1", (Object)this.val$ppListener);
+                arrayList.remove(this.val$ppListener);
+            }
+        }
+    }
+}
+
