@@ -1,0 +1,28 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.online.app.osr.license;
+
+import de.audi.tghu.online.app.osr.command.AbstractOSRCommand;
+import de.audi.tghu.online.app.osr.license.LicenseCollectionService;
+import org.dsi.ifc.online.OSRServiceState;
+
+class LicenseCollectionService$3
+extends AbstractOSRCommand {
+    private final /* synthetic */ LicenseCollectionService this$0;
+
+    LicenseCollectionService$3(LicenseCollectionService licenseCollectionService) {
+        this.this$0 = licenseCollectionService;
+    }
+
+    @Override
+    public void execute() {
+        this.this$0.log.log(-2137614336, "LicenseCollectionService#preCheckLicense: Could not execute command");
+        this.this$0.modelManager.setServiceListDownloaded(3);
+        this.getCommandList().commandFinished();
+    }
+
+    public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {
+    }
+}
+

@@ -1,0 +1,27 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.media.hmi.evohighscale;
+
+import de.audi.atip.hmi.model.AbstractCondition;
+import de.audi.tghu.media.hmi.evohighscale.MediaConditionBank;
+
+class MediaConditionBank$145
+extends AbstractCondition {
+    private final /* synthetic */ MediaConditionBank this$0;
+
+    MediaConditionBank$145(MediaConditionBank mediaConditionBank) {
+        this.this$0 = mediaConditionBank;
+    }
+
+    @Override
+    public int[] getModelIds() {
+        return new int[]{1376781056};
+    }
+
+    @Override
+    public boolean evaluate(int n) {
+        return MediaConditionBank.access$000(this.this$0).evaluateSimpleChoiceModelValueEqualsCondition(1376781056, n, 1);
+    }
+}
+
