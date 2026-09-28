@@ -1,0 +1,546 @@
+Audi MMI SportHMI mockup
+SPORT HMI for Audi
+There are some indications of Sport_HMI app for Audi
+MIB2 firmware. But no-one yet have enabled it. Let's
+check methods from the VW/Skoda/Seat units and let's
+check how the LSD.JXE in Audi looks like when it
+comes to references to sport modes.
+VW/SEAT/Skoda SportHMI enabling
+methods
+GUI assets in Audi firmware
+SportHMI adaptation channels
+Sport and Sport Kombi classes
+Why no Sport submenu in Car menu?
+Moment of Doubt
+Figuring out the missing data
+Logging HMI
+App.Car.Sport=5
+App.Car.MER=5
+How to enable it?
+Modifications with custom data
+For whatever reason, VW/SEAT/Skoda vehicles support SPORT HMI out from the factory, without some
+deep modifications of the system. All it needs is adaptation and FEC/SWaP code.
+Details: SPORT HMI Performance Monitor
+There's a file SPORT_HMI.kzb - a .kzb package. After extracting, it looks like Audi firmware contains
+some GUI assets for Sport Display submenu. There's clock gauge for power and torque, as well as bar gauge
+for temperature and boost. Also rendered fonts for the large readouts inside the clock gauges.
+So if we are looking for needed textures - all is here.
+Contents
+VW/SEAT/Skoda SportHMI enabling methods
+GUI assets in Audi firmware
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+1 of 11 9/28/26, 3:18 PM
+Audi MIB2 MMI SportHMI GUI assets
+Here we can see that those textures are referenced in
+LSD.JXE classes:
+public static String SPORT_HMI = "SPORT_HMI.kzb";
+public static int mib2_sport_hmi_kzbFile = 100;
+We all know that there are adaptation channels related to
+the Performance Monitor in VW, SEAT, and Skoda →
+http://wiki.mib-helper.com/index.php?
+title=SPORT_HMI_Performance_Monitor#Adaptation
+And it looks like in Audi those are also connected to Sport Display function. Look at this part of code:
+if (this.isComponentAvailable((short)52, carFuncAdap)) {
+this.addCarComponent(new SportComponentEvo(this));
+this.addCarComponent(new SportKombiComponentEvo(this));
+}
+The isComponentAvailable((short)52, carFuncAdap) simply checks if 52nd channel in
+Car_Function_Adaptations_Gen2 section is set to on. And 52nd channel is... You know which one
+- [LO]_menu_display_SportHMI.
+It looks like the app logic is split into two separate classes:
+▪ SportHMI
+▪ SportHMI-Kombi
+Kombi is designed for instrument cluster data ("Kombiinstrument"), which is the oil temperature.
+Here's a statement that creates the screen:
+protected Screen createScreen(int n, int n2) {
+switch (n) {
+(...)
+case 600289: {
+return CarScreenBag1.cARSPORTMAIN(this, n2);
+This one returns name of the screen for diagnostic purposes
+case 600289: {
+return "CAR_SPORT_MAIN";
+}
+And this one executes conditions
+SportHMI adaptation channels
+Sport and Sport Kombi classes
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+2 of 11 9/28/26, 3:18 PM
+@Override
+public void executeCondition(int n, int n2, HMIView[] hMIViewArray, int n3) {
+switch (n2) {
+(...)
+case 600289: {
+this.executeConditioncARSPORTMAINScreen(n, hMIViewArray, n3);
+break;
+}
+...which look like this:
+private void executeConditioncARSPORTMAINScreen(int n, HMIView[] hMIViewArray, int n2) {
+switch (n) {
+case 601056: {
+if (hMIViewArray[0] == null) break;
+((ScreenWidgetEVO)hMIViewArray[0]).setOpenSelectionDrawerByHkReturn(!
+this.evaluateSimpleChoiceModelValueEqualsCondition(-534050560, n2, -214497024));
+break;
+}
+case 602113: {
+if (hMIViewArray[0] != null) {
+((ContainerController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1992
+5248, n2, 1));
+}
+if (hMIViewArray[1] == null) break;
+((OilTemperatureGaugeController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCond
+ition(19925248, n2, 1));
+break;
+}
+case 602114: {
+if (hMIViewArray[0] == null) break;
+((ChargingAirPressureGaugeController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqual
+sCondition(36702464, n2, 1));
+break;
+}
+case 602116: {
+if (hMIViewArray[0] == null) break;
+((ContainerController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(7025
+6896, n2, 1));
+break;
+}
+case 602118: {
+if (hMIViewArray[0] == null) break;
+((ContainerController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1038
+11328, n2, 1));
+break;
+}
+}
+}
+From the above:
+▪ 602113 - Oil temperature
+▪ 602114 - Boost pressure
+▪ 602116 - TODO
+▪ 602118 - TODO
+State machine class is also referring to the SportHMI:
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+3 of 11 9/28/26, 3:18 PM
+public static final int LD_CAR_SEL_SPORTDISPLAY;
+Meaning of the above would be "Sport Display was selected from the CAR menu Left Drawer".
+▪ 601 - SPORT_POWER
+▪ 602 - SPORT_POWER_MAX
+▪ 603 - SPORT_POWER_CURRENT
+▪ 604 - SPORT_TORQUE
+▪ 605 - SPORT_TORQUE_MAX
+▪ 606 - SPORT_TORQUE_CURRENT
+▪ 607 - SPORT_OIL_TEMPERATURE
+▪ 608 - SPORT_AIR_PRESSURE
+It looks like everything is there. All the programming logic, adaptation to activate, data pulls, GUI assets,
+inits... So why it is not working?
+One of my theories is that at some point of development they decided to move the Sport HMI functionality
+from MIB to VC. On one side it makes sense - feature will not be duplicated on both displays. But on the
+other hand VC is optional equipment and not all cars have it.
+For whatever reasons it was - they needed to remove Sport HMI from Audi MIB. And by "remove" I mean
+"make it not visible for user". That's why all the mentioned above parts of code and assets are there. So how
+they did it? And how to restore it?
+Maybe let's analyse how the MENU and CAR MENU structures looks like:
+▪ Car
+▪ Audi Drive Select
+▪ Charging (eTron)
+▪ Statistics (eTron)
+▪ Vehicle Settings
+▪ Drive Assist
+▪ Air Condition
+▪ Service and Checks
+▪ Boardbook
+▪ Sound
+▪ Media
+▪ Phone
+▪ ...
+By the first look, I can see some similarities to the CarEvoMenuEntryStructure.java class:
+Why no Sport submenu in Car menu?
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+4 of 11 9/28/26, 3:18 PM
+MenuEntry menuEntry2 = this.entryFactory.createMenuEntry(1596459264, "CAR_FUNC_CHARISMA", -282457856);
+MenuEntry menuEntry3 = this.entryFactory.createMenuEntry(1630013696, "CAR_FUNC_SETTINGS", -1305802496);
+MenuEntry menuEntry4 = this.entryFactory.createMenuEntry(1646790912, "CAR_FUNC_DRIVE_ASSIST",
+-1339356928);
+MenuEntry menuEntry5 = this.entryFactory.createMenuEntry(1663568128, "CAR_FUNC_AIR_CONDITION",
+-1389688576);
+MenuEntry menuEntry6 = this.entryFactory.createMenuEntry(1680345344, "CAR_FUNC_AUXHEAT", -1356134144);
+MenuEntry menuEntry7 = this.entryFactory.createMenuEntry(10, "CAR_FUNC_AUX_AC)", -1372911360);
+MenuEntry menuEntry8 = this.entryFactory.createMenuEntry(11, "CAR_FUNC_AUX_COMBINED)", 1210976512);
+MenuEntry menuEntry9 = this.entryFactory.createMenuEntry(1713899776, "CAR_FUNC_SERVICE", -1322579712);
+MenuEntry menuEntry10 = this.entryFactory.createMenuEntry(1177094400, "CAR_FUNC_BORDBOOK", 1412172032);
+MenuEntry menuEntry11 = this.entryFactory.createMenuEntry(640289024, "CAR_FUNC_CHARGE", -1842607872);
+MenuEntry menuEntry12 = this.entryFactory.createMenuEntry(-383121152, "CAR_FUNC_STATISTICS", -349370112);
+MenuEntry menuEntry13 = this.entryFactory.createMenuEntry(12, "CAR_FUNC_SPORT", 120588544);
+Now, let's check how the top-level menus are initialised and compare them to the SportHMI class to find
+what's missing. Maybe this will point us into the right direction.
+After quick check and compare, it looks like there's one function missing from the SportComponentEvo
+class. It's updateMenuEntryVisibility() that appears in other car submenu classes. Not only those
+top-level. All of them. Is this it?
+Had a chance to test-drive an Audi SQ7 (4M) and played a bit with the Drive Select functions. There are
+"off-road" and "allroad" modes which enable additional element - Tilt Angle Display (TAD). This new
+element is visible directly on the Drive Select screen, and not as a separate submenu in the CAR menu.
+So it got me wondering. What if the SportHMI is also just an additional widget that should be displayed on
+the Drive Select screen when "Sport" or "Race" mode is selected? If so, it would mean that this function
+might be controlled via Gateway with proper dataset. Or it's a separate submenu but still enabled with a
+gateway dataset?
+I need to look into the Charisma menu and TAD elements in LSH.JXE...
+private IMenuEntry[] buildMenuCharisma(LogChannel logChannel) {
+// (...)
+menuEntry8.setFunctionalStateValues(new int[]{4}); //LIFT
+menuEntry2.setFunctionalStateValues(new int[]{4}); //OFFROAD
+menuEntry10.setFunctionalStateValues(new int[]{4}); //LIFT OFFROAD
+menuEntry5.setFunctionalStateValues(new int[]{8}); //EFFICIENCY
+// (...)
+MenuEntry menuEntry11 = this.entryFactory.createMenuEntry(250, "CHARISMA_EFFICIENCY_BCME_ADD_INFO",
+1898776832);
+MenuEntry menuEntry12 = this.entryFactory.createMenuEntry(252,
+"CHARISMA_EFFICIENCY_BCME_CONSUMPTION_BARGRAPH", 1613564160);
+MenuEntry menuEntry13 = this.entryFactory.createMenuEntry(251, "CHARISMA_EFFICIENCY_BCME_CONSUMER_LIST",
+1915554048);
+menuEntry11.setChildren(new IMenuEntry[]{menuEntry12, menuEntry13});
+MenuEntry menuEntry14 = this.entryFactory.createMenuEntry(326, "TAD_MAIN", 1999374592);
+MenuEntry menuEntry15 = this.entryFactory.createMenuEntry(328, "TAD_PITCH_ANGLE", 1965820160);
+MenuEntry menuEntry16 = this.entryFactory.createMenuEntry(327, "TAD_ROLL_ANGLE", 1982597376);
+menuEntry14.setChildren(new IMenuEntry[]{menuEntry15, menuEntry16});
+return new IMenuEntry[]{menuEntry, menuEntry2, menuEntry3, menuEntry4, menuEntry5, menuEntry7,
+menuEntry6, menuEntry8, menuEntry10, menuEntry9};
+}
+Nope! It looks like only Efficiency Mode and Lift/Offroad Modes have children elements. No SportHMI
+mentions here. And previously mentioned LD_CAR_SEL_SPORTDISPLAY was linked to left drawer,
+Moment of Doubt
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+5 of 11 9/28/26, 3:18 PM
+which means that the SportHMI needs to be present in the CAR menu.
+But there's a RACE Mode mentioned here and there.
+MenuEntry menuEntry9 = this.entryFactory.createMenuEntry(238, "CHARISMA_PROFILE_RACE", 305203456);
+public boolean isRacesport() {
+return this.racesport;
+}
+Maybe that's it? Maybe the RACE Charisma mode needs to be enabled from the SportHMI to be accessible?
+Just to be sure, I will check if there are some "RACE" references in the code. But not now.
+Played around with KeyCombo (that's a separate topic) and found that Audi HMI has an build-in app for
+HMI tests. It shows a lot of data about visible items and data provided by the rest of the car.
+Here we can see which information is provided state: 2, and which is not state: 0:
+SportHMI
+DynamicVehicleInfoHighFrequentViewOptions(
+longitudinalAcceleration=ViewOption(state: 2, reason: 0),
+engineSpeed=ViewOption(state: 2, reason: 0),
+powermeter=ViewOption(state: 0, reason: 0),
+lateralAcceleration=ViewOption(state: 2, reason: 0),
+relChargingAirPressure=ViewOption(state: 2, reason: 0),
+absChargingAirPressure=ViewOption(state: 2, reason: 0),
+currentOutputPower=ViewOption(state: 2, reason: 0),
+currentTorque=ViewOption(state: 2, reason: 0),
+yawRate=ViewOption(state: 2, reason: 0),
+brakePressure=ViewOption(state: 2, reason: 0),
+wheelAngle=ViewOption(state: 2, reason: 0),
+acceleratorPosition=ViewOption(state: 2, reason: 0),
+vehicleSpeed=ViewOption(state: 2, reason: 0),
+systemCycleDistance=ViewOption(state: 2, reason: 0),
+torqueDisteributionFrontLeft=ViewOption(state: 0, reason: 0),
+torqueDisteributionFrontRight=ViewOption(state: 0, reason: 0),
+torqueDisteributionRearLeft=ViewOption(state: 0, reason: 0),
+torqueDisteributionRearRight=ViewOption(state: 0, reason: 0),
+realVehicleSpeed=ViewOption(state: 2, reason: 0),
+shiftLight=ViewOption(state: 0, reason: 0),
+allWheelDriveTorque=ViewOption(state: 0, reason: 0),
+espOversteering=ViewOption(state: 0, reason: 0),
+espUndersteering=ViewOption(state: 0, reason: 0),
+espWheelVelovityFrontLeft=ViewOption(state: 0, reason: 0),
+espWheelVelovityFrontRight=ViewOption(state: 0, reason: 0),
+espWheelVelovityRearLeft=ViewOption(state: 0, reason: 0),
+espWheelVelovityRearRight=ViewOption(state: 0, reason: 0),
+relAllWheelDriveTorque=ViewOption(state: 0, reason: 0)
+)
+SemiStaticDataViewOptions(
+maxChargingAirPressure=ViewOption(state: 2, reason: 0),
+maxOutputPower=ViewOption(state: 2, reason: 0),
+maxTorque=ViewOption(state: 0, reason: 0),
+engineDisplacement=ViewOption(state: 2, reason: 0),
+typeOfInjectionSystem=ViewOption(state: 2, reason: 0)
+)
+And here we can check which components in the SPORT HMI are fully functional and which are not:
+Figuring out the missing data
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+6 of 11 9/28/26, 3:18 PM
+CAR_FUNC_SPORT
+State: FUNCTIONAL
+ModelID: 602119
+Parent: CAR_MAIN
+Children:
+SPORT_POWER
+SPORT_TORQUE
+SPORT_OIL_TEMPERATURE
+SPORT_AIR_PRESSURE
+SPORT_POWER
+State: FUNCTIONAL
+ModelID: 602116
+Parent: CAR_FUNC_SPORT
+Children:
+SPORT_POWER_MAX
+SPORT_POWER_CURRENT
+SPORT_POWER_MAX
+State: FUNCTIONAL
+ModelID: -1
+Parent: SPORT_POWER
+Children: none
+SPORT_POWER_CURRENT
+State: FUNCTIONAL
+ModelID: -1
+Parent: SPORT_POWER
+Children: none
+SPORT_TORQUE
+State: FUNCTIONAL
+ModelID: 602118
+Parent: CAR_FUNC_SPORT
+Children:
+SPORT_TORQUE_MAX
+SPORT_TORQUE_CURRENT
+SPORT_TORQUE_MAX
+State: INVISIBLE
+ModelID: -1
+Parent: SPORT_TORQUE
+Children: none
+SPORT_OIL_TEMPERATURE
+State: Invisible
+ModelID: 602113
+Parent: CAR_FUNC_SPORT
+Children: none
+SPORT_AIR_PRESSURE
+State: FUNCTIONAL
+ModelID: 602114
+Parent: CAR_FUNC_SPORT
+Children: none
+Two things (SPORT_TORQUE_MAX and SPORT_OIL_TEMPERATURE are invisible. This partially
+correlates with unavailable maxTorque.
+Is it that this missing data is what's locking the SPORT submenu to appear? Let's find out!
+The run_lsd.sh script, that starts the LSD.jxe can be adjusted for logging different components.
+Logging HMI
+App.Car.Sport=5
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+7 of 11 9/28/26, 3:18 PM
+Let's start with App.Car.Sport set to level 5, so it will output some data.
+updateBCViewOptions:BCViewOptions(
+currentConsumption1=ViewOption(state: 0,reason: 0),
+currentConsumption2=ViewOption(state: 0,reason: 0),
+currentRange1=ViewOption(state: 2,reason: 0),
+currentRange2=ViewOption(state: 0,reason: 0),
+totalDistance=ViewOption(state: 2,reason: 0),
+shortTermAverageConsumption1=ViewOption(state: 2,reason: 0),
+shortTermAverageConsumption2=ViewOption(state: 0,reason: 0),
+shortTermGeneral=ViewOption(state: 2,reason: 0),
+longTermAverageConsumption1=ViewOption(state: 2,reason: 0),
+longTermAverageConsumption2=ViewOption(state: 0,reason: 0),
+longTermGeneral=ViewOption(state: 2,reason: 0),
+cycleAverageConsumption1=ViewOption(state: 0,reason: 0),
+cycleAverageConsumption2=ViewOption(state: 0,reason: 0),
+cycleGeneral=ViewOption(state: 0,reason: 0),
+vZADisplay=ViewOption(state: 2,reason: 0),
+lifeTipsDisplay=ViewOption(state: 2,reason: 0),
+consumerDisplay=ViewOption(state: 2,reason: 0),
+tankLevel1=ViewOption(state: 2,reason: 0),
+tankLevel2=ViewOption(state: 0,reason: 0),
+refuelVolume1=ViewOption(state: 0,reason: 0),
+refuelVolume2=ViewOption(state: 0,reason: 0),
+menue1Config=ViewOption(state: 0,reason: 0),
+menue2Config=ViewOption(state: 0,reason: 0),
+menue3Config=ViewOption(state: 0,reason: 0),
+resetMenue1=ViewOption(state: 2,reason: 0),
+resetMenue2=ViewOption(state: 2,reason: 0),
+resetMenue3=ViewOption(state: 0,reason: 0),
+oilTemperature=ViewOption(state: 0,reason: 0),
+digitalSpeed=ViewOption(state: 0,reason: 0),
+stopwatch=ViewOption(state: 0,reason: 0),
+vzaMFA=ViewOption(state: 0,reason: 0),
+speedWarning=ViewOption(state: 2,reason: 0),
+gearRecommendation=ViewOption(state: 0,reason: 0),
+rearSeatbeltWarning=ViewOption(state: 0,reason: 0),
+indications=ViewOption(state: 0,reason: 0),
+outsideTemperature=ViewOption(state: 0,reason: 0),
+bcSetFactoryDefault=ViewOption(state: 2,reason: 0),
+vehicleStateList=ViewOption(state: 0,reason: 0),
+statisticsTimeAC1=ViewOption(state: 0,reason: 0),
+statisticsTimeAC2=ViewOption(state: 0,reason: 0),
+statisticsTimeRE=ViewOption(state: 0,reason: 0),
+statisticsTimeZE=ViewOption(state: 0,reason: 0),
+statisticsTimeCurrentPeriodAC1=ViewOption(state: 0,reason: 0),
+statisticsTimeCurrentPeriodAC2=ViewOption(state: 0,reason: 0),
+statisticsTimeCurrentPeriodRE=ViewOption(state: 0,reason: 0),
+statisticsTimeCurrentPeriodZE=ViewOption(state: 0,reason: 0),
+statisticsDistanceAC1=ViewOption(state: 0,reason: 0),
+statisticsDistanceAC2=ViewOption(state: 0,reason: 0),
+statisticsDistanceRE=ViewOption(state: 0,reason: 0),
+statisticsDistanceZE=ViewOption(state: 0,reason: 0),
+statisticsDistanceCurrentIntervallAC1=ViewOption(state: 0,reason: 0),
+statisticsDistanceCurrentIntervallAC2=ViewOption(state: 0,reason: 0),
+statisticsDistanceCurrentIntervallRE=ViewOption(state: 0,reason: 0),
+statisticsDistanceCurrentIntervallZE=ViewOption(state: 0,reason: 0),
+statisticsReset=ViewOption(state: 0,reason: 0),
+statisticsConfig=ViewOption(state: 0,reason: 0),
+oilTemperatureValue=ViewOption(state: 0,reason: 0), // ← ← ← ← ← ← ← ← NOT OK
+coolantTemperature=ViewOption(state: 0,reason: 0),
+comfortPowerConsumptionST=ViewOption(state: 0,reason: 0),
+statisticDistanceEUkm=ViewOption(state: 0,reason: 0),
+statisticDistanceEUmls=ViewOption(state: 0,reason: 0),
+totalCurrentRange=ViewOption(state: 0,reason: 0),
+resetMaxValues=ViewOption(state: 0,reason: 0),
+zeroEmissionDistanceST=ViewOption(state: 0,reason: 0),
+zeroEmissionTimeST=ViewOption(state: 0,reason: 0),
+zeroEmissionDistanceLT=ViewOption(state: 0,reason: 0),
+zeroEmissionTimeLT=ViewOption(state: 0,reason: 0),
+zeroEmissionDistanceCY=ViewOption(state: 0,reason: 0),
+zeroEmissionTimeCY=ViewOption(state: 0,reason: 0),
+maxValues=ViewOption(state: 0,reason: 0),
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+8 of 11 9/28/26, 3:18 PM
+resetTimeStampST=ViewOption(state: 0,reason: 0),
+resetTimeStampLT=ViewOption(state: 0,reason: 0),
+resetTimeStampCY=ViewOption(state: 0,reason: 0),
+comfortPowerConsumptionLT=ViewOption(state: 0,reason: 0),
+comfortPowerConsumptionCY=ViewOption(state: 0,reason: 0),
+astaMFA=ViewOption(state: 0,reason: 0),
+resetTrip=ViewOption(state: 0,reason: 0),
+configuration=BCConfiguration(
+primaryEngineType=7,
+secondaryEngineType=0,
+fisAdditionalConfiguration=BCFISAdditionalConfiguration(
+fis1=true,
+fis2=true,
+fis3=false,
+stopWatch=true,
+oilTemp=false,
+digitalSpeed=true,
+refuelVolume=false,
+speedWarning=true,
+coolantTemp=false,
+secondarySpeed=false,
+vza=true,
+resetTime=false,
+comfortPowerConsumption=false,
+zeroEmissionTime=false,
+zeroEmissionDistance=false,
+vzaMfa=false,
+bcmeConsumerList=false,
+bcmeLiveTips=false,
+astaMfa=false
+),
+transmittableElementsVehicleState=BCTransmittableElements(
+ra0=1,ra1=7,ra2=1,ra3=7,raF=88
+),functionSupport=BCFunctionSupport(
+resetTrip=false)
+)
+),
+valid:1
+00:00:42.720 INFO <App.Car.Sport>
+updateBCOilTemperatureValue:null,
+valid:2 // ← ← ← ← ← ← ← ← NOT OK
+00:00:42.715 INFO <App.Car.Sport>
+updateSemiStaticVehicleData:SemiStaticVehicleData(
+maxChargingAirPressure=2.5,
+maxOutputPower=228,
+maxTorque=0, // ← ← ← ← ← ← ← ← NOT OK
+engineDisplacement=2.0,
+typeOfInjectionSystem=0),
+valid:1
+00:00:42.722 INFO <App.Car.Sport>
+updateDynamicVehicleInfoHighFrequent:DynamicVehicleInfoHighFrequent(
+longitudinalAcceleration=0.0,
+engineSpeed=699,
+powermeter=0,
+lateralAcceleration=-0.01,
+relChargingAirPressure=0,
+absChargingAirPressure=0.29,
+currentOutputPower=1.8,
+yawRate=-0.09,
+brakePressure=0.0,
+wheelAngle=8,
+acceleratorPosition=0,
+vehicleSpeed=CarBCSpeed(
+speedValueState=1,
+speedValue=0.0,
+speedUnit=0),
+currentTorque=25,
+systemCycleDistance=0,
+torqueDistributionFrontLeft=0,
+torqueDistributionFrontRight=0,
+torqueDistributionRearLeft=0,
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+9 of 11 9/28/26, 3:18 PM
+torqueDistributionRearRight=0,
+realVehicleSpeed=CarBCSpeed(
+speedValueState=1,
+speedValue=0.0,
+speedUnit=0),
+shiftLight=0,
+allWheelDriveTorque=0,
+espOversteering=0.0,
+espUndersteering=0.0,
+espWheelVelocityFrontLeft=0.0,
+espWheelVelocityFrontRight=0.0,
+espWheelVelocityRearLeft=0.0,
+espWheelVelocityRearRight=0.0,
+relAllWheelDriveTorque=0.0),
+valid:1
+This proves two things: 1. Sport_HMI exists, works, creates output, and should be functional. 2. Some of the
+data from DSI is not provided or is zeroed.
+Since the Sport_HMI is clearly there, but it's not visible in the CAR menu, let's check how the Menu Entry
+Register logs look like.
+00:00:11.913 INFO <App.Car.MER> [MenuEntry('CAR_MAIN')#setChildren] children=
+CAR_FUNC_CHARISMA
+CAR_FUNC_SETTINGS
+CAR_FUNC_DRIVE_ASSIST
+CAR_FUNC_AIR_CONDITION
+CAR_FUNC_AUXHEAT
+CAR_FUNC_AUX_AC)
+CAR_FUNC_AUX_COMBINED)
+CAR_FUNC_SERVICE
+CAR_FUNC_BORDBOOK
+CAR_FUNC_CHARGE
+CAR_FUNC_STATISTICS
+CAR_FUNC_SPORT
+00:00:12.628 INFO <App.Car.MER> [MenuEntry('SPORT_TORQUE')#setChildren] children=
+SPORT_TORQUE_MAX
+SPORT_TORQUE_CURRENT
+00:00:12.764 INFO <App.Car.MER> [MenuEntry('SPORT_POWER')#setChildren] children=
+SPORT_POWER_MAX
+SPORT_POWER_CURRENT
+00:00:12.765 INFO <App.Car.MER> [MenuEntry('CAR_FUNC_SPORT')#setChildren] children=
+SPORT_POWER
+SPORT_TORQUE
+SPORT_OIL_TEMPERATURE
+SPORT_AIR_PRESSURE
+Menu structure is created correctly. Now let's dig some more and check final status of each SPORT element.
+00:00:34.812 INFO <App.Car.MER> [MenuEntry('SPORT_TORQUE_MAX')#setState] state='1' // ← NOT OK
+00:00:35.084 INFO <App.Car.MER> [MenuEntry('SPORT_POWER_MAX')#setState] state='0'
+00:00:35.086 INFO <App.Car.MER> [MenuEntry('SPORT_OIL_TEMPERATURE')#setState] state='1' // ← NOT
+OK
+00:00:35.224 INFO <App.Car.MER> [MenuEntry('SPORT_TORQUE')#setState] state='0'
+00:00:35.224 INFO <App.Car.MER> [MenuEntry('SPORT_TORQUE_CURRENT')#setState] state='0'
+00:00:35.500 INFO <App.Car.MER> [MenuEntry('SPORT_POWER')#updateState] state='0'
+00:00:35.500 INFO <App.Car.MER> [MenuEntry('SPORT_POWER_CURRENT')#setState] state='0'
+00:00:35.647 INFO <App.Car.MER> [MenuEntry('SPORT_AIR_PRESSURE')#setState] state='0'
+00:00:35.649 INFO <App.Car.MER> [MenuEntry('CAR_FUNC_SPORT')#updateState] state='0'
+App.Car.MER=5
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+10 of 11 9/28/26, 3:18 PM
+It looks like the state='0' is reported if the component is working correctly. And two component's are
+not. SPORT_TORQUE_MAX and SPORT_OIL_TEMPERATURE - same two that were missing or zeroed in
+DSI-provided data. Huh...
+I have 4 ideas, actually. Not sure which is best and if any would work.
+1. modify SportHMI classes
+2. patch DSI with missing data
+3. deregister components from Menu Entry that cause it to be invisible
+4. create a shortcut for SportHMI to bypass the Menu Entry Registry all together
+5. patch menu entry registry
+6. patch carScreenBag
+//TODO ideas:
+▪ oil temp → gearbox temp
+▪ bar: acceleratorPosition=ViewOption(state: 2, reason: 0)
+▪ bar: brakePressure=ViewOption(state: 2, reason: 0)
+Retrieved from "http://wiki.mib-helper.com/index.php?title=SPORT_HMI_for_Audi&oldid=425"
+This page was last edited on 14 April 2026, at 19:14.
+Content is available under Creative Commons Attribution unless otherwise noted.
+How to enable it?
+Modifications with custom data
+SPORT HMI for Audi - MIB-Helper.com Wiki https://wiki.mib-helper.com/index.php?title=SPORT_HM...
+11 of 11 9/28/26, 3:18 PM
