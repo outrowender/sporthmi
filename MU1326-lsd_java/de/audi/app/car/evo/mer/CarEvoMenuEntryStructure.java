@@ -21,9 +21,9 @@ import java.util.HashMap;
 public class CarEvoMenuEntryStructure
 implements IMenuEntryStructure,
 CarEvoMenuEntryIDs {
-    private final HashMap menuEntries;
-    private final IFrameworkAccess framework;
-    private final EvoMenuEntryFactory entryFactory;
+    private /*final*/ HashMap menuEntries;
+    private /*final*/ IFrameworkAccess framework;
+    private /*final*/ EvoMenuEntryFactory entryFactory;
 
     public CarEvoMenuEntryStructure(IFrameworkAccess iFrameworkAccess, LogChannel logChannel, CarFuncAdap carFuncAdap) {
         MenuEntry menuEntry;
@@ -470,7 +470,7 @@ CarEvoMenuEntryIDs {
         return new IMenuEntry[]{menuEntry, menuEntry2, menuEntry3, menuEntry4, menuEntry5, menuEntry7, menuEntry6, menuEntry8, menuEntry10, menuEntry9};
     }
 
-    @Override
+   // @Override
     public HashMap getMenuEntries() {
         return this.menuEntries;
     }
