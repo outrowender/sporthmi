@@ -23,7 +23,7 @@ fi
 
 if [ ! -e $JAVA ]; then
   echo "Decompiling $JAR -> $JAVA"
-  java -jar cfr-0.152.jar --previewfeatures false --switchexpression false --outputdir $JAVA $JAR
+  ${JAVA_HOME}/bin/java -jar cfr-0.152.jar --previewfeatures false --switchexpression false --outputdir $JAVA $JAR
 fi
 
 if [ ! -e $ASM ]; then
