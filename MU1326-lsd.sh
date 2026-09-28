@@ -237,7 +237,7 @@ VMOPTIONS="$VMOPTIONS -DuseNewTtsClient=true"
 
 ## setup logging
 #VMOPTIONS="$VMOPTIONS -DLOG=Fw.Startup=5,Fw.Domain=5"
-VMOPTIONS="$VMOPTIONS -DLOG=all=0,Ext.Power=5"
+VMOPTIONS="$VMOPTIONS -DLOG=all=0,Ext.Power=5,App.Car.Sport=5,App.Car.MER=5"
 VMOPTIONS="$VMOPTIONS -DSLOG=Ext.Startup=5,Fw.Error=2"
 
 # to get HMI Event in a kernel trace uncomment the following line and adjust the log channel settings
@@ -426,12 +426,14 @@ if [[ -f $DEV_ACTIVATED && -f "$HMI_ZIP" ]]; then
 	# start hmi.zip
 	info "starting j9 with $HMI_ZIP"
 	$J9 $VMOPTIONS -Xbootclasspath:$BOOTCLASSPATH de.dreisoft.lsd.LSD &
+  # $J9 $VMOPTIONS -Xbootclasspath:$BOOTCLASSPATH -Xbootclasspath/p:$BASE_DIR/lsd/jars/SportHMI.jar de.dreisoft.lsd.LSD &
 else
 	if [[ -f "$LSD_JXE" ]]; then
 		# start lsd.jxe
 		BOOTCLASSPATH="$BOOTCLASSPATH:$LSD_JXE"
 		info "starting j9 ...."
-		$J9 $VMOPTIONS -Xbootclasspath:$BOOTCLASSPATH -jxe:$LSD_JXE &
+	  # $J9 $VMOPTIONS -Xbootclasspath:$BOOTCLASSPATH -jxe:$LSD_JXE &
+		$J9 $VMOPTIONS -Xbootclasspath:$BOOTCLASSPATH -Xbootclasspath/p:$BASE_DIR/lsd/jars/SportHMI.jar -jxe:$LSD_JXE &
 	else
 		echo !!!!!  lsd.jxe not found !!!!!
 	fi
