@@ -1,0 +1,179 @@
+.version 50 0 
+.class public super [11] 
+.super [13] 
+.field public static final [14] [15] 
+.field public static final [16] [17] 
+.field public static final [18] [19] 
+.field public static final [20] [21] 
+.field public static final [22] [23] 
+.field public static final [24] [25] 
+.field public static final [26] [27] 
+.field public static final [28] [29] 
+.field public static final [30] [31] 
+.field public static final [32] [33] 
+.field public static final [34] [35] 
+.field public static final [36] [37] 
+.field public static final [38] [39] 
+.field public static final [40] [41] 
+.field public static final [42] [43] 
+.field public static final [44] [45] 
+.field public static final [46] [47] 
+.field public static final [48] [49] 
+.field public static final [50] [51] 
+
+.method public annotation [53] : [54] 
+    .attribute [52] .code stack 1 locals 0 
+L0:     aload_0 
+L1:     invokespecial [3] 
+L4:     return 
+L5:     nop 
+L6:     nop 
+L7:     nop 
+L8:     
+    .end code 
+.end method 
+
+.method public static [55] : [56] 
+    .attribute [52] .code stack 4 locals 0 
+L0:     bipush 19 
+L2:     newarray short 
+L4:     dup 
+L5:     iconst_0 
+L6:     bipush 6 
+L8:     sastore 
+L9:     dup 
+L10:    iconst_1 
+L11:    bipush 24 
+L13:    sastore 
+L14:    dup 
+L15:    iconst_2 
+L16:    bipush 23 
+L18:    sastore 
+L19:    dup 
+L20:    iconst_3 
+L21:    bipush 18 
+L23:    sastore 
+L24:    dup 
+L25:    iconst_4 
+L26:    bipush 17 
+L28:    sastore 
+L29:    dup 
+L30:    iconst_5 
+L31:    bipush 20 
+L33:    sastore 
+L34:    dup 
+L35:    bipush 6 
+L37:    bipush 19 
+L39:    sastore 
+L40:    dup 
+L41:    bipush 7 
+L43:    bipush 12 
+L45:    sastore 
+L46:    dup 
+L47:    bipush 8 
+L49:    bipush 11 
+L51:    sastore 
+L52:    dup 
+L53:    bipush 9 
+L55:    bipush 14 
+L57:    sastore 
+L58:    dup 
+L59:    bipush 10 
+L61:    bipush 13 
+L63:    sastore 
+L64:    dup 
+L65:    bipush 11 
+L67:    bipush 8 
+L69:    sastore 
+L70:    dup 
+L71:    bipush 12 
+L73:    bipush 7 
+L75:    sastore 
+L76:    dup 
+L77:    bipush 13 
+L79:    bipush 10 
+L81:    sastore 
+L82:    dup 
+L83:    bipush 14 
+L85:    bipush 9 
+L87:    sastore 
+L88:    dup 
+L89:    bipush 15 
+L91:    bipush 22 
+L93:    sastore 
+L94:    dup 
+L95:    bipush 16 
+L97:    bipush 21 
+L99:    sastore 
+L100:   dup 
+L101:   bipush 17 
+L103:   bipush 16 
+L105:   sastore 
+L106:   dup 
+L107:   bipush 18 
+L109:   bipush 15 
+L111:   sastore 
+L112:   areturn 
+L113:   nop 
+L114:   nop 
+L115:   nop 
+L116:   
+    .end code 
+.end method 
+.const [1] = Int 0 
+.const [2] = Class [4] 
+.const [3] = Method [5] [6] 
+.const [4] = Utf8 java/lang/Object 
+.const [5] = Class [7] 
+.const [6] = NameAndType [8] [9] 
+.const [7] = Utf8 java/lang/Object 
+.const [8] = Utf8 <init> 
+.const [9] = Utf8 ()V 
+.const [10] = Utf8 de/esolutions/fw/comm/asi/hmisync/car/bc/ASIHMISyncCarBordComputer$ReplyIDs 
+.const [11] = Class [10] 
+.const [12] = Utf8 java/lang/Object 
+.const [13] = Class [12] 
+.const [14] = Utf8 updateASIVersion 
+.const [15] = Utf8 S 
+.const [16] = Utf8 updateRequestIDs 
+.const [17] = Utf8 S 
+.const [18] = Utf8 updateReplyIDs 
+.const [19] = Utf8 S 
+.const [20] = Utf8 updateBCShortTermAverageConsumption1Visibility 
+.const [21] = Utf8 S 
+.const [22] = Utf8 updateBCShortTermAverageConsumption1 
+.const [23] = Utf8 S 
+.const [24] = Utf8 updateBCShortTermAverageConsumption2Visibility 
+.const [25] = Utf8 S 
+.const [26] = Utf8 updateBCShortTermAverageConsumption2 
+.const [27] = Utf8 S 
+.const [28] = Utf8 updateBCLongTermAverageConsumption1Visibility 
+.const [29] = Utf8 S 
+.const [30] = Utf8 updateBCLongTermAverageConsumption1 
+.const [31] = Utf8 S 
+.const [32] = Utf8 updateBCLongTermAverageConsumption2Visibility 
+.const [33] = Utf8 S 
+.const [34] = Utf8 updateBCLongTermAverageConsumption2 
+.const [35] = Utf8 S 
+.const [36] = Utf8 updateBCCurrentRange1Visibility 
+.const [37] = Utf8 S 
+.const [38] = Utf8 updateBCCurrentRange1 
+.const [39] = Utf8 S 
+.const [40] = Utf8 updateBCCurrentRange2Visibility 
+.const [41] = Utf8 S 
+.const [42] = Utf8 updateBCCurrentRange2 
+.const [43] = Utf8 S 
+.const [44] = Utf8 updateBCShortTermGeneralVisibility 
+.const [45] = Utf8 S 
+.const [46] = Utf8 updateBCShortTermGeneral 
+.const [47] = Utf8 S 
+.const [48] = Utf8 updateBCLongTermGeneralVisibility 
+.const [49] = Utf8 S 
+.const [50] = Utf8 updateBCLongTermGeneral 
+.const [51] = Utf8 S 
+.const [52] = Utf8 Code 
+.const [53] = Utf8 <init> 
+.const [54] = Utf8 ()V 
+.const [55] = Utf8 getIDs 
+.const [56] = Utf8 ()[S 
+.end class 

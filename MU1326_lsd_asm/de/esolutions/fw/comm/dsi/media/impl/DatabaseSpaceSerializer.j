@@ -1,0 +1,311 @@
+.version 50 0 
+.class public super [123] 
+.super [125] 
+
+.method public annotation [127] : [128] 
+    .attribute [126] .code stack 1 locals 0 
+L0:     aload_0 
+L1:     invokespecial [13] 
+L4:     return 
+L5:     nop 
+L6:     nop 
+L7:     nop 
+L8:     
+    .end code 
+.end method 
+
+.method public static [129] : [130] 
+    .attribute [126] .code stack 3 locals 9 
+L0:     aload_1 
+L1:     ifnonnull L8 
+L4:     iconst_1 
+L5:     goto L9 
+L8:     iconst_0 
+L9:     istore_2 
+L10:    aload_0 
+L11:    iload_2 
+L12:    invokeinterface [15] 0 
+L17:    iload_2 
+L18:    ifne L75 
+L21:    aload_1 
+L22:    invokevirtual [9] 
+L25:    lstore_3 
+L26:    aload_0 
+L27:    lload_3 
+L28:    invokeinterface [16] 0 
+L33:    aload_1 
+L34:    invokevirtual [10] 
+L37:    lstore 5 
+L39:    aload_0 
+L40:    lload 5 
+L42:    invokeinterface [16] 0 
+L47:    aload_1 
+L48:    invokevirtual [11] 
+L51:    lstore 7 
+L53:    aload_0 
+L54:    lload 7 
+L56:    invokeinterface [16] 0 
+L61:    aload_1 
+L62:    invokevirtual [12] 
+L65:    lstore 9 
+L67:    aload_0 
+L68:    lload 9 
+L70:    invokeinterface [16] 0 
+L75:    return 
+L76:    
+    .end code 
+.end method 
+
+.method public static [131] : [132] 
+    .attribute [126] .code stack 3 locals 2 
+L0:     aload_1 
+L1:     ifnonnull L8 
+L4:     iconst_1 
+L5:     goto L9 
+L8:     iconst_0 
+L9:     istore_2 
+L10:    aload_0 
+L11:    iload_2 
+L12:    invokeinterface [15] 0 
+L17:    iload_2 
+L18:    ifne L50 
+L21:    aload_0 
+L22:    aload_1 
+L23:    arraylength 
+L24:    invokeinterface [17] 0 
+L29:    iconst_0 
+L30:    istore_3 
+L31:    iload_3 
+L32:    aload_1 
+L33:    arraylength 
+L34:    if_icmpge L50 
+L37:    aload_0 
+L38:    aload_1 
+L39:    iload_3 
+L40:    aaload 
+L41:    invokestatic [2] 
+L44:    iinc 3 1 
+L47:    goto L31 
+L50:    return 
+L51:    nop 
+L52:    
+    .end code 
+.end method 
+
+.method public static [133] : [134] 
+    .attribute [126] .code stack 3 locals 10 
+L0:     aconst_null 
+L1:     astore_1 
+L2:     aload_0 
+L3:     invokeinterface [18] 0 
+L8:     istore_2 
+L9:     iload_2 
+L10:    ifne L75 
+L13:    new [19] 
+L16:    dup 
+L17:    invokespecial [14] 
+L20:    astore_1 
+L21:    aload_0 
+L22:    invokeinterface [20] 0 
+L27:    lstore_3 
+L28:    aload_1 
+L29:    lload_3 
+L30:    putfield [21] 
+L33:    aload_0 
+L34:    invokeinterface [20] 0 
+L39:    lstore 5 
+L41:    aload_1 
+L42:    lload 5 
+L44:    putfield [22] 
+L47:    aload_0 
+L48:    invokeinterface [20] 0 
+L53:    lstore 7 
+L55:    aload_1 
+L56:    lload 7 
+L58:    putfield [23] 
+L61:    aload_0 
+L62:    invokeinterface [20] 0 
+L67:    lstore 9 
+L69:    aload_1 
+L70:    lload 9 
+L72:    putfield [24] 
+L75:    aload_1 
+L76:    areturn 
+L77:    nop 
+L78:    nop 
+L79:    nop 
+L80:    
+    .end code 
+.end method 
+
+.method public static [135] : [136] 
+    .attribute [126] .code stack 3 locals 4 
+L0:     aconst_null 
+L1:     astore_1 
+L2:     aload_0 
+L3:     invokeinterface [18] 0 
+L8:     istore_2 
+L9:     iload_2 
+L10:    ifne L48 
+L13:    aload_0 
+L14:    invokeinterface [25] 0 
+L19:    istore_3 
+L20:    iload_3 
+L21:    anewarray [3] 
+L24:    astore_1 
+L25:    iconst_0 
+L26:    istore 4 
+L28:    iload 4 
+L30:    iload_3 
+L31:    if_icmpge L48 
+L34:    aload_1 
+L35:    iload 4 
+L37:    aload_0 
+L38:    invokestatic [4] 
+L41:    aastore 
+L42:    iinc 4 1 
+L45:    goto L28 
+L48:    aload_1 
+L49:    areturn 
+L50:    nop 
+L51:    nop 
+L52:    
+    .end code 
+.end method 
+.const [1] = Int 0 
+.const [2] = Method [26] [27] 
+.const [3] = Class [28] 
+.const [4] = Method [29] [30] 
+.const [5] = Class [31] 
+.const [6] = Class [32] 
+.const [7] = Class [33] 
+.const [8] = Class [34] 
+.const [9] = Method [35] [36] 
+.const [10] = Method [37] [38] 
+.const [11] = Method [39] [40] 
+.const [12] = Method [41] [42] 
+.const [13] = Method [43] [44] 
+.const [14] = Method [45] [46] 
+.const [15] = InterfaceMethod [47] [48] 
+.const [16] = InterfaceMethod [49] [50] 
+.const [17] = InterfaceMethod [51] [52] 
+.const [18] = InterfaceMethod [53] [54] 
+.const [19] = Class [55] 
+.const [20] = InterfaceMethod [56] [57] 
+.const [21] = Field [58] [59] 
+.const [22] = Field [60] [61] 
+.const [23] = Field [62] [63] 
+.const [24] = Field [64] [65] 
+.const [25] = InterfaceMethod [66] [67] 
+.const [26] = Class [68] 
+.const [27] = NameAndType [69] [70] 
+.const [28] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [29] = Class [71] 
+.const [30] = NameAndType [72] [73] 
+.const [31] = Utf8 de/esolutions/fw/comm/dsi/media/impl/DatabaseSpaceSerializer 
+.const [32] = Utf8 java/lang/Object 
+.const [33] = Utf8 de/esolutions/fw/util/serializer/ISerializer 
+.const [34] = Utf8 de/esolutions/fw/util/serializer/IDeserializer 
+.const [35] = Class [74] 
+.const [36] = NameAndType [75] [76] 
+.const [37] = Class [77] 
+.const [38] = NameAndType [78] [79] 
+.const [39] = Class [80] 
+.const [40] = NameAndType [81] [82] 
+.const [41] = Class [83] 
+.const [42] = NameAndType [84] [85] 
+.const [43] = Class [86] 
+.const [44] = NameAndType [87] [88] 
+.const [45] = Class [89] 
+.const [46] = NameAndType [90] [91] 
+.const [47] = Class [92] 
+.const [48] = NameAndType [93] [94] 
+.const [49] = Class [95] 
+.const [50] = NameAndType [96] [97] 
+.const [51] = Class [98] 
+.const [52] = NameAndType [99] [100] 
+.const [53] = Class [101] 
+.const [54] = NameAndType [102] [103] 
+.const [55] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [56] = Class [104] 
+.const [57] = NameAndType [105] [106] 
+.const [58] = Class [107] 
+.const [59] = NameAndType [108] [109] 
+.const [60] = Class [110] 
+.const [61] = NameAndType [111] [112] 
+.const [62] = Class [113] 
+.const [63] = NameAndType [114] [115] 
+.const [64] = Class [116] 
+.const [65] = NameAndType [117] [118] 
+.const [66] = Class [119] 
+.const [67] = NameAndType [120] [121] 
+.const [68] = Utf8 de/esolutions/fw/comm/dsi/media/impl/DatabaseSpaceSerializer 
+.const [69] = Utf8 putOptionalDatabaseSpace 
+.const [70] = Utf8 (Lde/esolutions/fw/util/serializer/ISerializer;Lorg/dsi/ifc/media/DatabaseSpace;)V 
+.const [71] = Utf8 de/esolutions/fw/comm/dsi/media/impl/DatabaseSpaceSerializer 
+.const [72] = Utf8 getOptionalDatabaseSpace 
+.const [73] = Utf8 (Lde/esolutions/fw/util/serializer/IDeserializer;)Lorg/dsi/ifc/media/DatabaseSpace; 
+.const [74] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [75] = Utf8 getSize 
+.const [76] = Utf8 ()J 
+.const [77] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [78] = Utf8 getSizeAvail 
+.const [79] = Utf8 ()J 
+.const [80] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [81] = Utf8 getMaxEntries 
+.const [82] = Utf8 ()J 
+.const [83] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [84] = Utf8 getNumEntries 
+.const [85] = Utf8 ()J 
+.const [86] = Utf8 java/lang/Object 
+.const [87] = Utf8 <init> 
+.const [88] = Utf8 ()V 
+.const [89] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [90] = Utf8 <init> 
+.const [91] = Utf8 ()V 
+.const [92] = Utf8 de/esolutions/fw/util/serializer/ISerializer 
+.const [93] = Utf8 putBool 
+.const [94] = Utf8 (Z)V 
+.const [95] = Utf8 de/esolutions/fw/util/serializer/ISerializer 
+.const [96] = Utf8 putInt64 
+.const [97] = Utf8 (J)V 
+.const [98] = Utf8 de/esolutions/fw/util/serializer/ISerializer 
+.const [99] = Utf8 putInt32 
+.const [100] = Utf8 (I)V 
+.const [101] = Utf8 de/esolutions/fw/util/serializer/IDeserializer 
+.const [102] = Utf8 getBool 
+.const [103] = Utf8 ()Z 
+.const [104] = Utf8 de/esolutions/fw/util/serializer/IDeserializer 
+.const [105] = Utf8 getInt64 
+.const [106] = Utf8 ()J 
+.const [107] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [108] = Utf8 size 
+.const [109] = Utf8 J 
+.const [110] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [111] = Utf8 sizeAvail 
+.const [112] = Utf8 J 
+.const [113] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [114] = Utf8 maxEntries 
+.const [115] = Utf8 J 
+.const [116] = Utf8 org/dsi/ifc/media/DatabaseSpace 
+.const [117] = Utf8 numEntries 
+.const [118] = Utf8 J 
+.const [119] = Utf8 de/esolutions/fw/util/serializer/IDeserializer 
+.const [120] = Utf8 getInt32 
+.const [121] = Utf8 ()I 
+.const [122] = Utf8 de/esolutions/fw/comm/dsi/media/impl/DatabaseSpaceSerializer 
+.const [123] = Class [122] 
+.const [124] = Utf8 java/lang/Object 
+.const [125] = Class [124] 
+.const [126] = Utf8 Code 
+.const [127] = Utf8 <init> 
+.const [128] = Utf8 ()V 
+.const [129] = Utf8 putOptionalDatabaseSpace 
+.const [130] = Utf8 (Lde/esolutions/fw/util/serializer/ISerializer;Lorg/dsi/ifc/media/DatabaseSpace;)V 
+.const [131] = Utf8 putOptionalDatabaseSpaceVarArray 
+.const [132] = Utf8 (Lde/esolutions/fw/util/serializer/ISerializer;[Lorg/dsi/ifc/media/DatabaseSpace;)V 
+.const [133] = Utf8 getOptionalDatabaseSpace 
+.const [134] = Utf8 (Lde/esolutions/fw/util/serializer/IDeserializer;)Lorg/dsi/ifc/media/DatabaseSpace; 
+.const [135] = Utf8 getOptionalDatabaseSpaceVarArray 
+.const [136] = Utf8 (Lde/esolutions/fw/util/serializer/IDeserializer;)[Lorg/dsi/ifc/media/DatabaseSpace; 
+.end class 
