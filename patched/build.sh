@@ -36,9 +36,9 @@ done
 CLASSES=$(echo $FILES | sed -r 's:\.java:.class:g')
 # echo "$CLASSES"
 
-jar cvf NavActiveIgnore.jar $CLASSES
+${JAVA_HOME}/bin/jar cvf SportHMI.jar $CLASSES
 
-ssh mibw sh -l /root/.profile
+#ssh mibw sh -l /root/.profile
 #scp LoggingPatcher.jar mibw:/mnt/app/eso/hmi/lsd/jars/
-scp NavActiveIgnore.jar mibw:/mnt/app/eso/hmi/lsd/jars/
+#scp NavActiveIgnore.jar mibw:/mnt/app/eso/hmi/lsd/jars/
 
