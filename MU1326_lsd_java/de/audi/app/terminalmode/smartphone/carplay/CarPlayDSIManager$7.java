@@ -1,0 +1,32 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.audi.app.terminalmode.statemachine.TMState
+ */
+package de.audi.app.terminalmode.smartphone.carplay;
+
+import de.audi.app.terminalmode.smartphone.carplay.CarPlayDSIManager;
+import de.audi.app.terminalmode.smartphone.carplay.CarPlayDSIManager$RequestModeChangeCarPlay;
+import de.audi.app.terminalmode.statemachine.IRequestor;
+import de.audi.app.terminalmode.statemachine.IStateChangeAction$AbstractStateChangeActionHook;
+import de.audi.app.terminalmode.statemachine.TMState;
+import de.audi.tghu.command.CommandList;
+
+class CarPlayDSIManager$7
+extends IStateChangeAction$AbstractStateChangeActionHook {
+    private final /* synthetic */ CarPlayDSIManager this$0;
+
+    CarPlayDSIManager$7(CarPlayDSIManager carPlayDSIManager) {
+        this.this$0 = carPlayDSIManager;
+    }
+
+    @Override
+    public void execute(CommandList commandList, TMState tMState, IRequestor iRequestor, long l) {
+        CarPlayDSIManager.access$2200(this.this$0).log(1078071040, "[%1.changeState] Screen: MU -> Device", (Object)"CarPlayDSIManager");
+        if (IRequestor.DEVICE.isNot(iRequestor)) {
+            commandList.add(new CarPlayDSIManager$RequestModeChangeCarPlay(this.this$0, CarPlayDSIManager.access$2300(this.this$0), tMState, CarPlayDSIManager.access$400(this.this$0)));
+        }
+    }
+}
+
