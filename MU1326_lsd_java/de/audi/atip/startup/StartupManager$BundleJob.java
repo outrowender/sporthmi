@@ -1,0 +1,11 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.startup;
+
+interface StartupManager$BundleJob
+extends Runnable {
+    default public String getBundleName() {
+    }
+}
+

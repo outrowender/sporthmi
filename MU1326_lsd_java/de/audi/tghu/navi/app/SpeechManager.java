@@ -1,0 +1,356 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.navi.app;
+
+import de.audi.atip.hmi.model.ButtonListener;
+import de.audi.atip.hmi.model.ChoiceListener;
+import de.audi.atip.interapp.audio.IAnnouncementStateListener;
+import de.audi.atip.interapp.audio.IAnnouncementStateService;
+import de.audi.atip.log.LogChannel;
+import de.audi.atip.storage.IStorageAccess;
+import de.audi.tghu.command.CommandList;
+import de.audi.tghu.command.ICommandListFactory;
+import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.SpeechManager$1;
+import de.audi.tghu.navi.app.SpeechManager$GuidanceModeSettingsListener;
+import de.audi.tghu.navi.app.SpeechManager$State;
+import de.audi.tghu.navi.app.command.RGSetRouteGuidanceMode;
+import de.audi.tghu.navi.app.util.FunctionCounter;
+import de.audi.tghu.navi.app.util.Util;
+import java.util.LinkedList;
+import java.util.List;
+
+public final class SpeechManager
+implements ChoiceListener,
+ButtonListener,
+IAnnouncementStateService {
+    private final NavigationEnv env;
+    private final FunctionCounter fc;
+    private final ICommandListFactory commandListFactory;
+    private LogChannel logChannel;
+    private SpeechManager$GuidanceModeSettingsListener settingsListener;
+    private List announcementStateListenerList;
+    private static final int GUIDANCE_MODE_INIT;
+    public static final int GUIDANCE_SPEECH_MODE_COMPLETE;
+    public static final int GUIDANCE_SPEECH_MODE_COMPACT;
+    public static final int GUIDANCE_SPEECH_MODE_TRAFFIC;
+    public static final int GUIDANCE_SPEECH_MODE_OFF;
+    private static final int HIDE_SPEECH_MODE_TRAFFIC;
+    private int lastmode = -1;
+
+    public SpeechManager(NavigationEnv navigationEnv, FunctionCounter functionCounter, ICommandListFactory iCommandListFactory) {
+        this.env = navigationEnv;
+        this.fc = functionCounter;
+        this.commandListFactory = iCommandListFactory;
+        this.logChannel = navigationEnv.getLogChannel();
+        this.logChannel.log(-2137614336, "SpeechManager#SetupListener() ");
+        this.announcementStateListenerList = new LinkedList();
+        this.setListeners();
+    }
+
+    public static boolean isAnnouncementOnCallValid(int n) {
+        switch (n) {
+            case 0: 
+            case 1: {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isGuidanceModeValid(int n) {
+        switch (n) {
+            case 0: 
+            case 1: 
+            case 2: 
+            case 3: {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getDefaultAnnouncementOnCall() {
+        return 0;
+    }
+
+    public static int getDefaultGuidanceMode() {
+        return 1;
+    }
+
+    private void setListeners() {
+        this.env.getChoiceModel(555).setChoiceListener(this);
+        if (!Util.isTrafficPresent(this.env.getFramework()) || Util.isHURegionAsia()) {
+            this.env.getChoiceModel(555).addHint(11);
+        }
+        this.env.getChoiceModel(3829).setChoiceListener(this);
+    }
+
+    @Override
+    public void itemSelected(int n, int n2, int n3, int n4) {
+        this.itemSelected(n, n2, n3, n4, true);
+    }
+
+    @Override
+    public void itemFocused(int n, int n2, int n3, int n4) {
+    }
+
+    private void itemSelected(int n, int n2, int n3, int n4, boolean bl) {
+        this.logChannel.log(-2137614336, "SpeechManager#itemSelected( %1, %2 ) ", (long)n, (long)n2);
+        CommandList commandList = null;
+        switch (n) {
+            case 555: {
+                this.fc.incCounter(25);
+                this.env.getChoiceModel(555).setValue(n2);
+                if (bl) {
+                    this.saveState();
+                }
+                int n5 = this.getGuidanceMode();
+                commandList = this.buildGuidanceModeCommandList(n5);
+                commandList.execute("SpeechManager.itemSelected.NAVI_TONE_ANNOUNCEMENT_SETUP_CHOICE");
+                break;
+            }
+            case 3829: {
+                this.env.getChoiceModel(3829).setValue(n2);
+                if (!bl) break;
+                this.saveState();
+                break;
+            }
+            default: {
+                this.logChannel.log(10000, "SpeechManager#itemSelected() - unknown model id: %1! ", (long)n);
+            }
+        }
+    }
+
+    public boolean toggleGuidanceMode() {
+        int n;
+        this.logChannel.log(-2137614336, "SpeechManager#toggleGuidanceMode()");
+        int n2 = this.getGuidanceMode();
+        if (n2 == 3) {
+            n = this.lastmode != 3 && this.lastmode != -1 ? this.lastmode : 1;
+        } else {
+            n = 3;
+            this.lastmode = n2;
+        }
+        this.logChannel.log(-2137614336, "SpeechManager#toggleGuidanceMode() - %1 -> %2", (long)n2, (long)n);
+        this.setGuidanceMode(n, true);
+        CommandList commandList = this.buildGuidanceModeCommandList(n);
+        commandList.execute("SpeechManager#toggleGuidanceMode");
+        return n != 3;
+    }
+
+    public void setGuidanceMode(int n, boolean bl) {
+        this.env.getLogChannel().log(-2137614336, "SpeechManager#setGuidanceMode( %1 ) ", (long)n);
+        int n2 = this.env.getChoiceModel(555).getValue();
+        switch (n) {
+            case 1: {
+                n2 = 0;
+                break;
+            }
+            case 0: {
+                n2 = 1;
+                break;
+            }
+            case 2: {
+                n2 = 2;
+                break;
+            }
+            case 3: {
+                n2 = 3;
+                break;
+            }
+            default: {
+                this.env.getLogChannel().log(-2137614336, "SpeechManager#setGuidanceMode() - guidance mode %1 not supported for high ", (long)n);
+            }
+        }
+        this.env.getChoiceModel(555).setValue(n2);
+        if (bl) {
+            this.saveState();
+        }
+    }
+
+    public void addAnnouncementStateListener(IAnnouncementStateListener iAnnouncementStateListener) {
+        if (!this.announcementStateListenerList.contains(iAnnouncementStateListener)) {
+            this.announcementStateListenerList.add(iAnnouncementStateListener);
+        }
+    }
+
+    public void removeAnnouncementStateListener(IAnnouncementStateListener iAnnouncementStateListener) {
+        if (this.announcementStateListenerList.contains(iAnnouncementStateListener)) {
+            this.announcementStateListenerList.remove(iAnnouncementStateListener);
+        }
+    }
+
+    public int getGuidanceMode() {
+        int n;
+        int n2 = this.env.getChoiceModel(555).getValue();
+        switch (n2) {
+            case 0: {
+                n = 1;
+                break;
+            }
+            case 1: {
+                n = 0;
+                break;
+            }
+            case 2: {
+                n = 2;
+                break;
+            }
+            case 3: {
+                n = 3;
+                break;
+            }
+            default: {
+                n = 1;
+            }
+        }
+        return n;
+    }
+
+    public boolean announcementOnCall() {
+        return this.env.getChoiceModel(3829).getValue() == 0;
+    }
+
+    @Override
+    public void keyPressed(int n, int n2, int n3) {
+    }
+
+    @Override
+    public void keyTyped(int n, int n2, int n3) {
+    }
+
+    @Override
+    public void keyLongTyped(int n, int n2, int n3) {
+    }
+
+    @Override
+    public void keyReleased(int n, int n2, int n3) {
+    }
+
+    public void resetSettings() {
+        int n = this.env.getFramework().isFrontMU() ? 0 : 5;
+        int n2 = SpeechManager.getDefaultGuidanceMode();
+        this.setGuidanceMode(n2, false);
+        this.lastmode = n2;
+        CommandList commandList = this.buildGuidanceModeCommandList(n2);
+        commandList.execute("SpeechManager#resetSettings");
+        if (Util.isPorsche(this.env.getFramework())) {
+            this.itemSelected(3829, 1, 0, n, false);
+        } else {
+            this.itemSelected(3829, SpeechManager.getDefaultAnnouncementOnCall(), 0, n, false);
+        }
+        this.saveState();
+    }
+
+    void saveState() {
+        IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
+        if (iStorageAccess != null) {
+            SpeechManager$State speechManager$State = new SpeechManager$State(iStorageAccess, this.logChannel);
+            speechManager$State.setGuidanceMode(this.getGuidanceMode());
+            speechManager$State.setAnnouncementOnCall(this.env.getChoiceModel(3829).getValue());
+            speechManager$State.setGuidanceLastMode(this.lastmode);
+            speechManager$State.serializeAndWrite();
+        } else {
+            this.logChannel.log(10000, "Setup#saveState() - no storage manager available!!! ");
+        }
+    }
+
+    public void loadState() {
+        IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
+        if (iStorageAccess != null) {
+            SpeechManager$State speechManager$State = new SpeechManager$State(iStorageAccess, this.logChannel);
+            speechManager$State.readAndDeserialize();
+            int n = speechManager$State.getGuidanceMode();
+            int n2 = speechManager$State.getGuidanceLastMode();
+            int n3 = speechManager$State.getAnnouncementOnCall();
+            if (!SpeechManager.isGuidanceModeValid(n)) {
+                n = SpeechManager.getDefaultGuidanceMode();
+            }
+            if (!SpeechManager.isGuidanceModeValid(n2)) {
+                n2 = SpeechManager.getDefaultGuidanceMode();
+            }
+            if (!SpeechManager.isAnnouncementOnCallValid(n3)) {
+                n3 = SpeechManager.getDefaultAnnouncementOnCall();
+            }
+            if (!Util.isTrafficPresent(this.env.getFramework()) || Util.isHURegionAsia()) {
+                if (n == 2) {
+                    n = SpeechManager.getDefaultGuidanceMode();
+                }
+                if (n2 == 2) {
+                    n2 = SpeechManager.getDefaultGuidanceMode();
+                }
+            }
+            this.setGuidanceMode(n, false);
+            this.env.getChoiceModel(3829).setValue(n3);
+            this.lastmode = n2;
+        } else {
+            this.logChannel.log(10000, "Setup#loadState() - no storage manager available!!! ");
+        }
+    }
+
+    public void triggerStorageFlush(boolean bl) {
+        IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
+        if (bl) {
+            iStorageAccess.enterSetupScreen();
+        } else {
+            iStorageAccess.exitSetupScreen();
+        }
+    }
+
+    public void registerSettingsListener(SpeechManager$GuidanceModeSettingsListener speechManager$GuidanceModeSettingsListener) {
+        if (this.settingsListener != null) {
+            this.logChannel.log(10000, "SpeechManager#registerSettingsListener() - listener already registered, will be overwritten!");
+        }
+        this.settingsListener = speechManager$GuidanceModeSettingsListener;
+    }
+
+    public CommandList buildGuidanceModeCommandList(int n) {
+        CommandList commandList = this.commandListFactory.createCommandList(1);
+        commandList.add(new RGSetRouteGuidanceMode(n));
+        commandList.add(new SpeechManager$1(this, "notifyGuidanceModeListener", n));
+        return commandList;
+    }
+
+    @Override
+    public void setAnnouncementState(int n) {
+        this.logChannel.log(10000, "SpeechManager#setAnnouncementState(%1)", (long)n);
+        int n2 = -1;
+        switch (n) {
+            case 20: {
+                n2 = 1;
+                break;
+            }
+            case 21: {
+                n2 = 0;
+                break;
+            }
+            case 22: {
+                n2 = 2;
+                break;
+            }
+            case 23: {
+                n2 = 3;
+                break;
+            }
+            default: {
+                n2 = -1;
+            }
+        }
+        if (n2 != -1) {
+            this.setGuidanceMode(n2, true);
+            CommandList commandList = this.buildGuidanceModeCommandList(n2);
+            commandList.execute("SpeechManager.setAnnouncementState.NAVI_TONE_ANNOUNCEMENT_SETUP");
+        }
+    }
+
+    static /* synthetic */ SpeechManager$GuidanceModeSettingsListener access$000(SpeechManager speechManager) {
+        return speechManager.settingsListener;
+    }
+
+    static /* synthetic */ List access$100(SpeechManager speechManager) {
+        return speechManager.announcementStateListenerList;
+    }
+}
+

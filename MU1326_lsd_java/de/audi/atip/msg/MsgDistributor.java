@@ -1,0 +1,113 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.msg;
+
+public interface MsgDistributor {
+    public static final int STARTUP_SHOWFIRSTSCREEN;
+    public static final int FULL_SYSTEM_START_DONE;
+    public static final int SWDL_STARTING;
+    public static final int SWDL_RUNNING;
+    public static final int SWDL_FINISHED;
+    public static final int SWDL_ENTERED;
+    public static final int SWDL_EXIT;
+    public static final int UNITS_CHANGED;
+    public static final int TIME_CHANGED;
+    public static final int DATE_CHANGED;
+    public static final int SDS_LANGUAGE_CHANGED;
+    public static final int TIME_UPDATED;
+    public static final int RESET_BLUETOOTH_AND_WLAN_SETTINGS;
+    public static final int RESET_CD_SETTINGS;
+    public static final int RESET_MMI_SETTINGS;
+    public static final int RESET_NAV_MEMORY_SETTINGS;
+    public static final int RESET_NAV_SETTINGS;
+    public static final int RESET_SDS_SETTINGS;
+    public static final int RESET_SOUND_SETTINGS;
+    public static final int RESET_TVAV_SETTINGS;
+    public static final int RESET_PHONE_SETTINGS;
+    public static final int RESET_TUNER_SETTINGS;
+    public static final int RESET_ADDRESSBOOK_SETTINGS;
+    public static final int RESET_ADDRESSBOOK_DELETE_ALL;
+    public static final int RESET_MEDIA_ALL;
+    public static final int RESET_MEDIA_SETTINGS;
+    public static final int RESET_PRESETS_KEYS;
+    public static final int RESET_MESSAGING_SETTINGS;
+    public static final int RESET_NONE;
+    public static final int RESET_CUSTOM_BACKGROUND;
+    public static final int PHONE_LOCKSTATE_CHANGED;
+    public static final int IRC_HOTKEY_PRESSED;
+    public static final int COMBI_TIME_AVAILABLE;
+    public static final int DIAGNOSIS_ACTIVE;
+    public static final int DIAGNOSIS_INACTIVE;
+    public static final int MENU_EXTENSIONS;
+    public static final int NAVI_LEFT_OR_RIGHT_HAND_TRAFFIC_UPDATE;
+    public static final int UPDATE_ENG_MENU_STATE_ASIA;
+    public static final int INCOMING_CALL_POPUP_ACTIVATED;
+    public static final int INCOMING_CALL_POPUP_INACTIVE;
+    public static final int KEY_PTT_PRESSED;
+    public static final int KEY_INAV_PRESSED;
+    public static final int JOKER_KEY_NAV_MAP_COLOR_DAY;
+    public static final int JOKER_KEY_NAV_MAP_COLOR_NIGHT;
+    public static final int JOKER_KEY_NAV_ANNOUNCEMENT_ON;
+    public static final int JOKER_KEY_NAV_ANNOUNCEMENT_OFF;
+    public static final int JOKER_KEY_NAV_ANNOUNCEMENT_TRAFFIC;
+    public static final int JOKER_KEY_NAV_ANNOUNCEMENT_SHORT;
+    public static final int JOKER_KEY_TRAFFIC_ANNOUNCEMENT_ON;
+    public static final int JOKER_KEY_TRAFFIC_ANNOUNCEMENT_OFF;
+    public static final int JOKER_KEY_NAVIGATE_TO_HOME;
+    public static final int JOKER_KEY_AUXILIARY_HEATING_ON;
+    public static final int JOKER_KEY_AUXILIARY_HEATING_OFF;
+    public static final int JOKER_KEY_NAV_MAP_ADDITIONAL_INFO_OFF;
+    public static final int JOKER_KEY_NAV_MAP_ADDITIONAL_INFO_ROUTE;
+    public static final int JOKER_KEY_NAV_MAP_ADDITIONAL_INFO_OVERVIEW_MAP;
+    public static final int JOKER_KEY_AUXILIARY_HEATING_SYSTEM_ERROR;
+    public static final int JOKER_KEY_AUXILIARY_HEATING_LOW_FUEL;
+    public static final int JOKER_KEY_AUXILIARY_HEATING_LOW_VOLTAGE;
+    public static final int JOKER_KEY_ACTION_NOT_SUCCESSFUL;
+    public static final int JOKER_KEY_MEANING_CHANGED;
+    public static final int DEBUG_INFO_DAB_ON;
+    public static final int DEBUG_INFO_DAB_OFF;
+    public static final int SEAT_POPIN_REMOVE_ALL;
+    public static final int CLUSTER_GOODBYE_SCREEN_DISPLAYED;
+    public static final int VIN_AVAILABLE;
+    public static final int RESET_SDIS_CLIENTS;
+    public static final int RESET_APPS;
+    public static final int RESET_USER_HINTS;
+    public static final int RESET_AUDI_CONNECT;
+    public static final int RESET_MEDIA_REVERT_CUSTOMER_UPDATE;
+    public static final int RESET_LOGBOOK_CAR;
+    public static final int RESET_LOGBOOK_PERSONAL;
+    public static final int RESET_SPORTCHRONO_CAR;
+    public static final int RESET_SPORTCHRONO_PERSONAL;
+    public static final int RESET_TERMINAL_MODE;
+    public static final int RESET_WORD_PREDICTION;
+    public static final int RESET_TUNER_ALL;
+    public static final int RESET_LANGUAGE;
+    public static final int RESET_TRIPDATA_CAR;
+    public static final int RESET_TRIPDATA_PERSONAL;
+    public static final int PLAY_TOUCH_SOUND;
+    public static final int SYSCONST_INITIALIZED;
+    public static final int WIRELESS_CHARGING_NOTIFICATION;
+    public static final int WIRELESS_CHARGING_PLAYSOUND_REQUEST;
+    public static final int JOKER_KEY_POI_CALL_UNAVAILABLE_CALL_ACTIVE_DF3_2;
+    public static final int JOKER_KEY_POI_CALL_UNAVAILABLE_NO_SIM_DF3_2;
+    public static final int JOKER_KEY_POI_CALL_UNAVAILABLE_GENERAL_ERROR_DF3_2;
+    public static final int PARKING_SYSTEM_DEACTIVATED;
+    public static final int PARKING_SYSTEM_ACTIVATED;
+    public static final int MEDIA_SOURCE_DEACTIVATED;
+    public static final int MEDIA_SOURCE_DVDC_ACTIVATED;
+    public static final int TV_TUNER_ACTIVATED;
+    public static final int TV_TUNER_DEACTIVATED;
+    public static final int RESET_TVAV_PERSONAL;
+    public static final int RESET_MYSCREEN;
+    public static final int LOCK_FEATURE_ACTIVATED;
+    public static final int LOCK_FEATURE_DEACTIVATED;
+    public static final int MSG_TELEPHONE_MODULE_AVAILABLE;
+    public static final int MSG_TELEPHONE_MODULE_NOT_AVAILABLE;
+    public static final int MSG_TELEPHONE_MODULE_SWITCHING;
+    public static final int MENUCTRL_CMOF_RELOADED;
+
+    default public void sendMessage(int n) {
+    }
+}
+
