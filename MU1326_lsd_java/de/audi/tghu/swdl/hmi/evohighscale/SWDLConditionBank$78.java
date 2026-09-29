@@ -1,0 +1,27 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.swdl.hmi.evohighscale;
+
+import de.audi.atip.hmi.model.AbstractCondition;
+import de.audi.tghu.swdl.hmi.evohighscale.SWDLConditionBank;
+
+class SWDLConditionBank$78
+extends AbstractCondition {
+    private final /* synthetic */ SWDLConditionBank this$0;
+
+    SWDLConditionBank$78(SWDLConditionBank sWDLConditionBank) {
+        this.this$0 = sWDLConditionBank;
+    }
+
+    @Override
+    public int[] getModelIds() {
+        return new int[]{586291456};
+    }
+
+    @Override
+    public boolean evaluate(int n) {
+        return SWDLConditionBank.access$000(this.this$0).evaluateSimpleChoiceModelValueEqualsCondition(586291456, n, 1);
+    }
+}
+
