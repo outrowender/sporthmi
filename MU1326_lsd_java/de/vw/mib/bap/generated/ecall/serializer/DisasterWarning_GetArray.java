@@ -1,0 +1,129 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.vw.mib.bap.generated.ecall.serializer;
+
+import de.vw.mib.bap.array.requests.BAPGetArray;
+import de.vw.mib.bap.datatypes.ArrayHeader;
+import de.vw.mib.bap.datatypes.BAPEntity;
+import de.vw.mib.bap.stream.BitStream;
+
+public final class DisasterWarning_GetArray
+implements BAPGetArray {
+    public int asg_Id;
+    public static final int ASG_ID_HEAD_UNIT_TO_BE_EVALUATED_BY_ALL_ASGS;
+    public static final int ASG_ID_HEAD_UNIT;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
+    private static final int ASG_ID_BITSIZE;
+    public int taid;
+    public static final int TAID_MIN;
+    private static final int TAID_BITSIZE;
+    public ArrayHeader arrayHeader = new ArrayHeader();
+
+    public DisasterWarning_GetArray() {
+        this.internalReset();
+        this.customInitialization();
+    }
+
+    public DisasterWarning_GetArray(BitStream bitStream) {
+        this();
+        this.deserialize(bitStream);
+    }
+
+    private void internalReset() {
+        this.asg_Id = 0;
+        this.taid = 0;
+    }
+
+    @Override
+    public void reset() {
+        this.internalReset();
+        this.arrayHeader.reset();
+    }
+
+    @Override
+    public boolean equalTo(BAPEntity bAPEntity) {
+        DisasterWarning_GetArray disasterWarning_GetArray = (DisasterWarning_GetArray)bAPEntity;
+        return this.asg_Id == disasterWarning_GetArray.asg_Id && this.taid == disasterWarning_GetArray.taid && this.arrayHeader.equalTo(disasterWarning_GetArray.arrayHeader);
+    }
+
+    private void customInitialization() {
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("DisasterWarning_GetArray");
+        stringBuffer.append("\n - asg_Id:").append(this.asg_Id);
+        stringBuffer.append("\n - taid:").append(this.taid);
+        stringBuffer.append("\n - arrayHeader:").append(this.arrayHeader.toString());
+        return stringBuffer.toString();
+    }
+
+    @Override
+    public int bitSize() {
+        return 0;
+    }
+
+    @Override
+    public void serialize(BitStream bitStream) {
+        bitStream.pushBits(4, this.asg_Id);
+        bitStream.pushBits(4, this.taid);
+        this.arrayHeader.serialize(bitStream);
+    }
+
+    @Override
+    public void deserialize(BitStream bitStream) {
+        this.asg_Id = bitStream.popFrontBits(4);
+        this.taid = bitStream.popFrontBits(4);
+        this.arrayHeader.deserialize(bitStream);
+    }
+
+    public static int functionId() {
+        return 31;
+    }
+
+    @Override
+    public int getFunctionId() {
+        return DisasterWarning_GetArray.functionId();
+    }
+
+    @Override
+    public void setArrayHeader(ArrayHeader arrayHeader) {
+        this.arrayHeader = arrayHeader;
+    }
+
+    @Override
+    public ArrayHeader getArrayHeader() {
+        return this.arrayHeader;
+    }
+
+    @Override
+    public int getTransactionId() {
+        return this.taid;
+    }
+
+    @Override
+    public void setTransactionId(int n) {
+        this.taid = n;
+    }
+
+    @Override
+    public int getAsgId() {
+        return this.asg_Id & 7;
+    }
+
+    @Override
+    public void setAsgId(int n) {
+        this.asg_Id = this.asg_Id & 8 | n & 7;
+    }
+
+    public boolean isBroadcast() {
+        return this.asg_Id >>> 3 == 1;
+    }
+
+    public void setBroadcast(boolean bl) {
+        this.asg_Id = bl ? this.asg_Id | 8 : this.asg_Id & 7;
+    }
+}
+

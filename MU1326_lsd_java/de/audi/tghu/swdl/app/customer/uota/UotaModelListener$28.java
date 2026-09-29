@@ -1,0 +1,33 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.tghu.swdl.app.customer.uota;
+
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.modelaccess.ButtonModelApp;
+import de.audi.tghu.swdl.app.customer.uota.UotaModelListener;
+
+class UotaModelListener$28
+extends DefaultButtonListener {
+    private final /* synthetic */ ButtonModelApp val$buttonModel;
+    private final /* synthetic */ UotaModelListener this$0;
+
+    UotaModelListener$28(UotaModelListener uotaModelListener, ButtonModelApp buttonModelApp) {
+        this.this$0 = uotaModelListener;
+        this.val$buttonModel = buttonModelApp;
+    }
+
+    @Override
+    public void keyTyped(int n, int n2, int n3) {
+        UotaModelListener.access$000(this.this$0).log(-2137614336, "[UotaModelListener.PPOISummaryPopupConfirmButtonListener].keyTyped():");
+        UotaModelListener.access$200(this.this$0).getCustomerProgressStateChoice().setValue(0);
+        UotaModelListener.access$100(this.this$0).confirmSummaryPopup();
+        if (UotaModelListener.access$100(this.this$0).isLastPackageUpdated()) {
+            UotaModelListener.access$000(this.this$0).log(-2137614336, "[UotaModelListener.PPOISummaryPopupConfirmButtonListener].keyTyped(): last update package, fire button event!");
+            this.val$buttonModel.fireEvent(n3);
+        } else {
+            UotaModelListener.access$100(this.this$0).hideUotaPPOISummaryPopup();
+        }
+    }
+}
+
