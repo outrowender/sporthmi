@@ -1,0 +1,228 @@
+.version 50 0 
+.class super [69] 
+.super [71] 
+.field private static final [72] [73] 
+.field private [74] [75] 
+.field private [76] [77] 
+
+.method [79] : [80] 
+    .attribute [78] .code stack 2 locals 0 
+L0:     aload_0 
+L1:     invokespecial [12] 
+L4:     aload_0 
+L5:     aload_1 
+L6:     putfield [14] 
+L9:     aload_0 
+L10:    iconst_0 
+L11:    putfield [15] 
+L14:    return 
+L15:    nop 
+L16:    
+    .end code 
+.end method 
+
+.method [81] : [82] 
+    .attribute [78] .code stack 2 locals 0 
+L0:     aload_0 
+L1:     invokespecial [12] 
+L4:     aload_0 
+L5:     aload_1 
+L6:     putfield [14] 
+L9:     aload_0 
+L10:    iload_2 
+L11:    putfield [15] 
+L14:    return 
+L15:    nop 
+L16:    
+    .end code 
+.end method 
+
+.method public interface [83] : [84] 
+    .attribute [78] .code stack 1 locals 0 
+L0:     aload_0 
+L1:     getfield [7] 
+L4:     areturn 
+L5:     nop 
+L6:     nop 
+L7:     nop 
+L8:     
+    .end code 
+.end method 
+
+.method public interface [85] : [86] 
+    .attribute [78] .code stack 1 locals 0 
+L0:     aload_0 
+L1:     getfield [8] 
+L4:     areturn 
+L5:     nop 
+L6:     nop 
+L7:     nop 
+L8:     
+    .end code 
+.end method 
+
+.method public [87] : [88] 
+    .attribute [78] .code stack 2 locals 0 
+L0:     aload_0 
+L1:     iload_1 
+L2:     putfield [15] 
+L5:     return 
+L6:     nop 
+L7:     nop 
+L8:     
+    .end code 
+.end method 
+
+.method [89] : [90] 
+    .attribute [78] .code stack 3 locals 0 
+L0:     aload_0 
+L1:     dup 
+L2:     getfield [8] 
+L5:     iconst_1 
+L6:     iadd 
+L7:     putfield [15] 
+L10:    return 
+L11:    nop 
+L12:    
+    .end code 
+.end method 
+
+.method [91] : [92] 
+    .attribute [78] .code stack 2 locals 0 
+L0:     aload_0 
+L1:     getfield [8] 
+L4:     iload_1 
+L5:     if_icmple L12 
+L8:     iconst_1 
+L9:     goto L13 
+L12:    iconst_0 
+L13:    areturn 
+L14:    nop 
+L15:    nop 
+L16:    
+    .end code 
+.end method 
+
+.method public [93] : [94] 
+    .attribute [78] .code stack 3 locals 1 
+L0:     new [16] 
+L3:     dup 
+L4:     bipush 50 
+L6:     invokespecial [13] 
+L9:     astore_1 
+L10:    aload_1 
+L11:    ldc [3] 
+L13:    invokevirtual [9] 
+L16:    aload_0 
+L17:    getfield [7] 
+L20:    invokevirtual [9] 
+L23:    ldc [4] 
+L25:    invokevirtual [9] 
+L28:    aload_0 
+L29:    getfield [8] 
+L32:    invokevirtual [10] 
+L35:    pop 
+L36:    aload_1 
+L37:    invokevirtual [11] 
+L40:    areturn 
+L41:    nop 
+L42:    nop 
+L43:    nop 
+L44:    
+    .end code 
+.end method 
+.const [1] = Int 0 
+.const [2] = Class [17] 
+.const [3] = String [18] 
+.const [4] = String [19] 
+.const [5] = Class [20] 
+.const [6] = Class [21] 
+.const [7] = Field [22] [23] 
+.const [8] = Field [24] [25] 
+.const [9] = Method [26] [27] 
+.const [10] = Method [28] [29] 
+.const [11] = Method [30] [31] 
+.const [12] = Method [32] [33] 
+.const [13] = Method [34] [35] 
+.const [14] = Field [36] [37] 
+.const [15] = Field [38] [39] 
+.const [16] = Class [40] 
+.const [17] = Utf8 de/esolutions/fw/util/commons/Buffer 
+.const [18] = Utf8 'Freezed name: ' 
+.const [19] = Utf8 ', Age: ' 
+.const [20] = Utf8 de/audi/tuner/app/amfm/PsFreezeData 
+.const [21] = Utf8 java/lang/Object 
+.const [22] = Class [41] 
+.const [23] = NameAndType [42] [43] 
+.const [24] = Class [44] 
+.const [25] = NameAndType [45] [46] 
+.const [26] = Class [47] 
+.const [27] = NameAndType [48] [49] 
+.const [28] = Class [50] 
+.const [29] = NameAndType [51] [52] 
+.const [30] = Class [53] 
+.const [31] = NameAndType [54] [55] 
+.const [32] = Class [56] 
+.const [33] = NameAndType [57] [58] 
+.const [34] = Class [59] 
+.const [35] = NameAndType [60] [61] 
+.const [36] = Class [62] 
+.const [37] = NameAndType [63] [64] 
+.const [38] = Class [65] 
+.const [39] = NameAndType [66] [67] 
+.const [40] = Utf8 de/esolutions/fw/util/commons/Buffer 
+.const [41] = Utf8 de/audi/tuner/app/amfm/PsFreezeData 
+.const [42] = Utf8 freezedName 
+.const [43] = Utf8 Ljava/lang/String; 
+.const [44] = Utf8 de/audi/tuner/app/amfm/PsFreezeData 
+.const [45] = Utf8 age 
+.const [46] = Utf8 I 
+.const [47] = Utf8 de/esolutions/fw/util/commons/Buffer 
+.const [48] = Utf8 append 
+.const [49] = Utf8 (Ljava/lang/String;)Lde/esolutions/fw/util/commons/Buffer; 
+.const [50] = Utf8 de/esolutions/fw/util/commons/Buffer 
+.const [51] = Utf8 append 
+.const [52] = Utf8 (I)Lde/esolutions/fw/util/commons/Buffer; 
+.const [53] = Utf8 de/esolutions/fw/util/commons/Buffer 
+.const [54] = Utf8 toString 
+.const [55] = Utf8 ()Ljava/lang/String; 
+.const [56] = Utf8 java/lang/Object 
+.const [57] = Utf8 <init> 
+.const [58] = Utf8 ()V 
+.const [59] = Utf8 de/esolutions/fw/util/commons/Buffer 
+.const [60] = Utf8 <init> 
+.const [61] = Utf8 (I)V 
+.const [62] = Utf8 de/audi/tuner/app/amfm/PsFreezeData 
+.const [63] = Utf8 freezedName 
+.const [64] = Utf8 Ljava/lang/String; 
+.const [65] = Utf8 de/audi/tuner/app/amfm/PsFreezeData 
+.const [66] = Utf8 age 
+.const [67] = Utf8 I 
+.const [68] = Utf8 de/audi/tuner/app/amfm/PsFreezeData 
+.const [69] = Class [68] 
+.const [70] = Utf8 java/lang/Object 
+.const [71] = Class [70] 
+.const [72] = Utf8 INITIAL_AGE 
+.const [73] = Utf8 I 
+.const [74] = Utf8 freezedName 
+.const [75] = Utf8 Ljava/lang/String; 
+.const [76] = Utf8 age 
+.const [77] = Utf8 I 
+.const [78] = Utf8 Code 
+.const [79] = Utf8 <init> 
+.const [80] = Utf8 (Ljava/lang/String;)V 
+.const [81] = Utf8 <init> 
+.const [82] = Utf8 (Ljava/lang/String;I)V 
+.const [83] = Utf8 getFreezedName 
+.const [84] = Utf8 ()Ljava/lang/String; 
+.const [85] = Utf8 getAge 
+.const [86] = Utf8 ()I 
+.const [87] = Utf8 setAge 
+.const [88] = Utf8 (I)V 
+.const [89] = Utf8 age 
+.const [90] = Utf8 ()V 
+.const [91] = Utf8 isOlder 
+.const [92] = Utf8 (I)Z 
+.const [93] = Utf8 toString 
+.const [94] = Utf8 ()Ljava/lang/String; 
+.end class 
