@@ -1,0 +1,86 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.model;
+
+public interface ICoreEngineeringModelBank {
+    public static final int ENG_MODE_SAVE_ABORT_BUTTON;
+    public static final int ENG_IMPORTED_FSC_LIST;
+    public static final int ENG_F_S_C_HISTORY_MESSAGE_LABEL;
+    public static final int ENG_MAIN_UNIT_SOFTWARE_LABEL;
+    public static final int ENG_SETTINGS_USB_IMPORT_CHOICE;
+    public static final int ENG_FSC_ENTER_BUTTON;
+    public static final int FSC_LOGGING_OBSOLET_BUTTON;
+    public static final int ENG_FSC_DETAILS_LABEL;
+    public static final int ENG_MOST_CONFIG_SW_NUMBER_LABEL;
+    public static final int ENG_LOGGING_NAME_LIST;
+    public static final int ENG_MODE_PARAM_MEM_MAX_LABEL;
+    public static final int ENG_DECRYPT_SPELLER_EXIT_CHOICE;
+    public static final int ENG_APPL_CONFIG_LIST;
+    public static final int ENG_FSC_MESSAGE_LABEL;
+    public static final int ENG_MODE_PARAM_UBC_ENABLED_LABEL;
+    public static final int ENG_MODE_INIT_ABORT_IRC_BUTTON;
+    public static final int ENG_INSTALLED_FSC_BUTTON;
+    public static final int ENG_UPDATE_LSDSH_BUTTON;
+    public static final int ENG_MODE_IRC_INIT_BUTTON;
+    public static final int ENG_LOGGING_CATEGORY_LIST;
+    public static final int ENG_LOGGING_SELECT_BY_NAME_BUTTON;
+    public static final int ENG_FSC_HISTORY_BUTTON;
+    public static final int ENG_MODE_PARAM_MEM_LOW_LABEL;
+    public static final int ENG_MODE_IRC_SAVE_BUTTON;
+    public static final int ENG_LOGGING_STATE_CHOICE;
+    public static final int ENG_MODE_SAVE_LOGFILES_BUTTON;
+    public static final int ENG_DECRYPT_PW_NOW_BUTTON;
+    public static final int ENG_MOST_CONFIG_DEVICE_NAME_LABEL;
+    public static final int ENG_MODE_PARAM_OP_TIME_LABEL;
+    public static final int ENG_MODE_IRC_SAVE_LIST;
+    public static final int ENG_DECRYPT_RESULT_CHOICE;
+    public static final int ENG_INSTALLED_FSC_LIST;
+    public static final int ENG_IM_EX_MEDIA_LIST;
+    public static final int ENG_LOGGING_SELECT_BY_CATEGORY_BUTTON;
+    public static final int ENG_MOST_CONFIG_HW_INDEX_LABEL;
+    public static final int ENG_DECRYPT_PW_LATER_BUTTON;
+    public static final int ENG_APPL_AUTHORIZED_LIST;
+    public static final int ENG_MODE_PARAM_FOT_TEMP_LABEL;
+    public static final int ENG_MODE_IRC_TRIGGER_LIST;
+    public static final int ENG_LOGGING_SINK_CHOICE;
+    public static final int ENG_DECRYPT_ERROR_MESSAGE_CHOICE;
+    public static final int ENG_MODE_INIT_LOGFILES_BUTTON;
+    public static final int ENG_SHOW_DEVELOPER_MENU_CHOICE;
+    public static final int ENG_TEXT_TOOL_VERSION_LABEL;
+    public static final int ENG_SW_RUNNING_TIME_LABEL;
+    public static final int ENG_MOST_CONFIG_SW_DATE_LABEL;
+    public static final int ENG_FSC_INFOS_LOGGING_LABEL;
+    public static final int ENG_APP_CONFIG_BUNDLES_LIST;
+    public static final int ENG_MODE_PARAM_POWER_LABEL;
+    public static final int ENG_IM_EX_SUBTITLE_CHOICE;
+    public static final int ENG_DECRYPT_PW_SPELLER;
+    public static final int ENG_MOST_CONFIG_SW_INDEX_LABEL;
+    public static final int ENG_INSTALL_JXE_BUTTON;
+    public static final int ENG_MODE_PARAM_DISPLAY_TEMP_LABEL;
+    public static final int ENG_FSC_EXPORT_BUTTON;
+    public static final int ENG_FSC_IMPORT_BUTTON;
+    public static final int ENG_SUPPORTED_FSC_BUTTON;
+    public static final int ENG_MODE_CHANGE_TRIGGER_BUTTON;
+    public static final int ENG_OPTION_TOOL_VERSION_LABEL;
+    public static final int ENG_IM_EX_ERROR_LABEL;
+    public static final int ENG_ENG_MODE_ON_OFF_LABEL;
+    public static final int ENG_ACTIVATE_GREEN_ENG_MENU_BUTTON;
+    public static final int ENG_SETTINGS_IMPORT_BUTTON;
+    public static final int ENG_IM_EX_RESULT_LABEL;
+    public static final int ENG_IM_EX_MEDIUM_LABEL;
+    public static final int ENG_SETTINGS_SD_CARD_IMPORT_CHOICE;
+    public static final int ENG_IM_EX_STATE_CHOICE;
+    public static final int ENG_MOST_CONFIG_HW_NUMBER_LABEL;
+    public static final int ENG_FSC_IM_EX_SUMMARY_CONTINUE_BUTTON;
+    public static final int ENG_FSC_HISTORY_LIST;
+    public static final int ENG_DELETE_JXE_BUTTON;
+    public static final int ENG_SUPPORTED_FSC_LIST;
+    public static final int ENG_SETTINGS_EXPORT_BUTTON;
+    public static final int ENG_DECRYPT_PW_NEVER_BUTTON;
+    public static final int ENG_FSC_DETAILS_LIST;
+    public static final int ENG_MODE_IRC_INIT_LIST;
+    public static final int ENG_SETTINGS_RESULT_CHOICE;
+    public static final int ENG_SETTINGS_TYPE_CHOICE;
+}
+

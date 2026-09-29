@@ -1,0 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package de.audi.atip.hmi;
+
+public interface IDrawerCategoryAddressBook {
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_ADDRESS;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_ADDRESS_GEO_POSITION;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_ADDRESS_NAVIGATION_DESTINATION;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_ADDRESS_POSTAL_ADDRESS;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_CONTACT;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_EMAIL_ADDRESS;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_INPUT_FIELD;
+    public static final int CATEGORIE_ADDRESS_BOOK_INCLUDE_TELEPHONE_NUMBER;
+    public static final int CATEGORIE_POPUPS_ADDRESS_BOOK_ADDRESS;
+    public static final int CATEGORIE_POPUPS_ADDRESS_BOOK_ADDRESS_GEO_POSITION;
+    public static final int CATEGORIE_POPUPS_ADDRESS_BOOK_ADDRESS_NAVIGATION_DESTINATION;
+    public static final int CATEGORIE_POPUPS_ADDRESS_BOOK_ADDRESS_POSTAL_ADDRESS;
+    public static final int CATEGORIE_POPUPS_ADDRESS_BOOK_EMAIL_ADDRESS;
+    public static final int CATEGORIE_POPUPS_ADDRESS_BOOK_TELEPHONE_NUMBER;
+}
+
