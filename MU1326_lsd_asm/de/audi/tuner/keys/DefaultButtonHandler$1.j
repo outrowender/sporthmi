@@ -1,0 +1,75 @@
+.version 50 0 
+.class super [31] 
+.super [33] 
+.implements [35] 
+.field private final synthetic [36] [37] 
+
+.method [39] : [40] 
+    .attribute [38] .code stack 2 locals 0 
+L0:     aload_0 
+L1:     aload_1 
+L2:     putfield [8] 
+L5:     aload_0 
+L6:     invokespecial [6] 
+L9:     return 
+L10:    nop 
+L11:    nop 
+L12:    
+    .end code 
+.end method 
+
+.method public [41] : [42] 
+    .attribute [38] .code stack 3 locals 0 
+L0:     new [9] 
+L3:     dup 
+L4:     ldc [3] 
+L6:     invokespecial [7] 
+L9:     athrow 
+L10:    nop 
+L11:    nop 
+L12:    
+    .end code 
+.end method 
+.const [1] = Int 0 
+.const [2] = Class [10] 
+.const [3] = String [11] 
+.const [4] = Class [12] 
+.const [5] = Class [13] 
+.const [6] = Method [14] [15] 
+.const [7] = Method [16] [17] 
+.const [8] = Field [18] [19] 
+.const [9] = Class [20] 
+.const [10] = Utf8 java/lang/IllegalArgumentException 
+.const [11] = Utf8 'no handler registered' 
+.const [12] = Utf8 de/audi/tuner/keys/DefaultButtonHandler$1 
+.const [13] = Utf8 java/lang/Object 
+.const [14] = Class [21] 
+.const [15] = NameAndType [22] [23] 
+.const [16] = Class [24] 
+.const [17] = NameAndType [25] [26] 
+.const [18] = Class [27] 
+.const [19] = NameAndType [28] [29] 
+.const [20] = Utf8 java/lang/IllegalArgumentException 
+.const [21] = Utf8 java/lang/Object 
+.const [22] = Utf8 <init> 
+.const [23] = Utf8 ()V 
+.const [24] = Utf8 java/lang/IllegalArgumentException 
+.const [25] = Utf8 <init> 
+.const [26] = Utf8 (Ljava/lang/String;)V 
+.const [27] = Utf8 de/audi/tuner/keys/DefaultButtonHandler$1 
+.const [28] = Utf8 this$0 
+.const [29] = Utf8 Lde/audi/tuner/keys/DefaultButtonHandler; 
+.const [30] = Utf8 de/audi/tuner/keys/DefaultButtonHandler$1 
+.const [31] = Class [30] 
+.const [32] = Utf8 java/lang/Object 
+.const [33] = Class [32] 
+.const [34] = Utf8 de/audi/tuner/ifc/IPrevNext 
+.const [35] = Class [34] 
+.const [36] = Utf8 this$0 
+.const [37] = Utf8 Lde/audi/tuner/keys/DefaultButtonHandler; 
+.const [38] = Utf8 Code 
+.const [39] = Utf8 <init> 
+.const [40] = Utf8 (Lde/audi/tuner/keys/DefaultButtonHandler;)V 
+.const [41] = Utf8 handlePrevNext 
+.const [42] = Utf8 (Z)V 
+.end class 
