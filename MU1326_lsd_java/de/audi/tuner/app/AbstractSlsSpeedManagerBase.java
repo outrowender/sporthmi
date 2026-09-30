@@ -62,16 +62,14 @@ implements SpeedThresholdListener {
         return this.lowerDuration;
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
-        this.lc.log(-2137614336, "DABSlideShowHandler#exceedsUpperThreshold");
+        this.lc.log(10000000, "DABSlideShowHandler#exceedsUpperThreshold");
         this.speedOverLimit = true;
         this.speedChanged();
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
-        this.lc.log(-2137614336, "DABSlideShowHandler#belowLowerThreshold");
+        this.lc.log(10000000, "DABSlideShowHandler#belowLowerThreshold");
         this.speedOverLimit = false;
         this.speedChanged();
     }
@@ -91,7 +89,6 @@ implements SpeedThresholdListener {
         }
     }
 
-    protected abstract void update() {
-    }
+    protected abstract void update();
 }
 

@@ -22,11 +22,11 @@ import org.dsi.ifc.swdlselection.LameClient;
 public class SwdlDSIHandlerSelection
 extends AbstractSwdlDSIHandler
 implements DSISwdlSelectionListener {
-    private static final String CLASSNAME;
-    private static final int[] META_RESULT_ARGS;
-    private static final int[] RELEASE_RESULT_ARGS;
-    private static final int RELEASE_NOT_INITIALIZED;
-    private static final byte NO_MEDIA_AVAILABLE;
+    private static final String CLASSNAME = "[SwdlDSIHandlerSelection]";
+    private static final int[] META_RESULT_ARGS = new int[]{0, 0, 1, 1, 2, 1, 1, 2, 1, 2, 2};
+    private static final int[] RELEASE_RESULT_ARGS = new int[]{0, 0, 1, 1, 2, 1, 1, 1, 1, 2, 2, 1};
+    private static final int RELEASE_NOT_INITIALIZED = -1;
+    private static final byte NO_MEDIA_AVAILABLE = 0;
     protected ISelectionManager selectionManager = null;
     private volatile int requestedMedium = 0;
     private volatile int pendingDelayedMedium = 0;
@@ -40,7 +40,7 @@ implements DSISwdlSelectionListener {
     private byte availableMedia = 0;
     private final SwdlLameClientState swdlLameClientState;
     private final SwdlDSIHandlerProgress progressDSIHandler;
-    private static final boolean skipAbortBeforeSetMediumAndRelease;
+    private static final boolean skipAbortBeforeSetMediumAndRelease = Boolean.getBoolean(System.getProperty("SWDL_SKIP_ABORT_BEFORE_SET", "false"));
 
     SwdlDSIHandlerSelection(SwdlEnv swdlEnv, SwdlDSIHandlerProgress swdlDSIHandlerProgress) {
         super("SwdlDSIHandlerSelection", swdlEnv);
@@ -78,13 +78,12 @@ implements DSISwdlSelectionListener {
     }
 
     public void setAvailableMedia() {
-        this.getLogDSI().log(-2137614336, "%1 -> setAvailableMedia(%2)", (Object)"[SwdlDSIHandlerSelection]", (long)this.availableMedia);
+        this.getLogDSI().log(10000000, "%1 -> setAvailableMedia(%2)", (Object)CLASSNAME, (long)this.availableMedia);
         if (null != this.selectionManager) {
             this.selectionManager.updateAvailableMedia(this.availableMedia);
         }
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         super.setDSI(dSIBase);
         this.reinit();
@@ -143,11 +142,9 @@ implements DSISwdlSelectionListener {
         this.getSwdlLameClientState().setLameClientNotification(false);
     }
 
-    @Override
     public void updateUnitType(int n, int n2) {
     }
 
-    @Override
     public void updateLameClients(LameClient[] lameClientArray, int n) {
         if (n == 1) {
             try {
@@ -160,7 +157,7 @@ implements DSISwdlSelectionListener {
     }
 
     public void requestFocus() {
-        this.getLogDSI().log(1078071040, "%1 -> setGotFocus(true)", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> setGotFocus(true)", (Object)CLASSNAME);
         this.getDSISwdlSelection().setGotFocus(true);
         this.logStartupEvent("Swdl Request Focus");
         this.resetDownloadIsStartedFlag();
@@ -168,14 +165,14 @@ implements DSISwdlSelectionListener {
     }
 
     public void releaseFocus() {
-        this.getLogDSI().log(1078071040, "%1 releaseFocus()", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 releaseFocus()", (Object)CLASSNAME);
         if (this.getDSISwdlSelection() != null) {
-            this.getLogDSI().log(1078071040, "%1 -> setGotFocus(false)", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 -> setGotFocus(false)", (Object)CLASSNAME);
             this.getDSISwdlSelection().setGotFocus(false);
             this.logStartupEvent("Swdl Release Focus");
             this.resetDownloadIsStartedFlag();
         } else {
-            this.getLogDSI().log(10000, "%1 -> setGotFocus(false): DSISwdlSelection is not available", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(10000, "%1 -> setGotFocus(false): DSISwdlSelection is not available", (Object)CLASSNAME);
         }
     }
 
@@ -188,7 +185,7 @@ implements DSISwdlSelectionListener {
     }
 
     private void setRequestedMedium(int n) {
-        this.getLogDSI().log(-2137614336, "%1 setRequestedMedium( %2 )", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+        this.getLogDSI().log(10000000, "%1 setRequestedMedium( %2 )", (Object)CLASSNAME, (long)n);
         this.requestedMedium = n;
         this.setAsyncExOcurred(false);
     }
@@ -198,25 +195,24 @@ implements DSISwdlSelectionListener {
     }
 
     private void setPendingDelayedMedium(int n) {
-        this.getLogDSI().log(-2137614336, "%1 setPendingDelayedMedium( %2 )", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+        this.getLogDSI().log(10000000, "%1 setPendingDelayedMedium( %2 )", (Object)CLASSNAME, (long)n);
         this.pendingDelayedMedium = n;
     }
 
     private void clearMediumPendingFlag() {
-        this.getLogDSI().log(-2137614336, "%1 clearMediumPendingFlag() ", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(10000000, "%1 clearMediumPendingFlag() ", (Object)CLASSNAME);
         this.setRequestedMedium(0);
         this.setPendingDelayedMedium(0);
     }
 
     public void doGetMedia() {
-        this.getLogDSI().log(1078071040, "%1 -> getMedia() ", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> getMedia() ", (Object)CLASSNAME);
         this.getDSISwdlSelection().getMedia();
     }
 
-    @Override
     public void getMedia(int[] nArray) {
         try {
-            this.getLogDSI().log(1078071040, "%1 <- SwdlSelection.getMedia( %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)nArray);
+            this.getLogDSI().log(1000000, "%1 <- SwdlSelection.getMedia( %2 ) ", (Object)CLASSNAME, (Object)nArray);
             if (nArray == null) {
                 nArray = EMPTY_INT_ARRAY;
             }
@@ -231,16 +227,16 @@ implements DSISwdlSelectionListener {
         if (skipAbortBeforeSetMediumAndRelease) {
             if (this.getRequestedMedium() == 0 && this.getRequestedReleaseIndex() == -1) {
                 this.setRequestedMedium(n);
-                this.getLogDSI().log(1078071040, "%1 -> doSetMedium( %2 )", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                this.getLogDSI().log(1000000, "%1 -> doSetMedium( %2 )", (Object)CLASSNAME, (long)n);
                 this.getDSISwdlSelection().setMedium(n);
             } else {
-                this.getLogDSI().log(-1601830656, "%1 doSetMedium( %2 ): waiting for abortSetMedium/abortSetRelease -> do not initiate a new DSI call!", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                this.getLogDSI().log(100000, "%1 doSetMedium( %2 ): waiting for abortSetMedium/abortSetRelease -> do not initiate a new DSI call!", (Object)CLASSNAME, (long)n);
                 this.setPendingDelayedMedium(n);
             }
         } else if (this.getRequestedMedium() != 0) {
-            this.getLogDSI().log(-1601830656, "%1 doSetMedium( %2 ): waiting for abortSetMedium -> ignore doSetMedium", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+            this.getLogDSI().log(100000, "%1 doSetMedium( %2 ): waiting for abortSetMedium -> ignore doSetMedium", (Object)CLASSNAME, (long)n);
         } else {
-            this.getLogDSI().log(-1601830656, "%1 doSetMedium( %2 ): waiting for abortSetMedium to initiate the setMedium DSI call!", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+            this.getLogDSI().log(100000, "%1 doSetMedium( %2 ): waiting for abortSetMedium to initiate the setMedium DSI call!", (Object)CLASSNAME, (long)n);
             this.setPendingDelayedMedium(n);
             this.setRequestedMedium(n);
             this.doAbortSetMedium();
@@ -261,17 +257,16 @@ implements DSISwdlSelectionListener {
         return this.getTextFactory().getConsistencyMessage(n, string, n2);
     }
 
-    @Override
     public void setMedium(int n, String string, String[] stringArray) {
         try {
-            this.getLogDSI().log(1078071040, "%1 <- setMedium( result: %3, resultInfo: %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)string, (long)n);
+            this.getLogDSI().log(1000000, "%1 <- setMedium( result: %3, resultInfo: %2 ) ", (Object)CLASSNAME, (Object)string, (long)n);
             if (!skipAbortBeforeSetMediumAndRelease) {
                 this.setRequestedMedium(0);
                 if (stringArray == null) {
                     stringArray = EMPTY_STRING_ARRAY;
                 }
                 if (this.isAsyncExOcurred()) {
-                    this.getLogDSI().log(1078071040, "%1 <- setMedium(): AsyncException encountered! Ignore this response and retry setMedium! ", (Object)"[SwdlDSIHandlerSelection]");
+                    this.getLogDSI().log(1000000, "%1 <- setMedium(): AsyncException encountered! Ignore this response and retry setMedium! ", (Object)CLASSNAME);
                     this.doSetMedium(this.getPendingDelayedMedium());
                     return;
                 }
@@ -280,7 +275,7 @@ implements DSISwdlSelectionListener {
                     stringArray = EMPTY_STRING_ARRAY;
                 }
                 if (this.isAsyncExOcurred()) {
-                    this.getLogDSI().log(1078071040, "%1 <- setMedium(): AsyncException encountered! Ignore this response and retry setMedium! ", (Object)"[SwdlDSIHandlerSelection]");
+                    this.getLogDSI().log(1000000, "%1 <- setMedium(): AsyncException encountered! Ignore this response and retry setMedium! ", (Object)CLASSNAME);
                     this.doSetMedium(this.getRequestedMedium());
                     return;
                 }
@@ -288,7 +283,7 @@ implements DSISwdlSelectionListener {
             }
             if (1 == n) {
                 for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                    this.getLogDSI().log(-2137614336, "%1 Release: %2 ", (Object)"[SwdlDSIHandlerSelection]", (Object)stringArray[i2]);
+                    this.getLogDSI().log(10000000, "%1 Release: %2 ", (Object)CLASSNAME, (Object)stringArray[i2]);
                 }
                 this.selectionManager.updateReleaseList(stringArray, null, n);
             } else {
@@ -302,7 +297,7 @@ implements DSISwdlSelectionListener {
 
     public void doAbortSetMedium() {
         if (this.getRequestedMedium() != 0) {
-            this.getLogDSI().log(1078071040, "%1 -> doAbortSetMedium()", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 -> doAbortSetMedium()", (Object)CLASSNAME);
             this.getDSISwdlSelection().abortSetMedium();
             this.setRequestedReleaseIndex(-1);
         }
@@ -312,11 +307,10 @@ implements DSISwdlSelectionListener {
         return this.getSwdlEnv().getCustomerDLState();
     }
 
-    @Override
     public void abortSetMedium() {
         try {
             CustomerDLState customerDLState;
-            this.getLogDSI().log(1078071040, "%1 <- abortSetMedium() ", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 <- abortSetMedium() ", (Object)CLASSNAME);
             if (skipAbortBeforeSetMediumAndRelease) {
                 this.setRequestedMedium(0);
             }
@@ -326,14 +320,14 @@ implements DSISwdlSelectionListener {
             int n = this.getPendingDelayedMedium();
             if (skipAbortBeforeSetMediumAndRelease) {
                 if (n != 0) {
-                    this.getLogDSI().log(-1601830656, "%1 abortSetMedium(): delayed set medium request found -> call doSetMedium(%2) now", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                    this.getLogDSI().log(100000, "%1 abortSetMedium(): delayed set medium request found -> call doSetMedium(%2) now", (Object)CLASSNAME, (long)n);
                     this.setPendingDelayedMedium(0);
                     this.setPendingDelayedReleaseIndex(-1);
                     this.doSetMedium(n);
                 }
             } else {
-                this.getLogDSI().log(-1601830656, "%1 abortSetMedium(): delayed set medium request found", (Object)"[SwdlDSIHandlerSelection]");
-                this.getLogDSI().log(-1601830656, "%1 -> doSetMedium(%2)", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                this.getLogDSI().log(100000, "%1 abortSetMedium(): delayed set medium request found", (Object)CLASSNAME);
+                this.getLogDSI().log(100000, "%1 -> doSetMedium(%2)", (Object)CLASSNAME, (long)n);
                 this.getDSISwdlSelection().setMedium(n);
             }
         }
@@ -356,32 +350,32 @@ implements DSISwdlSelectionListener {
     }
 
     private void setPendingDelayedReleaseIndex(int n) {
-        this.getLogDSI().log(-2137614336, "%1 setPendingDelayedReleaseIndex( %2 )", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+        this.getLogDSI().log(10000000, "%1 setPendingDelayedReleaseIndex( %2 )", (Object)CLASSNAME, (long)n);
         this.pendingDelayedRelease = n;
     }
 
     public void doSetRelease(int n) {
-        this.getLogDSI().log(1078071040, "%1 doSetRelease( %2 )", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+        this.getLogDSI().log(1000000, "%1 doSetRelease( %2 )", (Object)CLASSNAME, (long)n);
         if (n < 0) {
-            this.getLogDSI().log(10000, "%1 index < 0, ignoring request!", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(10000, "%1 index < 0, ignoring request!", (Object)CLASSNAME);
             return;
         }
         if (skipAbortBeforeSetMediumAndRelease) {
             if (this.getRequestedReleaseIndex() == -1) {
                 this.setRequestedReleaseIndex(n);
-                this.getLogDSI().log(1078071040, "%1 -> doSetRelease( %2 )", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                this.getLogDSI().log(1000000, "%1 -> doSetRelease( %2 )", (Object)CLASSNAME, (long)n);
                 this.getDSISwdlSelection().setRelease(n);
             } else {
-                this.getLogDSI().log(-1601830656, "%1 doSetRelease( %2 ): waiting for abortSetRelease -> do _not_ initiate a new DSI call!", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                this.getLogDSI().log(100000, "%1 doSetRelease( %2 ): waiting for abortSetRelease -> do _not_ initiate a new DSI call!", (Object)CLASSNAME, (long)n);
                 this.setPendingDelayedReleaseIndex(n);
             }
         } else if (this.getRequestedReleaseIndex() == -1) {
-            this.getLogDSI().log(-1601830656, "%1 doSetRelease( %2 ): waiting for abortSetRelease to initiate setRelease DSI call!", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+            this.getLogDSI().log(100000, "%1 doSetRelease( %2 ): waiting for abortSetRelease to initiate setRelease DSI call!", (Object)CLASSNAME, (long)n);
             this.setPendingDelayedReleaseIndex(n);
             this.setRequestedReleaseIndex(n);
             this.doAbortSetRelease();
         } else {
-            this.getLogDSI().log(-1601830656, "%1 doSetRelease( %2 ): waiting for abortSetRelease -> skip to set release!", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+            this.getLogDSI().log(100000, "%1 doSetRelease( %2 ): waiting for abortSetRelease -> skip to set release!", (Object)CLASSNAME, (long)n);
         }
     }
 
@@ -395,13 +389,12 @@ implements DSISwdlSelectionListener {
         return string3;
     }
 
-    @Override
     public void setRelease(int n, String string) {
         try {
             if (skipAbortBeforeSetMediumAndRelease) {
-                this.getLogDSI().log(1078071040, "%1 <- setRelease( result: %3, resultInfo: %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)string, (long)n);
+                this.getLogDSI().log(1000000, "%1 <- setRelease( result: %3, resultInfo: %2 ) ", (Object)CLASSNAME, (Object)string, (long)n);
                 if (this.isAsyncExOcurred()) {
-                    this.getLogDSI().log(1078071040, "%1 setRelease(): AsyncException encountered! Ignore this response and retry setRelease! ", (Object)"[SwdlDSIHandlerSelection]");
+                    this.getLogDSI().log(1000000, "%1 setRelease(): AsyncException encountered! Ignore this response and retry setRelease! ", (Object)CLASSNAME);
                     this.setRequestedReleaseIndex(-1);
                     this.doSetRelease(this.getRequestedReleaseIndex());
                     return;
@@ -409,9 +402,9 @@ implements DSISwdlSelectionListener {
                 this.setRequestedReleaseIndex(-1);
             } else {
                 this.setRequestedReleaseIndex(-1);
-                this.getLogDSI().log(1078071040, "%1 <- setRelease( result: %3, resultInfo: %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)string, (long)n);
+                this.getLogDSI().log(1000000, "%1 <- setRelease( result: %3, resultInfo: %2 ) ", (Object)CLASSNAME, (Object)string, (long)n);
                 if (this.isAsyncExOcurred()) {
-                    this.getLogDSI().log(1078071040, "%1 setRelease(): AsyncException encountered! Ignore this response and retry setRelease! ", (Object)"[SwdlDSIHandlerSelection]");
+                    this.getLogDSI().log(1000000, "%1 setRelease(): AsyncException encountered! Ignore this response and retry setRelease! ", (Object)CLASSNAME);
                     this.doSetRelease(this.getRequestedReleaseIndex());
                     return;
                 }
@@ -429,7 +422,7 @@ implements DSISwdlSelectionListener {
 
     public void doAbortSetRelease() {
         if (this.getRequestedReleaseIndex() != -1) {
-            this.getLogDSI().log(1078071040, "%1 -> doAbortSetRelease( )", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 -> doAbortSetRelease( )", (Object)CLASSNAME);
             this.getDSISwdlSelection().abortSetRelease();
             this.setRequestedReleaseIndex(-1);
         }
@@ -438,10 +431,9 @@ implements DSISwdlSelectionListener {
         }
     }
 
-    @Override
     public void abortSetRelease() {
         try {
-            this.getLogDSI().log(1078071040, "%1 <- abortSetRelease() ", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 <- abortSetRelease() ", (Object)CLASSNAME);
             CustomerDLState customerDLState = this.getCustomerDLState();
             if (customerDLState != null) {
                 customerDLState.cancelDone();
@@ -450,18 +442,18 @@ implements DSISwdlSelectionListener {
             if (skipAbortBeforeSetMediumAndRelease) {
                 int n2 = this.getPendingDelayedMedium();
                 if (n2 != 0) {
-                    this.getLogDSI().log(-1601830656, "%1 abortSetRelease(): delayed set medium request found -> call doSetMedium(%2) now", (Object)"[SwdlDSIHandlerSelection]", (long)n2);
+                    this.getLogDSI().log(100000, "%1 abortSetRelease(): delayed set medium request found -> call doSetMedium(%2) now", (Object)CLASSNAME, (long)n2);
                     this.setPendingDelayedMedium(0);
                     this.setPendingDelayedReleaseIndex(-1);
                     this.doSetMedium(n2);
                 } else if (n != -1) {
-                    this.getLogDSI().log(-1601830656, "%1 abortSetRelease(): delayed set release request found -> call doSetRelease(%2) now", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                    this.getLogDSI().log(100000, "%1 abortSetRelease(): delayed set release request found -> call doSetRelease(%2) now", (Object)CLASSNAME, (long)n);
                     this.setPendingDelayedReleaseIndex(-1);
                     this.doSetRelease(n);
                 }
             } else {
-                this.getLogDSI().log(-1601830656, "%1 abortSetRelease(): delayed set release request found", (Object)"[SwdlDSIHandlerSelection]", (long)n);
-                this.getLogDSI().log(1078071040, "%1 -> doSetRelease(%2) ", (Object)"[SwdlDSIHandlerSelection]", (long)n);
+                this.getLogDSI().log(100000, "%1 abortSetRelease(): delayed set release request found", (Object)CLASSNAME, (long)n);
+                this.getLogDSI().log(1000000, "%1 -> doSetRelease(%2) ", (Object)CLASSNAME, (long)n);
                 this.getDSISwdlSelection().setRelease(n);
             }
         }
@@ -471,14 +463,13 @@ implements DSISwdlSelectionListener {
     }
 
     public void doGetUserDefindeAllowed() {
-        this.getLogDSI().log(1078071040, "%1 -> doGetUserDefinedAllowed()", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> doGetUserDefinedAllowed()", (Object)CLASSNAME);
         this.getDSISwdlSelection().getUserDefinedAllowed();
     }
 
-    @Override
     public void getUserDefinedAllowed(boolean bl) {
         try {
-            this.getLogDSI().log(-2137614336, "%1 <- updateUserDefinedAllowed( %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)(bl ? "true" : "false"));
+            this.getLogDSI().log(10000000, "%1 <- updateUserDefinedAllowed( %2 ) ", (Object)CLASSNAME, (Object)(bl ? "true" : "false"));
             this.selectionManager.updateUserDefinedAllowed(bl);
         }
         catch (Exception exception) {
@@ -488,7 +479,7 @@ implements DSISwdlSelectionListener {
 
     public void doSetInstallationType(boolean bl) {
         this.userDefinedMode = !bl;
-        this.getLogDSI().log(1078071040, "%1 -> setInstallationType( %2 )", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+        this.getLogDSI().log(1000000, "%1 -> setInstallationType( %2 )", (Object)CLASSNAME, (Object)bl);
         this.getDSISwdlSelection().setInstallationType(bl);
     }
 
@@ -497,11 +488,10 @@ implements DSISwdlSelectionListener {
     }
 
     public void doGetIncompatibleDevices() {
-        this.getLogDSI().log(1078071040, "%1 -> doGetIncompatibleDevices()", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> doGetIncompatibleDevices()", (Object)CLASSNAME);
         this.getDSISwdlSelection().getIncompatibleDevices();
     }
 
-    @Override
     public void getIncompatibleDevices(String[] stringArray, String[] stringArray2) {
         try {
             if (stringArray == null) {
@@ -510,9 +500,9 @@ implements DSISwdlSelectionListener {
             if (stringArray2 == null) {
                 stringArray2 = EMPTY_STRING_ARRAY;
             }
-            this.getLogDSI().log(-2137614336, "%1 <- getIncompatibleDevices() ", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(10000000, "%1 <- getIncompatibleDevices() ", (Object)CLASSNAME);
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                this.getLogDSI().log(-2137614336, "%1 Device %2 needs %3 ", (Object)"[SwdlDSIHandlerSelection]", (Object)stringArray[i2], (Object)stringArray2[i2]);
+                this.getLogDSI().log(10000000, "%1 Device %2 needs %3 ", (Object)CLASSNAME, (Object)stringArray[i2], (Object)stringArray2[i2]);
             }
             this.selectionManager.updateIncompatibleDevices(stringArray, stringArray2);
         }
@@ -522,14 +512,13 @@ implements DSISwdlSelectionListener {
     }
 
     public void doCheckConsistency() {
-        this.getLogDSI().log(1078071040, "%1 -> checkConsistency()", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> checkConsistency()", (Object)CLASSNAME);
         this.getDSISwdlSelection().checkConsistency();
     }
 
-    @Override
     public void checkConsistency(int n, boolean bl, String string, int n2) {
         try {
-            this.getLogDSI().log(-2137614336, "%1 <- checkConsistencyEx( %2, %3, %4 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)new Integer(n), (Object)bl, (Object)string);
+            this.getLogDSI().log(10000000, "%1 <- checkConsistencyEx( %2, %3, %4 ) ", (Object)CLASSNAME, (Object)new Integer(n), (Object)bl, (Object)string);
             this.selectionManager.updateConsistency(n, bl, string, n2);
         }
         catch (Exception exception) {
@@ -537,10 +526,9 @@ implements DSISwdlSelectionListener {
         }
     }
 
-    @Override
     public void startVersionUpload(boolean bl) {
         try {
-            this.getLogDSI().log(-2137614336, "%1 <- startVersionUpload( %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+            this.getLogDSI().log(10000000, "%1 <- startVersionUpload( %2 ) ", (Object)CLASSNAME, (Object)bl);
             this.getSwdlEnv().getHMISwitcher().getProgressManager().versionUploadDone(true);
             this.selectionManager.versionUploadDone(bl);
         }
@@ -551,34 +539,34 @@ implements DSISwdlSelectionListener {
 
     public void doStartVersionUpload() {
         try {
-            this.getLogDSI().log(1078071040, "%1 -> doStartVersionUpload()", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 -> doStartVersionUpload()", (Object)CLASSNAME);
             this.getSwdlEnv().getHMISwitcher().getProgressManager().versionUploadDone(false);
             this.getDSISwdlSelection().startVersionUpload();
         }
         catch (Exception exception) {
-            this.getLogDSI().log(10000, "%1 calling startVersionUpload failed!", (Object)"[SwdlDSIHandlerSelection]", (Throwable)exception);
+            this.getLogDSI().log(10000, "%1 calling startVersionUpload failed!", (Object)CLASSNAME, (Throwable)exception);
         }
         this.logStartupEvent("Swdl start Version upload");
     }
 
     public void abortVersionUpload() {
-        this.getLogDSI().log(1078071040, "%1 -> abortVersionUpload()", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> abortVersionUpload()", (Object)CLASSNAME);
         this.getDSISwdlSelection().abortVersionUpload();
         this.logStartupEvent("Swdl abort Version upload");
     }
 
     public void endVersionUpload() {
-        this.getLogDSI().log(1078071040, "%1 -> endVersionUpload()", (Object)"[SwdlDSIHandlerSelection]");
+        this.getLogDSI().log(1000000, "%1 -> endVersionUpload()", (Object)CLASSNAME);
         this.getDSISwdlSelection().endVersionUpload();
         this.logStartupEvent("Swdl end Version upload");
     }
 
     public void startDownload() {
         if (this.downloadIsStarted) {
-            this.getLogDSI().log(-1601830656, "%1 Download is already started! Do not call startDownload again before requestFocus is called again!", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(100000, "%1 Download is already started! Do not call startDownload again before requestFocus is called again!", (Object)CLASSNAME);
         } else {
             this.getProgressDSIHandler().resetAutoRetryCounter();
-            this.getLogDSI().log(1078071040, "%1 -> startDownload()", (Object)"[SwdlDSIHandlerSelection]");
+            this.getLogDSI().log(1000000, "%1 -> startDownload()", (Object)CLASSNAME);
             this.getDSISwdlSelection().startDownload();
             this.logStartupEvent("Swdl start download!");
             this.downloadIsStarted = true;
@@ -586,24 +574,23 @@ implements DSISwdlSelectionListener {
     }
 
     public void doStoreNfsIpAddress(String string) {
-        this.getLogDSI().log(1078071040, "%1 -> doStoreNfsIpAddress( %2 )", (Object)"[SwdlDSIHandlerSelection]", (Object)string);
+        this.getLogDSI().log(1000000, "%1 -> doStoreNfsIpAddress( %2 )", (Object)CLASSNAME, (Object)string);
         this.getDSISwdlSelection().storeNfsIpAddress(string);
     }
 
     public void doStoreNfsPath(String string) {
-        this.getLogDSI().log(1078071040, "%1 -> doStoreNfsPath( %2 )", (Object)"[SwdlDSIHandlerSelection]", (Object)string);
+        this.getLogDSI().log(1000000, "%1 -> doStoreNfsPath( %2 )", (Object)CLASSNAME, (Object)string);
         this.getDSISwdlSelection().storeNfsPath(string);
     }
 
     public void doStoreFsPath(String string) {
-        this.getLogDSI().log(1078071040, "%1 -> doStoreFsPath( %2 )", (Object)"[SwdlDSIHandlerSelection]", (Object)string);
+        this.getLogDSI().log(1000000, "%1 -> doStoreFsPath( %2 )", (Object)CLASSNAME, (Object)string);
         this.getDSISwdlSelection().storeFsPath(string);
     }
 
-    @Override
     public void storeNfsIpAddress(String string) {
         try {
-            this.getLogDSI().log(-2137614336, "%1 <- storeNfsIpAddress( %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)string);
+            this.getLogDSI().log(10000000, "%1 <- storeNfsIpAddress( %2 ) ", (Object)CLASSNAME, (Object)string);
             this.selectionManager.updateNfsIpAddress(string);
         }
         catch (Exception exception) {
@@ -611,10 +598,9 @@ implements DSISwdlSelectionListener {
         }
     }
 
-    @Override
     public void storeNfsPath(String string) {
         try {
-            this.getLogDSI().log(-2137614336, "%1 <- storeNfsPath( %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)string);
+            this.getLogDSI().log(10000000, "%1 <- storeNfsPath( %2 ) ", (Object)CLASSNAME, (Object)string);
             this.selectionManager.updateNfsPath(string);
         }
         catch (Exception exception) {
@@ -622,10 +608,9 @@ implements DSISwdlSelectionListener {
         }
     }
 
-    @Override
     public void storeFsPath(String string) {
         try {
-            this.getLogDSI().log(-2137614336, "%1 <- storeFsPath( %2 ) ", (Object)"[SwdlDSIHandlerSelection]", (Object)string);
+            this.getLogDSI().log(10000000, "%1 <- storeFsPath( %2 ) ", (Object)CLASSNAME, (Object)string);
             this.selectionManager.updateFsPath(string);
         }
         catch (Exception exception) {
@@ -641,21 +626,20 @@ implements DSISwdlSelectionListener {
         return this.asyncExOcurred;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         boolean bl = false;
         switch (n2) {
             case 1005: {
                 if (this.getRequestedMedium() == 0) break;
                 this.setAsyncExOcurred(true);
-                this.getLogDSI().log(-1601830656, "%1 AsyncException( errorCode: %3, errorMsg: %2, requestType: %4 ) ocurred! Retry setMedium!  ", (Object)"[SwdlDSIHandlerSelection]", (Object)string, (Object)new Integer(n), (long)n2);
+                this.getLogDSI().log(100000, "%1 AsyncException( errorCode: %3, errorMsg: %2, requestType: %4 ) ocurred! Retry setMedium!  ", (Object)CLASSNAME, (Object)string, (Object)new Integer(n), (long)n2);
                 bl = true;
                 break;
             }
             case 1006: {
                 if (this.getRequestedReleaseIndex() == -1) break;
                 this.setAsyncExOcurred(true);
-                this.getLogDSI().log(-1601830656, "%1 AsyncException( errorCode: %3, errorMsg: %2, requestType: %4 ) ocurred! Retry setRelease!  ", (Object)"[SwdlDSIHandlerSelection]", (Object)string, (Object)new Integer(n), (long)n2);
+                this.getLogDSI().log(100000, "%1 AsyncException( errorCode: %3, errorMsg: %2, requestType: %4 ) ocurred! Retry setRelease!  ", (Object)CLASSNAME, (Object)string, (Object)new Integer(n), (long)n2);
                 bl = true;
                 break;
             }
@@ -666,13 +650,12 @@ implements DSISwdlSelectionListener {
     }
 
     public void doSetUserSwdl(boolean bl) {
-        this.getLogDSI().log(1078071040, "%1 -> doSetUserSwdl( %2 )", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+        this.getLogDSI().log(1000000, "%1 -> doSetUserSwdl( %2 )", (Object)CLASSNAME, (Object)bl);
         this.getDSISwdlSelection().setUserSwdl(bl);
     }
 
-    @Override
     public void updateUserSwdl(boolean bl, int n) {
-        this.getLogDSI().log(1078071040, "%1 <- updateUserSwdl(userSwdl=%2, validFlag=%3) ", (Object)"[SwdlDSIHandlerSelection]", (Object)bl, (long)n);
+        this.getLogDSI().log(1000000, "%1 <- updateUserSwdl(userSwdl=%2, validFlag=%3) ", (Object)CLASSNAME, (Object)bl, (long)n);
         if (n == 1) {
             this.userDownloadInterrupted = bl;
             ChoiceModelApp choiceModelApp = this.getSwdlModels().getSwdlInProgressChoice();
@@ -683,7 +666,7 @@ implements DSISwdlSelectionListener {
             this.clearNotification(new int[]{3});
             this.setUserSwdlAttribute = false;
         } else {
-            this.getLogDSI().log(1078071040, "%1 Invalid updateUserSwdl: %2 ", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+            this.getLogDSI().log(1000000, "%1 Invalid updateUserSwdl: %2 ", (Object)CLASSNAME, (Object)bl);
         }
     }
 
@@ -691,11 +674,10 @@ implements DSISwdlSelectionListener {
         return this.userDownloadInterrupted;
     }
 
-    @Override
     public void updateRingNotOK(boolean bl, int n) {
         if (n == 1) {
             try {
-                this.getLogDSI().log(1078071040, "%1 <- updateRingNotOK: %2 ", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+                this.getLogDSI().log(1000000, "%1 <- updateRingNotOK: %2 ", (Object)CLASSNAME, (Object)bl);
                 if (bl) {
                     this.selectionManager.updateRingNotOk(bl);
                 }
@@ -704,23 +686,20 @@ implements DSISwdlSelectionListener {
                 this.dsiCallbackError("updateRingNotOK", exception);
             }
         } else {
-            this.getLogDSI().log(1078071040, "%1 Invalid updateRingNotOK: %2 ", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+            this.getLogDSI().log(1000000, "%1 Invalid updateRingNotOK: %2 ", (Object)CLASSNAME, (Object)bl);
         }
     }
 
-    @Override
     public void getFinalizeTargets(int[] nArray) {
     }
 
-    @Override
     public void setFinalizeTarget(int n, long l, long l2, long l3) {
     }
 
-    @Override
     public void updateAvailableMedia(byte by, int n) {
         if (n == 1) {
             try {
-                this.getLogDSI().log(1078071040, "%1 <- updateAvailableMedia: %2", (Object)"[SwdlDSIHandlerSelection]", (long)by);
+                this.getLogDSI().log(1000000, "%1 <- updateAvailableMedia: %2", (Object)CLASSNAME, (long)by);
                 this.availableMedia = by;
                 if (this.selectionManager != null) {
                     this.selectionManager.updateAvailableMedia(by);
@@ -730,38 +709,28 @@ implements DSISwdlSelectionListener {
                 this.dsiCallbackError("updateAvailableMedia", exception);
             }
         } else {
-            this.getLogDSI().log(1078071040, "%1 Invalid updateAvailableMedia: %2 ", (Object)"[SwdlDSIHandlerSelection]", (long)by);
+            this.getLogDSI().log(1000000, "%1 Invalid updateAvailableMedia: %2 ", (Object)CLASSNAME, (long)by);
         }
     }
 
-    @Override
     public void updateEndDownload(boolean bl, int n) {
     }
 
-    @Override
     public void updateEngineering(boolean bl, int n) {
     }
 
     public void enterComponentUpdateConfirmation(boolean bl) {
-        this.getLogDSI().log(1078071040, "%1 -> enterComponentUpdateConfirmation(%2)", (Object)"[SwdlDSIHandlerSelection]", (Object)bl);
+        this.getLogDSI().log(1000000, "%1 -> enterComponentUpdateConfirmation(%2)", (Object)CLASSNAME, (Object)bl);
         this.getDSISwdlSelection().enterComponentUpdateConfirmation(bl);
     }
 
-    @Override
     public void enterComponentUpdateConfirmation() {
         if (this.selectionManager != null) {
             this.selectionManager.enterComponentUpdateConfirmation();
         }
     }
 
-    @Override
     public void setTargetLanguage(short s) {
-    }
-
-    static {
-        META_RESULT_ARGS = new int[]{0, 0, 1, 1, 2, 1, 1, 2, 1, 2, 2};
-        RELEASE_RESULT_ARGS = new int[]{0, 0, 1, 1, 2, 1, 1, 1, 1, 2, 2, 1};
-        skipAbortBeforeSetMediumAndRelease = Boolean.getBoolean(System.getProperty("SWDL_SKIP_ABORT_BEFORE_SET", "false"));
     }
 }
 

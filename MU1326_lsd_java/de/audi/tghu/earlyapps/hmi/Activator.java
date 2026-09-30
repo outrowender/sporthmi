@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(21, "EarlyApps", System.getProperty("variant.skin", "EvoHighScale"), new EarlyAppsModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new EarlyAppsScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new EarlyAppsConditionBank((EarlyAppsScreenFactory)this.getScreenFactory());

@@ -15,12 +15,10 @@ extends SortAlgoDabStationName {
         super(languageManager);
     }
 
-    @Override
     protected String getStringUsedForIndexing(DabStation dabStation) {
         return null;
     }
 
-    @Override
     protected int compare(DabStation dabStation, DabStation dabStation2, Collator collator) {
         int n = Utilities.getDABPty(dabStation.service.ptyCodes);
         int n2 = Utilities.getDABPty(dabStation2.service.ptyCodes);

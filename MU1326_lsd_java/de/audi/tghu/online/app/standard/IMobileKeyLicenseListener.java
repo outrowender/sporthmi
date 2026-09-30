@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.standard;
 
 public interface IMobileKeyLicenseListener {
-    default public void updateMobileKeyLicense(boolean bl) {
-    }
+    public void updateMobileKeyLicense(boolean var1);
 }
 

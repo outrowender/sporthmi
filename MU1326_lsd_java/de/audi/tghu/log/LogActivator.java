@@ -18,7 +18,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public final class LogActivator
 extends AbstractFrameworkActivator
 implements ServiceTrackerCustomizer {
-    private static final boolean STD_CONSOLE_SINK_ACTIVE;
+    private static final boolean STD_CONSOLE_SINK_ACTIVE = true;
     private ServiceTracker tracker;
     private Object service;
     private LogSink stdConsoleSink;
@@ -36,7 +36,6 @@ implements ServiceTrackerCustomizer {
         return (LogServAdmin)this.service;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.service = Boolean.getBoolean("DISABLE_LOGGING") ? NullLogServImpl.getInstance() : new LogServImpl(this.framework);
         this.tracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$log$LogSink == null ? (class$de$audi$atip$log$LogSink = LogActivator.class$("de.audi.atip.log.LogSink")) : class$de$audi$atip$log$LogSink).getName(), (ServiceTrackerCustomizer)this);
@@ -46,7 +45,6 @@ implements ServiceTrackerCustomizer {
         this.stdConsoleSink.setConfiguration(LogServImpl.decodeLogConfig(System.getProperty("LOG")));
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.getLogServAdmin().removeLogSink(this.stdConsoleSink);
         if (this.tracker != null) {
@@ -56,7 +54,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
         if (!(object instanceof LogSink)) {
@@ -66,11 +63,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (!(object instanceof LogSink)) {
             return;

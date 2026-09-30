@@ -14,15 +14,13 @@ extends NavCommand {
         this.navSegmentId = navSegmentID;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "TrDeleteTrace#execute( navSegmentId: %1 )", (Object)this.navSegmentId);
+        this.logger.log(10000000, "TrDeleteTrace#execute( navSegmentId: %1 )", (Object)this.navSegmentId);
         this.getDSINavigation().trDeleteTrace(this.navSegmentId);
     }
 
-    @Override
     public void trDeleteTraceResult(int n, int n2) {
-        this.logger.log(-2137614336, "TrDeleteTrace#trDeleteTraceResult( trDeleteTraceResultCode: %1, errorCode: %2 )", (long)n, (long)n2);
+        this.logger.log(10000000, "TrDeleteTrace#trDeleteTraceResult( trDeleteTraceResultCode: %1, errorCode: %2 )", (long)n, (long)n2);
         if (n != 0) {
             this.getCommandList().commandAborted(n2);
         }

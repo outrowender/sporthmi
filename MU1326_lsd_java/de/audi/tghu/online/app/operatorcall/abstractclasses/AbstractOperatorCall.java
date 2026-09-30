@@ -31,9 +31,9 @@ import org.dsi.ifc.online.OperatorCallData;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public abstract class AbstractOperatorCall {
-    protected static final int ERRCODE_NUMBERDOWNLOAD_FAIL;
-    protected static final int ERRCODE_CONNECTION_LOST;
-    protected static final int ERRCODE_POIDOWNLOAD_FAIL;
+    protected static final int ERRCODE_NUMBERDOWNLOAD_FAIL = 9;
+    protected static final int ERRCODE_CONNECTION_LOST = 10;
+    protected static final int ERRCODE_POIDOWNLOAD_FAIL = 11;
     protected OperatorCallCommandListManager cmdListMngr;
     protected IFrameworkAccess framework;
     protected final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
@@ -57,62 +57,43 @@ public abstract class AbstractOperatorCall {
     protected OnlinePOICall onlineOperatorCallService;
     protected RemoteHMIService remoteHMIService;
 
-    protected abstract AbstractModelHandler createModelHandler() {
-    }
+    protected abstract AbstractModelHandler createModelHandler();
 
-    public abstract int getServiceType() {
-    }
+    public abstract int getServiceType();
 
-    protected abstract boolean isReadyToEnableApplication(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
+    protected abstract boolean isReadyToEnableApplication(boolean var1, boolean var2, boolean var3, boolean var4);
 
-    public abstract String getServiceTypeName() {
-    }
+    public abstract String getServiceTypeName();
 
-    protected abstract OperatorCallData modifyCarData(OperatorCallData operatorCallData) {
-    }
+    protected abstract OperatorCallData modifyCarData(OperatorCallData var1);
 
-    public abstract int getDefaultPermissionToTransmitCcp() {
-    }
+    public abstract int getDefaultPermissionToTransmitCcp();
 
-    public abstract int getCurrentPermissionToTransmitCcp() {
-    }
+    public abstract int getCurrentPermissionToTransmitCcp();
 
-    public abstract void startRouteGuidance() {
-    }
+    public abstract void startRouteGuidance();
 
-    public abstract void routeGuidanceCancelled() {
-    }
+    public abstract void routeGuidanceCancelled();
 
-    public abstract boolean shouldSendBAPSignalAnotherCallActive() {
-    }
+    public abstract boolean shouldSendBAPSignalAnotherCallActive();
 
-    public abstract boolean shouldSendBAPSignalGeneralError() {
-    }
+    public abstract boolean shouldSendBAPSignalGeneralError();
 
-    public abstract boolean shouldSendBAPSignalNoSIM() {
-    }
+    public abstract boolean shouldSendBAPSignalNoSIM();
 
-    public abstract boolean shouldCloseLeftDrawerAfterStartingWithJokerkey() {
-    }
+    public abstract boolean shouldCloseLeftDrawerAfterStartingWithJokerkey();
 
-    public abstract void startOperatorCallByJokerKey() {
-    }
+    public abstract void startOperatorCallByJokerKey();
 
-    protected abstract boolean shouldPersistLists() {
-    }
+    protected abstract boolean shouldPersistLists();
 
-    protected abstract boolean shouldPersistCCP() {
-    }
+    protected abstract boolean shouldPersistCCP();
 
-    protected abstract AbstractOperatorCallDataContainer createNewOperatorCallDataContainer(IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider) {
-    }
+    protected abstract AbstractOperatorCallDataContainer createNewOperatorCallDataContainer(IntelliDestOperatorCallDataProvider var1);
 
-    protected abstract int getMaxNumberOfPoisPerCall() {
-    }
+    protected abstract int getMaxNumberOfPoisPerCall();
 
-    public abstract int getMaxNumberOfCalls() {
-    }
+    public abstract int getMaxNumberOfCalls();
 
     public AbstractOperatorCall(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, OperatorCallModelHandlerCommon operatorCallModelHandlerCommon, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
         this.distributor = abstractOperatorCallMain;
@@ -122,7 +103,7 @@ public abstract class AbstractOperatorCall {
         this.framework = iFrameworkAccess;
         this.operatorCall = operatorCallModelHandlerCommon;
         this.onlineOperatorCallService = onlinePOICall;
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#init: init with remoteHMIService=%1, onlineOperatorCallService=%2.", (Object)remoteHMIService, (Object)onlinePOICall);
+        this.logChannel.log(10000000, "AbstractOperatorCall#init: init with remoteHMIService=%1, onlineOperatorCallService=%2.", (Object)remoteHMIService, (Object)onlinePOICall);
         this.remoteHMIService = remoteHMIService;
         this.init(intelliDestOperatorCallDataProvider);
     }
@@ -166,16 +147,16 @@ public abstract class AbstractOperatorCall {
     }
 
     public final void responseOperatorPhoneNumber(int n, String string, String[] stringArray, int n2, OperatorCallCommandList operatorCallCommandList, boolean bl) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#responseOperatorPhoneNumber: gotResponse!");
+        this.logChannel.log(1000000, "AbstractOperatorCall#responseOperatorPhoneNumber: gotResponse!");
         switch (n) {
             case 1: {
-                this.logChannel.log(1078071040, "AbstractOperatorCall#responseOperatorPhoneNumber: NewSession!");
+                this.logChannel.log(1000000, "AbstractOperatorCall#responseOperatorPhoneNumber: NewSession!");
                 this.data.savePhoneData(string, stringArray, n2);
                 operatorCallCommandList.commandFinished();
                 break;
             }
             case 0: {
-                this.logChannel.log(1078071040, "AbstractOperatorCall#responseOperatorPhoneNumber: OldSession! -> Waiting for user interaction");
+                this.logChannel.log(1000000, "AbstractOperatorCall#responseOperatorPhoneNumber: OldSession! -> Waiting for user interaction");
                 this.setCallStarted(false);
                 if (!bl) {
                     this.modelHandler.setOldSession(true);
@@ -184,7 +165,7 @@ public abstract class AbstractOperatorCall {
                     operatorCallCommandList.commandAborted("AbstractOperatorCall#responseOperatorPhoneNumber: Oldsession", "AbstractOperatorCall#responseOperatorPhoneNumber: Oldsession");
                     break;
                 }
-                this.logChannel.log(-1601830656, "AbstractOperatorCall#responseOperatorPhoneNumber: OldSession! ignoreSession = %1 -> internal error occured", bl);
+                this.logChannel.log(100000, "AbstractOperatorCall#responseOperatorPhoneNumber: OldSession! ignoreSession = %1 -> internal error occured", bl);
                 this.replyToSDS(6);
                 operatorCallCommandList.commandAborted("AbstractOperatorCall#responseOperatorPhoneNumber: oldSession -> internal error occured", "AbstractOperatorCall#responseOperatorPhoneNumber: oldSession -> internal error occured");
                 break;
@@ -222,14 +203,14 @@ public abstract class AbstractOperatorCall {
             case 1: {
                 OperatorCallResult[] operatorCallResultArray2;
                 if (operatorCallResultArray != null) {
-                    this.logChannel.log(1078071040, "AbstractOperatorCall#responseOperatorCallResult: Pois received:");
+                    this.logChannel.log(1000000, "AbstractOperatorCall#responseOperatorCallResult: Pois received:");
                     operatorCallResultArray2 = new Buffer();
                     for (int i2 = 0; i2 < operatorCallResultArray.length; ++i2) {
                         operatorCallResultArray2.append("________________________");
                         operatorCallResultArray2.append(i2 + 1);
                         operatorCallResultArray2.append(". Result:\n");
                         operatorCallResultArray2.append(operatorCallResultArray[i2]);
-                        this.logChannel.log(1078071040, "AbstractOperatorCall#responseOperatorCallResult: original pois from backend: %1", (Object)operatorCallResultArray2.toString());
+                        this.logChannel.log(1000000, "AbstractOperatorCall#responseOperatorCallResult: original pois from backend: %1", (Object)operatorCallResultArray2.toString());
                     }
                 }
                 if (operatorCallResultArray != null && operatorCallResultArray.length > 0) {
@@ -281,7 +262,7 @@ public abstract class AbstractOperatorCall {
 
     public void setTransmissionOfCcp(int n) {
         boolean bl = true;
-        this.logChannel.log(1078071040, "AbstractOperatorCall#setTransmissionOfCcp: transmissionSet = %1, transmissionPermission = %2", bl, (long)n);
+        this.logChannel.log(1000000, "AbstractOperatorCall#setTransmissionOfCcp: transmissionSet = %1, transmissionPermission = %2", bl, (long)n);
         this.modelHandler.setCCPSettings(bl, n);
         if (this.shouldPersistCCP()) {
             this.data.saveCCPInPersistence(n);
@@ -289,13 +270,13 @@ public abstract class AbstractOperatorCall {
     }
 
     public void setCallStarted(boolean bl) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#userStartsCall: %1 -> %2", this.started, bl);
+        this.logChannel.log(1000000, "AbstractOperatorCall#userStartsCall: %1 -> %2", this.started, bl);
         this.started = bl;
         this.setCallRunning(bl);
     }
 
     public void tryToStartCall() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#tryToStartCall");
+        this.logChannel.log(1000000, "AbstractOperatorCall#tryToStartCall");
         if (this.isApplicationEnabled() && this.hasUserStartedCall()) {
             this.telHandler.deleteTelListener();
             if (this.isTransmissionOfCcpSet()) {
@@ -303,14 +284,14 @@ public abstract class AbstractOperatorCall {
                 operatorCallData = this.modifyCarData(operatorCallData);
                 this.cmdListMngr.startFullSequence(operatorCallData, this);
             } else {
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#tryToStartCall: transmission of ccp is not set. User has to set the transmission permission.");
+                this.logChannel.log(10000000, "AbstractOperatorCall#tryToStartCall: transmission of ccp is not set. User has to set the transmission permission.");
             }
         } else {
             if (!this.isApplicationEnabled()) {
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#tryToStartCall: application is not enabled yet!");
+                this.logChannel.log(10000000, "AbstractOperatorCall#tryToStartCall: application is not enabled yet!");
             }
             if (!this.hasUserStartedCall()) {
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#tryToStartCall: user didn't start call yet!");
+                this.logChannel.log(10000000, "AbstractOperatorCall#tryToStartCall: user didn't start call yet!");
             }
         }
     }
@@ -333,7 +314,7 @@ public abstract class AbstractOperatorCall {
 
     public void enable(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         boolean bl5;
-        this.logChannel.log(1078071040, "AbstractOperatorCall#enable: %1 | %2 | %3 (dsi | navi | tel )", bl, bl2, bl3);
+        this.logChannel.log(1000000, "AbstractOperatorCall#enable: %1 | %2 | %3 (dsi | navi | tel )", bl, bl2, bl3);
         this.applicationIsEnabled = bl5 = this.isReadyToEnableApplication(bl, bl2, bl3, bl4);
         this.modelHandler.enableApplication(bl5);
         this.modelHandler.enableFeatures(bl, bl2, bl3, bl4);
@@ -385,9 +366,9 @@ public abstract class AbstractOperatorCall {
             }
             if (abstractCommand != null && "DialNumber".equalsIgnoreCase(abstractCommand.getName())) {
                 this.getCommandList().commandFinished();
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#callConnected: dial command end");
+                this.logChannel.log(10000000, "AbstractOperatorCall#callConnected: dial command end");
             }
-            this.logChannel.log(-2137614336, "AbstractOperatorCall#callConnected: Show screen Connected");
+            this.logChannel.log(10000000, "AbstractOperatorCall#callConnected: Show screen Connected");
         }
     }
 
@@ -396,7 +377,7 @@ public abstract class AbstractOperatorCall {
     }
 
     protected void setAtLeastOnceCallConnected(boolean bl) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#setAtLeastOnceCallConnected: %1 -> %2", this.wasConnectedAtLeastOnce, bl);
+        this.logChannel.log(1000000, "AbstractOperatorCall#setAtLeastOnceCallConnected: %1 -> %2", this.wasConnectedAtLeastOnce, bl);
         this.wasConnectedAtLeastOnce = bl;
     }
 
@@ -406,12 +387,12 @@ public abstract class AbstractOperatorCall {
         } else {
             this.distributor.setDownloadPoisRunning(true);
             this.modelHandler.setDownloadActive(true);
-            this.logChannel.log(-2137614336, "AbstractOperatorCall#callDisconnected: Show screen Fetching Data ...");
+            this.logChannel.log(10000000, "AbstractOperatorCall#callDisconnected: Show screen Fetching Data ...");
             this.getCommandList().commandFinished();
         }
         this.setAtLeastOnceCallConnected(false);
         this.setCallStarted(false);
-        this.logChannel.log(1078071040, "AbstractOperatorCall#callDisconnected setCallStarted called. setCallActive to listener: %1", (Object)this.modelHandler);
+        this.logChannel.log(1000000, "AbstractOperatorCall#callDisconnected setCallStarted called. setCallActive to listener: %1", (Object)this.modelHandler);
         this.modelHandler.setCallActive(false);
         this.setOperatorCallInUse(false);
     }
@@ -425,7 +406,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void abortConnectionBeforeTelConnectionEstablished() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#abortConnectionBeforeTelConnectionEstablished was called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#abortConnectionBeforeTelConnectionEstablished was called");
         OperatorCallCommandList operatorCallCommandList = this.getCommandList();
         AbstractCommand abstractCommand = null;
         if (operatorCallCommandList != null) {
@@ -445,12 +426,12 @@ public abstract class AbstractOperatorCall {
     }
 
     public void abortConnection(OperatorCallCommandList operatorCallCommandList) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#abortConnection: call has been aborted");
+        this.logChannel.log(1000000, "AbstractOperatorCall#abortConnection: call has been aborted");
         if (operatorCallCommandList != null) {
             AbstractCommand abstractCommand = (AbstractCommand)operatorCallCommandList.getActiveCommand();
             if (abstractCommand != null && "Hangup".equalsIgnoreCase(abstractCommand.getName())) {
                 operatorCallCommandList.commandFinished();
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#abortConnection: call has been aborted while command hangup");
+                this.logChannel.log(10000000, "AbstractOperatorCall#abortConnection: call has been aborted while command hangup");
             } else {
                 operatorCallCommandList.setErrorCommand(new AbortionErrorCommand());
                 operatorCallCommandList.commandAborted("AbstractOperatorCall#abortConnection: Connection aborted by user", "AbstractOperatorCall#abortConnection: Connection aborted by user");
@@ -463,7 +444,7 @@ public abstract class AbstractOperatorCall {
     }
 
     private void setIgnoreOldSessionForNextCall(boolean bl) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#setIgnoreOldSessionForNextCall: %1->%2", this.ignoreOldSessionForNextCall, bl);
+        this.logChannel.log(10000000, "AbstractOperatorCall#setIgnoreOldSessionForNextCall: %1->%2", this.ignoreOldSessionForNextCall, bl);
         this.ignoreOldSessionForNextCall = bl;
     }
 
@@ -487,7 +468,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void startNewCall() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#startNewCall");
+        this.logChannel.log(1000000, "AbstractOperatorCall#startNewCall");
         this.telHandler.deleteTelListener();
         this.setCallStarted(true);
         OperatorCallData operatorCallData = this.getCarPositionData(this.modelHandler.isTransmissionOfCcpPermitted());
@@ -526,7 +507,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void leaveJokerKeyMode() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#leaveJokerKeyMode called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#leaveJokerKeyMode called");
         this.setJokerKeyMode(false);
         this.modelHandler.setJokerKeyBackBehaviour(false);
     }
@@ -536,7 +517,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void enterJokerKeyMode(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#jokerKeyPressed: called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#jokerKeyPressed: called");
         this.modelHandler.saveModelData(n, n3);
         this.modelHandler.setModelName("JOKER1ONLINE_BUTTON");
         if (this.modelHandler.isJokerKeyFunctionalityAvailable()) {
@@ -544,19 +525,19 @@ public abstract class AbstractOperatorCall {
             this.modelHandler.setJokerKeyBackBehaviour(true);
             this.startOperatorCallByJokerKey();
             if (this.shouldCloseLeftDrawerAfterStartingWithJokerkey()) {
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#enterJokerKeyMode: closing left drawer ...");
+                this.logChannel.log(10000000, "AbstractOperatorCall#enterJokerKeyMode: closing left drawer ...");
                 HMIService hMIService = this.framework.getHMIService();
                 DrawerEvent drawerEvent = new DrawerEvent(hMIService.getRootWindow(0), 1);
                 hMIService.getEventDispatcher().postEvent(drawerEvent);
             }
-            this.logChannel.log(1078071040, "AbstractOperatorCall#enterJokerKeyMode: waiting for AP-call checksSuccessful");
+            this.logChannel.log(1000000, "AbstractOperatorCall#enterJokerKeyMode: waiting for AP-call checksSuccessful");
         } else {
-            this.logChannel.log(-1601830656, "AbstractOperatorCall#jokerKeyPressed: Ignoring jokerkey.");
+            this.logChannel.log(100000, "AbstractOperatorCall#jokerKeyPressed: Ignoring jokerkey.");
         }
     }
 
     protected void setJokerKeyMode(boolean bl) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#setJokerKeyMode: %1 -> %2", this.jokerkeyMode, bl);
+        this.logChannel.log(1000000, "AbstractOperatorCall#setJokerKeyMode: %1 -> %2", this.jokerkeyMode, bl);
         this.jokerkeyMode = bl;
     }
 
@@ -573,12 +554,12 @@ public abstract class AbstractOperatorCall {
     }
 
     public void setLastCallFocused(int n) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#setLastCallFocused: %1 -> %2", (long)this.historyCallFocused, (long)n);
+        this.logChannel.log(10000000, "AbstractOperatorCall#setLastCallFocused: %1 -> %2", (long)this.historyCallFocused, (long)n);
         this.historyCallFocused = n;
     }
 
     public void setLastPoiFocused(int n) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#setLastPoiFocused: %1 -> %2", (long)this.poiFocused, (long)n);
+        this.logChannel.log(10000000, "AbstractOperatorCall#setLastPoiFocused: %1 -> %2", (long)this.poiFocused, (long)n);
         this.poiFocused = n;
     }
 
@@ -596,7 +577,7 @@ public abstract class AbstractOperatorCall {
             this.setLastCallFocused(0);
             return abstractOperatorCallDataContainer.getOperatorCallResult(0, this.poiFocused);
         }
-        this.logChannel.log(-1601830656, "AbstractOperatorCall#getLastFocusedItem: No last focused item! This should never happen!");
+        this.logChannel.log(100000, "AbstractOperatorCall#getLastFocusedItem: No last focused item! This should never happen!");
         return null;
     }
 
@@ -609,7 +590,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void addToFavorite() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#addToFavorite called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#addToFavorite called");
         OperatorCallResult operatorCallResult = this.getLastFocusedPoi();
         boolean bl = this.naviHandler.addToFavorite(operatorCallResult);
         if (!bl) {
@@ -620,7 +601,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void addToContact() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#addToContact called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#addToContact called");
         OperatorCallResult operatorCallResult = this.getLastFocusedPoi();
         boolean bl = this.naviHandler.addToContact(operatorCallResult);
         if (!bl) {
@@ -631,7 +612,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void deleteThisHistory() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#deleteThisHistory called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#deleteThisHistory called");
         int n = this.getLastFocusedHistoryCall();
         this.data.deleteHistoryCall(n);
         this.modelHandler.deleteHistoryCall(n);
@@ -639,7 +620,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void deleteAllCalls(boolean bl) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#deleteAllCalls called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#deleteAllCalls called");
         this.getData().deleteAllHistoryCalls();
         this.modelHandler.clearAllLists();
         if (bl) {
@@ -649,7 +630,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void showDetails() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#showDetails called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#showDetails called");
         OperatorCallResult operatorCallResult = this.getLastFocusedPoi();
         boolean bl = this.naviHandler.showDetails(operatorCallResult);
         if (!bl) {
@@ -661,7 +642,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void showInMap() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#showInMap called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#showInMap called");
         OperatorCallResult operatorCallResult = this.getLastFocusedPoi();
         boolean bl = this.naviHandler.showInMap(operatorCallResult, this.getServiceType());
         if (!bl) {
@@ -673,7 +654,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void operatorCallCenterLeft() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#operatorCallCenterLeft called");
+        this.logChannel.log(1000000, "AbstractOperatorCall#operatorCallCenterLeft called");
         this.leaveJokerKeyMode();
     }
 
@@ -707,7 +688,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void setDialingNumberTriggered(boolean bl) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#setDialingNumberTriggered: %1 -> %2", this.getDialingNumberTriggered(), bl);
+        this.logChannel.log(10000000, "AbstractOperatorCall#setDialingNumberTriggered: %1 -> %2", this.getDialingNumberTriggered(), bl);
         this.dialingTriggered = bl;
     }
 
@@ -725,33 +706,33 @@ public abstract class AbstractOperatorCall {
     }
 
     public void sendBAPSignal(int n) {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#sendBAPSignal: trying to send signal %1", (long)n);
+        this.logChannel.log(1000000, "AbstractOperatorCall#sendBAPSignal: trying to send signal %1", (long)n);
         if (!this.isJokerKeyMode()) {
-            this.logChannel.log(-2137614336, "AbstractOperatorCall#sendBAPSignal: jokerkey is not on: signal %1 not sent", (long)n);
+            this.logChannel.log(10000000, "AbstractOperatorCall#sendBAPSignal: jokerkey is not on: signal %1 not sent", (long)n);
             return;
         }
         switch (n) {
             case 104: {
                 if (this.shouldSendBAPSignalAnotherCallActive()) break;
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#sendBAPSignal: signal %1 not sent", (long)n);
+                this.logChannel.log(10000000, "AbstractOperatorCall#sendBAPSignal: signal %1 not sent", (long)n);
                 return;
             }
             case 105: {
                 if (this.shouldSendBAPSignalNoSIM()) break;
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#sendBAPSignal: signal %1 not sent", (long)n);
+                this.logChannel.log(10000000, "AbstractOperatorCall#sendBAPSignal: signal %1 not sent", (long)n);
                 return;
             }
             case 106: {
                 if (this.shouldSendBAPSignalGeneralError()) break;
-                this.logChannel.log(-2137614336, "AbstractOperatorCall#sendBAPSignal: signal %1 not sent", (long)n);
+                this.logChannel.log(10000000, "AbstractOperatorCall#sendBAPSignal: signal %1 not sent", (long)n);
                 return;
             }
             default: {
-                this.logChannel.log(-1601830656, "AbstractOperatorCall#sendBAPSignal: signal(%1) not defined for operator call. BAP-Signal not sent!", (long)n);
+                this.logChannel.log(100000, "AbstractOperatorCall#sendBAPSignal: signal(%1) not defined for operator call. BAP-Signal not sent!", (long)n);
                 return;
             }
         }
-        this.logChannel.log(1078071040, "AbstractOperatorCall#sendBAPSignal: signal %1 sent", (long)n);
+        this.logChannel.log(1000000, "AbstractOperatorCall#sendBAPSignal: signal %1 sent", (long)n);
         this.distributor.sendBAPSignal(n);
     }
 
@@ -760,7 +741,7 @@ public abstract class AbstractOperatorCall {
     }
 
     public void setResultListLastVisited(boolean bl) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#setResultListLastVisited: %1 -> %2", this.isResultListLastVisitedList, bl);
+        this.logChannel.log(10000000, "AbstractOperatorCall#setResultListLastVisited: %1 -> %2", this.isResultListLastVisitedList, bl);
         this.isResultListLastVisitedList = bl;
     }
 
@@ -776,12 +757,11 @@ public abstract class AbstractOperatorCall {
     }
 
     public void resetCCP() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#resetCCP: reset ccp");
+        this.logChannel.log(1000000, "AbstractOperatorCall#resetCCP: reset ccp");
         this.setTransmissionOfCcp(this.getDefaultPermissionToTransmitCcp());
     }
 
-    public abstract boolean isTrufflesAvailable() {
-    }
+    public abstract boolean isTrufflesAvailable();
 
     public void saveCallsInTruffles() {
         if (this.isTrufflesAvailable()) {
@@ -790,15 +770,15 @@ public abstract class AbstractOperatorCall {
     }
 
     public void refreshList() {
-        this.logChannel.log(1078071040, "AbstractOperatorCall#refreshList: not implemented");
+        this.logChannel.log(1000000, "AbstractOperatorCall#refreshList: not implemented");
     }
 
     private void setOperatorCallInUse(boolean bl) {
         if (this.onlineOperatorCallService == null) {
-            this.logChannel.log(1078071040, "AbstractOperatorCall#setOperatorCallInUse: onlineOperatorCallService was null! Trying to get onlineOperatorCallService....");
+            this.logChannel.log(1000000, "AbstractOperatorCall#setOperatorCallInUse: onlineOperatorCallService was null! Trying to get onlineOperatorCallService....");
             if (this.remoteHMIService != null) {
                 this.onlineOperatorCallService = this.remoteHMIService.getOnlineOperatorCallService();
-                this.logChannel.log(1078071040, "AbstractOperatorCall#setOperatorCallInUse: onlineOperatorCallService=%1.", (Object)this.onlineOperatorCallService);
+                this.logChannel.log(1000000, "AbstractOperatorCall#setOperatorCallInUse: onlineOperatorCallService=%1.", (Object)this.onlineOperatorCallService);
             } else {
                 this.logChannel.log(10000, "AbstractOperatorCall#setOperatorCallInUse: remoteHMIService is null!");
             }
@@ -806,14 +786,14 @@ public abstract class AbstractOperatorCall {
         if (this.onlineOperatorCallService != null) {
             this.triggerUpdatePOICall(bl);
         } else {
-            this.logChannel.log(-1601830656, "AbstractOperatorCall#setOperatorCallInUse: could not set inUse to '%1', because onlineOperatorCallService is null.", (Object)Boolean.toString(bl));
+            this.logChannel.log(100000, "AbstractOperatorCall#setOperatorCallInUse: could not set inUse to '%1', because onlineOperatorCallService is null.", (Object)Boolean.toString(bl));
         }
     }
 
     protected void triggerUpdatePOICall(boolean bl) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCall#setOperatorCallInUse: trying to set inUse to '%1'.", (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "AbstractOperatorCall#setOperatorCallInUse: trying to set inUse to '%1'.", (Object)Boolean.toString(bl));
         this.onlineOperatorCallService.updatePOICall(bl);
-        this.logChannel.log(1078071040, "AbstractOperatorCall#setOperatorCallInUse: set inUse to '%1'.", (Object)Boolean.toString(bl));
+        this.logChannel.log(1000000, "AbstractOperatorCall#setOperatorCallInUse: set inUse to '%1'.", (Object)Boolean.toString(bl));
     }
 }
 

@@ -7,8 +7,6 @@ import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.TunerService;
-import de.audi.atip.interapp.TunerService$TunerListEntry;
-import de.audi.atip.interapp.TunerService$TunerSettingResult;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.AudioFocusClient;
 import de.audi.tuner.app.BandListHandler;
@@ -46,10 +44,9 @@ implements TunerService {
         this.bandList = bandListHandler;
     }
 
-    @Override
     public void forceStationListUpdate() {
         int n = this.models.getActiveTuner();
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.forceStationListUpdate], active tuner: %1", (long)n);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.forceStationListUpdate], active tuner: %1", (long)n);
         if (n == 4) {
             TunerProxyManager.getInstance().getAmFmTuner().forceStationListUpdate(true);
         } else if (n == 5) {
@@ -57,9 +54,8 @@ implements TunerService {
         }
     }
 
-    @Override
     public byte freezeDynamicLists() {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.freezeDynamicLists] called");
+        this.logger.sds.log(1000000, "[TunerServiceImpl.freezeDynamicLists] called");
         int[] nArray = new int[]{2, 3};
         int[] nArray2 = new int[]{5, 6, 7};
         int[] nArray3 = new int[]{4};
@@ -70,9 +66,8 @@ implements TunerService {
         return 0;
     }
 
-    @Override
     public byte unfreezeDynamicLists() {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.unfreezeDynamicLists] called");
+        this.logger.sds.log(1000000, "[TunerServiceImpl.unfreezeDynamicLists] called");
         int[] nArray = new int[]{2, 3};
         int[] nArray2 = new int[]{5, 6, 7};
         int[] nArray3 = new int[]{4};
@@ -83,9 +78,8 @@ implements TunerService {
         return 0;
     }
 
-    @Override
     public byte selectWaveBand(int n) {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.selectWaveBand], band: %1", (long)n);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.selectWaveBand], band: %1", (long)n);
         this.bandList.switchBand(Const.sds2RadioBand(n));
         if (Utilities.isPGen1OrBentley()) {
             this.audioFocusClient.switchSource(0, Const.sds2RadioBand(n), null);
@@ -93,9 +87,8 @@ implements TunerService {
         return 1;
     }
 
-    @Override
     public byte switchTrafficAnnouncements(boolean bl) {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.switchTrafficAnnouncements], on: %1", bl);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.switchTrafficAnnouncements], on: %1", bl);
         if (!bl) {
             this.announce.switchTrafficAnnouncements(0, false);
         } else {
@@ -104,18 +97,16 @@ implements TunerService {
         return 1;
     }
 
-    @Override
     public byte tuneEnsembleByID(long l) {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.tuneEnsembleByID], ensId: %1", l);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.tuneEnsembleByID], ensId: %1", l);
         return this.tuneStationByID(new long[]{l}).getResultCode();
     }
 
-    @Override
     public byte tuneFrequency(long l, byte by) {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.tuneFrequency] frequency=%1, subchannel=%2", l, (long)by);
-        if (l == 0) {
-            l = 0;
-            this.logger.sds.log(1078071040, "[TunerServiceImpl.tuneFrequency] adjust frequency to %1", l);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.tuneFrequency] frequency=%1, subchannel=%2", l, (long)by);
+        if (l == 87750L) {
+            l = 87700L;
+            this.logger.sds.log(1000000, "[TunerServiceImpl.tuneFrequency] adjust frequency to %1", l);
         }
         AMFMStation aMFMStation = new AMFMStation();
         aMFMStation.frequency = l;
@@ -169,15 +160,14 @@ implements TunerService {
         return by2;
     }
 
-    @Override
-    public TunerService$TunerSettingResult tuneStationByID(long[] lArray) {
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.tuneStationByID], iDs: %1", (Object)lArray);
+    public TunerService.TunerSettingResult tuneStationByID(long[] lArray) {
+        this.logger.sds.log(1000000, "[TunerServiceImpl.tuneStationByID], iDs: %1", (Object)lArray);
         long l = this.selectStationID(lArray);
         int n = this.models.getActiveTuner();
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.tuneStationByID], objectId: %1", l);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.tuneStationByID], objectId: %1", l);
         TunerObjectContainer tunerObjectContainer = new RadioObjectIds((long)l, (LogChannel)this.logger.sds).toc;
         if (tunerObjectContainer == null) {
-            return new TunerService$TunerSettingResult(0, l);
+            return new TunerService.TunerSettingResult(0, l);
         }
         this.audioFocusClient.switchSource(0, tunerObjectContainer.getBand(), tunerObjectContainer);
         if (RadioObjectIds.isFavorite(l) && !Utilities.isPGen1OrBentley()) {
@@ -186,12 +176,11 @@ implements TunerService {
             this.models.setActiveList(tunerObjectContainer.getBand());
         }
         if (tunerObjectContainer.getType() != 5) {
-            return new TunerService$TunerSettingResult(this.checkBandChange(l, n), l);
+            return new TunerService.TunerSettingResult(this.checkBandChange(l, n), l);
         }
-        return new TunerService$TunerSettingResult(this.checkBandChange(l, n), l);
+        return new TunerService.TunerSettingResult(this.checkBandChange(l, n), l);
     }
 
-    @Override
     public void abortActiveTA() {
         this.announce.abortAnnouncement();
     }
@@ -199,13 +188,13 @@ implements TunerService {
     private byte checkBandChangeByFrequency(long l) {
         int n = this.models.getActiveTuner();
         int n2 = this.bandList.getBandByFrequency((int)l);
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.checkBandChange], current Band: %1, new Band: %2", (long)n, (long)n2);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.checkBandChange], current Band: %1, new Band: %2", (long)n, (long)n2);
         return this.getBandChange(n2, n);
     }
 
     private byte checkBandChange(long l, int n) {
         int n2 = RadioObjectIds.getBandComponent(l);
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.checkBandChange], current Band: %1, new Band: %2", (long)n, (long)n2);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.checkBandChange], current Band: %1, new Band: %2", (long)n, (long)n2);
         return this.getBandChange(n2, n);
     }
 
@@ -241,17 +230,17 @@ implements TunerService {
         } else {
             by = 1;
         }
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.getBandChange], returning: %1", (long)by);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.getBandChange], returning: %1", (long)by);
         return by;
     }
 
     private long selectStationID(long[] lArray) {
         long l = 0L;
-        this.logger.sds.log(1078071040, "[TunerServiceImpl.selectStationID], matchedStationIds: %1", (Object)lArray);
+        this.logger.sds.log(1000000, "[TunerServiceImpl.selectStationID], matchedStationIds: %1", (Object)lArray);
         if (lArray != null && lArray.length > 0) {
             if (this.logger.sds.isDebug2()) {
                 for (int i2 = 0; i2 < lArray.length; ++i2) {
-                    this.logger.sds.log(14808325, "[%2] %1", (Object)RadioObjectIds.dump(lArray[i2]), (long)i2);
+                    this.logger.sds.log(100000000, "[%2] %1", (Object)RadioObjectIds.dump(lArray[i2]), (long)i2);
                 }
             }
             Long[] longArray = this.getStatioListIds(lArray);
@@ -259,13 +248,13 @@ implements TunerService {
             Long[] longArray3 = this.getIdsOfBand(longArray, this.models.getActiveTuner());
             if (longArray3.length > 0) {
                 l = longArray3[0];
-                this.logger.sds.log(1078071040, "[TunerServiceImpl.selectStationID], activeBand: %1", l);
+                this.logger.sds.log(1000000, "[TunerServiceImpl.selectStationID], activeBand: %1", l);
             } else if (longArray2.length > 0) {
                 l = longArray2[0];
-                this.logger.sds.log(1078071040, "[TunerServiceImpl.selectStationID], PresetList: %1", l);
+                this.logger.sds.log(1000000, "[TunerServiceImpl.selectStationID], PresetList: %1", l);
             } else if (longArray.length > 0) {
                 l = longArray[0];
-                this.logger.sds.log(1078071040, "[TunerServiceImpl.selectStationID], StationList: %1", l);
+                this.logger.sds.log(1000000, "[TunerServiceImpl.selectStationID], StationList: %1", l);
             }
             return l;
         }
@@ -302,7 +291,6 @@ implements TunerService {
         return (Long[])arrayList.toArray(new Long[arrayList.size()]);
     }
 
-    @Override
     public byte selectGenre(long l) {
         ISDARSTuner iSDARSTuner = TunerProxyManager.getInstance().getSDARSTuner();
         TunerObjectContainer tunerObjectContainer = iSDARSTuner.getNextChannelByGenre((short)l);
@@ -313,25 +301,24 @@ implements TunerService {
         return 2;
     }
 
-    @Override
-    public byte fillTunerPickList(TunerService$TunerListEntry[] tunerService$TunerListEntryArray) {
+    public byte fillTunerPickList(TunerService.TunerListEntry[] tunerListEntryArray) {
         try {
             BaseListModelApp baseListModelApp = this.models.getBaseListModel(3865);
             baseListModelApp.removeAll();
             baseListModelApp.setSelectedIndex(-1);
-            EvoListRow[] evoListRowArray = new EvoListRow[tunerService$TunerListEntryArray.length];
-            for (int i2 = 0; i2 < tunerService$TunerListEntryArray.length; ++i2) {
+            EvoListRow[] evoListRowArray = new EvoListRow[tunerListEntryArray.length];
+            for (int i2 = 0; i2 < tunerListEntryArray.length; ++i2) {
                 long l;
-                long[] lArray = tunerService$TunerListEntryArray[i2].getEntryVariantIds();
+                long[] lArray = tunerListEntryArray[i2].getEntryVariantIds();
                 String string = "";
                 if (lArray.length == 1) {
                     l = lArray[0];
-                    string = tunerService$TunerListEntryArray[i2].getName();
+                    string = tunerListEntryArray[i2].getName();
                 } else {
                     l = this.selectStationID(lArray);
                     for (int i3 = 0; i3 < lArray.length; ++i3) {
                         if (lArray[i3] != l) continue;
-                        string = tunerService$TunerListEntryArray[i2].getNameOfEntryVariant(i3);
+                        string = tunerListEntryArray[i2].getNameOfEntryVariant(i3);
                         break;
                     }
                 }
@@ -348,7 +335,6 @@ implements TunerService {
         }
     }
 
-    @Override
     public byte fillTunerPickList(SDSListEntry[] sDSListEntryArray) {
         try {
             BaseListModelApp baseListModelApp = this.models.getBaseListModel(3865);
@@ -369,7 +355,6 @@ implements TunerService {
         }
     }
 
-    @Override
     public SDSListEntry getTunerPicklistEntry(int n) {
         BaseListModelApp baseListModelApp = this.models.getBaseListModel(3865);
         if (n > baseListModelApp.getLength()) {
@@ -381,7 +366,6 @@ implements TunerService {
         return new SDSListEntry(string, l);
     }
 
-    @Override
     public byte getTypeOfListRow(int n) {
         switch (this.models.getActiveList()) {
             case 5: {
@@ -394,7 +378,6 @@ implements TunerService {
         return 0;
     }
 
-    @Override
     public int getWavebandForID(long[] lArray) {
         long l = this.selectStationID(lArray);
         switch (RadioObjectIds.getBandComponent(l)) {

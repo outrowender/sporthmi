@@ -14,22 +14,18 @@ extends Context {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enterPrologue() {
         this.showMap(false);
         this.freezeMap();
     }
 
-    @Override
     public void enterEpilogue() {
         this.unfreezeMap();
     }
 
-    @Override
     public void enter() {
     }
 
-    @Override
     public void exit() {
     }
 }

@@ -7,9 +7,8 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.tghu.navi.app.navlocationextractor.NavLocationCallback;
 
 public interface AsyncNavLocationExtractor {
-    public static final String NAV_LOCATION_KEY;
+    public static final String NAV_LOCATION_KEY = "navLocation";
 
-    default public void executeCallbackWithNavLocation(EvoListRow evoListRow, int n, NavLocationCallback navLocationCallback) {
-    }
+    public void executeCallbackWithNavLocation(EvoListRow var1, int var2, NavLocationCallback var3);
 }
 

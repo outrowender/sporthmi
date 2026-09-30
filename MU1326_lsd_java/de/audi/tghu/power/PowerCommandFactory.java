@@ -4,28 +4,14 @@
 package de.audi.tghu.power;
 
 import de.audi.atip.audio.HMIAudioService;
+import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.hmi.view.IDisplayManager;
 import de.audi.atip.job.JobLogger;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.power.PowerEventListener;
-import de.audi.tghu.power.PowerCommandFactory$1;
-import de.audi.tghu.power.PowerCommandFactory$10;
-import de.audi.tghu.power.PowerCommandFactory$11;
-import de.audi.tghu.power.PowerCommandFactory$12;
-import de.audi.tghu.power.PowerCommandFactory$13;
-import de.audi.tghu.power.PowerCommandFactory$14;
-import de.audi.tghu.power.PowerCommandFactory$15;
-import de.audi.tghu.power.PowerCommandFactory$16;
-import de.audi.tghu.power.PowerCommandFactory$17;
-import de.audi.tghu.power.PowerCommandFactory$2;
-import de.audi.tghu.power.PowerCommandFactory$3;
-import de.audi.tghu.power.PowerCommandFactory$4;
-import de.audi.tghu.power.PowerCommandFactory$5;
-import de.audi.tghu.power.PowerCommandFactory$6;
-import de.audi.tghu.power.PowerCommandFactory$7;
-import de.audi.tghu.power.PowerCommandFactory$8;
-import de.audi.tghu.power.PowerCommandFactory$9;
+import de.audi.tghu.power.PowerFSM;
 import de.audi.tghu.power.PowerManager;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import org.dsi.ifc.displaycontroller.DSIDisplayController;
@@ -46,8 +32,26 @@ final class PowerCommandFactory {
         this.pwrEventDispatcher.start();
     }
 
-    protected void setPwrStateCmd(int n, int n2, int n3) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$1(this, n, n2, n3));
+    protected void setPwrStateCmd(final int n, final int n2, final int n3) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                try {
+                    PowerCommandFactory.this.updateKeyIfWakeupReason(n, n2, n3);
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(n3);
+                if (powerFSM != null) {
+                    powerFSM.triggerPowerState(n, n2);
+                }
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setPwrStateCmd: state=").append(n).append(" powerEvent=").append(n2).toString();
+            }
+        });
     }
 
     private int getMainWizardAppId() {
@@ -94,68 +98,243 @@ final class PowerCommandFactory {
         }
     }
 
-    protected void setExtPwrStateCmd(int n, int n2) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$2(this, n2, n));
+    protected void setExtPwrStateCmd(final int n, final int n2) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(n2);
+                if (powerFSM != null) {
+                    powerFSM.triggerExtendedPowerState(n);
+                }
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setExtPwrStateCmd: state=").append(n).toString();
+            }
+        });
     }
 
-    protected void setRegListenerCmd(PowerEventListener powerEventListener) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$3(this, powerEventListener));
+    protected void setRegListenerCmd(final PowerEventListener powerEventListener) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                if (powerEventListener instanceof DSIKeyPanelListener) {
+                    PowerCommandFactory.this.kbdListener = (DSIKeyPanelListener)((Object)powerEventListener);
+                }
+                PowerCommandFactory.this.pwrMgr.getPowerFSM(0).addListener(powerEventListener);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setRegListenerCmd: peListener=").append(powerEventListener).toString();
+            }
+        });
     }
 
-    protected void setUnregListenerCmd(PowerEventListener powerEventListener) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$4(this, powerEventListener));
+    protected void setUnregListenerCmd(final PowerEventListener powerEventListener) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getPowerFSM(0).removeListener(powerEventListener);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setUnregListenerCmd peListener=").append(powerEventListener).toString();
+            }
+        });
     }
 
-    protected void setClampSStateCmd(ClampSignal clampSignal) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$5(this, clampSignal));
+    protected void setClampSStateCmd(final ClampSignal clampSignal) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getPowerFSM(0).setClampState(clampSignal);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setClampSStateCmd(").append(clampSignal).toString();
+            }
+        });
     }
 
-    protected void setAudioDeviceServiceCmd(HMIAudioService hMIAudioService) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$6(this, hMIAudioService));
+    protected void setAudioDeviceServiceCmd(final HMIAudioService hMIAudioService) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getPwrAudioHandler().setAudioDeviceService(hMIAudioService);
+                PowerCommandFactory.this.pwrMgr.getPowerFSM(0).setAudioDeviceService();
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setAudioDeviceServiceCmd: hmiAM=").append(hMIAudioService).toString();
+            }
+        });
     }
 
-    protected void setPowerDeviceServiceCmd(DSIPowerManagement dSIPowerManagement) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$7(this, dSIPowerManagement));
+    protected void setPowerDeviceServiceCmd(final DSIPowerManagement dSIPowerManagement) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getPwrDSIHandler().setPwrMgmtDsi(dSIPowerManagement);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setPowerDeviceServiceCmd: powerManagement=").append(dSIPowerManagement).toString();
+            }
+        });
     }
 
     protected void setHMIReadyCmd() {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$8(this));
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                try {
+                    IFrameworkAccess iFrameworkAccess = PowerCommandFactory.this.pwrMgr.getFramework();
+                    int n = iFrameworkAccess.getLastmodeHandler().getLastmodeStorage().getBrightness();
+                    IDisplayManager iDisplayManager = iFrameworkAccess.getHMIService().getDisplayManager();
+                    iDisplayManager.setDisplayBrightness(0, n);
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                PowerCommandFactory.this.pwrMgr.getPowerFSM(0).setHMIReady();
+            }
+
+            public final String toString() {
+                return "setHMIReadyCmd";
+            }
+        });
     }
 
     protected void releaseStandbyMuteCmd() {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$9(this));
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getPowerFSM(0).releaseStanbyMute();
+            }
+
+            public final String toString() {
+                return "releaseStanbyMuteCmd";
+            }
+        });
     }
 
-    public void setDispButtonTypedCmd(int n, int n2) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$10(this, n2, n));
+    public void setDispButtonTypedCmd(final int n, final int n2) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(n2);
+                if (powerFSM != null) {
+                    powerFSM.displayButtonTyped(n);
+                }
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setDispButtonTypedCmd: keyEvent=").append(n).toString();
+            }
+        });
     }
 
-    public void setHardKeyTypedCmd(int n, int n2) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$11(this, n2, n));
+    public void setHardKeyTypedCmd(final int n, final int n2) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(n2);
+                if (powerFSM != null) {
+                    powerFSM.hardKeyTyped(n);
+                }
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setHardKeyTypedCmd: keyEvent=").append(n).toString();
+            }
+        });
     }
 
-    public void setDSIDisplayManagement(DSIDisplayManagement dSIDisplayManagement) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$12(this, dSIDisplayManagement));
+    public void setDSIDisplayManagement(final DSIDisplayManagement dSIDisplayManagement) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getNativeDisplayHandler().setDSIDisplayManagement(dSIDisplayManagement);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setDSIDisplayManagement: displayManagement=").append(dSIDisplayManagement).toString();
+            }
+        });
     }
 
-    public void setDSIDisplayController(DSIDisplayController dSIDisplayController) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$13(this, dSIDisplayController));
+    public void setDSIDisplayController(final DSIDisplayController dSIDisplayController) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getNativeDisplayHandler().setDSIDisplayController(dSIDisplayController);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setDSIDisplayManagement: displayManagement=").append(dSIDisplayController).toString();
+            }
+        });
     }
 
-    public void setDSIKeyPanel(DSIKeyPanel dSIKeyPanel) {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$14(this, dSIKeyPanel));
+    public void setDSIKeyPanel(final DSIKeyPanel dSIKeyPanel) {
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerCommandFactory.this.pwrMgr.getNativeDisplayHandler().setDSIKeyPanel(dSIKeyPanel);
+            }
+
+            public final String toString() {
+                return new StringBuffer().append("setDSIKeyPanel: keyPanel=").append(dSIKeyPanel).toString();
+            }
+        });
     }
 
     public void setKeyPTTPressedCmd() {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$15(this));
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(0);
+                if (powerFSM != null) {
+                    powerFSM.keyPTTPressed();
+                }
+            }
+
+            public final String toString() {
+                return "setKeyPTTPressedCmd";
+            }
+        });
     }
 
     public void notifyListenersOnClampStateChangeCmd() {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$16(this));
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(0);
+                if (powerFSM != null) {
+                    powerFSM.notifyListenersOnClampStateChange();
+                }
+            }
+
+            public final String toString() {
+                return "notifyListenersOnClampStateChangeCmd";
+            }
+        });
     }
 
     public void setAMAvailableCmd() {
-        this.pwrEventDispatcher.execute(new PowerCommandFactory$17(this));
+        this.pwrEventDispatcher.execute(new Runnable(){
+
+            public final void run() {
+                PowerFSM powerFSM = PowerCommandFactory.this.pwrMgr.getPowerFSM(0);
+                if (powerFSM != null) {
+                    powerFSM.setAMAvailable();
+                }
+            }
+
+            public final String toString() {
+                return "setAMAvailable";
+            }
+        });
     }
 
     public void freezeDispatcher() {
@@ -164,19 +343,6 @@ final class PowerCommandFactory {
 
     public void unfreezeDispatcher() {
         this.pwrEventDispatcher.resume();
-    }
-
-    static /* synthetic */ void access$000(PowerCommandFactory powerCommandFactory, int n, int n2, int n3) {
-        powerCommandFactory.updateKeyIfWakeupReason(n, n2, n3);
-    }
-
-    static /* synthetic */ PowerManager access$100(PowerCommandFactory powerCommandFactory) {
-        return powerCommandFactory.pwrMgr;
-    }
-
-    static /* synthetic */ DSIKeyPanelListener access$202(PowerCommandFactory powerCommandFactory, DSIKeyPanelListener dSIKeyPanelListener) {
-        powerCommandFactory.kbdListener = dSIKeyPanelListener;
-        return powerCommandFactory.kbdListener;
     }
 }
 

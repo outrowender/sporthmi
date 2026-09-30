@@ -7,10 +7,10 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 class LeagueRow
 extends EvoListRow {
-    private static final int INDEX_LEAGUE_NAME;
-    private static final int INDEX_LEAGUE_CHECKBOX;
-    private static final int INDEX_LEAGUE_ID;
-    private static final int LEAGUE_COLUMNS;
+    private static final int INDEX_LEAGUE_NAME = 0;
+    private static final int INDEX_LEAGUE_CHECKBOX = 1;
+    private static final int INDEX_LEAGUE_ID = 2;
+    private static final int LEAGUE_COLUMNS = 3;
 
     LeagueRow(int n, String string, int n2) {
         super(n, 3);
@@ -23,7 +23,6 @@ extends EvoListRow {
         super(leagueRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new LeagueRow(this);
     }

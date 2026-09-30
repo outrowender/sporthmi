@@ -21,9 +21,8 @@ implements IAudioSdisListener {
         this.asiSound = aSIHMISyncSoundImpl;
     }
 
-    @Override
     public void updateActiveConnection(int n, int n2) {
-        this.lc.log(-2137614336, "[SdisAppSoundListener.updateActiveConnection] AC%1", (long)n);
+        this.lc.log(10000000, "[SdisAppSoundListener.updateActiveConnection] AC%1", (long)n);
         this.asiSound.updateActiveConnection(n, n2);
         try {
             if (n == 3 || n == 8 || n == 9 || AudioConnection.contains(AudioConnection.GREY_OUT_ALL, n) || AudioConnection.contains(AudioConnection.VOLUME_MENU_CONNECTIONS, n)) {
@@ -37,15 +36,13 @@ implements IAudioSdisListener {
         }
     }
 
-    @Override
     public void updateActiveEntertainmentConnection(int n, int n2) {
-        this.lc.log(-2137614336, "[SdisAppSoundListener.updateActiveEntertainmentConnection] AC%1", (long)n);
+        this.lc.log(10000000, "[SdisAppSoundListener.updateActiveEntertainmentConnection] AC%1", (long)n);
         this.asiSound.updateActiveEntertainmentConnection(n, n2);
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
-        this.lc.log(-2137614336, "[SdisAppSoundListener.updateAMAvailable] %1", bl);
+        this.lc.log(10000000, "[SdisAppSoundListener.updateAMAvailable] %1", bl);
         if (bl) {
             try {
                 this.asiSound.updateSoundState(0);

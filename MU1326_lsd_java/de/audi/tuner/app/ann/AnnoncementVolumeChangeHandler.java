@@ -32,7 +32,7 @@ class AnnoncementVolumeChangeHandler {
     }
 
     void taVolumeAdjustmentActivated() {
-        this.logger.announce.log(1078071040, "[AnnoncementVolumeChangeHandler.taVolumeAdjustmentActivated]");
+        this.logger.announce.log(1000000, "[AnnoncementVolumeChangeHandler.taVolumeAdjustmentActivated]");
         this.status.setTaVolumeAdjustmentActive(true);
         this.backupBand = this.models.getActiveTuner();
         IRadioCmdManager iRadioCmdManager = TunerProxyManager.getInstance().getAmFmTuner().getCmdManager();
@@ -51,7 +51,7 @@ class AnnoncementVolumeChangeHandler {
     }
 
     void taVolumeAdjustmentDeactivated(int n) {
-        this.logger.announce.log(1078071040, "[AnnoncementVolumeChangeHandler.taVolumeAdjustmentDeactivated]");
+        this.logger.announce.log(1000000, "[AnnoncementVolumeChangeHandler.taVolumeAdjustmentDeactivated]");
         this.restoreBand(n);
         this.status.setTaVolumeAdjustmentActive(false);
     }
@@ -89,7 +89,7 @@ class AnnoncementVolumeChangeHandler {
                 }
                 this.resetVolumeAdjustment();
             } else {
-                this.logger.audio.log(1078071040, "[AnnoncementVolumeChangeHandler.restoreBand] Don't restore yet because Announcement active");
+                this.logger.audio.log(1000000, "[AnnoncementVolumeChangeHandler.restoreBand] Don't restore yet because Announcement active");
                 this.doResetAfterAnnEnded = true;
             }
         }
@@ -102,7 +102,7 @@ class AnnoncementVolumeChangeHandler {
 
     void setActiveAnnouncement(int n) {
         if (this.doResetAfterAnnEnded && n == 20 && this.backupBand != -1) {
-            this.logger.audio.log(1078071040, "[AnnoncementVolumeChangeHandler.restoreBand] Announcement endet: restore bachuped band");
+            this.logger.audio.log(1000000, "[AnnoncementVolumeChangeHandler.restoreBand] Announcement endet: restore bachuped band");
             this.restoreBand(0);
         }
     }

@@ -9,15 +9,14 @@ import org.dsi.ifc.navigation.NavPoiInfoConfiguration;
 
 public class RgConfigurePoiInfoCommand
 extends NavCommand {
-    @Override
     public void execute() {
         int n = Util.getRouteInfoConfigMode(this.env.getFramework());
         if (1 == n) {
             this.getDSINavigation().rgConfigurePoiInfo(new NavPoiInfoConfiguration(new int[0]));
-            this.logger.log(-2137614336, "RgConfigurePoiInfoCommand#execute(), rgConfigurePoiInfo(int [])");
+            this.logger.log(10000000, "RgConfigurePoiInfoCommand#execute(), rgConfigurePoiInfo(int [])");
         } else if (2 == n) {
             this.getDSINavigation().rgConfigurePoiInfo(new NavPoiInfoConfiguration(new int[]{1}));
-            this.logger.log(-2137614336, "RgConfigurePoiInfoCommand#execute(), rgConfigurePoiInfo(int [DSINavigation.NAVPOIINFOTYPE_CONTROLLEDACCESS])");
+            this.logger.log(10000000, "RgConfigurePoiInfoCommand#execute(), rgConfigurePoiInfo(int [DSINavigation.NAVPOIINFOTYPE_CONTROLLEDACCESS])");
         }
         this.getCommandList().commandFinished();
     }

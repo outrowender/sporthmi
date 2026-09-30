@@ -21,17 +21,15 @@ extends PreviewMapStateNavLocations {
         super(previewMapHandlerAbstract, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer, Util.wgs84sToNavLocations(navLocationWgs84Array));
     }
 
-    @Override
     public void applyToScreenFullMap() {
         AbstractMap abstractMap = this.getMapForFullScreen();
-        this.logger.log(-2137614336, "PreviewMapHandlerPCore#showInFullScreenMapLastLocationConcierge() - NavLocation: %1", (Object)this.navLocationsWgs84);
+        this.logger.log(10000000, "PreviewMapHandlerPCore#showInFullScreenMapLastLocationConcierge() - NavLocation: %1", (Object)this.navLocationsWgs84);
         NavRectangle navRectangle = PreviewMapUtils.calculateMapSection(this.logger, this.navLocationsWgs84, this.navLocationsWgs84[0], true);
         this.getMapForFullScreen().getMVRequest().setMapViewPortByWGS84Rectangle(navRectangle, 5);
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("PreviewMapStateNavLocationsConcierge() ").append(PreviewMapUtils.toStringNavLocations(this.navLocations)).toString();
+        return "PreviewMapStateNavLocationsConcierge() " + PreviewMapUtils.toStringNavLocations(this.navLocations);
     }
 }
 

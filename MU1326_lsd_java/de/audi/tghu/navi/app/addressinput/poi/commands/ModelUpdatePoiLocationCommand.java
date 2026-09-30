@@ -15,7 +15,6 @@ extends NavCommand {
         this.modelAccess = guiModelAccessDetailsNavi;
     }
 
-    @Override
     public void execute() {
         NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
         this.modelAccess.onUpdateLocation(navLocation);

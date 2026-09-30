@@ -25,7 +25,6 @@ implements DSIMapViewerGoogleCtrl {
         return this.mDSIGoogleCtrl != null;
     }
 
-    @Override
     protected void cleanup() {
         if (this.mDSIGoogleCtrl != null) {
             try {
@@ -46,18 +45,16 @@ implements DSIMapViewerGoogleCtrl {
         if (this.getMap() != null) {
             this.getMap().initDSI();
         } else {
-            this.getLogger().log(-1601830656, "MVRequestGoogleCtrl#bind() - It (id = %1) is not bound to a map.", (long)this.getID());
+            this.getLogger().log(100000, "MVRequestGoogleCtrl#bind() - It (id = %1) is not bound to a map.", (long)this.getID());
         }
     }
 
-    @Override
     public boolean isReady() {
         boolean bl = super.isReady();
         boolean bl2 = this.mDSIGoogleCtrl != null;
         return bl && bl2;
     }
 
-    @Override
     public boolean isOperable() {
         boolean bl = super.isOperable();
         boolean bl2 = true;
@@ -68,14 +65,13 @@ implements DSIMapViewerGoogleCtrl {
         return (MVResponseGoogleCtrl)this.getResponser();
     }
 
-    @Override
     public void loadKml(String[] stringArray) {
         if (!this.isDSIGoogleCtrlAvailable()) {
             this.getLogger().log(10000, "MVRequestGoogleCtrl#loadKml() - DSIGoogleCtrl not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#loadKml(%1)", (Object)stringArray);
+            this.getLogger().log(10000000, "MVRequestGoogleCtrl#loadKml(%1)", (Object)stringArray);
             this.mDSIGoogleCtrl.loadKml(stringArray);
         }
         catch (Exception exception) {
@@ -83,14 +79,13 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void requestClearCache() {
         if (!this.isDSIGoogleCtrlAvailable()) {
             this.getLogger().log(10000, "MVRequestGoogleCtrl#requestClearCache() - DSIGoogleCtrl not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#requestClearCache");
+            this.getLogger().log(10000000, "MVRequestGoogleCtrl#requestClearCache");
             this.mDSIGoogleCtrl.requestClearCache();
         }
         catch (Exception exception) {
@@ -98,14 +93,13 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setConnectionInformation(int n) {
         if (!this.isDSIGoogleCtrlAvailable()) {
             this.getLogger().log(10000, "MVRequestGoogleCtrl#setConnectionInformation() - DSIGoogleCtrl not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#setConnectionInformation(%1)", (long)n);
+            this.getLogger().log(10000000, "MVRequestGoogleCtrl#setConnectionInformation(%1)", (long)n);
             this.mDSIGoogleCtrl.setConnectionInformation(n);
         }
         catch (Exception exception) {
@@ -113,14 +107,13 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         if (!this.isDSIGoogleCtrlAvailable()) {
             this.getLogger().log(10000, "MVRequestGoogleCtrl#setLanguage() - DSIGoogleCtrl not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#setLanguage(%1)", (Object)string);
+            this.getLogger().log(10000000, "MVRequestGoogleCtrl#setLanguage(%1)", (Object)string);
             this.mDSIGoogleCtrl.setLanguage(string);
         }
         catch (Exception exception) {
@@ -128,14 +121,13 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setLayerVisibility(int[] nArray) {
         if (!this.isDSIGoogleCtrlAvailable()) {
             this.getLogger().log(10000, "MVRequestGoogleCtrl#setLayerVisibility() - DSIGoogleCtrl not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#setLayerVisibility: %1", (Object)nArray);
+            this.getLogger().log(10000000, "MVRequestGoogleCtrl#setLayerVisibility: %1", (Object)nArray);
             this.mDSIGoogleCtrl.setLayerVisibility(nArray);
         }
         catch (Exception exception) {
@@ -143,10 +135,9 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void resetMemberVariables() {
         super.resetMemberVariables();
-        this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#resetMemberVariables() ");
+        this.getLogger().log(10000000, "MVRequestGoogleCtrl#resetMemberVariables() ");
     }
 
     public void setNotificationForGE(int[] nArray, DSIListener dSIListener) {
@@ -155,7 +146,7 @@ implements DSIMapViewerGoogleCtrl {
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestGoogleCtrl#setNotificationForGE() - attributes: %1", (Object)nArray);
+            this.getLogger().log(10000000, "MVRequestGoogleCtrl#setNotificationForGE() - attributes: %1", (Object)nArray);
             this.mDSIGoogleCtrl.setNotification(nArray, dSIListener);
         }
         catch (Exception exception) {
@@ -163,11 +154,9 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setCopyrightPosition(Rect rect, int n, int n2) {
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         super.clearNotification(dSIListener);
         if (!this.isDSIGoogleCtrlAvailable()) {

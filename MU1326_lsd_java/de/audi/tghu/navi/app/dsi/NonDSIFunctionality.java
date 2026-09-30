@@ -8,10 +8,8 @@ import de.audi.atip.timer.TimerListener;
 
 public interface NonDSIFunctionality
 extends TimerListener {
-    default public void updateRenderingInfoProvider(RenderingInfoProvider renderingInfoProvider) {
-    }
+    public void updateRenderingInfoProvider(RenderingInfoProvider var1);
 
-    default public void updateClockAdjusted(boolean bl) {
-    }
+    public void updateClockAdjusted(boolean var1);
 }
 

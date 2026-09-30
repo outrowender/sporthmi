@@ -9,6 +9,7 @@ import de.audi.atip.storagecache.CacheEventListener;
 import de.audi.tghu.storagecache.CacheWorker;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,50 +40,39 @@ implements DSICarVehicleStatesListener {
         this.token = string;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void updateOilLevelViewOption(CarViewOption carViewOption, int n) {
     }
 
-    @Override
     public void updateOilLevelData(OilLevelData oilLevelData, int n) {
     }
 
-    @Override
     public void updateVINViewOption(CarViewOption carViewOption, int n) {
     }
 
-    @Override
     public void updateVINData(String string, int n) {
     }
 
-    @Override
     public void updateKeyViewOption(CarViewOption carViewOption, int n) {
     }
 
-    @Override
     public void updateKeyData(KeyData keyData, int n) {
     }
 
-    @Override
     public void updateDrvSchoolSystem(boolean bl, int n) {
     }
 
-    @Override
     public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
         if (n != 1 || dynamicVehicleInfoMidFrequentViewOptions == null) {
             this.log.log(10000, "PresetLayoutCacheWorker.updateDynamicVehicleInfoMidFrequentViewOptions(): vehicleInfoViewOptions list is not valid %1", (Object)dynamicVehicleInfoMidFrequentViewOptions);
@@ -106,7 +96,7 @@ implements DSICarVehicleStatesListener {
                         }
                     }
                 } else {
-                    this.log.log(1078071040, "CacheEventListener.updateDynamicVehicleInfoMidFrequent: No subscriber for token %1 are registered", (Object)this.token);
+                    this.log.log(1000000, "CacheEventListener.updateDynamicVehicleInfoMidFrequent: No subscriber for token %1 are registered", (Object)this.token);
                 }
             }
         } else {
@@ -114,27 +104,21 @@ implements DSICarVehicleStatesListener {
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
     }
 
-    @Override
     public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
     }
 
-    @Override
     public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) {
     }
 
-    @Override
     public void updateSemiStaticVehicleData(SemiStaticVehicleData semiStaticVehicleData, int n) {
     }
 
-    @Override
     public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) {
     }
 
-    @Override
     public Object getState(String string) {
         if (string.equals(this.token)) {
             return new Boolean(this.isHandSchalter);
@@ -142,32 +126,27 @@ implements DSICarVehicleStatesListener {
         return new Boolean(false);
     }
 
-    @Override
     protected void registerWorkerAsServiceListener(Object object) {
-        this.log.log(1078071040, "PresetLayoutCacheWorker.setDSI() (%1)", object);
+        this.log.log(1000000, "PresetLayoutCacheWorker.setDSI() (%1)", object);
         this.dsi = (DSICarVehicleStates)object;
         this.dsi.setNotification(new int[]{13}, (DSIListener)this);
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeBoolean(this.isHandSchalter);
         dataOutputStream.writeUTF(this.token);
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
         this.isHandSchalter = dataInputStream.readBoolean();
         this.token = dataInputStream.readUTF();
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
         super.convertContainer(n, n2, dataInputStream);
         this.deserialize(dataInputStream);
     }
 
-    @Override
     protected void registerCacheEventListener(CacheEventListener cacheEventListener) {
     }
 }

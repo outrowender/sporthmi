@@ -15,33 +15,31 @@ extends FormatAddressPAG {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         if (!locationFormattingRequest.contactOrFavoriteName.isEmpty()) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#asTwoLines -- contactOrFavorite", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000000, "%1#asTwoLines -- contactOrFavorite", (Object)this.CLASS_NAME);
             }
             return this.formatContactOrFavorite(locationFormattingRequest);
         }
         if (!locationFormattingRequest.poiName.isEmpty()) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#asTwoLines -- Poi", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000000, "%1#asTwoLines -- Poi", (Object)this.CLASS_NAME);
             }
             return this.formatPoi(locationFormattingRequest);
         }
         if (locationFormattingRequest.locationType == 4) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#asTwoLines -- city center", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000000, "%1#asTwoLines -- city center", (Object)this.CLASS_NAME);
             }
             return this.formatCityCenterAddress(locationFormattingRequest);
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#asTwoLines -- returning default result", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "%1#asTwoLines -- returning default result", (Object)this.CLASS_NAME);
         }
         return this.formatDefault(locationFormattingRequest);
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         int n;
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
@@ -156,7 +154,6 @@ extends FormatAddressPAG {
         }
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         if (!locationFormattingRequest.contactOrFavoriteName.isEmpty()) {

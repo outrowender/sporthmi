@@ -21,12 +21,12 @@ import org.dsi.ifc.organizer.ProfileInfo;
 
 public class NaviADBHandler
 extends AbstractADBHandler {
-    public static final String NAVI_ADB_LOGCHANNEL_NAME;
-    public static final String NAVI_ADB_CMDLIST_LOGCHANNEL_NAME;
+    public static final String NAVI_ADB_LOGCHANNEL_NAME = "App.Navi.ADB";
+    public static final String NAVI_ADB_CMDLIST_LOGCHANNEL_NAME = "App.Navi.ADBCmdList";
     private final NavigationEnv env;
     private int mode;
-    public static final int MODE_LOAD_ADDRESS;
-    public static final int MODE_SAVE_ADDRESS;
+    public static final int MODE_LOAD_ADDRESS = 0;
+    public static final int MODE_SAVE_ADDRESS = 1;
     private NavLocation locationToBeStored;
     private int selectedAddressIndex;
     private boolean isMapActive;
@@ -35,7 +35,7 @@ extends AbstractADBHandler {
     private final ADBInterAppService adbInterAppService;
 
     public NaviADBHandler(NavigationEnv navigationEnv, IconHandler iconHandler, ISDSController iSDSController, NaviServiceListener naviServiceListener, ADBInterAppService aDBInterAppService, LocationSerializer locationSerializer, IVehicle iVehicle, ICommandListFactory iCommandListFactory) {
-        super(navigationEnv.getFramework(), navigationEnv.getLogChannel("App.Navi.ADB"), navigationEnv.getLogChannel("App.Navi.ADBCmdList"));
+        super(navigationEnv.getFramework(), navigationEnv.getLogChannel(NAVI_ADB_LOGCHANNEL_NAME), navigationEnv.getLogChannel(NAVI_ADB_CMDLIST_LOGCHANNEL_NAME));
         this.env = navigationEnv;
         this.naviServiceListener = naviServiceListener;
         this.locationSerializer = locationSerializer;
@@ -58,40 +58,33 @@ extends AbstractADBHandler {
         return this.locationToBeStored;
     }
 
-    @Override
     public void destroy() {
         this.locationToBeStored = null;
         super.destroy();
     }
 
-    @Override
     public int getInitStartupCompleteMask() {
         return 229;
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
-        this.log.log(-2137614336, "NaviADBHandler#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
+        this.log.log(10000000, "NaviADBHandler#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
-        this.log.log(-2137614336, "NaviADBHandler#setAdbReady(): ready: %1", bl);
-        this.env.getChoiceModel(-266467840).setValue(bl ? 1 : 0);
+        this.log.log(10000000, "NaviADBHandler#setAdbReady(): ready: %1", bl);
+        this.env.getChoiceModel(401136).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n) {
     }
 
-    @Override
     public void updateNewEntryAvailable(boolean bl) {
-        this.env.getHMIService().getChoiceModel(-1810102784).setValue(bl ? 1 : 0);
+        this.env.getHMIService().getChoiceModel(400532).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void updateNewTopDestEntryAvailable(boolean bl) {
-        this.env.getChoiceModel(-1172568576).setValue(bl ? 1 : 0);
+        this.env.getChoiceModel(400570).setValue(bl ? 1 : 0);
     }
 
     public void startLoadingAddress() {
@@ -104,7 +97,7 @@ extends AbstractADBHandler {
     }
 
     public void finishStoringLocation() {
-        int n = this.env.getChoiceModel(-2095315456).getValue();
+        int n = this.env.getChoiceModel(400515).getValue();
         this.doFinishStoringLocation(n);
     }
 
@@ -113,31 +106,31 @@ extends AbstractADBHandler {
     }
 
     private void doFinishStoringLocation(int n) {
-        this.env.getLogChannel("App.Navi.ADB").log(-2137614336, "NaviADBHandler#doFinishStoringLocation( %1 )", (long)n);
+        this.env.getLogChannel(NAVI_ADB_LOGCHANNEL_NAME).log(10000000, "NaviADBHandler#doFinishStoringLocation( %1 )", (long)n);
         if (this.currentEntry.addressData[n] == null) {
             this.currentEntry.addressData[n] = new AddressData();
         }
-        this.env.getLogChannel("App.Navi.ADB").log(-2137614336, "NaviADBHandler#doFinishStoringLocation MPMP navLocationToBeStored( %1 )", (Object)this.locationToStream(this.locationToBeStored));
+        this.env.getLogChannel(NAVI_ADB_LOGCHANNEL_NAME).log(10000000, "NaviADBHandler#doFinishStoringLocation MPMP navLocationToBeStored( %1 )", (Object)this.locationToStream(this.locationToBeStored));
         this.currentEntry.addressData[n].navLocation = this.locationToStream(this.locationToBeStored);
         this.currentEntry.addressData[n].addressType = n == 0 ? 1 : 2;
-        this.env.getLogChannel("App.Navi.ADB").log(-2137614336, "NaviADBHandler#doFinishStoringLocation MPMP entry to be saved( %1 )", (Object)this.currentEntry);
+        this.env.getLogChannel(NAVI_ADB_LOGCHANNEL_NAME).log(10000000, "NaviADBHandler#doFinishStoringLocation MPMP entry to be saved( %1 )", (Object)this.currentEntry);
         SaveEntryCommand.createSaveEntryCommand(this, this.currentEntry, null);
     }
 
     public void mapActive(boolean bl) {
-        if (this.isMapActive || !bl || this.env.getChoiceModel(-266467840).getValue() == 1) {
+        if (this.isMapActive || !bl || this.env.getChoiceModel(401136).getValue() == 1) {
             // empty if block
         }
         this.isMapActive = bl;
     }
 
     public NavLocation streamToLocation(byte[] byArray) {
-        this.log.log(-2137614336, "NaviADBHandler#streamToLocation(): stream: %1", (Object)byArray);
+        this.log.log(10000000, "NaviADBHandler#streamToLocation(): stream: %1", (Object)byArray);
         return this.locationSerializer.streamToLocation(byArray);
     }
 
     public byte[] locationToStream(NavLocation navLocation) {
-        this.log.log(-2137614336, "NaviADBHandler#locationToStream(): location: %1", (Object)navLocation);
+        this.log.log(10000000, "NaviADBHandler#locationToStream(): location: %1", (Object)navLocation);
         return this.locationSerializer.locationToStream(navLocation);
     }
 
@@ -149,12 +142,11 @@ extends AbstractADBHandler {
         return this.adbInterAppService;
     }
 
-    @Override
     public void updateViewSizes(AdbViewSize adbViewSize) {
         boolean bl = adbViewSize.all == 0;
         boolean bl2 = adbViewSize.navi == 0;
-        this.env.getChoiceModel(69273088).setValue(bl ? 0 : 1);
-        this.env.getChoiceModel(86050304).setValue(bl2 ? 0 : 1);
+        this.env.getChoiceModel(401668).setValue(bl ? 0 : 1);
+        this.env.getChoiceModel(401669).setValue(bl2 ? 0 : 1);
     }
 }
 

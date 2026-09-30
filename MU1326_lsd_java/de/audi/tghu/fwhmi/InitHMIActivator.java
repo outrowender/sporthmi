@@ -21,7 +21,6 @@ extends AbstractActivator {
         }
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.initPerformanceLogging();
@@ -31,7 +30,6 @@ extends AbstractActivator {
         this.getFramework().getStartupMgr().initHMI();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.getFramework().getLogChannel("Fw.Startup").log(10000, "InitHMI service can't be stopped!");
         super.stop(bundleContext);

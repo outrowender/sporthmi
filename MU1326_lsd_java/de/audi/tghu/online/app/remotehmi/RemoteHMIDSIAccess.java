@@ -6,12 +6,11 @@ package de.audi.tghu.online.app.remotehmi;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.IRemoteHMI;
 import de.audi.remotehmi.RemoteHMIAction;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess$IRemoteHMIDSIListener;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import java.util.ArrayList;
 
 public class RemoteHMIDSIAccess {
-    private static final int CACHE_SIZE;
+    private static final int CACHE_SIZE = 100;
     private IRemoteHMI dsi;
     private final LogChannel logChannel;
     private ArrayList dsiListeners = new ArrayList(1);
@@ -29,7 +28,7 @@ public class RemoteHMIDSIAccess {
     public void setIRemoteHMI(IRemoteHMI iRemoteHMI) {
         this.dsi = iRemoteHMI;
         this.informDSIListeners();
-        this.logChannel.log(1078071040, "RemoteHMIDSIAccess#setIRemoteHMI: sending cached actions.");
+        this.logChannel.log(1000000, "RemoteHMIDSIAccess#setIRemoteHMI: sending cached actions.");
         for (int i2 = 0; i2 < this.actionCache.size(); ++i2) {
             this.action((String)this.actionContextCache.get(i2), (RemoteHMIAction)this.actionCache.get(i2));
         }
@@ -46,11 +45,11 @@ public class RemoteHMIDSIAccess {
                 case 451: 
                 case 10008900: 
                 case 100000011: {
-                    n2 = 1078071040;
+                    n2 = 1000000;
                     break;
                 }
                 default: {
-                    n2 = -1601830656;
+                    n2 = 100000;
                 }
             }
             this.logChannel.log(n2, "RemoteHMIDSIAccess#action: no DSI, action ID is %1", (long)n);
@@ -61,7 +60,7 @@ public class RemoteHMIDSIAccess {
             }
             return;
         }
-        this.logChannel.log(1078071040, "RemoteHMIDSIAccess#action: called for action type '%1'", (long)n);
+        this.logChannel.log(1000000, "RemoteHMIDSIAccess#action: called for action type '%1'", (long)n);
         this.dsi.action(string, remoteHMIAction);
     }
 
@@ -93,21 +92,25 @@ public class RemoteHMIDSIAccess {
         this.dsi.resetToFactorySettings();
     }
 
-    public void addDSIListener(RemoteHMIDSIAccess$IRemoteHMIDSIListener remoteHMIDSIAccess$IRemoteHMIDSIListener) {
-        this.dsiListeners.add(remoteHMIDSIAccess$IRemoteHMIDSIListener);
+    public void addDSIListener(IRemoteHMIDSIListener iRemoteHMIDSIListener) {
+        this.dsiListeners.add(iRemoteHMIDSIListener);
         if (this.dsi != null) {
-            remoteHMIDSIAccess$IRemoteHMIDSIListener.remoteHmiDsiReady();
+            iRemoteHMIDSIListener.remoteHmiDsiReady();
         }
     }
 
     public void informDSIListeners() {
-        RemoteHMIDSIAccess$IRemoteHMIDSIListener[] remoteHMIDSIAccess$IRemoteHMIDSIListenerArray = (RemoteHMIDSIAccess$IRemoteHMIDSIListener[])this.dsiListeners.toArray(new RemoteHMIDSIAccess$IRemoteHMIDSIListener[this.dsiListeners.size()]);
-        if (remoteHMIDSIAccess$IRemoteHMIDSIListenerArray == null) {
+        IRemoteHMIDSIListener[] iRemoteHMIDSIListenerArray = (IRemoteHMIDSIListener[])this.dsiListeners.toArray(new IRemoteHMIDSIListener[this.dsiListeners.size()]);
+        if (iRemoteHMIDSIListenerArray == null) {
             return;
         }
-        for (int i2 = 0; i2 < remoteHMIDSIAccess$IRemoteHMIDSIListenerArray.length; ++i2) {
-            remoteHMIDSIAccess$IRemoteHMIDSIListenerArray[i2].remoteHmiDsiReady();
+        for (int i2 = 0; i2 < iRemoteHMIDSIListenerArray.length; ++i2) {
+            iRemoteHMIDSIListenerArray[i2].remoteHmiDsiReady();
         }
+    }
+
+    public static interface IRemoteHMIDSIListener {
+        public void remoteHmiDsiReady();
     }
 }
 

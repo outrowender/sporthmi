@@ -10,10 +10,9 @@ extends NavCommand {
     private boolean liResultResponded = false;
     private boolean isSpellerActiveResponded = false;
 
-    @Override
     public void execute() {
         if (this.dsiResponseContainer.isLiIsSpellerActive()) {
-            this.logger.log(-2137614336, "LISPCancelSpellerCommand#execute() - calling lispCancelSpeller() ");
+            this.logger.log(10000000, "LISPCancelSpellerCommand#execute() - calling lispCancelSpeller() ");
             this.getDSINavigation().lispCancelSpeller();
         } else {
             this.getCommandList().commandFinished();
@@ -26,17 +25,15 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void updateLispIsSpellerActive(boolean bl) {
-        this.logger.log(-2137614336, "LISPCancelSpellerCommand#updateLispIsSpellerActive( %1 ) ", bl);
+        this.logger.log(10000000, "LISPCancelSpellerCommand#updateLispIsSpellerActive( %1 ) ", bl);
         super.updateLispIsSpellerActive(bl);
         this.isSpellerActiveResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(-2137614336, "LISPCancelSpellerCommand#liResult( %1 ) ", l);
+        this.logger.log(10000000, "LISPCancelSpellerCommand#liResult( %1 ) ", l);
         super.liResult(l);
         this.liResultResponded = true;
         this.checkFinished();

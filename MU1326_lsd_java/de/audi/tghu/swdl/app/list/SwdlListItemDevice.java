@@ -19,7 +19,6 @@ extends AbstractSwdlListItemDeviceInfo {
         this.setLayout(n3);
     }
 
-    @Override
     IDeviceInfoManager getDeviceInfoManager() {
         return this.deviceInfoManager;
     }
@@ -28,13 +27,11 @@ extends AbstractSwdlListItemDeviceInfo {
         return this.getName();
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         super.updateListRow(baseListRow);
         baseListRow.setInteger(4, this.additionalInfo);
     }
 
-    @Override
     public void select(int n) {
         this.deviceInfoManager.doSelectDevice(n);
     }

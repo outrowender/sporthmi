@@ -4,13 +4,10 @@
 package de.audi.tghu.navi.app.routeguidance;
 
 public interface RouteEventListener {
-    default public void onUpdateRgActive(boolean bl) {
-    }
+    public void onUpdateRgActive(boolean var1);
 
-    default public void onRouteStarted() {
-    }
+    public void onRouteStarted();
 
-    default public void onRouteTerminated() {
-    }
+    public void onRouteTerminated();
 }
 

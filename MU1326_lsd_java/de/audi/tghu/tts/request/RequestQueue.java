@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class RequestQueue {
-    private static final int CACHE_SIZE;
+    private static final int CACHE_SIZE = 8;
     private List queue;
     private LogChannel logCh;
     private AbstractRequest runningRequest;
@@ -20,18 +20,18 @@ public class RequestQueue {
 
     public RequestQueue(LogChannel logChannel) {
         this.logCh = logChannel;
-        this.logCh.log(-2137614336, "[RequestQueue#ctor] Called.");
+        this.logCh.log(10000000, "[RequestQueue#ctor] Called.");
         this.queue = new Vector(8);
     }
 
     private void increaseSpeakRequestCounter() {
         ++this.speakRequestCounter;
-        this.logCh.log(-2137614336, "[RequestQueue#increaseSpeakRequestCounter] Called, counter: %1", (long)this.speakRequestCounter);
+        this.logCh.log(10000000, "[RequestQueue#increaseSpeakRequestCounter] Called, counter: %1", (long)this.speakRequestCounter);
     }
 
     private void decreaseSpeakRequestCounter() {
         --this.speakRequestCounter;
-        this.logCh.log(-2137614336, "[RequestQueue#decreaseSpeakRequestCounter] Called, counter: %1", (long)this.speakRequestCounter);
+        this.logCh.log(10000000, "[RequestQueue#decreaseSpeakRequestCounter] Called, counter: %1", (long)this.speakRequestCounter);
     }
 
     public synchronized AbstractRequest getRunningRequest() {
@@ -39,7 +39,7 @@ public class RequestQueue {
     }
 
     synchronized void setRunningRequest(AbstractRequest abstractRequest) {
-        this.logCh.log(-2137614336, "[RequestQueue#setRunningRequest] Called, request: %1", (Object)abstractRequest);
+        this.logCh.log(10000000, "[RequestQueue#setRunningRequest] Called, request: %1", (Object)abstractRequest);
         this.runningRequest = abstractRequest;
     }
 
@@ -48,10 +48,10 @@ public class RequestQueue {
     }
 
     synchronized void addRequest(AbstractRequest abstractRequest) {
-        this.logCh.log(-2137614336, "[RequestQueue#addRequest] Called, request: %1", (Object)abstractRequest);
+        this.logCh.log(10000000, "[RequestQueue#addRequest] Called, request: %1", (Object)abstractRequest);
         if (abstractRequest.getType() == 0) {
             if (this.speakRequestCounter == 8) {
-                this.logCh.log(-2137614336, "[RequestQueue#addRequest] Request is of type 'SpeakRequest' and cache size is reached, ignore request.");
+                this.logCh.log(10000000, "[RequestQueue#addRequest] Request is of type 'SpeakRequest' and cache size is reached, ignore request.");
             } else {
                 this.increaseSpeakRequestCounter();
                 this.queue.add(abstractRequest);
@@ -62,7 +62,7 @@ public class RequestQueue {
     }
 
     public synchronized void processRequest(AbstractRequest abstractRequest) {
-        this.logCh.log(-2137614336, "[RequestQueue#processRequest] Called, request: %1", (Object)abstractRequest);
+        this.logCh.log(10000000, "[RequestQueue#processRequest] Called, request: %1", (Object)abstractRequest);
         abstractRequest.process();
     }
 
@@ -74,48 +74,48 @@ public class RequestQueue {
                 this.decreaseSpeakRequestCounter();
             }
             this.setRunningRequest(abstractRequest);
-            this.logCh.log(-2137614336, "[RequestQueue#finishRequest] Execute next request object: '%1'", (Object)this.runningRequest);
+            this.logCh.log(10000000, "[RequestQueue#finishRequest] Execute next request object: '%1'", (Object)this.runningRequest);
             abstractRequest.execute();
         } else {
-            this.logCh.log(-2137614336, "[RequestQueue#finishRequest] No further request objects available.");
+            this.logCh.log(10000000, "[RequestQueue#finishRequest] No further request objects available.");
         }
     }
 
     synchronized void removeSpeakRequestsFromQueue(short s) {
-        this.logCh.log(-2137614336, "[RequestQueue#removeSpeakRequestsFromQueue] Called: %1", (long)s);
+        this.logCh.log(10000000, "[RequestQueue#removeSpeakRequestsFromQueue] Called: %1", (long)s);
         Iterator iterator = this.queue.iterator();
         while (iterator.hasNext()) {
-            this.logCh.log(-2137614336, "[RequestQueue#removeSpeakRequestsFromQueue] Iterate over queue and remove SPEAK request with same source ID.");
+            this.logCh.log(10000000, "[RequestQueue#removeSpeakRequestsFromQueue] Iterate over queue and remove SPEAK request with same source ID.");
             AbstractRequest abstractRequest = (AbstractRequest)iterator.next();
             if (abstractRequest.getType() != 0 || abstractRequest.getSourceId() != s) continue;
-            this.logCh.log(-2137614336, "[RequestQueue#removeSpeakRequestsFromQueue] Request removed: %1", (Object)abstractRequest);
+            this.logCh.log(10000000, "[RequestQueue#removeSpeakRequestsFromQueue] Request removed: %1", (Object)abstractRequest);
             iterator.remove();
             this.decreaseSpeakRequestCounter();
             if (!(abstractRequest instanceof SpeakRequest)) continue;
             ((SpeakRequest)abstractRequest).abortQueued().execute();
         }
-        this.logCh.log(-2137614336, "[RequestQueue#removeSpeakRequestsFromQueue] Left.");
+        this.logCh.log(10000000, "[RequestQueue#removeSpeakRequestsFromQueue] Left.");
     }
 
     synchronized void cleanRequestQueueForLanguageChange() {
-        this.logCh.log(-2137614336, "[RequestQueue#cleanRequestQueueForLanguageChange] Called!");
+        this.logCh.log(10000000, "[RequestQueue#cleanRequestQueueForLanguageChange] Called!");
         Iterator iterator = this.queue.iterator();
         while (iterator.hasNext()) {
-            this.logCh.log(-2137614336, "[RequestQueue#cleanRequestQueueForLanguageChange] Iterate over queue and remove request");
+            this.logCh.log(10000000, "[RequestQueue#cleanRequestQueueForLanguageChange] Iterate over queue and remove request");
             AbstractRequest abstractRequest = (AbstractRequest)iterator.next();
             int n = abstractRequest.getType();
             if (!AbstractRequest.isAbortableByLanguageChange(n)) {
-                this.logCh.log(-2137614336, "[RequestQueue#cleanRequestQueueForLanguageChange] Keep request of type %1", (long)n);
+                this.logCh.log(10000000, "[RequestQueue#cleanRequestQueueForLanguageChange] Keep request of type %1", (long)n);
                 continue;
             }
-            this.logCh.log(-2137614336, "[RequestQueue#cleanRequestQueueForLanguageChange] Remove request of type %1 -> including abort", (long)n);
+            this.logCh.log(10000000, "[RequestQueue#cleanRequestQueueForLanguageChange] Remove request of type %1 -> including abort", (long)n);
             if (n == 0) {
                 this.decreaseSpeakRequestCounter();
             }
             iterator.remove();
             abstractRequest.abortQueued().execute();
         }
-        this.logCh.log(-2137614336, "[RequestQueue#cleanRequestQueueForLanguageChange] Left.");
+        this.logCh.log(10000000, "[RequestQueue#cleanRequestQueueForLanguageChange] Left.");
     }
 
     public synchronized TTSResult responseAudioTrigger(short s, int n) {
@@ -143,7 +143,7 @@ public class RequestQueue {
         if (this.runningRequest != null) {
             return this.runningRequest.updateAudioRequest(n, n2);
         }
-        this.logCh.log(-2137614336, "[RequestQueue#updateAudioRequest] no running request -> TTSResult_NONE.");
+        this.logCh.log(10000000, "[RequestQueue#updateAudioRequest] no running request -> TTSResult_NONE.");
         return new TTSResult(null, 1);
     }
 

@@ -4,23 +4,22 @@
 package de.audi.tv.app.dsi;
 
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
+import de.audi.tv.app.TVUtil;
 import de.audi.tv.app.base.TVEventDispatcher;
 import de.audi.tv.app.dsi.DSICallListener;
 import de.audi.tv.app.dsi.DefaultTVListener;
-import de.audi.tv.app.dsi.TuningMonitor$DSICallListenerImpl;
-import de.audi.tv.app.dsi.TuningMonitor$ReconcileTimerListener;
-import de.audi.tv.app.dsi.TuningMonitor$TVListenerImpl;
-import de.audi.tv.app.dsi.TuningMonitor$TimerCallback;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.dsi.ifc.tvtuner.ProgramInfo;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TuningMonitor {
-    private static final int UPDATE_SELECTED_RECONCILE_TIME;
-    private static final int SELECT_SERVICE_COMMAND_TIMEOUT;
-    private static final boolean DBG;
+    private static final int UPDATE_SELECTED_RECONCILE_TIME = 1000;
+    private static final int SELECT_SERVICE_COMMAND_TIMEOUT = 15000;
+    private static final boolean DBG = true;
     public final DefaultTVListener tvListener;
     public final DSICallListener dsiCallListener;
     private final List tunedServices;
@@ -32,17 +31,17 @@ public class TuningMonitor {
     private final Object mutex = new Object();
 
     public TuningMonitor(LogChannel logChannel, TVEventDispatcher tVEventDispatcher) {
-        this(logChannel, 0, 1000, tVEventDispatcher);
+        this(logChannel, 15000L, 1000, tVEventDispatcher);
     }
 
     public TuningMonitor(LogChannel logChannel, long l, int n, TVEventDispatcher tVEventDispatcher) {
         this.lc = logChannel;
         this.tvEventDispatcher = tVEventDispatcher;
-        this.tvListener = new TuningMonitor$TVListenerImpl(this, null);
-        this.dsiCallListener = new TuningMonitor$DSICallListenerImpl(this, null);
+        this.tvListener = new TVListenerImpl();
+        this.dsiCallListener = new DSICallListenerImpl();
         this.tunedServices = new ArrayList();
-        this.selectTimeoutTimer = new Timer("selectServiceTimeout", l, true, new TuningMonitor$TimerCallback(this, null));
-        this.reconcileTimer = new Timer("TVupdateSelectedServiceDebounce", n, true, new TuningMonitor$ReconcileTimerListener(this, null));
+        this.selectTimeoutTimer = new Timer("selectServiceTimeout", l, true, new TimerCallback());
+        this.reconcileTimer = new Timer("TVupdateSelectedServiceDebounce", n, true, new ReconcileTimerListener());
     }
 
     private void notifyListeners(ProgramInfo programInfo) {
@@ -66,41 +65,108 @@ public class TuningMonitor {
         return serviceInfo;
     }
 
-    static /* synthetic */ Object access$400(TuningMonitor tuningMonitor) {
-        return tuningMonitor.mutex;
+    private class TimerCallback
+    extends DefaultTimerListener {
+        private TimerCallback() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            List list = TuningMonitor.this.tunedServices;
+            synchronized (list) {
+                TuningMonitor.this.lc.log(10000000, "[TuningMonitor.TimerCallback.fireTimer] selectService takes too long, clear the list");
+                TuningMonitor.this.tunedServices.clear();
+            }
+        }
     }
 
-    static /* synthetic */ ProgramInfo access$502(TuningMonitor tuningMonitor, ProgramInfo programInfo) {
-        tuningMonitor.lastTunedProgramInfo = programInfo;
-        return tuningMonitor.lastTunedProgramInfo;
+    private class TVListenerImpl
+    extends DefaultTVListener {
+        private TVListenerImpl() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateSelectedService(ProgramInfo programInfo) {
+            Object object = TuningMonitor.this.mutex;
+            synchronized (object) {
+                TuningMonitor.this.lastTunedProgramInfo = programInfo;
+                if (TuningMonitor.this.tunedServices.isEmpty()) {
+                    TuningMonitor.this.tvEventDispatcher.updateSelectedServiceDebounced(programInfo);
+                } else {
+                    this.logTunedServices();
+                    if (TVUtil.equalsNamePID(TuningMonitor.this.getLastTunedService(), programInfo.serviceInfo)) {
+                        TuningMonitor.this.tunedServices.clear();
+                        TuningMonitor.this.selectTimeoutTimer.cancel();
+                        TuningMonitor.this.reconcileTimer.cancel();
+                        TuningMonitor.this.notifyListeners(programInfo);
+                    } else if (!this.wasServiceRequested(programInfo)) {
+                        TuningMonitor.this.lc.log(10000000, "[TuningMonitor.updateSelectedService] diverged - start to reconcile");
+                        TuningMonitor.this.reconcileTimer.restart();
+                    } else {
+                        TuningMonitor.this.reconcileTimer.cancel();
+                        TuningMonitor.this.lc.log(10000000, "[TuningMonitor.updateSelectedService] tuning is still in progress, wait");
+                    }
+                }
+            }
+        }
+
+        private boolean wasServiceRequested(ProgramInfo programInfo) {
+            Iterator iterator = TuningMonitor.this.tunedServices.iterator();
+            while (iterator.hasNext()) {
+                ServiceInfo serviceInfo = (ServiceInfo)iterator.next();
+                if (!TVUtil.equalsNamePID(serviceInfo, programInfo.serviceInfo)) continue;
+                return true;
+            }
+            return false;
+        }
+
+        private void logTunedServices() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append('[');
+            Iterator iterator = TuningMonitor.this.tunedServices.iterator();
+            while (iterator.hasNext()) {
+                ServiceInfo serviceInfo = (ServiceInfo)iterator.next();
+                stringBuffer.append(serviceInfo.name);
+                stringBuffer.append(", ");
+            }
+            stringBuffer.append(']');
+            TuningMonitor.this.lc.log(10000000, "[TuningMonitor.updateSelectedService] was tuning %1", (Object)stringBuffer.toString());
+        }
     }
 
-    static /* synthetic */ List access$600(TuningMonitor tuningMonitor) {
-        return tuningMonitor.tunedServices;
+    private class DSICallListenerImpl
+    extends DSICallListener {
+        private DSICallListenerImpl() {
+        }
+
+        public synchronized void selectService(ServiceInfo serviceInfo, boolean bl) {
+            TuningMonitor.this.tunedServices.add(serviceInfo);
+            TuningMonitor.this.selectTimeoutTimer.restart();
+            TuningMonitor.this.reconcileTimer.cancel();
+        }
     }
 
-    static /* synthetic */ TVEventDispatcher access$700(TuningMonitor tuningMonitor) {
-        return tuningMonitor.tvEventDispatcher;
-    }
+    private final class ReconcileTimerListener
+    extends DefaultTimerListener {
+        private ReconcileTimerListener() {
+        }
 
-    static /* synthetic */ Timer access$800(TuningMonitor tuningMonitor) {
-        return tuningMonitor.selectTimeoutTimer;
-    }
-
-    static /* synthetic */ Timer access$900(TuningMonitor tuningMonitor) {
-        return tuningMonitor.reconcileTimer;
-    }
-
-    static /* synthetic */ void access$1000(TuningMonitor tuningMonitor, ProgramInfo programInfo) {
-        tuningMonitor.notifyListeners(programInfo);
-    }
-
-    static /* synthetic */ LogChannel access$1100(TuningMonitor tuningMonitor) {
-        return tuningMonitor.lc;
-    }
-
-    static /* synthetic */ ProgramInfo access$500(TuningMonitor tuningMonitor) {
-        return tuningMonitor.lastTunedProgramInfo;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            Object object = TuningMonitor.this.mutex;
+            synchronized (object) {
+                TuningMonitor.this.lc.log(10000000, "<- [TuningMonitor.ReconcileTimerListener.fireTimer] %1 ", (Object)TuningMonitor.this.lastTunedProgramInfo);
+                TuningMonitor.this.tunedServices.clear();
+                TuningMonitor.this.selectTimeoutTimer.cancel();
+                TuningMonitor.this.notifyListeners(TuningMonitor.this.lastTunedProgramInfo);
+            }
+        }
     }
 }
 

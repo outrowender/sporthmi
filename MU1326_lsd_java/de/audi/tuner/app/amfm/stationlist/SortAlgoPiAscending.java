@@ -11,12 +11,11 @@ import org.dsi.ifc.radio.Station;
 class SortAlgoPiAscending
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -3300879504136249688L;
 
     SortAlgoPiAscending() {
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         Station station = (Station)object;
         Station station2 = (Station)object2;

@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class EcallSMMInitTransitions
 implements SMModuleConstants {
@@ -98,16 +99,16 @@ implements SMModuleConstants {
     }
 
     private void initTransitionTargetStateList0(int[][] nArray) {
-        nArray[1] = new int[]{-1118162432, -1118162432};
-        nArray[2] = new int[]{-564514304};
-        nArray[3] = new int[]{-1504038400};
+        nArray[1] = new int[]{3300029, 3300029};
+        nArray[2] = new int[]{3300062};
+        nArray[3] = new int[]{3300006};
         nArray[4] = nArray[3];
-        nArray[5] = new int[]{-1520815616};
+        nArray[5] = new int[]{3300005};
         nArray[6] = nArray[3];
-        nArray[7] = new int[]{-564514304, -1554370048, -1571147264, -1487261184, -1436929536, -1403375104, -1420152320, -1453706752, -1470483968, -1386597888, -279301632, -312856064, 39531008, -1369820672, -10866176, -44420608, -212192768, -1252380160, -1235602944, -1218825728, -245747200, -346410496, -111529472, -94752256, -145083904, -447073792, -161861120, -61197824, -178638336, -77975040, -128306688, 22753792, -564514304};
+        nArray[7] = new int[]{3300062, 3300003, 3300002, 3300007, 3300010, 3300012, 3300011, 3300009, 3300008, 3300013, 3300079, 3300077, 3300098, 3300014, 3300095, 3300093, 3300083, 3300021, 3300022, 3300023, 3300081, 3300075, 3300089, 3300090, 3300087, 3300069, 3300086, 3300092, 3300085, 3300091, 3300088, 3300097, 3300062};
         nArray[10] = nArray[2];
         nArray[13] = new int[]{-10};
-        nArray[14] = new int[]{-983944704, -900058624, -1101385216, 56308224, -1067830784, -296078848, -1034276352, 5976576, -1151716864, -228969984, -1000721920, -1084608000, -262524416, -1051053568, -950390272, -195415552, -916835840, -967167488, -27643392, -933613056, -1017499136, -329633280, -1151716864};
+        nArray[14] = new int[]{3300037, 3300042, 3300030, 3300099, 3300032, 3300078, 3300034, 3300096, 3300027, 3300082, 3300036, 3300031, 3300080, 3300033, 3300039, 3300084, 3300041, 3300038, 3300094, 3300040, 3300035, 3300076, 3300027};
         nArray[15] = nArray[14];
         nArray[16] = nArray[14];
         nArray[17] = nArray[14];
@@ -115,22 +116,22 @@ implements SMModuleConstants {
         nArray[21] = nArray[14];
         nArray[22] = nArray[2];
         nArray[23] = nArray[2];
-        nArray[29] = new int[]{-363187712};
+        nArray[29] = new int[]{3300074};
         nArray[37] = nArray[2];
         nArray[42] = nArray[2];
-        nArray[44] = new int[]{-631623168};
-        nArray[45] = new int[]{-614845952};
-        nArray[46] = new int[]{-1151716864};
+        nArray[44] = new int[]{3300058};
+        nArray[45] = new int[]{3300059};
+        nArray[46] = new int[]{3300027};
         nArray[47] = nArray[2];
         nArray[48] = nArray[45];
-        nArray[49] = new int[]{-598068736};
+        nArray[49] = new int[]{3300060};
         nArray[50] = nArray[2];
-        nArray[51] = new int[]{-1537592832};
+        nArray[51] = new int[]{3300004};
         nArray[52] = nArray[2];
-        nArray[53] = new int[]{-547737088};
+        nArray[53] = new int[]{3300063};
         nArray[54] = new int[]{-10};
-        nArray[55] = new int[]{-581291520};
-        nArray[56] = new int[]{-379964928};
+        nArray[55] = new int[]{3300061};
+        nArray[56] = new int[]{3300073};
         nArray[57] = new int[]{-3};
         nArray[58] = nArray[56];
         nArray[59] = nArray[56];
@@ -142,7 +143,7 @@ implements SMModuleConstants {
         this.smm.setTransIncludeJumpTransition(hashMap);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

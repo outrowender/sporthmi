@@ -10,46 +10,32 @@ import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.navigation.Route;
 
 public interface IStartGuidanceToDestinationSequence {
-    default public void start(NavLocation navLocation) {
-    }
+    public void start(NavLocation var1);
 
-    default public void start(ILocationHandler iLocationHandler, NavLocation navLocation) {
-    }
+    public void start(ILocationHandler var1, NavLocation var2);
 
-    default public void start(Route route) {
-    }
+    public void start(Route var1);
 
-    default public CommandList getStartSequence(Route route) {
-    }
+    public CommandList getStartSequence(Route var1);
 
-    default public void start(NavSegmentID navSegmentID) {
-    }
+    public void start(NavSegmentID var1);
 
-    default public CommandList getStartSequence(NavSegmentID navSegmentID) {
-    }
+    public CommandList getStartSequence(NavSegmentID var1);
 
-    default public void start(NavLocation navLocation, boolean bl) {
-    }
+    public void start(NavLocation var1, boolean var2);
 
-    default public CommandList getStartSequence(NavLocation navLocation) {
-    }
+    public CommandList getStartSequence(NavLocation var1);
 
-    default public CommandList getStartSequence(ILocationHandler iLocationHandler, NavLocation navLocation) {
-    }
+    public CommandList getStartSequence(ILocationHandler var1, NavLocation var2);
 
-    default public CommandList getStartSequence(NavLocation navLocation, boolean bl) {
-    }
+    public CommandList getStartSequence(NavLocation var1, boolean var2);
 
-    default public CommandList getStartSequenceForKombi(NavLocation navLocation, boolean bl) {
-    }
+    public CommandList getStartSequenceForKombi(NavLocation var1, boolean var2);
 
-    default public CommandList getStartSequence(ILocationHandler iLocationHandler, NavLocation navLocation, boolean bl, boolean bl2) {
-    }
+    public CommandList getStartSequence(ILocationHandler var1, NavLocation var2, boolean var3, boolean var4);
 
-    default public CommandList getOffroadStartSequence(NavLocation navLocation, boolean bl, int n) {
-    }
+    public CommandList getOffroadStartSequence(NavLocation var1, boolean var2, int var3);
 
-    default public void startOffroad(NavLocation navLocation, boolean bl, int n) {
-    }
+    public void startOffroad(NavLocation var1, boolean var2, int var3);
 }
 

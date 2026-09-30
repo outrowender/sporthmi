@@ -4,13 +4,10 @@
 package de.audi.tghu.navi.app.li;
 
 public interface IAdditionalStateInfo {
-    default public void gatherInfo() {
-    }
+    public void gatherInfo();
 
-    default public void restoreBefore() {
-    }
+    public void restoreBefore();
 
-    default public void restoreAfter() {
-    }
+    public void restoreAfter();
 }
 

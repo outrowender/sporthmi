@@ -12,13 +12,13 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractAmFmRow
 extends AbstractRadioListRow {
-    static final int INDEX_ROW_ID_UNUSED;
-    protected static final int ICON_NONE;
-    protected static final int ICON_HD_GREY;
-    protected static final int ICON_HD_WHITE;
-    protected static final int ICON_LOW_RECEPTION;
-    protected static final int ITUNES_ICON_RESET;
-    protected static final int ITUNES_ICON_ENABLED;
+    static final int INDEX_ROW_ID_UNUSED = 0;
+    protected static final int ICON_NONE = 0;
+    protected static final int ICON_HD_GREY = 1;
+    protected static final int ICON_HD_WHITE = 2;
+    protected static final int ICON_LOW_RECEPTION = 3;
+    protected static final int ITUNES_ICON_RESET = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 1 : 0;
+    protected static final int ITUNES_ICON_ENABLED = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 2 : 0;
     protected final AMFMStation station;
 
     protected AbstractAmFmRow(int n, AMFMStation aMFMStation) {
@@ -43,22 +43,16 @@ extends AbstractRadioListRow {
         return 42;
     }
 
-    public abstract String getFastScrollTxt() {
-    }
+    public abstract String getFastScrollTxt();
 
-    public abstract void setHdStatus(int n) {
-    }
+    public abstract void setHdStatus(int var1);
 
-    public abstract void resetHdStatus() {
-    }
+    public abstract void resetHdStatus();
 
-    public abstract void setStationActive(boolean bl) {
-    }
+    public abstract void setStationActive(boolean var1);
 
-    abstract void psUnfreeze() {
-    }
+    abstract void psUnfreeze();
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         TunerObjectContainer tunerObjectContainer = new TunerObjectContainer(new AMFMStation(this.station));
         tunerObjectContainer.setPresetPos(this.station.getPresetPos());
@@ -73,7 +67,6 @@ extends AbstractRadioListRow {
         return this.station.pi;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(300);
         buffer.append(this.station);
@@ -90,11 +83,6 @@ extends AbstractRadioListRow {
     }
 
     public void setProgramData(AMFMStation aMFMStation, int n, TunerStatus tunerStatus) {
-    }
-
-    static {
-        ITUNES_ICON_RESET = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 1 : 0;
-        ITUNES_ICON_ENABLED = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 2 : 0;
     }
 }
 

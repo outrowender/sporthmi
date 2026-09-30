@@ -24,9 +24,8 @@ ISDSServiceStatusListener {
         super(logChannel);
     }
 
-    @Override
     public void abortSDSSession(boolean bl) {
-        this.logChannel.log(-2137614336, "SDSController#abortSDSSession( %1 )", bl);
+        this.logChannel.log(10000000, "SDSController#abortSDSSession( %1 )", bl);
         if (this.sdsService != null) {
             try {
                 this.sdsService.abortSDSSession(bl, (byte)6);
@@ -35,14 +34,13 @@ ISDSServiceStatusListener {
                 this.logChannel.log(10000, "SDSHandlerImpl#abortSDSSession() - ERROR=%1 ", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "SDSController#abortSDSSession() - no service registered!");
+            this.logChannel.log(100000, "SDSController#abortSDSSession() - no service registered!");
         }
         this.notifyAbort();
     }
 
-    @Override
     public void notifyAbort() {
-        this.logChannel.log(-2137614336, "SDSController#notifyAbort()");
+        this.logChannel.log(10000000, "SDSController#notifyAbort()");
         Iterator iterator = this.observersList.iterator();
         while (iterator.hasNext()) {
             try {
@@ -55,9 +53,8 @@ ISDSServiceStatusListener {
         }
     }
 
-    @Override
     public void notifySDSDialogStarted() {
-        this.logChannel.log(-2137614336, "SDSController#notifySDSDialogStarted()");
+        this.logChannel.log(10000000, "SDSController#notifySDSDialogStarted()");
         Iterator iterator = this.observersList.iterator();
         while (iterator.hasNext()) {
             try {
@@ -70,9 +67,8 @@ ISDSServiceStatusListener {
         }
     }
 
-    @Override
     public void notifySDSDialogAborting() {
-        this.logChannel.log(-2137614336, "SDSController#notifySDSDialogAborting()");
+        this.logChannel.log(10000000, "SDSController#notifySDSDialogAborting()");
         Iterator iterator = this.observersList.iterator();
         while (iterator.hasNext()) {
             try {
@@ -85,9 +81,8 @@ ISDSServiceStatusListener {
         }
     }
 
-    @Override
     public void notifySDSDialogEnded() {
-        this.logChannel.log(-2137614336, "SDSController#notifySDSDialogEnded()");
+        this.logChannel.log(10000000, "SDSController#notifySDSDialogEnded()");
         Iterator iterator = this.observersList.iterator();
         while (iterator.hasNext()) {
             try {
@@ -100,9 +95,8 @@ ISDSServiceStatusListener {
         }
     }
 
-    @Override
     public boolean isSDSActive() {
-        this.logChannel.log(-2137614336, "SDSController#isSDSActive()");
+        this.logChannel.log(10000000, "SDSController#isSDSActive()");
         if (this.sdsService != null) {
             boolean bl = false;
             try {
@@ -114,13 +108,12 @@ ISDSServiceStatusListener {
             }
             return bl;
         }
-        this.logChannel.log(-1601830656, "SDSController#isSDSActive() - no service registered!");
+        this.logChannel.log(100000, "SDSController#isSDSActive() - no service registered!");
         return false;
     }
 
-    @Override
     public void itemSelected(int n, int n2) {
-        this.logChannel.log(-2137614336, "SDSController#itemSelected( %1 )", (long)n2);
+        this.logChannel.log(10000000, "SDSController#itemSelected( %1 )", (long)n2);
         if (this.sdsService != null) {
             try {
                 this.sdsService.itemSelected(n, n2);
@@ -129,13 +122,12 @@ ISDSServiceStatusListener {
                 this.logChannel.log(10000, "SDSHandlerImpl#itemSelected() - ERROR=%1 ", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "SDSController#itemSelected() - no service registered!");
+            this.logChannel.log(100000, "SDSController#itemSelected() - no service registered!");
         }
     }
 
-    @Override
     public void keyTyped(int n) {
-        this.logChannel.log(-2137614336, "SDSHandlerImpl#keyTyped( %1 )", (long)n);
+        this.logChannel.log(10000000, "SDSHandlerImpl#keyTyped( %1 )", (long)n);
         if (this.sdsService != null) {
             try {
                 this.sdsService.keyTyped(n, -1);
@@ -144,11 +136,10 @@ ISDSServiceStatusListener {
                 this.logChannel.log(10000, "SDSHandlerImpl#keyTyped() - ERROR=%1 ", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "SDSHandlerImpl#keyTyped() - no service registered!");
+            this.logChannel.log(100000, "SDSHandlerImpl#keyTyped() - no service registered!");
         }
     }
 
-    @Override
     public void registerListener(ISDSStateObserver iSDSStateObserver) {
         if (iSDSStateObserver == null) {
             throw new IllegalArgumentException();
@@ -156,12 +147,10 @@ ISDSServiceStatusListener {
         this.observersList.add(iSDSStateObserver);
     }
 
-    @Override
     protected String[] getTrackedService() {
         return new String[]{(class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = SDSController.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName()};
     }
 
-    @Override
     protected boolean trackedServiceAdded(Object object) {
         if (object instanceof SDSService) {
             this.sdsService = (SDSService)object;
@@ -173,14 +162,13 @@ ISDSServiceStatusListener {
                     this.logChannel.log(10000, "SDSHandlerImpl#trackedServiceAdded() - ERROR=%1 ", (Throwable)exception);
                 }
             } else {
-                this.logChannel.log(-1601830656, "SDSHandlerImpl#trackedServiceAdded() - no service registered!");
+                this.logChannel.log(100000, "SDSHandlerImpl#trackedServiceAdded() - no service registered!");
             }
             return true;
         }
         return false;
     }
 
-    @Override
     protected boolean trackedServiceRemoved(Object object) {
         if (object instanceof SDSService) {
             this.sdsService = null;
@@ -190,11 +178,9 @@ ISDSServiceStatusListener {
         return false;
     }
 
-    @Override
     protected void onStart() {
     }
 
-    @Override
     protected void onStop() {
         this.sdsService = null;
         this.observersList.clear();

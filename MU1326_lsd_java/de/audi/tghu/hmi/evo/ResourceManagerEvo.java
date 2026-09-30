@@ -16,7 +16,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 final class ResourceManagerEvo
 extends ResourceManager {
-    static final long LONG_RUNNING_KANZI_LOAD_THRESHOLD;
+    static final long LONG_RUNNING_KANZI_LOAD_THRESHOLD = 100L;
     private IKanziResourceLoader kanziResourceLoader;
     private final LogChannel startupLogChannel;
 
@@ -29,7 +29,7 @@ extends ResourceManager {
     }
 
     public Object getKanziResource(String string, Object object, int n, int n2, boolean bl, boolean bl2) {
-        this.logHMIService.log(-2137614336, "ResourceManager: HMIServiceImpl.getKanziResource(id = %1) called; moduleId == %2 ", (Object)string, (long)(n2 / -1601830656));
+        this.logHMIService.log(10000000, "ResourceManager: HMIServiceImpl.getKanziResource(id = %1) called; moduleId == %2 ", (Object)string, (long)(n2 / 100000));
         Object object2 = null;
         if (bl) {
             object2 = this.getKanzeResourceLoader().getKanziResourceFromCache(object, n);
@@ -39,10 +39,10 @@ extends ResourceManager {
         }
         HMIBundle hMIBundle = ((FwHMI)this.framework.getHMIService()).getHMIBundle(0);
         if (hMIBundle == null) {
-            this.logHMIService.log(-2137614336, "ResourceManager: HMIServiceImpl.getKanziResource(): No HMIBundle for ID %1 ", (long)n2);
+            this.logHMIService.log(10000000, "ResourceManager: HMIServiceImpl.getKanziResource(): No HMIBundle for ID %1 ", (long)n2);
             return null;
         }
-        this.logHMIService.log(-2137614336, "ResourceManager: HMIServiceImpl.getKanziResource(): targetHmiBundle == %1 ", (Object)hMIBundle);
+        this.logHMIService.log(10000000, "ResourceManager: HMIServiceImpl.getKanziResource(): targetHmiBundle == %1 ", (Object)hMIBundle);
         if (IStatisticsManager.INSTRUMENTATION_ENABLED) {
             StatisticsManager.instance().getResourceLoaderStatistics().loadStart(n2);
         }
@@ -57,7 +57,7 @@ extends ResourceManager {
             }
             object2 = this.getKanzeResourceLoader().loadKanziResource(string2, object, n);
             long l2 = this.getMonotonicTime() - l;
-            if (l2 > 0) {
+            if (l2 > 100L) {
                 this.addLongRunningKanziLoad(n, n2, object, null == object2, l2, string2);
             }
             if (IStatisticsManager.INSTRUMENTATION_ENABLED) {
@@ -73,14 +73,14 @@ extends ResourceManager {
             }
             object2 = this.getKanzeResourceLoader().loadKanziResource(string3, object, n);
             long l3 = this.getMonotonicTime() - l;
-            if (l3 > 0) {
+            if (l3 > 100L) {
                 this.addLongRunningKanziLoad(n, n2, object, null == object2, l3, string3);
             }
             if (IStatisticsManager.INSTRUMENTATION_ENABLED) {
                 StatisticsManager.instance().getResourceLoaderStatistics().loadEnd(string3, object, n, null == object2);
             }
         }
-        this.logHMIService.log(-2137614336, "ResourceManager: HMIServiceImpl.getKanziResource() finished: returning: %1 ", object2);
+        this.logHMIService.log(10000000, "ResourceManager: HMIServiceImpl.getKanziResource() finished: returning: %1 ", object2);
         return object2;
     }
 
@@ -101,7 +101,7 @@ extends ResourceManager {
         }
         buffer = new Buffer(256);
         buffer.append("time=").append(l).append(" type=").append(n).append(" screen=").append(n2).append(" err=").append(bl ? (char)'Y' : 'N').append(" info=").append(string2).append(" path=").append(string);
-        this.startupLogChannel.log(-1601830656, "Slow KZB load: %1", (Object)buffer);
+        this.startupLogChannel.log(100000, "Slow KZB load: %1", (Object)buffer);
     }
 
     private IKanziResourceLoader getKanzeResourceLoader() {

@@ -7,7 +7,7 @@ import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.storage.TunerStorage;
 
 public abstract class AbstractSetupHandler {
-    private int logLevel = -2137614336;
+    private int logLevel = 10000000;
     private int[] currentSetup;
     private String whoAmI;
     protected final Logger logger;
@@ -71,13 +71,10 @@ public abstract class AbstractSetupHandler {
         return this.initialized ? this.currentSetup : null;
     }
 
-    protected abstract int[] loadSetup() {
-    }
+    protected abstract int[] loadSetup();
 
-    protected abstract int[] checkSetupByVariant(int[] nArray) {
-    }
+    protected abstract int[] checkSetupByVariant(int[] var1);
 
-    protected abstract void storeSetup(int[] nArray) {
-    }
+    protected abstract void storeSetup(int[] var1);
 }
 

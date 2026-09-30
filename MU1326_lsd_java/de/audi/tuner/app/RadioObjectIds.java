@@ -16,18 +16,18 @@ import org.dsi.ifc.radio.EnsembleInfo;
 import org.dsi.ifc.radio.ServiceInfo;
 
 public class RadioObjectIds {
-    private static final byte OBJ_ID_BAND_CODE_FM;
-    private static final byte OBJ_ID_BAND_CODE_AM;
-    private static final byte OBJ_ID_BAND_CODE_DAB;
-    private static final byte OBJ_ID_BAND_CODE_SDARS;
-    private static final byte OBJ_ID_BAND_CODE_UNIFIED;
-    private static final byte OBJ_ID_BAND_CODE_UNIFIED_FM;
+    private static final byte OBJ_ID_BAND_CODE_FM = 1;
+    private static final byte OBJ_ID_BAND_CODE_AM = 2;
+    private static final byte OBJ_ID_BAND_CODE_DAB = 3;
+    private static final byte OBJ_ID_BAND_CODE_SDARS = 4;
+    private static final byte OBJ_ID_BAND_CODE_UNIFIED = 5;
+    private static final byte OBJ_ID_BAND_CODE_UNIFIED_FM = 6;
     private final LogChannel log;
     public final TunerObjectContainer toc;
 
     public RadioObjectIds(long l, LogChannel logChannel) {
         this.log = logChannel;
-        byte by = (byte)(l & 0);
+        byte by = (byte)(l & 0xFL);
         switch (by) {
             case 1: 
             case 2: {
@@ -57,8 +57,8 @@ public class RadioObjectIds {
         AMFMStation aMFMStation = new AMFMStation();
         aMFMStation.frequency = (int)(l >> 8 & 0xFFFFFFFFFFFFFFFFL);
         aMFMStation.rds = (l & 0x100000000000000L) != 0L;
-        aMFMStation.pi = aMFMStation.rds ? (int)(l >> 40 & 0) : -1;
-        aMFMStation.serviceId = this.unpackServiceId(l >> 57 & 0);
+        aMFMStation.pi = aMFMStation.rds ? (int)(l >> 40 & 0xFFFFL) : -1;
+        aMFMStation.serviceId = this.unpackServiceId(l >> 57 & 0xFL);
         aMFMStation.waveband = by == 1 ? 1 : 3;
         aMFMStation.hd = (l >> 61 & 1L) == 1L;
         return aMFMStation;
@@ -107,31 +107,31 @@ public class RadioObjectIds {
         EnsembleInfo ensembleInfo = new EnsembleInfo();
         ServiceInfo serviceInfo = new ServiceInfo();
         ComponentInfo componentInfo = new ComponentInfo();
-        this.log.log(-2137614336, "[ROI.createDabObjectContainer] objectId:%1 ensID:%2 ensECC:%3", (Object)Long.toHexString(l), (long)n, (long)n2);
-        this.log.log(-2137614336, "[ROI.createDabObjectContainer] serviceID:%1 componentID:%2", (long)n3, (long)n4);
+        this.log.log(10000000, "[ROI.createDabObjectContainer] objectId:%1 ensID:%2 ensECC:%3", (Object)Long.toHexString(l), (long)n, (long)n2);
+        this.log.log(10000000, "[ROI.createDabObjectContainer] serviceID:%1 componentID:%2", (long)n3, (long)n4);
         if (n3 != 0) {
             componentInfo.ensID = n;
             componentInfo.ensECC = n2;
             componentInfo.sID = n3;
             componentInfo.sCIDI = n4;
             componentInfo.primaryService = bl;
-            this.log.log(1078071040, "[ROI.createDabObjectContainer] created component: %1", (Object)componentInfo);
+            this.log.log(1000000, "[ROI.createDabObjectContainer] created component: %1", (Object)componentInfo);
         }
         if (n3 != 0) {
             serviceInfo.ensID = n;
             serviceInfo.ensECC = n2;
             serviceInfo.sID = n3;
-            this.log.log(1078071040, "[ROI.createDabObjectContainer], created service: %1", (Object)serviceInfo);
+            this.log.log(1000000, "[ROI.createDabObjectContainer], created service: %1", (Object)serviceInfo);
         }
         ensembleInfo.ensID = n;
         ensembleInfo.ensECC = n2;
-        this.log.log(1078071040, "[ROI.createDabObjectContainer], created ensemble: %1", (Object)ensembleInfo);
+        this.log.log(1000000, "[ROI.createDabObjectContainer], created ensemble: %1", (Object)ensembleInfo);
         return new TunerObjectContainer(new DabStation(ensembleInfo, serviceInfo, componentInfo));
     }
 
     private TunerObjectContainer createUniObjectContainer(long l) {
         UnifiedStationExt unifiedStationExt = new UnifiedStationExt();
-        byte by = (byte)(l & 0);
+        byte by = (byte)(l & 0xFL);
         if (by == 6) {
             AMFMStation aMFMStation = this.createAmFmContainer(l, (byte)1);
             unifiedStationExt.frequency = aMFMStation.frequency;
@@ -147,19 +147,19 @@ public class RadioObjectIds {
     }
 
     private TunerObjectContainer createSdarsObjectContainer(long l) {
-        this.log.log(1078071040, "[ROI#createSdarsObjectContainer], objectId: %1", (Object)Long.toHexString(l));
+        this.log.log(1000000, "[ROI#createSdarsObjectContainer], objectId: %1", (Object)Long.toHexString(l));
         StationInfoExt stationInfoExt = new StationInfoExt();
         stationInfoExt.sID = RadioObjectIds.getSDARSsId(l);
         return new TunerObjectContainer(stationInfoExt);
     }
 
     public static long getSDARSObjectId(int n) {
-        return (long)n << 8 | 0;
+        return (long)n << 8 | 4L;
     }
 
     public static long getDabId(int n, int n2, long l, int n3, boolean bl) {
         long l2 = bl ? 1L : 0L;
-        return l2 << 56 | (long)n3 << 48 | l << 32 | (long)n << 16 | (long)n2 << 8 | 0;
+        return l2 << 56 | (long)n3 << 48 | l << 32 | (long)n << 16 | (long)n2 << 8 | 3L;
     }
 
     public static long getUniId(long l, int n, int n2, int n3, int n4) {
@@ -176,14 +176,11 @@ public class RadioObjectIds {
         return l2 |= (long)n5;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     public static long getAmFmId(int n, long l, int n2, int n3, boolean bl) {
         n2 = Utilities.isPiIgnore() ? -1 : n2;
-        long l2 = n == 1 ? 1L : (long)0;
+        long l2 = n == 1 ? 1L : 2L;
         long l3 = bl ? 0x2000000000000000L : 0L;
-        return l3 | RadioObjectIds.packChannel(n3) << 57 | (n2 >= 0 ? 0x100000000000000L : 0L) | (long)(n2 & 0xFFFF0000) << 40 | l << 8 | l2;
+        return l3 | RadioObjectIds.packChannel(n3) << 57 | (n2 >= 0 ? 0x100000000000000L : 0L) | (long)(n2 & 0xFFFF) << 40 | l << 8 | l2;
     }
 
     private static long packChannel(int n) {
@@ -192,32 +189,32 @@ public class RadioObjectIds {
                 return 1L;
             }
             case 2: {
-                return 0;
+                return 2L;
             }
             case 4: {
-                return 0;
+                return 3L;
             }
             case 8: {
-                return 0;
+                return 4L;
             }
             case 16: {
-                return 0;
+                return 5L;
             }
             case 32: {
-                return 0;
+                return 6L;
             }
             case 64: {
-                return 0;
+                return 7L;
             }
             case 128: {
-                return 0;
+                return 8L;
             }
         }
         return 0L;
     }
 
     public static long toFavoriteID(long l) {
-        return l | 0;
+        return l | 0x80L;
     }
 
     public static long toEpgProgNowID(long l) {
@@ -233,7 +230,7 @@ public class RadioObjectIds {
     }
 
     public static int getBandComponent(long l) {
-        byte by = (byte)(l & 0);
+        byte by = (byte)(l & 0xFL);
         switch (by) {
             case 1: {
                 return 1;
@@ -258,7 +255,7 @@ public class RadioObjectIds {
     }
 
     public static boolean isFavorite(long l) {
-        return (l & 0) == 0;
+        return (l & 0x80L) == 128L;
     }
 
     private static int getFrequency(long l) {
@@ -266,27 +263,27 @@ public class RadioObjectIds {
     }
 
     private static int getPi(long l) {
-        return (int)(l >> 40 & 0);
+        return (int)(l >> 40 & 0xFFFFL);
     }
 
     private static int getEnsembleEcc(long l) {
-        return (int)(l >> 8 & 0);
+        return (int)(l >> 8 & 0xFFL);
     }
 
     public static int getEnsembleId(long l) {
-        return (int)(l >> 16 & 0);
+        return (int)(l >> 16 & 0xFFFFL);
     }
 
     private static int getServiceId(long l) {
-        return (int)(l >> 32 & 0);
+        return (int)(l >> 32 & 0xFFFFL);
     }
 
     private static int getComponentId(long l) {
-        return (int)(l >> 48 & 0);
+        return (int)(l >> 48 & 0xFFL);
     }
 
     private boolean getPrimary(long l) {
-        int n = (int)(l >> 56 & 0);
+        int n = (int)(l >> 56 & 0xFL);
         return n == 1;
     }
 

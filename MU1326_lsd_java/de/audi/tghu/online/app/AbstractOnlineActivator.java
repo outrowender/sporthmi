@@ -59,7 +59,7 @@ import de.audi.tghu.online.app.osr.auth.T2AuthenticationService;
 import de.audi.tghu.online.app.osr.license.LicenseCollectionService;
 import de.audi.tghu.online.app.remotehmi.OnlineModelBankAccess;
 import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess$IRemoteHMIDSIListener;
+import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import de.audi.tghu.online.app.standard.IMobileKeyLicenseListener;
 import de.audi.tghu.online.app.standard.IStandardController;
@@ -206,7 +206,6 @@ IGUIVariantProvider {
         return hashtable;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         Online.getInstance().initialize(this.framework);
@@ -236,12 +235,12 @@ IGUIVariantProvider {
     }
 
     protected final void readPrivacyModeFeatureCodingCore() {
-        this.logChannel.log(1078071040, "AbstractOnlineActivator#readPrivacyModeFeatureCoding called");
+        this.logChannel.log(1000000, "AbstractOnlineActivator#readPrivacyModeFeatureCoding called");
         IStorageAccess iStorageAccess = this.getFramework().getStorageMgr();
-        this.logChannel.log(-2137614336, "AbstractOnlineActivator#readPrivacyModeFeatureCoding: storage: %1, log: %2.", (Object)iStorageAccess, (Object)this.logChannel);
+        this.logChannel.log(10000000, "AbstractOnlineActivator#readPrivacyModeFeatureCoding: storage: %1, log: %2.", (Object)iStorageAccess, (Object)this.logChannel);
         this.privacyFeatureStorageAccess = new PrivacyFeatureStorageAccess(iStorageAccess, this.logChannel);
         this.privacyModeFeatureAvailable = this.privacyFeatureStorageAccess.isPrivacyFeatureAvailable();
-        this.logChannel.log(1078071040, "AbstractOnlineActivator#readPrivacyModeFeatureCoding privacy feature: %1", this.privacyModeFeatureAvailable);
+        this.logChannel.log(1000000, "AbstractOnlineActivator#readPrivacyModeFeatureCoding privacy feature: %1", this.privacyModeFeatureAvailable);
     }
 
     protected final void registerPowerManagerListener() {
@@ -250,160 +249,157 @@ IGUIVariantProvider {
         }
     }
 
-    @Override
     public final void stop(BundleContext bundleContext) {
         super.stop(bundleContext);
         this.closeTracker(this.serviceTrackerOnline);
-        this.logChannel.log(-2137614336, "AbstractOnlineActivator#stop() - AppOnline Bundle stopped");
+        this.logChannel.log(10000000, "AbstractOnlineActivator#stop() - AppOnline Bundle stopped");
     }
 
-    @Override
     public final void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public final Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         Object object2 = serviceReference.getProperty("DEVICE_NAME");
         Object object3 = serviceReference.getProperty("DEVICE_INSTANCE");
-        this.logChannel.log(-2137614336, "AbstractOnlineHighActivator#addingService() - service: %3, deviceName: %1, deviceInstance: %2", object2, object3, object);
+        this.logChannel.log(10000000, "AbstractOnlineHighActivator#addingService() - service: %3, deviceName: %1, deviceInstance: %2", object2, object3, object);
         boolean bl = false;
         if (object instanceof IPreviewMap) {
             if (this.previewMap != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.previewMap, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.previewMap, object);
             }
             this.setPreviewMap((IPreviewMap)object);
             bl = true;
         }
         if (object instanceof IMediaDrawerContext) {
             if (this.mediaDrawerContext != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mediaDrawerContext, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mediaDrawerContext, object);
             }
             this.setMediaDrawerContext((IMediaDrawerContext)object);
             bl = true;
         }
         if (object instanceof IOperatorCallNaviService) {
             if (this.operatorCallNaviService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.operatorCallNaviService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.operatorCallNaviService, object);
             }
             this.setOperatorCallNaviService((IOperatorCallNaviService)object);
             bl = true;
         }
         if (object instanceof IOperatorCallSDSService) {
             if (this.operatorCallSDSService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.operatorCallSDSService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.operatorCallSDSService, object);
             }
             this.setOperatorCallSDSService((IOperatorCallSDSService)object);
             bl = true;
         }
         if (object instanceof SwDiagnosisManager) {
             if (this.diagnosisManager != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.diagnosisManager, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.diagnosisManager, object);
             }
             this.setSwDiagnosisManager((SwDiagnosisManager)object);
             bl = true;
         }
         if (object instanceof DSIOnlineServiceRegistration) {
             if (this.dsiOnlineServiceRegistration != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.dsiOnlineServiceRegistration, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.dsiOnlineServiceRegistration, object);
             }
             this.setDsiOnlineServiceRegistration((DSIOnlineServiceRegistration)object);
             bl = true;
         }
         if (object instanceof SDSService) {
             if (this.sdsService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.sdsService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.sdsService, object);
             }
             this.setSdsService(this.sdsService);
             bl = true;
         }
         if (object instanceof NaviADBService) {
             if (this.naviAdbService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviAdbService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviAdbService, object);
             }
             this.setNaviAdbService((NaviADBService)object);
             bl = true;
         }
         if (object instanceof NaviService) {
             if (this.naviService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviService, object);
             }
             this.setNaviService((NaviService)object);
             bl = true;
         }
         if (object instanceof INaviFormattingService) {
             if (this.naviFormattingService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviFormattingService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviFormattingService, object);
             }
             this.setNaviFormattingService((INaviFormattingService)object);
             bl = true;
         }
         if (object instanceof ADBHMIAppService) {
             if (this.adbHmiAppService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.adbHmiAppService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.adbHmiAppService, object);
             }
             this.setAdbHmiAppService((ADBHMIAppService)object);
             bl = true;
         }
         if (object instanceof NaviMyAudiImport) {
             if (this.naviMyAudiImport != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviMyAudiImport, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.naviMyAudiImport, object);
             }
             this.setNaviMyAudiImport((NaviMyAudiImport)object);
             bl = true;
         }
         if (object instanceof ITelService) {
             if (this.telService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.telService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.telService, object);
             }
             this.setTelService((ITelService)object);
             bl = true;
         }
         if (object instanceof IRemoteHMIMediaOnlineServiceListener) {
             if (this.remoteHMIMediaOnlineServiceListener != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.remoteHMIMediaOnlineServiceListener, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.remoteHMIMediaOnlineServiceListener, object);
             }
             this.setRemoteHMIMediaOnlineServiceListener((IRemoteHMIMediaOnlineServiceListener)object);
             bl = true;
         }
         if (object instanceof IRemoteHMIEsimLicenseListener) {
             if (this.remoteHMIEsimLicenseListener != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.remoteHMIEsimLicenseListener, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.remoteHMIEsimLicenseListener, object);
             }
             this.setRemoteHMIEsimLicenseListener((IRemoteHMIEsimLicenseListener)object);
             bl = true;
         }
         if (object instanceof IOnlineSDSMyAudiServiceListener) {
             if (this.onlineSdsMyAudiServiceListener != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlineSdsMyAudiServiceListener, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlineSdsMyAudiServiceListener, object);
             }
             this.setOnlineSDSMyAudiServiceListener((IOnlineSDSMyAudiServiceListener)object);
             bl = true;
         }
         if (object instanceof DSIDestinationImport) {
             if (this.dsiDestinationImport != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.dsiDestinationImport, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.dsiDestinationImport, object);
             }
             this.setDsiDestinationImport((DSIDestinationImport)object);
             bl = true;
         }
         if (object instanceof DSIOperatorCall) {
             if (this.dsiOperatorCall != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.dsiOperatorCall, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.dsiOperatorCall, object);
             }
             this.setDsiOperatorCall((DSIOperatorCall)object);
             bl = true;
         }
         if (object instanceof IConnectivityOnlineStateListener) {
             if (this.connectivityOnlineStateListener != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.connectivityOnlineStateListener, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.connectivityOnlineStateListener, object);
             }
             this.setConnectivityOnlineStateListener((IConnectivityOnlineStateListener)object);
             bl = true;
         }
         if (object instanceof OnlinePOICall) {
             if (this.onlinePOICall != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlinePOICall, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlinePOICall, object);
             }
             this.setOnlinePOICall((OnlinePOICall)object);
             bl = true;
@@ -413,256 +409,255 @@ IGUIVariantProvider {
         }
         if (object instanceof IRemoteHMI) {
             if (this.remoteHmi != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.remoteHmi, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.remoteHmi, object);
             }
             this.setRemoteHmi((IRemoteHMI)object);
             bl = true;
         }
         if (object instanceof TTSService) {
             if (this.ttsService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.ttsService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.ttsService, object);
             }
             bl = this.addTTSService((TTSService)object, serviceReference);
         }
         if (object instanceof MapService) {
             if (this.mapService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mapService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mapService, object);
             }
             this.setMapService((MapService)object);
             bl = true;
         }
         if (object instanceof IMediaOnlinePlayerService) {
             if (this.mediaOnlinePlayerService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mediaOnlinePlayerService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mediaOnlinePlayerService, object);
             }
             this.setMediaOnlinePlayerService((IMediaOnlinePlayerService)object);
             bl = true;
         }
         if (object instanceof IMediaService) {
             if (this.mediaService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mediaService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mediaService, object);
             }
             this.setMediaService((IMediaService)object);
             bl = true;
         }
         if (object instanceof OnlineServiceListener) {
             if (this.onlineServiceListener != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlineServiceListener, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlineServiceListener, object);
             }
             this.setOnlineServiceListener((OnlineServiceListener)object);
             bl = true;
         }
         if (object instanceof OnlineHMIService) {
             if (this.onlineHMIService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlineHMIService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.onlineHMIService, object);
             }
             this.setOnlineHMIService((OnlineHMIService)object);
             bl = true;
         }
         if (object instanceof PortalAuthenticationService) {
             if (this.portalAuthenticationService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.portalAuthenticationService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.portalAuthenticationService, object);
             }
             this.setPortalAuthenticationService((PortalAuthenticationService)object);
             bl = true;
         }
         if (object instanceof IConnectivityRHMIStateListener) {
             if (this.connectivityRHMIStateListener != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.connectivityRHMIStateListener, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.connectivityRHMIStateListener, object);
             }
             this.setConnectivityRHMIStateListener((IConnectivityRHMIStateListener)object);
             bl = true;
         }
         if (object instanceof IMessagingOnlineService) {
             if (this.messagingOnlineService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.messagingOnlineService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.messagingOnlineService, object);
             }
             this.setMessagingOnlineService((IMessagingOnlineService)object);
             bl = true;
         }
         if (object instanceof IFolderBrowsingService) {
             if (this.folderBrowsingService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.folderBrowsingService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.folderBrowsingService, object);
             }
             this.setFolderBrowsingService((IFolderBrowsingService)object);
             bl = true;
         }
         if (object instanceof ITelServiceConnectivity) {
             if (this.telServiceConnectivity != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.telServiceConnectivity, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.telServiceConnectivity, object);
             }
             this.setTelServiceConnectivity((ITelServiceConnectivity)object);
             bl = true;
         }
         if (object instanceof ENIServiceOnline) {
             if (this.eniServiceOnline != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.eniServiceOnline, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.eniServiceOnline, object);
             }
             this.setEniServiceOnline((ENIServiceOnline)object);
             bl = true;
         }
         if (object instanceof MobileKeyStatusDisplayService) {
             if (this.mobileKeyStatusDisplayService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mobileKeyStatusDisplayService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.mobileKeyStatusDisplayService, object);
             }
             this.setMobileKeyStatusDisplayService((MobileKeyStatusDisplayService)object);
             bl = true;
         }
         if (object instanceof FactResetService) {
             if (this.factoryResetService != null) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.factoryResetService, object);
+                this.logChannel.log(100000, "AbstractOnlineActivator#addingService replacing service %1 with %2", (Object)this.factoryResetService, object);
             }
             this.setFactResetService((FactResetService)object);
             bl = true;
         }
         if (!bl) {
-            this.logChannel.log(-1601830656, "AbstractOnlineHighActivator#addingService() - track unwanted service=%1", object);
+            this.logChannel.log(100000, "AbstractOnlineHighActivator#addingService() - track unwanted service=%1", object);
             this.getBundleContext().ungetService(serviceReference);
             return null;
         }
         return object;
     }
 
-    @Override
     public final void removedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(-2137614336, "AbstractOnlineActivator#removedService() - service=%1", object);
+        this.logChannel.log(10000000, "AbstractOnlineActivator#removedService() - service=%1", object);
         boolean bl = false;
         if (object instanceof IPreviewMap) {
             if (!object.equals(this.previewMap)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.previewMap);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.previewMap);
             }
             this.setPreviewMap(null);
             bl = true;
         }
         if (object instanceof IMediaDrawerContext) {
             if (!object.equals(this.mediaDrawerContext)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mediaDrawerContext);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mediaDrawerContext);
             }
             this.setMediaDrawerContext(null);
             bl = true;
         }
         if (object instanceof IOperatorCallNaviService) {
             if (!object.equals(this.operatorCallNaviService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.operatorCallNaviService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.operatorCallNaviService);
             }
             this.setOperatorCallNaviService(null);
             bl = true;
         }
         if (object instanceof IOperatorCallSDSService) {
             if (!object.equals(this.operatorCallSDSService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.operatorCallSDSService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.operatorCallSDSService);
             }
             this.setOperatorCallSDSService(null);
             bl = true;
         }
         if (object instanceof SwDiagnosisManager) {
             if (!object.equals(this.diagnosisManager)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.diagnosisManager);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.diagnosisManager);
             }
             this.setSwDiagnosisManager(null);
             bl = true;
         }
         if (object instanceof DSIOnlineServiceRegistration) {
             if (!object.equals(this.dsiOnlineServiceRegistration)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.dsiOnlineServiceRegistration);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.dsiOnlineServiceRegistration);
             }
             this.setDsiOnlineServiceRegistration(null);
             bl = true;
         }
         if (object instanceof SDSService) {
             if (!object.equals(this.sdsService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.sdsService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.sdsService);
             }
             this.setSdsService(null);
             bl = true;
         }
         if (object instanceof NaviADBService) {
             if (!object.equals(this.naviAdbService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviAdbService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviAdbService);
             }
             this.setNaviAdbService(null);
             bl = true;
         }
         if (object instanceof NaviService) {
             if (!object.equals(this.naviService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviService);
             }
             this.setNaviService(null);
             bl = true;
         }
         if (object instanceof INaviFormattingService) {
             if (!object.equals(this.naviFormattingService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviFormattingService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviFormattingService);
             }
             this.setNaviFormattingService(null);
             bl = true;
         }
         if (object instanceof ADBHMIAppService) {
             if (!object.equals(this.adbHmiAppService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.adbHmiAppService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.adbHmiAppService);
             }
             this.setAdbHmiAppService(null);
             bl = true;
         }
         if (object instanceof NaviMyAudiImport) {
             if (!object.equals(this.naviMyAudiImport)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviMyAudiImport);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.naviMyAudiImport);
             }
             this.setNaviMyAudiImport(null);
             bl = true;
         }
         if (object instanceof ITelService) {
             if (!object.equals(this.telService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.telService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.telService);
             }
             this.setTelService(null);
             bl = true;
         }
         if (object instanceof IRemoteHMIMediaOnlineServiceListener) {
             if (!object.equals(this.remoteHMIMediaOnlineServiceListener)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.remoteHMIMediaOnlineServiceListener);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.remoteHMIMediaOnlineServiceListener);
             }
             this.setRemoteHMIMediaOnlineServiceListener(null);
             bl = true;
         }
         if (object instanceof IRemoteHMIEsimLicenseListener) {
             if (!object.equals(this.remoteHMIEsimLicenseListener)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.remoteHMIEsimLicenseListener);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.remoteHMIEsimLicenseListener);
             }
             this.setRemoteHMIEsimLicenseListener(null);
             bl = true;
         }
         if (object instanceof IOnlineSDSMyAudiServiceListener) {
             if (!object.equals(this.onlineSdsMyAudiServiceListener)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlineSdsMyAudiServiceListener);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlineSdsMyAudiServiceListener);
             }
             this.setOnlineSDSMyAudiServiceListener(null);
             bl = true;
         }
         if (object instanceof DSIDestinationImport) {
             if (!object.equals(this.dsiDestinationImport)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.dsiDestinationImport);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.dsiDestinationImport);
             }
             this.setDsiDestinationImport(null);
             bl = true;
         }
         if (object instanceof DSIOperatorCall) {
             if (!object.equals(this.dsiOperatorCall)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.dsiOperatorCall);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.dsiOperatorCall);
             }
             this.setDsiOperatorCall(null);
             bl = true;
         }
         if (object instanceof IConnectivityOnlineStateListener) {
             if (!object.equals(this.connectivityOnlineStateListener)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.connectivityOnlineStateListener);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.connectivityOnlineStateListener);
             }
             this.setConnectivityOnlineStateListener(null);
             bl = true;
         }
         if (object instanceof OnlinePOICall) {
             if (!object.equals(this.onlinePOICall)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlinePOICall);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlinePOICall);
             }
             this.setOnlinePOICall(null);
             bl = true;
@@ -673,98 +668,98 @@ IGUIVariantProvider {
         }
         if (object instanceof TTSService) {
             if (!object.equals(this.ttsService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.ttsService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.ttsService);
             }
             this.removeTTSService();
             bl = true;
         }
         if (object instanceof MapService) {
             if (!object.equals(this.mapService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mapService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mapService);
             }
             this.setMapService(null);
             bl = true;
         }
         if (object instanceof IMediaOnlinePlayerService) {
             if (!object.equals(this.mediaOnlinePlayerService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mediaOnlinePlayerService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mediaOnlinePlayerService);
             }
             this.setMediaOnlinePlayerService(null);
             bl = true;
         }
         if (object instanceof IMediaService) {
             if (!object.equals(this.mediaService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mediaService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mediaService);
             }
             this.setMediaService(null);
             bl = true;
         }
         if (object instanceof OnlineServiceListener) {
             if (!object.equals(this.onlineServiceListener)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlineServiceListener);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlineServiceListener);
             }
             this.setOnlineServiceListener(null);
             bl = true;
         }
         if (object instanceof OnlineHMIService) {
             if (!object.equals(this.onlineHMIService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlineHMIService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.onlineHMIService);
             }
             this.setOnlineHMIService(null);
             bl = true;
         }
         if (object instanceof PortalAuthenticationService) {
             if (!object.equals(this.portalAuthenticationService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.portalAuthenticationService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.portalAuthenticationService);
             }
             this.setPortalAuthenticationService(null);
             bl = true;
         }
         if (object instanceof IConnectivityRHMIStateListener) {
             if (!object.equals(this.connectivityRHMIStateListener)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.connectivityRHMIStateListener);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.connectivityRHMIStateListener);
             }
             this.setConnectivityRHMIStateListener(null);
             bl = true;
         }
         if (object instanceof IMessagingOnlineService) {
             if (!object.equals(this.messagingOnlineService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.messagingOnlineService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.messagingOnlineService);
             }
             this.setMessagingOnlineService(null);
             bl = true;
         }
         if (object instanceof IFolderBrowsingService) {
             if (!object.equals(this.folderBrowsingService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.folderBrowsingService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.folderBrowsingService);
             }
             this.setFolderBrowsingService(null);
             bl = true;
         }
         if (object instanceof ITelServiceConnectivity) {
             if (!object.equals(this.telServiceConnectivity)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.telServiceConnectivity);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.telServiceConnectivity);
             }
             this.setTelServiceConnectivity(null);
             bl = true;
         }
         if (object instanceof ENIServiceOnline) {
             if (!object.equals(this.eniServiceOnline)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.eniServiceOnline);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.eniServiceOnline);
             }
             this.setEniServiceOnline(null);
             bl = true;
         }
         if (object instanceof MobileKeyStatusDisplayService) {
             if (!object.equals(this.mobileKeyStatusDisplayService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mobileKeyStatusDisplayService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.mobileKeyStatusDisplayService);
             }
             this.setMobileKeyStatusDisplayService(null);
             bl = true;
         }
         if (object instanceof FactResetService) {
             if (!object.equals(this.factoryResetService)) {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.factoryResetService);
+                this.logChannel.log(100000, "AbstractOnlineActivator#removedService service: %1, used: %2", object, (Object)this.factoryResetService);
             }
             this.setFactResetService(null);
             bl = true;
@@ -801,7 +796,7 @@ IGUIVariantProvider {
     }
 
     protected void registerOnlineServices() {
-        this.logChannel.log(-2137614336, "AbstractOnlineActivator#registerOnlineServices: - register online service");
+        this.logChannel.log(10000000, "AbstractOnlineActivator#registerOnlineServices: - register online service");
         this.registerService((class$de$audi$atip$hmi$HMIApplication == null ? (class$de$audi$atip$hmi$HMIApplication = AbstractOnlineActivator.class$("de.audi.atip.hmi.HMIApplication")) : class$de$audi$atip$hmi$HMIApplication).getName(), (Object)Online.getInstance(), (Dictionary)AbstractOnlineActivator.createServiceProperties());
     }
 
@@ -822,7 +817,6 @@ IGUIVariantProvider {
         }
     }
 
-    @Override
     public IIDMapper getTextConstantsMapper() {
         return this.textConstants;
     }
@@ -831,7 +825,6 @@ IGUIVariantProvider {
         return this.i18nHandler;
     }
 
-    @Override
     public IIDMapper getSMEventConstantsMapper() {
         return this.smEventConstants;
     }
@@ -1045,10 +1038,10 @@ IGUIVariantProvider {
                 }
                 bl = true;
             } else {
-                this.logChannel.log(-1601830656, "AbstractOnlineActivator#setBrowserHandler: deviceInstance is no Integer!");
+                this.logChannel.log(100000, "AbstractOnlineActivator#setBrowserHandler: deviceInstance is no Integer!");
             }
         } else {
-            this.logChannel.log(-1601830656, "AbstractOnlineActivator#addBrowserHandler: browserHandler is null!");
+            this.logChannel.log(100000, "AbstractOnlineActivator#addBrowserHandler: browserHandler is null!");
         }
         return bl;
     }
@@ -1209,7 +1202,7 @@ IGUIVariantProvider {
             remoteHMIService.setCoreServiceLanguageListener(this.onlineServiceRegistrationSubsystem);
         }
         if (this.standardController != null) {
-            remoteHMIService.getDsiAccess().addDSIListener((RemoteHMIDSIAccess$IRemoteHMIDSIListener)((Object)this.standardController));
+            remoteHMIService.getDsiAccess().addDSIListener((RemoteHMIDSIAccess.IRemoteHMIDSIListener)((Object)this.standardController));
             this.standardController.setRemoteHmiService(remoteHMIService);
         }
         if (this.operatorCallController != null) {
@@ -1243,7 +1236,7 @@ IGUIVariantProvider {
         }
         this.standardController = iStandardController;
         if (this.remoteHMIService != null) {
-            this.remoteHMIService.getDsiAccess().addDSIListener((RemoteHMIDSIAccess$IRemoteHMIDSIListener)((Object)iStandardController));
+            this.remoteHMIService.getDsiAccess().addDSIListener((RemoteHMIDSIAccess.IRemoteHMIDSIListener)((Object)iStandardController));
             iStandardController.setRemoteHmiService(this.remoteHMIService);
         }
         if (this.licenseCollectionService != null) {
@@ -1428,7 +1421,7 @@ IGUIVariantProvider {
         try {
             object = this.createRemoteHMIService();
             if (object == null) {
-                this.logChannel.log(1078071040, "AbstractOnlineActivator#initRemoteHmi() RemoteHMI not available");
+                this.logChannel.log(1000000, "AbstractOnlineActivator#initRemoteHmi() RemoteHMI not available");
                 return;
             }
             ((RemoteHMIService)object).setPrivacyModeFeatureAvailable(this.privacyModeFeatureAvailable);
@@ -1439,7 +1432,7 @@ IGUIVariantProvider {
         catch (Exception exception) {
             this.logChannel.log(10000, "AbstractOnlineActivator#initRemoteHmi: could not initialize remoteHmi, exception %1", (Throwable)exception);
         }
-        object = this.modelBank.getChoiceModel(-1441258752);
+        object = this.modelBank.getChoiceModel(2300074);
         object.setStatus(this.useRemoteHmi ? 1 : 0);
     }
 
@@ -1453,7 +1446,7 @@ IGUIVariantProvider {
 
     protected final void registerOnlineI18NHandler() {
         if (this.i18nHandler != null) {
-            this.logChannel.log(-2137614336, "AbstractOnlineActivator#registerOnlineI18NHandler");
+            this.logChannel.log(10000000, "AbstractOnlineActivator#registerOnlineI18NHandler");
             Hashtable hashtable = new Hashtable();
             hashtable.put("DEVICE_NAME", (class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = AbstractOnlineActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName());
             hashtable.put("DEVICE_INSTANCE", new Integer(0));
@@ -1465,7 +1458,7 @@ IGUIVariantProvider {
 
     protected final void registerOperatorCallLanguageService() {
         if (this.operatorCallController != null) {
-            this.logChannel.log(-2137614336, "AbstractOnlineActivator#registerOperatorCallLanguageService - register I18N service");
+            this.logChannel.log(10000000, "AbstractOnlineActivator#registerOperatorCallLanguageService - register I18N service");
             Hashtable hashtable = new Hashtable();
             hashtable.put("DEVICE_NAME", (class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = AbstractOnlineActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName());
             hashtable.put("DEVICE_INSTANCE", new Integer(0));
@@ -1518,7 +1511,7 @@ IGUIVariantProvider {
     }
 
     public final void registerOnlineApplicationService(OnlineService onlineService) {
-        this.logChannel.log(-2137614336, "AbstractOnlineActivator#registerOnlineApplicationService: applicationId: %1", (Object)onlineService.getApplicationId());
+        this.logChannel.log(10000000, "AbstractOnlineActivator#registerOnlineApplicationService: applicationId: %1", (Object)onlineService.getApplicationId());
         Hashtable hashtable = new Hashtable();
         hashtable.put("ONLINE_APP_ID", onlineService.getApplicationId());
         ServiceRegistration serviceRegistration = this.getBundleContext().registerService((class$de$audi$atip$interapp$online$IOnlineService == null ? (class$de$audi$atip$interapp$online$IOnlineService = AbstractOnlineActivator.class$("de.audi.atip.interapp.online.IOnlineService")) : class$de$audi$atip$interapp$online$IOnlineService).getName(), (Object)onlineService, (Dictionary)hashtable);
@@ -1526,12 +1519,12 @@ IGUIVariantProvider {
     }
 
     public final void unregisterOnlineApplicationService(OnlineService onlineService) {
-        this.logChannel.log(-2137614336, "AbstractOnlineActivator#unregisterOnlineApplicationService applicationId: %1", (Object)onlineService.getApplicationId());
+        this.logChannel.log(10000000, "AbstractOnlineActivator#unregisterOnlineApplicationService applicationId: %1", (Object)onlineService.getApplicationId());
         ServiceRegistration serviceRegistration = onlineService.getServiceRegistration();
         if (serviceRegistration != null) {
             serviceRegistration.unregister();
             onlineService.setServiceRegistration(null);
-            this.logChannel.log(-2137614336, "AbstractOnlineActivator#unregisterOnlineApplicationService: applicationId: %1 service unregistered", (Object)onlineService.getApplicationId());
+            this.logChannel.log(10000000, "AbstractOnlineActivator#unregisterOnlineApplicationService: applicationId: %1 service unregistered", (Object)onlineService.getApplicationId());
             return;
         }
     }
@@ -1539,14 +1532,14 @@ IGUIVariantProvider {
     public final void registerAuthenticationService(T2AuthenticationService t2AuthenticationService) {
         Hashtable hashtable = new Hashtable();
         this.authenticationServiceRegistration = this.getBundleContext().registerService((class$de$audi$atip$interapp$PortalAuthenticationService == null ? (class$de$audi$atip$interapp$PortalAuthenticationService = AbstractOnlineActivator.class$("de.audi.atip.interapp.PortalAuthenticationService")) : class$de$audi$atip$interapp$PortalAuthenticationService).getName(), (Object)t2AuthenticationService, (Dictionary)hashtable);
-        this.logChannel.log(1078071040, "AbstractOnlineActivator#registerAuthenticationService: T2 Authenticationservice registered");
+        this.logChannel.log(1000000, "AbstractOnlineActivator#registerAuthenticationService: T2 Authenticationservice registered");
     }
 
     public final void unregisterAuthenticationService() {
         if (this.authenticationServiceRegistration != null) {
             this.authenticationServiceRegistration.unregister();
             this.authenticationServiceRegistration = null;
-            this.logChannel.log(1078071040, "AbstractOnlineActivator#unregisterAuthenticationService: T2 Authenticationservice unregistered");
+            this.logChannel.log(1000000, "AbstractOnlineActivator#unregisterAuthenticationService: T2 Authenticationservice unregistered");
         }
     }
 
@@ -1556,50 +1549,35 @@ IGUIVariantProvider {
         this.initServiceTrackers();
     }
 
-    protected abstract Field[] getI18NTextFields() {
-    }
+    protected abstract Field[] getI18NTextFields();
 
-    protected abstract void readPrivacyModeFeatureCoding() {
-    }
+    protected abstract void readPrivacyModeFeatureCoding();
 
-    protected abstract IIDMapper createTextConstants() {
-    }
+    protected abstract IIDMapper createTextConstants();
 
-    protected abstract IIDMapper createSmEventConstantsMapper() {
-    }
+    protected abstract IIDMapper createSmEventConstantsMapper();
 
-    protected abstract int getShutdownPopupId() {
-    }
+    protected abstract int getShutdownPopupId();
 
-    public abstract int getDrawerCategory() {
-    }
+    public abstract int getDrawerCategory();
 
-    protected abstract RemoteHMIService createRemoteHMIService() {
-    }
+    protected abstract RemoteHMIService createRemoteHMIService();
 
-    protected abstract void registerServices() {
-    }
+    protected abstract void registerServices();
 
-    protected abstract OnlineDiag getOnlineDiag() {
-    }
+    protected abstract OnlineDiag getOnlineDiag();
 
-    protected abstract void setDsiOnlineServiceRegistrationVariant(DSIOnlineServiceRegistration dSIOnlineServiceRegistration) {
-    }
+    protected abstract void setDsiOnlineServiceRegistrationVariant(DSIOnlineServiceRegistration var1);
 
-    protected abstract void setTelServiceConnectivityVariant(ITelServiceConnectivity iTelServiceConnectivity) {
-    }
+    protected abstract void setTelServiceConnectivityVariant(ITelServiceConnectivity var1);
 
-    protected abstract void setEniServiceOnlineVariant(ENIServiceOnline eNIServiceOnline) {
-    }
+    protected abstract void setEniServiceOnlineVariant(ENIServiceOnline var1);
 
-    protected abstract void setMobileKeyStatusDisplayServiceVariant(MobileKeyStatusDisplayService mobileKeyStatusDisplayService) {
-    }
+    protected abstract void setMobileKeyStatusDisplayServiceVariant(MobileKeyStatusDisplayService var1);
 
-    protected abstract void initOSRApplicationVariant() {
-    }
+    protected abstract void initOSRApplicationVariant();
 
-    protected abstract void setFactResetServiceVariant(FactResetService factResetService) {
-    }
+    protected abstract void setFactResetServiceVariant(FactResetService var1);
 
     static /* synthetic */ Class class$(String string) {
         try {

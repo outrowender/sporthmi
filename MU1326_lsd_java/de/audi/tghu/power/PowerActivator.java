@@ -58,7 +58,6 @@ implements ServiceTrackerCustomizer {
         return this.powerMgr;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         Hashtable hashtable;
         this.powerMgr = new PowerManager(this.fwService);
@@ -87,7 +86,6 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$displaycontroller$DSIDisplayController == null ? (class$org$dsi$ifc$displaycontroller$DSIDisplayController = PowerActivator.class$("org.dsi.ifc.displaycontroller.DSIDisplayController")) : class$org$dsi$ifc$displaycontroller$DSIDisplayController).getName(), 0);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sRegPower != null) {
             this.sRegPower.unregister();
@@ -104,7 +102,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof HMIAudioService) {
@@ -131,11 +128,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof PowerEventListener) {
             this.powerMgr.getPwrCmdFactory().setUnregListenerCmd((PowerEventListener)object);

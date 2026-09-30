@@ -11,20 +11,19 @@ import org.osgi.framework.BundleContext;
 
 public class GEOnDemandActivator
 extends AbstractActivator {
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         LogChannel logChannel = this.getFramework().getLogChannel("App.Navi.GEOnDemand");
         try {
             IStorageAccess iStorageAccess = this.getFramework().getStorageMgr();
-            logChannel.log(-1601830656, "GEOnDemandActivator: check if GoogleEarth Map is active");
+            logChannel.log(100000, "GEOnDemandActivator: check if GoogleEarth Map is active");
             if (iStorageAccess != null) {
                 boolean bl;
                 State state = new State(iStorageAccess, logChannel, this.getFramework(), 900);
                 state.readAndDeserialize();
                 boolean bl2 = bl = this.framework.getSysConst(479) == 1;
                 if (bl && state.getData().getMapRepresentation() == 1) {
-                    logChannel.log(1078071040, "GEOnDemandActivator: request start of Google Earth now.");
+                    logChannel.log(1000000, "GEOnDemandActivator: request start of Google Earth now.");
                     try {
                         this.getFramework().getStartupMgr().requestAppStart(14);
                     }
@@ -32,14 +31,14 @@ extends AbstractActivator {
                         logChannel.log(10000, "GEOnDemandActivator: start Google Earth failed!", (Throwable)exception);
                     }
                 } else {
-                    logChannel.log(1078071040, "GEOnDemandActivator: Google Earth map not active, do nothing");
+                    logChannel.log(1000000, "GEOnDemandActivator: Google Earth map not active, do nothing");
                 }
             } else {
-                logChannel.log(-1601830656, "GEOnDemandActivator: could not load persistent data, do nothing");
+                logChannel.log(100000, "GEOnDemandActivator: could not load persistent data, do nothing");
             }
         }
         catch (Exception exception) {
-            logChannel.log(-1601830656, "GEOnDemandActivator: failed to start", (Throwable)exception);
+            logChannel.log(100000, "GEOnDemandActivator: failed to start", (Throwable)exception);
         }
     }
 }

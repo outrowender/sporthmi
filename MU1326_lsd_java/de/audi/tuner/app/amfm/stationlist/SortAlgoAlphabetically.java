@@ -12,14 +12,13 @@ import java.util.Comparator;
 class SortAlgoAlphabetically
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -8533894628268879084L;
     private final transient LanguageManager langMngr;
 
     public SortAlgoAlphabetically(LanguageManager languageManager) {
         this.langMngr = languageManager;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         AMFMStation aMFMStation = (AMFMStation)object;
         AMFMStation aMFMStation2 = (AMFMStation)object2;

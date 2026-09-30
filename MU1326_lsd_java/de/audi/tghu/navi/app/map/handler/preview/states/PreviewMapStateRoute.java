@@ -25,7 +25,6 @@ extends PreviewMapStateAbstract {
         super(previewMapHandlerAbstract, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilities();
         if (this.rgActive) {
@@ -40,7 +39,6 @@ extends PreviewMapStateAbstract {
         this.getMapForPreview().getGuiInterface().showPreviewMap(true);
     }
 
-    @Override
     public void applyToScreenDetailModels() {
     }
 
@@ -51,11 +49,9 @@ extends PreviewMapStateAbstract {
         this.getMapForPreview().getGuiInterface().showPreviewMap(true);
     }
 
-    @Override
     public void applyToScreenFullMap() {
     }
 
-    @Override
     public NavLocation getNavLocationForEnterInMap() {
         return null;
     }
@@ -64,7 +60,6 @@ extends PreviewMapStateAbstract {
         return "PreviewMapStateRoute()";
     }
 
-    @Override
     public boolean isPreviewMapItemArea() {
         return true;
     }

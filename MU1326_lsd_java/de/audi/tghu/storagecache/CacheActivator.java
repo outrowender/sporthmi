@@ -43,7 +43,6 @@ implements ServiceTrackerCustomizer {
         return this.cacheHandler;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.log = this.framework.getLogChannel("Fw.Cache.Activator");
         this.cacheHandler = new CacheHandlerImpl(this.framework);
@@ -58,7 +57,6 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates == null ? (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates = CacheActivator.class$("org.dsi.ifc.carvehiclestates.DSICarVehicleStates")) : class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates).getName(), 0);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sRegCVState != null) {
             this.sRegCVState.unregister();
@@ -81,25 +79,24 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IOnlineService) {
             String string = (String)serviceReference.getProperty("ONLINE_APP_ID");
-            this.log.log(1078071040, "Setting Service=%1 ServiceID = %2", object, (Object)string);
+            this.log.log(1000000, "Setting Service=%1 ServiceID = %2", object, (Object)string);
             if (!this.cacheHandler.registerService(object, string)) {
                 this.bundleContext.ungetService(serviceReference);
                 return null;
             }
             this.registerOTCWMsgListener(this.context, string);
         } else if (object instanceof DSICarVehicleStates) {
-            this.log.log(1078071040, "Setting DSI Service=%1 ServiceID = %2", object, (Object)"service_dsi_presetlayout");
+            this.log.log(1000000, "Setting DSI Service=%1 ServiceID = %2", object, (Object)"service_dsi_presetlayout");
             if (!this.cacheHandler.registerService(object, "service_dsi_presetlayout")) {
                 this.bundleContext.ungetService(serviceReference);
                 return null;
             }
         } else if (object instanceof CacheEventListener) {
-            this.log.log(1078071040, "Adding Service=%1", object);
+            this.log.log(1000000, "Adding Service=%1", object);
             this.cacheHandler.addListener((CacheEventListener)object);
         } else {
             this.log.log(10000, "track unwanted service=%1", object);
@@ -109,14 +106,12 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CacheEventListener) {
-            this.log.log(1078071040, "Removing Service=%1", object);
+            this.log.log(1000000, "Removing Service=%1", object);
             this.cacheHandler.removeListener((CacheEventListener)object);
         }
         this.bundleContext.ungetService(serviceReference);
@@ -124,16 +119,16 @@ implements ServiceTrackerCustomizer {
 
     protected void registerOTCWMsgListener(BundleContext bundleContext, String string) {
         if (string == null) {
-            this.log.log(-1601830656, "CacheActivator#registerOTCWMsgListener(): serviceId is null.");
+            this.log.log(100000, "CacheActivator#registerOTCWMsgListener(): serviceId is null.");
         }
         if (bundleContext == null) {
-            this.log.log(-1601830656, "CacheActivator#registerOTCWMsgListener(): Context is null. %1 not registered as message listener.", (Object)string);
+            this.log.log(100000, "CacheActivator#registerOTCWMsgListener(): Context is null. %1 not registered as message listener.", (Object)string);
         }
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         this.sRegOTCWStates.add(bundleContext.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = CacheActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this.cacheHandler.getWorker(string), (Dictionary)hashtable));
-        this.log.log(1078071040, "CacheActivator#registerOTCWMsgListener(): Register %1 as message listener.", (Object)string);
+        this.log.log(1000000, "CacheActivator#registerOTCWMsgListener(): Register %1 as message listener.", (Object)string);
     }
 
     static /* synthetic */ Class class$(String string) {

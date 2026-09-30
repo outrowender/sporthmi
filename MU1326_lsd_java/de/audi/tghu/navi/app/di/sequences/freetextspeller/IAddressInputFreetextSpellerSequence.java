@@ -8,7 +8,6 @@ import de.audi.tghu.navi.app.di.sequences.IAddressInputSequence;
 
 public interface IAddressInputFreetextSpellerSequence
 extends IAddressInputSequence {
-    default public CommandList getStartCommandList(String string) {
-    }
+    public CommandList getStartCommandList(String var1);
 }
 

@@ -9,7 +9,6 @@ import de.audi.tghu.phone.sm.PhoneSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new PhoneSMM[8];
         if (this.framework.isFrontMU()) {

@@ -11,13 +11,12 @@ import org.osgi.framework.BundleContext;
 
 public class Activator
 implements BundleActivator {
-    private static final int d;
-    private static final int e;
-    static int a;
+    private static final int d = 0;
+    private static final int e = 1;
+    static int a = 10;
     a b;
     a c;
 
-    @Override
     public void start(BundleContext bundleContext) {
         TraceClient.init("organizer.VCardParser");
         de.eso.a.d.b.c("JVCALENDAR start bundle.");
@@ -46,7 +45,6 @@ implements BundleActivator {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         a a2 = this.b;
         if (a2 == null) {
@@ -59,10 +57,6 @@ implements BundleActivator {
         }
         a2.b();
         TraceClient.exit();
-    }
-
-    static {
-        a = 10;
     }
 }
 

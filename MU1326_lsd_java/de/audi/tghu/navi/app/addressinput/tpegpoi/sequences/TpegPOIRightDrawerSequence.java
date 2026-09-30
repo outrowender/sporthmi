@@ -9,10 +9,10 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.commands.LISPGetLocationFromLIValueListElementCommand;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIBaseSequence;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIRightDrawerSequence$1;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.sequences.TpegPOIRightDrawerSequence$2;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class TpegPOIRightDrawerSequence
@@ -27,27 +27,41 @@ extends TpegPOIBaseSequence {
     }
 
     public void poiSearchNearDestination(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "%1#poiSearchNearDestination - poiToDisplay: %2", (Object)this.CLASS_NAME, (Object)lIValueListElement);
+        this.logChannel.log(10000000, "%1#poiSearchNearDestination - poiToDisplay: %2", (Object)this.CLASS_NAME, (Object)lIValueListElement);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
-        commandList.add(new TpegPOIRightDrawerSequence$1(this, "POI Search Near Destination"));
+        commandList.add(new NavCommand("POI Search Near Destination"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getSelectedLocation();
+                if (navLocation.isPositionValid()) {
+                    TpegPOIRightDrawerSequence.this.poiService.startPoiWithSearchContext(4, navLocation, false, true);
+                } else {
+                    this.logger.log(10000, "1%#poiSearchNearDestination invalid location", (Object)this.CLASS_NAME);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#poiSearchNearDestination").toString());
     }
 
     public void showDetails(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "%1#showDetails - poiToDisplay: %2", (Object)this.CLASS_NAME, (Object)lIValueListElement);
+        this.logChannel.log(10000000, "%1#showDetails - poiToDisplay: %2", (Object)this.CLASS_NAME, (Object)lIValueListElement);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
-        commandList.add(new TpegPOIRightDrawerSequence$2(this, "Show details"));
+        commandList.add(new NavCommand("Show details"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getSelectedLocation();
+                if (navLocation.isPositionValid()) {
+                    TpegPOIRightDrawerSequence.this.detailsHMIListener.enterDetailsScreen(navLocation);
+                } else {
+                    this.logger.log(10000, "1%#showDetails invalid location", (Object)this.CLASS_NAME);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showDetails").toString());
-    }
-
-    static /* synthetic */ IPoiService access$000(TpegPOIRightDrawerSequence tpegPOIRightDrawerSequence) {
-        return tpegPOIRightDrawerSequence.poiService;
-    }
-
-    static /* synthetic */ IDetailsScreen access$100(TpegPOIRightDrawerSequence tpegPOIRightDrawerSequence) {
-        return tpegPOIRightDrawerSequence.detailsHMIListener;
     }
 }
 

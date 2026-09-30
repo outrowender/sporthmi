@@ -22,16 +22,15 @@ extends NavCommand {
         this.stopGuidance = bl2;
     }
 
-    @Override
     public void execute() {
         boolean bl = this.navigation.getMapManager().getRouteCalculationHandler().isRubberbandActive();
-        this.logger.log(-2137614336, "RgStopRubberBandCommand#execute() - checkRubberbandActiveFlag: %1, stopGuidance: %2, isRubberbandActive: %3 ", this.checkRubberbandActiveFlag, this.stopGuidance, bl);
+        this.logger.log(10000000, "RgStopRubberBandCommand#execute() - checkRubberbandActiveFlag: %1, stopGuidance: %2, isRubberbandActive: %3 ", this.checkRubberbandActiveFlag, this.stopGuidance, bl);
         if (!this.checkRubberbandActiveFlag || this.navigation.getMapManager().getRouteCalculationHandler().isRubberbandActive()) {
-            this.logger.log(-2137614336, "RgStopRubberBandCommand#execute() - call rgStopRubberbandManipulation()");
+            this.logger.log(10000000, "RgStopRubberBandCommand#execute() - call rgStopRubberbandManipulation()");
             this.getDSINavigation().rgStopRubberbandManipulation();
             int n = this.dsiResponseContainer.getRgRouteCalculationState();
             if (this.stopGuidance && n != 0) {
-                this.logger.log(-2137614336, "RgStopRubberBandCommand#execute() - call rgStopGuidance()");
+                this.logger.log(10000000, "RgStopRubberBandCommand#execute() - call rgStopGuidance()");
                 this.getDSINavigation().rgStopGuidance();
             }
             this.checkFinish();
@@ -40,13 +39,11 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void abort() {
         super.abort();
         this.navigation.getMapManager().getRouteCalculationHandler().setRubberbandActive(false);
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         try {
             super.updateRgActive(bl);
@@ -57,7 +54,6 @@ extends NavCommand {
         this.checkFinish();
     }
 
-    @Override
     public void updateRgRouteCalculationState(int n) {
         try {
             super.updateRgRouteCalculationState(n);
@@ -70,7 +66,7 @@ extends NavCommand {
 
     private void checkFinish() {
         int n = this.dsiResponseContainer.getRgRouteCalculationState();
-        this.logger.log(-2137614336, "RgStopRubberBandCommand#checkFinish() - routeCalcState = %1", (long)n);
+        this.logger.log(10000000, "RgStopRubberBandCommand#checkFinish() - routeCalcState = %1", (long)n);
         if (n == 0) {
             this.navigation.getMapManager().getRouteCalculationHandler().setRubberbandActive(false);
             this.getCommandList().commandFinished();

@@ -16,13 +16,12 @@ implements IEPGAvailibiltyCallback {
         this.choiceModelToModify = choiceModelApp;
     }
 
-    @Override
     public void epgAvailibiltyChanged(StationInfoExt stationInfoExt, boolean bl) {
         this.choiceModelToModify.setValue(bl ? 1 : 0);
     }
 
     public static ChoiceModifyingEPGAvailibilityCallback forSdarsFocussedChannelEPGAvailibilityChoice(TunerModels tunerModels) {
-        return new ChoiceModifyingEPGAvailibilityCallback(tunerModels.getChoiceModel(1267269888));
+        return new ChoiceModifyingEPGAvailibilityCallback(tunerModels.getChoiceModel(100683));
     }
 }
 

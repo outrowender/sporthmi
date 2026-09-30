@@ -11,8 +11,7 @@ import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.guidance.SimpleDetourHandler;
 import de.audi.tghu.navi.app.routeguidance.IRouteManager;
 import de.audi.tghu.navi.app.sds.ISDSDetourHandler;
-import de.audi.tghu.navi.app.sds.SDSDetourHandlerImpl$1;
-import de.audi.tghu.navi.app.sds.SDSDetourHandlerImpl$2;
+import de.audi.tghu.navi.app.sds.NotifyNaviServiceListenerCommand;
 
 public class SDSDetourHandlerImpl
 implements ISDSDetourHandler {
@@ -30,26 +29,34 @@ implements ISDSDetourHandler {
         this.commandListFactory = iCommandListFactory;
     }
 
-    @Override
     public void blockRoute(int n, NaviServiceListener naviServiceListener) {
         int n2 = n == -1 ? 300 : n;
         int n3 = this.vehicle.getCarVelocity();
-        int n4 = Math.max((int)((float)n3 / 0x66666640 * 8257), 10);
+        int n4 = Math.max((int)((float)n3 / 3.6f * 10.0f), 10);
         int n5 = this.routeManager.getTripDataAuto().distanceToFinalDestination - n4;
-        this.logChannel.log(-2137614336, "SDSHandlerImpl#blockRoute() - speed: %1 km/h --> block offset: %2 m, block length: %3 m", (long)n3, (long)n5, (long)n2);
+        this.logChannel.log(10000000, "SDSHandlerImpl#blockRoute() - speed: %1 km/h --> block offset: %2 m, block length: %3 m", (long)n3, (long)n5, (long)n2);
         this.simpleDetourHandler.deleteBlockRouteBasedOnLength();
-        boolean bl = this.simpleDetourHandler.blockRouteExt(n5, n2);
+        final boolean bl = this.simpleDetourHandler.blockRouteExt(n5, n2);
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new SDSDetourHandlerImpl$1(this, naviServiceListener, bl));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseBlockRoute(bl ? (byte)0 : 1);
+            }
+        });
         commandList.execute("SDSHandlerImpl#blockRoute");
     }
 
-    @Override
     public void unblockRoute(NaviServiceListener naviServiceListener) {
-        this.logChannel.log(-2137614336, "SDSHandlerImpl#unblockRoute()");
+        this.logChannel.log(10000000, "SDSHandlerImpl#unblockRoute()");
         this.simpleDetourHandler.deleteBlockRouteBasedOnLength();
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new SDSDetourHandlerImpl$2(this, naviServiceListener));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseUnblockRoute((byte)0);
+            }
+        });
         commandList.execute("SDSHandlerImpl#unblockRoute");
     }
 }

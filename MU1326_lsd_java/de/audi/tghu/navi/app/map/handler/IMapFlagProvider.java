@@ -11,34 +11,24 @@ import org.dsi.ifc.map.MapFlag;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface IMapFlagProvider {
-    default public IMapFlagProvider setTopDestinations(AdbEntry[] adbEntryArray) {
-    }
+    public IMapFlagProvider setTopDestinations(AdbEntry[] var1);
 
-    default public IMapFlagProvider setContext(int n, boolean bl, boolean bl2) {
-    }
+    public IMapFlagProvider setContext(int var1, boolean var2, boolean var3);
 
-    default public IMapFlagProvider setAutomaticFlagHiding(boolean bl) {
-    }
+    public IMapFlagProvider setAutomaticFlagHiding(boolean var1);
 
-    default public IMapFlagProvider setPicNavMapLocation(NavLocation navLocation) {
-    }
+    public IMapFlagProvider setPicNavMapLocation(NavLocation var1);
 
-    default public IMapFlagProvider setOnlinePOIResultList(OnlinePOIResultList onlinePOIResultList) {
-    }
+    public IMapFlagProvider setOnlinePOIResultList(OnlinePOIResultList var1);
 
-    default public IMapFlagProvider setRemoteHMIResultList(OnlinePOIResultList onlinePOIResultList) {
-    }
+    public IMapFlagProvider setRemoteHMIResultList(OnlinePOIResultList var1);
 
-    default public IMapFlagProvider setPicNavCarouselMapPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public IMapFlagProvider setPicNavCarouselMapPosition(NavLocationWgs84 var1);
 
-    default public MapUserFlag[] getMapUserFlags() {
-    }
+    public MapUserFlag[] getMapUserFlags();
 
-    default public MapFlag[][] getChangedMapUserFlags(MapFlag[] mapFlagArray) {
-    }
+    public MapFlag[][] getChangedMapUserFlags(MapFlag[] var1);
 
-    default public void copyHandlesBack2MapFlags(MapFlag[] mapFlagArray) {
-    }
+    public void copyHandlesBack2MapFlags(MapFlag[] var1);
 }
 

@@ -4,10 +4,8 @@
 package de.audi.tghu.hmi.evo;
 
 public interface ILockingListener {
-    default public void isLockingActive(boolean bl, boolean bl2) {
-    }
+    public void isLockingActive(boolean var1, boolean var2);
 
-    default public boolean isInterestedOnTimerEvents() {
-    }
+    public boolean isInterestedOnTimerEvents();
 }
 

@@ -11,28 +11,20 @@ import de.audi.tghu.navi.app.map.dsi.MVRequestZoomEngine;
 
 public interface IMapRequest
 extends IDSIMVControl {
-    default public boolean areAllBoundDSIReady() {
-    }
+    public boolean areAllBoundDSIReady();
 
-    default public MVRequestControl getMVRequestControlActive() {
-    }
+    public MVRequestControl getMVRequestControlActive();
 
-    default public MVRequestControl getMVRequestStd() {
-    }
+    public MVRequestControl getMVRequestStd();
 
-    default public MVRequestGoogleCtrl getMVRequestGoogleCtrl() {
-    }
+    public MVRequestGoogleCtrl getMVRequestGoogleCtrl();
 
-    default public MVRequestManeuverView getMVRequestManeuverView() {
-    }
+    public MVRequestManeuverView getMVRequestManeuverView();
 
-    default public MVRequestZoomEngine getMVRequestZoomEngine() {
-    }
+    public MVRequestZoomEngine getMVRequestZoomEngine();
 
-    default public void clearIsActiveFlags() {
-    }
+    public void clearIsActiveFlags();
 
-    default public void setLayerVisibility(int[] nArray) {
-    }
+    public void setLayerVisibility(int[] var1);
 }
 

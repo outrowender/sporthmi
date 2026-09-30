@@ -13,6 +13,7 @@ import de.audi.atip.statemachine.mediator.ChangeMediator;
 import de.audi.atip.statemachine.mediator.ChangeTimerMediator;
 import de.audi.atip.statemachine.mediator.HistoryRestoreMediator;
 import de.audi.atip.statemachine.mediator.WaitSyncMediator;
+import java.util.NoSuchElementException;
 
 public class InfoSMMInitMediators
 implements SMModuleConstants {
@@ -26,15 +27,15 @@ implements SMModuleConstants {
 
     protected void initMediators() {
         EventMediator[] eventMediatorArray = new EventMediator[6];
-        eventMediatorArray[0] = new ChangeMediator((long)0, (MediatorManager)this.smm, 631310080, new int[]{-459208960});
-        eventMediatorArray[1] = new ChangeTimerMediator(0, this.smm, -182843904, new int[]{-677312768}, 0);
-        eventMediatorArray[2] = new HistoryRestoreMediator(0, this.smm, 664864512);
-        eventMediatorArray[3] = new WaitSyncMediator((long)0, (MediatorManager)this.smm, 597755648, -962525440);
-        eventMediatorArray[5] = new ChangeMediator((long)0, (MediatorManager)this.smm, 698418944, new int[]{335});
+        eventMediatorArray[0] = new ChangeMediator(500000L, (MediatorManager)this.smm, 500005, new int[]{500196});
+        eventMediatorArray[1] = new ChangeTimerMediator(500001L, this.smm, 400117, new int[]{500183}, 3000L);
+        eventMediatorArray[2] = new HistoryRestoreMediator(500002L, this.smm, 500007);
+        eventMediatorArray[3] = new WaitSyncMediator(500003L, (MediatorManager)this.smm, 500003, 500166);
+        eventMediatorArray[5] = new ChangeMediator(500005L, (MediatorManager)this.smm, 500009, new int[]{335});
         this.smm.setMediatorList(eventMediatorArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

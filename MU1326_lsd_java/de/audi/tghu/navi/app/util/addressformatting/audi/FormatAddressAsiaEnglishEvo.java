@@ -16,7 +16,6 @@ extends FormatAddress {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         if (!locationFormattingRequest.contactOrFavoriteName.isEmpty()) {
@@ -33,7 +32,6 @@ extends FormatAddress {
         return locationFormattingResponse;
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
@@ -46,12 +44,12 @@ extends FormatAddress {
     protected void formatPOI(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.poiCategory.isEmpty()) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#formatPOI -- poiCategory isn't empty", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000000, "%1#formatPOI -- poiCategory isn't empty", (Object)this.CLASS_NAME);
             }
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.poiName);
             if (!this.isCategoryInPoiName(locationFormattingRequest.poiName, locationFormattingRequest.poiCategory)) {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "%1#formatPOI -- poiCategory isn't in POIName", (Object)this.CLASS_NAME);
+                    this.logChannel.log(100000000, "%1#formatPOI -- poiCategory isn't in POIName", (Object)this.CLASS_NAME);
                 }
                 locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(" ("));
                 locationFormattingResponse.appendToFirstLine(locationFormattingRequest.poiCategory);
@@ -60,7 +58,7 @@ extends FormatAddress {
             this.formatFullAddressInformationForSecondLine(locationFormattingRequest, locationFormattingResponse);
         } else {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#formatPOI -- poiCategory is empty.", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000000, "%1#formatPOI -- poiCategory is empty.", (Object)this.CLASS_NAME);
             }
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.poiName);
             this.formatFullAddressInformationForSecondLine(locationFormattingRequest, locationFormattingResponse);
@@ -69,7 +67,7 @@ extends FormatAddress {
 
     private void formatHouseNumber(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#formatHouseNumber", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "%1#formatHouseNumber", (Object)this.CLASS_NAME);
         }
         locationFormattingResponse.appendToFirstLine(locationFormattingRequest.houseNumber);
         if (!locationFormattingRequest.cityPart.isEmpty()) {
@@ -79,7 +77,6 @@ extends FormatAddress {
         this.formatThreeLevelCityForSecondLine(locationFormattingRequest, locationFormattingResponse);
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         LocationFormattingResponse locationFormattingResponse2 = new LocationFormattingResponse();
@@ -105,16 +102,12 @@ extends FormatAddress {
         return locationFormattingResponse;
     }
 
-    protected abstract void formatStreet(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
-    }
+    protected abstract void formatStreet(LocationFormattingRequest var1, LocationFormattingResponse var2);
 
-    protected abstract void formatFullAddressInformationForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
-    }
+    protected abstract void formatFullAddressInformationForSecondLine(LocationFormattingRequest var1, LocationFormattingResponse var2);
 
-    protected abstract void formatThreeLevelCityForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
-    }
+    protected abstract void formatThreeLevelCityForSecondLine(LocationFormattingRequest var1, LocationFormattingResponse var2);
 
-    protected abstract void formatDefaultTwoLines(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
-    }
+    protected abstract void formatDefaultTwoLines(LocationFormattingRequest var1, LocationFormattingResponse var2);
 }
 

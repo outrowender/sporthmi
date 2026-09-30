@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 public class TestSupportScreenFactory
 extends AbstractScreenFactory {
     private static HMIService hmiService;
-    private static final int MODULE_ID;
+    private static final int MODULE_ID = 24;
     private int[][] errorColors;
     public AbstractWidgetController[][] refWidgets = new AbstractWidgetController[8][0];
 
@@ -36,12 +36,11 @@ extends AbstractScreenFactory {
 
     private int[][] getErrorColors() {
         if (this.errorColors == null) {
-            this.errorColors = new int[][]{{255, -2004317953}, {255, -2004317953}, {255, -2004317953}, {255, -2004317953}, {255, -2004317953}};
+            this.errorColors = new int[][]{{-16777216, -7829368}, {-16777216, -7829368}, {-16777216, -7829368}, {-16777216, -7829368}, {-16777216, -7829368}};
         }
         return this.errorColors;
     }
 
-    @Override
     public String getName() {
         return "HMITestSupportEvoHighScale";
     }
@@ -50,25 +49,22 @@ extends AbstractScreenFactory {
         return FontFactory.getFonts(n, n2, this.getFramework());
     }
 
-    public static HMIModel getModel(int n, int n2) {
+    public static HMIModel getModel(int n, int n2) throws NoSuchElementException {
         HMIModel hMIModel = hmiService.getModel(n2, n);
         if (hMIModel == null) {
-            throw new NoSuchElementException(new StringBuffer().append("Model (MODELID#").append(n).append(") for terminal ").append(n2).append(" not available.").toString());
+            throw new NoSuchElementException("Model (MODELID#" + n + ") for terminal " + n2 + " not available.");
         }
         return hMIModel;
     }
 
-    @Override
     public Screen getScreenWithMainArea(int n, int n2) {
         return this.createScreen(n, n2);
     }
 
-    @Override
     public HMIView getWidgetTemplate(int n, int n2) {
         return this.getRefWidget(n, n2, this);
     }
 
-    @Override
     public void clearRefWidgets(int n) {
         int n2 = this.refWidgets[n].length;
         for (int i2 = 0; i2 < n2; ++i2) {
@@ -76,7 +72,6 @@ extends AbstractScreenFactory {
         }
     }
 
-    @Override
     protected Screen createDefaultScreen(int n, int n2) {
         this.getFramework().getLogChannel("Ext.Diashow").log(10000, "SystemScreenFactory#createDefaultScreen(): There's no screen with id: %1", (long)n);
         ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(0);
@@ -89,13 +84,12 @@ extends AbstractScreenFactory {
         labelController.setRenderer(new LabelRendererHigh(labelController));
         labelController.setBounds(0, 150, 800, 30);
         LabelModel labelModel = new LabelModel(0);
-        labelModel.setText(new StringBuffer().append("There's no screen with id: ").append(n).toString());
+        labelModel.setText("There's no screen with id: " + n);
         labelController.setModel(labelModel);
         screenWidgetEVO.add(labelController);
         return screenWidgetEVO;
     }
 
-    @Override
     protected Screen createScreen(int n, int n2) {
         switch (n) {
             case 2400000: {
@@ -122,12 +116,11 @@ extends AbstractScreenFactory {
         switch (n2) {
             default: 
         }
-        this.getFramework().getLogChannel("ScreenFactory").log(10000, new StringBuffer().append("Invalid reference widget id ").append(n2).append(".").toString());
+        this.getFramework().getLogChannel("ScreenFactory").log(10000, "Invalid reference widget id " + n2 + ".");
         this.refWidgets[n][n2] = abstractWidgetController;
         return abstractWidgetController;
     }
 
-    @Override
     public void executeCondition(int n, int n2, HMIView[] hMIViewArray, int n3) {
         switch (n2) {
             default: 

@@ -32,8 +32,8 @@ public class FileBrowserManager
 implements DSIFileBrowserListener,
 IFileBrowserManager,
 I18NTarget {
-    private static final long WAIT_TIMEOUT;
-    private static final long WAIT_TIMEOUT_CREATE_PREVIEW;
+    private static final long WAIT_TIMEOUT = 5000L;
+    private static final long WAIT_TIMEOUT_CREATE_PREVIEW = 10000L;
     private final IFrameworkAccess framework;
     private final LogChannel log;
     private final LogChannel logDSI;
@@ -54,7 +54,7 @@ I18NTarget {
     }
 
     private synchronized void setLanguageCode(String string) {
-        this.logDSI.log(1078071040, "-> setLanguageCode(%1)", (Object)string);
+        this.logDSI.log(1000000, "-> setLanguageCode(%1)", (Object)string);
         DSIFileBrowser dSIFileBrowser = this.dsi;
         if (dSIFileBrowser != null) {
             dSIFileBrowser.setLanguage(string);
@@ -66,7 +66,7 @@ I18NTarget {
     }
 
     void start(DSIFileBrowser dSIFileBrowser) {
-        this.logDSI.log(1078071040, "initialze DSI %1", (Object)dSIFileBrowser);
+        this.logDSI.log(1000000, "initialze DSI %1", (Object)dSIFileBrowser);
         this.dsi = dSIFileBrowser;
         this.setLanguageCode(this.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI").getLanguageCode());
     }
@@ -77,16 +77,15 @@ I18NTarget {
         this.resultPath = null;
     }
 
-    @Override
     public synchronized IFileBrowser open(Path path, String[] stringArray) {
         this.resultPath = null;
         this.resultSession = -1;
-        this.logDSI.log(1078071040, "-> start(%1)", (Object)path);
+        this.logDSI.log(1000000, "-> start(%1)", (Object)path);
         this.waitForStartResult = true;
         ++this.pendingRequestCount;
         this.dsi.start(path);
         try {
-            super.wait(0);
+            this.wait(5000L);
             this.waitForStartResult = false;
             if (this.resultPath != null) {
                 FileBrowser fileBrowser = new FileBrowser(this, this.resultSession, this.resultPath, stringArray);
@@ -107,28 +106,26 @@ I18NTarget {
         }
     }
 
-    @Override
     public IModelFileBrowser open(Path path, String[] stringArray, IFileBrowserModelAccess iFileBrowserModelAccess) {
         return this.open(path, stringArray, iFileBrowserModelAccess, new DefaultEvoFileListRowBuilder());
     }
 
-    @Override
     public synchronized IModelFileBrowser open(Path path, String[] stringArray, IFileBrowserModelAccess iFileBrowserModelAccess, IEvoFileListRowBuilder iEvoFileListRowBuilder) {
         this.resultPath = null;
         this.resultSession = -1;
         ++this.pendingRequestCount;
         this.dsi.start(path);
         this.waitForStartResult = true;
-        this.logDSI.log(1078071040, "-> start(%1)", (Object)path);
+        this.logDSI.log(1000000, "-> start(%1)", (Object)path);
         TiledListModelApp tiledListModelApp = iFileBrowserModelAccess.getListModel();
         try {
             tiledListModelApp.removeAll();
             tiledListModelApp.setSelectedIndex(-1);
             tiledListModelApp.setLength(1);
-            super.wait(0);
+            this.wait(5000L);
             this.waitForStartResult = false;
             if (this.resultPath != null) {
-                this.logDSI.log(-2137614336, "creating TiledModelFileBrowser: resultSession = %2, resultPath = %1", (Object)this.resultPath, (long)this.resultSession);
+                this.logDSI.log(10000000, "creating TiledModelFileBrowser: resultSession = %2, resultPath = %1", (Object)this.resultPath, (long)this.resultSession);
                 ModelFileBrowser modelFileBrowser = new ModelFileBrowser(this, this.resultSession, this.resultPath, stringArray, iFileBrowserModelAccess, iEvoFileListRowBuilder);
                 this.sessions.add(this.resultSession, modelFileBrowser);
                 return modelFileBrowser;
@@ -155,9 +152,8 @@ I18NTarget {
         }
     }
 
-    @Override
     public void resetModels(IFileBrowserModelAccess iFileBrowserModelAccess) {
-        this.log.log(-2137614336, "reset FileBrowser models %1", (Object)iFileBrowserModelAccess);
+        this.log.log(10000000, "reset FileBrowser models %1", (Object)iFileBrowserModelAccess);
         if (null != iFileBrowserModelAccess) {
             ButtonModelApp buttonModelApp;
             ChoiceModelApp choiceModelApp;
@@ -180,14 +176,12 @@ I18NTarget {
         }
     }
 
-    @Override
     public void close(int n) {
-        this.log.log(-2137614336, "closing ModelFileBrowser session %1", (long)n);
+        this.log.log(10000000, "closing ModelFileBrowser session %1", (long)n);
         this.dsi.stop(n);
         this.sessions.remove(n);
     }
 
-    @Override
     public DSIFileBrowser getDSI() {
         return this.dsi;
     }
@@ -206,10 +200,10 @@ I18NTarget {
 
     final synchronized IFileBrowser getSelection(IFileBrowserSession iFileBrowserSession, boolean bl) {
         this.resultSession = -1;
-        this.logDSI.log(1078071040, "-> getSelectedFiles( %1 )", (Object)iFileBrowserSession);
+        this.logDSI.log(1000000, "-> getSelectedFiles( %1 )", (Object)iFileBrowserSession);
         this.dsi.getSelectedFiles(iFileBrowserSession.getSession());
         try {
-            super.wait(0);
+            this.wait(5000L);
             if (this.resultSession == -1) {
                 this.log.log(10000, "getSelection( %1 ) timed out!", (Object)iFileBrowserSession);
                 return null;
@@ -224,7 +218,6 @@ I18NTarget {
         }
     }
 
-    @Override
     public void createPreviewImage(ResourceLocator resourceLocator, int n, int n2, DSIFileBrowserListener dSIFileBrowserListener) {
         if (null == resourceLocator) {
             throw new NullPointerException("NullSourceFile");
@@ -237,10 +230,10 @@ I18NTarget {
         }
         DSIFileBrowser dSIFileBrowser = this.getDSI();
         if (null != dSIFileBrowser) {
-            this.getLogDSI().log(1078071040, "[FileBrowserManager] -> createPreviewImage(%1,%2,%3)", (Object)resourceLocator, (long)n, (long)n2);
+            this.getLogDSI().log(1000000, "[FileBrowserManager] -> createPreviewImage(%1,%2,%3)", (Object)resourceLocator, (long)n, (long)n2);
             dSIFileBrowser.createPreviewImage(resourceLocator, n, n2);
         } else {
-            this.getLogDSI().log(-1601830656, "[FileBrowserManager] -> createPreviewImage: no DSI - nothing to do!");
+            this.getLogDSI().log(100000, "[FileBrowserManager] -> createPreviewImage: no DSI - nothing to do!");
         }
     }
 
@@ -250,7 +243,6 @@ I18NTarget {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    @Override
     public synchronized ResourceLocator createPreviewImage(ResourceLocator resourceLocator, int n, int n2) {
         if (null == resourceLocator) {
             throw new NullPointerException("NullSourceFile");
@@ -266,21 +258,21 @@ I18NTarget {
             DSIFileBrowser dSIFileBrowser = this.getDSI();
             this.resultPreviewFileRL = null;
             if (null == dSIFileBrowser) {
-                this.getLogDSI().log(-1601830656, "[CreatePreviewImageJob].doRun(): no DSI - nothing to do!");
+                this.getLogDSI().log(100000, "[CreatePreviewImageJob].doRun(): no DSI - nothing to do!");
                 return null;
             }
-            this.getLogDSI().log(1078071040, "[FileBrowserManager] -> createPreviewImage(%1,%2,%3)", (Object)resourceLocator, (long)n, (long)n2);
+            this.getLogDSI().log(1000000, "[FileBrowserManager] -> createPreviewImage(%1,%2,%3)", (Object)resourceLocator, (long)n, (long)n2);
             dSIFileBrowser.createPreviewImage(resourceLocator, n, n2);
             try {
-                this.previewLock.wait(0);
+                this.previewLock.wait(10000L);
             }
             catch (InterruptedException interruptedException) {
                 Thread.interrupted();
-                this.getLogDSI().log(-1601830656, "[FileBrowserManager].createPreviewImage(): interrupted while waiting for preview image!", (Throwable)interruptedException);
+                this.getLogDSI().log(100000, "[FileBrowserManager].createPreviewImage(): interrupted while waiting for preview image!", (Throwable)interruptedException);
             }
             if (null == this.resultPreviewFileRL) {
                 this.getLogDSI().log(10000, "[FileBrowserManager].createPreviewImage(): timed out while waiting for preview image!");
-                this.getLogDSI().log(1078071040, "[FileBrowserManager].createPreviewImage() -> cancelPreviewCreation()");
+                this.getLogDSI().log(1000000, "[FileBrowserManager].createPreviewImage() -> cancelPreviewCreation()");
                 dSIFileBrowser.cancelPreviewCreation();
             }
             try {
@@ -296,7 +288,6 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void cancelPreviewCreation() {
         DSIFileBrowser dSIFileBrowser;
         Object object = this.previewLock;
@@ -304,17 +295,16 @@ I18NTarget {
             dSIFileBrowser = this.getDSI();
         }
         if (null != dSIFileBrowser) {
-            this.getLogDSI().log(1078071040, "[FileBrowserManager] -> cancelPreviewCreation()");
+            this.getLogDSI().log(1000000, "[FileBrowserManager] -> cancelPreviewCreation()");
             dSIFileBrowser.cancelPreviewCreation();
         } else {
-            this.getLogDSI().log(-1601830656, "[FileBrowserManager].cancelPreviewCreation(): null DSI - nothing to do!");
+            this.getLogDSI().log(100000, "[FileBrowserManager].cancelPreviewCreation(): null DSI - nothing to do!");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deleteAllPreviewFiles() {
         DSIFileBrowser dSIFileBrowser;
         Object object = this.previewLock;
@@ -322,108 +312,97 @@ I18NTarget {
             dSIFileBrowser = this.getDSI();
         }
         if (null != dSIFileBrowser) {
-            this.getLogDSI().log(1078071040, "[FileBrowserManager] -> deleteAllPreviewFiles()");
+            this.getLogDSI().log(1000000, "[FileBrowserManager] -> deleteAllPreviewFiles()");
             dSIFileBrowser.deleteAllPreviewFiles();
         } else {
-            this.getLogDSI().log(-1601830656, "[FileBrowserManager].deleteAllPreviewFiles(): null DSI - nothing to do!");
+            this.getLogDSI().log(100000, "[FileBrowserManager].deleteAllPreviewFiles(): null DSI - nothing to do!");
         }
     }
 
-    @Override
     public void changeFolderResult(int n, int n2, Path path) {
-        this.logDSI.log(1078071040, "<- changeFolderResult(%2,%3,%1)", (Object)path, (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- changeFolderResult(%2,%3,%1)", (Object)path, (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.changeFolderResult(n, n2, path);
         }
     }
 
-    @Override
     public void getFileCountResult(int n, int n2, int n3) {
-        this.logDSI.log(1078071040, "<- getFileCountResult(%2,%3,%1)", (long)n3, (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- getFileCountResult(%2,%3,%1)", (long)n3, (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.getFileCountResult(n, n2, n3);
         }
     }
 
-    @Override
     public void getFileCountWithFileTypeFilterResult(int n, int n2, int n3, int n4) {
-        this.logDSI.log(1078071040, "<- getFileCountWithFileTypeFilterResult(session=%1,success=%2,fileTypes=%3,fileCount=%4)", (Object)new Integer(n), (Object)new Integer(n2), (Object)new Integer(n3), (Object)new Integer(n4));
+        this.logDSI.log(1000000, "<- getFileCountWithFileTypeFilterResult(session=%1,success=%2,fileTypes=%3,fileCount=%4)", (Object)new Integer(n), (Object)new Integer(n2), (Object)new Integer(n3), (Object)new Integer(n4));
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.getFileCountWithFileTypeFilterResult(n, n2, n3, n4);
         }
     }
 
-    @Override
     public void getResourceLocatorWindowResult(int n, int n2, int n3, ResourceLocator[] resourceLocatorArray, int n4) {
-        this.logDSI.log(1078071040, "<- getResourceLocatorWindowResult(%2,%3,%1)", (Object)resourceLocatorArray, (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- getResourceLocatorWindowResult(%2,%3,%1)", (Object)resourceLocatorArray, (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.getResourceLocatorWindowResult(n, n2, n3, resourceLocatorArray, n4);
         }
     }
 
-    @Override
     public void getResourceLocatorsResult(int n, int n2, ResourceLocator[] resourceLocatorArray) {
-        this.logDSI.log(1078071040, "<- getResourceLocatorsResult(%2,%3,%1)", (Object)resourceLocatorArray, (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- getResourceLocatorsResult(%2,%3,%1)", (Object)resourceLocatorArray, (long)n, (long)n2);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getSelectedFilesResult(int n, int n2, int n3) {
-        this.logDSI.log(1078071040, "<- getSelectedFilesResult(%2,%3,%1)", (long)n2, (long)n, (long)n3);
+        this.logDSI.log(1000000, "<- getSelectedFilesResult(%2,%3,%1)", (long)n2, (long)n, (long)n3);
         FileBrowserManager fileBrowserManager = this;
         synchronized (fileBrowserManager) {
             if (0 == n3) {
                 this.resultSession = n2;
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
-    @Override
     public synchronized void getViewWindowResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, int n4) {
-        this.logDSI.log(1078071040, "<- getViewWindowResult(session=%2,success=%3,offset=%4,files=%1)", (Object)browsedFileSet, (Object)new Integer(n), (Object)new Integer(n2), (long)n3);
+        this.logDSI.log(1000000, "<- getViewWindowResult(session=%2,success=%3,offset=%4,files=%1)", (Object)browsedFileSet, (Object)new Integer(n), (Object)new Integer(n2), (long)n3);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.getViewWindowResult(n, n2, n3, browsedFileSet, n4);
         }
     }
 
-    @Override
     public void indicateSelectionResult(int n, int n2, int n3) {
-        this.logDSI.log(1078071040, "<- indicateSelectionResult(%2,%3,%1)", (long)n3, (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- indicateSelectionResult(%2,%3,%1)", (long)n3, (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.indicateSelectionResult(n, n2, n3);
         }
     }
 
-    @Override
     public synchronized void setFileExtensionFilterResult(int n, int n2) {
-        this.logDSI.log(1078071040, "<- setFileExtensionFilterResult(%1,%2)", (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- setFileExtensionFilterResult(%1,%2)", (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.setFileExtensionFilterResult(n, n2);
         }
     }
 
-    @Override
     public void setFileTypeFilterResult(int n, int n2) {
-        this.logDSI.log(1078071040, "<- setFileTypeFilterResult(%1,%2)", (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- setFileTypeFilterResult(%1,%2)", (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.setFileTypeFilterResult(n, n2);
         }
     }
 
-    @Override
     public void setFileTypeActiveResult(int n) {
-        this.logDSI.log(1078071040, "<- setFileTypeActiveResult(%1)", (long)n);
+        this.logDSI.log(1000000, "<- setFileTypeActiveResult(%1)", (long)n);
         Object[] objectArray = this.sessions.getValues();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -434,30 +413,26 @@ I18NTarget {
         }
     }
 
-    @Override
     public void setLanguageResult(int n, String string) {
-        this.logDSI.log(1078071040, "<- setLanguageResult(%2,%1)", (Object)string, (long)n);
+        this.logDSI.log(1000000, "<- setLanguageResult(%2,%1)", (Object)string, (long)n);
     }
 
-    @Override
     public void spellerResult(int n, int n2, String string, String string2) {
-        this.logDSI.log(1078071040, "<- spellerResult(%2,%3,%1)", (Object)new StringBuffer().append(string).append("|").append(string2).toString(), (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- spellerResult(%2,%3,%1)", (Object)(string + "|" + string2), (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (abstractFileBrowserSession != null) {
             abstractFileBrowserSession.spellerResult(n, n2, string, string2);
         }
     }
 
-    @Override
     public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startResult(int n, int n2, Path path) {
-        this.logDSI.log(1078071040, "<- startResult(%2,%3,%1)", (Object)path, (long)n, (long)n2);
+        this.logDSI.log(1000000, "<- startResult(%2,%3,%1)", (Object)path, (long)n, (long)n2);
         FileBrowserManager fileBrowserManager = this;
         synchronized (fileBrowserManager) {
             if (0 == n2) {
@@ -471,24 +446,21 @@ I18NTarget {
             if (this.pendingRequestCount > 0) {
                 --this.pendingRequestCount;
             }
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.logDSI.log(10000, "<- asyncException(%2, %1, %3)", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.logDSI.log(1078071040, "-> setLanguage(%1)", (Object)language.getLanguageCode());
+        this.logDSI.log(1000000, "-> setLanguage(%1)", (Object)language.getLanguageCode());
         this.setLanguageCode(language.getLanguageCode());
     }
 
-    @Override
     public synchronized void getViewWindowWithPreviewsResult(int n, int n2, int n3, BrowsedFileSet browsedFileSet, PreviewInfo[] previewInfoArray, int n4) {
-        this.logDSI.log(1078071040, "[FileBrowserManager] <- getViewWindowWithPreviewsResult(%1,%2, ...)", (long)n, (long)n2);
+        this.logDSI.log(1000000, "[FileBrowserManager] <- getViewWindowWithPreviewsResult(%1,%2, ...)", (long)n, (long)n2);
         AbstractFileBrowserSession abstractFileBrowserSession = this.getFileBrowser(n);
         if (null != abstractFileBrowserSession) {
             abstractFileBrowserSession.getViewWindowWithPreviewsResult(n, n2, n3, browsedFileSet, previewInfoArray, n4);
@@ -498,9 +470,8 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void createPreviewImageResult(ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n) {
-        this.getLogDSI().log(-2137614336, "[FileBrowserManger] <- createPreviewImageResult(%1,%2,%3)", (Object)resourceLocator, (Object)resourceLocator2, (long)n);
+        this.getLogDSI().log(10000000, "[FileBrowserManger] <- createPreviewImageResult(%1,%2,%3)", (Object)resourceLocator, (Object)resourceLocator2, (long)n);
         Object object = this.previewLock;
         synchronized (object) {
             if (0 == n) {
@@ -510,11 +481,10 @@ I18NTarget {
         }
     }
 
-    @Override
     public void cancelPreviewCreationResult(int n) {
-        this.getLogDSI().log(-2137614336, "[FileBrowserManger] <- cancelPreviewCreationResult(%1)", (long)n);
+        this.getLogDSI().log(10000000, "[FileBrowserManger] <- cancelPreviewCreationResult(%1)", (long)n);
         if (0 != n) {
-            this.getLogDSI().log(1078071040, "[FileBrowserManger].cancelPreviewCreationResult(): cancel preview creation failed (%1)", (long)n);
+            this.getLogDSI().log(1000000, "[FileBrowserManger].cancelPreviewCreationResult(): cancel preview creation failed (%1)", (long)n);
         }
     }
 }

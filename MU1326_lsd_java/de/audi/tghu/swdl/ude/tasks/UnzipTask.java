@@ -30,10 +30,9 @@ implements Runnable {
         this.targetDir = file2;
     }
 
-    @Override
     public void run() {
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append("UnzipTask").toString());
-        this.lc.log(-2137614336, "[UnzipTask] src:%1 target:%2", (Object)this.srcZip, (Object)this.targetDir);
+        Thread.currentThread().setName(Thread.currentThread().getName() + "UnzipTask");
+        this.lc.log(10000000, "[UnzipTask] src:%1 target:%2", (Object)this.srcZip, (Object)this.targetDir);
         try {
             this.unzip(this.srcZip, this.targetDir);
             this.ieApp.unzipFinished(true);
@@ -44,7 +43,7 @@ implements Runnable {
         }
     }
 
-    private void unzip(File file, File file2) {
+    private void unzip(File file, File file2) throws IOException {
         ZipFile zipFile = new ZipFile(file);
         Enumeration enumeration = zipFile.entries();
         while (enumeration.hasMoreElements()) {
@@ -56,19 +55,19 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void unzip(ZipFile zipFile, ZipEntry zipEntry, File file) {
+    private void unzip(ZipFile zipFile, ZipEntry zipEntry, File file) throws IOException {
         String string = zipEntry.getName();
         File file2 = new File(file, string);
         if (file2.exists()) {
-            this.lc.log(-2137614336, "[UnzipTask.unzip] Delete already existing target file '%1'", (Object)file2);
+            this.lc.log(10000000, "[UnzipTask.unzip] Delete already existing target file '%1'", (Object)file2);
             boolean bl = file2.delete();
             if (!bl) {
-                this.lc.log(-2137614336, "[UnzipTask.unzip] Delete of target file '%1' failed!", (Object)file2);
+                this.lc.log(10000000, "[UnzipTask.unzip] Delete of target file '%1' failed!", (Object)file2);
                 this.ieApp.unzipFinished(false);
                 return;
             }
         } else {
-            this.lc.log(-2137614336, "[UnzipTask.unzip] Extract '%1' --> '%2'", (Object)string, (Object)file2);
+            this.lc.log(10000000, "[UnzipTask.unzip] Extract '%1' --> '%2'", (Object)string, (Object)file2);
         }
         BufferedInputStream bufferedInputStream = null;
         BufferedOutputStream bufferedOutputStream = null;
@@ -98,7 +97,7 @@ implements Runnable {
                 throw throwable;
             }
         }
-        this.lc.log(-2137614336, "[UnzipTask.unzip] '%1' (%2 bytes)", (Object)file2, l);
+        this.lc.log(10000000, "[UnzipTask.unzip] '%1' (%2 bytes)", (Object)file2, l);
     }
 
     private void close(InputStream inputStream) {

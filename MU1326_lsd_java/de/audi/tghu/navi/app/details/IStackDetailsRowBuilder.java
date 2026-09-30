@@ -4,7 +4,7 @@
 package de.audi.tghu.navi.app.details;
 
 public interface IStackDetailsRowBuilder {
-    public static final int LAYOUT_TEXT;
-    public static final int LAYOUT_ICON_TEXT;
+    public static final int LAYOUT_TEXT = 0;
+    public static final int LAYOUT_ICON_TEXT = 1;
 }
 

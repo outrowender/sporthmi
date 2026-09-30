@@ -18,7 +18,6 @@ extends AbstractMatchspellerInputSequenceAsia {
         super(iMatchspellerModelAccess, spellerStack, iCommandListFactory, iAddressInputForm, iPreviewMap);
     }
 
-    @Override
     protected NavCommand getStartSpellerCommand() {
         return new LIStartSpellerCommand(144, false, false, false);
     }

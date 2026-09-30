@@ -6,82 +6,56 @@ package de.audi.tghu.swdl.app.hmiswitcher.manager;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerSelection;
 
 public interface ISelectionManager {
-    default public SwdlDSIHandlerSelection getSelectionDSIHandler() {
-    }
+    public SwdlDSIHandlerSelection getSelectionDSIHandler();
 
-    default public void updateRingNotOk(boolean bl) {
-    }
+    public void updateRingNotOk(boolean var1);
 
-    default public void updateUserSwdl(boolean bl) {
-    }
+    public void updateUserSwdl(boolean var1);
 
-    default public void updateNfsIpAddress(String string) {
-    }
+    public void updateNfsIpAddress(String var1);
 
-    default public void updateNfsPath(String string) {
-    }
+    public void updateNfsPath(String var1);
 
-    default public void updateFsPath(String string) {
-    }
+    public void updateFsPath(String var1);
 
-    default public void doGetSourceMedia() {
-    }
+    public void doGetSourceMedia();
 
-    default public void updateSourceMediaList(int[] nArray) {
-    }
+    public void updateSourceMediaList(int[] var1);
 
-    default public void updateAvailableMedia(byte by) {
-    }
+    public void updateAvailableMedia(byte var1);
 
-    default public void doSelectSourceMedium(int n) {
-    }
+    public void doSelectSourceMedium(int var1);
 
-    default public void preSelectSourceMedium(int n) {
-    }
+    public void preSelectSourceMedium(int var1);
 
-    default public void setDefaultMedium(int n) {
-    }
+    public void setDefaultMedium(int var1);
 
-    default public void leaveReadingReleases() {
-    }
+    public void leaveReadingReleases();
 
-    default public void updateReleaseList(String[] stringArray, String string, int n) {
-    }
+    public void updateReleaseList(String[] var1, String var2, int var3);
 
-    default public void doSelectRelease(int n) {
-    }
+    public void doSelectRelease(int var1);
 
-    default public void leaveReadingMetainfo() {
-    }
+    public void leaveReadingMetainfo();
 
-    default public void updateReleaseResult(String string, int n) {
-    }
+    public void updateReleaseResult(String var1, int var2);
 
-    default public boolean isUserDefinedMode() {
-    }
+    public boolean isUserDefinedMode();
 
-    default public void updateUserDefinedAllowed(boolean bl) {
-    }
+    public void updateUserDefinedAllowed(boolean var1);
 
-    default public void doCheckStartDownload() {
-    }
+    public void doCheckStartDownload();
 
-    default public void updateConsistency(int n, boolean bl, String string, int n2) {
-    }
+    public void updateConsistency(int var1, boolean var2, String var3, int var4);
 
-    default public void updateIncompatibleDevices(String[] stringArray, String[] stringArray2) {
-    }
+    public void updateIncompatibleDevices(String[] var1, String[] var2);
 
-    default public void doStartVersionUpload() {
-    }
+    public void doStartVersionUpload();
 
-    default public void versionUploadDone(boolean bl) {
-    }
+    public void versionUploadDone(boolean var1);
 
-    default public void enterComponentUpdateConfirmation() {
-    }
+    public void enterComponentUpdateConfirmation();
 
-    default public void removeSwdlDataDir() {
-    }
+    public void removeSwdlDataDir();
 }
 

@@ -11,7 +11,7 @@ import de.audi.tghu.navi.app.util.addressformatting.LocationFormattingResponse;
 
 public class FormatAddressPAG
 extends FormatAddress {
-    public static final int MINIMUMLENGTHOFFORMATTING;
+    public static final int MINIMUMLENGTHOFFORMATTING = 4;
 
     public FormatAddressPAG(NavigationEnv navigationEnv) {
         super(navigationEnv);
@@ -59,17 +59,14 @@ extends FormatAddress {
         }
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }

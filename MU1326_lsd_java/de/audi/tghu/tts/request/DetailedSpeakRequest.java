@@ -17,41 +17,38 @@ extends SpeakRequest {
 
     public DetailedSpeakRequest(LogChannel logChannel, TTSListener tTSListener, DSITTSCaller dSITTSCaller, RequestQueue requestQueue, String string, short s) {
         super(logChannel, tTSListener, dSITTSCaller, requestQueue, string, s);
-        this.logCh.log(-2137614336, "[DetailedSpeakRequest#ctor] Called.");
+        this.logCh.log(10000000, "[DetailedSpeakRequest#ctor] Called.");
         this.text = string;
         this.type = 1;
         this.charsToSpeak = this.text.toCharArray();
     }
 
-    @Override
     protected void initialize() {
         super.initialize();
         ++this.charCounter;
     }
 
-    @Override
     protected int checkRequestFinished() {
-        this.logCh.log(-2137614336, "[DetailedSpeakRequest#checkRequestFinished] Called.");
+        this.logCh.log(10000000, "[DetailedSpeakRequest#checkRequestFinished] Called.");
         if (this.requestCounter == 0 && this.isAborted()) {
             this.finish();
-            this.logCh.log(-2137614336, "[DetailedSpeakRequest#checkRequestFinished] Finish speak request with ABORTED.");
+            this.logCh.log(10000000, "[DetailedSpeakRequest#checkRequestFinished] Finish speak request with ABORTED.");
             return 4;
         }
         if (this.requestCounter == 0 && this.audioInfo == 0) {
             if (this.charCounter < this.charsToSpeak.length - 1) {
-                this.logCh.log(-2137614336, "[DetailedSpeakRequest#checkRequestFinished] Speak next character.");
+                this.logCh.log(10000000, "[DetailedSpeakRequest#checkRequestFinished] Speak next character.");
                 this.initialize();
                 this.execute();
                 return 1;
             }
             this.finish();
-            this.logCh.log(-2137614336, "[DetailedSpeakRequest#checkRequestFinished] Finish speak request with FINISHED.");
+            this.logCh.log(10000000, "[DetailedSpeakRequest#checkRequestFinished] Finish speak request with FINISHED.");
             return 2;
         }
         return 1;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("DetailedSpeakRequest{");
@@ -65,9 +62,8 @@ extends SpeakRequest {
         return buffer.toString();
     }
 
-    @Override
     public void execute() {
-        this.logCh.log(-2137614336, "[DetailedSpeakRequest#execute] Called.");
+        this.logCh.log(10000000, "[DetailedSpeakRequest#execute] Called.");
         this.dsiCaller.dsiSpeak(this.sourceId, String.valueOf(this.charsToSpeak[this.charCounter]));
         this.incrementRequestCounter();
     }

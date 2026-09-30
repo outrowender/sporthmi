@@ -18,16 +18,15 @@ implements IOnlineLogoProvider {
     public OnlineLogoProvider(OnlineServiceRegistrationSubsystem onlineServiceRegistrationSubsystem) {
         this.onlineService = onlineServiceRegistrationSubsystem;
         this.logger = onlineServiceRegistrationSubsystem.getLogChannel();
-        this.logger.log(1078071040, "OnlineLogoProvider#OnlineLogoProvider()");
+        this.logger.log(1000000, "OnlineLogoProvider#OnlineLogoProvider()");
     }
 
-    @Override
     public void downloadLogoItem(String string, String string2, OnlineLogoItem onlineLogoItem) {
-        this.logger.log(-2137614336, "OnlineLogoProvider#downloadLogoItem() URL = %1, path = %2", (Object)string, (Object)string2);
+        this.logger.log(10000000, "OnlineLogoProvider#downloadLogoItem() URL = %1, path = %2", (Object)string, (Object)string2);
         OSRCommandList oSRCommandList = this.onlineService.createCommandList();
         DownloadLogoItemCommand downloadLogoItemCommand = new DownloadLogoItemCommand(this.logger, string, string2, onlineLogoItem);
         oSRCommandList.add(downloadLogoItemCommand);
-        oSRCommandList.execute(super.getClass().getName());
+        oSRCommandList.execute(this.getClass().getName());
     }
 }
 

@@ -3,32 +3,33 @@
  */
 package de.audi.tuner.app.sdars;
 
+import de.audi.atip.hmi.model.DefaultRangeListener;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
-import de.audi.tuner.app.sdars.SDARSManTune$DsiUpListener;
-import de.audi.tuner.app.sdars.SDARSManTune$TimerListener;
-import de.audi.tuner.app.sdars.SDARSManTune$TunerActionProxyListenerExt;
-import de.audi.tuner.app.sdars.SDARSManTune$rangeListener;
 import de.audi.tuner.app.sdars.SDARSTuner;
 import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.ifc.IScanHandler;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SDARSManTune {
-    final SDARSDsiUpInfo dsiUpInfo = new SDARSManTune$DsiUpListener(this, null);
-    final TunerActionProxyListener actionProxy = new SDARSManTune$TunerActionProxyListenerExt(this, null);
+    final SDARSDsiUpInfo dsiUpInfo = new DsiUpListener();
+    final TunerActionProxyListener actionProxy = new TunerActionProxyListenerExt();
     private final TunerModels models;
     private final RangeModelApp range;
     private final LogChannel log;
     private StationInfoExt[] stationList = new StationInfoExt[0];
     private StationInfoExt activeStation = new StationInfoExt();
-    private final Timer tuneTimer = new Timer("tuneTimer", 0, true, new SDARSManTune$TimerListener(this, null));
+    private final Timer tuneTimer = new Timer("tuneTimer", 1500L, true, new TimerListener());
     private final IScanHandler scanHandler;
     private int index;
     private SDARSTuner tuner;
@@ -39,8 +40,8 @@ public class SDARSManTune {
         this.tuner = sDARSTuner;
         this.scanHandler = iScanHandler;
         this.log = tunerBasics.getLogger().sdarsDSI;
-        this.range = this.models.getRangeModel(1049100544);
-        this.range.setRangeListener(new SDARSManTune$rangeListener(this, null));
+        this.range = this.models.getRangeModel(100414);
+        this.range.setRangeListener(new rangeListener());
         this.activeStation = tunerStorage.loadLastSDARSStation();
     }
 
@@ -64,9 +65,9 @@ public class SDARSManTune {
     private void setLabels(int n) {
         if (n >= 0 && n < this.stationList.length) {
             StationInfoExt stationInfoExt = this.stationList[n];
-            this.models.getLabelModel(277414144).setText(stationInfoExt.fullLabel);
-            this.models.getLabelModel(260636928).setText(Utilities.getFormatedStationNumber(stationInfoExt.stationNumber));
-            this.models.getLabelModel(294191360).setText(this.noSignal ? "NoSignal" : stationInfoExt.getFullCategory());
+            this.models.getLabelModel(100624).setText(stationInfoExt.fullLabel);
+            this.models.getLabelModel(100623).setText(Utilities.getFormatedStationNumber(stationInfoExt.stationNumber));
+            this.models.getLabelModel(100625).setText(this.noSignal ? "NoSignal" : stationInfoExt.getFullCategory());
         } else {
             this.log.log(10000, "[SDARSManTune.setLabels] wrong index %1!", (long)n);
         }
@@ -122,46 +123,81 @@ public class SDARSManTune {
         return n;
     }
 
-    static /* synthetic */ Timer access$400(SDARSManTune sDARSManTune) {
-        return sDARSManTune.tuneTimer;
-    }
-
-    static /* synthetic */ StationInfoExt access$502(SDARSManTune sDARSManTune, StationInfoExt stationInfoExt) {
-        sDARSManTune.activeStation = stationInfoExt;
-        return sDARSManTune.activeStation;
-    }
-
-    static /* synthetic */ void access$600(SDARSManTune sDARSManTune) {
-        sDARSManTune.setRangeValue();
-    }
-
-    static /* synthetic */ int access$700(SDARSManTune sDARSManTune) {
-        return sDARSManTune.index;
-    }
-
-    static /* synthetic */ void access$800(SDARSManTune sDARSManTune, int n) {
-        sDARSManTune.setLabels(n);
-    }
-
     static /* synthetic */ StationInfoExt[] access$902(SDARSManTune sDARSManTune, StationInfoExt[] stationInfoExtArray) {
         sDARSManTune.stationList = stationInfoExtArray;
         return stationInfoExtArray;
     }
 
-    static /* synthetic */ StationInfoExt[] access$900(SDARSManTune sDARSManTune) {
-        return sDARSManTune.stationList;
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(StationInfoExt stationInfoExt) {
+            if (!SDARSManTune.this.tuneTimer.isRunning()) {
+                SDARSManTune.this.activeStation = stationInfoExt;
+                SDARSManTune.this.setRangeValue();
+                SDARSManTune.this.setLabels(SDARSManTune.this.index);
+            }
+        }
+
+        public void updateStationList(StationInfoExt[] stationInfoExtArray) {
+            ArrayList arrayList = new ArrayList(stationInfoExtArray.length);
+            for (int i2 = 0; i2 < stationInfoExtArray.length; ++i2) {
+                if (stationInfoExtArray[i2].subscription != 2 || stationInfoExtArray[i2].stationNumber == 0) continue;
+                arrayList.add(stationInfoExtArray[i2]);
+            }
+            Collections.sort(arrayList, new Comparator(){
+
+                public int compare(Object object, Object object2) {
+                    return ((StationInfoExt)object).stationNumber - ((StationInfoExt)object2).stationNumber;
+                }
+            });
+            SDARSManTune.access$902(SDARSManTune.this, (StationInfoExt[])arrayList.toArray(new StationInfoExt[arrayList.size()]));
+            SDARSManTune.this.range.setLimits(0, SDARSManTune.this.stationList.length - 1, 1);
+            SDARSManTune.this.setRangeValue();
+        }
+
+        public void updateSignalStatus(boolean bl) {
+            SDARSManTune.this.noSignal = bl;
+            SDARSManTune.this.setLabels(SDARSManTune.this.index);
+        }
     }
 
-    static /* synthetic */ RangeModelApp access$1000(SDARSManTune sDARSManTune) {
-        return sDARSManTune.range;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            SDARSManTune.this.doTune();
+        }
     }
 
-    static /* synthetic */ void access$1100(SDARSManTune sDARSManTune) {
-        sDARSManTune.doTune();
+    private class rangeListener
+    extends DefaultRangeListener {
+        private rangeListener() {
+        }
+
+        public void increment(int n, int n2, int n3) {
+            SDARSManTune.this.channelUp(n2, true);
+        }
+
+        public void decrement(int n, int n2, int n3) {
+            SDARSManTune.this.channelDown(n2, true);
+        }
     }
 
-    static /* synthetic */ TunerModels access$1200(SDARSManTune sDARSManTune) {
-        return sDARSManTune.models;
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
+
+        public void manualTuneLeft() {
+            if (SDARSManTune.this.models.getActiveTuner() == 7) {
+                SDARSManTune.this.doTune();
+            }
+        }
     }
 }
 

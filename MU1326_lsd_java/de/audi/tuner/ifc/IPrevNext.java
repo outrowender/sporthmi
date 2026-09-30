@@ -4,7 +4,6 @@
 package de.audi.tuner.ifc;
 
 public interface IPrevNext {
-    default public void handlePrevNext(boolean bl) {
-    }
+    public void handlePrevNext(boolean var1);
 }
 

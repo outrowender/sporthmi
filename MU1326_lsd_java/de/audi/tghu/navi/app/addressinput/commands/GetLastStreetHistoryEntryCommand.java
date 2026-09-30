@@ -15,14 +15,12 @@ extends NavCommand {
         this.lastStreet = lIStreetHistoryEntry;
     }
 
-    @Override
     public void execute() {
         this.getDSINavigation().liGetLastStreetHistoryEntry(this.lastStreet.getId());
     }
 
-    @Override
     public void liGetLastStreetHistoryEntryResult(NavLocation navLocation, boolean bl) {
-        this.logger.log(-2137614336, "%1#liGetLastStreetHistoryEntryResult(%2, %3)", (Object)this.CLASS_NAME, (Object)navLocation, (Object)Boolean.toString(bl));
+        this.logger.log(10000000, "%1#liGetLastStreetHistoryEntryResult(%2, %3)", (Object)this.CLASS_NAME, (Object)navLocation, (Object)Boolean.toString(bl));
         if (navLocation != null) {
             this.getCommandList().put("NavLocation from History", navLocation);
         }

@@ -8,7 +8,6 @@ import de.audi.tghu.exlap.impl.container.ContextStatesContainer;
 
 public interface ExlapExlapListener
 extends ExlapListener {
-    default public void updateContextStates(ContextStatesContainer contextStatesContainer) {
-    }
+    public void updateContextStates(ContextStatesContainer var1);
 }
 

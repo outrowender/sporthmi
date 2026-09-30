@@ -23,15 +23,14 @@ extends PoiParentChildResultScreenInputSequence {
         super(iPoiParentChildResultScreenModelAccess, iCommandListFactory, poiSearchArea, navigationEnv, spellerStack, iPoiManager);
     }
 
-    @Override
     public void focusPreviewMap(IPreviewMap iPreviewMap, NavLocation navLocation) {
         CommandList commandList = this.commandListFactory.createCommandList();
         NavLocationWgs84 navLocationWgs84 = Util.navLocationToWgs84(this.poiSearchArea.getLocation());
         int n = this.poiSearchArea.getSearchContext();
-        this.logChannel.log(-2137614336, "%1#focusPreviewMap() - searchContext: %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#focusPreviewMap() - searchContext: %2", (Object)this.CLASS_NAME, (long)n);
         CmdNaviPreviewMapPrepare cmdNaviPreviewMapPrepare = new CmdNaviPreviewMapPrepare(iPreviewMap, new NavLocation[]{navLocation}, navLocationWgs84, -1);
         commandList.add(cmdNaviPreviewMapPrepare);
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#focusPreviewMap").toString());
+        commandList.execute(this.CLASS_NAME + "#focusPreviewMap");
     }
 }
 

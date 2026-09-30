@@ -13,7 +13,7 @@ extends AbstractPoiScreenModelAccess {
 
     public FuelWarningSequenceCoreModelAccess(NavigationEnv navigationEnv) {
         super(navigationEnv);
-        this.FUEL_TYPE_CHOICE = -2028075520;
+        this.FUEL_TYPE_CHOICE = 401031;
     }
 
     public void onElementSelected(LIValueListElement lIValueListElement) {

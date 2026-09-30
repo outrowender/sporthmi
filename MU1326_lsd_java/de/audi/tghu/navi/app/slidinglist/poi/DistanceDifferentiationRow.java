@@ -6,39 +6,28 @@ package de.audi.tghu.navi.app.slidinglist.poi;
 import org.dsi.ifc.navigation.PosPosition;
 
 public interface DistanceDifferentiationRow {
-    public static final int RRDICON_OFFSET;
+    public static final int RRDICON_OFFSET = 8;
 
-    default public void setAirDistance(int n) {
-    }
+    public void setAirDistance(int var1);
 
-    default public void setRRDDistance(int n) {
-    }
+    public void setRRDDistance(int var1);
 
-    default public void reformatDistance() {
-    }
+    public void reformatDistance();
 
-    default public int getDistance() {
-    }
+    public int getDistance();
 
-    default public boolean isMarkedAsRRD() {
-    }
+    public boolean isMarkedAsRRD();
 
-    default public void setDirection(int n) {
-    }
+    public void setDirection(int var1);
 
-    default public int getDirection() {
-    }
+    public int getDirection();
 
-    default public int getLongitude() {
-    }
+    public int getLongitude();
 
-    default public int getLatitude() {
-    }
+    public int getLatitude();
 
-    default public void updateDirection(PosPosition posPosition) {
-    }
+    public void updateDirection(PosPosition var1);
 
-    default public void updateAirDistance(PosPosition posPosition) {
-    }
+    public void updateAirDistance(PosPosition var1);
 }
 

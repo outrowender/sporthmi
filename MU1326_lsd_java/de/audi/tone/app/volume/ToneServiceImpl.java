@@ -24,19 +24,16 @@ implements ToneService {
         this.volMenuManager = volumeRangeManager;
     }
 
-    @Override
     public void updateMicGainLevel(int n) {
     }
 
-    @Override
     public void updateMicGainRange(int n, int n2) {
     }
 
-    @Override
     public void updatePhoneAudioScenario(int n) {
         AbstractVolumeRange abstractVolumeRange;
         AbstractVolumeRange abstractVolumeRange2;
-        this.lc.log(-2137614336, "[ToneServiceImpl.updatePhoneAudioScenario] scenario:%1", (long)n);
+        this.lc.log(10000000, "[ToneServiceImpl.updatePhoneAudioScenario] scenario:%1", (long)n);
         AbstractVolumeRange abstractVolumeRange3 = this.volMenuManager.getMenuByID(3);
         if (abstractVolumeRange3 instanceof AbstractPhoneVolumeRange) {
             abstractVolumeRange2 = (AbstractPhoneVolumeRange)abstractVolumeRange3;
@@ -52,51 +49,43 @@ implements ToneService {
         }
     }
 
-    @Override
     public void updateBTLinkKeyAvailable(int n, boolean bl) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.updateBTLinkKeyAvailable] available:%1 HT:%2", (Object)String.valueOf(bl), (long)n);
+        this.lc.log(10000000, "[ToneServiceImpl.updateBTLinkKeyAvailable] available:%1 HT:%2", (Object)String.valueOf(bl), (long)n);
     }
 
-    @Override
     public void setMicGainLevel(int n) {
         this.dsiSound.setMicGainLevel(n);
     }
 
-    @Override
     public void setThreeDMode(int n) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.setThreeDMode] media online connection: %1,  mode: %2", (long)0, (long)n);
+        this.lc.log(10000000, "[ToneServiceImpl.setThreeDMode] media online connection: %1,  mode: %2", 45L, (long)n);
         this.dsiSound.setThreeDMode(45, 0, n);
     }
 
-    @Override
     public void setSurround(boolean bl) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.setSurroundLevel] media online enable: %1,connection: %2", bl, (long)0);
+        this.lc.log(10000000, "[ToneServiceImpl.setSurroundLevel] media online enable: %1,connection: %2", bl, 45L);
         this.dsiSound.setSurround(45, 0, bl);
     }
 
-    @Override
     public void setSurroundForActiveEntertainment(boolean bl) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.setSurroundOnOff] set surround for the AEC, enable: %1", bl);
+        this.lc.log(10000000, "[ToneServiceImpl.setSurroundOnOff] set surround for the AEC, enable: %1", bl);
         if (this.dsiSound.getAmplifierVariant().isAmplifierPorscheSurround()) {
             this.dsiSound.setSurround(0, bl);
         }
     }
 
-    @Override
     public void setInputGainOffSet(short s) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.setInputGainOffSet] media online connection: %1,  value: %2", (long)0, (long)s);
+        this.lc.log(10000000, "[ToneServiceImpl.setInputGainOffSet] media online connection: %1,  value: %2", 45L, (long)s);
         this.dsiSound.setInputGainOffSet(45, 0, s);
     }
 
-    @Override
     public void setDuration(int n, int n2) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.setDuration] conncetion:%1 duration:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[ToneServiceImpl.setDuration] conncetion:%1 duration:%2", (long)n, (long)n2);
         this.dsiSound.setDuration(n, n2);
     }
 
-    @Override
     public void updateUserDefinedRingtone(String string, String string2) {
-        this.lc.log(-2137614336, "[ToneServiceImpl.updateUserDefinedRingtone] url:%1 filename:%2", (Object)string, (Object)string2);
+        this.lc.log(10000000, "[ToneServiceImpl.updateUserDefinedRingtone] url:%1 filename:%2", (Object)string, (Object)string2);
         AbstractPhoneVolumeRange abstractPhoneVolumeRange = (AbstractPhoneVolumeRange)this.volMenuManager.getMenuByID(3);
         abstractPhoneVolumeRange.setUserDefinedRingtone(string, string2);
     }

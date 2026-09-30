@@ -7,16 +7,12 @@ import de.audi.tghu.navi.app.slidinglist.poi.DistanceDifferentiationRow;
 
 public interface TooltipDataProvider
 extends DistanceDifferentiationRow {
-    default public int getIcon() {
-    }
+    public int getIcon();
 
-    default public String getPOIName() {
-    }
+    public String getPOIName();
 
-    default public boolean isToRefine() {
-    }
+    public boolean isToRefine();
 
-    default public String getAdditionalInfo() {
-    }
+    public String getAdditionalInfo();
 }
 

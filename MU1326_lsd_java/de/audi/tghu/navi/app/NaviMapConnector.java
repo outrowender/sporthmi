@@ -33,7 +33,7 @@ implements EfiUrlHandler {
 
     public void showMapDestination(NavLocation navLocation, String string) {
         int n;
-        this.logChannel.log(-2137614336, "NaviMapConnector#showMapDestination( %1, %2 )", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)string);
+        this.logChannel.log(10000000, "NaviMapConnector#showMapDestination( %1, %2 )", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)string);
         this.mapDestination = navLocation;
         if (Util.isEmpty(string)) {
             this.url = LocationFormatter.getURLAddress(navLocation);
@@ -44,7 +44,7 @@ implements EfiUrlHandler {
             this.browserInstance = 4;
             n = 1;
         }
-        Util.setModelStatus(this.env.getButtonModel(1377568256), n);
+        Util.setModelStatus(this.env.getButtonModel(400466), n);
         if (n == 1) {
             this.browser.loadURL(this.browserInstance, this.url, true);
         }
@@ -62,31 +62,25 @@ implements EfiUrlHandler {
         return this.mapFreeze;
     }
 
-    @Override
     public boolean goBack() {
-        this.logChannel.log(-2137614336, "NaviMapConnector#()goBack");
+        this.logChannel.log(10000000, "NaviMapConnector#()goBack");
         return true;
     }
 
-    @Override
     public boolean goForward() {
-        this.logChannel.log(-2137614336, "NaviMapConnector#goForward()");
+        this.logChannel.log(10000000, "NaviMapConnector#goForward()");
         return true;
     }
 
-    @Override
     public void gotoHomeURL() {
     }
 
-    @Override
     public void showSpeller(String string, String string2, String string3, boolean bl, short s) {
     }
 
-    @Override
     public void updateActiveUrl(String string) {
     }
 
-    @Override
     public byte updateEfiUrl(String string) {
         return 1;
     }

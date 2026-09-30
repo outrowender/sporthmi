@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.map.handler.selection;
 
 import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionInfo;
-import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandler$IMapSelectionListener;
 import de.audi.tghu.navi.app.map.utils.MapPin;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.map.Point;
@@ -12,43 +11,34 @@ import org.dsi.ifc.map.PosInfo;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface MapSelectionHandler {
-    default public void addListener(MapSelectionHandler$IMapSelectionListener mapSelectionHandler$IMapSelectionListener) {
-    }
+    public void addListener(IMapSelectionListener var1);
 
-    default public void requestInfoForPosition(boolean bl, boolean bl2) {
-    }
+    public void requestInfoForPosition(boolean var1, boolean var2);
 
-    default public void requestInfoForScreenPosition(int n, Point point) {
-    }
+    public void requestInfoForScreenPosition(int var1, Point var2);
 
-    default public void requestPreviewMapItemInformation(NavLocationWgs84 navLocationWgs84, boolean bl) {
-    }
+    public void requestPreviewMapItemInformation(NavLocationWgs84 var1, boolean var2);
 
-    default public MapPin getSelectedPin() {
-    }
+    public MapPin getSelectedPin();
 
-    default public MapItemSelectionInfo getSelectedValue() {
-    }
+    public MapItemSelectionInfo getSelectedValue();
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void cancelSelection() {
-    }
+    public void cancelSelection();
 
-    default public int getActiveInfoListIndex() {
-    }
+    public int getActiveInfoListIndex();
 
-    default public void updateInfoForPosition(PosInfo[] posInfoArray, boolean bl) {
-    }
+    public void updateInfoForPosition(PosInfo[] var1, boolean var2);
 
-    default public void updateOnlineResultFlagDetails(int n) {
-    }
+    public void updateOnlineResultFlagDetails(int var1);
 
-    default public void updateTmcMessage(TmcMessage tmcMessage) {
-    }
+    public void updateTmcMessage(TmcMessage var1);
 
-    default public MapItemSelectionInfo getStoredSelectedValue(int n) {
+    public MapItemSelectionInfo getStoredSelectedValue(int var1);
+
+    public static interface IMapSelectionListener {
+        public void onSelectionChanged(MapItemSelectionInfo var1);
     }
 }
 

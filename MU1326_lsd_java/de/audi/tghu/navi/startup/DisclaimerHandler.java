@@ -3,15 +3,19 @@
  */
 package de.audi.tghu.navi.startup;
 
-import de.audi.tghu.navi.startup.DisclaimerHandler$1;
-
 public interface DisclaimerHandler {
-    public static final DisclaimerHandler NULL_DISCLAIMER_HANDLER = new DisclaimerHandler$1();
+    public static final DisclaimerHandler NULL_DISCLAIMER_HANDLER = new DisclaimerHandler(){
 
-    default public void acceptDisclaimer() {
-    }
+        public boolean isNaviDisclaimerAcceptedorHidden() {
+            return true;
+        }
 
-    default public boolean isNaviDisclaimerAcceptedorHidden() {
-    }
+        public void acceptDisclaimer() {
+        }
+    };
+
+    public void acceptDisclaimer();
+
+    public boolean isNaviDisclaimerAcceptedorHidden();
 }
 

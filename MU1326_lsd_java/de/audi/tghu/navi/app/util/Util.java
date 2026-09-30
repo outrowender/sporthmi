@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tghu.navi.app.util;
 
@@ -40,58 +37,58 @@ import org.dsi.ifc.search.Token;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public class Util {
-    public static final int DIRECTION_STRAIGHT;
-    public static final int DIRECTION_STRAIGHT_RIGHT;
-    public static final int DIRECTION_RIGHT;
-    public static final int DIRECTION_BEHIND_RIGHT;
-    public static final int DIRECTION_BEHIND;
-    public static final int DIRECTION_BEHIND_LEFT;
-    public static final int DIRECTION_LEFT;
-    public static final int DIRECTION_STRAIGHT_LEFT;
-    public static final float NNE;
-    public static final float ENE;
-    public static final float ESE;
-    public static final float SSE;
-    public static final float SSW;
-    public static final float WSW;
-    public static final float WNW;
-    public static final float NNW;
-    public static final double EARTHEQUATORRADIUS;
-    public static final int MEDIUM_UNKNWON;
-    public static final int MEDIUM_HDD;
-    public static final int MEDIUM_SD_1;
-    public static final int MEDIUM_SD_2;
-    public static final int MEDIUM_INTERNAL_DRIVE;
-    public static final String INVALID_ETA;
-    public static final String INVALID_RTT;
-    public static final String INVALID_DISTANCE_KM_PREFIX;
-    public static final String INVALID_DISTANCE_MILES_PREFIX;
-    public static final String INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
-    public static final String INVALID_DISTANCE_FALLBACK_NO_TEXTTOOL_KM;
-    public static final String INVALID_DISTANCE_FALLBACK_NO_TEXTTOOL_MILES;
-    public static final String ROUTEINFO_APPENDSTRING_HOVLANE;
-    public static final String AFTER_TRADITIONAL;
-    public static final String CAUSE;
-    public static final String CAR_JAM;
-    public static final String AFTER_SIMPLIFIED;
-    public static final String IN_FRONT_JAPANESE;
-    public static final String TRAFFIC_JAM;
-    public static final String DUE_TO_JAPANESE;
-    public static final String LENGHT_JAPANESE;
-    public static final String CONGESTION_JAPANESE;
-    public static final String IN_FRONT_KOREAN;
-    public static final String DUE_TO_KOREAN;
-    public static final String CAUSE_KOREAN;
-    public static final String LENGTH_KOREAN;
-    public static final String CONGESTION_KOREAN;
-    public static final String COMING_KOREAN;
-    private static final Distance distance;
-    private static final Distance height;
-    private static final DateMetric dateMetric;
-    private static final MMIInternalData tmpInternalData;
+    public static final int DIRECTION_STRAIGHT = 0;
+    public static final int DIRECTION_STRAIGHT_RIGHT = 1;
+    public static final int DIRECTION_RIGHT = 2;
+    public static final int DIRECTION_BEHIND_RIGHT = 3;
+    public static final int DIRECTION_BEHIND = 4;
+    public static final int DIRECTION_BEHIND_LEFT = 5;
+    public static final int DIRECTION_LEFT = 6;
+    public static final int DIRECTION_STRAIGHT_LEFT = 7;
+    public static final float NNE = 337.5f;
+    public static final float ENE = 292.5f;
+    public static final float ESE = 247.5f;
+    public static final float SSE = 202.5f;
+    public static final float SSW = 157.5f;
+    public static final float WSW = 112.5f;
+    public static final float WNW = 67.5f;
+    public static final float NNW = 22.5f;
+    public static final double EARTHEQUATORRADIUS = 6371000.8;
+    public static final int MEDIUM_UNKNWON = -1;
+    public static final int MEDIUM_HDD = 0;
+    public static final int MEDIUM_SD_1 = 1;
+    public static final int MEDIUM_SD_2 = 2;
+    public static final int MEDIUM_INTERNAL_DRIVE = 3;
+    public static final String INVALID_ETA = "--:--";
+    public static final String INVALID_RTT = "---";
+    public static final String INVALID_DISTANCE_KM_PREFIX = "--";
+    public static final String INVALID_DISTANCE_MILES_PREFIX = "--";
+    public static final String INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT = "";
+    public static final String INVALID_DISTANCE_FALLBACK_NO_TEXTTOOL_KM = "-- km";
+    public static final String INVALID_DISTANCE_FALLBACK_NO_TEXTTOOL_MILES = "-- mi";
+    public static final String ROUTEINFO_APPENDSTRING_HOVLANE = "\u25ca ";
+    public static final String AFTER_TRADITIONAL = "\u5f8c";
+    public static final String CAUSE = "\u5f15\u8d77";
+    public static final String CAR_JAM = "\u8eca\u8f1b\u64c1\u5835";
+    public static final String AFTER_SIMPLIFIED = "\u540e";
+    public static final String IN_FRONT_JAPANESE = "\u5148";
+    public static final String TRAFFIC_JAM = "\u4ea4\u901a\u62e5\u5835";
+    public static final String DUE_TO_JAPANESE = "\u306e\u70ba";
+    public static final String LENGHT_JAPANESE = "\u9577\u3055";
+    public static final String CONGESTION_JAPANESE = "\u6e0b\u6ede";
+    public static final String IN_FRONT_KOREAN = "\uc804\ubc29";
+    public static final String DUE_TO_KOREAN = "\ub85c";
+    public static final String CAUSE_KOREAN = "\uc778\ud55c";
+    public static final String LENGTH_KOREAN = "\ub3d9\uc548";
+    public static final String CONGESTION_KOREAN = "\uc815\uccb4";
+    public static final String COMING_KOREAN = "\uc73c";
+    private static final Distance distance = new Distance(0.0f, 1);
+    private static final Distance height = new Distance(0.0f, 1);
+    private static final DateMetric dateMetric = new DateMetric(new Date(), 2);
+    private static final MMIInternalData tmpInternalData = new MMIInternalData();
     public static int region;
     private static IMyLocationAccessorFactory locationAccessorFactory;
-    public static final int ASCII_FOR_DOT;
+    public static final int ASCII_FOR_DOT = 46;
 
     public static boolean isEmpty(String string) {
         return string == null || string.length() == 0 || Util.hasStringOnlyWhitespaces(string);
@@ -104,7 +101,7 @@ public class Util {
         if (!Util.isEmpty(string2)) {
             return string2;
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     private static boolean hasStringOnlyWhitespaces(String string) {
@@ -181,17 +178,17 @@ public class Util {
     public static String formatJapaneseYen(long l, int n) {
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         if (n == 13) {
-            return new StringBuffer().append("\u00a5").append(decimalFormat.format(l)).toString();
+            return "\u00a5" + decimalFormat.format(l);
         }
         if (n == 12) {
-            return new StringBuffer().append(decimalFormat.format(l)).append("\u5186").toString();
+            return decimalFormat.format(l) + "\u5186";
         }
         return null;
     }
 
     public static synchronized String formatDistance(int n, int n2, int n3, String string) {
         if (n >= 0) {
-            distance.setValue((float)n / 31300);
+            distance.setValue((float)n / 1000.0f);
             return distance.format(Distance.getSystemUnit(), n2, n3);
         }
         return string;
@@ -199,7 +196,7 @@ public class Util {
 
     public static synchronized String formatDistance(int n, int n2, int n3) {
         if (n >= 0) {
-            distance.setValue((float)n / 31300);
+            distance.setValue((float)n / 1000.0f);
             return distance.format(Distance.getSystemUnit(), n2, n3);
         }
         return Util.getInvalidDistance();
@@ -224,7 +221,7 @@ public class Util {
     public static String getInvalidDistance() {
         String string;
         int n = Distance.getSystemUnit();
-        string = n == 2 || n == 3 ? ((string = Distance.getText(1)) == null || string.length() == 0 ? "-- mi" : new StringBuffer().append("--").append(string).toString()) : ((string = Distance.getText(0)) == null || string.length() == 0 ? "-- km" : new StringBuffer().append("--").append(string).toString());
+        string = n == 2 || n == 3 ? ((string = Distance.getText(1)) == null || string.length() == 0 ? INVALID_DISTANCE_FALLBACK_NO_TEXTTOOL_MILES : "--" + string) : ((string = Distance.getText(0)) == null || string.length() == 0 ? INVALID_DISTANCE_FALLBACK_NO_TEXTTOOL_KM : "--" + string);
         return string;
     }
 
@@ -233,7 +230,7 @@ public class Util {
             dateMetric.setDate(l);
             return dateMetric.format();
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static synchronized String formatTime(long l, int n, NavigationEnv navigationEnv) {
@@ -242,7 +239,7 @@ public class Util {
             dateMetric.setDate(l);
             return dateMetric.format(0, n);
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static synchronized String formatTrafficOffsetDuration(long l, int n, NavigationEnv navigationEnv) {
@@ -251,7 +248,7 @@ public class Util {
             dateMetric.setDate(l);
             return dateMetric.format(7, n);
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static synchronized String formatDuration(long l, int n, NavigationEnv navigationEnv) {
@@ -260,32 +257,32 @@ public class Util {
             dateMetric.setDate(l);
             return dateMetric.format(1, n);
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static synchronized String formatHeight(int n) {
-        height.setValue((float)n / 31300);
+        height.setValue((float)n / 1000.0f);
         return height.formatByMode(2);
     }
 
     public static final int convertRotatingDirection(int n, int n2) {
         int n3 = 0;
         float f2 = (360 + n - n2) % 360;
-        if (12625987 <= f2 || f2 < 46145) {
+        if (337.5f <= f2 || f2 < 22.5f) {
             n3 = 0;
-        } else if (46145 <= f2 && f2 < 34626) {
+        } else if (22.5f <= f2 && f2 < 67.5f) {
             n3 = 7;
-        } else if (34626 <= f2 && f2 < 57666) {
+        } else if (67.5f <= f2 && f2 < 112.5f) {
             n3 = 6;
-        } else if (57666 <= f2 && f2 < 8396099) {
+        } else if (112.5f <= f2 && f2 < 157.5f) {
             n3 = 5;
-        } else if (8396099 <= f2 && f2 < 8407619) {
+        } else if (157.5f <= f2 && f2 < 202.5f) {
             n3 = 4;
-        } else if (8407619 <= f2 && f2 < 8419139) {
+        } else if (202.5f <= f2 && f2 < 247.5f) {
             n3 = 3;
-        } else if (8419139 <= f2 && f2 < 4231747) {
+        } else if (247.5f <= f2 && f2 < 292.5f) {
             n3 = 2;
-        } else if (4231747 <= f2 && f2 < 12625987) {
+        } else if (292.5f <= f2 && f2 < 337.5f) {
             n3 = 1;
         }
         return n3;
@@ -534,7 +531,7 @@ public class Util {
 
     public static int degreeStringToWgs84(String string) {
         try {
-            double d2 = Double.parseDouble((String)string);
+            double d2 = Double.parseDouble(string);
             return NavigationUtilities.degreeToWgs84(d2);
         }
         catch (NumberFormatException numberFormatException) {
@@ -763,7 +760,7 @@ public class Util {
             n = ((IntegerListCell)listModelApp.getCell(0, 0)).getValue();
         }
         catch (Exception exception) {
-            navigationEnv.getLogChannel().log(-1601830656, "Util#getScreenWidth() - failed to resolve screen width.", (Throwable)exception);
+            navigationEnv.getLogChannel().log(100000, "Util#getScreenWidth() - failed to resolve screen width.", (Throwable)exception);
             n = 0;
         }
         return n;
@@ -776,7 +773,7 @@ public class Util {
             n = ((IntegerListCell)listModelApp.getCell(0, 1)).getValue();
         }
         catch (Exception exception) {
-            navigationEnv.getLogChannel().log(-1601830656, "Util#getScreenHeight() - failed to resolve screen height.", (Throwable)exception);
+            navigationEnv.getLogChannel().log(100000, "Util#getScreenHeight() - failed to resolve screen height.", (Throwable)exception);
             n = 0;
         }
         return n;
@@ -784,7 +781,7 @@ public class Util {
 
     public static String getRevision(NavigationEnv navigationEnv) {
         String string = navigationEnv.getLabelModel(151).getText();
-        string = string == null ? "" : string;
+        string = string == null ? INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT : string;
         return string;
     }
 
@@ -794,7 +791,7 @@ public class Util {
         if (labelModelApp != null) {
             string = labelModelApp.getText();
         }
-        string = string == null ? "" : string;
+        string = string == null ? INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT : string;
         return string;
     }
 
@@ -825,7 +822,7 @@ public class Util {
                 return string;
             }
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static NavLocation setFavoriteNameOnLocation(NavLocation navLocation, String string) {
@@ -847,7 +844,7 @@ public class Util {
                 return string;
             }
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static NavLocation setAreaInfoOnLocation(NavLocation navLocation, String string) {
@@ -867,11 +864,11 @@ public class Util {
                 return string;
             }
         }
-        return "";
+        return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
     }
 
     public static NavLocation getFallbackLocation() {
-        NavLocation navLocation = Util.getLocationFromGeoPos(-556655608, -413027806);
+        NavLocation navLocation = Util.getLocationFromGeoPos(136106718, 582115815);
         return navLocation;
     }
 
@@ -901,7 +898,7 @@ public class Util {
             IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
             int n2 = iMyLocationAccessor.getAdditionalFlags();
             if (n2 == -1) {
-                n2 = 128;
+                n2 = Integer.MIN_VALUE;
             }
             return (n2 & n) != 0;
         }
@@ -942,12 +939,12 @@ public class Util {
 
     public static int getLIValueListElement(LogChannel logChannel, LIValueList lIValueList, int n) {
         if (lIValueList == null) {
-            logChannel.log(-1601830656, "Util#getLIValueListElement() - valueList is null");
+            logChannel.log(100000, "Util#getLIValueListElement() - valueList is null");
             return -1;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         if (lIValueListElementArray == null) {
-            logChannel.log(-1601830656, "Util#getLIValueListElement() - valueListElements is null");
+            logChannel.log(100000, "Util#getLIValueListElement() - valueListElements is null");
             return -1;
         }
         for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
@@ -1007,19 +1004,19 @@ public class Util {
 
     public static String getCountryAbbreviation(NavLocation navLocation) {
         if (navLocation == null) {
-            return "";
+            return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
         }
         String string = navLocation.getCountryAbbreviation();
-        return string == null ? "" : string;
+        return string == null ? INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT : string;
     }
 
     public static String getStateAbbreviation(NavLocation navLocation) {
         if (navLocation == null) {
-            return "";
+            return INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT;
         }
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
         String string = iMyLocationAccessor.getStateAbbreviation();
-        return string == null ? "" : string;
+        return string == null ? INVALID_DISTANCE_NULL_AT_KOMBI_WITHOUT_TEXT_FOR_UNIT : string;
     }
 
     public static String getCurrentCallStack() {
@@ -1245,9 +1242,9 @@ public class Util {
 
     public static float getPreviewMapDefaultZoomLevel() {
         if (Util.isHURegionAsia()) {
-            return 18499;
+            return 200.0f;
         }
-        return 51267;
+        return 400.0f;
     }
 
     public static final boolean isTrafficMiniMapAvailable(IFrameworkAccess iFrameworkAccess) {
@@ -1299,7 +1296,7 @@ public class Util {
         int[] nArray = calculatedRouteListElement.additionalRouteDataKeys;
         String[] stringArray = calculatedRouteListElement.additionalRouteDataValues;
         if (nArray == null || stringArray == null || nArray.length == 0 || stringArray.length == 0 || nArray.length != stringArray.length) {
-            logChannel.log(-1601830656, "Util#getMotorwayEntryExit(), failed to get a valid value for key: (%1), additionalRouteDataKeys : (%2), additionalRouteDataValues: (%3) ", (Object)Integer.toString(n), (Object)nArray, (Object)stringArray);
+            logChannel.log(100000, "Util#getMotorwayEntryExit(), failed to get a valid value for key: (%1), additionalRouteDataKeys : (%2), additionalRouteDataValues: (%3) ", (Object)Integer.toString(n), (Object)nArray, (Object)stringArray);
             return string;
         }
         int n2 = nArray.length;
@@ -1307,7 +1304,7 @@ public class Util {
             if (nArray[i2] != n) continue;
             return stringArray[i2];
         }
-        logChannel.log(-1601830656, "Util#getMotorwayEntryExit(), additionalRouteDataValues: (%1), there is no key: (%2)", (Object)stringArray, (long)n);
+        logChannel.log(100000, "Util#getMotorwayEntryExit(), additionalRouteDataValues: (%1), there is no key: (%2)", (Object)stringArray, (long)n);
         return string;
     }
 
@@ -1337,23 +1334,23 @@ public class Util {
         int n2 = navRectangle.getYBottom();
         int n3 = navRectangle.getXRight();
         int n4 = navRectangle.getYUp();
-        int n5 = 0 * (long)navLocationWgs84.getLatitude() - (long)n2 - (long)n4;
-        int n6 = 0 * (long)navLocationWgs84.getLongitude() - (long)n - (long)n3;
-        if (n5 >= 0L) {
-            n4 = (int)((long)n4 + n5);
+        long l = 2L * (long)navLocationWgs84.getLatitude() - (long)n2 - (long)n4;
+        long l2 = 2L * (long)navLocationWgs84.getLongitude() - (long)n - (long)n3;
+        if (l >= 0L) {
+            n4 = (int)((long)n4 + l);
         } else {
-            n2 = (int)((long)n2 + n5);
+            n2 = (int)((long)n2 + l);
         }
-        if (n6 >= 0L) {
-            n3 = (int)((long)n3 + n6);
+        if (l2 >= 0L) {
+            n3 = (int)((long)n3 + l2);
         } else {
-            n = (int)((long)n + n6);
+            n = (int)((long)n + l2);
         }
         return new NavRectangle(n, n3, n2, n4, false);
     }
 
     public static boolean isCategoryGasStation(int n) {
-        return 120 == n || n == -1509097216;
+        return 120 == n || n == 69030;
     }
 
     public static boolean isCategoryParking(int n) {
@@ -1361,7 +1358,7 @@ public class Util {
     }
 
     public static boolean isCategoryCharging(int n) {
-        return n == -1475542784;
+        return n == 69032;
     }
 
     public static final boolean isOffroadNavigationEnabled() {
@@ -1444,13 +1441,6 @@ public class Util {
             bl = true;
         }
         return bl;
-    }
-
-    static {
-        distance = new Distance(0.0f, 1);
-        height = new Distance(0.0f, 1);
-        dateMetric = new DateMetric(new Date(), 2);
-        tmpInternalData = new MMIInternalData();
     }
 }
 

@@ -19,30 +19,26 @@ implements ISamplePlayer {
         this.systemTonePlayer = new NullSystemTonePlayer(this.lc);
     }
 
-    @Override
     public void play() {
-        this.lc.log(-2137614336, "[SMSBeepPlayer.play]");
+        this.lc.log(10000000, "[SMSBeepPlayer.play]");
         this.systemTonePlayer.playTone(1, 12);
     }
 
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "[SMSBeepPlayer.stop]");
+        this.lc.log(10000000, "[SMSBeepPlayer.stop]");
         this.systemTonePlayer.abort();
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof SystemTonePlayer) {
-            this.lc.log(-2137614336, "[SMSBeepPlayer.registerService] %1", object);
+            this.lc.log(10000000, "[SMSBeepPlayer.registerService] %1", object);
             this.systemTonePlayer = (SystemTonePlayer)object;
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof SystemTonePlayer) {
-            this.lc.log(-2137614336, "[SMSBeepPlayer.deregisterService] %1", object);
+            this.lc.log(10000000, "[SMSBeepPlayer.deregisterService] %1", object);
             this.systemTonePlayer = new NullSystemTonePlayer(this.lc);
         }
     }

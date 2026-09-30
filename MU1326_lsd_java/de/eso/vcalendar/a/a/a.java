@@ -22,7 +22,6 @@ implements de.eso.a.a.a {
         this.a = file;
     }
 
-    @Override
     public void a() {
         d d2 = new d();
         de.eso.vcalendar.c.a a2 = new de.eso.vcalendar.c.a(d2);

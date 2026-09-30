@@ -10,37 +10,26 @@ import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import java.util.List;
 
 interface IFolderListModel {
-    default public void setListener(BaseListModelListener baseListModelListener) {
-    }
+    public void setListener(BaseListModelListener var1);
 
-    default public void update(List list, DabStation dabStation) {
-    }
+    public void update(List var1, DabStation var2);
 
-    default public int getSelected() {
-    }
+    public int getSelected();
 
-    default public DabListRow getRow(int n) {
-    }
+    public DabListRow getRow(int var1);
 
-    default public int getIndexForUniqueID(long l) {
-    }
+    public int getIndexForUniqueID(long var1);
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public void setFolderStates(SimpleIntIntMap simpleIntIntMap) {
-    }
+    public void setFolderStates(SimpleIntIntMap var1);
 
-    default public SimpleIntIntMap getFolderStates() {
-    }
+    public SimpleIntIntMap getFolderStates();
 
-    default public void setSelectedIndex(int n, DabStation dabStation, int n2) {
-    }
+    public void setSelectedIndex(int var1, DabStation var2, int var3);
 
-    default public void setReceptionStatus(int n, int n2) {
-    }
+    public void setReceptionStatus(int var1, int var2);
 
-    default public void setPrefImgType(int n) {
-    }
+    public void setPrefImgType(int var1);
 }
 

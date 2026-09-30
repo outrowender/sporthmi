@@ -11,15 +11,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class GuidanceRemainingContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_GUIDANCE_REMAINING;
-    private static final int ELEMENT_ID_TIME_TO_DESTINATION;
-    private static final int ELEMENT_ID_DISTANCE_TO_DESTINATION;
+    private static final int CONTAINER_ID_GUIDANCE_REMAINING = 25;
+    private static final int ELEMENT_ID_TIME_TO_DESTINATION = 49;
+    private static final int ELEMENT_ID_DISTANCE_TO_DESTINATION = 50;
     private Map map = new HashMap();
 
     public GuidanceRemainingContainer(int n, int n2) {
@@ -54,14 +53,12 @@ extends AbstractContainer {
         return ((Long)this.map.get(new Integer(50))).intValue();
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(25, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -72,15 +69,15 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 49: {
-                    hASDataElementArray[n++] = new IntegerElement(49, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(49, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 50: {
-                    hASDataElementArray[n++] = new IntegerElement(50, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(50, ((Long)entry.getValue()).intValue());
                     break;
                 }
             }
@@ -88,30 +85,29 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("GuidanceRemainingContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 49: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("timeToDestination(int)=null");
                         break;
                     }
                     stringWriter.write("timeToDestination(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 50: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("distanceToDestination(int)=null");
                         break;
                     }
                     stringWriter.write("distanceToDestination(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -122,7 +118,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         GuidanceRemainingContainer guidanceRemainingContainer = new GuidanceRemainingContainer(this);
         return guidanceRemainingContainer;

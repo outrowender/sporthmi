@@ -28,15 +28,14 @@ implements IPoiWarningModelAccess {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getPoiApproachWarningLogChannel();
         this.iconHandler = iconHandler;
-        this.mainList = navigationEnv.getBaseListModel(-333511168);
-        this.pPoiList = navigationEnv.getBaseListModel(-299956736);
-        navigationEnv.getMetricsModel(-65075712).setMetric(this.distance);
+        this.mainList = navigationEnv.getBaseListModel(401388);
+        this.pPoiList = navigationEnv.getBaseListModel(401390);
+        navigationEnv.getMetricsModel(401404).setMetric(this.distance);
     }
 
-    @Override
     public void updatePois(Category[] categoryArray, boolean bl) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiWarningModelAccess#updatePois");
+            this.logChannel.log(100000000, "PoiWarningModelAccess#updatePois");
         }
         this.setPersonalCategoriesVisible(bl);
         if (null != categoryArray) {
@@ -61,7 +60,7 @@ implements IPoiWarningModelAccess {
                 this.pPoiList.update(baseListModelApp2);
             }
         } else if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "   --> Categories are NULL!");
+            this.logChannel.log(100000000, "   --> Categories are NULL!");
         }
     }
 
@@ -69,23 +68,22 @@ implements IPoiWarningModelAccess {
         return this.mainList == null || this.mainList.getLength() == 0;
     }
 
-    @Override
     public void setPoiSelection(int n, boolean bl) {
         int n2;
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiWarningModelAccess#setPoiSelection");
+            this.logChannel.log(100000000, "PoiWarningModelAccess#setPoiSelection");
         }
         if ((n2 = this.mainList.getIndexForUniqueID(n)) == -1) {
             n2 = this.pPoiList.getIndexForUniqueID(n);
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "   --> rowIndex in PPOI List: %1", (long)n2);
+                this.logChannel.log(100000000, "   --> rowIndex in PPOI List: %1", (long)n2);
             }
             EvoListRow evoListRow = this.pPoiList.getRow(n2);
             evoListRow.setInteger(2, bl ? 1 : 0);
             this.pPoiList.setRow(n2, evoListRow);
         } else {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "   --> rowIndex in MAIN List: %1", (long)n2);
+                this.logChannel.log(100000000, "   --> rowIndex in MAIN List: %1", (long)n2);
             }
             EvoListRow evoListRow = this.mainList.getRow(n2);
             evoListRow.setInteger(2, bl ? 1 : 0);
@@ -94,64 +92,59 @@ implements IPoiWarningModelAccess {
     }
 
     public void setCheckAllPoisSelected(boolean bl) {
-        this.env.getChoiceModel(-702347776).setValue(bl ? 1 : 0);
+        this.env.getChoiceModel(402390).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void toggleApproachHint() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiWarningModelAccess#toggleApproachHint");
+            this.logChannel.log(100000000, "PoiWarningModelAccess#toggleApproachHint");
         }
-        int n = this.env.getChoiceModel(-350288384).getValue();
+        int n = this.env.getChoiceModel(401387).getValue();
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "   --> old Value: %1", (long)n);
+            this.logChannel.log(100000000, "   --> old Value: %1", (long)n);
         }
         if (n >= 1) {
-            this.env.getChoiceModel(-350288384).setValue(0);
+            this.env.getChoiceModel(401387).setValue(0);
         } else {
-            this.env.getChoiceModel(-350288384).setValue(1);
+            this.env.getChoiceModel(401387).setValue(1);
         }
     }
 
-    @Override
     public void toggleSpeachHint() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiWarningModelAccess#toggleSpeachHint");
+            this.logChannel.log(100000000, "PoiWarningModelAccess#toggleSpeachHint");
         }
-        int n = this.env.getChoiceModel(-383842816).getValue();
+        int n = this.env.getChoiceModel(401385).getValue();
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "   --> old Value: %1", (long)n);
+            this.logChannel.log(100000000, "   --> old Value: %1", (long)n);
         }
         if (n >= 1) {
-            this.env.getChoiceModel(-383842816).setValue(0);
+            this.env.getChoiceModel(401385).setValue(0);
         } else {
-            this.env.getChoiceModel(-383842816).setValue(1);
+            this.env.getChoiceModel(401385).setValue(1);
         }
     }
 
-    @Override
     public void setSettings(int n, int n2) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiWarningModelAccess#setSettings");
-            this.logChannel.log(14808325, "   --> Set Approach Hint to: %1", (long)n);
-            this.logChannel.log(14808325, "   --> Set Speach Hint to  : %1", (long)n2);
+            this.logChannel.log(100000000, "PoiWarningModelAccess#setSettings");
+            this.logChannel.log(100000000, "   --> Set Approach Hint to: %1", (long)n);
+            this.logChannel.log(100000000, "   --> Set Speach Hint to  : %1", (long)n2);
         }
-        this.env.getChoiceModel(-350288384).setValue(n);
-        this.env.getChoiceModel(-383842816).setValue(n2);
+        this.env.getChoiceModel(401387).setValue(n);
+        this.env.getChoiceModel(401385).setValue(n2);
     }
 
-    @Override
     public void setMaxSelectableCategories(int n) {
         String string = String.valueOf(n);
-        this.env.getLabelModel(-132184576).setText(string);
+        this.env.getLabelModel(401400).setText(string);
     }
 
-    @Override
     public void setPersonalCategoriesVisible(boolean bl) {
         if (bl) {
-            this.env.getChoiceModel(-48298496).setValue(1);
+            this.env.getChoiceModel(401405).setValue(1);
         } else {
-            this.env.getChoiceModel(-48298496).setValue(0);
+            this.env.getChoiceModel(401405).setValue(0);
         }
     }
 
@@ -159,33 +152,32 @@ implements IPoiWarningModelAccess {
         return this.env.getTranslatedText(47, "POI");
     }
 
-    @Override
     public void setPoiApproachValues(String string, float f2, int n, int n2) {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "PoiWarningModelAccess#setPoiApproachValues( %1, %2 m, %3, %4 )", (Object)string, (Object)Float.toString(f2), (Object)Util.directionToArrow(n), (long)n2);
+            this.logChannel.log(10000000, "PoiWarningModelAccess#setPoiApproachValues( %1, %2 m, %3, %4 )", (Object)string, (Object)Float.toString(f2), (Object)Util.directionToArrow(n), (long)n2);
         }
-        this.distance.setValue(f2 / 31300);
-        this.env.getLabelModel(-81852928).setText(string);
-        this.env.getMetricsModel(-65075712).setMetric(this.distance);
-        this.env.getLabelModel(-517995008).setText(this.distance.formatByMode(1));
-        this.env.getChoiceModel(-31521280).setValue(n);
-        this.env.getResourceLocatorModel(-2111568384).setResourceLocator(new HMIResourceLocator(n2));
+        this.distance.setValue(f2 / 1000.0f);
+        this.env.getLabelModel(401403).setText(string);
+        this.env.getMetricsModel(401404).setMetric(this.distance);
+        this.env.getLabelModel(401633).setText(this.distance.formatByMode(1));
+        this.env.getChoiceModel(401406).setValue(n);
+        this.env.getResourceLocatorModel(402562).setResourceLocator(new HMIResourceLocator(n2));
     }
 
     public int[] selectAllPois(boolean bl) {
         int n;
         EvoListRow evoListRow;
         int n2;
-        this.logChannel.log(14808325, "PoiWarningModelAccess#selectAllPois %1", bl);
+        this.logChannel.log(100000000, "PoiWarningModelAccess#selectAllPois %1", bl);
         int[] nArray = new int[this.mainList.getLength() + this.pPoiList.getLength()];
-        this.logChannel.log(14808325, "PoiWarningModelAccess#selectAllPois  mainlist length: %1", (long)this.mainList.getLength());
+        this.logChannel.log(100000000, "PoiWarningModelAccess#selectAllPois  mainlist length: %1", (long)this.mainList.getLength());
         for (n2 = 0; n2 < this.pPoiList.getLength(); ++n2) {
             evoListRow = this.pPoiList.getRow(n2);
             n = evoListRow.getInteger(2);
-            this.logChannel.log(14808325, "PoiWarningModelAccess#selectAllPois row #%1 select: %2", (long)n2, (long)n);
+            this.logChannel.log(100000000, "PoiWarningModelAccess#selectAllPois row #%1 select: %2", (long)n2, (long)n);
             if (bl) {
                 if (n == 0) {
-                    this.logChannel.log(14808325, "PoiWarningModelAccess#selectAllPois row #%1", (long)n2);
+                    this.logChannel.log(100000000, "PoiWarningModelAccess#selectAllPois row #%1", (long)n2);
                     evoListRow.setInteger(2, 1);
                     nArray[n2] = (int)evoListRow.getUniqueID();
                     this.pPoiList.setRow(n2, evoListRow);
@@ -202,10 +194,10 @@ implements IPoiWarningModelAccess {
         for (n2 = 0; n2 < this.mainList.getLength(); ++n2) {
             evoListRow = this.mainList.getRow(n2);
             n = evoListRow.getInteger(2);
-            this.logChannel.log(14808325, "PoiWarningModelAccess#selectAllPois row #%1 select: %2", (long)n2, (long)n);
+            this.logChannel.log(100000000, "PoiWarningModelAccess#selectAllPois row #%1 select: %2", (long)n2, (long)n);
             if (bl) {
                 if (n == 0) {
-                    this.logChannel.log(14808325, "PoiWarningModelAccess#selectAllPois row #%1", (long)n2);
+                    this.logChannel.log(100000000, "PoiWarningModelAccess#selectAllPois row #%1", (long)n2);
                     evoListRow.setInteger(2, 1);
                     nArray[this.pPoiList.getLength() + n2] = (int)evoListRow.getUniqueID();
                     this.mainList.setRow(n2, evoListRow);
@@ -225,13 +217,13 @@ implements IPoiWarningModelAccess {
     public int[] toggleAll(int n, int n2) {
         EvoListRow evoListRow;
         int n3;
-        this.logChannel.log(-2137614336, "PoiWarningModelAccess#toggleAll - POI Type: %1, Value: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiWarningModelAccess#toggleAll - POI Type: %1, Value: %2", (long)n, (long)n2);
         int[] nArray = new int[this.mainList.getLength() + this.pPoiList.getLength()];
         for (n3 = 0; n3 < this.pPoiList.getLength(); ++n3) {
             evoListRow = this.pPoiList.getRow(n3);
             if (n == 1) {
                 if (n2 == 1) {
-                    this.logChannel.log(14808325, "PoiWarningModelAccess#toggleAll row #%1 - to ON", (long)n3);
+                    this.logChannel.log(100000000, "PoiWarningModelAccess#toggleAll row #%1 - to ON", (long)n3);
                     evoListRow.setInteger(2, 1);
                     nArray[n3] = (int)evoListRow.getUniqueID();
                     this.pPoiList.setRow(n3, evoListRow);
@@ -248,7 +240,7 @@ implements IPoiWarningModelAccess {
             evoListRow = this.mainList.getRow(n3);
             if (n == 0) {
                 if (n2 == 1) {
-                    this.logChannel.log(14808325, "PoiWarningModelAccess#toggleAll row #%1 - to ON", (long)n3);
+                    this.logChannel.log(100000000, "PoiWarningModelAccess#toggleAll row #%1 - to ON", (long)n3);
                     evoListRow.setInteger(2, 1);
                     nArray[this.pPoiList.getLength() + n3] = (int)evoListRow.getUniqueID();
                     this.mainList.setRow(n3, evoListRow);
@@ -269,7 +261,7 @@ implements IPoiWarningModelAccess {
     }
 
     public void setNumberOfSelectedPois(int n) {
-        this.env.getChoiceModel(-14481920).setValue(n);
+        this.env.getChoiceModel(402431).setValue(n);
     }
 }
 

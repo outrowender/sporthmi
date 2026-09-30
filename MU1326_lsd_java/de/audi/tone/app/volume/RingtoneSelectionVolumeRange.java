@@ -17,41 +17,34 @@ extends AbstractPhoneVolumeRange {
     public RingtoneSelectionVolumeRange(VolumeRangeManager volumeRangeManager) {
         super(volumeRangeManager, -1, -1, 0);
         this.name = "RingtoneSelectionVolumeRange";
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-1639837952);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1000094);
         this.greyOutHandler = new DefaultGreyOutAndPopupHandler(choiceModelApp, this.greyOutConnections, this.env.lcHMI, "RingtoneSelectionVolumeRange");
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return new int[0];
     }
 
-    @Override
     protected String getName() {
         return "RingtoneSelectionVolumeRange";
     }
 
-    @Override
     protected int getID() {
         return 9;
     }
 
-    @Override
     protected boolean enableOnOffDDSMapping() {
         return false;
     }
 
-    @Override
     protected void requestMenuConnection() {
-        this.env.lcMain.log(-2137614336, "[RingtoneSelectionVolumeRange.requestMenuConnection] do not request any connection");
+        this.env.lcMain.log(10000000, "[RingtoneSelectionVolumeRange.requestMenuConnection] do not request any connection");
     }
 
-    @Override
     protected void releaseMenuConnection() {
-        this.env.lcMain.log(-2137614336, "[RingtoneSelectionVolumeRange.releaseMenuConnection] do menu connection requested ");
+        this.env.lcMain.log(10000000, "[RingtoneSelectionVolumeRange.releaseMenuConnection] do menu connection requested ");
     }
 
-    @Override
     protected int getLimitsConnection() {
         return this.getForegroundConnection();
     }

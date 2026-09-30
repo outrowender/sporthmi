@@ -10,19 +10,12 @@ import org.dsi.ifc.online.OperatorCallResult;
 
 public interface GuiModelAccessDetailsNavi
 extends GuiModelAccessForPreviewMapDetailScreen {
-    @Override
-    default public void onUpdateLocation(NavLocation navLocation) {
-    }
+    public void onUpdateLocation(NavLocation var1);
 
-    default public void onUpdateLocation(OperatorCallResult operatorCallResult) {
-    }
+    public void onUpdateLocation(OperatorCallResult var1);
 
-    @Override
-    default public void onUpdateLocationsForTour(NavLocation[] navLocationArray, String string) {
-    }
+    public void onUpdateLocationsForTour(NavLocation[] var1, String var2);
 
-    @Override
-    default public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation navLocation, String string) {
-    }
+    public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation var1, String var2);
 }
 

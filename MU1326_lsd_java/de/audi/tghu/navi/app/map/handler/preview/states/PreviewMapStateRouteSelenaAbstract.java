@@ -14,7 +14,6 @@ extends PreviewMapStateRoute {
         super(previewMapHandlerAbstract, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
     }
 
-    @Override
     public String toString() {
         return "PreviewMapStateRouteSelena()";
     }

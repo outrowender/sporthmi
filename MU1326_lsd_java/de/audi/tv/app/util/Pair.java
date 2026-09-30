@@ -23,7 +23,7 @@ public class Pair {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         Pair pair = (Pair)object;
@@ -34,7 +34,7 @@ public class Pair {
     }
 
     public String toString() {
-        return new StringBuffer().append("Pair [first=").append(this.first).append(", second=").append(this.second).append("]").toString();
+        return "Pair [first=" + this.first + ", second=" + this.second + "]";
     }
 
     public static Pair create(Object object, Object object2) {

@@ -30,19 +30,18 @@ implements I18NTarget {
         return this.getSwdlEnv().getCustomerDLState();
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.getLogMain().log(1078071040, "AbstractCustDownloadActionProxy.setLanguage(language=%1)", (Object)language);
+        this.getLogMain().log(1000000, "AbstractCustDownloadActionProxy.setLanguage(language=%1)", (Object)language);
         this.getCustomerDLState().setLanguage(language);
         this.getUotaController().setLanguage(language);
     }
 
     public void readyForCustomerUpdate(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.readyForCustomerUpdate(terminalID=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.readyForCustomerUpdate(terminalID=%1)", (long)n);
     }
 
     public void resetSummaryUpdateCompleteStatus(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.resetSummaryUpdateCompleteStatus(terminalID=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.resetSummaryUpdateCompleteStatus(terminalID=%1)", (long)n);
         if (this.getSelectionDSIHandler().isUserDownloadInterrupted()) {
             this.getSwdlModels().getCustomerUpdateAgainRequestChoice().setValue(1);
         } else {
@@ -51,45 +50,45 @@ implements I18NTarget {
     }
 
     public void abortProgress(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.abortProgress(terminalID=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.abortProgress(terminalID=%1)", (long)n);
         this.getProgressManager().abortProgress(n);
     }
 
     public void abortProgressError(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.abortProgressError(terminalID=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.abortProgressError(terminalID=%1)", (long)n);
         this.getProgressManager().abortProgressError(n);
     }
 
     public void abortProgressInterrupt(int n) {
-        this.getLogMain().log(1078071040, "AbstractCustDownloadActionProxy.abortProgressInterrupt(terminalID=%1)", (long)n);
+        this.getLogMain().log(1000000, "AbstractCustDownloadActionProxy.abortProgressInterrupt(terminalID=%1)", (long)n);
         this.getProgressManager().abortProgressInterrupt(n);
     }
 
     public void abortSelection(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.abortSelection(terminalID=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.abortSelection(terminalID=%1)", (long)n);
         this.getCustomerDLState().abortSelection(n);
     }
 
     public void swdlCustomerUpdateEntered(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.enterCustomerUpdate(terminal=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.enterCustomerUpdate(terminal=%1)", (long)n);
         if (!this.getSwdlEnv().isCustomerDownloadActive()) {
             this.getCustomerDLState().startCustomerUpdate(false, n);
         }
     }
 
     public void swdlCustomerUpdateEnteredFromNavi(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.enterCustomerUpdateFromNavi(terminal=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.enterCustomerUpdateFromNavi(terminal=%1)", (long)n);
         this.getSwdlModels().getUotaExcludeNavdataChoiceModel().setValue(1);
         this.swdlCustomerUpdateEntered(n);
     }
 
     public void swdlCustomerUpdateLeft(int n) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.leaveCustomerUpdate(terminalID=%1)", (long)n);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.leaveCustomerUpdate(terminalID=%1)", (long)n);
         this.getCustomerDLState().leaveCustomerUpdate(n);
     }
 
     public void leaveCustomerUpdatePopups(int n, int n2) {
-        this.getLogHMI().log(1078071040, "AbstractCustDownloadActionProxy.leaveCustomerUpdatePopups(terminalID=%1, popupID=%2)", (long)n, (long)n2);
+        this.getLogHMI().log(1000000, "AbstractCustDownloadActionProxy.leaveCustomerUpdatePopups(terminalID=%1, popupID=%2)", (long)n, (long)n2);
         this.getCustomerDLState().leaveCustomerUpdatePopups(n, n2);
     }
 
@@ -129,7 +128,7 @@ implements I18NTarget {
     }
 
     public void swdlEnterUota(int n) {
-        this.getLogHMI().log(-2137614336, "[AbstractCustDownloadActionProxy].swdlEnterUota(%1)", (long)n);
+        this.getLogHMI().log(10000000, "[AbstractCustDownloadActionProxy].swdlEnterUota(%1)", (long)n);
         this.getUotaController().startUota();
     }
 }

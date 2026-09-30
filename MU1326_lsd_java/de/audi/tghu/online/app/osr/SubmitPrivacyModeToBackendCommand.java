@@ -14,7 +14,6 @@ extends AbstractOSRCommand {
         this.dsiOnlineServiceRegistration = dSIOnlineServiceRegistration;
     }
 
-    @Override
     public void execute() {
         this.dsiOnlineServiceRegistration.submitServiceStateChangesToBackend();
         this.getCommandList().commandFinished();

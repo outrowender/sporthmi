@@ -3,6 +3,7 @@
  */
 package de.dreisoft.lsd.benchmark.mmi3g;
 
+import de.dreisoft.lsd.ServiceRegistry;
 import de.dreisoft.lsd.benchmark.BenchmarkResult;
 import de.dreisoft.lsd.benchmark.BenchmarkSuite;
 import de.dreisoft.lsd.benchmark.mmi3g.BasicBenchmarkSuite;
@@ -12,12 +13,13 @@ import de.dreisoft.lsd.benchmark.mmi3g.WildcardBenchmarkSuite;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.osgi.service.log.LogService;
 
 public abstract class MMI3gBenchmarkSuite
 extends BenchmarkSuite {
     protected static BenchmarkBundle bundle;
-    public static final int TARGET_PC;
-    public static final int TARGET_BECKER;
+    public static final int TARGET_PC = 1;
+    public static final int TARGET_BECKER = 2;
     public static final int TARGET;
     protected static final int SAMPLE_MULTIPLIER;
     private static List suites;
@@ -113,6 +115,20 @@ extends BenchmarkSuite {
             SAMPLE_MULTIPLIER = 1000;
         }
         BenchmarkResult.setBaseResolution(SAMPLE_MULTIPLIER);
+    }
+
+    protected static class LSDFramework
+    extends de.dreisoft.lsd.LSDFramework {
+        protected LSDFramework() {
+        }
+
+        public static ServiceRegistry getServiceRegistry() {
+            return serviceRegistry;
+        }
+
+        public static LogService getLogService() {
+            return logService;
+        }
     }
 }
 

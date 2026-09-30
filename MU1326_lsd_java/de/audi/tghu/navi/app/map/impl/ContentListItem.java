@@ -3,9 +3,10 @@
  */
 package de.audi.tghu.navi.app.map.impl;
 
+import de.audi.atip.hmi.model.HMIResourceLocator;
+import de.audi.atip.hmi.model.IconCell;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.util.StringUtilities;
-import de.audi.tghu.navi.app.map.impl.ContentListItem$ContentListRowWrapper;
 
 public class ContentListItem {
     public final int format;
@@ -55,31 +56,97 @@ public class ContentListItem {
     }
 
     public EvoListRow toEvoListRow() {
-        ContentListItem$ContentListRowWrapper contentListItem$ContentListRowWrapper = new ContentListItem$ContentListRowWrapper(this, this.isStatic ? 0 : 1, this.rowID, this);
+        ContentListRowWrapper contentListRowWrapper = new ContentListRowWrapper(this.isStatic ? 0 : 1, this.rowID, this);
         switch (this.format) {
             case 0: {
-                contentListItem$ContentListRowWrapper.setIconText(this.iconID, this.text, this.checked);
+                contentListRowWrapper.setIconText(this.iconID, this.text, this.checked);
                 break;
             }
             case 4: {
-                contentListItem$ContentListRowWrapper.setIconTextForParent(this.iconID, this.text, this.checked);
+                contentListRowWrapper.setIconTextForParent(this.iconID, this.text, this.checked);
                 break;
             }
             case 1: {
-                contentListItem$ContentListRowWrapper.setIconIDTextID(this.iconID, this.textID, this.checked);
+                contentListRowWrapper.setIconIDTextID(this.iconID, this.textID, this.checked);
                 break;
             }
             case 3: {
-                contentListItem$ContentListRowWrapper.setIconResText(this.iconURI, this.text, this.checked);
+                contentListRowWrapper.setIconResText(this.iconURI, this.text, this.checked);
                 break;
             }
         }
-        contentListItem$ContentListRowWrapper.setInteger(9, this.enabled ? 1 : 0);
-        return contentListItem$ContentListRowWrapper;
+        contentListRowWrapper.setInteger(9, this.enabled ? 1 : 0);
+        return contentListRowWrapper;
     }
 
     public String toString() {
         return StringUtilities.formatMessage("[Format]%1, [IconID]%2, [Text]%3, [TextID]%4, [Checked]%5, [IsStatic]%6, [RowID]%7, [IconURI]%8, [Enabled]%9 ", new String[]{Integer.toString(this.format), Integer.toString(this.iconID), this.text, Integer.toString(this.textID), Boolean.toString(this.checked), Boolean.toString(this.isStatic), Integer.toString(this.rowID), this.iconURI, Boolean.toString(this.enabled)});
+    }
+
+    class ContentListRowWrapper
+    extends EvoListRow {
+        public final ContentListItem item;
+
+        public ContentListRowWrapper(int n, int n2, ContentListItem contentListItem2) {
+            super(n * 1000 + n2, 10);
+            this.setInteger(6, n);
+            this.setInteger(7, n2);
+            this.setInteger(9, 0);
+            this.item = contentListItem2;
+        }
+
+        public ContentListRowWrapper(ContentListRowWrapper contentListRowWrapper) {
+            super(contentListRowWrapper.getUniqueID(), contentListRowWrapper.getColumnCount());
+            this.setInteger(0, contentListRowWrapper.getInteger(0));
+            this.setIconCell(1, (IconCell)contentListRowWrapper.getCell(1));
+            this.setInteger(2, contentListRowWrapper.getInteger(2));
+            this.setText(3, contentListRowWrapper.getText(3));
+            this.setInteger(4, contentListRowWrapper.getInteger(4));
+            this.setInteger(5, contentListRowWrapper.getInteger(5));
+            this.setInteger(6, contentListRowWrapper.getInteger(6));
+            this.setInteger(7, contentListRowWrapper.getInteger(7));
+            this.setIconCell(8, (IconCell)contentListRowWrapper.getCell(8));
+            this.setInteger(9, contentListRowWrapper.getInteger(9));
+            this.item = contentListRowWrapper.item;
+        }
+
+        private void setCells(int n, String string, boolean bl, int n2, int n3, int n4, int n5) {
+            this.setInteger(0, n3);
+            this.setIconCell(1, new IconCell(new HMIResourceLocator(n)));
+            this.setInteger(2, n4);
+            this.setText(3, string);
+            this.setInteger(4, n2);
+            this.setInteger(5, bl ? 1 : 0);
+        }
+
+        public ContentListRowWrapper setIconText(int n, String string, boolean bl) {
+            this.setCells(n, string, bl, -1, 0, 0, 1);
+            return this;
+        }
+
+        public ContentListRowWrapper setIconTextForParent(int n, String string, boolean bl) {
+            this.setCells(n, string, bl, -1, 4, 0, 1);
+            return this;
+        }
+
+        public ContentListRowWrapper setIconResText(String string, String string2, boolean bl) {
+            this.setInteger(0, 3);
+            this.setIconCell(8, new IconCell(new HMIResourceLocator(string)));
+            this.setInteger(2, -1);
+            this.setText(3, string2);
+            this.setInteger(4, -1);
+            this.setInteger(5, bl ? 1 : 0);
+            return this;
+        }
+
+        public ContentListRowWrapper setIconIDTextID(int n, int n2, boolean bl) {
+            this.setCells(-1, "", bl, n2, 1, n, 0);
+            return this;
+        }
+
+        public EvoListRow copy() {
+            return new ContentListRowWrapper(this);
+        }
     }
 }
 

@@ -16,7 +16,7 @@ import java.net.URL;
 public class b {
     private File n() {
         File file = new File("test/eso_test_vcards/bigVCards2.vcf");
-        de.eso.a.d.b.c(new StringBuffer().append("file = ").append(file.getAbsolutePath()).toString());
+        de.eso.a.d.b.c("file = " + file.getAbsolutePath());
         return file;
     }
 
@@ -40,7 +40,7 @@ public class b {
         if (fileArray != null && fileArray.length > 0) {
             for (int i2 = 0; i2 < fileArray.length; ++i2) {
                 bl = fileArray[i2].delete();
-                de.eso.a.d.b.c(new StringBuffer().append("delete result of the file :").append(fileArray[i2].getAbsolutePath()).append(" = ").append(bl).toString());
+                de.eso.a.d.b.c("delete result of the file :" + fileArray[i2].getAbsolutePath() + " = " + bl);
             }
         }
     }
@@ -114,14 +114,14 @@ public class b {
         l = System.currentTimeMillis();
         this.g();
         l3 = System.currentTimeMillis();
-        de.eso.a.d.b.c(new StringBuffer().append("StartTime = ").append(l).toString());
-        de.eso.a.d.b.c(new StringBuffer().append("Parse from file in ms = ").append(l2 - l).toString());
-        de.eso.a.d.b.c(new StringBuffer().append("Parse from Stream in ms = ").append(l3 - l2).toString());
-        de.eso.a.d.b.c(new StringBuffer().append("time in millis in ms = ").append(l3 - l).toString());
+        de.eso.a.d.b.c("StartTime = " + l);
+        de.eso.a.d.b.c("Parse from file in ms = " + (l2 - l));
+        de.eso.a.d.b.c("Parse from Stream in ms = " + (l3 - l2));
+        de.eso.a.d.b.c("time in millis in ms = " + (l3 - l));
         File file = new File("/ramdisk/vcard");
         File[] fileArray = file.listFiles();
         if (fileArray != null && fileArray.length > 0) {
-            de.eso.a.d.b.c(new StringBuffer().append("importet images:  ").append(fileArray.length).toString());
+            de.eso.a.d.b.c("importet images:  " + fileArray.length);
         } else {
             de.eso.a.d.b.c("importet images:  0");
         }
@@ -133,7 +133,7 @@ public class b {
         file = new File("test/eso_test_vcards/photo.vcf");
         a a2 = new a(file, (de.eso.a.c.b)new d());
         a2.a();
-        Thread.sleep(0);
+        Thread.sleep(2500L);
         TraceClient.exit();
     }
 }

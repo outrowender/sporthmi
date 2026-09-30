@@ -63,12 +63,10 @@ implements ISDARSRow {
         return this.station.getShortLabel();
     }
 
-    @Override
     public StationInfoExt getStation() {
         return this.station;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(1000);
         buffer.append("{SDARS} ");
@@ -76,7 +74,6 @@ implements ISDARSRow {
         return buffer.toString();
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         TunerObjectContainer tunerObjectContainer = new TunerObjectContainer(this.station);
         tunerObjectContainer.setEnabled(this.getState() == 0);
@@ -108,7 +105,6 @@ implements ISDARSRow {
         return false;
     }
 
-    @Override
     protected int getStationState() {
         if (this.isInvalid) {
             return 12;
@@ -119,12 +115,10 @@ implements ISDARSRow {
         return super.getStationState();
     }
 
-    @Override
     protected void setLineColor() {
         this.setInteger(4, this.getState() == 0 ? MemoryListHelper.getRS(7) : 8);
     }
 
-    @Override
     public void setProgramData(TunerObjectContainer tunerObjectContainer, int n) {
         StationInfoExt stationInfoExt = tunerObjectContainer.getSDARSService();
         if (stationInfoExt.isAudioOk()) {
@@ -135,12 +129,10 @@ implements ISDARSRow {
         this.tmpOverwrite(tunerObjectContainer);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         this.stationIsActive = bl;
     }
 
-    @Override
     public void resetProgramData() {
         boolean bl;
         super.resetProgramData();
@@ -153,7 +145,6 @@ implements ISDARSRow {
         this.resetOverwrite();
     }
 
-    @Override
     public void setProgramData(SdarsRadioText sdarsRadioText, int n) {
         this.pdt = sdarsRadioText;
         this.setText(7, sdarsRadioText.shortArtistName);
@@ -166,17 +157,14 @@ implements ISDARSRow {
         this.setHMIResourceLocator(10, hMIResourceLocator);
     }
 
-    @Override
     public void setSeekPossibility(AddToSeeksPossibilityEnum addToSeeksPossibilityEnum, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum2, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum3, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum4) {
     }
 
-    @Override
     public void resetPdt() {
         this.resetProgramData();
         this.pdt = null;
     }
 
-    @Override
     protected void tmpOverwrite(TunerObjectContainer tunerObjectContainer) {
         String string = tunerObjectContainer.getStationName(true);
         this.setText(0, string);
@@ -189,14 +177,12 @@ implements ISDARSRow {
         this.setHMIResourceLocator(10, hMIResourceLocator);
     }
 
-    @Override
     protected void resetOverwrite() {
         super.resetOverwrite();
         this.setText(0, this.station.getFullLabel());
         this.setText(1, Utilities.getFormatedStationNumber(this.station.stationNumber));
     }
 
-    @Override
     public EvoListRow copy() {
         return new SDARSMemoryRow(this);
     }

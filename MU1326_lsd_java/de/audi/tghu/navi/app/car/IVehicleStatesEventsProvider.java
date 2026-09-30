@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.car;
 import de.audi.tghu.navi.app.car.IVehicleStatesObserver;
 
 public interface IVehicleStatesEventsProvider {
-    default public void registerListener(IVehicleStatesObserver iVehicleStatesObserver) {
-    }
+    public void registerListener(IVehicleStatesObserver var1);
 
-    default public void unregisterListener(IVehicleStatesObserver iVehicleStatesObserver) {
-    }
+    public void unregisterListener(IVehicleStatesObserver var1);
 }
 

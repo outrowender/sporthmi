@@ -18,9 +18,8 @@ implements ILocationHandler {
         this.petrolStationCategory = n;
     }
 
-    @Override
     public NavLocation handleLocation(NavLocation navLocation) {
-        this.logChannel.log(1078071040, "[PoiInput] FuelWarningLocationHandler#handleLocation() - set the flag for the category");
+        this.logChannel.log(1000000, "[PoiInput] FuelWarningLocationHandler#handleLocation() - set the flag for the category");
         PoiFuelWarningService.setPetrolStationFlagToLocation(this.logChannel, navLocation, this.petrolStationCategory);
         return navLocation;
     }

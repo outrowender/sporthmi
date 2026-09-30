@@ -9,27 +9,27 @@ import de.audi.atip.interapp.TVServiceListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.base.ITVEventListener;
 import de.audi.tv.app.base.TVEnv;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.dsi.DefaultTVListener;
 import de.audi.tv.app.lists.AbstractTVStationRow;
 import de.audi.tv.app.lists.DefaultListContentSupplier;
+import de.audi.tv.app.lists.DefaultTVListsListener;
 import de.audi.tv.app.lists.IListContentSupplier;
 import de.audi.tv.app.lists.ITVListsListener;
-import de.audi.tv.app.sds.TVServiceHandler$EventListener;
-import de.audi.tv.app.sds.TVServiceHandler$ListsListener;
-import de.audi.tv.app.sds.TVServiceHandler$TVListener;
 import de.audi.tv.app.storage.TVStorage;
 import de.esolutions.fw.util.commons.IntList;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.dsi.ifc.tvtuner.StartUpConfig;
 
 public class TVServiceHandler {
     private final LogChannel lc;
     private final TVEnv env;
-    public final ITVEventListener eventListener = new TVServiceHandler$EventListener(this, null);
-    public final DefaultTVListener tvListener = new TVServiceHandler$TVListener(this, null);
-    public final ITVListsListener listsListener = new TVServiceHandler$ListsListener(this, null);
+    public final ITVEventListener eventListener = new EventListener();
+    public final DefaultTVListener tvListener = new TVListener();
+    public final ITVListsListener listsListener = new ListsListener();
     private IListContentSupplier stationList = new DefaultListContentSupplier();
     private IListContentSupplier favoritesList = new DefaultListContentSupplier();
     private final List listeners = new ArrayList();
@@ -52,7 +52,7 @@ public class TVServiceHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void addListener(TVServiceListener tVServiceListener) {
-        this.lc.log(-2137614336, "[TVServiceHandler.addListener] %1 %2", (Object)tVServiceListener.getName(), (Object)tVServiceListener);
+        this.lc.log(10000000, "[TVServiceHandler.addListener] %1 %2", (Object)tVServiceListener.getName(), (Object)tVServiceListener);
         Object object = this.mutex;
         synchronized (object) {
             this.listeners.add(tVServiceListener);
@@ -66,7 +66,7 @@ public class TVServiceHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void removeListener(TVServiceListener tVServiceListener) {
-        this.lc.log(-2137614336, "[TVServiceHandler.removeListener] %1 %2", (Object)tVServiceListener.getName(), (Object)tVServiceListener);
+        this.lc.log(10000000, "[TVServiceHandler.removeListener] %1 %2", (Object)tVServiceListener.getName(), (Object)tVServiceListener);
         Object object = this.mutex;
         synchronized (object) {
             this.listeners.remove(tVServiceListener);
@@ -101,7 +101,7 @@ public class TVServiceHandler {
 
     private SDSListEntry[] getSdsList(BaseListModelApp baseListModelApp) {
         if (baseListModelApp == null) {
-            this.lc.log(-1601830656, "[TVServiceHandler.getSdsList] supplier list is null!");
+            this.lc.log(100000, "[TVServiceHandler.getSdsList] supplier list is null!");
             return new SDSListEntry[0];
         }
         SDSListEntry[] sDSListEntryArray = new SDSListEntry[baseListModelApp.getLength()];
@@ -120,47 +120,80 @@ public class TVServiceHandler {
         }
     }
 
-    static /* synthetic */ Object access$300(TVServiceHandler tVServiceHandler) {
-        return tVServiceHandler.mutex;
+    private class TVListener
+    extends DefaultTVListener {
+        private TVListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateStartUpMUConfig(StartUpConfig startUpConfig) {
+            Object object = TVServiceHandler.this.mutex;
+            synchronized (object) {
+                TVServiceHandler.this.isAvAvailable = startUpConfig.avSrcAvail;
+                TVServiceHandler.this.updateSourceList();
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$402(TVServiceHandler tVServiceHandler, boolean bl) {
-        tVServiceHandler.isAvAvailable = bl;
-        return tVServiceHandler.isAvAvailable;
+    private class EventListener
+    extends TVEventDefaultListener {
+        private EventListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onTunerAvailable() {
+            Object object = TVServiceHandler.this.mutex;
+            synchronized (object) {
+                TVServiceHandler.this.isTvAvailable = true;
+                TVServiceHandler.this.updateSourceList();
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onTunerUnavailable() {
+            Object object = TVServiceHandler.this.mutex;
+            synchronized (object) {
+                TVServiceHandler.this.isTvAvailable = false;
+                TVServiceHandler.this.updateSourceList();
+            }
+        }
     }
 
-    static /* synthetic */ void access$500(TVServiceHandler tVServiceHandler) {
-        tVServiceHandler.updateSourceList();
-    }
+    private class ListsListener
+    extends DefaultTVListsListener {
+        private ListsListener() {
+        }
 
-    static /* synthetic */ boolean access$602(TVServiceHandler tVServiceHandler, boolean bl) {
-        tVServiceHandler.isTvAvailable = bl;
-        return tVServiceHandler.isTvAvailable;
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateFavoritesList() {
+            Object object = TVServiceHandler.this.mutex;
+            synchronized (object) {
+                SDSListEntry[] sDSListEntryArray = TVServiceHandler.this.getSdsList(TVServiceHandler.this.favoritesList.getTmpList());
+                if (sDSListEntryArray.length != 0 != TVServiceHandler.this.isFavoritesAvailable) {
+                    TVServiceHandler.this.isFavoritesAvailable = sDSListEntryArray.length > 0;
+                    TVServiceHandler.this.updateSourceList();
+                }
+                TVServiceHandler.this.updateList(sDSListEntryArray, 2);
+            }
+        }
 
-    static /* synthetic */ IListContentSupplier access$700(TVServiceHandler tVServiceHandler) {
-        return tVServiceHandler.favoritesList;
-    }
-
-    static /* synthetic */ SDSListEntry[] access$800(TVServiceHandler tVServiceHandler, BaseListModelApp baseListModelApp) {
-        return tVServiceHandler.getSdsList(baseListModelApp);
-    }
-
-    static /* synthetic */ boolean access$900(TVServiceHandler tVServiceHandler) {
-        return tVServiceHandler.isFavoritesAvailable;
-    }
-
-    static /* synthetic */ boolean access$902(TVServiceHandler tVServiceHandler, boolean bl) {
-        tVServiceHandler.isFavoritesAvailable = bl;
-        return tVServiceHandler.isFavoritesAvailable;
-    }
-
-    static /* synthetic */ void access$1000(TVServiceHandler tVServiceHandler, SDSListEntry[] sDSListEntryArray, int n) {
-        tVServiceHandler.updateList(sDSListEntryArray, n);
-    }
-
-    static /* synthetic */ IListContentSupplier access$1100(TVServiceHandler tVServiceHandler) {
-        return tVServiceHandler.stationList;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateStationList() {
+            Object object = TVServiceHandler.this.mutex;
+            synchronized (object) {
+                TVServiceHandler.this.updateList(TVServiceHandler.this.getSdsList(TVServiceHandler.this.stationList.getTmpList()), 1);
+            }
+        }
     }
 }
 

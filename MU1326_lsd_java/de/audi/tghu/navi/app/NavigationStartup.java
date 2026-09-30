@@ -8,10 +8,6 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.Navigation;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.NavigationStartup$1;
-import de.audi.tghu.navi.app.NavigationStartup$2;
-import de.audi.tghu.navi.app.NavigationStartup$3;
-import de.audi.tghu.navi.app.NavigationStartup$4;
 import de.audi.tghu.navi.app.OperationManager;
 import de.audi.tghu.navi.app.call.ClearNotificationCall;
 import de.audi.tghu.navi.app.command.ETCSetMetricSystemCommand;
@@ -20,6 +16,7 @@ import de.audi.tghu.navi.app.command.EnableRgPoiInfoCommand;
 import de.audi.tghu.navi.app.command.HandleRenderingInfoProviderCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
 import de.audi.tghu.navi.app.command.LoadPersistencyCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.NotifyNavStateOfOperationCommand;
 import de.audi.tghu.navi.app.command.NotifyRemoteCommand;
 import de.audi.tghu.navi.app.command.NotifyRestCommand;
@@ -63,7 +60,7 @@ public final class NavigationStartup {
     }
 
     public void triggerNavAvailable(String string) {
-        this.logChannel.log(1078071040, "NavigationStartup#triggerNavAvailable( %2 ) - navAvailableTriggered: %1", this.navAvailableTriggered, (Object)string);
+        this.logChannel.log(1000000, "NavigationStartup#triggerNavAvailable( %2 ) - navAvailableTriggered: %1", this.navAvailableTriggered, (Object)string);
         if (!this.navAvailableTriggered) {
             this.env.getFramework().getStartupMgr().triggerNavAvailable();
             this.navAvailableTriggered = true;
@@ -124,9 +121,9 @@ public final class NavigationStartup {
 
     private void setStartupFront(int n, boolean bl) {
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("[Startup] NavigationStartup#setStartupFront( ").append(n).append(", ").append(bl).append(" )"));
-        this.logChannel.log(-2137614336, "NavigationStartup#setStartupFront( %2, %1 )", bl, (long)n);
+        this.logChannel.log(10000000, "NavigationStartup#setStartupFront( %2, %1 )", bl, (long)n);
         if (n != 0) {
-            this.logChannel.log(-1601830656, "NavigationStartup#setStartupFront() - invalid dsiType: %1", (long)n);
+            this.logChannel.log(100000, "NavigationStartup#setStartupFront() - invalid dsiType: %1", (long)n);
             return;
         }
         this.operationManager.taskCompleted(1);
@@ -142,13 +139,27 @@ public final class NavigationStartup {
             commandList.add(new ETCSetMetricSystemCommand(Util.getCurrentMetricsSystem(false)));
             commandList.add(new LISPCancelSpellerCommand());
             commandList.add(new LoadPersistencyCommand());
-            commandList.add(new NavigationStartup$1(this, "CheckRestartGuidance"));
+            commandList.add(new NavCommand("CheckRestartGuidance"){
+
+                public void execute() {
+                    NavigationStartup.this.operationManager.taskCompleted(4);
+                    CommandList commandList = this.navigation.getRouteManager().evaluateGuidanceStatus();
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            });
             commandList.add(new EnableRgPoiInfoCommand(true));
             commandList.add(new EnableRgLaneGuidanceCommand(true));
             commandList.add(new RGEnableEnhancedSignPostInfoCommand(true));
             commandList.add(new RgSetTurnListModeCommand());
             commandList.add(new RgConfigurePoiInfoCommand());
-            commandList.add(new NavigationStartup$2(this, "setNavigationInitialized"));
+            commandList.add(new NavCommand("setNavigationInitialized"){
+
+                public void execute() {
+                    this.navigation.getOperationManager().taskCompleted(8);
+                    this.navigation.getOperationManager().setNavigationMainInitialized(true);
+                    this.getCommandList().commandFinished();
+                }
+            });
             commandList.execute("NavigationStartup#setStartupFront");
         } else {
             this.operationManager.setNavigationMainInitialized(false);
@@ -157,7 +168,7 @@ public final class NavigationStartup {
 
     private void setStartupRear(int n, boolean bl) {
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("[Startup] NavigationStartup#setStartupRear( ").append(n).append(", ").append(bl).append(" )"));
-        this.logChannel.log(-2137614336, "NavigationStartup#setStartupRear( %2, %1 )", bl, (long)n);
+        this.logChannel.log(10000000, "NavigationStartup#setStartupRear( %2, %1 )", bl, (long)n);
         if (n == 0) {
             this.operationManager.taskCompleted(1);
             this.dsiNavigationManager.abortExecution("NEW MAIN DSI", n);
@@ -173,7 +184,14 @@ public final class NavigationStartup {
                 commandList.add(new ETCSetMetricSystemCommand(Util.getCurrentMetricsSystem(false)));
                 commandList.add(new LISPCancelSpellerCommand());
                 commandList.add(new LoadPersistencyCommand());
-                commandList.add(new NavigationStartup$3(this, "setNavigationInitialized"));
+                commandList.add(new NavCommand("setNavigationInitialized"){
+
+                    public void execute() {
+                        this.navigation.getOperationManager().taskCompleted(8);
+                        this.navigation.getOperationManager().setNavigationMainInitialized(true);
+                        this.getCommandList().commandFinished();
+                    }
+                });
                 commandList.execute("NavigationStartup#setStartupRear[DSI_MAIN]");
             } else {
                 this.operationManager.setNavigationMainInitialized(false);
@@ -186,13 +204,20 @@ public final class NavigationStartup {
                 CommandList commandList = this.commandListFactory.createCommandList(0);
                 DSINavigationManager.setDSIType(commandList, n);
                 commandList.add(new NotifyRemoteCommand());
-                commandList.add(new NavigationStartup$4(this, "setRemoteDSINavigationReady"));
+                commandList.add(new NavCommand("setRemoteDSINavigationReady"){
+
+                    public void execute() {
+                        NavigationStartup.this.operationManager.taskCompleted(4);
+                        NavigationStartup.this.operationManager.setNavigationRemoteInitialized(true);
+                        this.getCommandList().commandFinished();
+                    }
+                });
                 commandList.execute("NavigationStartup#setStartupRear[DSI_REMOTE]");
             } else {
                 this.operationManager.setNavigationRemoteInitialized(false);
             }
         } else {
-            this.logChannel.log(-1601830656, "NavigationStartup#setStartupRear() - invalid dsiType: %1", (long)n);
+            this.logChannel.log(100000, "NavigationStartup#setStartupRear() - invalid dsiType: %1", (long)n);
         }
     }
 
@@ -223,10 +248,6 @@ public final class NavigationStartup {
 
     public void updateRgActive(boolean bl) {
         this.triggerNavAvailable("routeGuidanceStarted");
-    }
-
-    static /* synthetic */ OperationManager access$000(NavigationStartup navigationStartup) {
-        return navigationStartup.operationManager;
     }
 }
 

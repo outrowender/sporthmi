@@ -6,7 +6,7 @@ package de.audi.tuner.app.amfm;
 import de.esolutions.fw.util.commons.Buffer;
 
 class PsFreezeData {
-    private static final int INITIAL_AGE;
+    private static final int INITIAL_AGE = 0;
     private String freezedName;
     private int age;
 

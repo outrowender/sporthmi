@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class e {
-    public static final String a;
+    public static final String a = "VEVENT";
     private a b;
     private List c;
     private String d;

@@ -19,20 +19,17 @@ implements TimerListener {
         this.waitTimer = new Timer("ORSWaitTimer", l, true, this);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[ORSWaitCommand#execute] starting timer for  %1 ms...", this.waitTime);
+        this.logger.log(10000000, "[ORSWaitCommand#execute] starting timer for  %1 ms...", this.waitTime);
         this.waitTimer.restart();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.log(-2137614336, "[ORSWaitCommand#fireTimer] wait finished");
+        this.logger.log(10000000, "[ORSWaitCommand#fireTimer] wait finished");
         this.waitTimer = null;
         this.commandList.commandFinished();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 

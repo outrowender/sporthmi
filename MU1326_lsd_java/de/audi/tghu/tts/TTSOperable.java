@@ -4,13 +4,10 @@
 package de.audi.tghu.tts;
 
 public interface TTSOperable {
-    default public void fullyOperable() {
-    }
+    public void fullyOperable();
 
-    default public void responseSetLanguageComplete() {
-    }
+    public void responseSetLanguageComplete();
 
-    default public void stopTTSServices() {
-    }
+    public void stopTTSServices();
 }
 

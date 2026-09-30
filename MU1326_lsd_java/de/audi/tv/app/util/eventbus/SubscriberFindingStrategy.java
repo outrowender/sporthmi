@@ -6,7 +6,6 @@ package de.audi.tv.app.util.eventbus;
 import java.util.List;
 
 interface SubscriberFindingStrategy {
-    default public List findAllSubscribers(Object object) {
-    }
+    public List findAllSubscribers(Object var1);
 }
 

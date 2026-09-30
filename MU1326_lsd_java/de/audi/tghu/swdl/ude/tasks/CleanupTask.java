@@ -24,7 +24,7 @@ implements Runnable {
     }
 
     public void add(File file) {
-        this.lc.log(-2137614336, "[CleanupTask.add] %1", (Object)file);
+        this.lc.log(10000000, "[CleanupTask.add] %1", (Object)file);
         if (file.exists()) {
             this.files.add(file);
         }
@@ -33,23 +33,22 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         if (IEActivator.KEEP_TMP_FILES) {
-            this.lc.log(1078071040, "[CleanupTask] Don't delete tmp files (-Duser.data.export.keep.tmp.files=true)");
+            this.lc.log(1000000, "[CleanupTask] Don't delete tmp files (-Duser.data.export.keep.tmp.files=true)");
             return;
         }
         if (this.files.isEmpty()) {
-            this.lc.log(-2137614336, "[CleanupTask] No files added for deletion.");
+            this.lc.log(10000000, "[CleanupTask] No files added for deletion.");
             return;
         }
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append("CleanupTask").toString());
+        Thread.currentThread().setName(Thread.currentThread().getName() + "CleanupTask");
         try {
-            this.lc.log(-2137614336, "[CleanupTask]");
+            this.lc.log(10000000, "[CleanupTask]");
             Iterator iterator = this.files.iterator();
             while (iterator.hasNext()) {
                 File file = (File)iterator.next();
-                this.lc.log(-2137614336, "[CleanupTask] Delete %1", (Object)file);
+                this.lc.log(10000000, "[CleanupTask] Delete %1", (Object)file);
                 file.delete();
             }
         }

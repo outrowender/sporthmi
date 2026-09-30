@@ -52,487 +52,326 @@ import org.dsi.ifc.navigation.ViaPointListElement;
 public interface IDSINavigationHandler
 extends DSIListener,
 NonDSIFunctionality {
-    default public void updateDistanceToNextManeuver(DistanceToNextManeuver distanceToNextManeuver) {
-    }
+    public void updateDistanceToNextManeuver(DistanceToNextManeuver var1);
 
-    default public void dmLastDestinationsGetResult(long l, NavLocation navLocation) {
-    }
+    public void dmLastDestinationsGetResult(long var1, NavLocation var3);
 
-    default public void dmRecentRoutesGetResult(long l, Route route) {
-    }
+    public void dmRecentRoutesGetResult(long var1, Route var3);
 
-    default public void dmResult(long l, long l2) {
-    }
+    public void dmResult(long var1, long var3);
 
-    default public void liCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2, long l) {
-    }
+    public void liCurrentState(NavLocation var1, int[] var2, int[] var3, long var4);
 
-    default public void liGetLocationDescriptionTransformResult(NavLocation navLocation) {
-    }
+    public void liGetLocationDescriptionTransformResult(NavLocation var1);
 
-    default public void liGetLocationDescriptionTransformNearByResult(NavLocation navLocation) {
-    }
+    public void liGetLocationDescriptionTransformNearByResult(NavLocation var1);
 
-    default public void liGetStateResult(LISpellerData lISpellerData) {
-    }
+    public void liGetStateResult(LISpellerData var1);
 
-    default public void liGetViaPointListResult(int n, ViaPointListElement[] viaPointListElementArray, int n2, int n3) {
-    }
+    public void liGetViaPointListResult(int var1, ViaPointListElement[] var2, int var3, int var4);
 
-    default public void liResult(long l) {
-    }
+    public void liResult(long var1);
 
-    default public void liValueList(LIValueList lIValueList, long l) {
-    }
+    public void liValueList(LIValueList var1, long var2);
 
-    default public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
-    }
+    public void lispUpdateSpellerResult(String var1, int var2, boolean var3, boolean var4, String var5, int var6, int var7, boolean var8, boolean var9, int var10, long var11);
 
-    default public void lispGetMatchingNVCResult(String string) {
-    }
+    public void lispGetMatchingNVCResult(String var1);
 
-    default public void poiValueList(LIValueList lIValueList, long l) {
-    }
+    public void poiValueList(LIValueList var1, long var2);
 
-    default public void translateRouteResult(Route route) {
-    }
+    public void translateRouteResult(Route var1);
 
-    default public void trDeleteAllTracesResult(int n, int n2) {
-    }
+    public void trDeleteAllTracesResult(int var1, int var2);
 
-    default public void trDeleteTraceResult(int n, int n2) {
-    }
+    public void trDeleteTraceResult(int var1, int var2);
 
-    default public void trExportTrailsResult(int n) {
-    }
+    public void trExportTrailsResult(int var1);
 
-    default public void trImportTrailsResult(NavSegmentID[] navSegmentIDArray, int n) {
-    }
+    public void trImportTrailsResult(NavSegmentID[] var1, int var2);
 
-    default public void trRenameTraceResult(int n, int n2) {
-    }
+    public void trRenameTraceResult(int var1, int var2);
 
-    default public void trStartTraceRecordingResult(int n, long l, int n2) {
-    }
+    public void trStartTraceRecordingResult(int var1, long var2, int var4);
 
-    default public void trStopTraceRecordingResult(int n, long l, int n2) {
-    }
+    public void trStopTraceRecordingResult(int var1, long var2, int var4);
 
-    default public void trStoreTraceResult(int n, NavSegmentID navSegmentID, int n2) {
-    }
+    public void trStoreTraceResult(int var1, NavSegmentID var2, int var3);
 
-    default public void locationToStreamResult(boolean bl, byte[] byArray) {
-    }
+    public void locationToStreamResult(boolean var1, byte[] var2);
 
-    default public void streamToLocationResult(boolean bl, NavLocation navLocation) {
-    }
+    public void streamToLocationResult(boolean var1, NavLocation var2);
 
-    default public void updateAfaMode(int n) {
-    }
+    public void updateAfaMode(int var1);
 
-    default public void updateAfaSpeaking(boolean bl) {
-    }
+    public void updateAfaSpeaking(boolean var1);
 
-    default public void updateDmLastDestinationsList(LDListElement[] lDListElementArray) {
-    }
+    public void updateDmLastDestinationsList(LDListElement[] var1);
 
-    default public void updateDmRecentRoutesList(RRListElement[] rRListElementArray) {
-    }
+    public void updateDmRecentRoutesList(RRListElement[] var1);
 
-    default public void updateEtcDemoModeState(boolean bl) {
-    }
+    public void updateEtcDemoModeState(boolean var1);
 
-    default public void updateLanguage(String string) {
-    }
+    public void updateLanguage(String var1);
 
-    default public void updateAvailableLanguages(String[] stringArray) {
-    }
+    public void updateAvailableLanguages(String[] var1);
 
-    default public void updateEtcLanguageLoadProgress(long l) {
-    }
+    public void updateEtcLanguageLoadProgress(long var1);
 
-    default public void updateEtcLanguageLoadStatus(int n) {
-    }
+    public void updateEtcLanguageLoadStatus(int var1);
 
-    default public void updateEtcMetricSystem(int n) {
-    }
+    public void updateEtcMetricSystem(int var1);
 
-    default public void etcSensorDataReplayRoute(Route route) {
-    }
+    public void etcSensorDataReplayRoute(Route var1);
 
-    default public void etcSensorDataReplayGuidance(boolean bl) {
-    }
+    public void etcSensorDataReplayGuidance(boolean var1);
 
-    default public void updateEtcVersionInfo(NavVersionInfo navVersionInfo) {
-    }
+    public void updateEtcVersionInfo(NavVersionInfo var1);
 
-    default public void updateLispIsSpellerActive(boolean bl) {
-    }
+    public void updateLispIsSpellerActive(boolean var1);
 
-    default public void updatePoiSubstringSearchStatus(ValueListStatus valueListStatus) {
-    }
+    public void updatePoiSubstringSearchStatus(ValueListStatus var1);
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 
-    default public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray) {
-    }
+    public void updateRgCalculatedRoutes(CalculatedRouteListElement[] var1);
 
-    default public void updateRgCurrentRoute(Route route) {
-    }
+    public void updateRgCurrentRoute(Route var1);
 
-    default public void updateRgCurrentRouteOptions(RouteOptions routeOptions) {
-    }
+    public void updateRgCurrentRouteOptions(RouteOptions var1);
 
-    default public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray) {
-    }
+    public void updateRgDestinationInfo(NavRouteListData[] var1);
 
-    default public void updateRgPoiInfo(NavPoiInfo[] navPoiInfoArray) {
-    }
+    public void updateRgPoiInfo(NavPoiInfo[] var1);
 
-    default public void updateRgStreetList(NavRouteListData[] navRouteListDataArray) {
-    }
+    public void updateRgStreetList(NavRouteListData[] var1);
 
-    default public void updateRgTimeAfaToDestination(long l) {
-    }
+    public void updateRgTimeAfaToDestination(long var1);
 
-    default public void updateRgTurnList(TurnListElement[] turnListElementArray) {
-    }
+    public void updateRgTurnList(TurnListElement[] var1);
 
-    default public void updateRgTurnToStreet(String string, boolean bl) {
-    }
+    public void updateRgTurnToStreet(String var1, boolean var2);
 
-    default public void updateRgUnfulfilledRouteOptions(RouteOptions routeOptions) {
-    }
+    public void updateRgUnfulfilledRouteOptions(RouteOptions var1);
 
-    default public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
-    }
+    public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation var1);
 
-    default public void updateRrdActive(boolean bl) {
-    }
+    public void updateRrdActive(boolean var1);
 
-    default public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray) {
-    }
+    public void updateRrdCalculationInfo(RrdCalculationInfo[] var1);
 
-    default public void updateRmPersistentRoute(Route route) {
-    }
+    public void updateRmPersistentRoute(Route var1);
 
-    default public void updateRmRouteList(NavRmRouteListArrayData[] navRmRouteListArrayDataArray) {
-    }
+    public void updateRmRouteList(NavRmRouteListArrayData[] var1);
 
-    default public void updateSoPosPosition(PosPosition posPosition) {
-    }
+    public void updateSoPosPosition(PosPosition var1);
 
-    default public void updateSoPosPositionDescription(NavLocation navLocation, boolean bl) {
-    }
+    public void updateSoPosPositionDescription(NavLocation var1, boolean var2);
 
-    default public void updateTrMemoryUtilization(NavTraceMemoryUtilization navTraceMemoryUtilization) {
-    }
+    public void updateTrMemoryUtilization(NavTraceMemoryUtilization var1);
 
-    default public void updateTrRecordingState(int n) {
-    }
+    public void updateTrRecordingState(int var1);
 
-    default public void updateTrOperatingMode(int n) {
-    }
+    public void updateTrOperatingMode(int var1);
 
-    default public void updateTrTraceList(NavTraceListData[] navTraceListDataArray) {
-    }
+    public void updateTrTraceList(NavTraceListData[] var1);
 
-    default public void updateTrDirectionToWaypoint(DirectionToWaypoint directionToWaypoint) {
-    }
+    public void updateTrDirectionToWaypoint(DirectionToWaypoint var1);
 
-    default public void updateTrInfoForNextWaypoint(NavNextWayPointInfo navNextWayPointInfo) {
-    }
+    public void updateTrInfoForNextWaypoint(NavNextWayPointInfo var1);
 
-    default public void updateRgRouteCalculationState(int n) {
-    }
+    public void updateRgRouteCalculationState(int var1);
 
-    default public void rmMakeRoutePersistentResult(long l) {
-    }
+    public void rmMakeRoutePersistentResult(long var1);
 
-    default public void rmRouteAddResult(int n, long l) {
-    }
+    public void rmRouteAddResult(int var1, long var2);
 
-    default public void rmRouteDeleteAllResult(int n) {
-    }
+    public void rmRouteDeleteAllResult(int var1);
 
-    default public void rmRouteDeleteResult(int n) {
-    }
+    public void rmRouteDeleteResult(int var1);
 
-    default public void rmRouteGetResult(int n, Route route) {
-    }
+    public void rmRouteGetResult(int var1, Route var2);
 
-    default public void rmRouteReplaceResult(int n, long l, int n2) {
-    }
+    public void rmRouteReplaceResult(int var1, long var2, int var4);
 
-    default public void rmRouteRenameResult(int n) {
-    }
+    public void rmRouteRenameResult(int var1);
 
-    default public void rgSetRouteGuidanceModeResult() {
-    }
+    public void rgSetRouteGuidanceModeResult();
 
-    default public void updateRgDetailedStreetList(NavRouteListData[] navRouteListDataArray) {
-    }
+    public void updateRgDetailedStreetList(NavRouteListData[] var1);
 
-    default public void liTryBestMatchResult(TryBestMatchResultData[] tryBestMatchResultDataArray) {
-    }
+    public void liTryBestMatchResult(TryBestMatchResultData[] var1);
 
-    default public void liTryMatchLocationResult(TryMatchLocationResultData[] tryMatchLocationResultDataArray) {
-    }
+    public void liTryMatchLocationResult(TryMatchLocationResultData[] var1);
 
-    default public void updateNavstateOfOperation(int n) {
-    }
+    public void updateNavstateOfOperation(int var1);
 
-    default public void updateNavMedia(String[] stringArray) {
-    }
+    public void updateNavMedia(String[] var1);
 
-    default public void rgNotPossible(int n) {
-    }
+    public void rgNotPossible(int var1);
 
-    default public void requestCountryInfoResult(CountryInfo countryInfo, int n) {
-    }
+    public void requestCountryInfoResult(CountryInfo var1, int var2);
 
-    default public void responseAudioTrigger(int n) {
-    }
+    public void responseAudioTrigger(int var1);
 
-    default public void liStripLocationResult(NavLocation navLocation) {
-    }
+    public void liStripLocationResult(NavLocation var1);
 
-    default public void liGetLastStateHistoryEntryResult(NavLocation navLocation, boolean bl) {
-    }
+    public void liGetLastStateHistoryEntryResult(NavLocation var1, boolean var2);
 
-    default public void liGetLastCityHistoryEntryResult(NavLocation navLocation, boolean bl) {
-    }
+    public void liGetLastCityHistoryEntryResult(NavLocation var1, boolean var2);
 
-    default public void liGetLastStreetHistoryEntryResult(NavLocation navLocation, boolean bl) {
-    }
+    public void liGetLastStreetHistoryEntryResult(NavLocation var1, boolean var2);
 
-    default public void liLastCityAndStreetHistoryResult(long l) {
-    }
+    public void liLastCityAndStreetHistoryResult(long var1);
 
-    default public void liValueListFileStatus(int n, int n2, String string) {
-    }
+    public void liValueListFileStatus(int var1, int var2, String var3);
 
-    default public void liValueListOutputMethod(int n) {
-    }
+    public void liValueListOutputMethod(int var1);
 
-    default public void soPosPositionDescriptionVehicleResult(NavLocation navLocation) {
-    }
+    public void soPosPositionDescriptionVehicleResult(NavLocation var1);
 
-    default public void rgStartGuidanceRouteResult(int n) {
-    }
+    public void rgStartGuidanceRouteResult(int var1);
 
-    default public void rgStartGuidanceCalculatedRouteResult(int n) {
-    }
+    public void rgStartGuidanceCalculatedRouteResult(int var1);
 
-    default public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID navSegmentID, int n) {
-    }
+    public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID var1, int var2);
 
-    default public void updateDmFlagDestination(NavLocation navLocation) {
-    }
+    public void updateDmFlagDestination(NavLocation var1);
 
-    default public void updateLiStateHistory(LIStateHistoryEntry[] lIStateHistoryEntryArray) {
-    }
+    public void updateLiStateHistory(LIStateHistoryEntry[] var1);
 
-    default public void updateLiCityHistory(LICityHistoryEntry[] lICityHistoryEntryArray) {
-    }
+    public void updateLiCityHistory(LICityHistoryEntry[] var1);
 
-    default public void updateLiStreetHistory(LIStreetHistoryEntry[] lIStreetHistoryEntryArray) {
-    }
+    public void updateLiStreetHistory(LIStreetHistoryEntry[] var1);
 
-    default public void updateLiCountryForCityAndStreetHistory(String string) {
-    }
+    public void updateLiCountryForCityAndStreetHistory(String var1);
 
-    default public void rgException(int n) {
-    }
+    public void rgException(int var1);
 
-    default public void updateBapManeuverDescriptor(BapManeuverDescriptor[] bapManeuverDescriptorArray) {
-    }
+    public void updateBapManeuverDescriptor(BapManeuverDescriptor[] var1);
 
-    default public void updateBapManeuverState(int n) {
-    }
+    public void updateBapManeuverState(int var1);
 
-    default public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
-    }
+    public void updateRgInfoForNextDestination(RgInfoForNextDestination var1);
 
-    default public void updateRgRouteProperties(RouteProperties routeProperties) {
-    }
+    public void updateRgRouteProperties(RouteProperties var1);
 
-    default public void updateRgLaneGuidance(NavLaneGuidanceData[] navLaneGuidanceDataArray, boolean bl) {
-    }
+    public void updateRgLaneGuidance(NavLaneGuidanceData[] var1, boolean var2);
 
-    default public void updateRgPoiInfoCalculationHorizon(long l) {
-    }
+    public void updateRgPoiInfoCalculationHorizon(long var1);
 
-    default public void updateRgTurnListCalculationHorizon(long l) {
-    }
+    public void updateRgTurnListCalculationHorizon(long var1);
 
-    default public void updateCityVignettes(int[] nArray) {
-    }
+    public void updateCityVignettes(int[] var1);
 
-    default public void updateCountryInfo(CountryInfo[] countryInfoArray) {
-    }
+    public void updateCountryInfo(CountryInfo[] var1);
 
-    default public void updateEtcCurrentNavDataBase(NavDataBase navDataBase) {
-    }
+    public void updateEtcCurrentNavDataBase(NavDataBase var1);
 
-    default public void updateEtcAvailableNavDataBases(NavDataBase[] navDataBaseArray) {
-    }
+    public void updateEtcAvailableNavDataBases(NavDataBase[] var1);
 
-    default public void updateAudioRequest(int n) {
-    }
+    public void updateAudioRequest(int var1);
 
-    default public void liSelectViaPointResult(NavLocation navLocation, int n) {
-    }
+    public void liSelectViaPointResult(NavLocation var1, int var2);
 
-    default public void liSetCountryForCityAndStreetHistoryResult(int n) {
-    }
+    public void liSetCountryForCityAndStreetHistoryResult(int var1);
 
-    default public void liHistoryResult(int n) {
-    }
+    public void liHistoryResult(int var1);
 
-    default public void ehGetAllCategoriesResult(int n, Category[] categoryArray, int n2) {
-    }
+    public void ehGetAllCategoriesResult(int var1, Category[] var2, int var3);
 
-    default public void ehGetAllBrandsOfCategoryResult(int n, int n2, Brand[] brandArray, int n3) {
-    }
+    public void ehGetAllBrandsOfCategoryResult(int var1, int var2, Brand[] var3, int var4);
 
-    default public void ehResult(int n, int n2) {
-    }
+    public void ehResult(int var1, int var2);
 
-    default public void setTrailerStatusResult(int n) {
-    }
+    public void setTrailerStatusResult(int var1);
 
-    default public void setUserDefinedPOIsResult(int n) {
-    }
+    public void setUserDefinedPOIsResult(int var1);
 
-    default public void setVehicleConsumptionInfoResult(int n) {
-    }
+    public void setVehicleConsumptionInfoResult(int var1);
 
-    default public void updateBapTurnToInfo(BapTurnToInfo[] bapTurnToInfoArray) {
-    }
+    public void updateBapTurnToInfo(BapTurnToInfo[] var1);
 
-    default public void updateRgiString(short[] sArray) {
-    }
+    public void updateRgiString(short[] var1);
 
-    default public void updateStyleDBPaths(String[] stringArray) {
-    }
+    public void updateStyleDBPaths(String[] var1);
 
-    default public void liGetSpellableCharactersResult(NavLocation navLocation, int n, String string, int n2) {
-    }
+    public void liGetSpellableCharactersResult(NavLocation var1, int var2, String var3, int var4);
 
-    default public void getSpellableCharactersResult(String string, String string2, int n, String string3, int n2) {
-    }
+    public void getSpellableCharactersResult(String var1, String var2, int var3, String var4, int var5);
 
-    default public void updateRouteResumePossible(boolean bl) {
-    }
+    public void updateRouteResumePossible(boolean var1);
 
-    default public void updateEtcAvailablePersonalPOIDataBases(NavDataBase[] navDataBaseArray, int n) {
-    }
+    public void updateEtcAvailablePersonalPOIDataBases(NavDataBase[] var1, int var2);
 
-    default public void deletePersonalPOIDataBasesResult(int n) {
-    }
+    public void deletePersonalPOIDataBasesResult(int var1);
 
-    default public void updatePersonalPOISearchStatus(int n, int n2) {
-    }
+    public void updatePersonalPOISearchStatus(int var1, int var2);
 
-    default public void rgGetLocationOnRouteResult(NavLocation navLocation) {
-    }
+    public void rgGetLocationOnRouteResult(NavLocation var1);
 
-    default public void rgGetRouteBoundingRectangleResult(NavRectangle navRectangle) {
-    }
+    public void rgGetRouteBoundingRectangleResult(NavRectangle var1);
 
-    default public void rgStartRubberbandManipulationResult(int n) {
-    }
+    public void rgStartRubberbandManipulationResult(int var1);
 
-    default public void rgGetRubberBandPointPositionResult(NavLocationWgs84 navLocationWgs84, boolean bl) {
-    }
+    public void rgGetRubberBandPointPositionResult(NavLocationWgs84 var1, boolean var2);
 
-    default public void updateNavDbRegionsState(int n, String[] stringArray, int n2) {
-    }
+    public void updateNavDbRegionsState(int var1, String[] var2, int var3);
 
-    default public void updateMapIntegrationState(int n) {
-    }
+    public void updateMapIntegrationState(int var1);
 
-    default public void blockAreaResult(long l, int n) {
-    }
+    public void blockAreaResult(long var1, int var3);
 
-    default public void blockRoadSegmentsResult(long l, int n) {
-    }
+    public void blockRoadSegmentsResult(long var1, int var3);
 
-    default public void blockRouteBasedOnLengthResult(long l, int n) {
-    }
+    public void blockRouteBasedOnLengthResult(long var1, int var3);
 
-    default public void blockRouteSegmentsResult(long l, int n) {
-    }
+    public void blockRouteSegmentsResult(long var1, int var3);
 
-    default public void deleteBlockResult(long[] lArray, int n) {
-    }
+    public void deleteBlockResult(long[] var1, int var2);
 
-    default public void persistBlockResult(long[] lArray, int n) {
-    }
+    public void persistBlockResult(long[] var1, int var2);
 
-    default public void setBlockDescriptionResult(long[] lArray, int n) {
-    }
+    public void setBlockDescriptionResult(long[] var1, int var2);
 
-    default public void updateListOfBlocks(BlockElement[] blockElementArray) {
-    }
+    public void updateListOfBlocks(BlockElement[] var1);
 
-    default public void updateNaviCoreAvailableToSetBlocks(int n) {
-    }
+    public void updateNaviCoreAvailableToSetBlocks(int var1);
 
-    default public void updateMaximumLengthOfBlockRouteBasedOnLength(int n) {
-    }
+    public void updateMaximumLengthOfBlockRouteBasedOnLength(int var1);
 
-    default public void combinedRouteListResult(long l, CombinedRouteListElement[] combinedRouteListElementArray, int n) {
-    }
+    public void combinedRouteListResult(long var1, CombinedRouteListElement[] var3, int var4);
 
-    default public void windowChanged(int n) {
-    }
+    public void windowChanged(int var1);
 
-    default public void updateElementsTotal(long l, long l2, int n) {
-    }
+    public void updateElementsTotal(long var1, long var3, int var5);
 
-    default public void poiInformationResult(NavPoiInfo navPoiInfo, int n) {
-    }
+    public void poiInformationResult(NavPoiInfo var1, int var2);
 
-    default public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] lArray, NavRectangle navRectangle) {
-    }
+    public void getBoundingRectangleOfCombinedRouteListElementsResult(long[] var1, NavRectangle var2);
 
-    default public void updatePOIsEnteringProximityRange(NavLocation[] navLocationArray) {
-    }
+    public void updatePOIsEnteringProximityRange(NavLocation[] var1);
 
-    default public void lispGetLocationFromLiValueListResult(int n, NavLocation navLocation) {
-    }
+    public void lispGetLocationFromLiValueListResult(int var1, NavLocation var2);
 
-    default public void poiGetCategoryTypesFromUIdResult(int[] nArray) {
-    }
+    public void poiGetCategoryTypesFromUIdResult(int[] var1);
 
-    default public void rgResult(int n) {
-    }
+    public void rgResult(int var1);
 
-    default public void rgSwitchToNextPossibleRoadResult(boolean bl) {
-    }
+    public void rgSwitchToNextPossibleRoadResult(boolean var1);
 
-    default public void lispRequestNVCListResult(int n, String string, int n2) {
-    }
+    public void lispRequestNVCListResult(int var1, String var2, int var3);
 
-    default public void liDisambiguateLocationResult(int[] nArray, NavLocation[] navLocationArray) {
-    }
+    public void liDisambiguateLocationResult(int[] var1, NavLocation[] var2);
 
-    default public void triggerEventAudioMessageResult(int n) {
-    }
+    public void triggerEventAudioMessageResult(int var1);
 
-    default public void updateBapManeuverInformation(BapManeuverDescriptor[] bapManeuverDescriptorArray, int n) {
-    }
+    public void updateBapManeuverInformation(BapManeuverDescriptor[] var1, int var2);
 
-    default public void poiRequestExtendedInfoResult(PoiExtendedInfo poiExtendedInfo, boolean bl) {
-    }
+    public void poiRequestExtendedInfoResult(PoiExtendedInfo var1, boolean var2);
 
-    default public void poiGetXt9LDBsResult(String[] stringArray) {
-    }
+    public void poiGetXt9LDBsResult(String[] var1);
 
-    default public void importRouteFromGpxFileResult(NavLocation navLocation) {
-    }
+    public void importRouteFromGpxFileResult(NavLocation var1);
 }
 

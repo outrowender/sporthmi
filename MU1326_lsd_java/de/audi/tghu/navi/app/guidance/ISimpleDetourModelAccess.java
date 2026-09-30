@@ -4,16 +4,12 @@
 package de.audi.tghu.navi.app.guidance;
 
 public interface ISimpleDetourModelAccess {
-    default public void reset(int n) {
-    }
+    public void reset(int var1);
 
-    default public void detourAdded(boolean bl) {
-    }
+    public void detourAdded(boolean var1);
 
-    default public void refreshDistanceTextfield(int n) {
-    }
+    public void refreshDistanceTextfield(int var1);
 
-    default public void updateBlockingAvailable(boolean bl) {
-    }
+    public void updateBlockingAvailable(boolean var1);
 }
 

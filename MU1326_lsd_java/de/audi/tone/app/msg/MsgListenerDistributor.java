@@ -17,9 +17,8 @@ implements MsgListener {
         this.listener = defaultMsgListenerArray;
     }
 
-    @Override
     public void processMsg(int n) {
-        this.lc.log(1078071040, "[MsgListenerDistributor.processMsg] message:%1", (long)n);
+        this.lc.log(1000000, "[MsgListenerDistributor.processMsg] message:%1", (long)n);
         switch (n) {
             case 28: {
                 for (int i2 = 0; i2 < this.listener.length; ++i2) {

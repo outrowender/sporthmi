@@ -26,47 +26,41 @@ implements DSISoundListener {
         return "SoundHandler";
     }
 
-    @Override
     public int getID() {
         return 1;
     }
 
-    @Override
     public void addService(Object object) {
-        this.lc.log(-2137614336, "[SoundHandler.registerDSI] DSISound:%1", object);
+        this.lc.log(10000000, "[SoundHandler.registerDSI] DSISound:%1", object);
         this.dsi = (DSISound)object;
     }
 
-    @Override
     public void removeService(Object object) {
-        this.lc.log(-2137614336, "[SoundHandler.removeService] %1", object);
+        this.lc.log(10000000, "[SoundHandler.removeService] %1", object);
         this.dsi = new NullDSISound(this.lc);
     }
 
-    @Override
     public void startExport(AbstractIETask abstractIETask) {
-        this.lc.log(-2137614336, "[SoundHandler.startExport] -> DSISound.createExportFile(%1, %2)", (Object)this.file, 0L);
+        this.lc.log(10000000, "[SoundHandler.startExport] -> DSISound.createExportFile(%1, %2)", (Object)this.file, 0L);
         this.setTask(abstractIETask);
         this.longRunningTaskTimer.restart();
         this.dsi.createExportFile(this.file, 0);
     }
 
-    @Override
     public void startImport(AbstractIETask abstractIETask) {
         if (!new File(this.file).exists()) {
-            this.lc.log(1078071040, "[SoundHandler.startImport] File not found: %1", (Object)this.file);
+            this.lc.log(1000000, "[SoundHandler.startImport] File not found: %1", (Object)this.file);
             abstractIETask.updateClientResult(this, this.file, false, true);
             return;
         }
-        this.lc.log(-2137614336, "[SoundHandler.startImport] -> DSISound.importFile(%1, %2)", (Object)this.file, 0L);
+        this.lc.log(10000000, "[SoundHandler.startImport] -> DSISound.importFile(%1, %2)", (Object)this.file, 0L);
         this.setTask(abstractIETask);
         this.longRunningTaskTimer.restart();
         this.dsi.importFile(this.file, 0);
     }
 
-    @Override
     public void createExportFileResult(int n, boolean bl) {
-        this.lc.log(-2137614336, "[SoundHandler] <- DSISoundListener.createExportFileResult(%1)", bl);
+        this.lc.log(10000000, "[SoundHandler] <- DSISoundListener.createExportFileResult(%1)", bl);
         try {
             this.longRunningTaskTimer.cancel();
             this.getTask().updateClientResult(this, this.file, bl, true);
@@ -76,9 +70,8 @@ implements DSISoundListener {
         }
     }
 
-    @Override
     public void importFileResponse(int n, boolean bl) {
-        this.lc.log(-2137614336, "[SoundHandler] <- DSISoundListener.importFileResponse(%1)", bl);
+        this.lc.log(10000000, "[SoundHandler] <- DSISoundListener.importFileResponse(%1)", bl);
         try {
             this.longRunningTaskTimer.cancel();
             this.getTask().updateClientResult(this, this.file, bl, true);
@@ -88,7 +81,6 @@ implements DSISoundListener {
         }
     }
 
-    @Override
     public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) {
     }
 }

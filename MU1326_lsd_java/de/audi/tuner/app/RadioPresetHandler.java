@@ -15,7 +15,6 @@ import de.audi.atip.preset.Preset;
 import de.audi.tuner.app.AudioFocusClient;
 import de.audi.tuner.app.MemoryListHandler;
 import de.audi.tuner.app.RadioComparators;
-import de.audi.tuner.app.RadioPresetHandler$NARMemoryListPresetIndexChangeListener;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerObjectContainer;
@@ -47,21 +46,18 @@ ITunerNARHandler {
         this.variantExt = iTunerVariantExt;
         this.memoryListHandler = memoryListHandler;
         if (Utilities.isNARBuild()) {
-            this.memoryListHandler.setNARMemoryListPresetIndexChangeListener(new RadioPresetHandler$NARMemoryListPresetIndexChangeListener(this, null));
+            this.memoryListHandler.setNARMemoryListPresetIndexChangeListener(new NARMemoryListPresetIndexChangeListener());
         }
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public int[] getModelIds() {
-        return new int[]{1770520832, 1753743616, 1820852480, 0x11880100, -1954021120, -813235968, 2005401856, 1938292992, 1921515776, 881328384, 1032323328, 931660032, 1049100544};
+        return new int[]{100457, 100456, 100460, 100369, 100491, 100303, 100471, 100467, 100466, 100404, 100413, 100407, 100414};
     }
 
-    @Override
     public void requestDefinition(DefinitionRequest definitionRequest) {
         EvoListRow evoListRow;
         Object object;
@@ -107,7 +103,6 @@ ITunerNARHandler {
         definitionRequest.responseDefine(n, (Serializable)object, (PresetListRow)evoListRow, 1);
     }
 
-    @Override
     public void requestExecute(ExecuteRequest executeRequest) {
         Integer n;
         int n2;
@@ -129,7 +124,6 @@ ITunerNARHandler {
         executeRequest.responseExecute(n3);
     }
 
-    @Override
     public int getExecutionType() {
         return 1;
     }
@@ -161,12 +155,10 @@ ITunerNARHandler {
         return presetListRow;
     }
 
-    @Override
     public void injectPresetManager(IPresetManager iPresetManager) {
         this.presetManager = iPresetManager;
     }
 
-    @Override
     public void presetSavedByPresetPopup(int n, Preset preset) {
         this.memoryListHandler.storeStationAt(this.tocForLastPresetRequest, n);
         this.tocForLastPresetRequest = null;
@@ -190,8 +182,18 @@ ITunerNARHandler {
         this.presetManager.favoriteDefinitionChanged(definitionRequest, 0, n4, presetListRow, n3);
     }
 
-    static /* synthetic */ void access$100(RadioPresetHandler radioPresetHandler, int n, TunerObjectContainer tunerObjectContainer) {
-        radioPresetHandler.onNARMemoryListIndexChanged(n, tunerObjectContainer);
+    public static interface INARMemoryListIndexChangeListener {
+        public void memoryListPresetIndexChanged(int var1, TunerObjectContainer var2);
+    }
+
+    private class NARMemoryListPresetIndexChangeListener
+    implements INARMemoryListIndexChangeListener {
+        private NARMemoryListPresetIndexChangeListener() {
+        }
+
+        public void memoryListPresetIndexChanged(int n, TunerObjectContainer tunerObjectContainer) {
+            RadioPresetHandler.this.onNARMemoryListIndexChanged(n, tunerObjectContainer);
+        }
     }
 }
 

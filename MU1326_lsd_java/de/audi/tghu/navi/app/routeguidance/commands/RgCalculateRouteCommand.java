@@ -17,15 +17,13 @@ extends NavCommand {
         this.numberOfRoutes = n;
     }
 
-    @Override
     public void execute() {
         this.dsiResponseContainer.setIndexOfCalculatedRoutes(0);
-        this.logger.log(-2137614336, "RgCalculateRouteCommand#execute() - calling rgCalculateRoute( %1, %2 ) ", (Object)RouteUtil.formatRouteShort(this.route), (long)this.numberOfRoutes);
+        this.logger.log(10000000, "RgCalculateRouteCommand#execute() - calling rgCalculateRoute( %1, %2 ) ", (Object)RouteUtil.formatRouteShort(this.route), (long)this.numberOfRoutes);
         this.getDSINavigation().rgCalculateRoute(this.route, this.numberOfRoutes);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void rgNotPossible(int n) {
         this.logger.log(10000, "RgCalculateRouteCommand#rgNotPossible() - route could not be calculated ( %1 )!", (long)n);
         this.getCommandList().commandAborted(n);

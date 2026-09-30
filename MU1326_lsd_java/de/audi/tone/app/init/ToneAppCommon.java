@@ -23,6 +23,7 @@ import de.audi.atip.interapp.audio.IAnnouncementStateService;
 import de.audi.atip.interapp.audio.IAudioSdisListener;
 import de.audi.atip.interapp.audio.ISoundHandlerListener;
 import de.audi.atip.interapp.audio.ToneServiceListener;
+import de.audi.atip.interapp.def.NullAtipAudioSdisService;
 import de.audi.atip.interapp.def.NullRingTonePlayer;
 import de.audi.atip.interapp.def.NullSystemTonePlayer;
 import de.audi.atip.interapp.media.IMediaFilePlayerService;
@@ -46,7 +47,6 @@ import de.audi.tone.app.dsi.DSISoundHandler;
 import de.audi.tone.app.dsi.DSISoundListenerImpl;
 import de.audi.tone.app.dsi.HMIAudioManagementListenerImpl;
 import de.audi.tone.app.dsi.IDSISoundHandler;
-import de.audi.tone.app.init.ToneAppCommon$AtipSdisActionProxyListener;
 import de.audi.tone.app.msg.AudioFactoryReset;
 import de.audi.tone.app.msg.DefaultMsgListener;
 import de.audi.tone.app.msg.Heartbeat;
@@ -71,7 +71,7 @@ public class ToneAppCommon {
     protected IDSISoundHandler dsiSound;
     protected VolumeRangeManager volMenuManager;
     protected final ToneVirtualButtonHandler toneVirtualButtonHandler;
-    protected final ToneAppCommon$AtipSdisActionProxyListener atipSdisActioProxyListener;
+    protected final AtipSdisActionProxyListener atipSdisActioProxyListener;
     protected ThreeDMode threeDMode;
     protected ATIPAudioServiceListener atipAudioListener;
     private final HMIApplication hmiApplication;
@@ -86,7 +86,7 @@ public class ToneAppCommon {
 
     protected ToneAppCommon(IFrameworkAccess iFrameworkAccess, IGUIVariantProvider iGUIVariantProvider) {
         this.env = new ToneEnv(iFrameworkAccess, iGUIVariantProvider);
-        this.env.lcMain.log(14808325, "[ToneApp.new] Before initialization");
+        this.env.lcMain.log(100000000, "[ToneApp.new] Before initialization");
         this.hmiApplication = new ToneHMIApplication(this.env);
         this.audioService = new AudioServiceHandler(this.env);
         this.audioListener = new HMIAudioManagementListenerImpl(this.env);
@@ -95,7 +95,7 @@ public class ToneAppCommon {
         this.dsiSound = new DSISoundHandler(this.env, this.audioService, this.amplifier);
         this.sound = new SoundHandler(this.dsiSound, this.env);
         this.dsiSoundListener = new DSISoundListenerImpl(this.env, this.sound);
-        this.atipSdisActioProxyListener = new ToneAppCommon$AtipSdisActionProxyListener(this, 0);
+        this.atipSdisActioProxyListener = new AtipSdisActionProxyListener(0);
         this.toneVirtualButtonHandler = new ToneVirtualButtonHandler(this.env);
         AudioFactoryReset audioFactoryReset = new AudioFactoryReset(this.env.lcMain, this.dsiSound);
         this.heartbeat = new Heartbeat(this.env.lcMain, this.audioService, this.env);
@@ -103,7 +103,7 @@ public class ToneAppCommon {
         this.wirelessChargingReminder = new WirelessChargingReminder(this.env);
         DefaultMsgListener[] defaultMsgListenerArray = new DefaultMsgListener[]{audioFactoryReset, this.heartbeat.audioMsgListener, this.touchSound.audioMsgListener, this.wirelessChargingReminder};
         this.messageListener = new MsgListenerDistributor(this.env.lcMain, defaultMsgListenerArray);
-        this.env.lcMain.log(14808325, "[ToneApp.new] After initialization");
+        this.env.lcMain.log(100000000, "[ToneApp.new] After initialization");
     }
 
     public void init() {
@@ -130,7 +130,7 @@ public class ToneAppCommon {
     }
 
     Object setService(Object object) {
-        this.env.lcMain.log(-2137614336, "[ToneApp.setService] %1", object);
+        this.env.lcMain.log(10000000, "[ToneApp.setService] %1", object);
         if (object instanceof HMIAudioService) {
             this.audioService.registerService((HMIAudioService)object);
             return object;
@@ -206,38 +206,38 @@ public class ToneAppCommon {
     Object setService(Object object, Object object2) {
         if (object instanceof TTSService) {
             if (TTSService.CLIENT_ID_TOUCHPAD_VOLUME_MENU.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] touchpad vol: service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] touchpad vol: service: %1 ", object);
                 this.volMenuManager.registerService(6, object);
                 return object;
             }
             if (TTSService.CLIENT_ID_WIRELESS_CHARGING_VOLUME_MENU.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] wireless charging vol: service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] wireless charging vol: service: %1 ", object);
                 this.volMenuManager.registerService(11, object);
                 return object;
             }
             if (TTSService.CLIENT_ID_WIRELESS_CHARGING.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] wireless charging : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] wireless charging : service: %1 ", object);
                 this.wirelessChargingReminder.registerService(object);
                 return object;
             }
             if (TTSService.CLIENT_ID_ETC_VOLUME_MENU.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] info announcement (ETC) : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] info announcement (ETC) : service: %1 ", object);
                 this.volMenuManager.registerService(12, object);
                 return object;
             }
         } else if (object instanceof IAnnouncementStateService) {
             if (IAnnouncementStateService.TA.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] Traffic announcement volume : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] Traffic announcement volume : service: %1 ", object);
                 this.volMenuManager.registerService(1, object);
                 return object;
             }
             if (IAnnouncementStateService.NAVI.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] Traffic guidance volume : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] Traffic guidance volume : service: %1 ", object);
                 this.volMenuManager.registerService(0, object);
                 return object;
             }
             if (IAnnouncementStateService.PHONE_RINGTONE.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.addingService] Ringtone volume : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.addingService] Ringtone volume : service: %1 ", object);
                 this.volMenuManager.registerService(3, object);
                 return object;
             }
@@ -247,7 +247,7 @@ public class ToneAppCommon {
     }
 
     void setNotifications(DSISound dSISound) {
-        this.env.lcMain.log(-2137614336, "[ToneApp.setNotifications] %1", (Object)dSISound);
+        this.env.lcMain.log(10000000, "[ToneApp.setNotifications] %1", (Object)dSISound);
         dSISound.setNotification(this.dsiSoundListener.getNotifications(), (DSIListener)this.dsiSoundListener);
     }
 
@@ -273,7 +273,7 @@ public class ToneAppCommon {
             this.volMenuManager.deregisterService(6, object);
             this.volMenuManager.deregisterService(11, object);
             this.wirelessChargingReminder.deregisterService(object);
-            this.env.getChoiceModel(1396838144).setValue(0);
+            this.env.getChoiceModel(1000019).setValue(0);
         } else if (object instanceof AtipAudioSdisService) {
             this.atipSdisActioProxyListener.deregisterService(object);
         } else if (object instanceof ISoundHandlerListener) {
@@ -288,13 +288,13 @@ public class ToneAppCommon {
     void removeService(Object object, Object object2) {
         if (object instanceof IAnnouncementStateService) {
             if (IAnnouncementStateService.TA.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.removeService] Traffic announcement volume : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.removeService] Traffic announcement volume : service: %1 ", object);
                 this.volMenuManager.deregisterService(1, object);
             } else if (IAnnouncementStateService.NAVI.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.removeService] Traffic guidance volume : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.removeService] Traffic guidance volume : service: %1 ", object);
                 this.volMenuManager.deregisterService(0, object);
             } else if (IAnnouncementStateService.PHONE_RINGTONE.equals(object2)) {
-                this.env.lcMain.log(-2137614336, "[ToneActivator.removeService] Ringtone volume : service: %1 ", object);
+                this.env.lcMain.log(10000000, "[ToneActivator.removeService] Ringtone volume : service: %1 ", object);
                 this.volMenuManager.deregisterService(3, object);
             }
         }
@@ -332,8 +332,8 @@ public class ToneAppCommon {
     }
 
     void setToneReady(boolean bl) {
-        this.env.lcMain.log(-2137614336, "[ToneApp.setToneReady] %1", bl);
-        this.env.getChoiceModel(1279397632).setValue(bl ? 1 : 0);
+        this.env.lcMain.log(10000000, "[ToneApp.setToneReady] %1", bl);
+        this.env.getChoiceModel(1000012).setValue(bl ? 1 : 0);
     }
 
     protected final ActionProxyListener[] getCommonActionProxyListeners() {
@@ -355,6 +355,34 @@ public class ToneAppCommon {
 
     public Heartbeat getHeartbeat() {
         return this.heartbeat;
+    }
+
+    private class AtipSdisActionProxyListener
+    extends ActionProxyListener {
+        private AtipAudioSdisService service;
+
+        AtipSdisActionProxyListener(int n) {
+            super(n);
+            this.service = new NullAtipAudioSdisService(ToneAppCommon.this.env.lcHMI);
+        }
+
+        public void a2lsPopupMediaTunerAreaEntered() {
+            this.service.mediaTunerAreaEntered();
+        }
+
+        public void a2lsPopupMediaTunerAreaLeft() {
+            this.service.mediaTunerAreaLeft();
+        }
+
+        public void registerService(Object object) {
+            if (object != null) {
+                this.service = (AtipAudioSdisService)object;
+            }
+        }
+
+        public void deregisterService(Object object) {
+            this.service = new NullAtipAudioSdisService(ToneAppCommon.this.env.lcHMI);
+        }
     }
 }
 

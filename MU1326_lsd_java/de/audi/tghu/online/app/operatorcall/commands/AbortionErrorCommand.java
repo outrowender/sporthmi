@@ -12,9 +12,8 @@ extends Command {
         super(Online.getInstance().getOperatorCallLogChannel());
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "AbortionErrorCommand#execute: this is a dummy error command, that does nothing except tracing this log");
+        this.logger.log(10000000, "AbortionErrorCommand#execute: this is a dummy error command, that does nothing except tracing this log");
     }
 }
 

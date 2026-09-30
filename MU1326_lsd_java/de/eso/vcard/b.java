@@ -13,16 +13,15 @@ implements VCardParserReply {
 
     public void a(int n, AdbEntry adbEntry) {
         if (n != 0) {
-            System.err.println(new StringBuffer().append("EROR parsing vcard: ").append(n).append(" ... ").append(adbEntry).toString());
+            System.err.println("EROR parsing vcard: " + n + " ... " + adbEntry);
         }
-        System.out.println(new StringBuffer().append("received an answer: ").append(n).append(" ... ").append(adbEntry).toString());
+        System.out.println("received an answer: " + n + " ... " + adbEntry);
     }
 
     public void a(int n, String string) {
-        System.out.println(new StringBuffer().append("Received an exportVCardResult answer: ").append(string).toString());
+        System.out.println("Received an exportVCardResult answer: " + string);
     }
 
-    @Override
     public void exportFinished(int n, int n2) {
         System.out.println("Export finished.");
     }
@@ -31,12 +30,10 @@ implements VCardParserReply {
         System.out.println("Parsing finished.");
     }
 
-    @Override
     public void setBinaryContentQuotaPerFileResult(int n, long l) {
         System.out.println("setBinaryContentQuotaPerFileResult()");
     }
 
-    @Override
     public void setBinaryContentTempPathResult(int n, String string) {
         System.out.println("setBinaryContentTempPathResult()");
     }
@@ -57,32 +54,26 @@ implements VCardParserReply {
         new Exception().printStackTrace(System.out);
     }
 
-    @Override
     public void exportSmallVCardResult(int n, String string, int n2) {
         new Exception().printStackTrace(System.out);
     }
 
-    @Override
     public void exportVCardResult(int n, String string, int n2) {
         new Exception().printStackTrace(System.out);
     }
 
-    @Override
     public void parseVCardDirectoryResult(int n, AdbEntry[] adbEntryArray, int n2, int n3) {
         new Exception().printStackTrace(System.out);
     }
 
-    @Override
     public void parseVCardResult(int n, AdbEntry adbEntry, int n2, int n3) {
         new Exception().printStackTrace(System.out);
     }
 
-    @Override
     public void parsingFinished(int n) {
         new Exception().printStackTrace(System.out);
     }
 
-    @Override
     public void smallExportFinished(int n, long[] lArray, int n2, String string, int n3) {
         new Exception().printStackTrace(System.out);
     }

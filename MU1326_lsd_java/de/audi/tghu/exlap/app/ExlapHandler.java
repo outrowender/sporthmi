@@ -14,10 +14,8 @@ public interface ExlapHandler
 extends DSIHASListener,
 DSIExlapListener,
 ExlapStatusHandler {
-    default public void init(DSIHAS dSIHAS, DSIExlap dSIExlap, ExlapExlapServiceImpl exlapExlapServiceImpl) {
-    }
+    public void init(DSIHAS var1, DSIExlap var2, ExlapExlapServiceImpl var3);
 
-    default public void deinit() {
-    }
+    public void deinit();
 }
 

@@ -11,6 +11,7 @@ import de.audi.atip.swap.SWaPHandler;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class SWaPHandlerImpl
 extends AbstractStorageDataContainer
 implements SWaPHandler,
 DSISWaPListener {
-    private static final int VERSION;
+    private static final int VERSION = 1;
     private DSISWaP dsi;
     private LogChannel log;
     private Map id2Subscriber = Collections.synchronizedMap(new HashMap());
@@ -44,7 +45,7 @@ DSISWaPListener {
     }
 
     public void setDSI(DSISWaP dSISWaP) {
-        this.log.log(1078071040, "SWaPHandlerImpl.setDSI() (%1)", (Object)dSISWaP);
+        this.log.log(1000000, "SWaPHandlerImpl.setDSI() (%1)", (Object)dSISWaP);
         this.dsi = dSISWaP;
         dSISWaP.setNotification(new int[]{8}, (DSIListener)this);
     }
@@ -110,7 +111,6 @@ DSISWaPListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getFscStata(int n) {
         Map map = this.fscList;
         synchronized (map) {
@@ -122,36 +122,28 @@ DSISWaPListener {
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.log.log(10000, "SWaPHandlerImpl.asyncException() %1 %2", (Object)string, (long)n);
     }
 
-    @Override
     public void updateSoftwareEnabling(int[] nArray, int n) {
     }
 
-    @Override
     public void updateIllegalFSCs(int[] nArray, int n) {
     }
 
-    @Override
     public void updateAreFSCsSigned(boolean bl, int n) {
     }
 
-    @Override
     public void updateLimitedLifetime(boolean bl, int n) {
     }
 
-    @Override
     public void updateConfigCheck(ConfigInfo configInfo, int n) {
     }
 
-    @Override
     public void updateConfigPrepare(String string, int n) {
     }
 
-    @Override
     public void updateConfigFinalize(ConfigInfo configInfo, int n) {
     }
 
@@ -179,10 +171,9 @@ DSISWaPListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateFscList(SFscStatus[] sFscStatusArray, int n) {
         if (n != 1 || sFscStatusArray == null) {
-            this.log.log(-1601830656, "SWaPHandlerImpl.updateFSCList() : fsc list is not valid %1", (Object)sFscStatusArray);
+            this.log.log(100000, "SWaPHandlerImpl.updateFSCList() : fsc list is not valid %1", (Object)sFscStatusArray);
             return;
         }
         Buffer buffer = new Buffer();
@@ -219,72 +210,57 @@ DSISWaPListener {
                 }
             }
         }
-        this.log.log(1078071040, "SWaPHandlerImpl updateFscList: %1", (Object)buffer);
+        this.log.log(1000000, "SWaPHandlerImpl updateFscList: %1", (Object)buffer);
     }
 
-    @Override
     public void encryptFile(String string, int n) {
     }
 
-    @Override
     public void checkSignature(boolean bl, String string) {
     }
 
-    @Override
     public void getPublicKey(short[] sArray, boolean bl) {
     }
 
-    @Override
     public void checkSingleFsc(int n, int n2) {
     }
 
-    @Override
     public void decryptFile(String string, int n) {
     }
 
-    @Override
     public void getFscDetail(SFscDetails sFscDetails) {
     }
 
-    @Override
     public void importFSCs(int n, SFscImportStatus sFscImportStatus) {
     }
 
-    @Override
     public void importFSCsList(int n, SFscImportStatus[] sFscImportStatusArray) {
-        this.log.log(1078071040, "SWaPHandlerImpl.importFSCsList(): resultCode(%1)", (long)n);
+        this.log.log(1000000, "SWaPHandlerImpl.importFSCsList(): resultCode(%1)", (long)n);
     }
 
-    @Override
     public void exportCCD(int n) {
     }
 
-    @Override
     public void getHistory(SFscHistory sFscHistory) {
     }
 
-    @Override
     public void getHistoryList(SFscHistory[] sFscHistoryArray) {
     }
 
-    @Override
     protected void handleCRC32Error() {
-        this.log.log(-1601830656, "SWaPHandlerImpl.handleCRC32Error()");
+        this.log.log(100000, "SWaPHandlerImpl.handleCRC32Error()");
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
-        this.log.log(-1601830656, "SWaPHandlerImpl.handleStorageReadError(): %1", (Object)exception.toString());
+        this.log.log(100000, "SWaPHandlerImpl.handleStorageReadError(): %1", (Object)exception.toString());
         this.fscList.clear();
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
-        this.log.log(1078071040, "SWaPHandlerImpl.serialize()");
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+        this.log.log(1000000, "SWaPHandlerImpl.serialize()");
         Set set = this.fscList.keySet();
         dataOutputStream.writeInt(set.size());
         Iterator iterator = set.iterator();
@@ -296,9 +272,8 @@ DSISWaPListener {
         }
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
-        this.log.log(1078071040, "SWaPHandlerImpl.deserialize()");
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
+        this.log.log(1000000, "SWaPHandlerImpl.deserialize()");
         int n = dataInputStream.readInt();
         this.fscList.clear();
         for (int i2 = 0; i2 < n; ++i2) {

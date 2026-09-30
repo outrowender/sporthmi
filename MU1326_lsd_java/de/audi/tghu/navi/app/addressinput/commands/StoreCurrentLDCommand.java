@@ -8,13 +8,12 @@ import org.dsi.ifc.global.NavLocation;
 
 public class StoreCurrentLDCommand
 extends NavCommand {
-    public static final String STORED_LI_CURRENT_LD;
+    public static final String STORED_LI_CURRENT_LD = "liCurrentLD";
 
-    @Override
     public void execute() {
         NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
         if (navLocation != null) {
-            this.getCommandList().put("liCurrentLD", navLocation);
+            this.getCommandList().put(STORED_LI_CURRENT_LD, navLocation);
         }
         this.getCommandList().commandFinished();
     }

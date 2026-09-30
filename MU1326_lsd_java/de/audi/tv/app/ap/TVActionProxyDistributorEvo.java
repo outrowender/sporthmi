@@ -21,17 +21,16 @@ implements TVActionProxy {
 
     private void checkDuration(long l, String string) {
         long l2 = System.currentTimeMillis() - l;
-        if (l2 > 0) {
-            this.lcHMI.log(-1601830656, "[TVActionProxyDispatcher] Call '%1' took %2ms!", (Object)string, l2);
+        if (l2 > 50L) {
+            this.lcHMI.log(100000, "[TVActionProxyDispatcher] Call '%1' took %2ms!", (Object)string, l2);
         }
     }
 
     public void avListEntered(int n) {
     }
 
-    @Override
     public void hmiActivatedTV(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.hmiActivatedTV]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.hmiActivatedTV]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].hmiActivatedTV(n);
@@ -39,9 +38,8 @@ implements TVActionProxy {
         this.checkDuration(l, "hmiActivatedTV");
     }
 
-    @Override
     public void hmiDeactivatedTV(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.hmiDeactivatedTV]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.hmiDeactivatedTV]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].hmiDeactivatedTV(n);
@@ -49,9 +47,8 @@ implements TVActionProxy {
         this.checkDuration(l, "hmiDeactivatedTV");
     }
 
-    @Override
     public void tvDataBroadcastEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvDataBroadcastEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvDataBroadcastEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvDataBroadcastEntered(n);
@@ -59,9 +56,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvDataBroadcastEntered");
     }
 
-    @Override
     public void tvVisualAudioEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvVisualAudioEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvVisualAudioEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvVisualAudioEntered(n);
@@ -69,9 +65,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvVisualAudioEntered");
     }
 
-    @Override
     public void tvCasDisclaimerEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvCasDisclaimerEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvCasDisclaimerEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvCasDisclaimerEntered(n);
@@ -79,13 +74,11 @@ implements TVActionProxy {
         this.checkDuration(l, "tvCasDisclaimerEntered");
     }
 
-    @Override
     public void terminalModeLeft(int n) {
     }
 
-    @Override
     public void tvEPGEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvEPGEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvEPGEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvEPGEntered(n);
@@ -93,9 +86,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvEPGEntered");
     }
 
-    @Override
     public void tvTeletextEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvTeletextEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvTeletextEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvTeletextEntered(n);
@@ -103,9 +95,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvTeletextEntered");
     }
 
-    @Override
     public void tvEngineeringEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvEngineeringEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvEngineeringEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvEngineeringEntered(n);
@@ -113,9 +104,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvEngineeringEntered");
     }
 
-    @Override
     public void tvFullscreenEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvFullscreenEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvFullscreenEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvFullscreenEntered(n);
@@ -123,9 +113,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvFullscreenEntered");
     }
 
-    @Override
     public void tvFullscreenLeft(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvFullscreenLeft]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvFullscreenLeft]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvFullscreenLeft(n);
@@ -133,9 +122,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvFullscreenLeft");
     }
 
-    @Override
     public void avFullscreenEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.avFullscreenEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.avFullscreenEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].avFullscreenEntered(n);
@@ -143,9 +131,8 @@ implements TVActionProxy {
         this.checkDuration(l, "avFullscreenEntered");
     }
 
-    @Override
     public void avFullscreenLeft(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.avFullscreenLeft]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.avFullscreenLeft]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].avFullscreenLeft(n);
@@ -153,9 +140,8 @@ implements TVActionProxy {
         this.checkDuration(l, "avFullscreenLeft");
     }
 
-    @Override
     public void tvSeekModeLeft(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvSeekModeLeft]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvSeekModeLeft]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvSeekModeLeft(n);
@@ -163,13 +149,11 @@ implements TVActionProxy {
         this.checkDuration(l, "tvSeekModeLeft");
     }
 
-    @Override
     public void tvShowOsd(int n) {
     }
 
-    @Override
     public void tvParentalRatingLeft(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvParentalRatingLeft]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvParentalRatingLeft]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvParentalRatingLeft(n);
@@ -177,9 +161,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvParentalRatingLeft");
     }
 
-    @Override
     public void tvParentalRatingDisclaimerEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvParentalRatingDisclaimerEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvParentalRatingDisclaimerEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvParentalRatingDisclaimerEntered(n);
@@ -187,17 +170,14 @@ implements TVActionProxy {
         this.checkDuration(l, "tvParentalRatingDisclaimerEntered");
     }
 
-    @Override
     public void enterOptionScreen(int n) {
     }
 
-    @Override
     public void leaveOptionScreen(int n) {
     }
 
-    @Override
     public void tvEwsPopupClosed(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvEwsPopupClosed]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvEwsPopupClosed]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvEwsPopupClosed(n);
@@ -205,9 +185,8 @@ implements TVActionProxy {
         this.checkDuration(l, "tvEwsPopupClosed");
     }
 
-    @Override
     public void tvTxtEntered(int n) {
-        this.lcHMI.log(-2137614336, "[TVActionProxyEvo.tvTxtEntered]");
+        this.lcHMI.log(10000000, "[TVActionProxyEvo.tvTxtEntered]");
         long l = System.currentTimeMillis();
         for (int i2 = 0; i2 < this.apListeners.length; ++i2) {
             this.apListeners[i2].tvTxtEntered(n);

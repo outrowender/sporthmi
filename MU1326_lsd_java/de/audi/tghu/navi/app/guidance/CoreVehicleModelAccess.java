@@ -17,80 +17,73 @@ implements IVehicleModelAccess {
 
     public CoreVehicleModelAccess(NavigationEnv navigationEnv) {
         this.env = navigationEnv;
-        navigationEnv.getLabelModel(-1021508096).setText("");
-        navigationEnv.getLabelModel(-1122171392).setText("");
-        navigationEnv.getLabelModel(-1138948608).setText("");
-        navigationEnv.getLabelModel(304219648).setText("");
-        this.positionDescriptionGroup.add(navigationEnv.getLabelModel(-1122171392));
-        this.positionDescriptionGroup.add(navigationEnv.getLabelModel(-1138948608));
-        navigationEnv.getLabelModel(-1055062528).setText("");
-        navigationEnv.getLabelModel(-1038285312).setText("");
-        navigationEnv.getChoiceModel(-1105394176).setValue(-1);
-        navigationEnv.getLabelModel(-1088616960).setText("");
-        navigationEnv.getLabelModel(-987953664).setText("");
-        navigationEnv.getLabelModel(-1004730880).setText("");
-        this.gpsInfoGroup.add(navigationEnv.getLabelModel(-1055062528));
-        this.gpsInfoGroup.add(navigationEnv.getLabelModel(-1038285312));
-        this.gpsInfoGroup.add(navigationEnv.getChoiceModel(-1105394176));
-        this.gpsInfoGroup.add(navigationEnv.getLabelModel(-1088616960));
-        this.gpsInfoGroup.add(navigationEnv.getLabelModel(-987953664));
-        this.gpsInfoGroup.add(navigationEnv.getLabelModel(-1004730880));
-        this.gpsInfoGroup.add(navigationEnv.getChoiceModel(1512244736));
-        navigationEnv.getLabelModel(-1071839744).setText("");
+        navigationEnv.getLabelModel(400835).setText("");
+        navigationEnv.getLabelModel(400829).setText("");
+        navigationEnv.getLabelModel(400828).setText("");
+        navigationEnv.getLabelModel(401938).setText("");
+        this.positionDescriptionGroup.add(navigationEnv.getLabelModel(400829));
+        this.positionDescriptionGroup.add(navigationEnv.getLabelModel(400828));
+        navigationEnv.getLabelModel(400833).setText("");
+        navigationEnv.getLabelModel(400834).setText("");
+        navigationEnv.getChoiceModel(400830).setValue(-1);
+        navigationEnv.getLabelModel(400831).setText("");
+        navigationEnv.getLabelModel(400837).setText("");
+        navigationEnv.getLabelModel(400836).setText("");
+        this.gpsInfoGroup.add(navigationEnv.getLabelModel(400833));
+        this.gpsInfoGroup.add(navigationEnv.getLabelModel(400834));
+        this.gpsInfoGroup.add(navigationEnv.getChoiceModel(400830));
+        this.gpsInfoGroup.add(navigationEnv.getLabelModel(400831));
+        this.gpsInfoGroup.add(navigationEnv.getLabelModel(400837));
+        this.gpsInfoGroup.add(navigationEnv.getLabelModel(400836));
+        this.gpsInfoGroup.add(navigationEnv.getChoiceModel(402266));
+        navigationEnv.getLabelModel(400832).setText("");
         navigationEnv.getLabelModel(26).setText("");
     }
 
     public void clearList() {
     }
 
-    @Override
     public void updateStreet(String string) {
         if (Util.isEmpty(string)) {
             string = "---";
         }
-        this.env.getLabelModel(-1021508096).setText(string);
+        this.env.getLabelModel(400835).setText(string);
     }
 
-    @Override
     public void updateCountryNCity(String string, String string2, String string3) {
-        this.env.getLabelModel(-1122171392).setText(string);
-        this.env.getLabelModel(-1138948608).setText(string3);
+        this.env.getLabelModel(400829).setText(string);
+        this.env.getLabelModel(400828).setText(string3);
         this.positionDescriptionGroup.flush();
     }
 
-    @Override
     public void updateSatInfo(String string, String string2, int n, int n2, int n3, int n4) {
-        this.env.getLabelModel(-1055062528).setText(string);
-        this.env.getLabelModel(-1038285312).setText(string2);
-        this.env.getChoiceModel(-1105394176).setValue(n);
-        this.env.getLabelModel(-1088616960).setText(this.formatHeading(n));
-        this.env.getLabelModel(-987953664).setText(Integer.toString(n2));
-        this.env.getLabelModel(-1004730880).setText(Integer.toString(n3));
-        this.env.getChoiceModel(1512244736).setValue(n4);
+        this.env.getLabelModel(400833).setText(string);
+        this.env.getLabelModel(400834).setText(string2);
+        this.env.getChoiceModel(400830).setValue(n);
+        this.env.getLabelModel(400831).setText(this.formatHeading(n));
+        this.env.getLabelModel(400837).setText(Integer.toString(n2));
+        this.env.getLabelModel(400836).setText(Integer.toString(n3));
+        this.env.getChoiceModel(402266).setValue(n4);
         this.gpsInfoGroup.flush();
     }
 
     protected String formatHeading(int n) {
-        return new StringBuffer().append(360 - n % 360).append("\u00b0").toString();
+        return 360 - n % 360 + "\u00b0";
     }
 
-    @Override
     public void updateHeight(int n) {
         String string = Util.formatHeight(n);
-        this.env.getLabelModel(-1071839744).setText(string);
+        this.env.getLabelModel(400832).setText(string);
         this.env.getLabelModel(26).setText(string);
     }
 
-    @Override
     public void buildRows() {
     }
 
-    @Override
     public void updateZip(String string) {
-        this.env.getLabelModel(304219648).setText(string);
+        this.env.getLabelModel(401938).setText(string);
     }
 
-    @Override
     public void updateRoadSign(NavLocation navLocation) {
     }
 }

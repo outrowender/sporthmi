@@ -10,11 +10,9 @@ implements WavePlayerListener {
     protected DefaultWavePlayerListener() {
     }
 
-    @Override
     public void state(int n) {
     }
 
-    @Override
     public void playToneInfo(int n) {
     }
 }

@@ -3,10 +3,7 @@
  */
 package de.audi.tghu.online.app.osr.command.auth;
 
-import de.audi.atip.log.LogChannel;
 import de.audi.tghu.online.app.osr.command.AbstractOSRCommand;
-import de.audi.tghu.online.app.osr.command.auth.LoginCommand$1;
-import de.audi.tghu.online.app.osr.command.auth.LoginCommand$LoginCommandResponseListener;
 import de.audi.tghu.online.app.osr.command.auth.LogoutCommand;
 import org.dsi.ifc.online.DSIOnlineServiceRegistration;
 import org.dsi.ifc.online.OSRServiceState;
@@ -14,19 +11,18 @@ import org.dsi.ifc.online.OSRUser;
 
 public class LoginCommand
 extends AbstractOSRCommand {
-    LoginCommand$LoginCommandResponseListener listener;
+    LoginCommandResponseListener listener;
     OSRUser user;
 
-    public LoginCommand(OSRUser oSRUser, LoginCommand$LoginCommandResponseListener loginCommandResponseListener) {
+    public LoginCommand(OSRUser oSRUser, LoginCommandResponseListener loginCommandResponseListener) {
         this.listener = loginCommandResponseListener;
         this.user = oSRUser;
     }
 
-    public LoginCommand(LoginCommand$LoginCommandResponseListener loginCommandResponseListener) {
+    public LoginCommand(LoginCommandResponseListener loginCommandResponseListener) {
         this.listener = loginCommandResponseListener;
     }
 
-    @Override
     public void execute() {
         DSIOnlineServiceRegistration dSIOnlineServiceRegistration = this.getDSI();
         if (this.user == null) {
@@ -44,7 +40,6 @@ extends AbstractOSRCommand {
         dSIOnlineServiceRegistration.login(this.user);
     }
 
-    @Override
     public void loginResponse(OSRUser oSRUser, int n) {
         if (this.listener != null) {
             this.listener.loginCommandResponse(oSRUser, n);
@@ -52,18 +47,23 @@ extends AbstractOSRCommand {
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public AbstractOSRCommand cancelCommand() {
-        this.logger.log(1078071040, "LoginCommand#cancelCommand was called");
-        LogoutCommand logoutCommand = new LogoutCommand(this.user, new LoginCommand$1(this));
+        this.logger.log(1000000, "LoginCommand#cancelCommand was called");
+        LogoutCommand logoutCommand = new LogoutCommand(this.user, new LogoutCommand.LogoutCommandResponseListener(){
+
+            public void logoutCommandResponse(OSRUser oSRUser, int n) {
+                LoginCommand.this.logger.log(1000000, "LoginCommand#cancelCommand login was successfully reverted by logout");
+                LoginCommand.this.getCommandList().commandFinished();
+            }
+        });
         return logoutCommand;
     }
 
     public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {
     }
 
-    static /* synthetic */ LogChannel access$000(LoginCommand loginCommand) {
-        return loginCommand.logger;
+    public static interface LoginCommandResponseListener {
+        public void loginCommandResponse(OSRUser var1, int var2);
     }
 }
 

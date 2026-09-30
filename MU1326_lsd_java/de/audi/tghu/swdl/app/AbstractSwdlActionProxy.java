@@ -89,13 +89,13 @@ public abstract class AbstractSwdlActionProxy {
     }
 
     public void swdlAbortReadingMetainfo(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlLeaveReadingMetainfo()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlLeaveReadingMetainfo()");
         this.getProgressDSIHandler().stopReadMetadataProgressUpdate();
         this.getSelectionManager().leaveReadingMetainfo();
     }
 
     public void swdlAbortReadingReleases(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlLeaveReadingReleases()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlLeaveReadingReleases()");
         this.getProgressDSIHandler().stopReadMetadataProgressUpdate();
         this.getSelectionManager().leaveReadingReleases();
     }
@@ -105,7 +105,7 @@ public abstract class AbstractSwdlActionProxy {
     }
 
     public void swdlDeviceSelectEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlDeviceSelectEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlDeviceSelectEntered()");
         this.getDeviceManager().doGetDevices(1, null, true);
     }
 
@@ -120,16 +120,16 @@ public abstract class AbstractSwdlActionProxy {
     }
 
     public void swdlExit(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlExit()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlExit()");
         this.getHmiSwitcher().deinitEngineeringHMI();
         this.getSwdlEnv().exitSwdl();
     }
 
     public void swdlInterruptDownload(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlInterruptDownload()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlInterruptDownload()");
         if (!this.getSwdlJoinedDownloadState().isJoinedDownload()) {
             String string = this.getProgressManager().getSelectedDevice();
-            this.getLogMain().log(-2137614336, "[AbstractSwdlActionProxy] swdlInterruptDownload() Currently selected device is: %1", (Object)string);
+            this.getLogMain().log(10000000, "[AbstractSwdlActionProxy] swdlInterruptDownload() Currently selected device is: %1", (Object)string);
             this.getPopupManager().indicatePopUp(1, string, (byte)20, 0, 0, this.getSwdlTextFactory().getTextConstantInterruptDownload());
         } else {
             this.interruptRSUDownload(this.getSwdlEnv().getTerminalId());
@@ -137,22 +137,22 @@ public abstract class AbstractSwdlActionProxy {
     }
 
     public void swdlLeavePopupByHKReturn(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlLeavePopupByHKReturn()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlLeavePopupByHKReturn()");
         this.getPopupManager().handleHKReturn();
     }
 
     public void swdlLeaveSummaryChanged(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlLeaveSummaryChanged()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlLeaveSummaryChanged()");
         this.getDeviceManager().leaveSummaryChanged();
     }
 
     public void swdlLoggingEntered(int n) {
-        this.getLogMain().log(-2137614336, "[AbstractSwdlActionProxy] swdlLoggingEntered: get update history");
+        this.getLogMain().log(10000000, "[AbstractSwdlActionProxy] swdlLoggingEntered: get update history");
         this.getLoggingManager().doGetHistory();
     }
 
     public void swdlModuleSelectEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlModuleSelectEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlModuleSelectEntered()");
         this.getDeviceManager().doGetModules(this.getDeviceManager().getCurrentDeviceId());
     }
 
@@ -161,27 +161,27 @@ public abstract class AbstractSwdlActionProxy {
     }
 
     public void swdlProgressDetailEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlProgressDetailEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlProgressDetailEntered()");
         this.getProgressManager().swdlProgressDetailEntered();
     }
 
     public void swdlProgressDetailExit(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlProgressDetailExit()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlProgressDetailExit()");
         this.getProgressManager().swdlProgressDetailExit();
     }
 
     public void swdlProgressEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlProgressEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlProgressEntered()");
         this.getProgressManager().swdlProgressEntered();
     }
 
     public void swdlProgressExit(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlProgressExit()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlProgressExit()");
         this.getProgressManager().swdlProgressExit();
     }
 
     public void swdlRebootEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlRebootEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlRebootEntered()");
     }
 
     public void swdlSelectOneRelease(int n) {
@@ -189,33 +189,33 @@ public abstract class AbstractSwdlActionProxy {
     }
 
     public void swdlStartWaitLostDevices(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlStartWaitLostDevices()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlStartWaitLostDevices()");
         this.getProgressManager().swdlStartWaitLostDevices();
     }
 
     public void swdlStopWaitLostDevices(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlStopWaitLostDevices()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlStopWaitLostDevices()");
         this.getProgressManager().swdlStopWaitLostDevices();
     }
 
     public void swdlSummaryEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlSummaryEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlSummaryEntered()");
         this.getProgressManager().swdlSummaryEntered();
     }
 
     public void swdlSummaryExit(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlSummaryExit()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlSummaryExit()");
         this.getDeviceInfoDSIHandler().stopSummaryChangedNotification();
         this.getProgressManager().swdlSummaryExit();
     }
 
     public void swdlTriggerEntered(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlTriggerEntered()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlTriggerEntered()");
         this.getProgressDSIHandler().startProgressUpdates();
     }
 
     public void swdlTriggerExit(int n) {
-        this.getLogMain().log(1078071040, "[AbstractSwdlActionProxy] swdlTriggerExit()");
+        this.getLogMain().log(1000000, "[AbstractSwdlActionProxy] swdlTriggerExit()");
         this.getSwdlEnv().storeDummySwdlInfo();
         this.getSwdlEnv().cleanSwdlCopy();
     }
@@ -226,7 +226,6 @@ public abstract class AbstractSwdlActionProxy {
     public void swdlCustomerUpdateLeft(int n) {
     }
 
-    protected abstract void interruptRSUDownload(int n) {
-    }
+    protected abstract void interruptRSUDownload(int var1);
 }
 

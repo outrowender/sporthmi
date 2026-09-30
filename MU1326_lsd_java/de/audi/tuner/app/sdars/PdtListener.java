@@ -35,16 +35,15 @@ implements IPdtListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePdt(int n, SdarsRadioText sdarsRadioText) {
         Object object = this.mutex;
         synchronized (object) {
             int n2;
             this.actualPdt = sdarsRadioText;
-            if (this.pdtAddedSid != n && this.pdtAddedSid != -1 && (n2 = this.listModel.getID() == 1938292992 || this.listModel.getID() == 1921515776 ? this.listModel.getIndexForUniqueID(this.lastUsedUniqueId) : this.listModel.getIndexForUniqueID(RadioObjectIds.getSDARSObjectId(this.pdtAddedSid))) != -1) {
+            if (this.pdtAddedSid != n && this.pdtAddedSid != -1 && (n2 = this.listModel.getID() == 100467 || this.listModel.getID() == 100466 ? this.listModel.getIndexForUniqueID(this.lastUsedUniqueId) : this.listModel.getIndexForUniqueID(RadioObjectIds.getSDARSObjectId(this.pdtAddedSid))) != -1) {
                 this.updateData(this.listModel, this.listModel.getRow(n2), n2, -1, null);
             }
-            if (this.listModel.getID() == 1938292992 || this.listModel.getID() == 1921515776) {
+            if (this.listModel.getID() == 100467 || this.listModel.getID() == 100466) {
                 n2 = this.listModel.getIndexForUniqueID(this.resourceProvider.getFocussedItemUniqueId());
                 EvoListRow evoListRow = this.listModel.getRow(n2);
                 if (evoListRow == null || !(evoListRow instanceof ISDARSRow) || ((ISDARSRow)((Object)evoListRow)).getStation().sID != n) {

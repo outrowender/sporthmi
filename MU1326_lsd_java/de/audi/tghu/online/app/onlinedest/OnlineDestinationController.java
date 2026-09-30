@@ -28,7 +28,7 @@ import org.dsi.ifc.online.DSIDestinationImportListener;
 
 public class OnlineDestinationController
 implements IOnlineDestinationService {
-    public static final int DEFAULT_POPUP_ID;
+    public static final int DEFAULT_POPUP_ID = -1;
     private LogChannel log;
     private OnlineDestinationModelHandler modelUpdater;
     private ADBHMIAppService adbService;
@@ -50,7 +50,7 @@ implements IOnlineDestinationService {
     }
 
     public void init() {
-        this.cmdListMgr = new CommandListManager(super.getClass().getName(), this.framework, this.log, null, null);
+        this.cmdListMgr = new CommandListManager(this.getClass().getName(), this.framework, this.log, null, null);
         this.onlineDestListener = new OnlineDestinationListener(this.log, this.cmdListMgr, new OnlineDestinationDefaultListener(this.log, this));
         this.modelUpdater = new OnlineDestinationModelHandler(this.framework.getHMIService(), this.log, this);
         this.sequence = new OnlineDestinationSequence(this.log, this);
@@ -69,17 +69,17 @@ implements IOnlineDestinationService {
     }
 
     public DSIDestinationImportListener getDsiListener() {
-        this.log.log(1078071040, "OnlineDestinationController#getDsiListener()");
+        this.log.log(1000000, "OnlineDestinationController#getDsiListener()");
         return this.onlineDestListener;
     }
 
     public void setAdbService(ADBHMIAppService aDBHMIAppService) {
-        this.log.log(1078071040, "OnlineDestinationController#setAdbService()");
+        this.log.log(1000000, "OnlineDestinationController#setAdbService()");
         this.adbService = aDBHMIAppService;
     }
 
     public void setNaviADBService(NaviADBService naviADBService) {
-        this.log.log(1078071040, "OnlineDestinationController#setNaviService()");
+        this.log.log(1000000, "OnlineDestinationController#setNaviService()");
         this.naviADBService = naviADBService;
     }
 
@@ -106,7 +106,6 @@ implements IOnlineDestinationService {
         this.telService = iTelService;
     }
 
-    @Override
     public void enterOnlineDestinationHandling() {
         this.modelUpdater.setImportMode(1);
     }

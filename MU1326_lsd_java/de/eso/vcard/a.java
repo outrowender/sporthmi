@@ -27,10 +27,10 @@ public class a {
         b b2 = new b();
         d d2 = new d(0);
         d2.c();
-        System.out.println(new StringBuffer().append("root: ").append(new File(".").getAbsolutePath()).toString());
-        Thread.sleep(0);
+        System.out.println("root: " + new File(".").getAbsolutePath());
+        Thread.sleep(2000L);
         a.a(d2, b2);
-        Thread.sleep(0);
+        Thread.sleep(3000L);
         d2.b();
         TraceClient.exit();
     }

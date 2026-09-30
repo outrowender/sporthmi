@@ -9,10 +9,8 @@ import de.audi.tghu.navi.app.interapp.INaviServiceListenerObserver;
 
 public interface INaviServiceListenerController
 extends INaviComponent {
-    default public NaviServiceListener getNaviServiceListener() {
-    }
+    public NaviServiceListener getNaviServiceListener();
 
-    default public void setTrackerUpdatesObserver(INaviServiceListenerObserver iNaviServiceListenerObserver) {
-    }
+    public void setTrackerUpdatesObserver(INaviServiceListenerObserver var1);
 }
 

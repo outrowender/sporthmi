@@ -22,55 +22,38 @@ import de.audi.tghu.navi.app.map.settings.MapOptionValidator;
 import de.audi.tghu.navi.app.sds.ISDSController;
 
 public interface IMapEnv {
-    default public IEventBroker getEventBroker() {
-    }
+    public IEventBroker getEventBroker();
 
-    default public IRouteCalculator getRouteCalcHandler() {
-    }
+    public IRouteCalculator getRouteCalcHandler();
 
-    default public IRouteInfoHelper getRouteInfoHelper() {
-    }
+    public IRouteInfoHelper getRouteInfoHelper();
 
-    default public IRouteInfo getRouteInfoHandler() {
-    }
+    public IRouteInfo getRouteInfoHandler();
 
-    default public INaviInterface getNaviInterface() {
-    }
+    public INaviInterface getNaviInterface();
 
-    default public IRouteInfoContextHandler getRouteInfoContextHandler() {
-    }
+    public IRouteInfoContextHandler getRouteInfoContextHandler();
 
-    default public MapInterface getMapSv() {
-    }
+    public MapInterface getMapSv();
 
-    default public GoogleMapLicenseHandler getGoogleMapLicenseHandler() {
-    }
+    public GoogleMapLicenseHandler getGoogleMapLicenseHandler();
 
-    default public WeatherLicenseHandler getWeatherLicenseHandler() {
-    }
+    public WeatherLicenseHandler getWeatherLicenseHandler();
 
-    default public ISDSController getSdsController() {
-    }
+    public ISDSController getSdsController();
 
-    default public IDrawerStateHandler getDrawerStateHandler() {
-    }
+    public IDrawerStateHandler getDrawerStateHandler();
 
-    default public MapTmcService getTmcMapHandler() {
-    }
+    public MapTmcService getTmcMapHandler();
 
-    default public IMobilityHorizonHandler getMobilityHorizonHandler() {
-    }
+    public IMobilityHorizonHandler getMobilityHorizonHandler();
 
-    default public MapEventDispatcher getMapEventDispatcher() {
-    }
+    public MapEventDispatcher getMapEventDispatcher();
 
-    default public CruiseModeHandler getCruiseModelHandler() {
-    }
+    public CruiseModeHandler getCruiseModelHandler();
 
-    default public TENMIndication getTenmIndication() {
-    }
+    public TENMIndication getTenmIndication();
 
-    default public MapOptionValidator getMapOptionValidator() {
-    }
+    public MapOptionValidator getMapOptionValidator();
 }
 

@@ -7,8 +7,8 @@ import de.audi.atip.variant.IIDMapper;
 
 public interface INaviSMEventConstants
 extends IIDMapper {
-    public static final int _NAV_JUMP_TO_RG;
-    public static final int _NAV_JUMP_TO_MAP;
-    public static final int _NAV_JUMP_TO_POS;
+    public static final int _NAV_JUMP_TO_RG = 1;
+    public static final int _NAV_JUMP_TO_MAP = 2;
+    public static final int _NAV_JUMP_TO_POS = 3;
 }
 

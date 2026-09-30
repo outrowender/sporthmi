@@ -7,7 +7,6 @@ import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionAction;
 
 public abstract class MapItemSelectionActionShow
 extends MapItemSelectionAction {
-    @Override
     public boolean isShow() {
         return true;
     }

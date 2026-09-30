@@ -16,7 +16,6 @@ extends EvoListRow {
         super(abstractRadioListRow);
     }
 
-    public abstract TunerObjectContainer getTOContainer() {
-    }
+    public abstract TunerObjectContainer getTOContainer();
 }
 

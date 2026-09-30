@@ -33,12 +33,12 @@ import org.dsi.ifc.navigation.PosPosition;
 import org.dsi.ifc.navigation.Route;
 
 public class TourHandlerModelAccess {
-    private static final int SHOW_REMAINING_DISTANCE;
-    private static final int HIDE_REMAINING_DISTANCE;
-    private static final int REMAINING_DISTANCE_THRESHOLD;
-    private static final int STORE_LIMIT;
-    private static final int STORE_NOT_POSSIBLE;
-    private static final int STORE_POSSIBLE;
+    private static final int SHOW_REMAINING_DISTANCE = 1;
+    private static final int HIDE_REMAINING_DISTANCE = 0;
+    private static final int REMAINING_DISTANCE_THRESHOLD = 50000;
+    private static final int STORE_LIMIT = 20;
+    private static final int STORE_NOT_POSSIBLE = 0;
+    private static final int STORE_POSSIBLE = 1;
     protected final NavigationEnv env;
     protected final FunctionCounter fc;
     private LogChannel logChannel;
@@ -59,7 +59,7 @@ public class TourHandlerModelAccess {
         this.detailsAccess = guiModelAccessDetailsNavi;
         this.logChannel = navigationEnv.getLogChannel();
         this.mapInterface = mapInterface;
-        navigationEnv.getChoiceModel(-232716800).setValue(0);
+        navigationEnv.getChoiceModel(401906).setValue(0);
     }
 
     public void updateRmRoutesTourplan(NavRmRouteListData[] navRmRouteListDataArray) {
@@ -67,32 +67,32 @@ public class TourHandlerModelAccess {
         int n;
         this.rmRouteList = navRmRouteListDataArray;
         this.updateBaseList();
-        this.env.getChoiceModel(-1441004032).setValue(0);
+        this.env.getChoiceModel(400554).setValue(0);
         int n2 = -1;
         for (n = 0; n < navRmRouteListDataArray.length; ++n) {
             if (!navRmRouteListDataArray[n].getName().equals("@_TOUR_BACKUP_@")) continue;
-            this.logChannel.log(-2137614336, "TourHandler#updateRmRoutesTourplan() - <tour plan backup found>");
-            this.env.getChoiceModel(-1441004032).setValue(1);
+            this.logChannel.log(10000000, "TourHandler#updateRmRoutesTourplan() - <tour plan backup found>");
+            this.env.getChoiceModel(400554).setValue(1);
             n2 = n;
             break;
         }
         n = navRmRouteListDataArray.length - (n2 >= 0 ? 1 : 0);
         n = n > 50 ? 50 : n;
-        this.env.getChoiceModel(-232716800).setValue(n >= 20 ? 0 : 1);
-        this.env.getChoiceModel(-1541667328).setValue(n);
-        this.env.getChoiceModel(-1206123008).setValue(n > 0 ? 1 : 0);
-        this.logChannel.log(-2137614336, "TourHandler#updateRmRoutesTourplan() - (# %1)", (long)n);
-        ListModelApp listModelApp = this.env.getListModel(-1474558464);
-        ListModelApp listModelApp2 = this.env.getListModel(-1524890112);
+        this.env.getChoiceModel(401906).setValue(n >= 20 ? 0 : 1);
+        this.env.getChoiceModel(400548).setValue(n);
+        this.env.getChoiceModel(400568).setValue(n > 0 ? 1 : 0);
+        this.logChannel.log(10000000, "TourHandler#updateRmRoutesTourplan() - (# %1)", (long)n);
+        ListModelApp listModelApp = this.env.getListModel(400552);
+        ListModelApp listModelApp2 = this.env.getListModel(400549);
         ArrayList arrayList = new ArrayList();
         for (int i2 = 0; i2 < n + (n2 >= 0 && n2 < n ? 1 : 0); ++i2) {
             object = navRmRouteListDataArray[i2].getName();
             long l = navRmRouteListDataArray[i2].getRouteId();
             if (((String)object).equals("@_TOUR_BACKUP_@")) {
-                this.logChannel.log(-2137614336, "TourHandler#updateRmRoutesTourplan() - #%1: <found tour plan backup>", (long)i2);
+                this.logChannel.log(10000000, "TourHandler#updateRmRoutesTourplan() - #%1: <found tour plan backup>", (long)i2);
                 continue;
             }
-            this.logChannel.log(-2137614336, "TourHandler#updateRmRoutesTourplan() - #%3: %1 (id: %2)", object, l, (long)i2);
+            this.logChannel.log(10000000, "TourHandler#updateRmRoutesTourplan() - #%3: %1 (id: %2)", object, l, (long)i2);
             arrayList.add(new RouteListData((String)object, l, 1));
         }
         Collections.sort(arrayList);
@@ -118,7 +118,7 @@ public class TourHandlerModelAccess {
         ArrayList arrayList = new ArrayList();
         arrayList.addAll(this.routes(navRmRouteListDataArray, 2));
         Collections.sort(arrayList);
-        BaseListModelApp baseListModelApp = this.env.getBaseListModel(1092748800);
+        BaseListModelApp baseListModelApp = this.env.getBaseListModel(401985);
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
         Iterator iterator = arrayList.iterator();
         while (iterator.hasNext()) {
@@ -134,7 +134,7 @@ public class TourHandlerModelAccess {
         arrayList.addAll(this.routes(this.rmRouteList, 1));
         arrayList.addAll(this.trails(this.trTraceList));
         Collections.sort(arrayList);
-        BaseListModelApp baseListModelApp = this.env.getBaseListModel(-249494016);
+        BaseListModelApp baseListModelApp = this.env.getBaseListModel(401905);
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
         Iterator iterator = arrayList.iterator();
         while (iterator.hasNext()) {
@@ -152,7 +152,7 @@ public class TourHandlerModelAccess {
             for (int i2 = 0; i2 < n2; ++i2) {
                 String string = navRmRouteListDataArray[i2].getName();
                 long l = navRmRouteListDataArray[i2].getRouteId();
-                this.logChannel.log(-2137614336, "TourHandler#updateRmRoutesTourplan() - #%3: %1 (id: %2)", (Object)string, l, (long)i2);
+                this.logChannel.log(10000000, "TourHandler#updateRmRoutesTourplan() - #%3: %1 (id: %2)", (Object)string, l, (long)i2);
                 arrayList.add(new RouteListData(string, l, n));
             }
             return arrayList;
@@ -165,11 +165,11 @@ public class TourHandlerModelAccess {
             int n = navTraceListDataArray.length;
             n = n > 50 ? 50 : n;
             ArrayList arrayList = new ArrayList(n);
-            this.logChannel.log(-2137614336, "TourHandler#updateTrails() - (# %1)", (long)n);
+            this.logChannel.log(10000000, "TourHandler#updateTrails() - (# %1)", (long)n);
             for (int i2 = 0; i2 < n; ++i2) {
                 String string = navTraceListDataArray[i2].getName();
                 NavSegmentID navSegmentID = navTraceListDataArray[i2].getTraceID();
-                this.logChannel.log(-2137614336, "TourHandler#updateTrails() - #%3: %1 (id: %2)", (Object)string, (Object)navSegmentID, (long)i2);
+                this.logChannel.log(10000000, "TourHandler#updateTrails() - #%3: %1 (id: %2)", (Object)string, (Object)navSegmentID, (long)i2);
                 arrayList.add(new RouteListData(string, navSegmentID));
             }
             return arrayList;
@@ -189,15 +189,15 @@ public class TourHandlerModelAccess {
         long l3 = navTraceMemoryUtilization.getMaximumNumberOfTrackPoints();
         int n = navTraceMemoryUtilization.getRecordingDistance();
         int n2 = navTraceMemoryUtilization.getRemainingDistance();
-        this.logChannel.log(-2137614336, "TourHandler#updateTrMemoryUtilization( totalNumberOfTrackPoints: %1, maximumNumberOfTrackPoints:%2, numberOfTrackpoints:%3 )", l2, l3, l);
+        this.logChannel.log(10000000, "TourHandler#updateTrMemoryUtilization( totalNumberOfTrackPoints: %1, maximumNumberOfTrackPoints:%2, numberOfTrackpoints:%3 )", l2, l3, l);
         Route route = this.routeManager.getRoute();
         if (route != null && route.getRouteID() != 0L) {
-            this.env.getChoiceModel(0x2220600).setValue(s == 255 ? 1 : 0);
-            this.env.getChoiceModel(19006976).setValue(l < l3 ? 1 : 0);
-            MetricsModelApp metricsModelApp = this.env.getMetricsModel(2049115648);
+            this.env.getChoiceModel(401922).setValue(s == 255 ? 1 : 0);
+            this.env.getChoiceModel(401921).setValue(l < l3 ? 1 : 0);
+            MetricsModelApp metricsModelApp = this.env.getMetricsModel(402298);
             metricsModelApp.setMetric(new Distance(n, 5));
-            MetricsModelApp metricsModelApp2 = this.env.getMetricsModel(2065892864);
-            if (n2 > 1354956800) {
+            MetricsModelApp metricsModelApp2 = this.env.getMetricsModel(402299);
+            if (n2 > 50000) {
                 metricsModelApp2.setStatus(0);
             } else {
                 metricsModelApp2.setStatus(1);
@@ -210,8 +210,8 @@ public class TourHandlerModelAccess {
     }
 
     public void updateTrRecordingState(int n) {
-        this.env.getChoiceModel(52561408).setValue(n == 2 ? 1 : 0);
-        this.env.getChoiceModel(19006976).setValue(1);
+        this.env.getChoiceModel(401923).setValue(n == 2 ? 1 : 0);
+        this.env.getChoiceModel(401921).setValue(1);
     }
 
     public void updateTrDirectionToWaypoint(DirectionToWaypoint directionToWaypoint) {
@@ -255,19 +255,19 @@ public class TourHandlerModelAccess {
     private void updateAngles() {
         boolean bl;
         Route route = this.routeManager.getRoute();
-        boolean bl2 = bl = this.soPosPosition != null && this.nextWaypointInfo != null && this.rgActive && route != null && route.getRouteID() == 0;
+        boolean bl2 = bl = this.soPosPosition != null && this.nextWaypointInfo != null && this.rgActive && route != null && route.getRouteID() == 2L;
         if (!bl) {
-            this.env.getChoiceModel(622986752).setValue(0);
-            this.env.getChoiceModel(0x26220600).setValue(0);
-            this.env.getMetricsModel(-1759246848).setMetric(new Distance(0.0f, 5));
+            this.env.getChoiceModel(401957).setValue(0);
+            this.env.getChoiceModel(401958).setValue(0);
+            this.env.getMetricsModel(402583).setMetric(new Distance(0.0f, 5));
         } else {
             int n = this.soPosPosition.getDirectionAngle();
             int n2 = Util.computeAbsoluteDirection(this.soPosPosition, this.nextWaypointInfo.longitude, this.nextWaypointInfo.latitude);
             int n3 = (360 - n + n2) % 360;
-            this.env.getChoiceModel(622986752).setValue(n2);
-            this.env.getChoiceModel(0x26220600).setValue(n3);
+            this.env.getChoiceModel(401957).setValue(n2);
+            this.env.getChoiceModel(401958).setValue(n3);
             int n4 = Util.computeAirDistance(this.soPosPosition.longitude, this.soPosPosition.latitude, this.nextWaypointInfo.longitude, this.nextWaypointInfo.latitude);
-            this.env.getMetricsModel(-1759246848).setMetric(new Distance(n4, 5));
+            this.env.getMetricsModel(402583).setMetric(new Distance(n4, 5));
         }
     }
 

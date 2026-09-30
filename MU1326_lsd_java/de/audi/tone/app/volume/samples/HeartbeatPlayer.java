@@ -20,29 +20,25 @@ implements ISamplePlayer {
         this.ringTonePlayer = new NullRingTonePlayer(logChannel);
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof RingTonePlayer) {
             this.ringTonePlayer = (RingTonePlayer)object;
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof RingTonePlayer) {
             this.ringTonePlayer = new NullRingTonePlayer(this.lc);
         }
     }
 
-    @Override
     public void play() {
-        this.lc.log(-2137614336, "[HeartbeatPlayer.play]");
+        this.lc.log(10000000, "[HeartbeatPlayer.play]");
         this.ringTonePlayer.playTone(this.playMode, 10);
     }
 
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "[HeartbeatPlayer.stop]");
+        this.lc.log(10000000, "[HeartbeatPlayer.stop]");
         this.ringTonePlayer.abort();
     }
 }

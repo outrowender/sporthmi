@@ -17,9 +17,8 @@ implements MapEventListener {
         this.combiBAPListener = combiBAPListener;
     }
 
-    @Override
     public void onEvent(int n, int n2) {
-        this.logger.log(-2137614336, "CombiRouteGuidanceMapEventListener#onEvent() eventId=%1, value=%2", (long)n, (long)n2);
+        this.logger.log(10000000, "CombiRouteGuidanceMapEventListener#onEvent() eventId=%1, value=%2", (long)n, (long)n2);
         if (n == 211) {
             this.combiBAPListener.routeGuidanceActDeactResult(1);
         }
@@ -29,7 +28,7 @@ implements MapEventListener {
         if (n == 212) {
             this.combiBAPListener.routeGuidanceActDeactResult(0);
         } else {
-            this.logger.log(14808325, "CombiRouteGuidanceMapEventListener#onEvent() unknown eventId");
+            this.logger.log(100000000, "CombiRouteGuidanceMapEventListener#onEvent() unknown eventId");
         }
     }
 }

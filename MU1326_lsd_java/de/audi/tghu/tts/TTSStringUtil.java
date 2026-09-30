@@ -6,16 +6,17 @@ package de.audi.tghu.tts;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 public class TTSStringUtil {
     private static final String[][] SPECIAL_CHARS_ARRAY = new String[][]{{"quot", "34"}, {"amp", "38"}, {"lt", "60"}, {"gt", "62"}, {"apos", "39"}};
     private static final String[] REMOVE_CHARS_ARRAY = new String[]{"42"};
-    public static final String PHONEME_ALPHABET_DEFAULT;
-    public static final String PHONEME_ALPHABET_ASIA_JAPAN;
-    public static final String PHONEME_ALPHABET_ASIA_CHINA;
-    public static final String DSI_STRING_ENCODING;
-    public static final int DSI_STRING_MAX_BYTE_LENGTH;
+    public static final String PHONEME_ALPHABET_DEFAULT = "x-NAVTEQ-sampa_de-DE";
+    public static final String PHONEME_ALPHABET_ASIA_JAPAN = "x-StarRec-EnrichedKana";
+    public static final String PHONEME_ALPHABET_ASIA_CHINA = "x-SVOX-pinyin_zh-CN";
+    public static final String DSI_STRING_ENCODING = "UTF-8";
+    public static final int DSI_STRING_MAX_BYTE_LENGTH = Short.MAX_VALUE;
 
     public static String escapeXml(String string) {
         StringBuffer stringBuffer = new StringBuffer(string.length() * 2);
@@ -56,7 +57,7 @@ public class TTSStringUtil {
         }
     }
 
-    private static void escapeJavaStyleString(Writer writer, String string, boolean bl) {
+    private static void escapeJavaStyleString(Writer writer, String string, boolean bl) throws IOException {
         if (writer == null) {
             throw new IllegalArgumentException("The Writer must not be null");
         }
@@ -67,15 +68,15 @@ public class TTSStringUtil {
         block12: for (int i2 = 0; i2 < n; ++i2) {
             char c2 = string.charAt(i2);
             if (c2 > '\u0fff') {
-                writer.write(new StringBuffer().append("\\u").append(TTSStringUtil.hex(c2)).toString());
+                writer.write("\\u" + TTSStringUtil.hex(c2));
                 continue;
             }
             if (c2 > '\u00ff') {
-                writer.write(new StringBuffer().append("\\u0").append(TTSStringUtil.hex(c2)).toString());
+                writer.write("\\u0" + TTSStringUtil.hex(c2));
                 continue;
             }
             if (c2 > '\u007f') {
-                writer.write(new StringBuffer().append("\\u00").append(TTSStringUtil.hex(c2)).toString());
+                writer.write("\\u00" + TTSStringUtil.hex(c2));
                 continue;
             }
             if (c2 < ' ') {
@@ -107,10 +108,10 @@ public class TTSStringUtil {
                     }
                     default: {
                         if (c2 > '\u000f') {
-                            writer.write(new StringBuffer().append("\\u00").append(TTSStringUtil.hex(c2)).toString());
+                            writer.write("\\u00" + TTSStringUtil.hex(c2));
                             break;
                         }
-                        writer.write(new StringBuffer().append("\\u000").append(TTSStringUtil.hex(c2)).toString());
+                        writer.write("\\u000" + TTSStringUtil.hex(c2));
                         break;
                     }
                 }
@@ -187,26 +188,26 @@ public class TTSStringUtil {
         if (string != null) {
             return string;
         }
-        return "x-NAVTEQ-sampa_de-DE";
+        return PHONEME_ALPHABET_DEFAULT;
     }
 
-    public static byte[] getBytesDsiEncoding(String string) {
+    public static byte[] getBytesDsiEncoding(String string) throws UnsupportedEncodingException {
         byte[] byArray = null;
         if (string != null) {
-            byArray = string.getBytes("UTF-8");
+            byArray = string.getBytes(DSI_STRING_ENCODING);
         }
         return byArray;
     }
 
-    public static String getStringDsiEncoding(byte[] byArray, int n, int n2) {
+    public static String getStringDsiEncoding(byte[] byArray, int n, int n2) throws UnsupportedEncodingException {
         String string = null;
         if (byArray != null) {
-            string = new String(byArray, n, n2, "UTF-8");
+            string = new String(byArray, n, n2, DSI_STRING_ENCODING);
         }
         return string;
     }
 
-    public static boolean isDsiMaxByteLengthCompliant(String string) {
+    public static boolean isDsiMaxByteLengthCompliant(String string) throws UnsupportedEncodingException {
         boolean bl = true;
         if (string != null) {
             bl = TTSStringUtil.getBytesDsiEncoding(string).length <= Short.MAX_VALUE;

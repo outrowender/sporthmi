@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app;
 
 public interface IOperationManagerSDCardPopupHandler {
-    default public void updateOperationState(int n) {
-    }
+    public void updateOperationState(int var1);
 
-    default public void cleanup() {
-    }
+    public void cleanup();
 }
 

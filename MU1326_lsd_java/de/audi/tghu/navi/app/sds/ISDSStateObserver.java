@@ -4,16 +4,12 @@
 package de.audi.tghu.navi.app.sds;
 
 public interface ISDSStateObserver {
-    default public void sdsSessionAborted() {
-    }
+    public void sdsSessionAborted();
 
-    default public void sdsDialogStarted() {
-    }
+    public void sdsDialogStarted();
 
-    default public void sdsDialogEnded() {
-    }
+    public void sdsDialogEnded();
 
-    default public void sdsDialogAborting() {
-    }
+    public void sdsDialogAborting();
 }
 

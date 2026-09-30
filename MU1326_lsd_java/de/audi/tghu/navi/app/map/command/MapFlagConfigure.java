@@ -16,12 +16,10 @@ extends MapCommand {
         this.mapFlags = mapFlagArray;
     }
 
-    @Override
     public void execute() {
         this.getMap().getMVRequest().configureFlags(this.command, this.mapFlags);
     }
 
-    @Override
     public void configureFlags(long[] lArray) {
         if (this.command == 0) {
             for (int i2 = 0; i2 < this.mapFlags.length; ++i2) {

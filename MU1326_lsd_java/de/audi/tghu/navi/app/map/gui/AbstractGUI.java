@@ -17,21 +17,21 @@ import org.dsi.ifc.map.Rect;
 public abstract class AbstractGUI
 implements GUIInterface {
     protected static final int CORNER_CUT_OFFSET;
-    protected static final int PREVIEWMAP_INTELLIDEST_WIDTH;
-    protected static final int PREVIEWMAP_INTELLIDEST_HEIGHT;
-    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_OFFSET_X;
-    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_OFFSET_Y;
-    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_WIDTH;
-    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_HEIGHT;
-    protected static final int PREVIEWMAP_MMIKOMBI_WIDTH;
-    protected static final int PREVIEWMAP_MMIKOMBI_HEIGHT;
+    protected static final int PREVIEWMAP_INTELLIDEST_WIDTH = 260;
+    protected static final int PREVIEWMAP_INTELLIDEST_HEIGHT = 318;
+    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_OFFSET_X = 0;
+    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_OFFSET_Y = 0;
+    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_WIDTH = 260;
+    protected static final int PREVIEWMAP_INTELLIDEST_VISIBLE_HEIGHT = 318;
+    protected static final int PREVIEWMAP_MMIKOMBI_WIDTH = 244;
+    protected static final int PREVIEWMAP_MMIKOMBI_HEIGHT = 266;
     protected static final int PREVIEWMAP_MMIKOMBI_VISIBLE_OFFSET_X;
     protected static final int PREVIEWMAP_MMIKOMBI_VISIBLE_OFFSET_Y;
     protected static final int PREVIEWMAP_MMIKOMBI_VISIBLE_WIDTH;
     protected static final int PREVIEWMAP_MMIKOMBI_VISIBLE_HEIGHT;
-    protected static final int MAPINMAP_WIDTH;
-    protected static final int MAPINMAP_HEIGHT;
-    protected static final int CROSSHAIR_OFFSET_Y_HIGH;
+    protected static final int MAPINMAP_WIDTH = 293;
+    protected static final int MAPINMAP_HEIGHT = 323;
+    protected static final int CROSSHAIR_OFFSET_Y_HIGH = 55;
     protected LogChannel mGUILogChannel;
     protected final AbstractMap naviMap;
     protected final NavigationEnv env;
@@ -60,105 +60,87 @@ implements GUIInterface {
         return this.naviMap;
     }
 
-    protected abstract String getName() {
-    }
+    protected abstract String getName();
 
-    @Override
     public void stickN(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickN(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickN(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 0);
     }
 
-    @Override
     public void stickNW(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickNW(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickNW(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 315);
     }
 
-    @Override
     public void stickW(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickW(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickW(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 270);
     }
 
-    @Override
     public void stickSW(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickSW(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickSW(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 225);
     }
 
-    @Override
     public void stickS(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickS(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickS(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 180);
     }
 
-    @Override
     public void stickSE(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickSE(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickSE(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 135);
     }
 
-    @Override
     public void stickE(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickE(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickE(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 90);
     }
 
-    @Override
     public void stickNE(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickNE(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickNE(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, 45);
     }
 
-    @Override
     public void stickIdle(int n, int n2) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#stickIdle(%2)", (Object)this.getName(), (long)n);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#stickIdle(%2)", (Object)this.getName(), (long)n);
         this.getActiveCtx().joystick(n, -1);
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#itemReleased(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#itemReleased(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
         this.getActiveCtx().itemReleased(n, n2);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#itemFocused(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
+        this.getLogger().log(10000000, "AbstractGUI[%1]#itemFocused(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
         this.getActiveCtx().itemFocused(n, n2);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.getActiveCtx().itemSelected(n, n2, n3, n4);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.getLogger().log(14808325, "AbstractGUI[%1]#keyPressed(%2) - keyID = %3", (Object)this.getName(), (long)n, (long)n2);
+        this.getLogger().log(100000000, "AbstractGUI[%1]#keyPressed(%2) - keyID = %3", (Object)this.getName(), (long)n, (long)n2);
         this.getActiveCtx().keyPressed(n, n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.getLogger().log(14808325, "AbstractGUI[%1]#keyReleased(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
+        this.getLogger().log(100000000, "AbstractGUI[%1]#keyReleased(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
         this.getActiveCtx().keyReleased(n, n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogger().log(14808325, "AbstractGUI[%1]#keyTyped(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
+        this.getLogger().log(100000000, "AbstractGUI[%1]#keyTyped(%2, %3)", (Object)this.getName(), (long)n, (long)n2);
         this.getActiveCtx().keyTyped(n, n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
-        if (n == 35522048) {
+        if (n == 400898) {
             this.decrementGesture(n2);
         } else {
             this.decrementDDS(n, n2, n3);
@@ -169,23 +151,22 @@ implements GUIInterface {
         int n4;
         int n5;
         int n6 = n2;
-        if (n == 1545340416 && (n5 = this.getMagnificationValue(n)) - n2 < (n4 = this.getMagnificationMinimum(n))) {
+        if (n == 400476 && (n5 = this.getMagnificationValue(n)) - n2 < (n4 = this.getMagnificationMinimum(n))) {
             n6 = n5 - n4;
         }
-        this.getLogger().log(-2137614336, "AbstractGUI[%1]#decrementDDS( %2", (Object)this.getName(), (Object)new Buffer().append(n).append(", ").append(n2).append(" ) - clippedSteps: ").append(n6).toString());
+        this.getLogger().log(10000000, "AbstractGUI[%1]#decrementDDS( %2", (Object)this.getName(), (Object)new Buffer().append(n).append(", ").append(n2).append(" ) - clippedSteps: ").append(n6).toString());
         if (n6 > 0) {
             this.getActiveCtx().increment(n, -n6);
         }
     }
 
     private void decrementGesture(int n) {
-        this.mGUILogChannel.log(-2137614336, "AbstractGUI[%1]#decrementGesture( %2 )", (Object)this.getName(), (long)n);
+        this.mGUILogChannel.log(10000000, "AbstractGUI[%1]#decrementGesture( %2 )", (Object)this.getName(), (long)n);
         this.naviMap.getZoomHandler().incrementGesture(-n);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
-        if (n == 35522048) {
+        if (n == 400898) {
             this.incrementGesture(n2);
         } else {
             this.incrementDDS(n, n2, n3);
@@ -196,80 +177,67 @@ implements GUIInterface {
         int n4;
         int n5;
         int n6 = n2;
-        if (n == 1545340416 && (n5 = this.getMagnificationValue(n)) + n2 > (n4 = this.getMagnificationMaximum(n))) {
+        if (n == 400476 && (n5 = this.getMagnificationValue(n)) + n2 > (n4 = this.getMagnificationMaximum(n))) {
             n6 = n4 - n5;
         }
         if (this.getLogger().isDebug()) {
-            this.getLogger().log(-2137614336, "AbstractGUI[%1]#incrementDDS( %2", (Object)this.getName(), (Object)new Buffer().append(n).append(", ").append(n2).append(" ) - clippedSteps: ").append(n6).toString());
+            this.getLogger().log(10000000, "AbstractGUI[%1]#incrementDDS( %2", (Object)this.getName(), (Object)new Buffer().append(n).append(", ").append(n2).append(" ) - clippedSteps: ").append(n6).toString());
         }
         this.getActiveCtx().increment(n, n6);
     }
 
     private void incrementGesture(int n) {
-        this.mGUILogChannel.log(-2137614336, "AbstractGUI[%1]#incrementGesture( %2 )", (Object)this.getName(), (long)n);
+        this.mGUILogChannel.log(10000000, "AbstractGUI[%1]#incrementGesture( %2 )", (Object)this.getName(), (long)n);
         this.naviMap.getActiveContext().incrementGesture(n);
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5, int n6) {
-        this.getLogger().log(14808325, "AbstractGUI#touchPadPositionMoved( %1 ): start: %2, %3", (long)n, (long)n2, (long)n3);
+        this.getLogger().log(100000000, "AbstractGUI#touchPadPositionMoved( %1 ): start: %2, %3", (long)n, (long)n2, (long)n3);
         this.getActiveCtx().touchPadPositionMoved(n, n2, n3, n4, n5);
     }
 
-    @Override
     public void touchPadReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchPadPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenMoved(int n, int n2, int n3, int n4, int n5, int n6) {
         this.getActiveCtx().touchScreenMoved(n, n2, n3, n4, n5);
     }
 
-    @Override
     public void touchScreenPressed(int n, int n2, int n3, int n4) {
         this.getActiveCtx().touchScreenPressed(n, n2, n3);
     }
 
-    @Override
     public void touchScreenLongPressed(int n, int n2, int n3, int n4) {
         this.getActiveCtx().touchScreenLongPressed(n, n2, n3);
     }
 
-    @Override
     public void touchScreenReleased(int n, int n2, int n3, int n4) {
         this.getActiveCtx().touchScreenReleased(n, n2, n3);
     }
 
-    @Override
     public void touchScreenDoubleClick(int n, int n2, int n3, int n4) {
         this.getActiveCtx().touchScreenDoubleClick(n, n2, n3);
     }
 
-    @Override
     public void touchScreenPinch(int n, float f2, int n2, int n3, int n4) {
         this.getActiveCtx().touchScreenPinch(n, f2, n2, n3);
     }
 
-    @Override
     public void touchScreenRotate(int n, short s, int n2) {
         this.getActiveCtx().touchScreenRotate(n, s);
     }
 
-    @Override
     public int getScreenWidthMapInMap() {
         return 293;
     }
 
-    @Override
     public int getScreenHeightMapInMap() {
         return 323;
     }
 
-    @Override
     public int getScreenWidthPreviewMap() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return 244;
@@ -277,7 +245,6 @@ implements GUIInterface {
         return 260;
     }
 
-    @Override
     public int getScreenHeightPreviewMap() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return 266;
@@ -285,17 +252,14 @@ implements GUIInterface {
         return 318;
     }
 
-    @Override
     public Rect getScreenSize() {
         return new Rect(0, 0, this.getScreenWidth(), this.getScreenHeight());
     }
 
-    @Override
     public Rect getMapSize() {
         return new Rect(0, 0, this.getMapWidth(), this.getMapHeight());
     }
 
-    @Override
     public int getVisibleWidthPreviewMap() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return PREVIEWMAP_MMIKOMBI_VISIBLE_WIDTH;
@@ -303,7 +267,6 @@ implements GUIInterface {
         return 260;
     }
 
-    @Override
     public int getVisibleHeightPreviewMap() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return PREVIEWMAP_MMIKOMBI_VISIBLE_HEIGHT;
@@ -311,7 +274,6 @@ implements GUIInterface {
         return 318;
     }
 
-    @Override
     public int getVisibleOffsetXPreviewMap() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return PREVIEWMAP_MMIKOMBI_VISIBLE_OFFSET_X;
@@ -319,7 +281,6 @@ implements GUIInterface {
         return 0;
     }
 
-    @Override
     public int getVisibleOffsetYPreviewMap() {
         if (Util.isClusterMMI(this.env.getFramework())) {
             return PREVIEWMAP_MMIKOMBI_VISIBLE_OFFSET_Y;
@@ -327,41 +288,33 @@ implements GUIInterface {
         return 0;
     }
 
-    @Override
     public int getOffsetCrosshairHeight() {
         return 55;
     }
 
-    @Override
     public void showPreviewMap(boolean bl) {
-        this.getLogger().log(14808325, "AbstractGUI#showPreviewMap( %1 )", bl);
-        this.env.getChoiceModel(-1591867904).setValue(bl ? 1 : 0);
+        this.getLogger().log(100000000, "AbstractGUI#showPreviewMap( %1 )", bl);
+        this.env.getChoiceModel(401057).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public int getOffsetOfCarPosition() {
         return 0;
     }
 
-    @Override
     public void setGridMaskVisible(boolean bl) {
     }
 
-    @Override
     public void updateCarPosition() {
     }
 
-    @Override
     public int getSBRSListModel() {
-        return 1125910016;
+        return 400451;
     }
 
-    @Override
     public IMapPartialPopupHandler getMapPartialPopupHandler() {
         return this.partialPopup;
     }
 
-    @Override
     public void cleanup() {
     }
 

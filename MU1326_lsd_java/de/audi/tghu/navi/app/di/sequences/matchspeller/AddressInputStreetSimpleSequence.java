@@ -10,16 +10,19 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
+import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputStreetSimpleSequence$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputStreetSimpleSequence$2;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class AddressInputStreetSimpleSequence
@@ -28,24 +31,49 @@ extends AbstractAddressInputMatchSpellerSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPCancelSpellerCommand());
-        commandList.add(new AddressInputStreetSimpleSequence$1(this, "Check whether city has a street"));
+        commandList.add(new NavCommand("Check whether city has a street"){
+
+            public void execute() {
+                if (this.dsiResponseContainer.selectionCriterionAvailable(3)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(3, false, false, true));
+                } else {
+                    this.dsiResponseContainer.setLispUpdateSpellerResult("", 0, false, false, "", 0, 0, false, false, 0);
+                    this.dsiResponseContainer.setLiValueList(new LIValueList(), 0L);
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.put("selectedElement", lIValueListElement);
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new AddressInputStreetSimpleSequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                CommandList commandList = AddressInputStreetSimpleSequence.this.commandListFactory.createCommandList();
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    commandList.add(new ModelSelectListElementCommand(AddressInputStreetSimpleSequence.this.modelAccess));
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(AddressInputStreetSimpleSequence.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(AddressInputStreetSimpleSequence.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(AddressInputStreetSimpleSequence.this.inputManager));
+                    commandList.add(AddressInputStreetSimpleSequence.this.inputManager.handleAddressInputEvent(AddressInputStreetSimpleSequence.this.commandListFactory.createCommandList(), AddressInputStreetSimpleSequence.this.inputManager.getStreetScreenNonAmbiguousListElementSelectedEventId()));
+                } else {
+                    AddressInputStreetSimpleSequence.this.modelAccess.onAmbiguousElementSelected();
+                    commandList.add(AddressInputStreetSimpleSequence.this.inputManager.handleAddressInputEvent(AddressInputStreetSimpleSequence.this.commandListFactory.createCommandList(), AddressInputStreetSimpleSequence.this.inputManager.getStreetScreenAmbiguousListElementSelecteEventId()));
+                }
+                this.getCommandList().commandFinishedWithPostSequence(commandList);
+            }
+        });
         return commandList;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));

@@ -4,16 +4,12 @@
 package de.audi.tghu.navi.app.addressinput.housenumber;
 
 public interface IHousenumberFreetextInputSequence {
-    default public void selectAlternativeHousenumber() {
-    }
+    public void selectAlternativeHousenumber();
 
-    default public void ignoreHousenumber() {
-    }
+    public void ignoreHousenumber();
 
-    default public void setHousenumber(String string, boolean bl) {
-    }
+    public void setHousenumber(String var1, boolean var2);
 
-    default public void start(boolean bl) {
-    }
+    public void start(boolean var1);
 }
 

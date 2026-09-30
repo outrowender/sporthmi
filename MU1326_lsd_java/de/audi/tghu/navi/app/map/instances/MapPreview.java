@@ -17,7 +17,7 @@ import de.audi.tghu.navi.app.map.instances.MapAdditional;
 
 public class MapPreview
 extends MapAdditional {
-    private static final String NAME;
+    private static final String NAME = "MapPreview";
     private boolean bIsMapPreviewInitiated = false;
     private int iPreviewMode = -1;
 
@@ -26,9 +26,8 @@ extends MapAdditional {
         this.setGUIInterface(new GUIPreview(navigationEnv, this));
     }
 
-    @Override
     public String getName() {
-        return "MapPreview";
+        return NAME;
     }
 
     private boolean isDSIForMapPreviewReady() {
@@ -38,35 +37,31 @@ extends MapAdditional {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void initDSI() {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.isDSIForMapPreviewReady()) {
                 if (!this.bIsMapPreviewInitiated) {
-                    this.sMapLogChannel.log(1078071040, "%1#init() - all %1 DSIs received. Starting initialization...", (Object)this.getName());
+                    this.sMapLogChannel.log(1000000, "%1#init() - all %1 DSIs received. Starting initialization...", (Object)this.getName());
                     this.bIsMapPreviewInitiated = true;
                     this.switchToContext(24);
                 }
             } else if (this.bIsMapPreviewInitiated) {
-                this.sMapLogChannel.log(-1601830656, "%1#init() - %1 DSIs failed! %1 is not operable any more!", (Object)this.getName());
+                this.sMapLogChannel.log(100000, "%1#init() - %1 DSIs failed! %1 is not operable any more!", (Object)this.getName());
                 this.bIsMapPreviewInitiated = false;
                 this.switchToContext(0);
             }
         }
     }
 
-    @Override
     public void show() {
         this.show(0);
     }
 
-    @Override
     public void show(int n) {
         this.switchToContext(30);
     }
 
-    @Override
     public void hide() {
         this.switchToContext(31);
     }
@@ -81,11 +76,9 @@ extends MapAdditional {
         return this.iPreviewMode;
     }
 
-    @Override
     public void forceHiddenContextRefresh() {
     }
 
-    @Override
     protected ChoiceModelApp getActiveRendererChoice() {
         return null;
     }

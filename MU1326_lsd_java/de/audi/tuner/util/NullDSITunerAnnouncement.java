@@ -18,12 +18,10 @@ implements DSITunerAnnouncement {
         super(logChannel, n, "DSITunerAnnouncement");
     }
 
-    @Override
     public void setFilter(int n) {
         this.log();
     }
 
-    @Override
     public void abort(int n) {
         this.log();
     }

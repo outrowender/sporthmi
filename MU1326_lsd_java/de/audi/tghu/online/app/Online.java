@@ -10,24 +10,24 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.HMIApplication;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.log.LogChannel;
-import de.audi.remotehmi.util.LogAppender$Factory;
-import de.audi.tghu.online.app.Online$1;
+import de.audi.remotehmi.util.LogAppender;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import de.mib.swdiagnosis.online.OnlineDiag;
 
 public final class Online
 implements HMIApplication {
-    public static final int MODULE_ID;
-    private static Online instance;
-    private static final String LOG_NAME_MAIN;
-    private static final String LOG_NAME_REMOTEHMI;
-    private static final String LOG_NAME_REMOTEHMI_INTERPRETER;
-    private static final String LOG_NAME_REMOTEHMI_SPEECH;
-    private static final String LOG_NAME_OPERATORCALL;
-    private static final String LOG_NAME_PRESETS;
-    private static final String LOG_NAME_BUNDLED_CONNECTIVITY;
-    public static boolean OVERRIDE_CODING_REMOTEHMI;
-    public static boolean OVERRIDE_CODING_REMOTEHMI_SDS;
+    public static final int MODULE_ID = 23;
+    private static Online instance = new Online();
+    private static final String LOG_NAME_MAIN = "App.Online.Main";
+    private static final String LOG_NAME_REMOTEHMI = "App.Online.RemoteHMI";
+    private static final String LOG_NAME_REMOTEHMI_INTERPRETER = "App.Online.RemoteHMI.Interpreter";
+    private static final String LOG_NAME_REMOTEHMI_SPEECH = "App.Online.RemoteHMI.Speech";
+    private static final String LOG_NAME_OPERATORCALL = "App.Online.OperatorCall";
+    private static final String LOG_NAME_PRESETS = "App.Online.Presets";
+    private static final String LOG_NAME_BUNDLED_CONNECTIVITY = "App.Online.BundledConnectivity";
+    public static boolean OVERRIDE_CODING_REMOTEHMI = false;
+    public static boolean OVERRIDE_CODING_REMOTEHMI_SDS = false;
     private LogChannel mainLogChannel = null;
     private LogChannel remoteHmiLogChannel = null;
     private LogChannel remoteHmiInterpreterLogChannel = null;
@@ -48,13 +48,13 @@ implements HMIApplication {
 
     public void initialize(IFrameworkAccess iFrameworkAccess) {
         this.frameworkAccess = iFrameworkAccess;
-        this.mainLogChannel = iFrameworkAccess.getLogChannel("App.Online.Main");
-        this.remoteHmiLogChannel = iFrameworkAccess.getLogChannel("App.Online.RemoteHMI");
-        this.remoteHmiInterpreterLogChannel = iFrameworkAccess.getLogChannel("App.Online.RemoteHMI.Interpreter");
-        this.remoteHmiSpeechLogChannel = iFrameworkAccess.getLogChannel("App.Online.RemoteHMI.Speech");
-        this.operatorCallLogChannel = iFrameworkAccess.getLogChannel("App.Online.OperatorCall");
-        this.presetsLogChannel = iFrameworkAccess.getLogChannel("App.Online.Presets");
-        this.bundledConnectivityLogChannel = iFrameworkAccess.getLogChannel("App.Online.BundledConnectivity");
+        this.mainLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_MAIN);
+        this.remoteHmiLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_REMOTEHMI);
+        this.remoteHmiInterpreterLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_REMOTEHMI_INTERPRETER);
+        this.remoteHmiSpeechLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_REMOTEHMI_SPEECH);
+        this.operatorCallLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_OPERATORCALL);
+        this.presetsLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_PRESETS);
+        this.bundledConnectivityLogChannel = iFrameworkAccess.getLogChannel(LOG_NAME_BUNDLED_CONNECTIVITY);
     }
 
     public LogChannel getLogChannel() {
@@ -81,58 +81,54 @@ implements HMIApplication {
         return this.bundledConnectivityLogChannel;
     }
 
-    @Override
     public int getId() {
         return 23;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
-        this.getLogChannel().log(-2137614336, "Online#getVirtualButton() keyCode: %1", (long)n);
+        this.getLogChannel().log(10000000, "Online#getVirtualButton() keyCode: %1", (long)n);
         if (n == 13) {
-            return this.frameworkAccess.getHMIService().getButtonModel(1209869056);
+            return this.frameworkAccess.getHMIService().getButtonModel(2301256);
         }
         return null;
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#popupHidden()");
+        this.getLogChannel().log(10000000, "Online#popupHidden()");
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#popupRemoved()");
+        this.getLogChannel().log(10000000, "Online#popupRemoved()");
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#popupVisible()");
+        this.getLogChannel().log(10000000, "Online#popupVisible()");
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#screenHidden() %1", (long)n);
+        this.getLogChannel().log(10000000, "Online#screenHidden() %1", (long)n);
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#screenVisible() %1", (long)n);
+        this.getLogChannel().log(10000000, "Online#screenVisible() %1", (long)n);
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#screenFadedOut() %1", (long)n);
+        this.getLogChannel().log(10000000, "Online#screenFadedOut() %1", (long)n);
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Online#screenConnected() %1", (long)n);
+        this.getLogChannel().log(10000000, "Online#screenConnected() %1", (long)n);
         if (this.remoteHMIService == null) {
-            this.getLogChannel().log(-1601830656, "Online#screenConnected() remoteHmiService is null");
+            this.getLogChannel().log(100000, "Online#screenConnected() remoteHmiService is null");
             return;
         }
-        this.remoteHMIService.execute(new Online$1(this, "screen-connected", LogAppender$Factory.fromInt(n)));
+        this.remoteHMIService.execute(new AbstractRemoteHMITask("screen-connected", LogAppender.Factory.fromInt(n)){
+
+            public void run() {
+                Online.this.remoteHMIService.unlockModelGroup();
+            }
+        });
     }
 
     public IFrameworkAccess getFramework() {
@@ -175,16 +171,6 @@ implements HMIApplication {
 
     public void setRemoteHMIService(RemoteHMIService remoteHMIService) {
         this.remoteHMIService = remoteHMIService;
-    }
-
-    static /* synthetic */ RemoteHMIService access$000(Online online) {
-        return online.remoteHMIService;
-    }
-
-    static {
-        instance = new Online();
-        OVERRIDE_CODING_REMOTEHMI = false;
-        OVERRIDE_CODING_REMOTEHMI_SDS = false;
     }
 }
 

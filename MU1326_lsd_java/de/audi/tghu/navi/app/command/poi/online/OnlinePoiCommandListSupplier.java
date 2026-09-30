@@ -18,17 +18,15 @@ implements ICommandListSupplier {
     public OnlinePoiCommandListSupplier(LogChannel logChannel, NavigationEnv navigationEnv) {
         this.logChannel = logChannel;
         this.env = navigationEnv;
-        logChannel.log(1078071040, "OnlinePoiCommandListSupplier#OnlinePoiCommandListSupplier()");
+        logChannel.log(1000000, "OnlinePoiCommandListSupplier#OnlinePoiCommandListSupplier()");
     }
 
-    @Override
     public boolean isApplicationOperable() {
         return true;
     }
 
-    @Override
     public boolean isDSIsAvailable(CommandList commandList) {
-        this.logChannel.log(1078071040, "OnlinePoiCommandListSupplier#isDSIsAvailable()");
+        this.logChannel.log(1000000, "OnlinePoiCommandListSupplier#isDSIsAvailable()");
         if (commandList instanceof OnlinePoiCommandList) {
             OnlinePoiCommandList onlinePoiCommandList = (OnlinePoiCommandList)commandList;
             return onlinePoiCommandList.getOnlineSearch() != null;
@@ -36,18 +34,15 @@ implements ICommandListSupplier {
         return false;
     }
 
-    @Override
     public String getApplicationName(CommandList commandList) {
         return "OnlinePoi";
     }
 
-    @Override
     public void handleException(Exception exception) {
-        this.logChannel.log(1078071040, "OnlinePoiCommandListSupplier#handleException()");
+        this.logChannel.log(1000000, "OnlinePoiCommandListSupplier#handleException()");
         Util.handleDSIException(exception, this.env);
     }
 
-    @Override
     public void showDebugPopup(CommandList commandList, String string, String string2) {
     }
 }

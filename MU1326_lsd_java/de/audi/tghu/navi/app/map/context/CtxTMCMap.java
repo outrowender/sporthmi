@@ -6,8 +6,7 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.atip.interapp.icon.ExtRenderingInfo;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
-import de.audi.tghu.navi.app.map.context.CTags$HasDefaultZoom;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxFreeMap;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.handler.selection.MapItemSelectionInfo;
@@ -20,15 +19,14 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public class CtxTMCMap
 extends CtxFreeMap
-implements CTags$HasDefaultZoom,
-CTags$HasZoomArea {
+implements CTags.HasDefaultZoom,
+CTags.HasZoomArea {
     public CtxTMCMap(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
-        this.getLogChannel().log(-2137614336, "CtxTMCMap#enter()");
+        this.getLogChannel().log(10000000, "CtxTMCMap#enter()");
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         iMapRequest.setViewType(0);
         iMapRequest.setMode(2);
@@ -49,27 +47,24 @@ CTags$HasZoomArea {
         this.focusOnTmc();
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.getMap().getMVRequest().ensureTMCVisibility(0L);
         this.getViews().getMainMapView().setOptionIconVisible(true);
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxTMCMap#updateViewFreeze( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxTMCMap#updateViewFreeze( %1 )", bl);
         super.updateViewFreeze(bl);
     }
 
-    @Override
     protected void setVisibleArea() {
-        this.getLogChannel().log(-2137614336, "CtxTMCMap#setVisibleArea()");
+        this.getLogChannel().log(10000000, "CtxTMCMap#setVisibleArea()");
         super.setVisibleArea();
     }
 
     public void mapEntered() {
-        this.getLogChannel().log(1078071040, "CtxTMCMap#mapEntered()");
+        this.getLogChannel().log(1000000, "CtxTMCMap#mapEntered()");
         int n = this.naviMap.getActiveContextIndex();
         if (n == 1 || n == 2) {
             this.getLogChannel().log(10000, "CtxTMCMap#mapEntered(): Map is not ready.");
@@ -79,12 +74,12 @@ CTags$HasZoomArea {
     }
 
     public void mapLeft() {
-        this.getLogChannel().log(1078071040, "CtxTMCMap#mapLeft()");
+        this.getLogChannel().log(1000000, "CtxTMCMap#mapLeft()");
         this.naviMap.switchToContext(3);
     }
 
     private void focusOnTmc() {
-        this.getLogChannel().log(-2137614336, "CtxTMCMap#focusOnTmc()");
+        this.getLogChannel().log(10000000, "CtxTMCMap#focusOnTmc()");
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         if (this.container.sTmcNavRectangle != null) {
             iMapRequest.setMapViewPortByWGS84Rectangle(this.container.sTmcNavRectangle, this.getZoomHandler().getZoomListIndex(this.getDefaultZoomLevel()));
@@ -111,7 +106,7 @@ CTags$HasZoomArea {
         if (nArray != null && nArray.length > 0) {
             n = this.naviMap.getIconHandler().resolveTMCIconResourceID(nArray[0], 0);
         }
-        this.getLogChannel().log(1078071040, "CtxTMCMap#showToolTip() - tooltip text: %1", (Object)string);
+        this.getLogChannel().log(1000000, "CtxTMCMap#showToolTip() - tooltip text: %1", (Object)string);
         MapItemSelectionInfo mapItemSelectionInfo = MapItemSelectionInfo.create(null, this.getLogChannel());
         mapItemSelectionInfo.textDescriptionSingleLine = string;
         mapItemSelectionInfo.tmc_roadSignInfo = extRenderingInfo;
@@ -123,10 +118,10 @@ CTags$HasZoomArea {
 
     public void showToolTip(TmcListElement tmcListElement) {
         if (tmcListElement == null) {
-            this.getLogChannel().log(-1601830656, "CtxTMCMap#showToolTip() - tmcListElement is null!");
+            this.getLogChannel().log(100000, "CtxTMCMap#showToolTip() - tmcListElement is null!");
             return;
         }
-        this.getLogChannel().log(-2137614336, "CtxTMCMap#showToolTip( %1 )", (Object)tmcListElement);
+        this.getLogChannel().log(10000000, "CtxTMCMap#showToolTip( %1 )", (Object)tmcListElement);
         if (tmcListElement.message != null) {
             TmcMessage tmcMessage = tmcListElement.message;
             this.showToolTip(tmcMessage);
@@ -141,7 +136,7 @@ CTags$HasZoomArea {
             if (nArray != null && nArray.length > 0) {
                 n = this.naviMap.getIconHandler().resolveTMCIconResourceID(nArray[0], 0);
             }
-            this.getLogChannel().log(1078071040, "CtxTMCMap#showToolTip() - tooltip text: %1", (Object)string);
+            this.getLogChannel().log(1000000, "CtxTMCMap#showToolTip() - tooltip text: %1", (Object)string);
             MapItemSelectionInfo mapItemSelectionInfo = MapItemSelectionInfo.create(null, this.getLogChannel());
             mapItemSelectionInfo.textDescriptionSingleLine = string;
             mapItemSelectionInfo.tmc_roadSignInfo = extRenderingInfo;
@@ -152,7 +147,6 @@ CTags$HasZoomArea {
         }
     }
 
-    @Override
     public void increment(int n, int n2) {
         super.increment(n, n2);
         this.tmcToolTipHandling(this.getZoomHandler().getZoom());
@@ -160,78 +154,67 @@ CTags$HasZoomArea {
 
     private void tmcToolTipHandling(float f2) {
         boolean bl = this.naviMap.getMVResponseControl().getViewFreeze();
-        if (this.container.sMessage != null && !bl && f2 <= 5292871) {
-            this.getLogChannel().log(-2137614336, "CtxTMCMap#tmcToolTipHandling(): requesting ToolTip %1", (Object)this.container.sMessage);
+        if (this.container.sMessage != null && !bl && f2 <= 100000.0f) {
+            this.getLogChannel().log(10000000, "CtxTMCMap#tmcToolTipHandling(): requesting ToolTip %1", (Object)this.container.sMessage);
             String string = this.container.sMessage;
             this.naviMap.getMapTooltip().showToolTip(string, this.getCrosshairHotPointX(), this.getCrosshairHotPointY(), this.container.sPositionInfo, null, false, false, null);
         } else {
-            this.getLogChannel().log(-2137614336, "CtxTMCMap#tmcToolTipHandling(): hiding ToolTip, mapFrozen: %1, zoomLevel: %2m", bl, (Object)Float.toString(f2));
+            this.getLogChannel().log(10000000, "CtxTMCMap#tmcToolTipHandling(): hiding ToolTip, mapFrozen: %1, zoomLevel: %2m", bl, (Object)Float.toString(f2));
             this.hideToolTip();
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        if (n != 1058801152) {
+        if (n != 400447) {
             super.itemSelected(n, n2, n3, n4);
         }
     }
 
-    @Override
     public void enableAutomaticRouteDiversion(boolean bl) {
-        this.getLogChannel().log(1078071040, "CtxTMCMap#enableAutomaticRouteDiversion(%1)", bl);
+        this.getLogChannel().log(1000000, "CtxTMCMap#enableAutomaticRouteDiversion(%1)", bl);
         super.enableAutomaticRouteDiversion(bl);
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
     }
 
-    @Override
     public void updateMapOrientation(int n) {
     }
 
-    @Override
     public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
     }
 
-    @Override
     public void updateInfoForPosition(PosInfo[] posInfoArray) {
     }
 
-    @Override
     public float getDefaultZoomLevel() {
-        return 8403781;
+        return 3000.0f;
     }
 
-    @Override
     protected void onHKBackClicked() {
-        this.getLogChannel().log(-2137614336, "CtxTMCMap#onHKBackClicked()");
+        this.getLogChannel().log(10000000, "CtxTMCMap#onHKBackClicked()");
         super.onHKBackClicked();
         this.getGUI().fireHKBackEvent();
     }
 
-    @Override
     public void joystick(int n, int n2) {
     }
 
-    @Override
     protected int getMixedListOffset() {
         return 0;
     }
 
-    @Override
     protected void onDDSClicked() {
         if (this.container.tmcMessageToBeShown != null) {
-            this.getLogChannel().log(1078071040, "CtxTMCMap#onDDSClicked() - selection event received");
+            this.getLogChannel().log(1000000, "CtxTMCMap#onDDSClicked() - selection event received");
             this.naviMap.getNaviInterface().getTMCGateWay().fillDetailScreen(this.container.tmcMessageToBeShown);
             this.naviMap.getNaviInterface().startDestinationDetailsTMC(this.container.tmcMessageToBeShown);
             this.naviMap.getGuiInterface().setOptMenuType(2);
-            this.env.getChoiceModel(-668989952).setValue(0);
+            this.env.getChoiceModel(401624).setValue(0);
             if (Util.isPreviewMapPresent(this.env.getFramework())) {
                 this.getMap().getMapManager().getPreviewMapHandler().setPreviewMapCallbackHandler(this.getMap().getNaviInterface().getDetailsScreen());
             }
-            this.naviMap.getGuiInterface().fireModelEvent(-887224832);
+            this.naviMap.getGuiInterface().fireModelEvent(401099);
         }
     }
 }

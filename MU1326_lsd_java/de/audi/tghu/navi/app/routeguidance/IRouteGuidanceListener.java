@@ -7,10 +7,8 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.Route;
 
 public interface IRouteGuidanceListener {
-    default public void routeGuidanceRequested(Route route, NavLocation navLocation) {
-    }
+    public void routeGuidanceRequested(Route var1, NavLocation var2);
 
-    default public void cancelStartRouteCalculation() {
-    }
+    public void cancelStartRouteCalculation();
 }
 

@@ -15,32 +15,29 @@ extends AbstractMiniAppHandler {
         super(onlineEnv, abstractOperatorCall);
     }
 
-    @Override
     protected void initializeOptionModels() {
-        this.option01 = -2011356416;
-        this.option02 = -1810029824;
-        this.option03 = -2095242496;
-        this.option04 = 2115838720;
-        this.option05 = -2112019712;
-        this.option06 = -1843584256;
-        this.option07 = -1726143744;
-        this.option08 = -1994579200;
-        this.option09 = -1793252608;
-        this.option10 = -1944247552;
-        this.option11 = -2145574144;
-        this.option12 = -2061688064;
-        this.option13 = 2132615936;
-        this.option14 = -1709366528;
-        this.option15 = -1893915904;
+        this.option01 = 2301320;
+        this.option02 = 2301332;
+        this.option03 = 2301315;
+        this.option04 = 2301310;
+        this.option05 = 2301314;
+        this.option06 = 2301330;
+        this.option07 = 2301337;
+        this.option08 = 2301321;
+        this.option09 = 2301333;
+        this.option10 = 2301324;
+        this.option11 = 2301312;
+        this.option12 = 2301317;
+        this.option13 = 2301311;
+        this.option14 = 2301338;
+        this.option15 = 2301327;
     }
 
-    @Override
     protected void initializeTargetListModels() {
-        this.historyCallList = -149150976;
-        this.resultList = -165928192;
+        this.historyCallList = 2301175;
+        this.resultList = 2301174;
     }
 
-    @Override
     protected AbstractBaseModelHandler createModelHandler() {
         return new PoiCallMiniAppModelHandler(this.env, this.listener, this);
     }

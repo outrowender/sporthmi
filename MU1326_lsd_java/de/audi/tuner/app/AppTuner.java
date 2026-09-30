@@ -53,7 +53,6 @@ import de.audi.tuner.app.ann.AnnouncementHandler;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
 import de.audi.tuner.app.audiodrawer.AudioDrawerStateTracker;
 import de.audi.tuner.app.cmd.RadioCmdManager;
-import de.audi.tuner.app.cmd.RadioCmdManager$Builder;
 import de.audi.tuner.app.cmd.amfm.DSIAMFMTunerCmdListener;
 import de.audi.tuner.app.cmd.audio.HMIAudioServiceCmdListener;
 import de.audi.tuner.app.cmd.dab.DSIDABTunerCmdListener;
@@ -218,7 +217,7 @@ public final class AppTuner {
         TunerProxyManager.getInstance().init(this.basics, this.storage, this.bandList, this.keys, this.memory, this.audio, this.announce, this.basics.tunerJobQueue, iUpdateListenerArray, this.taggingMgr, iTunerVariantExt, this.langMngr, this.scanHandler, this.psFreezeDB, this.clockTimeZoneOffsetHandler, this.hyperlinkProcessor, sDARSStationDescriptions, this.audioDrawerStateTracker);
         this.initListeners();
         this.optionsHandler = new OptionsHandler(this.storage, this.basics);
-        this.basics.getModels().getChoiceModel(-410582784).setStatus(0);
+        this.basics.getModels().getChoiceModel(100327).setStatus(0);
         this.startupBand = this.handleLastMode();
         IDABTuner iDABTuner = TunerProxyManager.getInstance().getDABTuner();
         iDABTuner.addUpdateListener(this.memory.updateListener);
@@ -226,18 +225,18 @@ public final class AppTuner {
         IAMFMTuner iAMFMTuner = TunerProxyManager.getInstance().getAmFmTuner();
         ISDARSTuner iSDARSTuner = TunerProxyManager.getInstance().getSDARSTuner();
         this.tabletHandler.setPdtInfoHandler(iSDARSTuner.getPdtHandler());
-        RadioCmdManager$Builder radioCmdManager$Builder = new RadioCmdManager$Builder(this.basics);
-        radioCmdManager$Builder.setAudioService(this.audio);
-        radioCmdManager$Builder.setAudioDefaultListener(this.audio);
-        radioCmdManager$Builder.setAMFMTuner(iAMFMTuner);
-        radioCmdManager$Builder.setAMFMDefaultListener((AMFMTunerListener)iAMFMTuner.getDSIUpManager());
-        radioCmdManager$Builder.setDABTuner(iDABTuner);
-        radioCmdManager$Builder.setDABDefaultListener((DABTunerListener)iDABTuner.getDSIUpManager());
-        radioCmdManager$Builder.setUnifiedTuner(iUnifiedTuner);
-        radioCmdManager$Builder.setUnifiedDefaultListener((UnifiedTunerListener)iUnifiedTuner.getDSIUpManager());
-        radioCmdManager$Builder.setSDARSTuner(iSDARSTuner);
-        radioCmdManager$Builder.setSDARSDefaultListener((SDARSTunerListener)iSDARSTuner.getDSIUpManager());
-        RadioCmdManager radioCmdManager = new RadioCmdManager(radioCmdManager$Builder);
+        RadioCmdManager.Builder builder = new RadioCmdManager.Builder(this.basics);
+        builder.setAudioService(this.audio);
+        builder.setAudioDefaultListener(this.audio);
+        builder.setAMFMTuner(iAMFMTuner);
+        builder.setAMFMDefaultListener((AMFMTunerListener)iAMFMTuner.getDSIUpManager());
+        builder.setDABTuner(iDABTuner);
+        builder.setDABDefaultListener((DABTunerListener)iDABTuner.getDSIUpManager());
+        builder.setUnifiedTuner(iUnifiedTuner);
+        builder.setUnifiedDefaultListener((UnifiedTunerListener)iUnifiedTuner.getDSIUpManager());
+        builder.setSDARSTuner(iSDARSTuner);
+        builder.setSDARSDefaultListener((SDARSTunerListener)iSDARSTuner.getDSIUpManager());
+        RadioCmdManager radioCmdManager = new RadioCmdManager(builder);
         this.audio.register(radioCmdManager);
         this.appChangeHandler.register(radioCmdManager);
         this.dsiAMFMTunerListener = new DSIAMFMTunerCmdListener(logger.amfmDSI, radioCmdManager);
@@ -302,7 +301,7 @@ public final class AppTuner {
             this.registerPrevNext(alertHandler2.prexNextListener, 8);
         }
         this.keys.getDefaultButtonHandler().register(this.scanHandler);
-        int[] nArray = new int[]{310903040, -678952704, -695795456};
+        int[] nArray = new int[]{100370, 100567, 100310};
         this.radioMenuModelListener = new RadioMenuModelListener(this.basics, nArray);
         this.gracenote = new RadioGracenote(this.basics, this.storage);
         iDABTuner.register(this.gracenote);
@@ -385,7 +384,7 @@ public final class AppTuner {
     }
 
     Object addService(Object object, Object object2, Object object3) {
-        this.basics.getLogger().startup.log(1078071040, "[AppTuner.addService] %1", object);
+        this.basics.getLogger().startup.log(1000000, "[AppTuner.addService] %1", object);
         boolean bl = false;
         if ((class$org$dsi$ifc$radio$DSIAMFMTuner == null ? (class$org$dsi$ifc$radio$DSIAMFMTuner = AppTuner.class$("org.dsi.ifc.radio.DSIAMFMTuner")) : class$org$dsi$ifc$radio$DSIAMFMTuner).getName().equals(object2)) {
             TunerProxyManager.getInstance().getAmFmTuner().setDeviceService((DSIBase)object);
@@ -466,7 +465,7 @@ public final class AppTuner {
     }
 
     void removeService(Object object, Object object2, Object object3) {
-        this.basics.getLogger().main.log(1078071040, "[AppTuner.removeService] %1 %2", object, object2);
+        this.basics.getLogger().main.log(1000000, "[AppTuner.removeService] %1 %2", object, object2);
         if ((class$org$dsi$ifc$radio$DSIAMFMTuner == null ? (class$org$dsi$ifc$radio$DSIAMFMTuner = AppTuner.class$("org.dsi.ifc.radio.DSIAMFMTuner")) : class$org$dsi$ifc$radio$DSIAMFMTuner).getName().equals(object2)) {
             TunerProxyManager.getInstance().getAmFmTuner().deinit();
             TunerProxyManager.getInstance().getAmFmTuner().setDeviceService(new NullDSIAMFMTunerService(this.basics.getLogger().amfmDSI));
@@ -525,34 +524,34 @@ public final class AppTuner {
         switch (n) {
             case 5: {
                 if (Utilities.isDABPresent()) {
-                    this.basics.getLogger().main.log(1078071040, "DABTuner present ");
-                    this.basics.getModels().getChoiceModel(-595132160).setValue(5);
+                    this.basics.getLogger().main.log(1000000, "DABTuner present ");
+                    this.basics.getModels().getChoiceModel(100316).setValue(5);
                     break;
                 }
-                this.basics.getLogger().main.log(1078071040, "DABTuner not present, changing to FM ");
-                this.basics.getModels().getChoiceModel(-595132160).setValue(1);
+                this.basics.getLogger().main.log(1000000, "DABTuner not present, changing to FM ");
+                this.basics.getModels().getChoiceModel(100316).setValue(1);
                 n = 1;
                 break;
             }
             case 7: {
                 if (Utilities.isSDARSPresent()) {
-                    this.basics.getModels().getChoiceModel(-595132160).setValue(7);
+                    this.basics.getModels().getChoiceModel(100316).setValue(7);
                     break;
                 }
-                this.basics.getModels().getChoiceModel(-595132160).setValue(1);
+                this.basics.getModels().getChoiceModel(100316).setValue(1);
                 n = 1;
                 break;
             }
             case 4: {
-                this.basics.getModels().getChoiceModel(-595132160).setValue(4);
+                this.basics.getModels().getChoiceModel(100316).setValue(4);
                 break;
             }
             default: {
-                this.basics.getModels().getChoiceModel(-595132160).setValue(1);
+                this.basics.getModels().getChoiceModel(100316).setValue(1);
             }
         }
         this.basics.getModels().setActiveTuner(n);
-        this.basics.getModels().getChoiceModel(-595132160).setValue(n2);
+        this.basics.getModels().getChoiceModel(100316).setValue(n2);
         this.basics.getModels().getChoiceModel(422).setValue(n);
         return n;
     }

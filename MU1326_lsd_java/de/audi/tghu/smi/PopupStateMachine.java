@@ -16,7 +16,7 @@ extends AbstractStateMachine {
     private final Popup popup;
 
     public PopupStateMachine(Popup popup, StateMachineData stateMachineData, SMI sMI, Logger logger) {
-        super(sMI, logger, new StringBuffer().append("p").append(popup.getPopupID()).toString(), stateMachineData);
+        super(sMI, logger, "p" + popup.getPopupID(), stateMachineData);
         this.popup = popup;
         this.uiService = this.getTerminalID() == 6 ? new SDSPopupUIService() : new HapticPopupUIService();
         this.uiService.setStateMachine(this);
@@ -43,17 +43,14 @@ extends AbstractStateMachine {
         }
     }
 
-    @Override
     protected int getTopLevelStateID() {
         return this.popup.getTopLevelState();
     }
 
-    @Override
     protected void showPartialPopups(int n, int[] nArray) {
         this.getSMI().showPartialPopupsOnPopup(this.data.terminalID, this.popup, n, nArray);
     }
 
-    @Override
     protected void hidePartialPopups(int n, int[] nArray) {
         this.getSMI().hidePartialPopupsOnPopup(this.data.terminalID, this.popup, n, nArray);
     }

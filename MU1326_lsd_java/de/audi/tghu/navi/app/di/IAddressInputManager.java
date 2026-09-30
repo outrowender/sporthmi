@@ -13,91 +13,62 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IAddressInputManager
 extends IBackupLocationHandler {
-    default public CommandList abortAddressInput(boolean bl) {
-    }
+    public CommandList abortAddressInput(boolean var1);
 
-    default public CommandList acceptGivenInput(AddressInputHandler addressInputHandler, NavLocation navLocation) {
-    }
+    public CommandList acceptGivenInput(AddressInputHandler var1, NavLocation var2);
 
-    default public void addAddressToFavorites(NavLocation navLocation) {
-    }
+    public void addAddressToFavorites(NavLocation var1);
 
-    default public void destAddressInputHKReturn(int n, int n2, Command command, Command command2) {
-    }
+    public void destAddressInputHKReturn(int var1, int var2, Command var3, Command var4);
 
-    default public void executeAddressInputEvent(CommandList commandList, int n) {
-    }
+    public void executeAddressInputEvent(CommandList var1, int var2);
 
-    default public NavLocation getInitialLocation() {
-    }
+    public NavLocation getInitialLocation();
 
-    default public CommandList getStartParkingNearDestination(NavLocation navLocation) {
-    }
+    public CommandList getStartParkingNearDestination(NavLocation var1);
 
-    default public void startPoiNearDestination(NavLocation navLocation) {
-    }
+    public void startPoiNearDestination(NavLocation var1);
 
-    default public CommandList handleAddressInputEvent(CommandList commandList, int n) {
-    }
+    public CommandList handleAddressInputEvent(CommandList var1, int var2);
 
-    default public void onNewNaviServiceListener() {
-    }
+    public void onNewNaviServiceListener();
 
-    default public void resetMemorySettings() {
-    }
+    public void resetMemorySettings();
 
-    default public void setPoiService(IPoiService iPoiService) {
-    }
+    public void setPoiService(IPoiService var1);
 
-    default public IPoiService getPoiService() {
-    }
+    public IPoiService getPoiService();
 
-    default public void start() {
-    }
+    public void start();
 
-    default public void start(NavLocation navLocation) {
-    }
+    public void start(NavLocation var1);
 
-    default public void startWithoutStrip(NavLocation navLocation) {
-    }
+    public void startWithoutStrip(NavLocation var1);
 
-    default public void startForOnline() {
-    }
+    public void startForOnline();
 
-    default public void startForOnline(CommandList commandList) {
-    }
+    public void startForOnline(CommandList var1);
 
-    default public void startStoringNavLocationOnAdbEntry(NavLocation navLocation) {
-    }
+    public void startStoringNavLocationOnAdbEntry(NavLocation var1);
 
-    default public void startStreetInputSequenceWithFollowupJunction(boolean bl) {
-    }
+    public void startStreetInputSequenceWithFollowupJunction(boolean var1);
 
-    default public int getActiveSpellerContextId() {
-    }
+    public int getActiveSpellerContextId();
 
-    default public int getAutoSelectLeftElementEventId() {
-    }
+    public int getAutoSelectLeftElementEventId();
 
-    default public int getStreetScreenNonAmbiguousListElementSelectedEventId() {
-    }
+    public int getStreetScreenNonAmbiguousListElementSelectedEventId();
 
-    default public int getStreetScreenAmbiguousListElementSelecteEventId() {
-    }
+    public int getStreetScreenAmbiguousListElementSelecteEventId();
 
-    default public int getStartForOnlineEventId() {
-    }
+    public int getStartForOnlineEventId();
 
-    default public int getStartCityInputFromMainScreenEventId() {
-    }
+    public int getStartCityInputFromMainScreenEventId();
 
-    default public IAddressInputMainScreenListener getMainScreenListener() {
-    }
+    public IAddressInputMainScreenListener getMainScreenListener();
 
-    default public void startForRemoteHMI() {
-    }
+    public void startForRemoteHMI();
 
-    default public int getStartForRemoteHMIEventId() {
-    }
+    public int getStartForRemoteHMIEventId();
 }
 

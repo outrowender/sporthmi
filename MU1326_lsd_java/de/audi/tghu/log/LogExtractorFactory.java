@@ -4,16 +4,20 @@
 package de.audi.tghu.log;
 
 import de.audi.atip.base.IFrameworkAccess;
-import de.audi.tghu.log.LogExtractorFactory$ByteArrayData;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 
 public final class LogExtractorFactory {
-    private LogExtractorFactory$ByteArrayData criticalData;
-    private LogExtractorFactory$ByteArrayData errorData;
-    private LogExtractorFactory$ByteArrayData warningData;
-    private LogExtractorFactory$ByteArrayData infoData;
-    private LogExtractorFactory$ByteArrayData debugData;
-    private LogExtractorFactory$ByteArrayData debug2Data;
+    private ByteArrayData criticalData;
+    private ByteArrayData errorData;
+    private ByteArrayData warningData;
+    private ByteArrayData infoData;
+    private ByteArrayData debugData;
+    private ByteArrayData debug2Data;
     private static final LogExtractorFactory INSTANCE = new LogExtractorFactory();
     private IFrameworkAccess framework = null;
     private long[] started = new long[]{0L, 0L, 0L, 0L, 0L, 0L};
@@ -43,7 +47,7 @@ public final class LogExtractorFactory {
             case 1000: {
                 if (this.criticalData == null) {
                     this.started[0] = this.getMonotonicTime();
-                    this.criticalData = new LogExtractorFactory$ByteArrayData(this, "log_msg_critical.dat");
+                    this.criticalData = new ByteArrayData("log_msg_critical.dat");
                     this.done[0] = this.getMonotonicTime();
                 }
                 string = this.criticalData.getString(n);
@@ -52,7 +56,7 @@ public final class LogExtractorFactory {
             case 10000: {
                 if (this.errorData == null) {
                     this.started[1] = this.getMonotonicTime();
-                    this.errorData = new LogExtractorFactory$ByteArrayData(this, "log_msg_error.dat");
+                    this.errorData = new ByteArrayData("log_msg_error.dat");
                     this.done[1] = this.getMonotonicTime();
                 }
                 string = this.errorData.getString(n);
@@ -61,7 +65,7 @@ public final class LogExtractorFactory {
             case 100000: {
                 if (this.warningData == null) {
                     this.started[2] = this.getMonotonicTime();
-                    this.warningData = new LogExtractorFactory$ByteArrayData(this, "log_msg_warning.dat");
+                    this.warningData = new ByteArrayData("log_msg_warning.dat");
                     this.done[2] = this.getMonotonicTime();
                 }
                 string = this.warningData.getString(n);
@@ -70,7 +74,7 @@ public final class LogExtractorFactory {
             case 1000000: {
                 if (this.infoData == null) {
                     this.started[3] = this.getMonotonicTime();
-                    this.infoData = new LogExtractorFactory$ByteArrayData(this, "log_msg_info.dat");
+                    this.infoData = new ByteArrayData("log_msg_info.dat");
                     this.done[3] = this.getMonotonicTime();
                 }
                 string = this.infoData.getString(n);
@@ -79,7 +83,7 @@ public final class LogExtractorFactory {
             case 10000000: {
                 if (this.debugData == null) {
                     this.started[4] = this.getMonotonicTime();
-                    this.debugData = new LogExtractorFactory$ByteArrayData(this, "log_msg_debug.dat");
+                    this.debugData = new ByteArrayData("log_msg_debug.dat");
                     this.done[4] = this.getMonotonicTime();
                 }
                 string = this.debugData.getString(n);
@@ -88,7 +92,7 @@ public final class LogExtractorFactory {
             case 100000000: {
                 if (this.debug2Data == null) {
                     this.started[5] = this.getMonotonicTime();
-                    this.debug2Data = new LogExtractorFactory$ByteArrayData(this, "log_msg_debug2.dat");
+                    this.debug2Data = new ByteArrayData("log_msg_debug2.dat");
                     this.done[5] = this.getMonotonicTime();
                 }
                 string = this.debug2Data.getString(n);
@@ -117,11 +121,87 @@ public final class LogExtractorFactory {
     }
 
     private final ClassLoader getResourceClassLoader() {
-        return super.getClass().getClassLoader() != null ? super.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
+        return this.getClass().getClassLoader() != null ? this.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
     }
 
-    static /* synthetic */ ClassLoader access$000(LogExtractorFactory logExtractorFactory) {
-        return logExtractorFactory.getResourceClassLoader();
+    private class ByteArrayData {
+        private String charset = "UTF-8";
+        private int nrStrings;
+        private int[] offset;
+        private byte[] data;
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         * Enabled aggressive block sorting
+         * Enabled unnecessary exception pruning
+         * Enabled aggressive exception aggregation
+         */
+        public ByteArrayData(String string) {
+            InputStream inputStream = null;
+            FilterInputStream filterInputStream = null;
+            try {
+                inputStream = LogExtractorFactory.this.getResourceClassLoader().getResourceAsStream(string);
+                if (inputStream == null) {
+                    System.err.println(new StringBuffer().append("[ERROR] cannot open file: ").append(string).toString());
+                    System.err.println("[ERROR] ext_log.zip is not in the CLASSPATH!!!");
+                    return;
+                }
+                filterInputStream = new DataInputStream(new BufferedInputStream(inputStream, 40960));
+                this.nrStrings = ((DataInputStream)filterInputStream).readInt();
+                if (this.nrStrings < 0) throw new IOException("Stream data corrupted!");
+                this.offset = new int[this.nrStrings + 1];
+                for (int i2 = 0; i2 <= this.nrStrings; ++i2) {
+                    this.offset[i2] = ((DataInputStream)filterInputStream).readInt();
+                }
+                if (this.offset[this.nrStrings] > 0) {
+                    this.data = new byte[this.offset[this.nrStrings]];
+                    ((DataInputStream)filterInputStream).readFully(this.data);
+                    return;
+                }
+                if (this.offset[this.nrStrings] != 0) throw new IOException("Stream data corrupted!");
+                this.data = new byte[0];
+                return;
+            }
+            catch (Exception exception) {
+                System.err.println(new StringBuffer().append("[ERROR] cannot open file: ").append(string).toString());
+                System.err.println("[ERROR] ext_log.zip is not in the CLASSPATH!!!");
+                return;
+            }
+            catch (IOException iOException) {
+                iOException.printStackTrace();
+                return;
+            }
+            finally {
+                if (filterInputStream != null) {
+                    try {
+                        filterInputStream.close();
+                    }
+                    catch (IOException iOException) {
+                        iOException.printStackTrace();
+                    }
+                }
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    }
+                    catch (IOException iOException) {
+                        iOException.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        public String getString(int n) {
+            if (n >= 0 && n < this.nrStrings) {
+                try {
+                    return new String(this.data, this.offset[n], this.offset[n + 1] - this.offset[n], this.charset);
+                }
+                catch (Exception exception) {
+                    return "[ERROR] ext_log.zip is not in the CLASSPATH!!!";
+                }
+            }
+            return "[ERROR] ext_log.zip is not in the CLASSPATH!!!";
+        }
     }
 }
 

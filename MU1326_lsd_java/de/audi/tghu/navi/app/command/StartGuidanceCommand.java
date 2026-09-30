@@ -12,9 +12,9 @@ import org.dsi.ifc.navigation.RouteOptions;
 
 public class StartGuidanceCommand
 extends NavCommand {
-    public static final int ALT_ROUTES_ALLOW;
-    public static final int ALT_ROUTES_ENABLE;
-    public static final int ALT_ROUTES_DISABLE;
+    public static final int ALT_ROUTES_ALLOW = 0;
+    public static final int ALT_ROUTES_ENABLE = 1;
+    public static final int ALT_ROUTES_DISABLE = 2;
     private int altRoutesState;
     private boolean prepareMap;
     private boolean tryResume;
@@ -25,13 +25,12 @@ extends NavCommand {
         this.tryResume = bl2;
     }
 
-    @Override
     public void execute() {
         Route route = this.navigation.getRouteManager().getRoute();
         int n = RouteUtil.getRouteLength(route);
         if (n == 0) {
             String string = "current on-road route is null!";
-            this.logger.log(-1601830656, "StartGuidanceCommand#execute() - %1 ", (Object)string);
+            this.logger.log(100000, "StartGuidanceCommand#execute() - %1 ", (Object)string);
             this.getCommandList().commandAborted(string);
         } else {
             CommandList commandList = this.navigation.getCommandListFactory().createCommandList();
@@ -39,7 +38,7 @@ extends NavCommand {
             if (n2 == 0) {
                 RouteOptions routeOptions = this.navigation.getRouteCriteriaManager().getRouteCriteria().getRouteOptions(true)[0];
                 Route route2 = null;
-                this.logger.log(-2137614336, "StartGuidanceCommand#execute() - configuredRouteOptions: %1, routeLength: %2", (Object)routeOptions, (long)n);
+                this.logger.log(10000000, "StartGuidanceCommand#execute() - configuredRouteOptions: %1, routeLength: %2", (Object)routeOptions, (long)n);
                 if (n == 1 && (this.altRoutesState == 1 || this.altRoutesState == 0)) {
                     RouteOptions[] routeOptionsArray = new RouteOptions[3];
                     for (int i2 = 0; i2 < routeOptionsArray.length; ++i2) {

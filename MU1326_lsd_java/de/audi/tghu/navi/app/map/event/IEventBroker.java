@@ -6,13 +6,10 @@ package de.audi.tghu.navi.app.map.event;
 import de.audi.tghu.navi.app.map.event.MapEventListener;
 
 public interface IEventBroker {
-    default public void addListener(MapEventListener mapEventListener) {
-    }
+    public void addListener(MapEventListener var1);
 
-    default public void fireEvent(int n) {
-    }
+    public void fireEvent(int var1);
 
-    default public void fireEvent(int n, int n2) {
-    }
+    public void fireEvent(int var1, int var2);
 }
 

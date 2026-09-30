@@ -4,10 +4,11 @@
 package de.audi.tuner.app.rsdb;
 
 import de.audi.atip.hmi.model.HMIResourceLocator;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.i18n.Language;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.LanguageManager;
-import de.audi.tuner.app.LanguageManager$ILanguageChangeListener;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerObjectContainer;
 import de.audi.tuner.app.Utilities;
@@ -16,8 +17,6 @@ import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.rsdb.CountryRegionMngr;
 import de.audi.tuner.app.rsdb.IRSDBResult;
 import de.audi.tuner.app.rsdb.IRadioDatabaseListener;
-import de.audi.tuner.app.rsdb.LogoDatabase$ChoiceListener;
-import de.audi.tuner.app.rsdb.LogoDatabase$LanguageChangeListener;
 import de.audi.tuner.app.rsdb.OutstandingRequest;
 import de.audi.tuner.app.rsdb.RadioDBEntry;
 import de.audi.tuner.app.rsdb.RadioDataDsi;
@@ -49,14 +48,14 @@ import org.dsi.ifc.radiodata.RadioStationLogoResponse;
 
 public class LogoDatabase
 implements ILogoDatabase {
-    public final LanguageManager$ILanguageChangeListener languageChangeListener = new LogoDatabase$LanguageChangeListener(this, null);
-    private static final int MAX_ITEM_COUNT;
-    public static final int REQ_TYPE_COUNTRY_DETECT;
-    public static final int REQ_TYPE_STATION_DETECT;
-    public static final int REQ_TYPE_LOGO_REQUEST;
-    public static final int ACTIVATION_STATE_DEACTIVATED;
-    public static final int ACTIVATION_STATE_ACTIVATED;
-    private static final RadioStationData EMPTY_RADIO_DATA;
+    public final LanguageManager.ILanguageChangeListener languageChangeListener = new LanguageChangeListener();
+    private static final int MAX_ITEM_COUNT = 10;
+    public static final int REQ_TYPE_COUNTRY_DETECT = 1;
+    public static final int REQ_TYPE_STATION_DETECT = 2;
+    public static final int REQ_TYPE_LOGO_REQUEST = 3;
+    public static final int ACTIVATION_STATE_DEACTIVATED = 0;
+    public static final int ACTIVATION_STATE_ACTIVATED = 1;
+    private static final RadioStationData EMPTY_RADIO_DATA = LogoDatabase.nullCheck(new RadioStationData());
     private RadioDataDsi dsi;
     private final RadioDataListenerImpl radioDataListenerImpl;
     private int requestCount = 10;
@@ -85,16 +84,15 @@ implements ILogoDatabase {
         this.lg = tunerBasics.getLogger().rsdb;
         this.settingsRegion = tunerStorage.loadDatabaseCountry();
         this.tunerStorage = tunerStorage;
-        this.dbActivatedChoice = tunerBasics.getModels().getChoiceModel(-930545408);
+        this.dbActivatedChoice = tunerBasics.getModels().getChoiceModel(100808);
         this.dbActivatedChoice.setValue(this.tunerStorage.loadDatabaseActivated());
-        this.dbActivatedChoice.setChoiceListener(new LogoDatabase$ChoiceListener(this, null));
+        this.dbActivatedChoice.setChoiceListener(new ChoiceListener());
         this.countryRegionMngr = new CountryRegionMngr(this, tunerBasics, tunerStorage, languageManager);
         this.strategyOne = new StrategyOne(this.countryRegionMngr, this.lg);
         this.strategyTwo = new StrategyTwo(this.countryRegionMngr, this.lg);
         this.strategyFive = new StrategyFive(this.countryRegionMngr, this.lg);
     }
 
-    @Override
     public boolean isRealDatabase() {
         return true;
     }
@@ -138,14 +136,14 @@ implements ILogoDatabase {
     public void setStatus(int n) {
         if (n == 2) {
             String string;
-            this.dsi.requestCountryRegionData(846792192);
-            this.dsi.requestCountryListUpdate(-1482684928);
+            this.dsi.requestCountryRegionData(424242);
+            this.dsi.requestCountryListUpdate(434343);
             Object object = this.mutex;
             synchronized (object) {
                 string = this.language;
             }
             if (!Utilities.isEmpty(string)) {
-                this.dsi.requestCountryRegionTranslationData(-1, string, 482870784);
+                this.dsi.requestCountryRegionTranslationData(-1, string, 444444);
             }
         }
     }
@@ -158,7 +156,7 @@ implements ILogoDatabase {
         synchronized (object) {
             this.language = string;
         }
-        this.dsi.requestCountryRegionTranslationData(-1, string, 482870784);
+        this.dsi.requestCountryRegionTranslationData(-1, string, 444444);
         this.countryRegionMngr.setSystemLanguage(string);
     }
 
@@ -179,7 +177,6 @@ implements ILogoDatabase {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestDataById(TunerObjectContainer[] tunerObjectContainerArray, IRSDBResult iRSDBResult) {
         Serializable serializable;
         int n;
@@ -208,7 +205,7 @@ implements ILogoDatabase {
         }
         RadioStationLogoRequest[] radioStationLogoRequestArray = outstandingRequest.getDsiLogoReq();
         if (radioStationLogoRequestArray.length > 0) {
-            this.lg.log(-2137614336, "[LD.requestDataById] send request size:%1 type:%2", (long)radioStationLogoRequestArray.length, (long)outstandingRequest.requestType);
+            this.lg.log(10000000, "[LD.requestDataById] send request size:%1 type:%2", (long)radioStationLogoRequestArray.length, (long)outstandingRequest.requestType);
             serializable = this.intDB;
             synchronized (serializable) {
                 n = this.requestCount;
@@ -219,11 +216,10 @@ implements ILogoDatabase {
         } else if (n2 > 0) {
             iRSDBResult.resultAvailable();
         } else {
-            this.lg.log(-2137614336, "[LogoDatabase.requestAmFmData] request is empty");
+            this.lg.log(10000000, "[LogoDatabase.requestAmFmData] request is empty");
         }
     }
 
-    @Override
     public void requestAmFmData(AMFMStation[] aMFMStationArray, IRSDBResult iRSDBResult) {
         if (!this.initialisationOk) {
             return;
@@ -242,7 +238,7 @@ implements ILogoDatabase {
     private void startRequest(OutstandingRequest outstandingRequest) {
         RadioStationDataRequest[] radioStationDataRequestArray = outstandingRequest.getDsiDataReq();
         if (radioStationDataRequestArray.length > 0) {
-            this.lg.log(-2137614336, "[LogoDatabase.startRequest] send request size:%1 type:%2", (long)radioStationDataRequestArray.length, (long)outstandingRequest.requestType);
+            this.lg.log(10000000, "[LogoDatabase.startRequest] send request size:%1 type:%2", (long)radioStationDataRequestArray.length, (long)outstandingRequest.requestType);
             int n = 0;
             HashMap hashMap = this.intDB;
             synchronized (hashMap) {
@@ -252,7 +248,7 @@ implements ILogoDatabase {
                     this.outstandingRequests.add(n, outstandingRequest);
                     this.runningReq[outstandingRequest.band] = true;
                 } else {
-                    this.lg.log(-2137614336, "[LogoDatabase.startRequest] skip request for list %1", (long)outstandingRequest.band);
+                    this.lg.log(10000000, "[LogoDatabase.startRequest] skip request for list %1", (long)outstandingRequest.band);
                     this.skippedReq[outstandingRequest.band] = true;
                 }
             }
@@ -260,7 +256,7 @@ implements ILogoDatabase {
                 this.dsi.requestRadioStationData(radioStationDataRequestArray, n);
             }
         } else {
-            this.lg.log(-2137614336, "[LogoDatabase.startRequest] request is empty");
+            this.lg.log(10000000, "[LogoDatabase.startRequest] request is empty");
         }
     }
 
@@ -271,7 +267,6 @@ implements ILogoDatabase {
         return !this.runningReq[outstandingRequest.band];
     }
 
-    @Override
     public void requestUniData(UnifiedStationExt[] unifiedStationExtArray, IRSDBResult iRSDBResult) {
         if (!this.initialisationOk) {
             return;
@@ -283,7 +278,6 @@ implements ILogoDatabase {
         this.startRequest(outstandingRequest);
     }
 
-    @Override
     public void requestDabData(DabStation[] dabStationArray, IRSDBResult iRSDBResult) {
         if (!this.initialisationOk) {
             return;
@@ -415,7 +409,7 @@ implements ILogoDatabase {
 
     private OutstandingRequest addStationDetectStrategy(int n, OutstandingRequest outstandingRequest) {
         int n2 = this.countryRegionMngr.getStrategy(n);
-        this.lg.log(14808325, "[LogoDatabase.addStationDetectStrategy] country %1, strategy %2", (long)n, (long)n2);
+        this.lg.log(100000000, "[LogoDatabase.addStationDetectStrategy] country %1, strategy %2", (long)n, (long)n2);
         switch (n2) {
             case 1: {
                 return this.strategyOne.createStationDetectRequest(n, outstandingRequest);
@@ -552,7 +546,7 @@ implements ILogoDatabase {
             OutstandingRequest outstandingRequest;
             Object object;
             block26: {
-                this.lg.log(14808325, "[LogoDatabase.responseRadioStationData] in %1", (long)n);
+                this.lg.log(100000000, "[LogoDatabase.responseRadioStationData] in %1", (long)n);
                 object = this.intDB;
                 // MONITORENTER : object
                 outstandingRequest = (OutstandingRequest)this.outstandingRequests.get(n);
@@ -563,9 +557,9 @@ implements ILogoDatabase {
                     return;
                 }
                 if (outstandingRequest.requestType != 1) break block26;
-                this.lg.log(14808325, "handle coutry detection");
+                this.lg.log(100000000, "handle coutry detection");
                 this.calculateCountry(outstandingRequest, radioStationDataResponseArray);
-                this.lg.log(14808325, "Country detection statistic %1", (Object)outstandingRequest.countryFinder);
+                this.lg.log(100000000, "Country detection statistic %1", (Object)outstandingRequest.countryFinder);
                 int n2 = outstandingRequest.countryFinder.getCountry();
                 if (n2 == 1) {
                     n2 = this.lastDetectedCountry;
@@ -575,7 +569,7 @@ implements ILogoDatabase {
                 OutstandingRequest outstandingRequest2 = this.addStationDetectStrategy(n2, outstandingRequest);
                 RadioStationDataRequest[] radioStationDataRequestArray = outstandingRequest2.getDsiDataReq();
                 if (radioStationDataRequestArray.length > 0) {
-                    this.lg.log(-2137614336, "[LogoDatabase.responseRadioStationData] send stationDetectionRequest size:%1", (long)radioStationDataRequestArray.length);
+                    this.lg.log(10000000, "[LogoDatabase.responseRadioStationData] send stationDetectionRequest size:%1", (long)radioStationDataRequestArray.length);
                     int n3 = n + 1;
                     HashMap hashMap = this.intDB;
                     // MONITORENTER : hashMap
@@ -584,7 +578,7 @@ implements ILogoDatabase {
                     this.dsi.requestRadioStationData(radioStationDataRequestArray, n3);
                     break block25;
                 } else {
-                    this.lg.log(-2137614336, "[LogoDatabase.responseRadioStationData] send no stationDetectionRequest");
+                    this.lg.log(10000000, "[LogoDatabase.responseRadioStationData] send no stationDetectionRequest");
                     IRSDBResult iRSDBResult = null;
                     HashMap hashMap = this.intDB;
                     // MONITORENTER : hashMap
@@ -601,11 +595,11 @@ implements ILogoDatabase {
                 break block25;
             }
             if (outstandingRequest.requestType == 2) {
-                this.lg.log(14808325, "handle station detection");
+                this.lg.log(100000000, "handle station detection");
                 object = this.createLogoRequest(radioStationDataResponseArray, outstandingRequest);
                 RadioStationLogoRequest[] radioStationLogoRequestArray = ((OutstandingRequest)object).getDsiLogoReq();
                 if (radioStationLogoRequestArray.length > 0) {
-                    this.lg.log(-2137614336, "[LogoDatabase.responseRadioStationData] send Logo Request size:%1", (long)radioStationLogoRequestArray.length);
+                    this.lg.log(10000000, "[LogoDatabase.responseRadioStationData] send Logo Request size:%1", (long)radioStationLogoRequestArray.length);
                     int n4 = n + 1;
                     HashMap hashMap = this.intDB;
                     // MONITORENTER : hashMap
@@ -613,7 +607,7 @@ implements ILogoDatabase {
                     // MONITOREXIT : hashMap
                     this.dsi.requestRadioStationLogos(radioStationLogoRequestArray, n4);
                 } else {
-                    this.lg.log(-2137614336, "[LogoDatabase.responseRadioStationData] send no Logo Request");
+                    this.lg.log(10000000, "[LogoDatabase.responseRadioStationData] send no Logo Request");
                     boolean bl = false;
                     HashMap hashMap = this.intDB;
                     // MONITORENTER : hashMap
@@ -631,10 +625,10 @@ implements ILogoDatabase {
                     // MONITOREXIT : hashMap
                 }
             } else {
-                this.lg.log(-2137614336, "[LogoDatabase.responseRadioStationData] wasRequest.requestType %1 unknown", (long)outstandingRequest.requestType);
+                this.lg.log(10000000, "[LogoDatabase.responseRadioStationData] wasRequest.requestType %1 unknown", (long)outstandingRequest.requestType);
             }
         }
-        this.lg.log(14808325, "[LogoDatabase.responseRadioStationData] out %1", (long)n);
+        this.lg.log(100000000, "[LogoDatabase.responseRadioStationData] out %1", (long)n);
     }
 
     private void calculateCountry(OutstandingRequest outstandingRequest, RadioStationDataResponse[] radioStationDataResponseArray) {
@@ -684,7 +678,7 @@ implements ILogoDatabase {
                 }
             }
             if (radioStationLogoResponseArray[n2].totalItemCount != -999) continue;
-            this.lg.log(-2137614336, "[LogoDatabase.respStationLogos] reorganizing DB!");
+            this.lg.log(10000000, "[LogoDatabase.respStationLogos] reorganizing DB!");
             object = this.intDB;
             synchronized (object) {
                 this.oldDB.putAll(this.intDB);
@@ -703,14 +697,14 @@ implements ILogoDatabase {
             if (bl || n2 != 0) {
                 outstandingRequest.rsdbListener.resultAvailable();
             } else {
-                this.lg.log(1078071040, "[LogoDatabase.respStationLogos] no new infos");
+                this.lg.log(1000000, "[LogoDatabase.respStationLogos] no new infos");
             }
         }
     }
 
     public Object dump() {
         Buffer buffer = new Buffer(10000);
-        this.dsi.requestDatabaseVersionInfo(-1736899072);
+        this.dsi.requestDatabaseVersionInfo(424344);
         Set set = this.intDB.keySet();
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
@@ -733,7 +727,7 @@ implements ILogoDatabase {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setRegion(int n) {
-        this.lg.log(1078071040, "[LogoDatabase.setRegion] to %1 ", (long)n);
+        this.lg.log(1000000, "[LogoDatabase.setRegion] to %1 ", (long)n);
         HashMap hashMap = this.intDB;
         synchronized (hashMap) {
             this.settingsRegion = n;
@@ -748,7 +742,6 @@ implements ILogoDatabase {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public HMIResourceLocator getLogo(long l) {
         Object object;
         Object object2 = this.intDB;
@@ -762,34 +755,33 @@ implements ILogoDatabase {
         return ISimpleTuner.EMPTY_RL;
     }
 
-    @Override
     public void resetToDefaultSettings() {
         this.countryRegionMngr.resetToDefaultSettings();
         this.setActivated(1);
     }
 
-    static /* synthetic */ void access$200(LogoDatabase logoDatabase, String string) {
-        logoDatabase.setSystemLanguage(string);
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            int n5 = LogoDatabase.this.dbActivatedChoice.getValue() == 1 ? 0 : 1;
+            LogoDatabase.this.setActivated(n5);
+        }
     }
 
-    static /* synthetic */ boolean access$300(LogoDatabase logoDatabase) {
-        return logoDatabase.initialisationOk;
-    }
+    private class LanguageChangeListener
+    implements LanguageManager.ILanguageChangeListener {
+        private LanguageChangeListener() {
+        }
 
-    static /* synthetic */ void access$400(LogoDatabase logoDatabase) {
-        logoDatabase.informDbReadyChanged();
-    }
-
-    static /* synthetic */ ChoiceModelApp access$500(LogoDatabase logoDatabase) {
-        return logoDatabase.dbActivatedChoice;
-    }
-
-    static /* synthetic */ void access$600(LogoDatabase logoDatabase, int n) {
-        logoDatabase.setActivated(n);
-    }
-
-    static {
-        EMPTY_RADIO_DATA = LogoDatabase.nullCheck(new RadioStationData());
+        public void languageChanged(Language language) {
+            LogoDatabase.this.setSystemLanguage(language.getLanguageCode());
+            if (LogoDatabase.this.initialisationOk) {
+                LogoDatabase.this.informDbReadyChanged();
+            }
+        }
     }
 }
 

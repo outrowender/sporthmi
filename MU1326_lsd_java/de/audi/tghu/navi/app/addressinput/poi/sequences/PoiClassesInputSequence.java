@@ -22,67 +22,60 @@ extends AbstractStartPoiInputSequence {
     private IVehicle vehicle;
 
     public PoiClassesInputSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, ICommandListFactory iCommandListFactory, PoiSearchArea poiSearchArea, NavigationEnv navigationEnv, IVehicle iVehicle, IDetailsScreen iDetailsScreen) {
-        super(iPoiSpellerModelAccess, iCommandListFactory, 0x1800000, poiSearchArea, navigationEnv, iDetailsScreen);
+        super(iPoiSpellerModelAccess, iCommandListFactory, 32769, poiSearchArea, navigationEnv, iDetailsScreen);
         this.vehicle = iVehicle;
     }
 
-    @Override
     public void start() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassesInputSequence#start() ");
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassesInputSequence#start() ");
         CommandList commandList = this.createStartSequence();
         commandList.execute("PoiClassesInputSequence#start");
     }
 
-    @Override
     public void startCategoriesOrResultsSequence(IPoiCategoriesOrResultsModelAccess iPoiCategoriesOrResultsModelAccess, int n) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startCategoriesOrResultsSequence(iPoiCategoriesOrResultsModelAccess, n);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassesInputSequence#startCategoriesSequence() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassesInputSequence#startCategoriesSequence() - element: %1", (Object)this.selectedElement);
         this.currentInputSequence = new PoiCategoriesOrResultsWrapperSequence(iPoiCategoriesOrResultsModelAccess, this.commandListFactory, this.env, this.searchArea, this.selectedElement, this.vehicle, n, this.detailsScreen);
         this.currentInputSequence.start();
     }
 
-    @Override
     public void startCategories(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startCategories(iPoiSpellerModelAccess);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassesInputSequence#startCategoriesSequence() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassesInputSequence#startCategoriesSequence() - element: %1", (Object)this.selectedElement);
         this.currentInputSequence = new PoiClassCategoriesInputSequence(iPoiSpellerModelAccess, this.commandListFactory, this.searchArea, this.env, this.selectedElement, this.vehicle, this.detailsScreen);
         this.currentInputSequence.start();
     }
 
-    @Override
     public void startResultsSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, int n) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startResultsSequence(iPoiSpellerModelAccess, n);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassesInputSequence#startResultsSequence() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassesInputSequence#startResultsSequence() - element: %1", (Object)this.selectedElement);
         this.currentInputSequence = new PoiResultsGeneralInputSequence(iPoiSpellerModelAccess, this.commandListFactory, this.searchArea, this.env, this.selectedElement, this.vehicle, false, n, this.detailsScreen);
         this.currentInputSequence.start();
     }
 
-    @Override
     public void startSubstringSearch(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.startSubstringSearch(iPoiSpellerModelAccess);
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassesInputSequence#startSubstringSearch() - element: %1", (Object)this.selectedElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassesInputSequence#startSubstringSearch() - element: %1", (Object)this.selectedElement);
         this.currentInputSequence = new PoiStartSearchSpellerInputSequence(iPoiSpellerModelAccess, this.commandListFactory, this.searchArea, this.env, this.vehicle, this.detailsScreen);
         this.currentInputSequence.start();
     }
 
-    @Override
     protected int getSortOrder() {
         return 0;
     }
 
-    @Override
     protected String getStringId() {
         return "PoiClassesInputSequence";
     }

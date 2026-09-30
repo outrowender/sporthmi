@@ -10,14 +10,13 @@ import java.util.Comparator;
 class SortAlgoSpeech
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 8728648799714868552L;
     private int activeEnsemble;
 
     SortAlgoSpeech(int n) {
         this.activeEnsemble = n;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         Long l = (Long)object;
         Long l2 = (Long)object2;

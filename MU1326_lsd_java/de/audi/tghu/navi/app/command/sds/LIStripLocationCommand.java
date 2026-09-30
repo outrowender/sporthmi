@@ -9,7 +9,7 @@ import org.dsi.ifc.global.NavLocation;
 
 public class LIStripLocationCommand
 extends NavCommand {
-    public static final String STRIPPED_LOCATION;
+    public static final String STRIPPED_LOCATION = "STRIPPED_LOCATION";
     private NavLocation location;
     private int type;
 
@@ -18,16 +18,14 @@ extends NavCommand {
         this.type = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LIStripLocationCommand#execute() - calling liStripLocation( %1, %2 )", (Object)LocationFormatter.formatLocationShort(this.location), (long)this.type);
+        this.logger.log(10000000, "LIStripLocationCommand#execute() - calling liStripLocation( %1, %2 )", (Object)LocationFormatter.formatLocationShort(this.location), (long)this.type);
         this.getDSINavigation().liStripLocation(this.location, this.type);
     }
 
-    @Override
     public void liStripLocationResult(NavLocation navLocation) {
-        this.logger.log(-2137614336, "LIStripLocationCommand#liStripLocationResult( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
-        this.getCommandList().put("STRIPPED_LOCATION", navLocation);
+        this.logger.log(10000000, "LIStripLocationCommand#liStripLocationResult( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.getCommandList().put(STRIPPED_LOCATION, navLocation);
         this.getCommandList().commandFinished();
     }
 }

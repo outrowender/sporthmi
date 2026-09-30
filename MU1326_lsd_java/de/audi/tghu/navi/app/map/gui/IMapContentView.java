@@ -9,25 +9,18 @@ import de.audi.tghu.navi.app.map.IView;
 
 public interface IMapContentView
 extends IView {
-    default public BaseListModelApp getStandardList() {
-    }
+    public BaseListModelApp getStandardList();
 
-    default public BaseListModelApp getStandardListLevel2() {
-    }
+    public BaseListModelApp getStandardListLevel2();
 
-    default public BaseListModelApp getStandardListLevel3() {
-    }
+    public BaseListModelApp getStandardListLevel3();
 
-    default public ChoiceModelApp getCheckAllStandard() {
-    }
+    public ChoiceModelApp getCheckAllStandard();
 
-    default public BaseListModelApp getKMLLayersList() {
-    }
+    public BaseListModelApp getKMLLayersList();
 
-    default public BaseListModelApp getPPOIList() {
-    }
+    public BaseListModelApp getPPOIList();
 
-    default public void setMyAudiAvailable(boolean bl) {
-    }
+    public void setMyAudiAvailable(boolean var1);
 }
 

@@ -19,8 +19,8 @@ import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
-import de.audi.tghu.navi.app.addressinput.junction.JunctionInputSequence$1;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -34,7 +34,6 @@ implements IMatchspellerInputSequenceExt {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);
@@ -49,28 +48,39 @@ implements IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.getSelectListElementCommandList(lIValueListElement, bl);
         commandList.execute("JunctionInputSequence#selectListElement");
     }
 
-    @Override
-    public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
+    public CommandList getSelectListElementCommandList(final LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new JunctionInputSequence$1(this, lIValueListElement));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (lIValueListElement.isToRefine()) {
+                    JunctionInputSequence.this.modelAccess.onAmbiguousElementSelected();
+                    this.getCommandList().commandFinishedWithPostSequence(JunctionInputSequence.this.createStartSequence(127, false));
+                } else {
+                    JunctionInputSequence.this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
+                    CommandList commandList = JunctionInputSequence.this.commandListFactory.createCommandList();
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(JunctionInputSequence.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(JunctionInputSequence.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(JunctionInputSequence.this.addressInputForm));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = this.getSelectElementByIdentifierCommandList(string);
         commandList.execute("JunctionInputSequence#selectElementByIdentifier");
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
@@ -94,34 +104,6 @@ implements IMatchspellerInputSequenceExt {
         }
         commandList.add(new SetBackupLocationForAddressInputFormCommand(this.addressInputForm));
         return commandList;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$000(JunctionInputSequence junctionInputSequence) {
-        return junctionInputSequence.modelAccess;
-    }
-
-    static /* synthetic */ CommandList access$100(JunctionInputSequence junctionInputSequence, int n, boolean bl) {
-        return junctionInputSequence.createStartSequence(n, bl);
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$200(JunctionInputSequence junctionInputSequence) {
-        return junctionInputSequence.modelAccess;
-    }
-
-    static /* synthetic */ ICommandListFactory access$300(JunctionInputSequence junctionInputSequence) {
-        return junctionInputSequence.commandListFactory;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$400(JunctionInputSequence junctionInputSequence) {
-        return junctionInputSequence.modelAccess;
-    }
-
-    static /* synthetic */ IPreviewMap access$500(JunctionInputSequence junctionInputSequence) {
-        return junctionInputSequence.previewMap;
-    }
-
-    static /* synthetic */ IAddressInputForm access$600(JunctionInputSequence junctionInputSequence) {
-        return junctionInputSequence.addressInputForm;
     }
 }
 

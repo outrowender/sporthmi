@@ -15,7 +15,7 @@ public class OnlineDestinationModelHandler {
     private LogChannel log;
     private int importMode;
     private int lastDownloadResult = -1;
-    public static final int INDEX_CELL_COLUMN;
+    public static final int INDEX_CELL_COLUMN = 2;
     private HashMap portalEntriesMap = new HashMap();
     private List portalAddressList = new ArrayList();
     private PortalADBEntry[] portalAllAddressEntries;
@@ -23,21 +23,21 @@ public class OnlineDestinationModelHandler {
 
     public OnlineDestinationModelHandler(IHMIServiceApp iHMIServiceApp, LogChannel logChannel, OnlineDestinationController onlineDestinationController) {
         this.log = logChannel;
-        this.log.log(1078071040, "OnlineDestinationModelUpdater#OnlineDestinationModelUpdater()");
+        this.log.log(1000000, "OnlineDestinationModelUpdater#OnlineDestinationModelUpdater()");
     }
 
     public void setImportMode(int n) {
-        this.log.log(-2137614336, "OnlineDestinationModelUpdater#setImportMode() %1", (long)n);
+        this.log.log(10000000, "OnlineDestinationModelUpdater#setImportMode() %1", (long)n);
         this.importMode = n;
     }
 
     public int getImportMode() {
-        this.log.log(1078071040, "OnlineDestinationModelUpdater#getImportMode()");
+        this.log.log(1000000, "OnlineDestinationModelUpdater#getImportMode()");
         return this.importMode;
     }
 
     public void updateErrorStateModels(int n) {
-        this.log.log(1078071040, "OnlineDestinationModelUpdater#updateErrorStateModels() errorCode %1", (long)n);
+        this.log.log(1000000, "OnlineDestinationModelUpdater#updateErrorStateModels() errorCode %1", (long)n);
         this.lastDownloadResult = n;
     }
 

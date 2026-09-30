@@ -13,26 +13,23 @@ extends NavCommand {
         this.countryAbbrev = string;
     }
 
-    @Override
     public void execute() {
         if (this.countryAbbrev != null && this.countryAbbrev.length() > 0) {
-            this.logger.log(-2137614336, "LISetCountryForCityAndStreetHistoryCommand#execute() - calling liSetCountryForCityAndStreetHistory( %1 ) ", (Object)this.countryAbbrev);
+            this.logger.log(10000000, "LISetCountryForCityAndStreetHistoryCommand#execute() - calling liSetCountryForCityAndStreetHistory( %1 ) ", (Object)this.countryAbbrev);
             this.getDSINavigation().liSetCountryForCityAndStreetHistory(this.countryAbbrev);
         } else {
-            this.logger.log(-1601830656, "LISetCountryForCityAndStreetHistoryCommand#execute() - no country abbreviation set");
+            this.logger.log(100000, "LISetCountryForCityAndStreetHistoryCommand#execute() - no country abbreviation set");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateLiCountryForCityAndStreetHistory(String string) {
-        this.logger.log(-2137614336, "LISetCountryForCityAndStreetHistoryCommand#updateLiCountryForCityAndStreetHistory( %1 )", (Object)string);
+        this.logger.log(10000000, "LISetCountryForCityAndStreetHistoryCommand#updateLiCountryForCityAndStreetHistory( %1 )", (Object)string);
     }
 
-    @Override
     public void liSetCountryForCityAndStreetHistoryResult(int n) {
         if (n == 0) {
-            this.logger.log(-2137614336, "LISetCountryForCityAndStreetHistoryCommand#liSetCountryForCityAndStreetHistoryResult()");
+            this.logger.log(10000000, "LISetCountryForCityAndStreetHistoryCommand#liSetCountryForCityAndStreetHistoryResult()");
             this.getCommandList().commandFinished();
         } else {
             this.logger.log(10000, "LISetCountryForCityAndStreetHistoryCommand#liSetCountryForCityAndStreetHistoryResult() - commandAborted");

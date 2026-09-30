@@ -26,7 +26,7 @@ implements ITrafficMiniMapView {
     }
 
     public TrafficMiniMapViewCore(NavigationEnv navigationEnv, int n) {
-        ChoiceModelApp choiceModelApp = navigationEnv.getChoiceModel(-81656320);
+        ChoiceModelApp choiceModelApp = navigationEnv.getChoiceModel(402171);
         ResourceLocatorModelApp resourceLocatorModelApp = navigationEnv.getResourceLocatorModel(n);
         this.setMembers(navigationEnv.getLogChannel(), resourceLocatorModelApp, choiceModelApp);
     }
@@ -37,23 +37,22 @@ implements ITrafficMiniMapView {
         this.showChoice = choiceModelApp;
     }
 
-    @Override
     public boolean displayMiniMap(ResourceInformation resourceInformation) {
         this.setVisible(false);
         if (null == resourceInformation) {
-            this.logger.log(-1601830656, "TrafficMiniMapViewCore#displayMiniMap resourceInformation param not given!");
+            this.logger.log(100000, "TrafficMiniMapViewCore#displayMiniMap resourceInformation param not given!");
             return false;
         }
         ResourceLocator resourceLocator = resourceInformation.getResourceLocator();
         if (null == resourceLocator) {
-            this.logger.log(-1601830656, "TrafficMiniMapViewCore#displayMiniMap resourceInformation.getResourceLocator() not given!");
+            this.logger.log(100000, "TrafficMiniMapViewCore#displayMiniMap resourceInformation.getResourceLocator() not given!");
             return false;
         }
         if (!this.isValid(resourceLocator)) {
-            this.logger.log(-1601830656, "TrafficMiniMapViewCore#displayMiniMap invalid resourceInformation.getResourceLocator()=%1!", (Object)resourceLocator);
+            this.logger.log(100000, "TrafficMiniMapViewCore#displayMiniMap invalid resourceInformation.getResourceLocator()=%1!", (Object)resourceLocator);
             return false;
         }
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#displayMiniMap resourceInformation=%1", (Object)resourceInformation);
+        this.logger.log(1000000, "TrafficMiniMapViewCore#displayMiniMap resourceInformation=%1", (Object)resourceInformation);
         this.pic.setResourceLocator(resourceLocator.getId(), resourceLocator.getUrl());
         this.setVisible(true);
         return true;
@@ -71,48 +70,41 @@ implements ITrafficMiniMapView {
     }
 
     private void setVisible(boolean bl) {
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#setVisible isVisible=%1", bl);
+        this.logger.log(1000000, "TrafficMiniMapViewCore#setVisible isVisible=%1", bl);
         this.isVisible = bl;
         if (null == this.showChoice) {
-            this.logger.log(-1601830656, "TrafficMiniMapViewCore#setVisible no show choice given!");
+            this.logger.log(100000, "TrafficMiniMapViewCore#setVisible no show choice given!");
         } else {
             this.showChoice.setValue(bl ? SHOW_CHOICE_VALUE_VISIBLE : SHOW_CHOICE_VALUE_HIDDEN);
         }
     }
 
-    @Override
     public boolean isVisible() {
         return this.isVisible;
     }
 
-    @Override
     public void hideMiniMap() {
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#hideMiniMap");
+        this.logger.log(1000000, "TrafficMiniMapViewCore#hideMiniMap");
         this.setVisible(false);
     }
 
-    @Override
     public void activateAndPersist() {
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#activateAndPersist");
+        this.logger.log(1000000, "TrafficMiniMapViewCore#activateAndPersist");
     }
 
-    @Override
     public void deactivateAndPersist() {
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#deactivateAndPersist");
+        this.logger.log(1000000, "TrafficMiniMapViewCore#deactivateAndPersist");
     }
 
-    @Override
     public void initModels() {
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#initModels");
+        this.logger.log(1000000, "TrafficMiniMapViewCore#initModels");
     }
 
-    @Override
     public void setActive(boolean bl) {
-        this.logger.log(1078071040, "TrafficMiniMapViewCore#setActive isActive=%1", bl);
+        this.logger.log(1000000, "TrafficMiniMapViewCore#setActive isActive=%1", bl);
         this.isActive = bl;
     }
 
-    @Override
     public boolean isActivated() {
         return this.isActive;
     }

@@ -5,8 +5,8 @@ package de.audi.tuner.app;
 
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
-import de.audi.tuner.app.RadioTextBase$TimerListener;
 import de.audi.tuner.app.TunerBasics;
 
 public class RadioTextBase {
@@ -28,7 +28,7 @@ public class RadioTextBase {
         this.modelGroup.add(this.rtPlusLine1);
         this.modelGroup.add(this.rtPlusLine2);
         this.modelGroup.add(this.rtPlusLine3);
-        this.timer = new Timer("unknown", 0, true, new RadioTextBase$TimerListener(this, null));
+        this.timer = new Timer("unknown", 1000L, true, new TimerListener());
     }
 
     protected void reset() {
@@ -66,21 +66,16 @@ public class RadioTextBase {
         this.modelGroup.flush();
     }
 
-    static /* synthetic */ String access$100(RadioTextBase radioTextBase) {
-        return radioTextBase.bufferedTxt;
-    }
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
 
-    static /* synthetic */ LabelModelApp access$200(RadioTextBase radioTextBase) {
-        return radioTextBase.radiotext;
-    }
-
-    static /* synthetic */ ModelGroup access$300(RadioTextBase radioTextBase) {
-        return radioTextBase.modelGroup;
-    }
-
-    static /* synthetic */ boolean access$402(RadioTextBase radioTextBase, boolean bl) {
-        radioTextBase.modeUnknown = bl;
-        return radioTextBase.modeUnknown;
+        public void fireTimer(Timer timer) {
+            RadioTextBase.this.radiotext.setText(RadioTextBase.this.bufferedTxt);
+            RadioTextBase.this.modelGroup.flush();
+            RadioTextBase.this.modeUnknown = false;
+        }
     }
 }
 

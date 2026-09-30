@@ -26,20 +26,15 @@ public abstract class TMCAbstractListRowBuilder {
         this.lc = appTMC.logMain;
     }
 
-    public abstract TMCAbstractListRow buildSimpleListRow(TmcListElement tmcListElement) {
-    }
+    public abstract TMCAbstractListRow buildSimpleListRow(TmcListElement var1);
 
-    public abstract TMCAbstractListRow buildSimpleListRow(TmcMessage tmcMessage) {
-    }
+    public abstract TMCAbstractListRow buildSimpleListRow(TmcMessage var1);
 
-    public abstract TMCAbstractListRow[] buildDetailsList(TmcListElement tmcListElement) {
-    }
+    public abstract TMCAbstractListRow[] buildDetailsList(TmcListElement var1);
 
-    public abstract TMCAbstractListRow[] buildDetailsListMsg(TmcMessage tmcMessage) {
-    }
+    public abstract TMCAbstractListRow[] buildDetailsListMsg(TmcMessage var1);
 
-    public abstract TMCAbstractListRow buildParentNodeListRow(TmcListElement tmcListElement, long l) {
-    }
+    public abstract TMCAbstractListRow buildParentNodeListRow(TmcListElement var1, long var2);
 
     public void setRenderingInfoProvider(RenderingInfoProvider renderingInfoProvider) {
         this.iconRenderer = renderingInfoProvider;
@@ -83,7 +78,7 @@ public abstract class TMCAbstractListRowBuilder {
             string = tmcMessage.getEventText()[0];
         } else {
             if (this.lc.isInfo()) {
-                this.lc.log(1078071040, "[TMCAbstractListRowBuilder#getEventText] no eventText found, return \"null\", msg: ", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessage));
+                this.lc.log(1000000, "[TMCAbstractListRowBuilder#getEventText] no eventText found, return \"null\", msg: ", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessage));
             }
             string = "null";
         }
@@ -125,7 +120,7 @@ public abstract class TMCAbstractListRowBuilder {
             return null;
         }
         if (tmcMessage.getIconListId().length == 0) {
-            this.lc.log(-1601830656, "[TMCAbstractListRowBuilder#getRoadIcon] msg.getIconListId().length == 0");
+            this.lc.log(100000, "[TMCAbstractListRowBuilder#getRoadIcon] msg.getIconListId().length == 0");
             return null;
         }
         int n2 = this.appTmc.isRgActive() ? this.getSubindexForEventIcon(tmcMessage, this.lc) : 0;
@@ -145,7 +140,7 @@ public abstract class TMCAbstractListRowBuilder {
     public int getArrowIcon(TmcMessage tmcMessage) {
         if (tmcMessage == null) {
             if (this.lc.isDebug2()) {
-                this.lc.log(14808325, "[TMCAbstractListRowBuilder#getArrowIcon] Message is null - Return NO arrow icon, value: %1", -1L);
+                this.lc.log(100000000, "[TMCAbstractListRowBuilder#getArrowIcon] Message is null - Return NO arrow icon, value: %1", -1L);
             }
             return -1;
         }
@@ -174,7 +169,7 @@ public abstract class TMCAbstractListRowBuilder {
             }
             return n;
         }
-        logChannel.log(1078071040, "[TMCAbstractListRowBuilder#getDistance] msg is null, return 0");
+        logChannel.log(1000000, "[TMCAbstractListRowBuilder#getDistance] msg is null, return 0");
         return 0;
     }
 }

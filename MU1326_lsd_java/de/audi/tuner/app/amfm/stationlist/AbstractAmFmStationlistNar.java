@@ -9,6 +9,7 @@ import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.DrawerFocusManager;
 import de.audi.tuner.app.IDrawerFocusManager;
@@ -16,6 +17,8 @@ import de.audi.tuner.app.IStoreHandler;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.MemoryListHandler;
 import de.audi.tuner.app.PresetIds;
+import de.audi.tuner.app.RadioBaseListModelListener;
+import de.audi.tuner.app.RadioMenuModelListener;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
@@ -27,10 +30,6 @@ import de.audi.tuner.app.amfm.AMFMTuner;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.RadioInfo;
 import de.audi.tuner.app.amfm.stationlist.AbstractAmFmRow;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlistNar$DsiDownListener;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlistNar$MenuModelListener;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlistNar$PrevNextHandler;
-import de.audi.tuner.app.amfm.stationlist.AbstractAmFmStationlistNar$TimerListener;
 import de.audi.tuner.app.amfm.stationlist.IAmFmStationList;
 import de.audi.tuner.app.amfm.stationlist.RecordSets;
 import de.audi.tuner.app.amfm.stationlist.RowSortAlgoAlphabeticallyNAR;
@@ -59,22 +58,22 @@ public abstract class AbstractAmFmStationlistNar
 extends UpdateListenerHandler
 implements IStationListHandler,
 IAmFmStationList {
-    private final AMFMDsiDownInfo dsiDownListener = new AbstractAmFmStationlistNar$DsiDownListener(this, null);
-    private final IPrevNext prevNextHandler = new AbstractAmFmStationlistNar$PrevNextHandler(this, null);
+    private final AMFMDsiDownInfo dsiDownListener = new DsiDownListener();
+    private final IPrevNext prevNextHandler = new PrevNextHandler();
     static final int[] allChannels = new int[]{1, 2, 4, 8, 16, 32, 64, 128};
-    public static final int SORT_ALGO_ALPHABETICAL;
-    private static final int SORT_ALGO_PI_ASC;
-    public static final int SORT_ALGO_FREQ;
-    private static final int SORT_ALGO_GENRE;
-    private static final int SORT_ALGO_SIGNAL;
-    private static final int REASON_NONE;
-    private static final int REASON_NEW_STATION;
-    private static final int REASON_HD_STRUCT_CHANGED;
+    public static final int SORT_ALGO_ALPHABETICAL = 0;
+    private static final int SORT_ALGO_PI_ASC = 1;
+    public static final int SORT_ALGO_FREQ = 2;
+    private static final int SORT_ALGO_GENRE = 3;
+    private static final int SORT_ALGO_SIGNAL = 4;
+    private static final int REASON_NONE = 0;
+    private static final int REASON_NEW_STATION = 1;
+    private static final int REASON_HD_STRUCT_CHANGED = 2;
     private final LogChannel log;
     private final TunerModels models;
     protected final BaseListModelApp listModel;
     protected final MenuModelApp listMenuModel;
-    protected final AbstractAmFmStationlistNar$MenuModelListener menuModelListener;
+    protected final MenuModelListener menuModelListener;
     private final AbstractListRowFactory rowFactory;
     private final AMFMTuner tuner;
     protected final RecordSets recordSets;
@@ -113,47 +112,40 @@ IAmFmStationList {
         this.memoryListHandler = memoryListHandler;
         this.listModel = this.models.getBaseListModel(n);
         this.listMenuModel = this.models.getMenuModel(n2);
-        this.menuModelListener = new AbstractAmFmStationlistNar$MenuModelListener(this);
+        this.menuModelListener = new MenuModelListener();
         this.listMenuModel.setListener(this.menuModelListener);
         this.mkNewAlgo(n4);
-        AbstractAmFmStationlistNar$TimerListener abstractAmFmStationlistNar$TimerListener = new AbstractAmFmStationlistNar$TimerListener(this, null);
-        this.timerTmp = new Timer("timerTmp", 0, true, abstractAmFmStationlistNar$TimerListener);
-        this.timerFocus = new Timer("timerFocus", 0, true, abstractAmFmStationlistNar$TimerListener);
-        this.timerListUpdate = new Timer("timerListUpdate", Utilities.isStd() ? 0 : 0, true, abstractAmFmStationlistNar$TimerListener);
+        TimerListener timerListener = new TimerListener();
+        this.timerTmp = new Timer("timerTmp", 20000L, true, timerListener);
+        this.timerFocus = new Timer("timerFocus", 5000L, true, timerListener);
+        this.timerListUpdate = new Timer("timerListUpdate", Utilities.isStd() ? 1500L : 400L, true, timerListener);
         this.imgType = tunerStorage.loadPreferredImageType();
     }
 
-    @Override
     public void init(TunerStorage tunerStorage) {
         this.highlight(tunerStorage.getAMFMLSM(this.band));
     }
 
-    @Override
     public void register(IStoreStationHandler iStoreStationHandler) {
         this.longPressHandler = iStoreStationHandler;
     }
 
-    @Override
     public void register(ISearchBreak iSearchBreak, int n) {
         this.menuModelListener.register(iSearchBreak, n);
     }
 
-    @Override
     public void register(IDrawerFocusManager iDrawerFocusManager) {
         this.drawerFocus = iDrawerFocusManager;
     }
 
-    @Override
     public RadioInfo getDsiDownListener() {
         return this.dsiDownListener;
     }
 
-    @Override
     public IPrevNext getPrevNextHandler() {
         return this.prevNextHandler;
     }
 
-    @Override
     public void setSortAlgo(int n) {
         this.mkNewAlgo(n);
         this.doListUpdate(true);
@@ -190,7 +182,7 @@ IAmFmStationList {
      * Enabled aggressive exception aggregation
      */
     protected void doListUpdate(boolean bl) {
-        this.log.log(14808325, "[AbstractAmFmStationlistNar.doListUpdate] %1", (Object)this.activeStation);
+        this.log.log(100000000, "[AbstractAmFmStationlistNar.doListUpdate] %1", (Object)this.activeStation);
         Object object = this.mutex;
         synchronized (object) {
             Object object2;
@@ -226,7 +218,7 @@ IAmFmStationList {
                             ((AbstractAmFmRow)object3).setProgramData(this.activeStation, this.imgType, this.tuner.getStatus());
                             ((AbstractAmFmRow)object3).setStationActive(true);
                             arrayList.add(object3);
-                            this.log.log(14808325, "[AbstractAmFmStationlistNar.doListUpdate] active station has index %1", (long)i2);
+                            this.log.log(100000000, "[AbstractAmFmStationlistNar.doListUpdate] active station has index %1", (long)i2);
                             this.lastList[i2] = new AMFMStation(this.activeStation);
                             this.lastList[i2].resetProgramData();
                             break block24;
@@ -241,7 +233,7 @@ IAmFmStationList {
                 while (object3.hasNext()) {
                     object2 = (AMFMStation)object3.next();
                     if (!this.equals((AMFMStation)object2, this.lastList[i2])) continue;
-                    this.log.log(14808325, "[AbstractAmFmStationlistNar.doListUpdate] remove focussed %1", object2);
+                    this.log.log(100000000, "[AbstractAmFmStationlistNar.doListUpdate] remove focussed %1", object2);
                     object3.remove();
                 }
                 object3 = list.iterator();
@@ -266,7 +258,7 @@ IAmFmStationList {
                         ((AMFMStation)object3).setAudioStatus(1);
                         object2 = this.rowFactory.getAmFmListRow(this.band, (AMFMStation)object3, this.recordSets, this.imgType);
                         arrayList.add(object2);
-                        this.log.log(14808325, "[AbstractAmFmStationlistNar.doListUpdate] add temp station %1", object3);
+                        this.log.log(100000000, "[AbstractAmFmStationlistNar.doListUpdate] add temp station %1", object3);
                     }
                     this.timerTmp.restart();
                 }
@@ -292,7 +284,7 @@ IAmFmStationList {
                     }
                     ((AbstractAmFmRow)object4).setStationActive(bl3);
                     arrayList.add(object4);
-                    this.log.log(14808325, "[AbstractAmFmStationlistNar.doListUpdate] active station added temporary");
+                    this.log.log(100000000, "[AbstractAmFmStationlistNar.doListUpdate] active station added temporary");
                 }
             }
             if (!arrayList2.isEmpty()) {
@@ -301,7 +293,7 @@ IAmFmStationList {
                 Iterator iterator = arrayList2.iterator();
                 while (iterator.hasNext()) {
                     object3 = (AMFMStation)iterator.next();
-                    this.log.log(14808325, "[AbstractAmFmStationlistNar.doListUpdate] focussed station added temporary %1", object3);
+                    this.log.log(100000000, "[AbstractAmFmStationlistNar.doListUpdate] focussed station added temporary %1", object3);
                     ((AMFMStation)object3).setTmpAdded(true);
                     AbstractAmFmRow abstractAmFmRow = this.rowFactory.getAmFmListRow(this.band, (AMFMStation)object3, this.recordSets, this.imgType);
                     arrayList.add(abstractAmFmRow);
@@ -345,17 +337,17 @@ IAmFmStationList {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void highlight(AMFMStation aMFMStation) {
-        this.log.log(-2137614336, "[AbstractAmFmStationlistNar.highlight] %1", (Object)aMFMStation);
-        this.log.log(-2137614336, "[AbstractAmFmStationlistNar.highlight] audio %1, hdStruct %2", (long)aMFMStation.getAudioStatus(), (long)aMFMStation.getHdStructure());
+        this.log.log(10000000, "[AbstractAmFmStationlistNar.highlight] %1", (Object)aMFMStation);
+        this.log.log(10000000, "[AbstractAmFmStationlistNar.highlight] audio %1, hdStruct %2", (long)aMFMStation.getAudioStatus(), (long)aMFMStation.getHdStructure());
         int n = this.getUpdateReason(this.activeStation, aMFMStation);
-        this.log.log(14808325, "[AbstractAmFmStationlistNar.highlight] reason %1", (long)n);
+        this.log.log(100000000, "[AbstractAmFmStationlistNar.highlight] reason %1", (long)n);
         if (n != 0) {
             int n2;
             boolean bl = this.activeStation.getAudioStatus() == 3;
             boolean bl2 = aMFMStation.getAudioStatus() == 3;
             this.activeStation = new AMFMStation(aMFMStation);
             int n3 = this.getIndex(aMFMStation);
-            this.log.log(14808325, "[AbstractAmFmStationlistNar.highlight] index %1", (long)n3);
+            this.log.log(100000000, "[AbstractAmFmStationlistNar.highlight] index %1", (long)n3);
             if (n3 == -1) {
                 this.doListUpdate(true);
                 return;
@@ -476,10 +468,9 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean tuneById(long l, int n) {
         AbstractAmFmRow abstractAmFmRow;
-        this.log.log(-2137614336, "[AbstractAmFmStationList#tuneById], id: %1", l);
+        this.log.log(10000000, "[AbstractAmFmStationList#tuneById], id: %1", l);
         Object object = this.mutex;
         synchronized (object) {
             abstractAmFmRow = (AbstractAmFmRow)this.listModel.getRowByUniqueID(l);
@@ -500,7 +491,6 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public TunerObjectContainer[] getStationList() {
         List list = null;
         TunerObjectContainer[] tunerObjectContainerArray = this.mutex;
@@ -522,7 +512,6 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public AMFMStation getActiveStation() {
         Object object = this.mutex;
         synchronized (object) {
@@ -530,7 +519,6 @@ IAmFmStationList {
         }
     }
 
-    @Override
     public boolean isEnsemble(int n) {
         return false;
     }
@@ -538,7 +526,6 @@ IAmFmStationList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setPrefImgType(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -547,88 +534,154 @@ IAmFmStationList {
         }
     }
 
-    static /* synthetic */ Timer access$300(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.timerTmp;
+    protected class ListListener
+    extends RadioBaseListModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            boolean bl;
+            boolean bl2 = bl = n3 == 8;
+            if (bl) {
+                if (AbstractAmFmStationlistNar.this.longPressHandler != null) {
+                    AbstractAmFmStationlistNar.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+                }
+            } else {
+                if (AbstractAmFmStationlistNar.this.storeHandler.isStoreModeActive()) {
+                    AbstractAmFmStationlistNar.this.storeHandler.store((AbstractRadioListRow)evoListRow);
+                    AbstractAmFmStationlistNar.this.listModel.fireEvent(n4);
+                    return;
+                }
+                AbstractAmFmStationlistNar.this.scanHandler.abortScan();
+                if (this.isNewSelection(evoListRow, n, n2, n3, n4)) {
+                    AMFMStation aMFMStation = ((AbstractAmFmRow)evoListRow).getStation();
+                    AbstractAmFmStationlistNar.this.tuner.tuneStation(aMFMStation, false, false, n4);
+                    AbstractAmFmStationlistNar.this.propagateUpdatedActiveStation(AbstractAmFmStationlistNar.this.band);
+                }
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            AbstractAmFmStationlistNar.this.scanHandler.abortScan();
+            if (AbstractAmFmStationlistNar.this.listModel.getSelected().getIndex() != n2) {
+                AMFMStation aMFMStation = ((AbstractAmFmRow)evoListRow).getStation();
+                AbstractAmFmStationlistNar.this.tuner.tuneStation(aMFMStation, false, false, n4);
+                AbstractAmFmStationlistNar.this.propagateUpdatedActiveStation(AbstractAmFmStationlistNar.this.band);
+            }
+            if (AbstractAmFmStationlistNar.this.longPressHandler != null) {
+                AbstractAmFmStationlistNar.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            AbstractAmFmStationlistNar.this.log.log(100000000, "[BAFS.itemFocused] model %1 index %2", (long)n, (long)n2);
+            Object object = AbstractAmFmStationlistNar.this.mutex;
+            synchronized (object) {
+                AbstractAmFmStationlistNar.this.focussedRow = (AbstractAmFmRow)evoListRow;
+                AbstractAmFmStationlistNar.this.log.log(100000000, "[BAFS.itemFocused] station %1", (Object)AbstractAmFmStationlistNar.this.focussedRow.getStation());
+            }
+        }
     }
 
-    static /* synthetic */ List access$400(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.tmpAddedStation;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(AbstractAmFmStationlistNar.this.timerTmp)) {
+                Object object = AbstractAmFmStationlistNar.this.mutex;
+                synchronized (object) {
+                    AbstractAmFmStationlistNar.this.tmpAddedStation.clear();
+                    AbstractAmFmStationlistNar.this.doListUpdate(false);
+                }
+            }
+            if (timer.equals(AbstractAmFmStationlistNar.this.timerFocus)) {
+                Object object = AbstractAmFmStationlistNar.this.mutex;
+                synchronized (object) {
+                    AbstractAmFmStationlistNar.this.tmpAddedFocussedStation.clear();
+                    AbstractAmFmStationlistNar.this.doListUpdate(false);
+                }
+            }
+            if (timer.equals(AbstractAmFmStationlistNar.this.timerListUpdate)) {
+                Object object = AbstractAmFmStationlistNar.this.mutex;
+                synchronized (object) {
+                    if (AbstractAmFmStationlistNar.this.listUpdateWaiting && !AbstractAmFmStationlistNar.this.cursorMoving) {
+                        AbstractAmFmStationlistNar.this.listUpdateWaiting = false;
+                        AbstractAmFmStationlistNar.this.doListUpdate(false);
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$500(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.timerFocus;
+    private class DsiDownListener
+    extends AMFMDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            Object object = AbstractAmFmStationlistNar.this.mutex;
+            synchronized (object) {
+                AbstractAmFmStationlistNar.this.updateWaiting = true;
+                if (aMFMStation.waveband == 1 && AbstractAmFmStationlistNar.this.band == 1 || aMFMStation.waveband == 3 && AbstractAmFmStationlistNar.this.band != 1 && AbstractAmFmStationlistNar.this.band == AbstractAmFmStationlistNar.this.models.getActiveTuner()) {
+                    AbstractAmFmStationlistNar.this.highlight(aMFMStation);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ List access$600(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.tmpAddedFocussedStation;
+    private class PrevNextHandler
+    implements IPrevNext {
+        private PrevNextHandler() {
+        }
+
+        public void handlePrevNext(boolean bl) {
+            SelectedItem selectedItem = AbstractAmFmStationlistNar.this.listModel.getSelected();
+            int n = 0;
+            if (selectedItem != null) {
+                n = bl ? ((n = selectedItem.getIndex() + 1) >= AbstractAmFmStationlistNar.this.listModel.getLength() ? 0 : n) : ((n = selectedItem.getIndex() - 1) < 0 ? AbstractAmFmStationlistNar.this.listModel.getLength() - 1 : n);
+            }
+            AbstractAmFmRow abstractAmFmRow = (AbstractAmFmRow)AbstractAmFmStationlistNar.this.listModel.getRow(n);
+            AbstractAmFmStationlistNar.this.tuner.tuneStation(abstractAmFmRow.getStation(), false, false, 0);
+            if (!AbstractAmFmStationlistNar.this.drawerFocus.isDrawerOpen()) {
+                AbstractAmFmStationlistNar.this.listMenuModel.trigger(ModelTrigger.JOIN_CURSOR);
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$700(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.timerListUpdate;
-    }
+    protected class MenuModelListener
+    extends RadioMenuModelListener {
+        protected MenuModelListener() {
+        }
 
-    static /* synthetic */ boolean access$800(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.listUpdateWaiting;
-    }
-
-    static /* synthetic */ boolean access$900(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.cursorMoving;
-    }
-
-    static /* synthetic */ boolean access$802(AbstractAmFmStationlistNar abstractAmFmStationlistNar, boolean bl) {
-        abstractAmFmStationlistNar.listUpdateWaiting = bl;
-        return abstractAmFmStationlistNar.listUpdateWaiting;
-    }
-
-    static /* synthetic */ boolean access$1002(AbstractAmFmStationlistNar abstractAmFmStationlistNar, boolean bl) {
-        abstractAmFmStationlistNar.updateWaiting = bl;
-        return abstractAmFmStationlistNar.updateWaiting;
-    }
-
-    static /* synthetic */ int access$1100(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.band;
-    }
-
-    static /* synthetic */ TunerModels access$1200(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.models;
-    }
-
-    static /* synthetic */ boolean access$902(AbstractAmFmStationlistNar abstractAmFmStationlistNar, boolean bl) {
-        abstractAmFmStationlistNar.cursorMoving = bl;
-        return abstractAmFmStationlistNar.cursorMoving;
-    }
-
-    static /* synthetic */ IStoreStationHandler access$1300(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.longPressHandler;
-    }
-
-    static /* synthetic */ IStoreHandler access$1400(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.storeHandler;
-    }
-
-    static /* synthetic */ IScanHandler access$1500(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.scanHandler;
-    }
-
-    static /* synthetic */ AMFMTuner access$1600(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.tuner;
-    }
-
-    static /* synthetic */ LogChannel access$1700(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.log;
-    }
-
-    static /* synthetic */ AbstractAmFmRow access$1802(AbstractAmFmStationlistNar abstractAmFmStationlistNar, AbstractAmFmRow abstractAmFmRow) {
-        abstractAmFmStationlistNar.focussedRow = abstractAmFmRow;
-        return abstractAmFmStationlistNar.focussedRow;
-    }
-
-    static /* synthetic */ AbstractAmFmRow access$1800(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.focussedRow;
-    }
-
-    static /* synthetic */ IDrawerFocusManager access$1900(AbstractAmFmStationlistNar abstractAmFmStationlistNar) {
-        return abstractAmFmStationlistNar.drawerFocus;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(int n, int n2, long l, int n3) {
+            super.itemFocused(n, n2, l, n3);
+            Object object = AbstractAmFmStationlistNar.this.mutex;
+            synchronized (object) {
+                AbstractAmFmStationlistNar.this.cursorMoving = n == -1;
+                if (AbstractAmFmStationlistNar.this.listUpdateWaiting) {
+                    if (AbstractAmFmStationlistNar.this.cursorMoving) {
+                        AbstractAmFmStationlistNar.this.timerListUpdate.cancel();
+                    } else {
+                        AbstractAmFmStationlistNar.this.timerListUpdate.restart();
+                    }
+                }
+            }
+        }
     }
 }
 

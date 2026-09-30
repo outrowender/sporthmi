@@ -13,12 +13,11 @@ extends TranslateRouteCommand {
         super((Route)null);
     }
 
-    @Override
     public void execute() {
         Route route = (Route)this.getCommandList().get("LOADED_ROUTE");
-        this.logger.log(-2137614336, "TranslateTourCommand#execute() - %1", (Object)RouteUtil.formatRouteShort(route));
+        this.logger.log(10000000, "TranslateTourCommand#execute() - %1", (Object)RouteUtil.formatRouteShort(route));
         if (route == null) {
-            this.logger.log(-1601830656, "TranslateTourCommand#execute() - loaded route not set! Translation not possible!");
+            this.logger.log(100000, "TranslateTourCommand#execute() - loaded route not set! Translation not possible!");
             this.getCommandList().commandAborted("loaded route not set");
         } else {
             this.setRouteToTranslate(route);
@@ -26,7 +25,6 @@ extends TranslateRouteCommand {
         }
     }
 
-    @Override
     public void translateRouteResult(Route route) {
         if (this.handleTranslatedRoute(route)) {
             Integer n = (Integer)this.getCommandList().get("TOUR_INDEX");

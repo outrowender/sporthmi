@@ -29,21 +29,18 @@ extends TMCCommand {
         this.requestId = n4;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[RequestWindowWithFilterCommand#execute] Requesting windowId: %1. filter: %2", (long)this.windowId, (long)this.filter);
+        this.logger.log(10000000, "[RequestWindowWithFilterCommand#execute] Requesting windowId: %1. filter: %2", (long)this.windowId, (long)this.filter);
         this.tmcApp.getTMCHandler().setMessageFilter(this.windowId, this.filter);
     }
 
-    @Override
     public void setMessageFilterResult(int n, int n2) {
-        this.logger.log(-2137614336, "[RequestWindowCommand#setMessageFilterResult] Called, window: %1, messageFilter: %2", (long)n, (long)n2);
+        this.logger.log(10000000, "[RequestWindowCommand#setMessageFilterResult] Called, window: %1, messageFilter: %2", (long)n, (long)n2);
         this.commandList.commandFinishedWithPostCommand(new RequestWindowCommand(this.windowSize, this.possibleIds, this.openedListAnchorId, this.requestId, this.tmcApp, this.logger, this.listManager));
     }
 
-    @Override
     public String toString() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 }
 

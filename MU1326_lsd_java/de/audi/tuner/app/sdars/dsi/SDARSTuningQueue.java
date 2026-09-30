@@ -4,14 +4,13 @@
 package de.audi.tuner.app.sdars.dsi;
 
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.sdars.dsi.SDARSDSIDownManager;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
-import de.audi.tuner.app.sdars.dsi.SDARSTuningQueue$DsiUpListener;
-import de.audi.tuner.app.sdars.dsi.SDARSTuningQueue$TimerListener;
 
 public class SDARSTuningQueue {
-    public final SDARSDsiUpInfo dsiUpListener = new SDARSTuningQueue$DsiUpListener(this, null);
+    public final SDARSDsiUpInfo dsiUpListener = new DsiUpListener();
     private LogChannel log;
     private final Timer tuneWaitTimer;
     private final SDARSDSIDownManager downManager;
@@ -23,7 +22,7 @@ public class SDARSTuningQueue {
         this.log = logChannel;
         this.mutex = object;
         this.downManager = sDARSDSIDownManager;
-        this.tuneWaitTimer = new Timer("TuneWaitTimer", 5, this.log, new SDARSTuningQueue$TimerListener(this, null), 0, true);
+        this.tuneWaitTimer = new Timer("TuneWaitTimer", 5, this.log, new TimerListener(), 5000L, true);
     }
 
     /*
@@ -35,7 +34,7 @@ public class SDARSTuningQueue {
             if (!this.selectRunning) {
                 this.doTune(n);
             } else {
-                this.log.log(1078071040, "[SDARSTuningQueue.tuneStation] SDARSTuningQueue: enqueue sID:%1", (long)n);
+                this.log.log(1000000, "[SDARSTuningQueue.tuneStation] SDARSTuningQueue: enqueue sID:%1", (long)n);
                 this.sId = n;
             }
         }
@@ -44,7 +43,7 @@ public class SDARSTuningQueue {
     private void doTune(int n) {
         this.selectRunning = true;
         this.tuneWaitTimer.restart();
-        this.log.log(-2137614336, "[SDARSTuningQueue.doTune] sId:%1 ", (long)n);
+        this.log.log(10000000, "[SDARSTuningQueue.doTune] sId:%1 ", (long)n);
         this.downManager.selectStation(n);
     }
 
@@ -72,30 +71,35 @@ public class SDARSTuningQueue {
         return this.selectRunning;
     }
 
-    static /* synthetic */ LogChannel access$200(SDARSTuningQueue sDARSTuningQueue) {
-        return sDARSTuningQueue.log;
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void selectStationStatus(int n) {
+            SDARSTuningQueue.this.selectStationStatus(n);
+        }
     }
 
-    static /* synthetic */ Object access$300(SDARSTuningQueue sDARSTuningQueue) {
-        return sDARSTuningQueue.mutex;
-    }
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
 
-    static /* synthetic */ boolean access$402(SDARSTuningQueue sDARSTuningQueue, boolean bl) {
-        sDARSTuningQueue.selectRunning = bl;
-        return sDARSTuningQueue.selectRunning;
-    }
-
-    static /* synthetic */ int access$500(SDARSTuningQueue sDARSTuningQueue) {
-        return sDARSTuningQueue.sId;
-    }
-
-    static /* synthetic */ void access$600(SDARSTuningQueue sDARSTuningQueue, int n) {
-        sDARSTuningQueue.doTune(n);
-    }
-
-    static /* synthetic */ int access$502(SDARSTuningQueue sDARSTuningQueue, int n) {
-        sDARSTuningQueue.sId = n;
-        return sDARSTuningQueue.sId;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            SDARSTuningQueue.this.log.log(10000, "[SDARSTuningQueue.fireTimer] Tune takes too long (timeout:%1)!", timer.getDelay());
+            Object object = SDARSTuningQueue.this.mutex;
+            synchronized (object) {
+                SDARSTuningQueue.this.selectRunning = false;
+                if (SDARSTuningQueue.this.sId != 0) {
+                    SDARSTuningQueue.this.doTune(SDARSTuningQueue.this.sId);
+                    SDARSTuningQueue.this.sId = 0;
+                }
+            }
+        }
     }
 }
 

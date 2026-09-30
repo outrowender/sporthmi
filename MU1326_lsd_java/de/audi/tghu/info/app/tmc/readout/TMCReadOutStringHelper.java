@@ -12,8 +12,8 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.tmc.TmcPhoneme;
 
 public class TMCReadOutStringHelper {
-    private static final char SPACE;
-    private static final String NULL_EVENT;
+    private static final char SPACE = ' ';
+    private static final String NULL_EVENT = "null event";
     private final InfoEnv env;
 
     public TMCReadOutStringHelper(InfoEnv infoEnv) {
@@ -38,7 +38,7 @@ public class TMCReadOutStringHelper {
         buffer.append(TMCCalculationHelper.calculateDistance(l - tMCReadOutMessageImpl.getDistanceToTarget()));
         buffer.append(' ');
         if (tMCReadOutMessageImpl.getEventText().length < 1) {
-            buffer.append("null event");
+            buffer.append(NULL_EVENT);
         } else {
             buffer.append(tMCReadOutMessageImpl.getEventText()[0]);
         }
@@ -58,7 +58,7 @@ public class TMCReadOutStringHelper {
         buffer.append(this.env.getTranslatedText(18));
         buffer.append(' ');
         if (tMCReadOutMessageImpl.getEventText().length < 1) {
-            buffer.append("null event");
+            buffer.append(NULL_EVENT);
         } else {
             buffer.append(tMCReadOutMessageImpl.getEventText()[0]);
         }

@@ -6,17 +6,17 @@ package de.audi.tuner.app.sdars;
 import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tuner.app.sdars.SDARSTuner;
-import de.audi.tuner.app.sdars.SDARSWatch$DsiUpListener;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
+import org.dsi.ifc.global.DateTime;
 
 class SDARSWatch
 extends DefaultTimerListener {
-    final SDARSDsiUpInfo dsiUpListener = new SDARSWatch$DsiUpListener(this, null);
+    final SDARSDsiUpInfo dsiUpListener = new DsiUpListener();
     private long moduleTime;
     private long systemTime;
     private final Object mutex = new Object();
     private final SDARSTuner tuner;
-    private final Timer timer = new Timer("watch", 0, false, this);
+    private final Timer timer = new Timer("watch", 60000L, false, this);
 
     SDARSWatch(SDARSTuner sDARSTuner) {
         this.tuner = sDARSTuner;
@@ -48,9 +48,18 @@ extends DefaultTimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.tuner.askModuleTime();
+    }
+
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void responseTime(DateTime dateTime) {
+            SDARSWatch.this.updateModuleTime(dateTime.time);
+        }
     }
 }
 

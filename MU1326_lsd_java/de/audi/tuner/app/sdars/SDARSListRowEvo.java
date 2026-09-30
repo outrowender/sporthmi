@@ -14,10 +14,10 @@ import de.audi.tuner.app.sdars.seek.AddToSeeksPossibilityEnum;
 
 public class SDARSListRowEvo
 extends SDARSListRow {
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int NUM_COLS;
-    private static final int ITUNES_ICON_RESET;
-    private static final int ITUNES_ICON_ENABLED;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 19;
+    private static final int NUM_COLS = 20;
+    private static final int ITUNES_ICON_RESET = Utilities.isTaggingSupported() ? 1 : 0;
+    private static final int ITUNES_ICON_ENABLED = Utilities.isTaggingSupported() ? 2 : 0;
     private final RadioRowProperties props;
 
     public SDARSListRowEvo(StationInfoExt stationInfoExt, boolean bl, boolean bl2) {
@@ -26,7 +26,7 @@ extends SDARSListRow {
         this.setText(2, bl2 ? "NoSignal" : stationInfoExt.getShortCategory());
         this.setInteger(19, 7);
         this.props = new RadioRowProperties();
-        this.props.setCategory(673103840);
+        this.props.setCategory(-524345816);
         this.setPropertyCell(16, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         this.setInteger(14, ITUNES_ICON_RESET);
     }
@@ -36,18 +36,15 @@ extends SDARSListRow {
         this.props = sDARSListRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new SDARSListRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         this.props.setActive(bl);
         this.setPropertyCell(16, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
     }
 
-    @Override
     public void setProgramData(SdarsRadioText sdarsRadioText, int n) {
         super.setProgramData(sdarsRadioText, n);
         this.props.setTaggingInfosAvailable(sdarsRadioText.artistOrTitleInformationAvailable() && this.props.isActive());
@@ -69,17 +66,11 @@ extends SDARSListRow {
         this.setInteger(13, 1);
     }
 
-    @Override
     public void setSeekPossibility(AddToSeeksPossibilityEnum addToSeeksPossibilityEnum, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum2, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum3, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum4) {
         super.setSeekPossibility(addToSeeksPossibilityEnum, addToSeeksPossibilityEnum2, addToSeeksPossibilityEnum3, addToSeeksPossibilityEnum4);
         this.props.setArtistSeekPossible(addToSeeksPossibilityEnum.showOption ? 1 : 0);
         this.props.setSongSeekPossible(addToSeeksPossibilityEnum2.showOption ? 1 : 0);
         this.setPropertyCell(16, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
-    }
-
-    static {
-        ITUNES_ICON_RESET = Utilities.isTaggingSupported() ? 1 : 0;
-        ITUNES_ICON_ENABLED = Utilities.isTaggingSupported() ? 2 : 0;
     }
 }
 

@@ -8,25 +8,25 @@ import de.audi.tghu.navi.app.guidance.Vehicle;
 import de.audi.tghu.navi.app.util.Util;
 
 public class PhoneUtil {
-    private static final int ACCESS_CODE;
-    private static final int AREA_CODE;
-    private static final int LOCAL_NUMBER;
-    private static final int MAX;
-    private static final int PARENTHESIS_MAX;
-    private static final String COUNTRY_ABBREVIATION_HAWAII;
-    private static final String COUNTRY_ABBREVIATION_CANADA;
-    private static final String COUNTRY_ABBREVIATION_MEXICO;
-    private static final String COUNTRY_ABBREVIATION_PUERTORICO;
-    private static final String COUNTRY_ABBREVIATION_USA;
-    private static final String COUNTRY_ABBREVIATION_VIRGINISLANDS;
-    private static final String ACCESS_CODE_MEXICO;
-    private static final String ACCESS_CODE_USA;
-    private static final String ACCESS_CODE_MEX_TO_USA;
-    private static final String ACCESS_CODE_USA_TO_MEX;
-    private static final String SPACE;
-    private static StringBuffer tmpStringBuffer;
-    private static String[] phoneNumberParts;
-    private static int[] parenthesisIndices;
+    private static final int ACCESS_CODE = 0;
+    private static final int AREA_CODE = 1;
+    private static final int LOCAL_NUMBER = 2;
+    private static final int MAX = 3;
+    private static final int PARENTHESIS_MAX = 4;
+    private static final String COUNTRY_ABBREVIATION_HAWAII = "HI";
+    private static final String COUNTRY_ABBREVIATION_CANADA = "CDN";
+    private static final String COUNTRY_ABBREVIATION_MEXICO = "MEX";
+    private static final String COUNTRY_ABBREVIATION_PUERTORICO = "PR";
+    private static final String COUNTRY_ABBREVIATION_USA = "USA";
+    private static final String COUNTRY_ABBREVIATION_VIRGINISLANDS = "VI";
+    private static final String ACCESS_CODE_MEXICO = "52";
+    private static final String ACCESS_CODE_USA = "1";
+    private static final String ACCESS_CODE_MEX_TO_USA = "001";
+    private static final String ACCESS_CODE_USA_TO_MEX = "011 52";
+    private static final String SPACE = " ";
+    private static StringBuffer tmpStringBuffer = new StringBuffer();
+    private static String[] phoneNumberParts = new String[3];
+    private static int[] parenthesisIndices = new int[4];
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -43,10 +43,10 @@ public class PhoneUtil {
                 if (!Util.isHURegionNAR()) {
                     PhoneUtil.clearTmpStringBuffer();
                     if (phoneNumberParts[0] != null) {
-                        tmpStringBuffer.append('+').append(phoneNumberParts[0]).append(" ");
+                        tmpStringBuffer.append('+').append(phoneNumberParts[0]).append(SPACE);
                     }
                     if (phoneNumberParts[1] != null) {
-                        tmpStringBuffer.append('(').append(phoneNumberParts[1]).append(')').append(" ");
+                        tmpStringBuffer.append('(').append(phoneNumberParts[1]).append(')').append(SPACE);
                     }
                     if (phoneNumberParts[2] != null) {
                         tmpStringBuffer.append(phoneNumberParts[2]);
@@ -64,26 +64,26 @@ public class PhoneUtil {
         PhoneUtil.clearTmpStringBuffer();
         String string = Vehicle.getInstance().getCountryAbbreviation();
         if (PhoneUtil.isSimilarUSA(string)) {
-            if ("52".equalsIgnoreCase(phoneNumberParts[0])) {
-                tmpStringBuffer.append("011 52").append(" ");
-            } else if ("1".equalsIgnoreCase(phoneNumberParts[0])) {
-                tmpStringBuffer.append("1").append(" ");
+            if (ACCESS_CODE_MEXICO.equalsIgnoreCase(phoneNumberParts[0])) {
+                tmpStringBuffer.append(ACCESS_CODE_USA_TO_MEX).append(SPACE);
+            } else if (ACCESS_CODE_USA.equalsIgnoreCase(phoneNumberParts[0])) {
+                tmpStringBuffer.append(ACCESS_CODE_USA).append(SPACE);
             } else {
-                tmpStringBuffer.append(phoneNumberParts[0]).append(" ");
+                tmpStringBuffer.append(phoneNumberParts[0]).append(SPACE);
             }
-        } else if ("MEX".equalsIgnoreCase(string)) {
-            if (!"52".equalsIgnoreCase(phoneNumberParts[0])) {
-                if ("1".equalsIgnoreCase(phoneNumberParts[0])) {
-                    tmpStringBuffer.append("001").append(" ");
+        } else if (COUNTRY_ABBREVIATION_MEXICO.equalsIgnoreCase(string)) {
+            if (!ACCESS_CODE_MEXICO.equalsIgnoreCase(phoneNumberParts[0])) {
+                if (ACCESS_CODE_USA.equalsIgnoreCase(phoneNumberParts[0])) {
+                    tmpStringBuffer.append(ACCESS_CODE_MEX_TO_USA).append(SPACE);
                 } else {
-                    tmpStringBuffer.append(phoneNumberParts[0]).append(" ");
+                    tmpStringBuffer.append(phoneNumberParts[0]).append(SPACE);
                 }
             }
         } else {
-            tmpStringBuffer.append(phoneNumberParts[0]).append(" ");
+            tmpStringBuffer.append(phoneNumberParts[0]).append(SPACE);
         }
         if (phoneNumberParts[1] != null) {
-            tmpStringBuffer.append('(').append(phoneNumberParts[1]).append(')').append(" ");
+            tmpStringBuffer.append('(').append(phoneNumberParts[1]).append(')').append(SPACE);
         }
         if (phoneNumberParts[2] != null) {
             int n = phoneNumberParts[2].length();
@@ -98,7 +98,7 @@ public class PhoneUtil {
     }
 
     private static boolean isSimilarUSA(String string) {
-        return "USA".equalsIgnoreCase(string) || "CDN".equalsIgnoreCase(string) || "VI".equalsIgnoreCase(string) || "HI".equalsIgnoreCase(string) || "PR".equalsIgnoreCase(string);
+        return COUNTRY_ABBREVIATION_USA.equalsIgnoreCase(string) || COUNTRY_ABBREVIATION_CANADA.equalsIgnoreCase(string) || COUNTRY_ABBREVIATION_VIRGINISLANDS.equalsIgnoreCase(string) || COUNTRY_ABBREVIATION_HAWAII.equalsIgnoreCase(string) || COUNTRY_ABBREVIATION_PUERTORICO.equalsIgnoreCase(string);
     }
 
     private static boolean splitPhonenumber(String string, String[] stringArray) {
@@ -188,12 +188,6 @@ public class PhoneUtil {
             navigationEnv.getLogChannel().log(10000, "PhoneUtil#makePhonenumberDialable() - given phone number is null! ");
         }
         return string2;
-    }
-
-    static {
-        tmpStringBuffer = new StringBuffer();
-        phoneNumberParts = new String[3];
-        parenthesisIndices = new int[4];
     }
 }
 

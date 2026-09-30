@@ -15,32 +15,29 @@ extends AbstractMiniAppHandler {
         super(onlineEnv, abstractOperatorCall);
     }
 
-    @Override
     protected void initializeOptionModels() {
-        this.option01 = -1877138688;
-        this.option02 = -1759698176;
-        this.option03 = -1860361472;
-        this.option04 = -1910693120;
-        this.option05 = -1826807040;
-        this.option06 = -1776475392;
-        this.option07 = -1927470336;
-        this.option08 = -1692589312;
-        this.option09 = -2128796928;
-        this.option10 = -1961024768;
-        this.option11 = -2078465280;
-        this.option12 = -1977801984;
-        this.option13 = -1742920960;
-        this.option14 = -2044910848;
-        this.option15 = -2028133632;
+        this.option01 = 2301328;
+        this.option02 = 2301335;
+        this.option03 = 2301329;
+        this.option04 = 2301326;
+        this.option05 = 2301331;
+        this.option06 = 2301334;
+        this.option07 = 2301325;
+        this.option08 = 2301339;
+        this.option09 = 2301313;
+        this.option10 = 2301323;
+        this.option11 = 2301316;
+        this.option12 = 2301322;
+        this.option13 = 2301336;
+        this.option14 = 2301318;
+        this.option15 = 2301319;
     }
 
-    @Override
     protected void initializeTargetListModels() {
-        this.historyCallList = 958210816;
-        this.resultList = 1058874112;
+        this.historyCallList = 2301241;
+        this.resultList = 2301247;
     }
 
-    @Override
     protected AbstractBaseModelHandler createModelHandler() {
         return new ConciergeCallMiniAppModelHandler(this.env, this.listener, this);
     }

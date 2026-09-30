@@ -3,7 +3,7 @@
  */
 package de.audi.tghu.navi.app.interapp;
 
-import de.audi.atip.interapp.NaviService$POISDSListEntry;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.log.LogChannel;
@@ -11,52 +11,6 @@ import de.audi.atip.metrics.DateMetric;
 import de.audi.tghu.navi.app.AbstractNaviServiceComponent;
 import de.audi.tghu.navi.app.interapp.INaviServiceListenerController;
 import de.audi.tghu.navi.app.interapp.INaviServiceListenerObserver;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$1;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$10;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$11;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$12;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$13;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$14;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$15;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$16;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$17;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$18;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$19;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$2;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$20;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$21;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$22;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$23;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$24;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$25;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$26;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$27;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$28;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$29;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$3;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$30;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$31;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$32;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$33;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$34;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$35;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$36;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$37;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$38;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$39;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$4;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$40;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$41;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$42;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$43;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$44;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$45;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$5;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$6;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$7;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$8;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$9;
-import de.audi.tghu.navi.app.interapp.NaviServiceListenerController$IUpdateOperation;
 import de.audi.tghu.navi.app.navobserver.ICountryStateUpdatedObserver;
 import de.audi.tghu.navi.app.util.Util;
 import java.util.Date;
@@ -79,49 +33,51 @@ ICountryStateUpdatedObserver {
         super(logChannel);
     }
 
-    @Override
     public NaviServiceListener getNaviServiceListener() {
         return this;
     }
 
-    @Override
     public void setTrackerUpdatesObserver(INaviServiceListenerObserver iNaviServiceListenerObserver) {
         this.naviServiceListenerObserver = iNaviServiceListenerObserver;
     }
 
     public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray) {
         this.tmcEventsAhead = tmcMessageArray.length;
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#updateTmcMessagesAhead: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, this.distCcpToTmc);
+        this.logChannel.log(10000000, "NaviServiceListenerController#updateTmcMessagesAhead: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, this.distCcpToTmc);
         this.sendTrafficInformationToSDS();
     }
 
     public void updateDelayOnCurrentRoute(long l) {
         this.lastKnownDelay = l;
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#updateDelayOnCurrentRoute: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, this.distCcpToTmc);
+        this.logChannel.log(10000000, "NaviServiceListenerController#updateDelayOnCurrentRoute: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, this.distCcpToTmc);
         this.sendTrafficInformationToSDS();
     }
 
     public void updateInfoForNextTmcEvent(long l, TmcMessage tmcMessage) {
         this.distCcpToTmc = l;
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#updateInfoForNextTmcEvent: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, l);
+        this.logChannel.log(10000000, "NaviServiceListenerController#updateInfoForNextTmcEvent: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, l);
         this.sendTrafficInformationToSDS();
     }
 
     private void sendTrafficInformationToSDS() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NaviServiceListenerController#sendTrafficInformationToSDS: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, this.distCcpToTmc);
+            this.logChannel.log(100000000, "NaviServiceListenerController#sendTrafficInformationToSDS: lastKnownDelay=%1, tmcEventsAhead=%2, distanceToNextTmcEvent=%3", this.lastKnownDelay, (long)this.tmcEventsAhead, this.distCcpToTmc);
         }
         DateMetric dateMetric = new DateMetric(new Date(this.lastKnownDelay), 5);
         int n = 1;
         this.updateTrafficSituation(this.lastKnownDelay > 0L, dateMetric, this.tmcEventsAhead, this.distCcpToTmc, n);
     }
 
-    @Override
-    public void updateRgActive(boolean bl) {
+    public void updateRgActive(final boolean bl) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NaviServiceListenerController#updateRgActive: %1", bl);
+            this.logChannel.log(100000000, "NaviServiceListenerController#updateRgActive: %1", bl);
         }
-        this.traverseListeners(new NaviServiceListenerController$1(this, bl));
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateRgActive(bl);
+            }
+        });
         if (bl) {
             return;
         }
@@ -130,301 +86,470 @@ ICountryStateUpdatedObserver {
         this.lastKnownDelay = 0L;
     }
 
-    @Override
     protected String[] getTrackedService() {
         return new String[]{(class$de$audi$atip$interapp$NaviServiceListener == null ? (class$de$audi$atip$interapp$NaviServiceListener = NaviServiceListenerController.class$("de.audi.atip.interapp.NaviServiceListener")) : class$de$audi$atip$interapp$NaviServiceListener).getName()};
     }
 
-    @Override
     protected boolean trackedServiceAdded(Object object) {
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#trackedServiceAdded( %1 )", object);
+        this.logChannel.log(10000000, "NaviServiceListenerController#trackedServiceAdded( %1 )", object);
         if (object instanceof NaviServiceListener) {
             if (this.naviServiceListenerObserver != null) {
                 this.naviServiceListenerObserver.listenerAdded((NaviServiceListener)object);
             }
             return true;
         }
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#trackedServiceAdded() - not a NaviServiceListener");
+        this.logChannel.log(10000000, "NaviServiceListenerController#trackedServiceAdded() - not a NaviServiceListener");
         return false;
     }
 
-    @Override
     protected boolean trackedServiceRemoved(Object object) {
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#trackedServiceRemoved( %1 )", object);
+        this.logChannel.log(10000000, "NaviServiceListenerController#trackedServiceRemoved( %1 )", object);
         return object instanceof NaviServiceListener;
     }
 
-    @Override
     protected void onStart() {
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#onStart( )");
+        this.logChannel.log(10000000, "NaviServiceListenerController#onStart( )");
     }
 
-    @Override
     protected void onStop() {
-        this.logChannel.log(-2137614336, "NaviServiceListenerController#onStop( )");
+        this.logChannel.log(10000000, "NaviServiceListenerController#onStop( )");
         this.naviServiceListenerObserver = null;
     }
 
-    private void traverseListeners(NaviServiceListenerController$IUpdateOperation naviServiceListenerController$IUpdateOperation) {
+    private void traverseListeners(IUpdateOperation iUpdateOperation) {
         Object[] objectArray = null;
         if (this.tracker != null) {
             objectArray = this.tracker.getServices();
         }
         if (objectArray != null && objectArray.length > 0) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "NaviServiceListenerController#traverseListeners - length: %1", (long)objectArray.length);
+                this.logChannel.log(100000000, "NaviServiceListenerController#traverseListeners - length: %1", (long)objectArray.length);
             }
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 NaviServiceListener naviServiceListener = (NaviServiceListener)objectArray[i2];
                 try {
-                    naviServiceListenerController$IUpdateOperation.update(naviServiceListener);
+                    iUpdateOperation.update(naviServiceListener);
                     continue;
                 }
                 catch (Exception exception) {
-                    this.logChannel.log(10000, "NaviServiceListenerController#traverseListeners - error during update. - %1 - exception=%2", (Object)super.getClass().getName(), (Throwable)exception);
+                    this.logChannel.log(10000, "NaviServiceListenerController#traverseListeners - error during update. - %1 - exception=%2", (Object)naviServiceListener.getClass().getName(), (Throwable)exception);
                 }
             }
         }
     }
 
-    @Override
-    public void updateFavoriteDestinations(SDSListEntry[] sDSListEntryArray) {
-        this.logChannel.log(1078071040, "NaviServiceListenerController#updateFavoriteDestinations - %1 favorites", (long)sDSListEntryArray.length);
+    public void updateFavoriteDestinations(final SDSListEntry[] sDSListEntryArray) {
+        this.logChannel.log(1000000, "NaviServiceListenerController#updateFavoriteDestinations - %1 favorites", (long)sDSListEntryArray.length);
         try {
-            this.traverseListeners(new NaviServiceListenerController$2(this, sDSListEntryArray));
+            this.traverseListeners(new IUpdateOperation(){
+
+                public void update(NaviServiceListener naviServiceListener) {
+                    naviServiceListener.updateFavoriteDestinations(sDSListEntryArray);
+                }
+            });
         }
         catch (Exception exception) {
             this.logChannel.log(10000, "NaviServiceListenerController#updateFavoriteDestinations - %1", (Throwable)exception);
         }
     }
 
-    @Override
-    public void updateLastDestinations(SDSListEntry[] sDSListEntryArray) {
-        this.logChannel.log(1078071040, "NaviServiceListenerController#updateLastDestinations - %1 destinations", (long)sDSListEntryArray.length);
-        this.traverseListeners(new NaviServiceListenerController$3(this, sDSListEntryArray));
+    public void updateLastDestinations(final SDSListEntry[] sDSListEntryArray) {
+        this.logChannel.log(1000000, "NaviServiceListenerController#updateLastDestinations - %1 destinations", (long)sDSListEntryArray.length);
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateLastDestinations(sDSListEntryArray);
+            }
+        });
     }
 
-    @Override
-    public void updateDestinationCountryCode(String string, String string2) {
-        this.traverseListeners(new NaviServiceListenerController$4(this, string, string2));
+    public void updateDestinationCountryCode(final String string, final String string2) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateDestinationCountryCode(string, string2);
+            }
+        });
     }
 
-    @Override
-    public void updateDestinationStateCode(String string, String string2) {
-        this.traverseListeners(new NaviServiceListenerController$5(this, string, string2));
+    public void updateDestinationStateCode(final String string, final String string2) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateDestinationStateCode(string, string2);
+            }
+        });
     }
 
-    @Override
-    public void updateFullyOperableStateChanged(boolean bl) {
-        this.traverseListeners(new NaviServiceListenerController$6(this, bl));
+    public void updateFullyOperableStateChanged(final boolean bl) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateFullyOperableStateChanged(bl);
+            }
+        });
     }
 
-    @Override
-    public void responseSetDestination(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$7(this, by));
+    public void responseSetDestination(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetDestination(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSetLocation(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$8(this, by));
+    public void responseSetLocation(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetLocation(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSetOneShotData(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$9(this, by));
+    public void responseSetOneShotData(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetOneShotData(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSetLocationPart(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$10(this, by));
+    public void responseSetLocationPart(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetLocationPart(by);
+            }
+        });
     }
 
-    @Override
-    public void responseQueryLocationPartListLength(byte by, long l, String[] stringArray) {
-        this.traverseListeners(new NaviServiceListenerController$11(this, by, l, stringArray));
+    public void responseQueryLocationPartListLength(final byte by, final long l, final String[] stringArray) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseQueryLocationPartListLength(by, l, stringArray);
+            }
+        });
     }
 
-    @Override
-    public void responseQuerySpelledLocationPartResultList(byte by, String[] stringArray, Object[] objectArray) {
-        this.traverseListeners(new NaviServiceListenerController$12(this, by, stringArray, objectArray));
+    public void responseQuerySpelledLocationPartResultList(final byte by, final String[] stringArray, final Object[] objectArray) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseQuerySpelledLocationPartResultList(by, stringArray, objectArray);
+            }
+        });
     }
 
-    @Override
-    public void responseSetSpelledLocationPart(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$13(this, by));
+    public void responseSetSpelledLocationPart(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetSpelledLocationPart(by);
+            }
+        });
     }
 
-    @Override
-    public void responseValidateSpelledStreetName(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$14(this, by));
+    public void responseValidateSpelledStreetName(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseValidateSpelledStreetName(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSynchronizeSpeechCountryWithCurrentLDResult(byte by, boolean bl) {
-        this.traverseListeners(new NaviServiceListenerController$15(this, by, bl));
+    public void responseSynchronizeSpeechCountryWithCurrentLDResult(final byte by, final boolean bl) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSynchronizeSpeechCountryWithCurrentLDResult(by, bl);
+            }
+        });
     }
 
-    @Override
-    public void responseStartDestinationInput(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$16(this, by));
+    public void responseStartDestinationInput(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStartDestinationInput(by);
+            }
+        });
     }
 
-    @Override
-    public void responseTriggerAddressInputReturn(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$17(this, by));
+    public void responseTriggerAddressInputReturn(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseTriggerAddressInputReturn(by);
+            }
+        });
     }
 
-    @Override
-    public void responseStartPoiSearchByName(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$18(this, by));
+    public void responseStartPoiSearchByName(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStartPoiSearchByName(by);
+            }
+        });
     }
 
-    @Override
-    public void responseFinishDestinationInput(byte by, byte by2) {
-        this.traverseListeners(new NaviServiceListenerController$19(this, by, by2));
+    public void responseFinishDestinationInput(final byte by, final byte by2) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseFinishDestinationInput(by, by2);
+            }
+        });
     }
 
-    @Override
-    public void responsePrepareRouteGuidance(byte by, byte by2) {
-        this.traverseListeners(new NaviServiceListenerController$20(this, by, by2));
+    public void responsePrepareRouteGuidance(final byte by, final byte by2) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responsePrepareRouteGuidance(by, by2);
+            }
+        });
     }
 
-    @Override
-    public void responseCheckRouteGuidance(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$21(this, by));
+    public void responseCheckRouteGuidance(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseCheckRouteGuidance(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSetRouteOptionCalcType(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$22(this, by));
+    public void responseSetRouteOptionCalcType(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetRouteOptionCalcType(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSetRouteOptionDynamic(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$23(this, by));
+    public void responseSetRouteOptionDynamic(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetRouteOptionDynamic(by);
+            }
+        });
     }
 
-    @Override
-    public void responseTriggerRouteGuidance(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$24(this, by));
+    public void responseTriggerRouteGuidance(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseTriggerRouteGuidance(by);
+            }
+        });
     }
 
-    @Override
-    public void responseReduceRouteToFinalDestination(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$25(this, by));
+    public void responseReduceRouteToFinalDestination(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseReduceRouteToFinalDestination(by);
+            }
+        });
     }
 
-    @Override
-    public void responseBlockRoute(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$26(this, by));
+    public void responseBlockRoute(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseBlockRoute(by);
+            }
+        });
     }
 
-    @Override
-    public void responseUnblockRoute(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$27(this, by));
+    public void responseUnblockRoute(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseUnblockRoute(by);
+            }
+        });
     }
 
-    @Override
-    public void responsePostCodeFormat(byte by, boolean bl) {
-        this.traverseListeners(new NaviServiceListenerController$28(this, by, bl));
+    public void responsePostCodeFormat(final byte by, final boolean bl) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responsePostCodeFormat(by, bl);
+            }
+        });
     }
 
-    @Override
-    public void responseSelectPOI(byte by, NaviService$POISDSListEntry[] naviService$POISDSListEntryArray) {
-        this.traverseListeners(new NaviServiceListenerController$29(this, by, naviService$POISDSListEntryArray));
+    public void responseSelectPOI(final byte by, final NaviService.POISDSListEntry[] pOISDSListEntryArray) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSelectPOI(by, pOISDSListEntryArray);
+            }
+        });
     }
 
-    @Override
-    public void responseSelectPOIbyListIndex(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$30(this, by));
+    public void responseSelectPOIbyListIndex(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSelectPOIbyListIndex(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSelectTopPOI(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$31(this, by));
+    public void responseSelectTopPOI(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSelectTopPOI(by);
+            }
+        });
     }
 
-    @Override
-    public void responseCurrentSpeedLimit(byte by, int n, byte by2) {
-        this.traverseListeners(new NaviServiceListenerController$32(this, by, n, by2));
+    public void responseCurrentSpeedLimit(final byte by, final int n, final byte by2) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseCurrentSpeedLimit(by, n, by2);
+            }
+        });
     }
 
-    @Override
-    public void responseStopRouteGuidance(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$33(this, by));
+    public void responseStopRouteGuidance(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStopRouteGuidance(by);
+            }
+        });
     }
 
-    @Override
-    public void responseStartRouteGuidance(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$34(this, by));
+    public void responseStartRouteGuidance(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseStartRouteGuidance(by);
+            }
+        });
     }
 
-    @Override
-    public void responseCalculateAlternativeRoutes(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$35(this, by));
+    public void responseCalculateAlternativeRoutes(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseCalculateAlternativeRoutes(by);
+            }
+        });
     }
 
-    @Override
-    public void responseAddSelectedDestinationAtIndex(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$36(this, by));
+    public void responseAddSelectedDestinationAtIndex(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseAddSelectedDestinationAtIndex(by);
+            }
+        });
     }
 
-    @Override
     public void countryUpdated(String string, String string2) {
-        this.logChannel.log(1078071040, "NaviServiceListenerController#countryUpdated( %1, %2 )", (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "NaviServiceListenerController#countryUpdated( %1, %2 )", (Object)string, (Object)string2);
         this.updateDestinationCountryCode(string, string2);
     }
 
-    @Override
     public void stateUpdated(String string, String string2) {
-        this.logChannel.log(1078071040, "NaviServiceListenerController#stateUpdated( %1, %2 )", (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "NaviServiceListenerController#stateUpdated( %1, %2 )", (Object)string, (Object)string2);
         this.updateDestinationStateCode(string, string2);
     }
 
-    @Override
-    public void responseSetLastDestination(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$37(this, by));
+    public void responseSetLastDestination(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetLastDestination(by);
+            }
+        });
     }
 
-    @Override
-    public void responseSetFavoriteDestination(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$38(this, by));
+    public void responseSetFavoriteDestination(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetFavoriteDestination(by);
+            }
+        });
     }
 
-    @Override
-    public void updateTrafficSituation(boolean bl, DateMetric dateMetric, int n, long l, int n2) {
-        this.traverseListeners(new NaviServiceListenerController$39(this, bl, dateMetric, n, l, n2));
+    public void updateTrafficSituation(final boolean bl, final DateMetric dateMetric, final int n, final long l, final int n2) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateTrafficSituation(bl, dateMetric, n, l, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseIntelliDestination(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$40(this, by));
+    public void responseIntelliDestination(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseIntelliDestination(by);
+            }
+        });
     }
 
-    @Override
-    public void updateResponseStartTrufflesSearch(byte by, int n, boolean bl, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(CLASS_NAME).append("#updateResponseStartTrufflesSearch  numberOfSearchResults: %2, navDBSearchEnded: %1 )").toString(), (Object)String.valueOf(bl), (long)n);
-        this.traverseListeners(new NaviServiceListenerController$41(this, by, n, bl, n2));
+    public void updateResponseStartTrufflesSearch(final byte by, final int n, final boolean bl, final int n2) {
+        this.logChannel.log(10000000, new StringBuffer().append(CLASS_NAME).append("#updateResponseStartTrufflesSearch  numberOfSearchResults: %2, navDBSearchEnded: %1 )").toString(), (Object)String.valueOf(bl), (long)n);
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.updateResponseStartTrufflesSearch(by, n, bl, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseSelectAlternativeRoute(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$42(this, by));
+    public void responseSelectAlternativeRoute(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSelectAlternativeRoute(by);
+            }
+        });
     }
 
-    @Override
-    public void responseDialDetailsNumber(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$43(this, by));
+    public void responseDialDetailsNumber(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseDialDetailsNumber(by);
+            }
+        });
     }
 
-    @Override
-    public void responseMapCodeResult(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$44(this, by));
+    public void responseMapCodeResult(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseMapCodeResult(by);
+            }
+        });
     }
 
-    @Override
-    public void responseTelephoneNumberResult(byte by) {
-        this.traverseListeners(new NaviServiceListenerController$45(this, by));
+    public void responseTelephoneNumberResult(final byte by) {
+        this.traverseListeners(new IUpdateOperation(){
+
+            public void update(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseTelephoneNumberResult(by);
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -434,6 +559,10 @@ ICountryStateUpdatedObserver {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
+    }
+
+    private static interface IUpdateOperation {
+        public void update(NaviServiceListener var1);
     }
 }
 

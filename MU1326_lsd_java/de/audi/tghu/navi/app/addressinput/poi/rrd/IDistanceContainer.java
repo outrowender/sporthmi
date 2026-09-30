@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.addressinput.poi.rrd;
 import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public interface IDistanceContainer {
-    default public RrdCalculationInfo getDistance(int n) {
-    }
+    public RrdCalculationInfo getDistance(int var1);
 
-    default public void storeRRDDistances(RrdCalculationInfo[] rrdCalculationInfoArray) {
-    }
+    public void storeRRDDistances(RrdCalculationInfo[] var1);
 }
 

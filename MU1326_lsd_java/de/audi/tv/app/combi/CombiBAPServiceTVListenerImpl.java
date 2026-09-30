@@ -48,34 +48,30 @@ implements CombiBAPServiceTVListener {
         this.favoritesList = iListContentSupplier;
     }
 
-    @Override
     public void setActiveSourceState(int n, int n2) {
     }
 
-    @Override
     public void selectListEntry(int n) {
         AbstractTVStationRow abstractTVStationRow = this.stationList.getRowByIndex(this.stationList.getIndexForUniqueID(n));
-        this.env.lcMain.log(-2137614336, "[CombiBAPServiceTVListenerImpl.selectListEntry] [id: %2] %1", (Object)abstractTVStationRow, (long)n);
+        this.env.lcMain.log(10000000, "[CombiBAPServiceTVListenerImpl.selectListEntry] [id: %2] %1", (Object)abstractTVStationRow, (long)n);
         this.serviceHandler.selectStation();
         if (abstractTVStationRow != null) {
             this.dsi.changeService(abstractTVStationRow.service, true);
         }
     }
 
-    @Override
     public void selectListEntryPresetList(int n) {
         AbstractTVStationRow abstractTVStationRow = this.favoritesList.getRowByIndex(this.favoritesList.getIndexForUniqueID(n));
-        this.env.lcMain.log(-2137614336, "[CombiBAPServiceTVListenerImpl.selectListEntryPresetList] [id: %2] %1", (Object)abstractTVStationRow, (long)n);
+        this.env.lcMain.log(10000000, "[CombiBAPServiceTVListenerImpl.selectListEntryPresetList] [id: %2] %1", (Object)abstractTVStationRow, (long)n);
         this.serviceHandler.selectStation();
         if (abstractTVStationRow != null) {
             this.dsi.changeService(abstractTVStationRow.service, true);
         }
     }
 
-    @Override
     public void skip(int n) {
-        this.env.lcMain.log(-2137614336, "[CombiBAPServiceTVListenerImpl.skip] skipping %1 rows", (long)n);
-        int n2 = n > 0 ? 1940662016 : 1957439232;
+        this.env.lcMain.log(10000000, "[CombiBAPServiceTVListenerImpl.skip] skipping %1 rows", (long)n);
+        int n2 = n > 0 ? 2600051 : 2600052;
         try {
             for (int i2 = 0; i2 < Math.abs(n); ++i2) {
                 this.hardKeyListener.keyTyped(n2, 0, 0);
@@ -88,31 +84,26 @@ implements CombiBAPServiceTVListener {
         }
     }
 
-    @Override
     public void startSeek(int n) {
         int n2 = n == 0 ? 1 : 2;
         this.dsi.selectNextService(n2);
     }
 
-    @Override
     public void cancelSeek() {
         this.dsi.abortSeek();
     }
 
-    @Override
     public void setPreferredList(int n) {
-        this.env.lcMain.log(-2137614336, "[CombiBAPServiceTVListenerImpl.setPreferredList] %1", (long)n);
+        this.env.lcMain.log(10000000, "[CombiBAPServiceTVListenerImpl.setPreferredList] %1", (long)n);
         int n2 = n == 2 ? 1 : 0;
         this.listFocusHandler.changeFocus(n2);
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
     }
 
-    @Override
     public void switchSource(int n, int n2, int n3) {
-        this.env.lcMain.log(-2137614336, "[CombiBAPServiceTVListenerImpl.switchSource] sourceType=%1, slotNumber=%2, partionNumber=%3", (long)n, (long)n2, (long)n3);
+        this.env.lcMain.log(10000000, "[CombiBAPServiceTVListenerImpl.switchSource] sourceType=%1, slotNumber=%2, partionNumber=%3", (long)n, (long)n2, (long)n3);
         switch (n) {
             case 9: {
                 this.stateTracker.setPendingSource(0);
@@ -134,9 +125,8 @@ implements CombiBAPServiceTVListener {
         }
     }
 
-    @Override
     public void activateSource(int n) {
-        this.env.lcMain.log(-2137614336, "[CombiBAPServiceTVListenerImpl.activateSource] source=%1", (long)n);
+        this.env.lcMain.log(10000000, "[CombiBAPServiceTVListenerImpl.activateSource] source=%1", (long)n);
     }
 }
 

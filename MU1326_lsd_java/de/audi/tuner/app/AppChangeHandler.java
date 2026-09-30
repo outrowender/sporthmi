@@ -49,7 +49,7 @@ class AppChangeHandler {
     }
 
     void appChangeToTuner(int n, int n2, TunerObjectContainer tunerObjectContainer, boolean bl) {
-        this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToTuner] HT:%1 band:%2", (long)n, (long)n2);
+        this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToTuner] HT:%1 band:%2", (long)n, (long)n2);
         if (!this.status.hasAudioFocus(n)) {
             this.announce.abortAnnouncement();
         }
@@ -69,22 +69,22 @@ class AppChangeHandler {
             return;
         }
         if (this.cmdManager.isBlocked()) {
-            this.logger.audio.log(-1601830656, "[AppChangeHandler.appChangeToTuner] CL queue is blocked!");
+            this.logger.audio.log(100000, "[AppChangeHandler.appChangeToTuner] CL queue is blocked!");
             this.audio.requestAudioChannel(Utilities.getConnectionByBand(n2, n), n);
         }
         this.audio.setStartup(bl);
         ISimpleTuner iSimpleTuner = TunerProxyManager.getInstance().getTuner(n2);
         int n4 = iSimpleTuner.init();
         if (n4 == 2) {
-            this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToTuner] DSI of tuner missing");
+            this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToTuner] DSI of tuner missing");
             return;
         }
         boolean bl3 = iSimpleTuner.isDeviceInUse();
         if (n2 != this.models.getActiveTuner()) {
-            this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToTuner] Switch band to %1", (long)n2);
+            this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToTuner] Switch band to %1", (long)n2);
             this.bandList.switchBand(n2, tunerObjectContainer, n);
         } else if (n4 == 0 && (bl2 || !bl3)) {
-            this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToTuner] audioFocusSet:%1 targetTunerInUse:%2", bl2, bl3);
+            this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToTuner] audioFocusSet:%1 targetTunerInUse:%2", bl2, bl3);
             switch (n2) {
                 case 5: {
                     this.appChangeToDab(n, tunerObjectContainer);
@@ -111,26 +111,26 @@ class AppChangeHandler {
                     break;
                 }
                 default: {
-                    this.logger.hmi.log(10000, "[AppChangeHandler.appChangeToTuner]", (Throwable)new IllegalStateException(new StringBuffer().append("Invalid band ").append(n2).toString()));
+                    this.logger.hmi.log(10000, "[AppChangeHandler.appChangeToTuner]", (Throwable)new IllegalStateException("Invalid band " + n2));
                     break;
                 }
             }
         } else if (tunerObjectContainer != null) {
             TunerProxyManager.getInstance().prepareAndTune(tunerObjectContainer, n);
         } else {
-            this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToTuner] target band %1 already active", (long)n2);
+            this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToTuner] target band %1 already active", (long)n2);
         }
         this.combiHandler.tunerActivated();
     }
 
     private void appChangeToSdars(int n, TunerObjectContainer tunerObjectContainer) {
-        this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToSdars]");
+        this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToSdars]");
         StationInfoExt stationInfoExt = tunerObjectContainer != null ? tunerObjectContainer.getSDARSService() : TunerProxyManager.getInstance().getSDARSTuner().getActiveStation();
         this.cmdManager.enqueue(this.cmdManager.clSwitchToSDARS(stationInfoExt, n));
     }
 
     private void appChangeToDab(int n, TunerObjectContainer tunerObjectContainer) {
-        this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToDab]");
+        this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToDab]");
         DabStation dabStation = tunerObjectContainer != null ? tunerObjectContainer.getDABStation() : TunerProxyManager.getInstance().getDABTuner().getActiveStation();
         int n2 = dabStation.isService() ? 2 : 3;
         RadioCommandList radioCommandList = this.cmdManager.clSwitchToDAB(n2, dabStation, n);
@@ -138,14 +138,14 @@ class AppChangeHandler {
     }
 
     private void appChangeToUni(int n, TunerObjectContainer tunerObjectContainer) {
-        this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToUni]");
+        this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToUni]");
         UnifiedStationExt unifiedStationExt = tunerObjectContainer != null ? tunerObjectContainer.getUniStation() : TunerProxyManager.getInstance().getUnifiedTuner().getActiveStation();
         RadioCommandList radioCommandList = this.cmdManager.clSwitchToUni(unifiedStationExt, n);
         this.cmdManager.enqueue(radioCommandList);
     }
 
     private void appChangeToAmFm(int n, TunerObjectContainer tunerObjectContainer) {
-        this.logger.hmi.log(-2137614336, "[AppChangeHandler.appChangeToAmFm] ");
+        this.logger.hmi.log(10000000, "[AppChangeHandler.appChangeToAmFm] ");
         AMFMStation aMFMStation = tunerObjectContainer != null ? tunerObjectContainer.getAMFMService() : TunerProxyManager.getInstance().getAmFmTuner().getStationWanted();
         RadioCommandList radioCommandList = this.cmdManager.clSwitchToAMFM(n, aMFMStation, false);
         this.cmdManager.enqueue(radioCommandList);

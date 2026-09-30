@@ -13,7 +13,6 @@ extends NavCommand {
         this.windowsize = n;
     }
 
-    @Override
     public void execute() {
         this.getDSINavigation().liValueListWindowSize(this.windowsize);
         this.getCommandList().commandFinished();

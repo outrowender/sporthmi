@@ -70,13 +70,13 @@ public class KOMOCaller {
     }
 
     public synchronized void setDSIKOMONavInfo(DSIKOMONavInfo dSIKOMONavInfo, DSIKOMONavInfoListener dSIKOMONavInfoListener) {
-        this.logChannel.log(1078071040, "KOMOCaller#setDSIKOMONavInfo( %1 )", (Object)dSIKOMONavInfo);
+        this.logChannel.log(1000000, "KOMOCaller#setDSIKOMONavInfo( %1 )", (Object)dSIKOMONavInfo);
         if (this.komoNavInfo != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setDSIKOMONavInfo() - clearNotification()");
+            this.logChannel.log(10000000, "KOMOCaller#setDSIKOMONavInfo() - clearNotification()");
         }
         this.komoNavInfo = dSIKOMONavInfo;
         if (dSIKOMONavInfo != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setDSIKOMONavInfo() - calling setNotification()");
+            this.logChannel.log(10000000, "KOMOCaller#setDSIKOMONavInfo() - calling setNotification()");
             dSIKOMONavInfo.setNotification(dSIKOMONavInfoListener);
             this.setCapabilities(new boolean[]{Util.isClusterKDKAvailable(this.env.getFramework()), Util.isClusterMapAvailable(this.env.getFramework())});
             this.setCityName(this.cityName);
@@ -94,13 +94,13 @@ public class KOMOCaller {
     }
 
     public synchronized void setDSIKOMOView(DSIKOMOView dSIKOMOView, DSIKOMOViewListener dSIKOMOViewListener) {
-        this.logChannel.log(1078071040, "KOMOCaller#setDSIKOMOView( %1 )", (Object)dSIKOMOView);
+        this.logChannel.log(1000000, "KOMOCaller#setDSIKOMOView( %1 )", (Object)dSIKOMOView);
         if (this.komoView != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setDSIKOMOView() - clearNotification()");
+            this.logChannel.log(10000000, "KOMOCaller#setDSIKOMOView() - clearNotification()");
         }
         this.komoView = dSIKOMOView;
         if (dSIKOMOView != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setDSIKOMOView() - setNotification()");
+            this.logChannel.log(10000000, "KOMOCaller#setDSIKOMOView() - setNotification()");
             dSIKOMOView.setNotification(dSIKOMOViewListener);
             this.setKomoViewStyle(this.getKomoViewStyle());
             this.enableKomoView(true);
@@ -113,13 +113,13 @@ public class KOMOCaller {
     }
 
     public synchronized void setDSIKOMOGfxStreamSink(DSIKOMOGfxStreamSink dSIKOMOGfxStreamSink, DSIKOMOGfxStreamSinkListener dSIKOMOGfxStreamSinkListener) {
-        this.logChannel.log(1078071040, "KOMOCaller#setDSIKOMOGfxStreamSink( %1 )", (Object)dSIKOMOGfxStreamSink);
+        this.logChannel.log(1000000, "KOMOCaller#setDSIKOMOGfxStreamSink( %1 )", (Object)dSIKOMOGfxStreamSink);
         if (this.komoGfxStreamSink != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setDSIKOMOGfxStreamSink() - clearNotification()");
+            this.logChannel.log(10000000, "KOMOCaller#setDSIKOMOGfxStreamSink() - clearNotification()");
         }
         this.komoGfxStreamSink = dSIKOMOGfxStreamSink;
         if (dSIKOMOGfxStreamSink != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setDSIKOMOGfxStreamSink() - setNotification()");
+            this.logChannel.log(10000000, "KOMOCaller#setDSIKOMOGfxStreamSink() - setNotification()");
             dSIKOMOGfxStreamSink.setNotification(new int[]{3, 1, 2}, (DSIListener)dSIKOMOGfxStreamSinkListener);
         }
     }
@@ -127,13 +127,13 @@ public class KOMOCaller {
     public synchronized void setCapabilities(boolean[] blArray) {
         if (this.komoNavInfo != null) {
             if (blArray != null && blArray.length > 1) {
-                this.logChannel.log(1078071040, "KOMOCaller#setCapabilities() - KOMO: %1, MAP: %2", blArray[0], blArray[1]);
+                this.logChannel.log(1000000, "KOMOCaller#setCapabilities() - KOMO: %1, MAP: %2", blArray[0], blArray[1]);
                 this.komoNavInfo.setCapabilities(blArray);
             } else {
                 this.logChannel.log(10000, "KOMOCaller#setCapabilities() - suppNavType invalid!");
             }
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setCapabilities() - komoNavInfo service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#setCapabilities() - komoNavInfo service not set!");
         }
     }
 
@@ -141,10 +141,10 @@ public class KOMOCaller {
         if (!this.compareString(this.cityName, string)) {
             this.cityName = string;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setCityName( %1 )", (Object)string);
+                this.logChannel.log(10000000, "KOMOCaller#setCityName( %1 )", (Object)string);
                 this.komoNavInfo.setCityName(string);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setCityName() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setCityName() - komoNavInfo service not set!");
             }
         }
     }
@@ -153,10 +153,10 @@ public class KOMOCaller {
         if (!this.compareString(this.currentStreet, string)) {
             this.currentStreet = string;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setCurrentStreet( %1 )", (Object)string);
+                this.logChannel.log(10000000, "KOMOCaller#setCurrentStreet( %1 )", (Object)string);
                 this.komoNavInfo.setCurrentStreet(string);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setCurrentStreet() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setCurrentStreet() - komoNavInfo service not set!");
             }
         }
     }
@@ -167,10 +167,10 @@ public class KOMOCaller {
             this.distanceToNextManeuverUnit = n;
             this.distanceToNextManeuverValidity = bl;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(1078071040, "KOMOCaller#setDistanceToNextManeuver( %1, %2, %3 )", l, (long)n, bl);
+                this.logChannel.log(1000000, "KOMOCaller#setDistanceToNextManeuver( %1, %2, %3 )", l, (long)n, bl);
                 this.komoNavInfo.setDistanceToNextManeuver(l, n, bl);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setDistanceToNextManeuverBG() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setDistanceToNextManeuverBG() - komoNavInfo service not set!");
             }
         }
     }
@@ -184,12 +184,12 @@ public class KOMOCaller {
             this.etaValidity = bl;
             this.etaTimeInfo = bl2;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setETA() - timeFormat: %1", (long)n);
-                this.logChannel.log(-2137614336, "KOMOCaller#setETA() - day: %1, hour: %2, min: %3", (long)s, (long)s2, (long)s3);
-                this.logChannel.log(-2137614336, "KOMOCaller#setETA() - validity: %1, timeInfo: %2", bl, bl2);
+                this.logChannel.log(10000000, "KOMOCaller#setETA() - timeFormat: %1", (long)n);
+                this.logChannel.log(10000000, "KOMOCaller#setETA() - day: %1, hour: %2, min: %3", (long)s, (long)s2, (long)s3);
+                this.logChannel.log(10000000, "KOMOCaller#setETA() - validity: %1, timeInfo: %2", bl, bl2);
                 this.komoNavInfo.setETA(n, s, s2, s3, bl, bl2);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setETA() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setETA() - komoNavInfo service not set!");
             }
         }
     }
@@ -204,11 +204,11 @@ public class KOMOCaller {
             this.mapScaleSupportedAutoZoom = blArray2;
             this.mapScaleValidity = bl;
             if (this.komoNavInfo == null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setMapScale() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setMapScale() - komoNavInfo service not set!");
                 return;
             }
             Buffer buffer = new Buffer().append(n).append(", ").append(n2).append(", [").append(MapUtils.toString(blArray)).append("], ").append(n3).append(", ").append(n4).append(", [").append(MapUtils.toString(blArray2)).append("], ").append(bl);
-            this.logChannel.log(-2137614336, "KOMOCaller#setMapScale() - calling setMapScaleResult( %1 )", (Object)buffer);
+            this.logChannel.log(10000000, "KOMOCaller#setMapScale() - calling setMapScaleResult( %1 )", (Object)buffer);
             this.komoNavInfo.setMapScaleResult(n, n2, blArray, n3, n4, blArray2, bl);
         }
     }
@@ -217,13 +217,13 @@ public class KOMOCaller {
         if (n != RG_SELECT_INVALID) {
             this.rgMode = n;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(1078071040, "KOMOCaller#setRgSelect( %1 )", (long)n);
+                this.logChannel.log(1000000, "KOMOCaller#setRgSelect( %1 )", (long)n);
                 this.komoNavInfo.setRgSelect(n);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setRgSelect() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setRgSelect() - komoNavInfo service not set!");
             }
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setRgSelect() - invalid value: %1", (long)n);
+            this.logChannel.log(10000000, "KOMOCaller#setRgSelect() - invalid value: %1", (long)n);
         }
     }
 
@@ -233,10 +233,10 @@ public class KOMOCaller {
             this.rttMin = s2;
             this.rttValidity = bl;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setRTT( %1, %2, %3 )", (long)s, (long)s2, bl);
+                this.logChannel.log(10000000, "KOMOCaller#setRTT( %1, %2, %3 )", (long)s, (long)s2, bl);
                 this.komoNavInfo.setRTT(s, s2, bl);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setRTT() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setRTT() - komoNavInfo service not set!");
             }
         }
     }
@@ -244,10 +244,10 @@ public class KOMOCaller {
     public synchronized void setSemiDynRoute(boolean bl) {
         this.alternativeRoute = bl;
         if (this.komoNavInfo != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setSemiDynRoute( %1 )", bl);
+            this.logChannel.log(10000000, "KOMOCaller#setSemiDynRoute( %1 )", bl);
             this.komoNavInfo.setSemiDynRoute(bl);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setSemiDynRoute() - komoNavInfo service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#setSemiDynRoute() - komoNavInfo service not set!");
         }
     }
 
@@ -259,11 +259,11 @@ public class KOMOCaller {
             this.trafficOffsetMin = s3;
             this.trafficOffsetValidity = bl;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setTrafficOffset() - timeFormat: %2, validity: %1", bl, (long)n);
-                this.logChannel.log(-2137614336, "KOMOCaller#setTrafficOffset() - day: %1, hour: %2, min: %3", (long)s, (long)s2, (long)s3);
+                this.logChannel.log(10000000, "KOMOCaller#setTrafficOffset() - timeFormat: %2, validity: %1", bl, (long)n);
+                this.logChannel.log(10000000, "KOMOCaller#setTrafficOffset() - day: %1, hour: %2, min: %3", (long)s, (long)s2, (long)s3);
                 this.komoNavInfo.setTrafficOffset(n, s, s2, s3, bl);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setTrafficOffset() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setTrafficOffset() - komoNavInfo service not set!");
             }
         }
     }
@@ -274,10 +274,10 @@ public class KOMOCaller {
             this.distanceToDestUnit = n;
             this.distanceToDestValidity = bl;
             if (this.komoNavInfo != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setDistanceToDestination( %1, %2, %3 )", l, (long)n, bl);
+                this.logChannel.log(10000000, "KOMOCaller#setDistanceToDestination( %1, %2, %3 )", l, (long)n, bl);
                 this.komoNavInfo.setDistanceToDestination(l, n, bl);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setDistanceToDestination() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setDistanceToDestination() - komoNavInfo service not set!");
             }
         }
     }
@@ -289,12 +289,12 @@ public class KOMOCaller {
             if (this.komoNavInfo != null) {
                 String string3 = string;
                 if (Util.isBentley(this.env.getFramework()) && !Util.isEmpty(string3)) {
-                    string3 = new StringBuffer().append(CombiSignConverter.convertSign(13)).append(string).toString();
+                    string3 = CombiSignConverter.convertSign(13) + string;
                 }
-                this.logChannel.log(-2137614336, "KOMOCaller#setTurnToStreet( %1, %2 )", (Object)string3, (Object)string2);
+                this.logChannel.log(10000000, "KOMOCaller#setTurnToStreet( %1, %2 )", (Object)string3, (Object)string2);
                 this.komoNavInfo.setTurnToStreet(string3, string2);
             } else {
-                this.logChannel.log(-2137614336, "KOMOCaller#setTurnToStreet() - komoNavInfo service not set!");
+                this.logChannel.log(10000000, "KOMOCaller#setTurnToStreet() - komoNavInfo service not set!");
             }
         }
     }
@@ -302,30 +302,30 @@ public class KOMOCaller {
     public synchronized void enableKomoView(boolean bl) {
         this.komoEnabled = bl;
         if (this.komoView != null) {
-            this.logChannel.log(1078071040, "KOMOCaller#enableKomoView( %1 )", bl);
+            this.logChannel.log(1000000, "KOMOCaller#enableKomoView( %1 )", bl);
             this.komoView.enableKomoView(bl);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#enableKomoView() - komoView service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#enableKomoView() - komoView service not set!");
         }
     }
 
     public synchronized void notifyVisibility(boolean bl) {
         this.komoVisible = bl;
         if (this.komoView != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#notifyVisibility( %1 )", bl);
+            this.logChannel.log(10000000, "KOMOCaller#notifyVisibility( %1 )", bl);
             this.komoView.notifyVisibility(bl);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#notifyVisibility() - komoView service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#notifyVisibility() - komoView service not set!");
         }
     }
 
     public synchronized void setRouteInfoElement(RouteInfoElement routeInfoElement) {
         this.routeInfoElement = routeInfoElement;
         if (this.komoView != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setRouteInfoElement( %1 ) [DEPRECATED]", (Object)routeInfoElement);
+            this.logChannel.log(10000000, "KOMOCaller#setRouteInfoElement( %1 ) [DEPRECATED]", (Object)routeInfoElement);
             this.komoView.setRouteInfoElement(routeInfoElement);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setRouteInfoElement() [DEPRECATED] - komoView service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#setRouteInfoElement() [DEPRECATED] - komoView service not set!");
         }
     }
 
@@ -333,7 +333,7 @@ public class KOMOCaller {
         this.routeInfoElements = routeInfoElementArray;
         if (this.komoView != null) {
             if (this.logChannel.isDebug() && routeInfoElementArray != null) {
-                this.logChannel.log(-2137614336, "KOMOCaller#setRouteInfo( %1 )", (Object)Arrays.asList(routeInfoElementArray));
+                this.logChannel.log(10000000, "KOMOCaller#setRouteInfo( %1 )", (Object)Arrays.asList(routeInfoElementArray));
             }
             if (Util.isSetRouteInfoDSIAvailable(this.env.getFramework())) {
                 this.komoView.setRouteInfo(routeInfoElementArray);
@@ -341,43 +341,43 @@ public class KOMOCaller {
                 this.komoView.setRouteInfoElement(routeInfoElementArray[0]);
             }
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setRouteInfo() - komoView service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#setRouteInfo() - komoView service not set!");
         }
     }
 
     public synchronized void setKomoViewStyle(int n) {
         if (this.komoView != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setKomoViewStyle( %1 )", (long)n);
+            this.logChannel.log(10000000, "KOMOCaller#setKomoViewStyle( %1 )", (long)n);
             this.komoView.setKomoViewStyle(n);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setKomoViewStyle() - komoView service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#setKomoViewStyle() - komoView service not set!");
         }
     }
 
     public synchronized void fadeIn(int n, int n2, int n3) {
         if (this.komoGfxStreamSink != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#fadeIn( %1, %2, %3 )", (long)n, (long)n2, (long)n3);
+            this.logChannel.log(10000000, "KOMOCaller#fadeIn( %1, %2, %3 )", (long)n, (long)n2, (long)n3);
             this.komoGfxStreamSink.fadeIn(n, n2, n3);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#fadeIn() - komoGfxStreamSink service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#fadeIn() - komoGfxStreamSink service not set!");
         }
     }
 
     public synchronized void fadeOut(int n) {
         if (this.komoGfxStreamSink != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#fadeOut( %1 )", (long)n);
+            this.logChannel.log(10000000, "KOMOCaller#fadeOut( %1 )", (long)n);
             this.komoGfxStreamSink.fadeOut(n);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#fadeOut() - komoGfxStreamSink service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#fadeOut() - komoGfxStreamSink service not set!");
         }
     }
 
     public synchronized void setFGLayer(int n) {
         if (this.komoGfxStreamSink != null) {
-            this.logChannel.log(-2137614336, "KOMOCaller#setFGLayer( %1 )", (long)n);
+            this.logChannel.log(10000000, "KOMOCaller#setFGLayer( %1 )", (long)n);
             this.komoGfxStreamSink.setFGLayer(n);
         } else {
-            this.logChannel.log(-2137614336, "KOMOCaller#setFGLayer() - komoGfxStreamSink service not set!");
+            this.logChannel.log(10000000, "KOMOCaller#setFGLayer() - komoGfxStreamSink service not set!");
         }
     }
 

@@ -5,13 +5,10 @@ package de.audi.tghu.online.app.remotehmi;
 
 public interface RemoteHMITask
 extends Runnable {
-    default public boolean isCoalescable() {
-    }
+    public boolean isCoalescable();
 
-    default public boolean coalesceWith(RemoteHMITask remoteHMITask) {
-    }
+    public boolean coalesceWith(RemoteHMITask var1);
 
-    default public Long getDelayMillis() {
-    }
+    public Long getDelayMillis();
 }
 

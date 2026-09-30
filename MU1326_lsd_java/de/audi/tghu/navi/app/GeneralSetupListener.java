@@ -6,10 +6,13 @@ package de.audi.tghu.navi.app;
 import de.audi.atip.hmi.model.ChoiceListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.IStorageAccess;
-import de.audi.tghu.navi.app.GeneralSetupListener$State;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.PersistentState;
 import de.audi.tghu.navi.app.tr.TrafficRegulationService;
 import de.audi.tghu.navi.app.util.Util;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class GeneralSetupListener
 implements ChoiceListener {
@@ -21,30 +24,28 @@ implements ChoiceListener {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getLogChannel();
         this.trafficRegulationService = trafficRegulationService;
-        this.logChannel.log(-2137614336, "GeneralSetupListener#GeneralSetupListener() ");
+        this.logChannel.log(10000000, "GeneralSetupListener#GeneralSetupListener() ");
         this.setListeners();
     }
 
     private void setListeners() {
-        this.env.getChoiceModel(-1591933440).setChoiceListener(this);
-        this.env.getChoiceModel(-1977809408).setChoiceListener(this);
-        this.env.getChoiceModel(488441344).setChoiceListener(this);
+        this.env.getChoiceModel(400801).setChoiceListener(this);
+        this.env.getChoiceModel(400778).setChoiceListener(this);
+        this.env.getChoiceModel(400669).setChoiceListener(this);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.itemSelected(n, n2, n3, n4, true);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void itemSelected(int n, int n2, int n3, int n4, boolean bl) {
-        this.logChannel.log(-2137614336, "GeneralSetupListener#itemSelected( %1, %2 ) ", (long)n, (long)n2);
+        this.logChannel.log(10000000, "GeneralSetupListener#itemSelected( %1, %2 ) ", (long)n, (long)n2);
         switch (n) {
             case 400801: {
-                this.env.getChoiceModel(-1591933440).setValue(n2);
+                this.env.getChoiceModel(400801).setValue(n2);
                 if (bl) {
                     this.saveState();
                 }
@@ -52,13 +53,13 @@ implements ChoiceListener {
                 break;
             }
             case 400669: {
-                this.env.getChoiceModel(488441344).setValue(n2);
+                this.env.getChoiceModel(400669).setValue(n2);
                 if (!bl) break;
                 this.saveState();
                 break;
             }
             case 400778: {
-                this.env.getChoiceModel(-1977809408).setValue(n2);
+                this.env.getChoiceModel(400778).setValue(n2);
                 break;
             }
             default: {
@@ -68,43 +69,39 @@ implements ChoiceListener {
     }
 
     public boolean isRSEConfirmTransferEnabled() {
-        return this.env.getChoiceModel(488441344).getValue() == 0;
+        return this.env.getChoiceModel(400669).getValue() == 0;
     }
 
     public int getTimeMode() {
-        return this.env.getChoiceModel(-1608710656).getValue();
+        return this.env.getChoiceModel(400800).getValue();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
     public void resetSettings() {
         int n = this.env.getFramework().isFrontMU() ? 0 : 5;
         int n2 = TrafficRegulationService.isTrafficRegulationPresent(this.env) ? 1 : 0;
-        this.itemSelected(-1591933440, n2, 0, n, false);
+        this.itemSelected(400801, n2, 0, n, false);
         this.saveState();
     }
 
     void saveState() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            GeneralSetupListener$State generalSetupListener$State = new GeneralSetupListener$State(iStorageAccess, this.logChannel);
-            generalSetupListener$State.setTrafficSignDisplay(this.env.getChoiceModel(-1591933440).getValue());
-            generalSetupListener$State.setRseConfirmTransfer(this.env.getChoiceModel(488441344).getValue());
-            generalSetupListener$State.serializeAndWrite();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.setTrafficSignDisplay(this.env.getChoiceModel(400801).getValue());
+            state.setRseConfirmTransfer(this.env.getChoiceModel(400669).getValue());
+            state.serializeAndWrite();
         } else {
             this.logChannel.log(10000, "Setup#saveState() - no storage manager available!!! ");
         }
@@ -113,13 +110,13 @@ implements ChoiceListener {
     public void loadState() {
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            GeneralSetupListener$State generalSetupListener$State = new GeneralSetupListener$State(iStorageAccess, this.logChannel);
-            generalSetupListener$State.readAndDeserialize();
-            int n = !Util.isHURegionAsia() && this.env.getFramework().isEvoHigh() ? 1 : generalSetupListener$State.getTrafficSignDisplay();
+            State state = new State(iStorageAccess, this.logChannel);
+            state.readAndDeserialize();
+            int n = !Util.isHURegionAsia() && this.env.getFramework().isEvoHigh() ? 1 : state.getTrafficSignDisplay();
             int n2 = TrafficRegulationService.isTrafficRegulationPresent(this.env) ? n : 0;
-            this.env.getChoiceModel(-1591933440).setValue(n2);
+            this.env.getChoiceModel(400801).setValue(n2);
             this.trafficRegulationService.setEnableTrafficRegulationInfo(n2 == 1);
-            this.env.getChoiceModel(488441344).setValue(generalSetupListener$State.getRseConfirmTransfer());
+            this.env.getChoiceModel(400669).setValue(state.getRseConfirmTransfer());
         } else {
             this.logChannel.log(10000, "Setup#loadState() - no storage manager available!!! ");
         }
@@ -131,6 +128,68 @@ implements ChoiceListener {
             iStorageAccess.enterSetupScreen();
         } else {
             iStorageAccess.exitSetupScreen();
+        }
+    }
+
+    public static class State
+    extends PersistentState {
+        public static final int VERSION = 2;
+        public static final int KEY = 840;
+        private int trafficSignDisplay;
+        private int rseConfirmTransfer;
+
+        public State(IStorageAccess iStorageAccess, LogChannel logChannel) {
+            super(iStorageAccess, 2, 1004, 840, logChannel);
+        }
+
+        protected void initWithDefaultValues() {
+            this.trafficSignDisplay = 1;
+            this.rseConfirmTransfer = 0;
+        }
+
+        protected void initFromOldKeys(IStorageAccess iStorageAccess) {
+            this.trafficSignDisplay = iStorageAccess.getInt(1004, 370, 1);
+            this.rseConfirmTransfer = iStorageAccess.getInt(1004, 390, 0);
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeInt(this.trafficSignDisplay);
+            dataOutputStream.writeInt(this.rseConfirmTransfer);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.trafficSignDisplay = dataInputStream.readInt();
+            this.rseConfirmTransfer = dataInputStream.readInt();
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            this.getLogChannel().log(10000000, "GeneralSetupListener.State#convertContainer( %1, %2 )", (long)n, (long)n2);
+            this.initWithDefaultValues();
+            try {
+                if (n > 0) {
+                    this.trafficSignDisplay = dataInputStream.readInt();
+                    this.rseConfirmTransfer = dataInputStream.readInt();
+                }
+            }
+            catch (IOException iOException) {
+                this.getLogChannel().log(10000, "GeneralSetupListener.State#convertContainer - error on converting the persistent state format", (Throwable)iOException);
+            }
+        }
+
+        public int getTrafficSignDisplay() {
+            return this.trafficSignDisplay;
+        }
+
+        public void setTrafficSignDisplay(int n) {
+            this.trafficSignDisplay = n;
+        }
+
+        public int getRseConfirmTransfer() {
+            return this.rseConfirmTransfer;
+        }
+
+        public void setRseConfirmTransfer(int n) {
+            this.rseConfirmTransfer = n;
         }
     }
 }

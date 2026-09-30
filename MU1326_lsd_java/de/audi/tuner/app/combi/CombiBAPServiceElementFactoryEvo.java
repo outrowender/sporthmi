@@ -11,7 +11,6 @@ public class CombiBAPServiceElementFactoryEvo
 implements ICombiBAPServiceElementFactory {
     private CombiBAPServiceElementBuilderAMFMEvo amfmFactory = new CombiBAPServiceElementBuilderAMFMEvo();
 
-    @Override
     public ICombiBAPServiceElementBuilderAMFM getServiceElementFactoryAMFM() {
         return this.amfmFactory;
     }

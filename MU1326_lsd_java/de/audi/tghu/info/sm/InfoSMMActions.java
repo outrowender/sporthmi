@@ -12,6 +12,7 @@ import de.audi.atip.statemachine.SMServices;
 import de.audi.atip.statemachine.ap.InfoActionProxy;
 import de.audi.atip.statemachine.ap.NaviActionProxy;
 import de.audi.atip.statemachine.ap.TopLevelScreenActionProxy;
+import java.util.NoSuchElementException;
 
 public class InfoSMMActions
 implements SMModuleConstants {
@@ -30,17 +31,17 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof InfoActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "InfoActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "InfoActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof NaviActionProxy) {
             this.ap1 = null;
-            this.logChannel.log(-2137614336, "NaviActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "NaviActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof TopLevelScreenActionProxy) {
             this.ap2 = null;
-            this.logChannel.log(-2137614336, "TopLevelScreenActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "TopLevelScreenActionProxy Action Proxy removed");
             return;
         }
     }
@@ -48,17 +49,17 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof InfoActionProxy) {
             this.ap0 = (InfoActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "InfoActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "InfoActionProxy Action Proxy added");
             return this.ap0;
         }
         if (actionProxy instanceof NaviActionProxy) {
             this.ap1 = (NaviActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "NaviActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "NaviActionProxy Action Proxy added");
             return this.ap1;
         }
         if (actionProxy instanceof TopLevelScreenActionProxy) {
             this.ap2 = (TopLevelScreenActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "TopLevelScreenActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "TopLevelScreenActionProxy Action Proxy added");
             return this.ap2;
         }
         return null;
@@ -69,7 +70,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'InfoActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'InfoActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'InfoActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionNaviActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -77,7 +78,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'NaviActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'NaviActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'NaviActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionTopLevelScreenActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -85,7 +86,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'TopLevelScreenActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'TopLevelScreenActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'TopLevelScreenActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -153,7 +154,7 @@ implements SMModuleConstants {
             }
             case 500014: {
                 sMServices.popDrawerIDs();
-                sMServices.removeContext(0);
+                sMServices.removeContext(1275761346L);
                 TopLevelScreenActionProxy topLevelScreenActionProxy = this.ap2;
                 try {
                     topLevelScreenActionProxy.setTopLevelScreen(this.smm.getTerminalID(), 4, true);
@@ -194,7 +195,7 @@ implements SMModuleConstants {
     public void execEnterAction(SMServices sMServices, int n) {
         switch (n) {
             case 500000: {
-                sMServices.pushDrawerIDs(0, 0L);
+                sMServices.pushDrawerIDs(400083L, 0L);
                 return;
             }
             case 500001: {
@@ -240,7 +241,7 @@ implements SMModuleConstants {
             case 500014: {
                 sMServices.setColor(3);
                 sMServices.pushDrawerIDs(0L, 0L);
-                sMServices.addContext(0);
+                sMServices.addContext(1275761346L);
                 return;
             }
             case 500015: {
@@ -315,7 +316,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

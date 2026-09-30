@@ -7,7 +7,6 @@ import de.audi.tuner.app.gracenote.IGracenoteResponse;
 import org.dsi.ifc.media.CoverartInfo;
 
 public interface IGracenoteRequest {
-    default public int gracenoteRequest(CoverartInfo coverartInfo, IGracenoteResponse iGracenoteResponse) {
-    }
+    public int gracenoteRequest(CoverartInfo var1, IGracenoteResponse var2);
 }
 

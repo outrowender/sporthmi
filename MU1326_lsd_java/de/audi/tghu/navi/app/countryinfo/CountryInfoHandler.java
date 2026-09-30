@@ -27,12 +27,12 @@ import org.dsi.ifc.trafficregulation.RoadClassSpeedInfo;
 
 public abstract class CountryInfoHandler
 implements ICountryInfoHandler {
-    public static final int ADDITIONAL_INFO_NOT_AVAILABLE;
-    public static final int ADDITIONAL_INFO_AVAILABLE;
-    public static final int SPEED_INFO_NOT_AVAILABLE;
-    public static final int SPEED_INFO_AVAILABLE;
-    public static final int RIGHT_HAND_TRAFFIC_OFF;
-    public static final int RIGHT_HAND_TRAFFIC_ON;
+    public static final int ADDITIONAL_INFO_NOT_AVAILABLE = 0;
+    public static final int ADDITIONAL_INFO_AVAILABLE = 1;
+    public static final int SPEED_INFO_NOT_AVAILABLE = 0;
+    public static final int SPEED_INFO_AVAILABLE = 1;
+    public static final int RIGHT_HAND_TRAFFIC_OFF = 0;
+    public static final int RIGHT_HAND_TRAFFIC_ON = 1;
     protected final NavigationEnv env;
     protected final ICommandListFactory commandListFactory;
     protected final IconHandler iconHandler;
@@ -47,36 +47,30 @@ implements ICountryInfoHandler {
         this.logChannel = navigationEnv.getLogChannel();
     }
 
-    @Override
     public void startCountryInput(boolean bl) {
         this.startCountryInput(bl, '\u0000');
     }
 
-    @Override
-    public abstract void startCountryInput(boolean bl, char c2) {
-    }
+    public abstract void startCountryInput(boolean var1, char var2);
 
-    @Override
     public void initiateCountry() {
         NavLocation navLocation = this.vehicle.getVehicleCountryLocation();
         this.setCountry(navLocation);
     }
 
-    @Override
     public void setCountry(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "CountryInfoHandler#setCountry( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "CountryInfoHandler#setCountry( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
         this.setCountry(navLocation, this.commandListFactory.createCommandList());
     }
 
-    @Override
     public void setCountry(NavLocation navLocation, CommandList commandList) {
-        this.logChannel.log(-2137614336, "CountryInfoHandler#setCountry( %1, %2 )", (Object)LocationFormatter.formatLocationShort(navLocation), commandList == null ? 0L : (long)commandList.size());
+        this.logChannel.log(10000000, "CountryInfoHandler#setCountry( %1, %2 )", (Object)LocationFormatter.formatLocationShort(navLocation), commandList == null ? 0L : (long)commandList.size());
         String string = LocationFormatter.formatCountry(navLocation);
         this.updateCountryTextfield(string);
         if (navLocation != null) {
             String string2 = navLocation.getCountryAbbreviation();
             if (!Util.isEmpty(string2)) {
-                this.logChannel.log(-2137614336, "CountryInfoHandler#setCountry() - countryAbbreviation: %1 - postcommands count: %2", (Object)string2, (long)commandList.size());
+                this.logChannel.log(10000000, "CountryInfoHandler#setCountry() - countryAbbreviation: %1 - postcommands count: %2", (Object)string2, (long)commandList.size());
                 CommandList commandList2 = this.commandListFactory.createCommandList();
                 commandList2.add(new RequestRoadClassSpeedInfoForCountryCommand(this, string2));
                 commandList2.add(new RequestCountryInfoCommand(this, string2));
@@ -90,41 +84,39 @@ implements ICountryInfoHandler {
         }
     }
 
-    @Override
     public void updateCountryInfo(CountryInfo countryInfo) {
         if (countryInfo == null) {
-            this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryInfo() - countryInfo is null! ");
+            this.logChannel.log(10000000, "CountryInfoHandler#updateCountryInfo() - countryInfo is null! ");
             this.updateAdditionalInfoAvailable(false);
             return;
         }
-        this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryInfo() - countryAbbreviation: %1 ", (Object)countryInfo.getCountryAbbreviation());
+        this.logChannel.log(10000000, "CountryInfoHandler#updateCountryInfo() - countryAbbreviation: %1 ", (Object)countryInfo.getCountryAbbreviation());
         this.updateCountryTextfield(countryInfo.getName());
         this.updateCountryAdditionalInfo(countryInfo.getAdditionalIcons(), countryInfo.getAdditionalInfo());
         this.updateRightHandTraffic(countryInfo.isRightHandTraffic());
     }
 
-    @Override
     public void updateRoadClassSpeedInfo(RoadClassSpeedInfo[] roadClassSpeedInfoArray) {
-        this.logChannel.log(-2137614336, "CountryInfoHandler#updateRoadClassSpeedInfo() %1 ", (Object)roadClassSpeedInfoArray);
+        this.logChannel.log(10000000, "CountryInfoHandler#updateRoadClassSpeedInfo() %1 ", (Object)roadClassSpeedInfoArray);
         if (roadClassSpeedInfoArray != null && roadClassSpeedInfoArray.length > 0) {
             this.updateRoadClassSpeedInfoAvailable(true);
             this.updateCountryInfoSpeedUnit(roadClassSpeedInfoArray[0]);
-            this.updateEvoSpeedLimitsModel(roadClassSpeedInfoArray, this.env.getListModel(1780286976));
-            this.updatePorscheSpeedLimitsModel(roadClassSpeedInfoArray, this.env.getBaseListModel(656541184));
+            this.updateEvoSpeedLimitsModel(roadClassSpeedInfoArray, this.env.getListModel(400746));
+            this.updatePorscheSpeedLimitsModel(roadClassSpeedInfoArray, this.env.getBaseListModel(401959));
         } else {
             this.updateRoadClassSpeedInfoAvailable(false);
         }
     }
 
     private void updateEvoSpeedLimitsModel(RoadClassSpeedInfo[] roadClassSpeedInfoArray, ListModelApp listModelApp) {
-        this.logChannel.log(-2137614336, "CountryInfoHandler#updateEvoSpeedLimitsModel() - size: %1 ", (long)roadClassSpeedInfoArray.length);
+        this.logChannel.log(10000000, "CountryInfoHandler#updateEvoSpeedLimitsModel() - size: %1 ", (long)roadClassSpeedInfoArray.length);
         listModelApp.beginTransaction();
         listModelApp.clear();
         if (listModelApp.getMaxRows() < roadClassSpeedInfoArray.length) {
             listModelApp.setMaxRows(roadClassSpeedInfoArray.length);
         }
         for (int i2 = 0; i2 < roadClassSpeedInfoArray.length; ++i2) {
-            this.logChannel.log(-2137614336, "CountryInfoHandler#updateEvoSpeedLimitsModel() - add RoadClassSpeedInfo: %1 ", (Object)roadClassSpeedInfoArray[i2]);
+            this.logChannel.log(10000000, "CountryInfoHandler#updateEvoSpeedLimitsModel() - add RoadClassSpeedInfo: %1 ", (Object)roadClassSpeedInfoArray[i2]);
             RoadClassSpeedInfoRow roadClassSpeedInfoRow = new RoadClassSpeedInfoRow(this.iconHandler, roadClassSpeedInfoArray[i2]);
             listModelApp.addRow(roadClassSpeedInfoRow.getCells());
         }
@@ -132,14 +124,14 @@ implements ICountryInfoHandler {
     }
 
     protected void updatePorscheSpeedLimitsModel(RoadClassSpeedInfo[] roadClassSpeedInfoArray, BaseListModelApp baseListModelApp) {
-        this.logChannel.log(-2137614336, "CountryInfoHandler#updatePorscheSpeedLimitsModel() - size: %1 ", (long)roadClassSpeedInfoArray.length);
+        this.logChannel.log(10000000, "CountryInfoHandler#updatePorscheSpeedLimitsModel() - size: %1 ", (long)roadClassSpeedInfoArray.length);
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
         baseListModelApp2.append(this.getSpeedModelRow(roadClassSpeedInfoArray));
         baseListModelApp.update(baseListModelApp2);
     }
 
     private EvoListRow getSpeedModelRow(RoadClassSpeedInfo[] roadClassSpeedInfoArray) {
-        EvoListRow evoListRow = new EvoListRow(0, 17);
+        EvoListRow evoListRow = new EvoListRow(666L, 17);
         evoListRow.setInteger(0, roadClassSpeedInfoArray.length);
         for (int i2 = 0; i2 < roadClassSpeedInfoArray.length; ++i2) {
             int n = roadClassSpeedInfoArray[i2].getVariant();
@@ -157,27 +149,27 @@ implements ICountryInfoHandler {
 
     private void updateCountryAdditionalInfo(int[] nArray, String[] stringArray) {
         LabelModelApp labelModelApp;
-        this.logChannel.log(1078071040, "CountryInfoHandler#updateCountryAdditionalInfo() ");
+        this.logChannel.log(1000000, "CountryInfoHandler#updateCountryAdditionalInfo() ");
         if (stringArray == null || stringArray.length == 0) {
-            this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryAdditionalInfo() - additionalInfo array is null or length is 0");
+            this.logChannel.log(10000000, "CountryInfoHandler#updateCountryAdditionalInfo() - additionalInfo array is null or length is 0");
             this.updateAdditionalInfoAvailable(false);
             return;
         }
         int n = stringArray.length;
-        this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryAdditionalInfo() - additionalInfo array length: %1", (long)n);
+        this.logChannel.log(10000000, "CountryInfoHandler#updateCountryAdditionalInfo() - additionalInfo array length: %1", (long)n);
         try {
-            labelModelApp = this.env.getLabelModel(1713178112);
+            labelModelApp = this.env.getLabelModel(400742);
         }
         catch (ClassCastException classCastException) {
             this.logChannel.log(10000, "CountryInfoHandler#updateCountryAdditionalInfo() - caught ClassCastException: %1", (Throwable)classCastException);
             return;
         }
         Buffer buffer = new Buffer();
-        BaseListModelApp baseListModelApp = this.env.getBaseListModel(1428162048);
+        BaseListModelApp baseListModelApp = this.env.getBaseListModel(401493);
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
         for (int i2 = 0; i2 < n; ++i2) {
             if (Util.isEmpty(stringArray[i2])) continue;
-            this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryAdditionalInfo() - add additional info text at index %1", (long)i2);
+            this.logChannel.log(10000000, "CountryInfoHandler#updateCountryAdditionalInfo() - add additional info text at index %1", (long)i2);
             buffer.append(stringArray[i2]);
             buffer.append('\n');
             EvoListRow evoListRow = new EvoListRow(i2, 2);
@@ -187,20 +179,20 @@ implements ICountryInfoHandler {
         }
         baseListModelApp.update(baseListModelApp2);
         if (buffer.length() != 0) {
-            this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryAdditionalInfo() - additional info text was added");
+            this.logChannel.log(10000000, "CountryInfoHandler#updateCountryAdditionalInfo() - additional info text was added");
             labelModelApp.setText(buffer.toString());
             this.updateAdditionalInfoAvailable(true);
         } else {
-            this.logChannel.log(-2137614336, "CountryInfoHandler#updateCountryAdditionalInfo() - no additional info text was added");
+            this.logChannel.log(10000000, "CountryInfoHandler#updateCountryAdditionalInfo() - no additional info text was added");
             this.updateAdditionalInfoAvailable(false);
         }
     }
 
     private void updateRightHandTraffic(boolean bl) {
-        this.logChannel.log(1078071040, "CountryInfoHandler#updateRightHandTraffic() - rightHandTraffic: %1 ", bl);
+        this.logChannel.log(1000000, "CountryInfoHandler#updateRightHandTraffic() - rightHandTraffic: %1 ", bl);
         int n = bl ? 1 : 0;
         try {
-            this.env.getChoiceModel(1763509760).setValue(n);
+            this.env.getChoiceModel(400745).setValue(n);
         }
         catch (ClassCastException classCastException) {
             this.logChannel.log(10000, "CountryInfoHandler#updateRightHandTraffic() - caught ClassCastException: %1", (Throwable)classCastException);
@@ -208,9 +200,9 @@ implements ICountryInfoHandler {
     }
 
     private void updateCountryTextfield(String string) {
-        this.logChannel.log(1078071040, "CountryInfoHandler#updateCountryTextfield() - countryName: %1 ", (Object)string);
+        this.logChannel.log(1000000, "CountryInfoHandler#updateCountryTextfield() - countryName: %1 ", (Object)string);
         try {
-            this.env.getTextfieldModel(1662846464).setText1(string);
+            this.env.getTextfieldModel(400739).setText1(string);
         }
         catch (ClassCastException classCastException) {
             this.logChannel.log(10000, "CountryInfoHandler#updateCountryTextfield() - caught ClassCastException: %1", (Throwable)classCastException);
@@ -218,13 +210,13 @@ implements ICountryInfoHandler {
     }
 
     public void updateAdditionalInfoAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "CountryInfoHandler#updateAdditionalInfoAvailable() - available: %1 ", bl);
+        this.logChannel.log(1000000, "CountryInfoHandler#updateAdditionalInfoAvailable() - available: %1 ", bl);
         if (!bl) {
-            this.env.getBaseListModel(1428162048).removeAll();
+            this.env.getBaseListModel(401493).removeAll();
         }
         int n = bl ? 1 : 0;
         try {
-            this.env.getChoiceModel(1729955328).setValue(n);
+            this.env.getChoiceModel(400743).setValue(n);
         }
         catch (ClassCastException classCastException) {
             this.logChannel.log(10000, "CountryInfoHandler#updateAdditionalInfoAvailable() - caught ClassCastException: %1", (Throwable)classCastException);
@@ -232,10 +224,10 @@ implements ICountryInfoHandler {
     }
 
     private void updateRoadClassSpeedInfoAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "CountryInfoHandler#updateRoadClassSpeedInfoAvailable() - available: %1 ", bl);
+        this.logChannel.log(1000000, "CountryInfoHandler#updateRoadClassSpeedInfoAvailable() - available: %1 ", bl);
         int n = bl ? 1 : 0;
         try {
-            this.env.getChoiceModel(1797064192).setValue(n);
+            this.env.getChoiceModel(400747).setValue(n);
         }
         catch (ClassCastException classCastException) {
             this.logChannel.log(10000, "CountryInfoHandler#updateRoadClassSpeedInfoAvailable() - caught ClassCastException: %1", (Throwable)classCastException);
@@ -246,9 +238,9 @@ implements ICountryInfoHandler {
         if (roadClassSpeedInfo != null) {
             int n = CountryInfoHandler.convertSpeedUnit(roadClassSpeedInfo.getSpeedUnit());
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "CountryInfoHandler#updateCountryInfoSpeedUnit() - speedUnit: %1 ", (long)n);
+                this.logChannel.log(100000000, "CountryInfoHandler#updateCountryInfoSpeedUnit() - speedUnit: %1 ", (long)n);
             }
-            this.env.getChoiceModel(-434108928).setValue(n);
+            this.env.getChoiceModel(401638).setValue(n);
         } else {
             this.logChannel.log(10000, "CountryInfoHandler#updateCountryInfoSpeedUnit() - speed info is null! ");
         }

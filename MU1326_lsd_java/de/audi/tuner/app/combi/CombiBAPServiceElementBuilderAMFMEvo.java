@@ -15,7 +15,6 @@ import de.audi.tuner.ifc.ICombiBAPServiceElementBuilderAMFM;
 
 public class CombiBAPServiceElementBuilderAMFMEvo
 implements ICombiBAPServiceElementBuilderAMFM {
-    @Override
     public CombiBAPCurrentStationInfo getAMFMCurrentStationEntry(TunerObjectContainer tunerObjectContainer, int n, int n2, int n3, HMIResourceLocator hMIResourceLocator) {
         int n4;
         String string;
@@ -67,7 +66,6 @@ implements ICombiBAPServiceElementBuilderAMFM {
         return combiBAPCurrentStationInfo;
     }
 
-    @Override
     public CombiBAPReceptionListEntry getAMFMListStationEntry(TunerObjectContainer tunerObjectContainer, int n) {
         int n2;
         String string;

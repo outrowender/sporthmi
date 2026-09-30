@@ -6,8 +6,7 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
-import de.audi.tghu.navi.app.map.context.CTags$HasDefaultZoom;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxFreeMap;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.utils.MapPin;
@@ -17,8 +16,8 @@ import org.dsi.ifc.map.Rect;
 
 public class CtxPicNavCarouselMap
 extends CtxFreeMap
-implements CTags$HasDefaultZoom,
-CTags$HasZoomArea {
+implements CTags.HasDefaultZoom,
+CTags.HasZoomArea {
     public static int CAROUSEL_MAP_WIDTH = 401;
     public static int CAROUSEL_MAP_HEIGHT = 255;
 
@@ -26,7 +25,6 @@ CTags$HasZoomArea {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.backupPOIVisibilityAndHideAllPOIs();
@@ -50,48 +48,39 @@ CTags$HasZoomArea {
         }
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.naviMap.getMVRequest().setPictureNavigationIconVisibility(false, -1);
         this.freezeMap();
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        if (n != 1058801152) {
+        if (n != 400447) {
             super.itemSelected(n, n2, n3, n4);
         }
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
     }
 
-    @Override
     public void updateZoomList(float[] fArray, int n, float[] fArray2) {
         super.updateZoomList(fArray, n, fArray2);
         this.getZoomHandler().setZoomLevel(this.getDefaultZoomLevel());
     }
 
-    @Override
     public void updateMapOrientation(int n) {
     }
 
-    @Override
     public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
     }
 
-    @Override
     public void updateInfoForPosition(PosInfo[] posInfoArray) {
     }
 
-    @Override
     public float getDefaultZoomLevel() {
-        return 51267;
+        return 400.0f;
     }
 
-    @Override
     public MapPin[] getDynamicPins() {
         NavLocationWgs84 navLocationWgs84 = this.getData().sPicNavCarouselMapPosition;
         if (navLocationWgs84 != null) {

@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.di.mapcode;
 import de.audi.tghu.command.CommandList;
 
 public interface IMapCodeScreenListener {
-    default public CommandList getStartCommandList() {
-    }
+    public CommandList getStartCommandList();
 }
 

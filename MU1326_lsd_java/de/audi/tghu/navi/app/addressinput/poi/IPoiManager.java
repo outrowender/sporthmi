@@ -9,43 +9,32 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IPoiManager
 extends IUpdatePoiSubstringSearchStatus {
-    public static final int SEARCH_AREA_HIDDEN;
-    public static final int SEARCH_AREA_VISIBLE;
-    public static final String SEARCH_AREA_RESTORABLE;
-    public static final int NAV_POI_CLASS_COUNT_CHOICE;
-    public static final int NAV_DEST_POI_BRANDS_COUNT_CHOICE;
+    public static final int SEARCH_AREA_HIDDEN = 0;
+    public static final int SEARCH_AREA_VISIBLE = 1;
+    public static final String SEARCH_AREA_RESTORABLE = "SEARCH_AREA_RESTORABLE";
+    public static final int NAV_POI_CLASS_COUNT_CHOICE = 400641;
+    public static final int NAV_DEST_POI_BRANDS_COUNT_CHOICE = 400292;
 
-    default public void executePoiSelectionEvent(CommandList commandList, int n) {
-    }
+    public void executePoiSelectionEvent(CommandList var1, int var2);
 
-    default public CommandList handlePoiSelectionEvent(CommandList commandList, int n) {
-    }
+    public CommandList handlePoiSelectionEvent(CommandList var1, int var2);
 
-    default public void destPOIHKReturn(int n, int n2) {
-    }
+    public void destPOIHKReturn(int var1, int var2);
 
-    default public void cancelAlongRouteSearch(boolean bl) {
-    }
+    public void cancelAlongRouteSearch(boolean var1);
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 
-    default public void startPoiMainScreen(boolean bl, boolean bl2) {
-    }
+    public void startPoiMainScreen(boolean var1, boolean var2);
 
-    default public void allowRestartOfRRDCalculation() {
-    }
+    public void allowRestartOfRRDCalculation();
 
-    default public void exitRRD() {
-    }
+    public void exitRRD();
 
-    default public void setRouteGuidanceStartedByUser(boolean bl) {
-    }
+    public void setRouteGuidanceStartedByUser(boolean var1);
 
-    default public void showPoiDetailScreen(NavLocation navLocation) {
-    }
+    public void showPoiDetailScreen(NavLocation var1);
 
-    default public void resetPoiSearchArea() {
-    }
+    public void resetPoiSearchArea();
 }
 

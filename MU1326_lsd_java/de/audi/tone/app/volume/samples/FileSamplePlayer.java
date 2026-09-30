@@ -6,8 +6,9 @@ package de.audi.tone.app.volume.samples;
 import de.audi.atip.interapp.def.NullMediaFilePlayerService;
 import de.audi.atip.interapp.media.IMediaFilePlayerService;
 import de.audi.atip.interapp.media.IMediaFilePlayerSession;
+import de.audi.atip.interapp.media.IMediaFileSessionPlayer;
+import de.audi.atip.interapp.media.IMediaSessionPlayer;
 import de.audi.tone.app.ToneEnv;
-import de.audi.tone.app.volume.samples.FileSamplePlayer$RingtoneMediaSession;
 import de.audi.tone.app.volume.samples.ISamplePlayer;
 
 public class FileSamplePlayer
@@ -26,42 +27,85 @@ implements ISamplePlayer {
         this.url = string;
     }
 
-    @Override
     public void play() {
         if (this.url == null) {
             this.env.lcMain.log(10000, "[FileSamplePlayer.play] URL is null!");
             return;
         }
-        this.env.lcMain.log(-2137614336, "[FileSamplePlayer.play] url:%1", (Object)this.url);
+        this.env.lcMain.log(10000000, "[FileSamplePlayer.play] url:%1", (Object)this.url);
         if (this.mediaFilePlayerSession != null) {
             this.mediaService.close(this.mediaFilePlayerSession);
         }
-        this.mediaFilePlayerSession = new FileSamplePlayer$RingtoneMediaSession(this, 91, this.url);
+        this.mediaFilePlayerSession = new RingtoneMediaSession(91, this.url);
         this.mediaService.open(this.mediaFilePlayerSession);
     }
 
-    @Override
     public void stop() {
-        this.env.lcMain.log(-2137614336, "[FileSamplePlayer.stop]");
+        this.env.lcMain.log(10000000, "[FileSamplePlayer.stop]");
         this.mediaService.close(this.mediaFilePlayerSession);
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof IMediaFilePlayerService) {
             this.mediaService = (IMediaFilePlayerService)object;
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof IMediaFilePlayerService) {
             this.mediaService = new NullMediaFilePlayerService(this.env.lcMain);
         }
     }
 
-    static /* synthetic */ ToneEnv access$000(FileSamplePlayer fileSamplePlayer) {
-        return fileSamplePlayer.env;
+    private class RingtoneMediaSession
+    implements IMediaFilePlayerSession {
+        private final int audioConnection;
+        private final String url;
+        private volatile IMediaFileSessionPlayer filePlayerSession;
+
+        public RingtoneMediaSession(int n, String string) {
+            this.audioConnection = n;
+            this.url = string;
+        }
+
+        public int getAudioConnection() {
+            return this.audioConnection;
+        }
+
+        public int getType() {
+            return 1;
+        }
+
+        public String getName() {
+            return "RingtoneMediaSession";
+        }
+
+        public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
+            ((FileSamplePlayer)FileSamplePlayer.this).env.lcMain.log(1000000, "[FileSamplePlayer.RingtoneMediaSession#onActive] playing %1", (Object)this.url);
+            this.filePlayerSession = (IMediaFileSessionPlayer)iMediaSessionPlayer;
+            this.filePlayerSession.play(this.url, true);
+        }
+
+        public void onSuspend() {
+            ((FileSamplePlayer)FileSamplePlayer.this).env.lcMain.log(1000000, "[FileSamplePlayer.RingtoneMediaSession#onSuspend]");
+        }
+
+        public void onClose() {
+            ((FileSamplePlayer)FileSamplePlayer.this).env.lcMain.log(1000000, "[FileSamplePlayer.RingtoneMediaSession#onClose]");
+        }
+
+        public void updateState(int n) {
+            ((FileSamplePlayer)FileSamplePlayer.this).env.lcMain.log(1000000, "[FileSamplePlayer.RingtoneMediaSession#updateState] state=%1", (long)n);
+            if (n == 6) {
+                ((FileSamplePlayer)FileSamplePlayer.this).env.lcMain.log(100000, "[FileSamplePlayer.RingtoneMediaSession#updateState] STATE_STOPPED_WITH_ERROR");
+            }
+        }
+
+        public void updatePlayPosition(int n, int n2) {
+        }
+
+        public void updateVideoContext(int n) {
+        }
     }
 }
 

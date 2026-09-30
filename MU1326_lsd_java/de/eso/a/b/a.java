@@ -19,20 +19,20 @@ import java.util.Set;
 
 public abstract class a
 implements g {
-    public static final int a;
-    public static final String b;
-    public static final int c;
-    public static final int d;
-    public static final char e;
-    public static final int f;
-    public static final int g;
-    public static final int h;
-    public static final int i;
-    public static final int j;
-    public static final int k;
-    public static final int l;
-    public static final int m;
-    public static final int n;
+    public static final int a = 76;
+    public static final String b = "X-MIB_HIGH_NAV_LOCATION";
+    public static final int c = 2048;
+    public static final int d = 4096;
+    public static final char e = '\\';
+    public static final int f = 0;
+    public static final int g = 1;
+    public static final int h = 2;
+    public static final int i = 3;
+    public static final int j = 0;
+    public static final int k = 1;
+    public static final int l = 2;
+    public static final int m = 3;
+    public static final int n = 4;
     protected File o;
     protected InputStream p;
     protected c q = new c(4096);
@@ -41,7 +41,7 @@ implements g {
     protected e r;
     protected String s = null;
     protected String t = null;
-    static long u;
+    static long u = 102400L;
     protected long v = 0L;
     protected boolean w = false;
     protected String x = null;
@@ -67,7 +67,7 @@ implements g {
         }
         if (this.o != null) {
             bl = true;
-            de.eso.a.d.b.c(new StringBuffer().append("BEGIN PARSING ").append(this.o.getAbsolutePath()).toString());
+            de.eso.a.d.b.c("BEGIN PARSING " + this.o.getAbsolutePath());
         } else {
             de.eso.a.d.b.c("BEGIN PARSING inputStream");
         }
@@ -76,17 +76,17 @@ implements g {
         int n2 = 0;
         try {
             int n3 = this.p.available();
-            de.eso.a.d.b.c(new StringBuffer().append("availableBytes = ").append(n3).append("").toString());
+            de.eso.a.d.b.c("availableBytes = " + n3 + "");
             while ((n = this.p.read(byArray)) != -1) {
                 this.a(byArray, n);
                 if ((n2 += n) > 2048 && !this.A) {
-                    this.d(new StringBuffer().append("2048 bytes have been read and no BEGIN of rfc-tag was found. Skipping the rest of the file. Bytes skipped:").append(n3 - n2).toString());
+                    this.d("2048 bytes have been read and no BEGIN of rfc-tag was found. Skipping the rest of the file. Bytes skipped:" + (n3 - n2));
                     this.B = true;
                     break;
                 }
                 if (!this.B) continue;
                 if (n3 <= n2) break;
-                this.d(new StringBuffer().append("First rfc-tag of file read or cancelled. Rest of file is being ommitted. Bytes skipped: ").append(n3 - n2).toString());
+                this.d("First rfc-tag of file read or cancelled. Rest of file is being ommitted. Bytes skipped: " + (n3 - n2));
                 break;
             }
             if (!this.B) {
@@ -106,7 +106,7 @@ implements g {
             }
         }
         if (bl) {
-            de.eso.a.d.b.c(new StringBuffer().append("END PARSING ").append(this.o.getAbsolutePath()).toString());
+            de.eso.a.d.b.c("END PARSING " + this.o.getAbsolutePath());
         } else {
             de.eso.a.d.b.c("END PARSING inputStream");
         }
@@ -297,7 +297,7 @@ implements g {
         this.x = this.x.toUpperCase();
         this.a(J.contains(this.x));
         if (!this.n()) {
-            this.d(new StringBuffer().append("rfc-Reader does not support property ").append(this.x).toString());
+            this.d("rfc-Reader does not support property " + this.x);
         }
         this.b(this.x);
         if (this.y != 0) {
@@ -355,7 +355,7 @@ implements g {
         }
         if ("PHOTO".equalsIgnoreCase(this.x)) {
             this.a(this.F);
-        } else if ("X-MIB_HIGH_NAV_LOCATION".equalsIgnoreCase(this.x)) {
+        } else if (b.equalsIgnoreCase(this.x)) {
             if (this.q.d()) {
                 de.eso.a.d.b.d("Reading caused a buffer overflow. NAV_LOCATION is being ignored.");
             } else {
@@ -398,7 +398,7 @@ implements g {
                 string = new String(byArray, this.s);
             }
             catch (UnsupportedEncodingException unsupportedEncodingException) {
-                this.e(new StringBuffer().append("Charset not supported: ").append(this.s).toString());
+                this.e("Charset not supported: " + this.s);
                 string = new String(byArray);
             }
         } else {
@@ -406,7 +406,7 @@ implements g {
                 string = new String(byArray, "UTF-8");
             }
             catch (UnsupportedEncodingException unsupportedEncodingException) {
-                this.e(new StringBuffer().append("Charset not supported: ").append(this.s).toString());
+                this.e("Charset not supported: " + this.s);
                 string = new String(byArray);
             }
         }
@@ -421,7 +421,7 @@ implements g {
             return string.getBytes(this.s);
         }
         catch (UnsupportedEncodingException unsupportedEncodingException) {
-            this.e(new StringBuffer().append("Charset not supported: ").append(this.s).toString());
+            this.e("Charset not supported: " + this.s);
             return string.getBytes();
         }
     }
@@ -437,14 +437,14 @@ implements g {
 
     private void d(String string) {
         String string2 = this.o == null ? this.p.toString() : this.o.getAbsolutePath();
-        String string3 = new StringBuffer().append(string2).append(" line ").append(this.E).append(" ").append(string).toString();
-        de.eso.a.d.b.a(new StringBuffer().append(super.getClass().getName()).append(" | ").append(string3).toString());
+        String string3 = string2 + " line " + this.E + " " + string;
+        de.eso.a.d.b.a(this.getClass().getName() + " | " + string3);
     }
 
     private void e(String string) {
         String string2 = this.o == null ? this.p.toString() : this.o.getAbsolutePath();
-        String string3 = new StringBuffer().append(string2).append(" line ").append(this.E).append(" ").append(string).toString();
-        de.eso.a.d.b.d(new StringBuffer().append(super.getClass().getName()).append(" | ").append(string3).toString());
+        String string3 = string2 + " line " + this.E + " " + string;
+        de.eso.a.d.b.d(this.getClass().getName() + " | " + string3);
     }
 
     public static void a(String[] stringArray) {
@@ -470,10 +470,6 @@ implements g {
             return true;
         }
         return false;
-    }
-
-    static {
-        u = 0;
     }
 }
 

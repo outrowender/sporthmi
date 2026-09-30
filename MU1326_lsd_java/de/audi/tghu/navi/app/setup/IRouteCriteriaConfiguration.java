@@ -7,13 +7,10 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.setup.IRouteCriteria;
 
 public interface IRouteCriteriaConfiguration {
-    default public void initRouteCriteria(IRouteCriteria iRouteCriteria) {
-    }
+    public void initRouteCriteria(IRouteCriteria var1);
 
-    default public void checkForRegionConsistency(IRouteCriteria iRouteCriteria) {
-    }
+    public void checkForRegionConsistency(IRouteCriteria var1);
 
-    default public void checkForEncodedTrailer(IRouteCriteria iRouteCriteria, NavigationEnv navigationEnv) {
-    }
+    public void checkForEncodedTrailer(IRouteCriteria var1, NavigationEnv var2);
 }
 

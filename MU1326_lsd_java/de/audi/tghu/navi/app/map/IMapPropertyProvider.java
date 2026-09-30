@@ -4,34 +4,24 @@
 package de.audi.tghu.navi.app.map;
 
 public interface IMapPropertyProvider {
-    default public int getDrawerCategoryNaviMapView() {
-    }
+    public int getDrawerCategoryNaviMapView();
 
-    default public int getDestCoordinate() {
-    }
+    public int getDestCoordinate();
 
-    default public int getDestOnBoardPOI() {
-    }
+    public int getDestOnBoardPOI();
 
-    default public int getDestGoogle() {
-    }
+    public int getDestGoogle();
 
-    default public int getDestAddress() {
-    }
+    public int getDestAddress();
 
-    default public int getDestPicNav() {
-    }
+    public int getDestPicNav();
 
-    default public int getDestPOIStack() {
-    }
+    public int getDestPOIStack();
 
-    default public int getDestParkingAtThisLocation() {
-    }
+    public int getDestParkingAtThisLocation();
 
-    default public int getPrefferedDelayFormat() {
-    }
+    public int getPrefferedDelayFormat();
 
-    default public int getDestTMCEvent() {
-    }
+    public int getDestTMCEvent();
 }
 

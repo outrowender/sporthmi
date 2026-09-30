@@ -13,13 +13,15 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.NewModelUpdateFullListCom
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetContextCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetSortOrderCommand;
+import de.audi.tghu.navi.app.addressinput.poi.commands.PoiStartSpellerAlongRouteCommand;
 import de.audi.tghu.navi.app.addressinput.poi.models.IPoiClassScreenModelAccess;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractPoiScreenInputSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiClassScreenInputSequence$1;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.POISpellerContext;
+import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -29,11 +31,10 @@ extends AbstractPoiScreenInputSequence {
 
     public PoiClassScreenInputSequence(IPoiClassScreenModelAccess iPoiClassScreenModelAccess, ICommandListFactory iCommandListFactory, PoiSearchArea poiSearchArea, NavigationEnv navigationEnv, SpellerStack spellerStack, IPoiManager iPoiManager) {
         super(iCommandListFactory, poiSearchArea, navigationEnv, spellerStack, new POISpellerContext(12), iPoiManager);
-        this.spellerType = 0x1800000;
+        this.spellerType = 32769;
         this.modelAccess = iPoiClassScreenModelAccess;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPCancelSpellerCommand());
@@ -41,7 +42,17 @@ extends AbstractPoiScreenInputSequence {
             commandList.add(new PoiModelStartCommand(this.modelAccess));
         }
         commandList.add(new PoiSetSortOrderCommand(this.getSortOrder()));
-        commandList.add(new PoiClassScreenInputSequence$1(this, new StringBuffer().append(this.CLASS_NAME).append("#ChooseSpellerTypeDependentOnSearchContext").toString()));
+        commandList.add(new NavCommand(this.CLASS_NAME + "#ChooseSpellerTypeDependentOnSearchContext"){
+
+            public void execute() {
+                if (PoiClassScreenInputSequence.this.poiSearchArea.getSearchContext() == 1) {
+                    this.getCommandList().commandFinishedWithPostCommand(new PoiStartSpellerAlongRouteCommand(PoiClassScreenInputSequence.this.spellerType, Util.isHURegionNAR()));
+                } else {
+                    CommandList commandList = PoiClassScreenInputSequence.this.createStartSpellerCommandList(PoiClassScreenInputSequence.this.spellerType);
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            }
+        });
         if (this.modelAccess != null) {
             commandList.add(new NewModelUpdateFullListCommand(this.modelAccess, this.commandListFactory));
         }

@@ -4,11 +4,11 @@
 package de.audi.tv.app.interapp;
 
 public class InterappUtil {
-    static final int MU_SEARCH_MODE;
-    static final int MU_MODE_UNDEFINED;
-    static final int MU_SRC_OFF;
-    static final int MU_SRC_TV;
-    static final int MU_SRC_AV;
+    static final int MU_SEARCH_MODE = -1;
+    static final int MU_MODE_UNDEFINED = -2;
+    static final int MU_SRC_OFF = 0;
+    static final int MU_SRC_TV = 1;
+    static final int MU_SRC_AV = 2;
 
     static int getMUTerminalMode(byte by) {
         switch (by) {

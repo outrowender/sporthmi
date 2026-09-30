@@ -26,35 +26,31 @@ ButtonListener,
 ChoiceListener {
     public LicenseHMIListenerEvo(LogChannel logChannel, LicenseCollectionServiceEvo licenseCollectionServiceEvo, RemoteHMIService remoteHMIService) {
         super(logChannel, licenseCollectionServiceEvo, remoteHMIService);
-        logChannel.log(-2137614336, "LicenseHMIListenerEvo#ctor: Called.");
+        logChannel.log(10000000, "LicenseHMIListenerEvo#ctor: Called.");
     }
 
-    @Override
     public final void setModelManager(LicenseModelManager licenseModelManager) {
         this.modelManager = licenseModelManager;
         this.init();
     }
 
-    @Override
     public final void init() {
-        this.modelManager.initBaseListModel(-1088740608, this);
+        this.modelManager.initBaseListModel(2300863, this);
         this.modelManager.initButtonModel(3931, this);
         this.modelManager.initButtonModel(3934, this);
         this.modelManager.initButtonModel(3932, this);
         this.modelManager.initButtonModel(3935, this);
-        this.modelManager.initChoiceModel(1545347840, this);
+        this.modelManager.initChoiceModel(2301020, this);
         boolean bl = this.modelManager.getWarnFlagFromPersistence();
         this.updateWarningFlag(bl);
     }
 
-    @Override
     public final void deinit() {
-        this.modelManager.initBaseListModel(-1088740608, null);
+        this.modelManager.initBaseListModel(2300863, null);
     }
 
-    @Override
     public final void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "LicenseHMIListenerEvo#itemSelected: Called. %1, index %2", (Object)evoListRow.getText(1), (long)n2);
+        this.log.log(1000000, "LicenseHMIListenerEvo#itemSelected: Called. %1, index %2", (Object)evoListRow.getText(1), (long)n2);
         LinkedHashMap linkedHashMap = this.controller.getLicensesByServiceID();
         String string = evoListRow.getText(6);
         List list = (List)linkedHashMap.get(string);
@@ -68,9 +64,9 @@ ChoiceListener {
             return;
         }
         IRemoteHMILicense iRemoteHMILicense = iRemoteHMILicenseArray[0];
-        ChoiceModelApp choiceModelApp = this.modelManager.hmiService.getChoiceModel(1511793408);
+        ChoiceModelApp choiceModelApp = this.modelManager.hmiService.getChoiceModel(2301018);
         int n5 = 5;
-        this.log.log(1078071040, "LicenseHMIListenerEvo#itemSelected: current license ServiceID is %1, state is: %2!", (Object)iRemoteHMILicense.getServiceID(), (long)iRemoteHMILicense.getState());
+        this.log.log(1000000, "LicenseHMIListenerEvo#itemSelected: current license ServiceID is %1, state is: %2!", (Object)iRemoteHMILicense.getServiceID(), (long)iRemoteHMILicense.getState());
         switch (iRemoteHMILicense.getState()) {
             case 1: 
             case 5: {
@@ -99,7 +95,7 @@ ChoiceListener {
             }
             default: {
                 n5 = 5;
-                this.log.log(-1601830656, "LicenseHMIListenerEvo#itemSelected: unknown license state %1!", (long)iRemoteHMILicense.getState());
+                this.log.log(100000, "LicenseHMIListenerEvo#itemSelected: unknown license state %1!", (long)iRemoteHMILicense.getState());
             }
         }
         choiceModelApp.setValue(n5);
@@ -130,21 +126,18 @@ ChoiceListener {
         return n;
     }
 
-    @Override
     public final void itemSelected(int n, int n2, int n3, int n4) {
-        if (n == 1545347840) {
+        if (n == 2301020) {
             ChoiceModelApp choiceModelApp = this.modelManager.hmiService.getChoiceModel(n);
-            this.log.log(-2137614336, "LicenseHMIListenerEvo#itemSelected: checkbox pressed, value was %1", (long)choiceModelApp.getValue());
+            this.log.log(10000000, "LicenseHMIListenerEvo#itemSelected: checkbox pressed, value was %1", (long)choiceModelApp.getValue());
             this.updateWarningFlag(choiceModelApp.getValue() == 0);
-            this.log.log(-2137614336, "LicenseHMIListenerEvo#itemSelected: new value %1", (long)choiceModelApp.getValue());
+            this.log.log(10000000, "LicenseHMIListenerEvo#itemSelected: new value %1", (long)choiceModelApp.getValue());
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public final void keyPressed(int n, int n2, int n3) {
         if (n == 3931) {
             ChoiceModelApp choiceModelApp = this.modelManager.hmiService.getChoiceModel(3930);
@@ -164,21 +157,18 @@ ChoiceListener {
     }
 
     private void updateWarningFlag(boolean bl) {
-        this.log.log(-2137614336, "LicenseHMIListenerEvo#updateWarningFlag: %1", (Object)(bl ? "Activating warning" : "Deactivating warning"));
+        this.log.log(10000000, "LicenseHMIListenerEvo#updateWarningFlag: %1", (Object)(bl ? "Activating warning" : "Deactivating warning"));
         this.modelManager.setWarnFlagFromPersistence(bl);
-        ChoiceModelApp choiceModelApp = this.modelManager.hmiService.getChoiceModel(1545347840);
+        ChoiceModelApp choiceModelApp = this.modelManager.hmiService.getChoiceModel(2301020);
         choiceModelApp.setValue(bl ? 1 : 0);
     }
 
-    @Override
     public final void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public final void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public final void keyLongTyped(int n, int n2, int n3) {
     }
 }

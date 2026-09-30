@@ -9,7 +9,6 @@ import de.audi.tghu.terminalmode.sm.TerminalModeSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new TerminalModeSMM[8];
         if (this.framework.isFrontMU()) {

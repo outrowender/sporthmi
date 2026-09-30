@@ -8,23 +8,21 @@ import de.audi.tghu.swdl.app.list.AbstractSwdlListItem;
 
 public class SwdlListItemNull
 extends AbstractSwdlListItem {
-    private static final String SWDL_CLASS_NAME;
-    private static final int LIST_ITEM_ROOT_ID;
+    private static final String SWDL_CLASS_NAME = "[SwdlListItemNull]";
+    private static final int LIST_ITEM_ROOT_ID = 0;
 
     public SwdlListItemNull(String string) {
         super(null, 0, string);
     }
 
-    @Override
     public void select(int n) {
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
     }
 
     public String getSwdlClassName() {
-        return "[SwdlListItemNull]";
+        return SWDL_CLASS_NAME;
     }
 }
 

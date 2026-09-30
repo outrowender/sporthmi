@@ -10,19 +10,16 @@ import de.audi.tv.app.varext.ITvVariantExt;
 
 public class DefaultTvVariantExt
 implements ITvVariantExt {
-    @Override
     public int getVirtualButtonModelId(int n) {
         return -1;
     }
 
-    @Override
     public SpellerModelApp getParentalRatingPasswordSpeller(IHMIServiceApp iHMIServiceApp) {
-        return iHMIServiceApp.getSpellerModel(1336682240);
+        return iHMIServiceApp.getSpellerModel(2600015);
     }
 
-    @Override
     public ChoiceModelApp getSdisForcedNavigationChoice(IHMIServiceApp iHMIServiceApp) {
-        return iHMIServiceApp.getChoiceModel(-760469760);
+        return iHMIServiceApp.getChoiceModel(2600146);
     }
 }
 

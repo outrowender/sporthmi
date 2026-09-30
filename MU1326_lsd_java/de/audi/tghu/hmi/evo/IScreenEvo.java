@@ -12,19 +12,14 @@ import de.audi.tghu.hmi.evo.IPresetPopupData;
 public interface IScreenEvo
 extends Screen,
 IEventListenerEvo {
-    default public IPresetPopupData getPresetPopupData() {
-    }
+    public IPresetPopupData getPresetPopupData();
 
-    default public void predisconnecting() {
-    }
+    public void predisconnecting();
 
-    default public int[] getHmiAppsToNotifyForVisibility() {
-    }
+    public int[] getHmiAppsToNotifyForVisibility();
 
-    default public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
-    }
+    public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy var1);
 
-    default public void updateDrawers(IScreenData iScreenData) {
-    }
+    public void updateDrawers(IScreenData var1);
 }
 

@@ -29,112 +29,98 @@ TTSListener {
     }
 
     public void setText(String string) {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.setText] text: %1", (Object)string);
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.setText] text: %1", (Object)string);
         this.text = string;
     }
 
     public void startSession() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.startSession] ttsService: %1", (Object)this.ttsService);
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.startSession] ttsService: %1", (Object)this.ttsService);
         this.sessionActive = true;
         this.ttsService.startSession();
     }
 
     public void stopSession() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.stopSession]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.stopSession]");
         this.sessionActive = false;
         this.ttsService.stopSession();
     }
 
-    @Override
     public void play() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.play] must not do anything");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.play] must not do anything");
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof TTSSessionBasedService) {
-            this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.registerService] %1", object);
+            this.env.lcMain.log(10000000, "[TTSSamplePlayer.registerService] %1", object);
             this.ttsService = (TTSSessionBasedService)object;
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof TTSSessionBasedService) {
-            this.env.lcMain.log(1078071040, "[TTSSamplePlayer.deregisterService] %1", object);
+            this.env.lcMain.log(1000000, "[TTSSamplePlayer.deregisterService] %1", object);
             this.ttsService = new NullTTSSessionBasedService(this.env.lcMain);
         }
     }
 
-    @Override
     public void stop() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.stop] must not do anything");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.stop] must not do anything");
     }
 
-    @Override
     public void speakingFailed() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speakingFailed]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.speakingFailed]");
         this.speak();
     }
 
-    @Override
     public void speakingFinished() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speakingFinished]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.speakingFinished]");
         this.speak();
     }
 
-    @Override
     public void sessionStarted() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.sessionStarted]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.sessionStarted]");
         this.speak();
     }
 
     private void speak() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speak] called session active: %1", this.sessionActive);
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.speak] called session active: %1", this.sessionActive);
         if (this.sessionActive) {
-            this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speak] \"%1\"", (Object)this.text);
+            this.env.lcMain.log(10000000, "[TTSSamplePlayer.speak] \"%1\"", (Object)this.text);
             this.ttsService.speak(this.text);
         }
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.audioAvailable] available:%1", bl);
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.audioAvailable] available:%1", bl);
     }
 
-    @Override
     public void sessionResumed() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.sessionResumed]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.sessionResumed]");
         this.speak();
     }
 
-    @Override
     public void sessionStopped() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.sessionStopped]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.sessionStopped]");
     }
 
-    @Override
     public void speakingAborted() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speakingAborted]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.speakingAborted]");
     }
 
-    @Override
     public void sessionPaused() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.sessionPaused]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.sessionPaused]");
     }
 
-    @Override
     public void speakingStarted() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speakingStarted]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.speakingStarted]");
     }
 
     public void singleSpeak() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.singleSpeak]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.singleSpeak]");
     }
 
-    @Override
     public void speakingPaused() {
-        this.env.lcMain.log(-2137614336, "[TTSSamplePlayer.speakingPaused]");
+        this.env.lcMain.log(10000000, "[TTSSamplePlayer.speakingPaused]");
     }
 }
 

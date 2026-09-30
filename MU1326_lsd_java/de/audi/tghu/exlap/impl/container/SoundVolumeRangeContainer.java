@@ -12,16 +12,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class SoundVolumeRangeContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_SOUND_VOLUME_RANGE;
-    private static final int ELEMENT_ID_SOURCE;
-    private static final int ELEMENT_ID_MIN_VOLUME;
-    private static final int ELEMENT_ID_MAX_VOLUME;
+    private static final int CONTAINER_ID_SOUND_VOLUME_RANGE = 28;
+    private static final int ELEMENT_ID_SOURCE = 61;
+    private static final int ELEMENT_ID_MIN_VOLUME = 57;
+    private static final int ELEMENT_ID_MAX_VOLUME = 58;
     private Map map = new HashMap();
 
     public SoundVolumeRangeContainer(SoundSourceEnumeration soundSourceEnumeration, int n, int n2) {
@@ -65,14 +64,12 @@ extends AbstractContainer {
         return ((Long)this.map.get(new Integer(58))).intValue();
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(28, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -83,19 +80,19 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 61: {
-                    hASDataElementArray[n++] = new IntegerElement(61, ((SoundSourceEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(61, ((SoundSourceEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 57: {
-                    hASDataElementArray[n++] = new IntegerElement(57, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(57, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 58: {
-                    hASDataElementArray[n++] = new IntegerElement(58, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(58, ((Long)entry.getValue()).intValue());
                     break;
                 }
             }
@@ -103,40 +100,39 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("SoundVolumeRangeContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 61: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("source(SoundSourceEnumeration)=null");
                         break;
                     }
                     stringWriter.write("source(SoundSourceEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 57: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("minVolume(int)=null");
                         break;
                     }
                     stringWriter.write("minVolume(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 58: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("maxVolume(int)=null");
                         break;
                     }
                     stringWriter.write("maxVolume(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -147,7 +143,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         SoundVolumeRangeContainer soundVolumeRangeContainer = new SoundVolumeRangeContainer(this);
         return soundVolumeRangeContainer;

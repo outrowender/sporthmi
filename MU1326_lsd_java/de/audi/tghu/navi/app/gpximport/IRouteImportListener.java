@@ -4,12 +4,11 @@
 package de.audi.tghu.navi.app.gpximport;
 
 public interface IRouteImportListener {
-    public static final int ROUTE_IMPORT_FAILED;
-    public static final int ROUTE_IMPORT_SUCCESSFUL;
-    public static final int ROUTE_IMPORT_ABORTED;
-    public static final int ROUTE_IMPORT_STARTED;
+    public static final int ROUTE_IMPORT_FAILED = 0;
+    public static final int ROUTE_IMPORT_SUCCESSFUL = 1;
+    public static final int ROUTE_IMPORT_ABORTED = 2;
+    public static final int ROUTE_IMPORT_STARTED = 3;
 
-    default public void updateStatus(int n) {
-    }
+    public void updateStatus(int var1);
 }
 

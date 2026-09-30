@@ -17,9 +17,9 @@ public class SlogSink
 extends AbstractLogSink
 implements LogSink,
 ISLOGSink {
-    private static final int MAX_BUFFER;
-    int[] intHeaderDefault = new int[]{13, -618196992, 1};
-    int[] intHeaderStartup = new int[]{13, 2066190398, 1};
+    private static final int MAX_BUFFER = 160;
+    int[] intHeaderDefault = new int[]{13, 1058779, 1};
+    int[] intHeaderStartup = new int[]{13, 1049634683, 1};
     private FileOutputStream slog;
     private boolean writerReady;
 
@@ -42,15 +42,14 @@ ISLOGSink {
             map.put("all", new Integer(1000));
         }
         if (map.get("Profiling") == null) {
-            map.put("Profiling", new Integer(14808325));
+            map.put("Profiling", new Integer(100000000));
         }
         if (map.get("Ext.Profiling") == null) {
-            map.put("Ext.Profiling", new Integer(14808325));
+            map.put("Ext.Profiling", new Integer(100000000));
         }
         return map;
     }
 
-    @Override
     public void setConfiguration(Map map) {
         super.setConfiguration(this.addDefaultSettings(map));
     }
@@ -83,7 +82,6 @@ ISLOGSink {
         }
     }
 
-    @Override
     public void writeLog(LogEntry logEntry) {
         if (this.writerReady) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

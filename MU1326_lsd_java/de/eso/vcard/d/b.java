@@ -14,15 +14,12 @@ extends a {
         super(adbEntry, file);
     }
 
-    @Override
     protected void a(File file) {
     }
 
-    @Override
     protected void b(AddressData addressData, String string) {
     }
 
-    @Override
     protected void a(String string) {
     }
 }

@@ -8,6 +8,7 @@ import de.audi.atip.storage.AbstractStorageDataContainer;
 import de.audi.atip.storage.IStorageAccess;
 import de.audi.atip.storagecache.CacheEventListener;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,31 +37,28 @@ extends AbstractStorageDataContainer {
     }
 
     public void setService(Object object) {
-        this.log.log(-2137614336, "[CacheWorker#setService] service: %1 serviceID: %2", object, (Object)this.serviceID);
+        this.log.log(10000000, "[CacheWorker#setService] service: %1 serviceID: %2", object, (Object)this.serviceID);
         this.service = object;
         if (object != null) {
             try {
                 this.registerWorkerAsServiceListener(object);
             }
             catch (Exception exception) {
-                this.log.log(-2137614336, "[CacheWorker#setService] serviceID: %1", (Object)this.serviceID, (Throwable)exception);
+                this.log.log(10000000, "[CacheWorker#setService] serviceID: %1", (Object)this.serviceID, (Throwable)exception);
             }
         }
     }
 
-    @Override
     protected void handleCRC32Error() {
-        this.log.log(-1601830656, "CacheWorker.handleCRC32Error() serviceID: %1", (Object)this.serviceID);
+        this.log.log(100000, "CacheWorker.handleCRC32Error() serviceID: %1", (Object)this.serviceID);
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
-        this.log.log(-1601830656, "CacheHandlerImpl.handleStorageReadError(): serviceID: %1", (Object)this.serviceID, (Throwable)exception);
+        this.log.log(100000, "CacheHandlerImpl.handleStorageReadError(): serviceID: %1", (Object)this.serviceID, (Throwable)exception);
     }
 
-    @Override
-    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
-        this.log.log(-1601830656, "CacheHandlerImpl.convertContainer(): %1 persistedVersion: %2, containerVersion: %3", (Object)this.serviceID, (long)n, (long)n2);
+    protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
+        this.log.log(100000, "CacheHandlerImpl.convertContainer(): %1 persistedVersion: %2, containerVersion: %3", (Object)this.serviceID, (long)n, (long)n2);
     }
 
     /*
@@ -84,7 +82,7 @@ extends AbstractStorageDataContainer {
                         list = new ArrayList();
                         this.token2Subscriber.put(stringArray[i2], list);
                     }
-                    this.log.log(14808325, "CacheWorker#addListener(%2): new listener for %1 added.", (Object)stringArray[i2], (Object)this.serviceID);
+                    this.log.log(100000000, "CacheWorker#addListener(%2): new listener for %1 added.", (Object)stringArray[i2], (Object)this.serviceID);
                     list.add(cacheEventListener);
                     try {
                         cacheEventListener.updateToken(this.serviceID, stringArray[i2], this.getState(stringArray[i2]));
@@ -121,13 +119,10 @@ extends AbstractStorageDataContainer {
         }
     }
 
-    public abstract Object getState(String string) {
-    }
+    public abstract Object getState(String var1);
 
-    protected abstract void registerWorkerAsServiceListener(Object object) {
-    }
+    protected abstract void registerWorkerAsServiceListener(Object var1);
 
-    protected abstract void registerCacheEventListener(CacheEventListener cacheEventListener) {
-    }
+    protected abstract void registerCacheEventListener(CacheEventListener var1);
 }
 

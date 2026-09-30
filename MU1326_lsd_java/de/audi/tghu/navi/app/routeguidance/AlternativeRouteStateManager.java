@@ -20,25 +20,22 @@ implements IAlternativeRouteStateManager {
         this.setAlternativeRouteState(alternativeRouteStatePersitenceHelper.loadAlternativeRouteState());
     }
 
-    @Override
     public int getAlternativeRouteState() {
         return this.env.getChoiceModel(this.modelID).getValue();
     }
 
-    @Override
     public final void setAlternativeRouteState(int n) {
         if (n != this.env.getChoiceModel(this.modelID).getValue()) {
-            this.env.getLogChannel().log(-2137614336, "AlternativeRouteState#setAlternativeRouteState - change model state from Model = %1 to %2", (Object)new StringBuffer().append(this.modelID).append("").toString(), (long)n);
+            this.env.getLogChannel().log(10000000, "AlternativeRouteState#setAlternativeRouteState - change model state from Model = %1 to %2", (Object)(this.modelID + ""), (long)n);
             this.env.getChoiceModel(this.modelID).setValue(n);
             this.persitenceHelper.persistAlternativeRouteState(n);
         } else {
-            this.env.getLogChannel().log(-2137614336, "AlternativeRouteState#setAlternativeRouteState - model has already the given state");
+            this.env.getLogChannel().log(10000000, "AlternativeRouteState#setAlternativeRouteState - model has already the given state");
         }
     }
 
-    @Override
     public void resetSettings() {
-        this.env.getLogChannel().log(-2137614336, "AlternativeRouteState#resetSettings() - set default settings");
+        this.env.getLogChannel().log(10000000, "AlternativeRouteState#resetSettings() - set default settings");
         this.setAlternativeRouteState(this.env.getFramework().getSysConst(4479));
     }
 }

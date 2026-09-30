@@ -12,7 +12,7 @@ import de.audi.tghu.swdl.app.SwdlModels;
 
 public class BulkCopyAccess
 implements IBulkCopyClient {
-    private static final String CLASSNAME;
+    private static final String CLASSNAME = "BulkCopyAccess";
     private final SwdlEnv swdlEnv;
     private final Object bulkCopySync = new Object();
     private IBulkCopyManager bulkCopyManager = null;
@@ -30,7 +30,7 @@ implements IBulkCopyClient {
         synchronized (object) {
             this.bulkCopyManager = iBulkCopyManager;
             if (this.getSwdlEnv().isUpdateOverTheAirFeatureEnabled() && this.getSwdlModels().getSwdlInProgressChoice().getValue() <= 0) {
-                this.getLogMain().log(1078071040, "%1.setBulkCopyManager(): Uota is allowed, lock bulkCopyManager", (Object)"BulkCopyAccess");
+                this.getLogMain().log(1000000, "%1.setBulkCopyManager(): Uota is allowed, lock bulkCopyManager", (Object)CLASSNAME);
                 this.setInitialBulkCopyClientState(3);
                 this.bulkCopyClientStateCache = 3;
             } else if (this.bulkCopyClientStateCache != 0) {
@@ -51,7 +51,7 @@ implements IBulkCopyClient {
                         this.bulkCopyManager.setClientState(this, n);
                     }
                     catch (BulkCopyException bulkCopyException) {
-                        this.getLogMain().log(10000, "%1.setInitialBulkCopyClientState: Failed to set client state of BulkCopyClient!", (Object)"BulkCopyAccess", (Throwable)bulkCopyException);
+                        this.getLogMain().log(10000, "%1.setInitialBulkCopyClientState: Failed to set client state of BulkCopyClient!", (Object)CLASSNAME, (Throwable)bulkCopyException);
                     }
                     this.bulkCopyClientStateCache = 0;
                 } else {
@@ -75,19 +75,17 @@ implements IBulkCopyClient {
         return false;
     }
 
-    @Override
     public int getClientType() {
         return 1;
     }
 
-    @Override
     public void onChangeStateBulkCopy(int n, int n2) {
-        this.getLogMain().log(1078071040, "%1 onChangeStateBulkCopy(%2, %3)", (Object)"BulkCopyAccess", (long)n, (long)n2);
+        this.getLogMain().log(1000000, "%1 onChangeStateBulkCopy(%2, %3)", (Object)CLASSNAME, (long)n, (long)n2);
         if (4 == n || this.getSwdlEnv().isCustomerDownloadActive()) {
-            this.getLogMain().log(-2137614336, "%1 onChangeStateBulkCopy: enable customer update button", (Object)"BulkCopyAccess");
+            this.getLogMain().log(10000000, "%1 onChangeStateBulkCopy: enable customer update button", (Object)CLASSNAME);
             this.getSwdlModels().getCustDlDisabledChoice(0).setValue(0);
         } else {
-            this.getLogMain().log(-2137614336, "%1 onChangeStateBulkCopy: disable customer update button", (Object)"BulkCopyAccess");
+            this.getLogMain().log(10000000, "%1 onChangeStateBulkCopy: disable customer update button", (Object)CLASSNAME);
             this.getSwdlModels().getCustDlDisabledChoice(0).setValue(1);
         }
     }

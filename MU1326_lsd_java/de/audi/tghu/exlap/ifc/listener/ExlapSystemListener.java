@@ -11,16 +11,12 @@ import de.audi.tghu.exlap.impl.container.UnitDistanceContainer;
 
 public interface ExlapSystemListener
 extends ExlapListener {
-    default public void updateSkinInfo(SkinInfoContainer skinInfoContainer) {
-    }
+    public void updateSkinInfo(SkinInfoContainer var1);
 
-    default public void updateLanguageInfo(LanguageInfoContainer languageInfoContainer) {
-    }
+    public void updateLanguageInfo(LanguageInfoContainer var1);
 
-    default public void updateUnitDistance(UnitDistanceContainer unitDistanceContainer) {
-    }
+    public void updateUnitDistance(UnitDistanceContainer var1);
 
-    default public void updateEncodedVehicleType(EncodedVehicleTypeContainer encodedVehicleTypeContainer) {
-    }
+    public void updateEncodedVehicleType(EncodedVehicleTypeContainer var1);
 }
 

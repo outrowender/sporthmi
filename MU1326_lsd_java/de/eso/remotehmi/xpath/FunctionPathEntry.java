@@ -16,7 +16,6 @@ extends AbstractPathEntry {
         super(string, null);
     }
 
-    @Override
     public void match(Map map, Node node, List list) {
         if (!this.name.equals("text()")) {
             throw new RuntimeException("Unknown function.");

@@ -14,7 +14,6 @@ extends AbstractPathEntry {
         super(string, string2);
     }
 
-    @Override
     public void match(Map map, Node node, List list) {
         String string = this.ns;
         if (this.ns != null && this.ns.length() > 0 && map != null) {

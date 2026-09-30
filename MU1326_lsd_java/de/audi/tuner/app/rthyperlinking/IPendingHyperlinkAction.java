@@ -6,13 +6,10 @@ package de.audi.tuner.app.rthyperlinking;
 import de.audi.atip.log.LogChannel;
 
 public interface IPendingHyperlinkAction {
-    default public boolean isExecutable(LogChannel logChannel) {
-    }
+    public boolean isExecutable(LogChannel var1);
 
-    default public void prepare() {
-    }
+    public void prepare();
 
-    default public void execute() {
-    }
+    public void execute();
 }
 

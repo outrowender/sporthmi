@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.osr.command.auth;
 
 import de.audi.tghu.online.app.osr.command.AbstractOSRCommand;
-import de.audi.tghu.online.app.osr.command.auth.SetAutoLoginCommand$SetAutoLoginCommandResponseListener;
 import org.dsi.ifc.online.DSIOnlineServiceRegistration;
 import org.dsi.ifc.online.OSRDevice;
 import org.dsi.ifc.online.OSRServiceState;
@@ -13,16 +12,15 @@ import org.dsi.ifc.online.OSRUser;
 public class SetAutoLoginCommand
 extends AbstractOSRCommand {
     private OSRUser user;
-    private SetAutoLoginCommand$SetAutoLoginCommandResponseListener listener;
+    private SetAutoLoginCommandResponseListener listener;
     private OSRDevice[] devices;
 
-    public SetAutoLoginCommand(OSRUser oSRUser, OSRDevice[] oSRDeviceArray, SetAutoLoginCommand$SetAutoLoginCommandResponseListener setAutoLoginCommand$SetAutoLoginCommandResponseListener) {
+    public SetAutoLoginCommand(OSRUser oSRUser, OSRDevice[] oSRDeviceArray, SetAutoLoginCommandResponseListener setAutoLoginCommandResponseListener) {
         this.user = oSRUser;
         this.devices = oSRDeviceArray;
-        this.listener = setAutoLoginCommand$SetAutoLoginCommandResponseListener;
+        this.listener = setAutoLoginCommandResponseListener;
     }
 
-    @Override
     public void execute() {
         DSIOnlineServiceRegistration dSIOnlineServiceRegistration = this.getDSI();
         if (this.user == null) {
@@ -37,11 +35,10 @@ extends AbstractOSRCommand {
             this.logger.log(10000, "SetAutoLoginCommand#execute() no dsi");
             return;
         }
-        this.logger.log(1078071040, new StringBuffer().append("SetAutoLoginCommand#execute() for user ").append(this.user.getName()).append(" deviceCount: ").append(this.devices.length).toString());
+        this.logger.log(1000000, "SetAutoLoginCommand#execute() for user " + this.user.getName() + " deviceCount: " + this.devices.length);
         dSIOnlineServiceRegistration.setAutoLogin(this.user, this.devices);
     }
 
-    @Override
     public void setAutoLoginResponse(OSRUser oSRUser, OSRDevice[] oSRDeviceArray, int[] nArray) {
         if (this.listener != null) {
             this.listener.setAutoLoginResponse(oSRUser, nArray);
@@ -50,6 +47,10 @@ extends AbstractOSRCommand {
     }
 
     public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {
+    }
+
+    public static interface SetAutoLoginCommandResponseListener {
+        public void setAutoLoginResponse(OSRUser var1, int[] var2);
     }
 }
 

@@ -5,6 +5,8 @@ package de.audi.tghu.info.app.tmc;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.list.TiledListModelApp;
+import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.maptmc.MapTmcService;
@@ -21,8 +23,6 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.info.app.InfoEnv;
 import de.audi.tghu.info.app.ResponseContainer;
-import de.audi.tghu.info.app.tmc.AppTMC$1;
-import de.audi.tghu.info.app.tmc.AppTMC$2;
 import de.audi.tghu.info.app.tmc.InfoStorageManager;
 import de.audi.tghu.info.app.tmc.TMCAbstractListManager;
 import de.audi.tghu.info.app.tmc.TMCAbstractListRowBuilder;
@@ -31,6 +31,7 @@ import de.audi.tghu.info.app.tmc.TMCHelper;
 import de.audi.tghu.info.app.tmc.TMCListener;
 import de.audi.tghu.info.app.tmc.TMCSpeechHelper;
 import de.audi.tghu.info.app.tmc.TMCTitleLineManager;
+import de.audi.tghu.info.app.tmc.commands.TMCCommand;
 import de.audi.tghu.info.app.tmc.readout.AppTMCReadOut;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,10 +43,10 @@ import org.dsi.ifc.tmc.TmcMessage;
 public class AppTMC
 implements TMCService,
 MsgListener {
-    protected static final int INVALID_LIST_POSITION;
-    protected static final String X_URGENT_STRING;
-    private static final int UPDATING_ICON_SHOW;
-    private static final int UPDATING_ICON_HIDE;
+    protected static final int INVALID_LIST_POSITION = -1;
+    protected static final String X_URGENT_STRING = "X-URGENT";
+    private static final int UPDATING_ICON_SHOW = 0;
+    private static final int UPDATING_ICON_HIDE = 1;
     private IPreviewMap previewMap;
     public TMCAbstractListManager listManager;
     private TMCHelper tmcHelper;
@@ -86,7 +87,7 @@ MsgListener {
         this.dm = new DateMetric(this.calendar.getTime(), 1);
         this.vwDateMetric = new DateMetric(this.calendar.getTime(), 0);
         this.tmcReadOutApp = appTMCReadOut;
-        this.cmdListManager = new CommandListManager("TMC CmdListMgr OL", this.framework, this.logMain, null, infoEnv.getChoiceModel(-962525440));
+        this.cmdListManager = new CommandListManager("TMC CmdListMgr OL", this.framework, this.logMain, null, infoEnv.getChoiceModel(500166));
         this.cmdListManager.start();
         this.tmcHandler = new TMCListener(this.cmdListManager, infoEnv, this, this.framework);
         this.speechHelper = new TMCSpeechHelper(infoEnv, this.logMain);
@@ -94,17 +95,17 @@ MsgListener {
     }
 
     public void setTTSService(TTSService tTSService, Integer n) {
-        this.logMain.log(1078071040, "[AppTMC#setTTSService] Called: service %1, id %2", (Object)tTSService, (Object)n);
+        this.logMain.log(1000000, "[AppTMC#setTTSService] Called: service %1, id %2", (Object)tTSService, (Object)n);
         switch (n) {
             case 2: {
                 TTSSessionBasedService tTSSessionBasedService;
-                this.logMain.log(-2137614336, "[AppTMC#setTTSService] Set TTSService instance for TMC list");
+                this.logMain.log(10000000, "[AppTMC#setTTSService] Set TTSService instance for TMC list");
                 this.ttsServiceOverviewList = tTSSessionBasedService = (TTSSessionBasedService)tTSService;
                 break;
             }
             case 4: {
                 if (this.tmcReadOutApp != null) {
-                    this.logMain.log(-2137614336, "[AppTMC#setTTSService] Set TTSService instance for urgent messages");
+                    this.logMain.log(10000000, "[AppTMC#setTTSService] Set TTSService instance for urgent messages");
                     TTSSingleSpeakService tTSSingleSpeakService = (TTSSingleSpeakService)tTSService;
                     this.tmcReadOutApp.setTTSService(tTSSingleSpeakService);
                     break;
@@ -114,7 +115,7 @@ MsgListener {
             }
             case 9: {
                 if (this.tmcReadOutApp != null) {
-                    this.logMain.log(-2137614336, "[AppTMC#setTTSService] Set TTSService instance for urgent messages no tel");
+                    this.logMain.log(10000000, "[AppTMC#setTTSService] Set TTSService instance for urgent messages no tel");
                     TTSSingleSpeakService tTSSingleSpeakService = (TTSSingleSpeakService)tTSService;
                     this.tmcReadOutApp.setTTSServiceNoTel(tTSSingleSpeakService);
                     break;
@@ -123,23 +124,40 @@ MsgListener {
                 break;
             }
             default: {
-                this.logMain.log(-2137614336, "[AppTMC#setTTSService] unwanted TTSService client id : %1", (Object)n);
+                this.logMain.log(10000000, "[AppTMC#setTTSService] unwanted TTSService client id : %1", (Object)n);
             }
         }
     }
 
     public void requestInitialTMCWindow() {
-        this.logMain.log(-2137614336, "[AppTMC#requestInitialTMCWindow] Requesting the first TMC window");
+        this.logMain.log(10000000, "[AppTMC#requestInitialTMCWindow] Requesting the first TMC window");
         CommandList commandList = new CommandList(this.cmdListManager);
         commandList.add(this.listManager.getRequestWindowCommand(TMCConst.INITIAL_WINDOW, -1L, -1, TMCConst.WINDOW_REQUEST_SIZE));
-        commandList.add(new AppTMC$1(this, this, this.logMain, "AppTMC#requestInitialTMCWindow1"));
-        commandList.add(new AppTMC$2(this, this, this.logMain, "AppTMC#requestInitialTMCWindow2"));
+        commandList.add(new TMCCommand(this, this.logMain, "AppTMC#requestInitialTMCWindow1"){
+
+            public void execute() {
+                TiledListModelApp tiledListModelApp = AppTMC.this.listManager.getListModel();
+                EvoListRow evoListRow = tiledListModelApp.getRow(0);
+                if (AppTMC.this.listManager.getMenuModel() != null && evoListRow != null) {
+                    AppTMC.this.listManager.getMenuModel().setFocusedItem(tiledListModelApp.getID(), FocusAdvice.VIEWPORT_SECOND_POSITION, evoListRow.getUniqueID());
+                    AppTMC.this.listManager.setFocusedRowIndex(0);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new TMCCommand(this, this.logMain, "AppTMC#requestInitialTMCWindow2"){
+
+            public void execute() {
+                AppTMC.this.listManager.onUpdateEventsTotal();
+                this.getCommandList().commandFinished();
+            }
+        });
         this.cmdListManager.execute(commandList);
     }
 
     void requestNewOverviewListWindow(EvoListRow evoListRow, int n) {
         boolean bl;
-        this.logMain.log(-2137614336, "[AppTMC#requestNewOverviewListWindow] called, terminalID: %1", (long)n);
+        this.logMain.log(10000000, "[AppTMC#requestNewOverviewListWindow] called, terminalID: %1", (long)n);
         if (evoListRow != null && (bl = false) < true) {
             this.logMain.log(10000, "[AppTMC#requestNewOverviewListWindow] Abort request - position in complete list invalid");
             return;
@@ -151,21 +169,21 @@ MsgListener {
     }
 
     public void releaseTmcService() {
-        this.logMain.log(1078071040, "[AppTMC#releaseTmcOnRoute] DSITmc is removed from AppTMC application. ");
+        this.logMain.log(1000000, "[AppTMC#releaseTmcOnRoute] DSITmc is removed from AppTMC application. ");
         this.tmcHandler.releaseTmcService();
     }
 
     public void setMapService(MapTmcService mapTmcService) {
-        this.logMain.log(-2137614336, "[AppTMC#setMapService] Called");
+        this.logMain.log(10000000, "[AppTMC#setMapService] Called");
         this.mapService = mapTmcService;
         if (this.mapService != null) {
-            int n = this.env.getChoiceModel(-1046411520).getValue();
+            int n = this.env.getChoiceModel(500161).getValue();
             try {
                 if (n == 0) {
-                    this.logMain.log(-2137614336, "[AppTMC#setMapService] Automatic redirection is on");
+                    this.logMain.log(10000000, "[AppTMC#setMapService] Automatic redirection is on");
                     this.mapService.enableAutomaticRouteDiversion(true);
                 } else {
-                    this.logMain.log(-2137614336, "[AppTMC#setMapService] Automatic redirection is off");
+                    this.logMain.log(10000000, "[AppTMC#setMapService] Automatic redirection is off");
                     this.mapService.enableAutomaticRouteDiversion(false);
                 }
             }
@@ -176,76 +194,69 @@ MsgListener {
     }
 
     public void abortSpeakingSelectedTmcMessage() {
-        this.logMain.log(-2137614336, "[AppTMC#abortSpeakingSelectedTmcMessage] Abort speaking");
+        this.logMain.log(10000000, "[AppTMC#abortSpeakingSelectedTmcMessage] Abort speaking");
     }
 
     public void setLanguage(Language language) {
-        this.logMain.log(-2137614336, "[AppTMC#setLanguage] Called, language: %1", (Object)language.getLanguageCode());
+        this.logMain.log(10000000, "[AppTMC#setLanguage] Called, language: %1", (Object)language.getLanguageCode());
         String string = language.getLanguageCode();
-        this.logMain.log(-2137614336, "[AppTMC#setLanguage] Following language code is set to TTS instances: %1", (Object)string);
-        this.logMain.log(-2137614336, "[AppTMC#setLanguage] Updating TMC lists");
-        this.logMain.log(-2137614336, "[UpdateDistance#AppTMC#setLanguage] NAR version! Update all TMC lists");
+        this.logMain.log(10000000, "[AppTMC#setLanguage] Following language code is set to TTS instances: %1", (Object)string);
+        this.logMain.log(10000000, "[AppTMC#setLanguage] Updating TMC lists");
+        this.logMain.log(10000000, "[UpdateDistance#AppTMC#setLanguage] NAR version! Update all TMC lists");
         this.listManager.updateDistanceAndDirection(this.distanceToFinalDestination);
     }
 
-    @Override
     public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray) {
-        this.logMain.log(-2137614336, "AppTMC#updateRgDestinationInfo rgDestinationInfo.length: %1", (long)navRouteListDataArray.length);
+        this.logMain.log(10000000, "AppTMC#updateRgDestinationInfo rgDestinationInfo.length: %1", (long)navRouteListDataArray.length);
         this.segmentDistance = new int[navRouteListDataArray.length];
         for (int i2 = 0; i2 < navRouteListDataArray.length; ++i2) {
             this.segmentDistance[i2] = navRouteListDataArray[i2].startDistance - navRouteListDataArray[i2].endDistance;
         }
     }
 
-    @Override
     public void updateDistanceToFinalDestination(int n) {
         this.distanceToFinalDestination = n;
         long l = System.currentTimeMillis();
         long l2 = l - this.timestampDistanceUpdate;
-        if (l2 > 0) {
-            this.logMain.log(-2137614336, "AppTMC#updateDistanceToFinalDestination timespan is reached, update the TMC list, diff (%1)", l2);
+        if (l2 > 10000L) {
+            this.logMain.log(10000000, "AppTMC#updateDistanceToFinalDestination timespan is reached, update the TMC list, diff (%1)", l2);
             this.listManager.updateDistanceAndDirection(n);
             this.timestampDistanceUpdate = l;
         } else if (this.logMain.isDebug2()) {
-            this.logMain.log(14808325, "AppTMC#updateDistanceToFinalDestination timespan is NOT reached, do NOT update TMC lists, diff (%1)", l2);
+            this.logMain.log(100000000, "AppTMC#updateDistanceToFinalDestination timespan is NOT reached, do NOT update TMC lists, diff (%1)", l2);
         }
     }
 
-    @Override
     public void updateIndexOfCurrentDestination(int n) {
         this.indexOfCurrentDestination = n;
     }
 
-    @Override
     public int repeatOrAbortTmcMessageReadOutSince(long l) {
         if (this.framework.isFrontMU()) {
-            this.logMain.log(-2137614336, "[AppTMC#repeatOrAbortTmcMessageReadOutSince] Called, timestamp: %1", l);
+            this.logMain.log(10000000, "[AppTMC#repeatOrAbortTmcMessageReadOutSince] Called, timestamp: %1", l);
             return this.tmcReadOutApp.repeatOrAbortTmcMessageReadOutSince(l);
         }
         return 0;
     }
 
-    @Override
     public void updateTimeToNextAnnouncement(long l) {
         if (this.framework.isFrontMU()) {
-            this.logMain.log(-2137614336, "[AppTMC#updateTimeToNextAnnouncement] Called, time: %1", l);
+            this.logMain.log(10000000, "[AppTMC#updateTimeToNextAnnouncement] Called, time: %1", l);
             this.tmcReadOutApp.setTimeForAnnouncement(l);
         }
     }
 
-    @Override
     public void updateSemidynamicRouteGuidance(long l, boolean bl, boolean bl2, int n) {
-        this.logMain.log(-2137614336, "[AppTMC#updateSemidynamicRouteGuidance] Called");
+        this.logMain.log(10000000, "[AppTMC#updateSemidynamicRouteGuidance] Called");
         this.hasBetterRoute = bl2;
         this.savingTime = n;
         this.trafficDelayOnCurrentRoute = bl ? l : -1L;
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
-        this.logMain.log(-2137614336, "[AppTMC#updateRgActive] Called, old state: %1, new state: %2", this.rgActive, bl);
+        this.logMain.log(10000000, "[AppTMC#updateRgActive] Called, old state: %1, new state: %2", this.rgActive, bl);
         if (this.rgActive != bl) {
-            this.logMain.log(-2137614336, "[AppTMC#updateRgActive] Route guidance activity changed");
+            this.logMain.log(10000000, "[AppTMC#updateRgActive] Route guidance activity changed");
             this.rgActive = bl;
             this.listManager.tmcWindowChanged();
             if (!this.rgActive) {
@@ -254,13 +265,12 @@ MsgListener {
                 this.trafficDelayOnCurrentRoute = 0L;
             }
         } else {
-            this.logMain.log(-2137614336, "[AppTMC#updateRgActive] Route guidance activity did NOT change, do nothing");
+            this.logMain.log(10000000, "[AppTMC#updateRgActive] Route guidance activity did NOT change, do nothing");
         }
     }
 
-    @Override
     public void updateNaviFullyOperable(boolean bl) {
-        this.logMain.log(1078071040, "[AppTMC#updateNaviFullyOperable] Called, old state: %1, new state: %2", this.isNavigationOperable, bl);
+        this.logMain.log(1000000, "[AppTMC#updateNaviFullyOperable] Called, old state: %1, new state: %2", this.isNavigationOperable, bl);
         boolean bl2 = this.isNavigationOperable;
         this.isNavigationOperable = bl;
         if (!bl2) {
@@ -268,27 +278,24 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateDynamicRgActive(boolean bl) {
-        this.logMain.log(-2137614336, "[AppTMC#updateDynamicRgActive] Called, active: %1", bl);
+        this.logMain.log(10000000, "[AppTMC#updateDynamicRgActive] Called, active: %1", bl);
     }
 
-    @Override
     public void updateTrafficRerouting(int n) {
         this.trafficRerouting = n;
     }
 
     public void addMsgDistributor(MsgDistributor msgDistributor) {
-        this.logMain.log(-2137614336, "[AppTMC#addMessageDistributor] Called");
+        this.logMain.log(10000000, "[AppTMC#addMessageDistributor] Called");
     }
 
-    @Override
     public void processMsg(int n) {
-        this.logMain.log(-2137614336, "[AppTMC#processMessage] message: %1", (long)n);
+        this.logMain.log(10000000, "[AppTMC#processMessage] message: %1", (long)n);
         switch (n) {
             case 11: {
-                this.logMain.log(-2137614336, "[UpdateDistance#AppTMC#processMessage] Check whether to change units in TMC lists", (long)n);
-                this.logMain.log(-2137614336, "[UpdateDistance#AppTMC#processMessage] NAR version! Update complete list");
+                this.logMain.log(10000000, "[UpdateDistance#AppTMC#processMessage] Check whether to change units in TMC lists", (long)n);
+                this.logMain.log(10000000, "[UpdateDistance#AppTMC#processMessage] NAR version! Update complete list");
                 this.listManager.updateDistanceAndDirection(this.distanceToFinalDestination);
                 break;
             }
@@ -296,13 +303,13 @@ MsgListener {
     }
 
     void demute() {
-        this.logMain.log(-2137614336, "[AppTMC#demute] Called");
+        this.logMain.log(10000000, "[AppTMC#demute] Called");
     }
 
     protected int getElementPositionInCompleteList(TmcListElement tmcListElement) {
         int n = -1;
         if (tmcListElement == null) {
-            this.logMain.log(-1601830656, "[AppTMC#getElementPositionInCompleteList] element is null, return");
+            this.logMain.log(100000, "[AppTMC#getElementPositionInCompleteList] element is null, return");
         } else {
             n = tmcListElement.getPositionInCompleteList();
             if (n < 1) {
@@ -325,7 +332,7 @@ MsgListener {
     public static boolean isMessageXUrgent(TmcMessage tmcMessage) {
         boolean bl = false;
         if (tmcMessage != null) {
-            bl = "X-URGENT".equals(tmcMessage.getUrgent());
+            bl = X_URGENT_STRING.equals(tmcMessage.getUrgent());
         }
         return bl;
     }
@@ -339,18 +346,17 @@ MsgListener {
         return bl;
     }
 
-    @Override
     public void updateTMCMapActive(boolean bl) {
         if (bl) {
-            this.logMain.log(-2137614336, "[AppTMC#updateTMCMapActive] Called, set sync mediator to OK");
+            this.logMain.log(10000000, "[AppTMC#updateTMCMapActive] Called, set sync mediator to OK");
             this.env.getModelAccess().setShowInMapSyncModelOK();
         }
     }
 
     public void checkWindowRequest() {
         if (this.isDSITmcReady() && this.isNavigationOperable()) {
-            this.env.getChoiceModel(-1247738112).setValue(1);
-            this.logMain.log(-2137614336, "[AppTMC#checkWindowRequest] Requesting the initial TMC window...");
+            this.env.getChoiceModel(500149).setValue(1);
+            this.logMain.log(10000000, "[AppTMC#checkWindowRequest] Requesting the initial TMC window...");
             this.requestInitialTMCWindow();
         }
     }
@@ -464,7 +470,6 @@ MsgListener {
         return this.rowBuilder;
     }
 
-    @Override
     public void showHideTMCPopup() {
     }
 
@@ -475,36 +480,31 @@ MsgListener {
     }
 
     public void tmcScreenVisible() {
-        this.logMain.log(1078071040, "[AppTMC#tmcScreenVisible]");
+        this.logMain.log(1000000, "[AppTMC#tmcScreenVisible]");
         this.listManager.setTmcScreenShown(true);
     }
 
     public void tmcScreenHidden() {
-        this.logMain.log(1078071040, "[AppTMC#tmcScreenHidden]");
+        this.logMain.log(1000000, "[AppTMC#tmcScreenHidden]");
         this.listManager.setTmcScreenShown(false);
     }
 
-    @Override
     public void fillDetailScreen(TmcMessage tmcMessage) {
         this.listManager.fillDetailScreen(tmcMessage);
     }
 
-    @Override
     public void fillDetailScreen(TmcMessage tmcMessage, int n) {
         this.listManager.fillDetailScreen(tmcMessage, n);
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage) {
         this.listManager.setPreviewTrafficInfoTmcEvent(tmcMessage);
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n) {
         this.setPreviewTrafficInfoTmcEvent(tmcMessage, n, true);
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n, boolean bl) {
         this.listManager.setPreviewTrafficInfoTmcEvent(tmcMessage, n, bl);
     }
@@ -529,15 +529,12 @@ MsgListener {
         this.listManager.detailsScreenEntered();
     }
 
-    @Override
     public void leaveMapSemidynamicRouteScreen() {
     }
 
-    @Override
     public void showTMCWarningPopup() {
     }
 
-    @Override
     public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray) {
         this.listManager.updateTmcMessagesAhead(tmcMessageArray);
     }

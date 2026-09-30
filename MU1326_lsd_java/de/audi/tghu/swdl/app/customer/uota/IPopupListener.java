@@ -4,13 +4,10 @@
 package de.audi.tghu.swdl.app.customer.uota;
 
 public interface IPopupListener {
-    default public void popupHidden(int n) {
-    }
+    public void popupHidden(int var1);
 
-    default public void popupRemoved(int n) {
-    }
+    public void popupRemoved(int var1);
 
-    default public void popupVisible(int n) {
-    }
+    public void popupVisible(int var1);
 }
 

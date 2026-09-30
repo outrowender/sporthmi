@@ -9,7 +9,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.variant.AbstractModelEnvironment;
 import de.audi.atip.variant.IIDMapper;
 import de.audi.tghu.navi.app.INavigationInputModeManager;
-import de.audi.tghu.navi.app.NavigationInputModeManager$InputModeManagerHolder;
+import de.audi.tghu.navi.app.NavigationInputModeManager;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
 import de.audi.tghu.navi.app.util.Util;
@@ -107,7 +107,6 @@ extends AbstractModelEnvironment {
         return this.remoteContainer;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.mainLogChannel;
     }
@@ -257,7 +256,7 @@ extends AbstractModelEnvironment {
     }
 
     public INavigationInputModeManager getInputModeManager() {
-        return NavigationInputModeManager$InputModeManagerHolder.INSTANCE;
+        return NavigationInputModeManager.InputModeManagerHolder.INSTANCE;
     }
 
     public PoiSearchArea getPoiSearchArea() {
@@ -275,7 +274,7 @@ extends AbstractModelEnvironment {
     public Object getService(Object object) {
         Object object2 = this.getServices().get(object);
         if (object2 == null) {
-            this.getLogChannel().log(-2137614336, "%1#getService() - nothing registered for %2", (Object)Util.getClassNameFromPackageName(super.getClass()), object);
+            this.getLogChannel().log(10000000, "%1#getService() - nothing registered for %2", (Object)Util.getClassNameFromPackageName(this.getClass()), object);
         }
         return object2;
     }

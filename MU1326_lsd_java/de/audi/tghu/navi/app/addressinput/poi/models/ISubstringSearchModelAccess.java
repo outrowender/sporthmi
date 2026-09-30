@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.addressinput.poi.models;
 import org.dsi.ifc.navigation.ValueListStatus;
 
 public interface ISubstringSearchModelAccess {
-    default public void onUpdateSearchStatus(ValueListStatus valueListStatus) {
-    }
+    public void onUpdateSearchStatus(ValueListStatus var1);
 }
 

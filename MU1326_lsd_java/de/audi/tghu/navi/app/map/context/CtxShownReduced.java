@@ -19,67 +19,58 @@ implements IVisibleContext {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enterPrologue() {
         this.freezeMap();
         int n = this.getCID();
         int n2 = this.getMap().getLastVisibleCID();
         if (MapUtils.isPreviewMapContext(n) != MapUtils.isPreviewMapContext(n2)) {
-            this.getLogChannel().log(1078071040, "CtxShownReduced#enterPrologue() - last visible CID = %1, active CID = %2, restore is required.", (long)n2, (long)n);
+            this.getLogChannel().log(1000000, "CtxShownReduced#enterPrologue() - last visible CID = %1, active CID = %2, restore is required.", (long)n2, (long)n);
             this.restore();
         }
     }
 
-    @Override
     public void enterEpilogue() {
         this.showMap(false);
         this.unfreezeMap();
     }
 
-    @Override
     public void enterNavSetup() {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#enterNavSetup()");
+        this.getLogChannel().log(10000000, "CtxShownReduced#enterNavSetup()");
     }
 
-    @Override
     public void exitNavSetup() {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#exitNavSetup()");
+        this.getLogChannel().log(10000000, "CtxShownReduced#exitNavSetup()");
     }
 
-    @Override
     public void enterMapScreen(int n) {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#enterMapScreen( %1 )", (long)n);
+        this.getLogChannel().log(10000000, "CtxShownReduced#enterMapScreen( %1 )", (long)n);
     }
 
-    @Override
     public void exitMapScreen() {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#exitMapScreen()");
+        this.getLogChannel().log(10000000, "CtxShownReduced#exitMapScreen()");
     }
 
-    @Override
     public void enter() {
     }
 
     protected void restore() {
-        this.getLogChannel().log(14808325, "CtxShownReduced#restore()");
+        this.getLogChannel().log(100000000, "CtxShownReduced#restore()");
         this.getMap().backupMapState();
     }
 
     protected void setHotPoint(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#setHotPoint( x = %1, y = %2 )", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxShownReduced#setHotPoint( x = %1, y = %2 )", (long)n, (long)n2);
         this.naviMap.getMVRequest().setHotPoint(new Point(n, n2));
     }
 
     public void showToolTip(String string, int n, int n2, PosInfo posInfo, String string2, boolean bl, boolean bl2, ResourceLocator resourceLocator) {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#showToolTip( )");
+        this.getLogChannel().log(10000000, "CtxShownReduced#showToolTip( )");
     }
 
-    @Override
     public void showLandmark(float f2) {
-        this.getLogChannel().log(-2137614336, "CtxShownReduced#showLandmark( )");
+        this.getLogChannel().log(10000000, "CtxShownReduced#showLandmark( )");
     }
 
-    @Override
     public void setNightDesign(int n) {
         super.setNightDesign(n);
         this.switchMapAccordingToNightDesign();

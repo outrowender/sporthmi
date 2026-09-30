@@ -7,31 +7,23 @@ import de.audi.tghu.filebrowser.IFileBrowser;
 import org.dsi.ifc.filebrowser.Path;
 
 public interface IFileBrowserSession {
-    public static final long WAIT_TIMEOUT;
-    public static final long WAIT_TIMEOUT_RESOURCE_LOCATORS;
+    public static final long WAIT_TIMEOUT = 5000L;
+    public static final long WAIT_TIMEOUT_RESOURCE_LOCATORS = 20000L;
 
-    default public int getSession() {
-    }
+    public int getSession();
 
-    default public void close() {
-    }
+    public void close();
 
-    default public Path pwd() {
-    }
+    public Path pwd();
 
-    default public void setFileTypeFilter(int n) {
-    }
+    public void setFileTypeFilter(int var1);
 
-    default public int getFileTypeFilter() {
-    }
+    public int getFileTypeFilter();
 
-    default public void setFileExtensionFilter(String[] stringArray) {
-    }
+    public void setFileExtensionFilter(String[] var1);
 
-    default public String[] getFileExtensionFilter() {
-    }
+    public String[] getFileExtensionFilter();
 
-    default public IFileBrowser getSelection() {
-    }
+    public IFileBrowser getSelection();
 }
 

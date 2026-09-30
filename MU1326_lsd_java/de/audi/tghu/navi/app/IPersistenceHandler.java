@@ -4,13 +4,10 @@
 package de.audi.tghu.navi.app;
 
 public interface IPersistenceHandler {
-    default public void loadPersistence() {
-    }
+    public void loadPersistence();
 
-    default public void resetPersistence() {
-    }
+    public void resetPersistence();
 
-    default public void storePersistence() {
-    }
+    public void storePersistence();
 }
 

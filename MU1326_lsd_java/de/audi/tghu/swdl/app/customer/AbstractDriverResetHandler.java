@@ -5,7 +5,6 @@ package de.audi.tghu.swdl.app.customer;
 
 import de.audi.atip.base.ComponentStateListener;
 import de.audi.tghu.swdl.app.SwdlEnv;
-import de.audi.tghu.swdl.app.customer.AbstractDriverResetHandler$1;
 
 public abstract class AbstractDriverResetHandler
 implements ComponentStateListener {
@@ -29,15 +28,14 @@ implements ComponentStateListener {
     }
 
     protected void doResetDriver(int n) {
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append("CustomerUpdate:DriverResetHandler").toString());
+        Thread.currentThread().setName(Thread.currentThread().getName() + "CustomerUpdate:DriverResetHandler");
         this.waitMediaIsRunning = true;
         this.getSwdlEnv().getMsgDistributor().sendMessage(89);
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
         if (this.waitMediaIsRunning && "Media".equalsIgnoreCase(string) && 1 == n) {
-            this.getSwdlEnv().getLogDSI().log(-2137614336, "AbstractDriverResetHandler.appStateChanged(%1, %2): STOP reset driver", (Object)string, (long)n);
+            this.getSwdlEnv().getLogDSI().log(10000000, "AbstractDriverResetHandler.appStateChanged(%1, %2): STOP reset driver", (Object)string, (long)n);
             this.stopReset();
         }
     }
@@ -47,15 +45,19 @@ implements ComponentStateListener {
         this.waitMediaIsRunning = false;
     }
 
-    public abstract void handleDriverResetError(int n) {
-    }
+    public abstract void handleDriverResetError(int var1);
 
-    public void resetDriver(int n) {
+    public void resetDriver(final int n) {
         if (!this.isResetInProgress()) {
             this.getSwdlEnv().getLogDSI().log(10000, "DriverResetHandler::resetDriver()");
             this.setResetInProgress(true);
             this.getSwdlEnv().getSwdlModels().getResetDriverButton().setStatus(0);
-            this.getSwdlEnv().executeInUtilThread(new AbstractDriverResetHandler$1(this, n));
+            this.getSwdlEnv().executeInUtilThread(new Runnable(){
+
+                public void run() {
+                    AbstractDriverResetHandler.this.doResetDriver(n);
+                }
+            });
             this.getSwdlEnv().getSwdlModels().getResetDriverButton().fireEvent(n);
             this.getSwdlEnv().getSwdlModels().getResetDriverButton().setStatus(1);
         } else {

@@ -27,14 +27,12 @@ extends AbstractSwdlListItemDeviceInfo {
         this.isNoExclusiveBoloUpdate = bl;
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         super.updateListRow(baseListRow);
         baseListRow.setText(4, Integer.toString(this.hwIndex));
         baseListRow.setInteger(5, this.additionalInfo);
     }
 
-    @Override
     public void select(int n) {
         this.deviceInfoManager.doSelectModule(n);
     }

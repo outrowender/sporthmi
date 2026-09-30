@@ -5,9 +5,9 @@ package de.audi.tghu.jdsi;
 
 import de.audi.atip.activator.AbstractFrameworkActivator;
 import de.audi.atip.log.LogChannel;
-import de.audi.tghu.jdsi.JDSIActivator$1;
-import de.audi.tghu.jdsi.JDSIActivator$2;
 import de.audi.tghu.jdsi.JDSIManager;
+import org.dsi.ifc.base.DSIBase;
+import org.dsi.ifc.base.ServiceAdmin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
@@ -33,7 +33,28 @@ extends AbstractFrameworkActivator {
     }
 
     public void initTracker() {
-        this.serviceAdminTracker = new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$base$ServiceAdmin == null ? (class$org$dsi$ifc$base$ServiceAdmin = JDSIActivator.class$("org.dsi.ifc.base.ServiceAdmin")) : class$org$dsi$ifc$base$ServiceAdmin).getName(), (ServiceTrackerCustomizer)new JDSIActivator$1(this));
+        this.serviceAdminTracker = new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$base$ServiceAdmin == null ? (class$org$dsi$ifc$base$ServiceAdmin = JDSIActivator.class$("org.dsi.ifc.base.ServiceAdmin")) : class$org$dsi$ifc$base$ServiceAdmin).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = JDSIActivator.this.bundleContext.getService(serviceReference);
+                if (object instanceof ServiceAdmin) {
+                    JDSIActivator.this.serviceAdminReference = serviceReference;
+                    JDSIActivator.this.service.setServiceAdmin((ServiceAdmin)object);
+                    return object;
+                }
+                JDSIActivator.this.bundleContext.ungetService(serviceReference);
+                return null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                JDSIActivator.this.bundleContext.ungetService(serviceReference);
+                JDSIActivator.this.serviceAdminReference = null;
+                JDSIActivator.this.service.setServiceAdmin(null);
+            }
+        });
         this.serviceAdminTracker.open();
     }
 
@@ -62,8 +83,34 @@ extends AbstractFrameworkActivator {
         return (String)serviceReference.getProperty("DEVICE_NAME");
     }
 
-    private void initDSITracker(JDSIManager jDSIManager) {
-        this.dsiTracker = new ServiceTracker(this.getBundleContext(), this.getDSIFilter(), (ServiceTrackerCustomizer)new JDSIActivator$2(this, jDSIManager));
+    private void initDSITracker(final JDSIManager jDSIManager) {
+        this.dsiTracker = new ServiceTracker(this.getBundleContext(), this.getDSIFilter(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = JDSIActivator.this.getBundleContext().getService(serviceReference);
+                if (object instanceof DSIBase) {
+                    try {
+                        jDSIManager.addDSIService((DSIBase)object, JDSIActivator.this.getDeviceName(serviceReference), JDSIActivator.this.getDeviceInstance(serviceReference));
+                        return object;
+                    }
+                    catch (Exception exception) {
+                        JDSIActivator.this.getBundleContext().ungetService(serviceReference);
+                        JDSIActivator.this.lc.log(10000, "Incorrect property DEVICE_INSTANCE for a DSI reference %1", (Object)serviceReference);
+                        return null;
+                    }
+                }
+                JDSIActivator.this.getBundleContext().ungetService(serviceReference);
+                return null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                JDSIActivator.this.getBundleContext().ungetService(serviceReference);
+                jDSIManager.removedDSIService((DSIBase)object, JDSIActivator.this.getDeviceName(serviceReference), JDSIActivator.this.getDeviceInstance(serviceReference));
+            }
+        });
         this.dsiTracker.open();
     }
 
@@ -86,7 +133,6 @@ extends AbstractFrameworkActivator {
         }
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.lc = this.getFramework().getLogChannel("Fw.JDSI.Admin");
         this.service = new JDSIManager(this.getFramework());
@@ -94,7 +140,6 @@ extends AbstractFrameworkActivator {
         this.initDSITracker(this.service);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.cleanupDSI();
         super.stop(bundleContext);
@@ -107,55 +152,6 @@ extends AbstractFrameworkActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ BundleContext access$000(JDSIActivator jDSIActivator) {
-        return jDSIActivator.bundleContext;
-    }
-
-    static /* synthetic */ ServiceReference access$102(JDSIActivator jDSIActivator, ServiceReference serviceReference) {
-        jDSIActivator.serviceAdminReference = serviceReference;
-        return jDSIActivator.serviceAdminReference;
-    }
-
-    static /* synthetic */ JDSIManager access$200(JDSIActivator jDSIActivator) {
-        return jDSIActivator.service;
-    }
-
-    static /* synthetic */ BundleContext access$300(JDSIActivator jDSIActivator) {
-        return jDSIActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$400(JDSIActivator jDSIActivator) {
-        return jDSIActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$500(JDSIActivator jDSIActivator) {
-        return jDSIActivator.getBundleContext();
-    }
-
-    static /* synthetic */ String access$600(JDSIActivator jDSIActivator, ServiceReference serviceReference) {
-        return jDSIActivator.getDeviceName(serviceReference);
-    }
-
-    static /* synthetic */ int access$700(JDSIActivator jDSIActivator, ServiceReference serviceReference) {
-        return jDSIActivator.getDeviceInstance(serviceReference);
-    }
-
-    static /* synthetic */ BundleContext access$800(JDSIActivator jDSIActivator) {
-        return jDSIActivator.getBundleContext();
-    }
-
-    static /* synthetic */ LogChannel access$900(JDSIActivator jDSIActivator) {
-        return jDSIActivator.lc;
-    }
-
-    static /* synthetic */ BundleContext access$1000(JDSIActivator jDSIActivator) {
-        return jDSIActivator.getBundleContext();
-    }
-
-    static /* synthetic */ BundleContext access$1100(JDSIActivator jDSIActivator) {
-        return jDSIActivator.getBundleContext();
     }
 }
 

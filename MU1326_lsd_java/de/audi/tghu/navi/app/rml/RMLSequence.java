@@ -14,43 +14,27 @@ import de.audi.tghu.navi.app.details.GuiModelAccessDetailsNavi;
 import de.audi.tghu.navi.app.rml.IRMLListener;
 import de.audi.tghu.navi.app.rml.IRMLModelAccess;
 import de.audi.tghu.navi.app.rml.IRMLSequence;
-import de.audi.tghu.navi.app.rml.RMLSequence$1;
-import de.audi.tghu.navi.app.rml.RMLSequence$10;
-import de.audi.tghu.navi.app.rml.RMLSequence$11;
-import de.audi.tghu.navi.app.rml.RMLSequence$12;
-import de.audi.tghu.navi.app.rml.RMLSequence$13;
-import de.audi.tghu.navi.app.rml.RMLSequence$14;
-import de.audi.tghu.navi.app.rml.RMLSequence$15;
-import de.audi.tghu.navi.app.rml.RMLSequence$16;
-import de.audi.tghu.navi.app.rml.RMLSequence$17;
-import de.audi.tghu.navi.app.rml.RMLSequence$18;
-import de.audi.tghu.navi.app.rml.RMLSequence$2;
-import de.audi.tghu.navi.app.rml.RMLSequence$3;
-import de.audi.tghu.navi.app.rml.RMLSequence$4;
-import de.audi.tghu.navi.app.rml.RMLSequence$5;
-import de.audi.tghu.navi.app.rml.RMLSequence$6;
-import de.audi.tghu.navi.app.rml.RMLSequence$7;
-import de.audi.tghu.navi.app.rml.RMLSequence$8;
-import de.audi.tghu.navi.app.rml.RMLSequence$9;
 import de.audi.tghu.navi.app.rml.RequestCombinedRouteListCommand;
 import de.audi.tghu.navi.app.rml.RequestNavRectangleForCombinedRouteListElement;
 import de.audi.tghu.navi.app.rml.RequestRMLPOIInformationCommand;
 import de.audi.tghu.navi.app.rml.UpdateCombinedRouteListCommand;
 import de.audi.tghu.navi.app.routeguidance.IRouteManager;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.navigation.CombinedRouteListElement;
 import org.dsi.ifc.navigation.RgInfoForNextDestination;
 
 public class RMLSequence
 implements IRMLSequence {
-    private static final int MAXIMUM_REPEAT_REQUEST;
-    private static final int HIDE_LOADING_ICON;
-    private static final int SHOW_LOADING_ICON;
-    public static final int DEFAULT_OFFSET;
-    public static final int DEFAULT_WINDOW_SIZE;
-    public static final long[] DEFAULT_ANCHOR_ID;
-    public static final int NO_PENDING_REQUEST_ID;
-    public static final int START_INDEX_ZERO;
-    protected static final Object OPENEDANCHOR;
+    private static final int MAXIMUM_REPEAT_REQUEST = 10;
+    private static final int HIDE_LOADING_ICON = 0;
+    private static final int SHOW_LOADING_ICON = 1;
+    public static final int DEFAULT_OFFSET = 10;
+    public static final int DEFAULT_WINDOW_SIZE = 21;
+    public static final long[] DEFAULT_ANCHOR_ID = new long[]{-1L};
+    public static final int NO_PENDING_REQUEST_ID = -1;
+    public static final int START_INDEX_ZERO = 0;
+    protected static final Object OPENEDANCHOR = "OPENED ANCHOR";
     protected final IRMLModelAccess modelAccess;
     private final ICommandListFactory commandListFactory;
     private final IRouteManager routeManager;
@@ -73,7 +57,6 @@ implements IRMLSequence {
         this.ledMonitor = new Monitor(this.logChannel);
     }
 
-    @Override
     public synchronized void start() {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (this.isRoutelistActive) {
@@ -82,10 +65,28 @@ implements IRMLSequence {
         commandList.addMonitor(this.ledMonitor);
         this.isRoutelistActive = true;
         this.modelAccess.onStart();
-        commandList.add(new RMLSequence$1(this, "Check RG-Active"));
+        commandList.add(new NavCommand("Check RG-Active"){
+
+            public void execute() {
+                boolean bl = this.dsiResponseContainer.isRgActive();
+                this.logger.log(10000000, "RMLSequence#start()#execute() - %1 ", bl);
+                if (!bl) {
+                    this.getCommandList().commandAborted("RouteGuidance is not active");
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.add(new RequestCombinedRouteListCommand(21, 10, DEFAULT_ANCHOR_ID, -1L, 10));
         commandList.add(new UpdateCombinedRouteListCommand(this.modelAccess, -1, -1L, this.routeManager.getRoute()));
-        commandList.setErrorCommand(new RMLSequence$2(this, "RMLSequence#start --> ERRORCommand reset isRouteListActive"));
+        commandList.setErrorCommand(new NavCommand("RMLSequence#start --> ERRORCommand reset isRouteListActive"){
+
+            public void execute() {
+                this.logger.log(10000000, "%1#execute() - isRouteListActive will be set to false because there appeared an error in the running CommandList RMLSequence#start", (Object)this.CLASS_NAME);
+                RMLSequence.this.isRoutelistActive = false;
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#start");
     }
 
@@ -97,15 +98,14 @@ implements IRMLSequence {
         return this.ledMonitor;
     }
 
-    @Override
-    public synchronized void requestCombinedRouteList(long[] lArray, long l, int n, int n2, boolean bl) {
-        this.logChannel.log(-2137614336, "RMLSequence#requestCombinedRouteList() - anchorIds = %1 \n openedListAnchorID = %2 \n requestID = %3, startIndex = %4 ", (Object)lArray, (Object)Long.toString(l), (Object)Integer.toString(n), (long)n2);
+    public synchronized void requestCombinedRouteList(final long[] lArray, final long l, final int n, int n2, boolean bl) {
+        this.logChannel.log(10000000, "RMLSequence#requestCombinedRouteList() - anchorIds = %1 \n openedListAnchorID = %2 \n requestID = %3, startIndex = %4 ", (Object)lArray, (Object)Long.toString(l), (Object)Integer.toString(n), (long)n2);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.addMonitor(this.ledMonitor);
         if (this.ledMonitor.isActive()) {
-            this.logChannel.log(1078071040, "RMLSequence#requestCombinedRouteList() - Detected a running CommandList in the RMLSequence figure out if its from user or widget");
+            this.logChannel.log(1000000, "RMLSequence#requestCombinedRouteList() - Detected a running CommandList in the RMLSequence figure out if its from user or widget");
             if (n == -1) {
-                this.logChannel.log(1078071040, "RMLSequence#requestCombinedRouteList() - Detected user event with a already running request --> ignore userupdate");
+                this.logChannel.log(1000000, "RMLSequence#requestCombinedRouteList() - Detected user event with a already running request --> ignore userupdate");
                 return;
             }
         }
@@ -113,28 +113,58 @@ implements IRMLSequence {
             this.setWaitingIcon(1);
             commandList.add(this.createWaitingIconCommand(1));
         }
-        commandList.add(new RMLSequence$3(this, "RMLSequence#requestCombinedRouteList - get the latest opened element", lArray, l));
-        commandList.add(new RMLSequence$4(this, n));
+        commandList.add(new NavCommand("RMLSequence#requestCombinedRouteList - get the latest opened element"){
+
+            public void execute() {
+                CombinedRouteListElement combinedRouteListElement;
+                IRMLListener iRMLListener = RMLSequence.this.getRMLListener();
+                if (iRMLListener != null && (combinedRouteListElement = iRMLListener.getOpenedElement()) != null) {
+                    this.getCommandList().put(OPENEDANCHOR, new Long(combinedRouteListElement.getUid()));
+                    this.getCommandList().commandFinishedWithPostCommand(new RequestCombinedRouteListCommand(21, 10, lArray, combinedRouteListElement.getUid(), 10));
+                    return;
+                }
+                this.getCommandList().put(OPENEDANCHOR, new Long(l));
+                this.getCommandList().commandFinishedWithPostCommand(new RequestCombinedRouteListCommand(21, 10, lArray, l, 10));
+            }
+        });
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                long l = (Long)this.getCommandList().get(OPENEDANCHOR);
+                this.getCommandList().commandFinishedWithPostCommand(new UpdateCombinedRouteListCommand(RMLSequence.this.modelAccess, n, l, RMLSequence.this.routeManager.getRoute()));
+            }
+        });
         if (bl) {
             commandList.add(this.createWaitingIconCommand(0));
         }
         commandList.execute("RMLSequence#requestCombinedRouteList");
     }
 
-    private NavCommand createWaitingIconCommand(int n) {
-        return new RMLSequence$5(this, new StringBuffer().append("RMLSequence#requestCombinedRouteList - set value = ").append(n).append(" for waiting icon").toString(), n);
+    private NavCommand createWaitingIconCommand(final int n) {
+        return new NavCommand(new StringBuffer().append("RMLSequence#requestCombinedRouteList - set value = ").append(n).append(" for waiting icon").toString()){
+
+            public void execute() {
+                RMLSequence.this.setWaitingIcon(n);
+                this.getCommandList().commandFinished();
+            }
+        };
     }
 
     private void setWaitingIcon(int n) {
-        this.env.getChoiceModel(-417331712).setValue(n);
+        this.env.getChoiceModel(401639).setValue(n);
     }
 
-    @Override
     public void stop() {
         this.isRoutelistActive = false;
         this.ledMonitor.stopMonitoredLists("RMLSequence#stop - RML was stopped");
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new RMLSequence$6(this, "RMLSequence#stop - modelAccess stop"));
+        commandList.add(new NavCommand("RMLSequence#stop - modelAccess stop"){
+
+            public void execute() {
+                RMLSequence.this.modelAccess.onStop();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new RequestCombinedRouteListCommand(0, 0, new long[]{-1L}, -1L));
         commandList.execute("RMLSequence#stop");
     }
@@ -143,7 +173,13 @@ implements IRMLSequence {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.addMonitor(this.ledMonitor);
         if (bl) {
-            commandList.add(new RMLSequence$7(this, "RMLSequence#windowChanged - modelAccess.onStart()"));
+            commandList.add(new NavCommand("RMLSequence#windowChanged - modelAccess.onStart()"){
+
+                public void execute() {
+                    RMLSequence.this.modelAccess.onStart();
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
         commandList.add(new RequestCombinedRouteListCommand(21, 10, DEFAULT_ANCHOR_ID, -1L, 10));
         commandList.add(new UpdateCombinedRouteListCommand(this.modelAccess, -1, -1L, this.routeManager.getRoute()));
@@ -156,39 +192,89 @@ implements IRMLSequence {
         }
     }
 
-    public void updateElementsTotal(long l) {
+    public void updateElementsTotal(final long l) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.addMonitor(this.ledMonitor);
-        commandList.add(new RMLSequence$8(this, "RMLSequence#updateElementsTotal - update Model listlength", l));
+        commandList.add(new NavCommand("RMLSequence#updateElementsTotal - update Model listlength"){
+
+            public void execute() {
+                RMLSequence.this.modelAccess.onUpdateListLength(l);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#updateElementsTotal");
     }
 
     public void selectForCountryInfo(CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new RequestRMLPOIInformationCommand(combinedRouteListElement));
-        commandList.add(new RMLSequence$9(this));
-        commandList.add(new RMLSequence$10(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                RMLSequence.this.countryHandler.startCountryInput(true);
+                RMLSequence.this.countryHandler.setCountry(this.dsiResponseContainer.getRMLPOILocation());
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                RMLSequence.this.modelAccess.onCountryInfoSelected();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#selectForCountryInfo");
     }
 
     public void selectForTrafficDetails(CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new RMLSequence$11(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                RMLSequence.this.modelAccess.onTrafficInfoSelected();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#selectForTrafficDetails");
     }
 
-    public void selectForAddressDetails(CombinedRouteListElement combinedRouteListElement) {
+    public void selectForAddressDetails(final CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new RMLSequence$12(this, "Set ModelAccess for FollowUp"));
-        commandList.add(new RMLSequence$13(this, "Set NavLocation for Popup", combinedRouteListElement));
+        commandList.add(new NavCommand("Set ModelAccess for FollowUp"){
+
+            public void execute() {
+                RMLSequence.this.modelAccess.onDetailsSelected();
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand("Set NavLocation for Popup"){
+
+            public void execute() {
+                NavLocation navLocation = RMLSequence.this.routeManager.getRoute().getRoutelist()[combinedRouteListElement.getDestinationIndex()].getRouteLocation();
+                RMLSequence.this.poiDetailModelAccess.onUpdateLocation(navLocation);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#selectForAddressDetails");
     }
 
     public void selectForPOIDetails(CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new RequestRMLPOIInformationCommand(combinedRouteListElement));
-        commandList.add(new RMLSequence$14(this, "Set ModelAccess for FollowUp"));
-        commandList.add(new RMLSequence$15(this, "Set NavLocation for Popup"));
+        commandList.add(new NavCommand("Set ModelAccess for FollowUp"){
+
+            public void execute() {
+                RMLSequence.this.modelAccess.onDetailsSelected();
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand("Set NavLocation for Popup"){
+
+            public void execute() {
+                RMLSequence.this.poiDetailModelAccess.onUpdateLocation(this.dsiResponseContainer.getRMLPOILocation());
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#selectForPOIDetails");
     }
 
@@ -196,24 +282,46 @@ implements IRMLSequence {
         this.modelAccess.onNoDetailsSelected();
     }
 
-    public void focusPOI(CombinedRouteListElement combinedRouteListElement) {
+    public void focusPOI(final CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new RequestRMLPOIInformationCommand(combinedRouteListElement));
-        commandList.add(new RMLSequence$16(this, "RMLSequence#focusPOI#modelAccess#onPOIFocus", combinedRouteListElement));
+        commandList.add(new NavCommand("RMLSequence#focusPOI#modelAccess#onPOIFocus"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getRMLPOILocation();
+                this.logger.log(10000000, "RMLSequence#focusPOI rmlpoiLocation = %1", (Object)navLocation);
+                RMLSequence.this.modelAccess.onPoiFocused(navLocation, combinedRouteListElement);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#focusPOI");
     }
 
     public void focusTMC(CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new RequestNavRectangleForCombinedRouteListElement(combinedRouteListElement));
-        commandList.add(new RMLSequence$17(this, "Forward NavRectangle to variant specific model access"));
+        commandList.add(new NavCommand("Forward NavRectangle to variant specific model access"){
+
+            public void execute() {
+                NavRectangle navRectangle = (NavRectangle)this.getCommandList().get(RequestNavRectangleForCombinedRouteListElement.NAV_RECTANGLE_FOR_COMBINED_ROUTE_LIST_NAV_RECTANGLE);
+                this.navigation.getMapInterface().getPreviewMap().setPreviewTrafficInfoTmcEventsForRouteList(navRectangle, 13, null, null);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#focusTMC");
     }
 
-    public void itemFocused(CombinedRouteListElement combinedRouteListElement) {
+    public void itemFocused(final CombinedRouteListElement combinedRouteListElement) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new RequestNavRectangleForCombinedRouteListElement(combinedRouteListElement));
-        commandList.add(new RMLSequence$18(this, "Forward NavRectangle to variant specific model access", combinedRouteListElement));
+        commandList.add(new NavCommand("Forward NavRectangle to variant specific model access"){
+
+            public void execute() {
+                NavRectangle navRectangle = (NavRectangle)this.getCommandList().get(RequestNavRectangleForCombinedRouteListElement.NAV_RECTANGLE_FOR_COMBINED_ROUTE_LIST_NAV_RECTANGLE);
+                RMLSequence.this.modelAccess.onElementFocused(navRectangle, combinedRouteListElement);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("RMLSequence#itemFocused");
     }
 
@@ -223,36 +331,6 @@ implements IRMLSequence {
 
     public void setRMLListener(IRMLListener iRMLListener) {
         this.rmlListener = iRMLListener;
-    }
-
-    static /* synthetic */ boolean access$002(RMLSequence rMLSequence, boolean bl) {
-        rMLSequence.isRoutelistActive = bl;
-        return rMLSequence.isRoutelistActive;
-    }
-
-    static /* synthetic */ IRMLListener access$100(RMLSequence rMLSequence) {
-        return rMLSequence.getRMLListener();
-    }
-
-    static /* synthetic */ IRouteManager access$200(RMLSequence rMLSequence) {
-        return rMLSequence.routeManager;
-    }
-
-    static /* synthetic */ void access$300(RMLSequence rMLSequence, int n) {
-        rMLSequence.setWaitingIcon(n);
-    }
-
-    static /* synthetic */ ICountryInfoHandler access$400(RMLSequence rMLSequence) {
-        return rMLSequence.countryHandler;
-    }
-
-    static /* synthetic */ GuiModelAccessDetailsNavi access$500(RMLSequence rMLSequence) {
-        return rMLSequence.poiDetailModelAccess;
-    }
-
-    static {
-        DEFAULT_ANCHOR_ID = new long[]{-1L};
-        OPENEDANCHOR = "OPENED ANCHOR";
     }
 }
 

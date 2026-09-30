@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.map.context;
 import org.dsi.ifc.map.PosInfo;
 
 public interface HasPosInfo {
-    default public void updateInfoForPosition(PosInfo[] posInfoArray) {
-    }
+    public void updateInfoForPosition(PosInfo[] var1);
 
-    default public PosInfo[] getInfoList() {
-    }
+    public PosInfo[] getInfoList();
 }
 

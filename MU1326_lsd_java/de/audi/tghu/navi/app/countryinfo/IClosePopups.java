@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.countryinfo;
 
 public interface IClosePopups {
-    default public void close() {
-    }
+    public void close();
 }
 

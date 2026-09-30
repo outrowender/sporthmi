@@ -36,18 +36,16 @@ ButtonListener {
         return this.framework.getSysApp().getVariantAppSystem();
     }
 
-    @Override
     public boolean isSpellerAccessAllowed() {
         return this.belowSpeedThreshold || this.disclaimerAcknowledged;
     }
 
-    @Override
     public boolean showDisclaimer(int n) {
         if (!this.disclaimerAcknowledged) {
             this.getHMIService().getChoiceModel(137).setValue(this.framework.getLastmodeHandler().getLastmode(n));
             this.getAppSystemVariant().showLegalDisclaimer(n);
         } else {
-            this.lc.log(-2137614336, "disclaimer already acknowledged!");
+            this.lc.log(10000000, "disclaimer already acknowledged!");
         }
         return !this.disclaimerAcknowledged;
     }
@@ -59,36 +57,30 @@ ButtonListener {
         return buffer.toString();
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
-        this.lc.log(-2137614336, "belowLowerThreshold: thresholdId=%1", (long)n);
+        this.lc.log(10000000, "belowLowerThreshold: thresholdId=%1", (long)n);
         this.belowSpeedThreshold = true;
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
-        this.lc.log(-2137614336, "exceedsUpperThreshold: thresholdId=%1", (long)n);
+        this.lc.log(10000000, "exceedsUpperThreshold: thresholdId=%1", (long)n);
         this.belowSpeedThreshold = false;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "keyPressed: modelID=%1", (long)n);
+        this.lc.log(10000000, "keyPressed: modelID=%1", (long)n);
         if (n == 136) {
             this.disclaimerAcknowledged = true;
             this.getAppSystemVariant().removeLegalDisclaimer(n3);
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

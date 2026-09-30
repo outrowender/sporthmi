@@ -21,8 +21,6 @@ import de.audi.atip.util.ActionProxyStatistics;
 import de.audi.atip.util.ModelStatistics;
 import de.audi.atip.util.Util;
 import de.audi.tghu.fwhmi.FwHMI;
-import de.audi.tghu.hmi.swdiagnosis.HMIDiagGateway$1;
-import de.audi.tghu.hmi.swdiagnosis.HMIDiagGateway$2;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -43,12 +41,10 @@ extends AbstractSwDiagnosis {
         this.logDiashow = fwHMI.getFramework().getLogChannel("Ext.Diashow");
     }
 
-    @Override
     public int getId() {
         return 102;
     }
 
-    @Override
     public String getName() {
         return "FwHMI";
     }
@@ -187,7 +183,7 @@ extends AbstractSwDiagnosis {
         try {
             int n = this.fwHMI.getCurrentScreenID();
             this.cmdShowScreen(1);
-            Thread.sleep(0);
+            Thread.sleep(1000L);
             this.cmdClearScreenCache();
             this.cmdShowScreen(n);
         }
@@ -229,7 +225,7 @@ extends AbstractSwDiagnosis {
     }
 
     public void cmdTakeScreenshot(String string, boolean bl) {
-        this.logDiashow.log(-2137614336, "Taking screenshot and saving to %1 ...", (Object)string);
+        this.logDiashow.log(10000000, "Taking screenshot and saving to %1 ...", (Object)string);
         if (string == null || string.length() == 0) {
             string = this.fwHMI.getFramework().isTarget() ? "/mnt/ota/system/logs/" : "C:\\temp\\";
         }
@@ -237,7 +233,7 @@ extends AbstractSwDiagnosis {
             ScreenShotEvent screenShotEvent = new ScreenShotEvent((ATIPEventListener)this.fwHMI.getRootWindow(0), string);
             this.fwHMI.getEventDispatcher().postEvent(screenShotEvent);
         } else {
-            String string2 = new StringBuffer().append(string).append("screen_").append(this.fwHMI.getCurrentScreenID()).append(".png").toString();
+            String string2 = string + "screen_" + this.fwHMI.getCurrentScreenID() + ".png";
             this.fwHMI.takeScreenshot(0, string2);
         }
     }
@@ -336,12 +332,46 @@ extends AbstractSwDiagnosis {
         this.sendTouchEvent(10910, 0, 0, string, nArray);
     }
 
-    public void cmdTouchScreenTyped(int n, int n2) {
-        new HMIDiagGateway$1(this, n, n2).start();
+    public void cmdTouchScreenTyped(final int n, final int n2) {
+        new Thread(){
+
+            public void run() {
+                HMIDiagGateway.this.cmdGestureScreenPressed(n, n2);
+                this.sleep(200);
+                HMIDiagGateway.this.cmdGestureScreenReleased(n, n2);
+            }
+
+            private void sleep(int n3) {
+                try {
+                    Thread.sleep(n3);
+                }
+                catch (InterruptedException interruptedException) {
+                    // empty catch block
+                }
+            }
+        }.start();
     }
 
-    public void cmdTouchScreenTypedWithMove(int n, int n2, int n3, int n4) {
-        new HMIDiagGateway$2(this, n, n2, n3, n4).start();
+    public void cmdTouchScreenTypedWithMove(final int n, final int n2, final int n3, final int n4) {
+        new Thread(){
+
+            public void run() {
+                HMIDiagGateway.this.cmdGestureScreenPressed(n, n2);
+                this.sleep(200);
+                HMIDiagGateway.this.cmdGestureScreenMoved(n3, n4);
+                this.sleep(200);
+                HMIDiagGateway.this.cmdGestureScreenReleased(n3, n4);
+            }
+
+            private void sleep(int n5) {
+                try {
+                    Thread.sleep(n5);
+                }
+                catch (InterruptedException interruptedException) {
+                    // empty catch block
+                }
+            }
+        }.start();
     }
 
     private void sendGestureEvent(int n, int n2, int n3) {
@@ -349,15 +379,15 @@ extends AbstractSwDiagnosis {
     }
 
     public void cmdTouchpadFingerTraceFadeIn() {
-        int n = 51266;
-        int n2 = 63;
-        this.sendTouchEvent(10904, 0, 100, n, null);
+        float f2 = 100.0f;
+        float f3 = 0.5f;
+        this.sendTouchEvent(10904, 0, 100, (int)f2, null);
         this.pause(50);
         for (int i2 = 0; i2 < 15; ++i2) {
-            this.sendTouchEvent(10911, 0, 100, n += n2 * 8257, null);
+            this.sendTouchEvent(10911, 0, 100, (int)(f2 += f3 * 10.0f), null);
             this.pause(50);
         }
-        this.sendTouchEvent(10905, 0, 100, n += n2 * 8257, null);
+        this.sendTouchEvent(10905, 0, 100, (int)(f2 += f3 * 10.0f), null);
         this.pause(50);
         this.pause(300);
         this.sendTouchEvent(10908, 0, 32000, 32000, "ASC");
@@ -405,8 +435,8 @@ extends AbstractSwDiagnosis {
                     }
                     String string2 = string.substring(i2 + 2, i2 + 6);
                     int n = Integer.parseInt(string2, 16);
-                    if (n > -65536) {
-                        throw new IllegalArgumentException(new StringBuffer().append("Invalid unicode value ").append(string2).toString());
+                    if (n > 65535) {
+                        throw new IllegalArgumentException("Invalid unicode value " + string2);
                     }
                     buffer.append((char)n);
                     i2 += 5;
@@ -462,7 +492,6 @@ extends AbstractSwDiagnosis {
         }
     }
 
-    @Override
     protected String getCommandName(Method method) {
         String string;
         if (this.cmdDescriptionMap == null) {
@@ -492,7 +521,7 @@ extends AbstractSwDiagnosis {
                     ListModelApp listModelApp = this.fwHMI.getListModel(538);
                     if (listModelApp != null) {
                         try {
-                            listModelApp.setCell(0, n2, new IntegerListCell(n5, -129));
+                            listModelApp.setCell(0, n2, new IntegerListCell(n5, Integer.MAX_VALUE));
                         }
                         catch (Exception exception) {
                             exception.printStackTrace();
@@ -509,7 +538,7 @@ extends AbstractSwDiagnosis {
     }
 
     private void diashowMarkCurrentAsFlawed(String string) {
-        this.logDiashow.log(-2137614336, "Kommentar %1 \u00fcbernommen.", (Object)string);
+        this.logDiashow.log(10000000, "Kommentar %1 \u00fcbernommen.", (Object)string);
         if (this.currentErrors != null) {
             this.currentErrors[this.currentScreen] = string;
         }

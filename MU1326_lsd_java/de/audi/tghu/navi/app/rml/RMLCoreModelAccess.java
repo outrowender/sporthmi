@@ -14,14 +14,12 @@ implements IRMLModelAccess {
         this.env = navigationEnv;
     }
 
-    @Override
     public void onStart() {
-        this.env.getChoiceModel(-1591867904).setValue(1);
+        this.env.getChoiceModel(401057).setValue(1);
     }
 
-    @Override
     public void onStop() {
-        this.env.getChoiceModel(-1591867904).setValue(0);
+        this.env.getChoiceModel(401057).setValue(0);
     }
 }
 

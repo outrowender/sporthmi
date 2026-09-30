@@ -4,6 +4,8 @@
 package de.audi.tghu.exlap.impl.service;
 
 import de.audi.tghu.exlap.ExlapAbstractService;
+import de.audi.tghu.exlap.ExlapListener;
+import de.audi.tghu.exlap.ListenerIterator;
 import de.audi.tghu.exlap.ifc.listener.ExlapMediaListener;
 import de.audi.tghu.exlap.ifc.service.ExlapMediaService;
 import de.audi.tghu.exlap.impl.container.AppConnectDeviceContainer;
@@ -15,66 +17,92 @@ import de.audi.tghu.exlap.impl.container.MediaPlayInfoContainer;
 import de.audi.tghu.exlap.impl.container.MediaPlayModeContainer;
 import de.audi.tghu.exlap.impl.container.MediaSourcesContainer;
 import de.audi.tghu.exlap.impl.container.TrackInfoContainer;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$1;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$2;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$3;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$4;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$5;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$6;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$7;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$8;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractMediaService$9;
 
 public abstract class ExlapAbstractMediaService
 extends ExlapAbstractService
 implements ExlapMediaService,
 ExlapMediaListener {
-    @Override
-    public void updateCurrentTrackInfo(TrackInfoContainer trackInfoContainer) {
-        this.iterateListener(21, new ExlapAbstractMediaService$1(this, trackInfoContainer));
+    public void updateCurrentTrackInfo(final TrackInfoContainer trackInfoContainer) {
+        this.iterateListener(21, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateCurrentTrackInfo(trackInfoContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateMediaPlayInfo(MediaPlayInfoContainer mediaPlayInfoContainer) {
-        this.iterateListener(22, new ExlapAbstractMediaService$2(this, mediaPlayInfoContainer));
+    public void updateMediaPlayInfo(final MediaPlayInfoContainer mediaPlayInfoContainer) {
+        this.iterateListener(22, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateMediaPlayInfo(mediaPlayInfoContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateMediaPlayMode(MediaPlayModeContainer mediaPlayModeContainer) {
-        this.iterateListener(23, new ExlapAbstractMediaService$3(this, mediaPlayModeContainer));
+    public void updateMediaPlayMode(final MediaPlayModeContainer mediaPlayModeContainer) {
+        this.iterateListener(23, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateMediaPlayMode(mediaPlayModeContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAvailableMediaSources(MediaSourcesContainer mediaSourcesContainer) {
-        this.iterateListener(27, new ExlapAbstractMediaService$4(this, mediaSourcesContainer));
+    public void updateAvailableMediaSources(final MediaSourcesContainer mediaSourcesContainer) {
+        this.iterateListener(27, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateAvailableMediaSources(mediaSourcesContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateMediaBrowserList(ListStateContainer listStateContainer) {
-        this.iterateListener(41, new ExlapAbstractMediaService$5(this, listStateContainer));
+    public void updateMediaBrowserList(final ListStateContainer listStateContainer) {
+        this.iterateListener(41, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateMediaBrowserList(listStateContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateMediaBrowserFollowMode(FollowModeContainer followModeContainer) {
-        this.iterateListener(43, new ExlapAbstractMediaService$6(this, followModeContainer));
+    public void updateMediaBrowserFollowMode(final FollowModeContainer followModeContainer) {
+        this.iterateListener(43, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateMediaBrowserFollowMode(followModeContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateMediaBrowserFolder(MediaBrowserPathContainer mediaBrowserPathContainer) {
-        this.iterateListener(47, new ExlapAbstractMediaService$7(this, mediaBrowserPathContainer));
+    public void updateMediaBrowserFolder(final MediaBrowserPathContainer mediaBrowserPathContainer) {
+        this.iterateListener(47, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateMediaBrowserFolder(mediaBrowserPathContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateCurrentTrackPath(MediaBrowserPathContainer mediaBrowserPathContainer) {
-        this.iterateListener(50, new ExlapAbstractMediaService$8(this, mediaBrowserPathContainer));
+    public void updateCurrentTrackPath(final MediaBrowserPathContainer mediaBrowserPathContainer) {
+        this.iterateListener(50, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateCurrentTrackPath(mediaBrowserPathContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAppConnectDevice(AppConnectDeviceContainer appConnectDeviceContainer) {
-        this.iterateListener(57, new ExlapAbstractMediaService$9(this, appConnectDeviceContainer));
+    public void updateAppConnectDevice(final AppConnectDeviceContainer appConnectDeviceContainer) {
+        this.iterateListener(57, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapMediaListener)exlapListener).updateAppConnectDevice(appConnectDeviceContainer);
+            }
+        });
     }
 
-    @Override
     public void resultMediaBrowserList(int n, ListPageDataContainer listPageDataContainer) {
         this.actionResult(n, 29, listPageDataContainer);
     }

@@ -11,73 +11,50 @@ import de.audi.tghu.navi.app.favorite.IFavorite;
 import org.dsi.ifc.global.NavLocation;
 
 public interface INaviFavoriteHandler {
-    default public NavLocation getFavoriteNavLocationByListIndex(int n) {
-    }
+    public NavLocation getFavoriteNavLocationByListIndex(int var1);
 
-    default public NavLocation getFavoriteNavLocationByUniqueId(long l) {
-    }
+    public NavLocation getFavoriteNavLocationByUniqueId(long var1);
 
-    default public byte[] getFavoriteNavLocationStreamByUniqueId(long l) {
-    }
+    public byte[] getFavoriteNavLocationStreamByUniqueId(long var1);
 
-    default public SDSListEntry[] getFavoriteSDSEntries() {
-    }
+    public SDSListEntry[] getFavoriteSDSEntries();
 
-    default public void addToFavorites(NavLocation navLocation, String string) {
-    }
+    public void addToFavorites(NavLocation var1, String var2);
 
-    default public void addToFavorites(NavLocation navLocation) {
-    }
+    public void addToFavorites(NavLocation var1);
 
-    default public EvoListRow getFavoriteRow(long l) {
-    }
+    public EvoListRow getFavoriteRow(long var1);
 
-    default public String getFavoriteAddress(long l) {
-    }
+    public String getFavoriteAddress(long var1);
 
-    default public IFavorite[] getFavorites() {
-    }
+    public IFavorite[] getFavorites();
 
-    default public IPoiService getPoiService() {
-    }
+    public IPoiService getPoiService();
 
-    default public void setLocationFromADB(NavLocation navLocation) {
-    }
+    public void setLocationFromADB(NavLocation var1);
 
-    default public int getOperationMode() {
-    }
+    public int getOperationMode();
 
-    default public boolean isCapacityReached() {
-    }
+    public boolean isCapacityReached();
 
-    default public void saveAddressOfEditedFavorite(NavLocation navLocation) {
-    }
+    public void saveAddressOfEditedFavorite(NavLocation var1);
 
-    default public boolean isContextEditSavedFavorite() {
-    }
+    public boolean isContextEditSavedFavorite();
 
-    default public boolean isContextHome() {
-    }
+    public boolean isContextHome();
 
-    default public boolean isContextOffice() {
-    }
+    public boolean isContextOffice();
 
-    default public HomeAddressHandler getHomeAddressHandler() {
-    }
+    public HomeAddressHandler getHomeAddressHandler();
 
-    default public HomeAddressHandler getOfficeAddressHandler() {
-    }
+    public HomeAddressHandler getOfficeAddressHandler();
 
-    default public void resetSavedTypeContext() {
-    }
+    public void resetSavedTypeContext();
 
-    default public boolean handleActionDependingOnContext(NavLocation navLocation) {
-    }
+    public boolean handleActionDependingOnContext(NavLocation var1);
 
-    default public boolean handleActionDependingOnContext(NavLocation navLocation, String string) {
-    }
+    public boolean handleActionDependingOnContext(NavLocation var1, String var2);
 
-    default public void setFavoritesContext(int n) {
-    }
+    public void setFavoritesContext(int var1);
 }
 

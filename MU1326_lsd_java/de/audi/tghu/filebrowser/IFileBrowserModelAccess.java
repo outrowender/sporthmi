@@ -12,58 +12,40 @@ import de.audi.atip.hmi.modelaccess.MatchspellerModelApp;
 import org.dsi.ifc.filebrowser.BrowsedFile;
 
 public interface IFileBrowserModelAccess {
-    default public TiledListModelApp getListModel() {
-    }
+    public TiledListModelApp getListModel();
 
-    default public ChoiceModelApp getListModelSelected() {
-    }
+    public ChoiceModelApp getListModelSelected();
 
-    default public LabelModelApp getPathLabel() {
-    }
+    public LabelModelApp getPathLabel();
 
-    default public ButtonModelApp getSelectSingleButton() {
-    }
+    public ButtonModelApp getSelectSingleButton();
 
-    default public ButtonModelApp getImportButton() {
-    }
+    public ButtonModelApp getImportButton();
 
-    default public ChoiceModelApp getFileFocused() {
-    }
+    public ChoiceModelApp getFileFocused();
 
-    default public ChoiceModelApp getSelectAllChoice() {
-    }
+    public ChoiceModelApp getSelectAllChoice();
 
-    default public ChoiceModelApp getRootFolderReachedModel() {
-    }
+    public ChoiceModelApp getRootFolderReachedModel();
 
-    default public ChoiceModelApp getNoFilesAvailable() {
-    }
+    public ChoiceModelApp getNoFilesAvailable();
 
-    default public ButtonModelApp getSearchButton() {
-    }
+    public ButtonModelApp getSearchButton();
 
-    default public ChoiceModelApp getSearchButtonDisableChoice() {
-    }
+    public ChoiceModelApp getSearchButtonDisableChoice();
 
-    default public MatchspellerModelApp getSearchSpeller() {
-    }
+    public MatchspellerModelApp getSearchSpeller();
 
-    default public ListModelApp getSearchPreviewList() {
-    }
+    public ListModelApp getSearchPreviewList();
 
-    default public TiledListModelApp getSearchFilteredList() {
-    }
+    public TiledListModelApp getSearchFilteredList();
 
-    default public ChoiceModelApp getSearchFilteredListSelected() {
-    }
+    public ChoiceModelApp getSearchFilteredListSelected();
 
-    default public boolean fileSelected(int n, BrowsedFile browsedFile) {
-    }
+    public boolean fileSelected(int var1, BrowsedFile var2);
 
-    default public boolean fileFocused(int n, BrowsedFile browsedFile) {
-    }
+    public boolean fileFocused(int var1, BrowsedFile var2);
 
-    default public boolean showCwdFullPath() {
-    }
+    public boolean showCwdFullPath();
 }
 

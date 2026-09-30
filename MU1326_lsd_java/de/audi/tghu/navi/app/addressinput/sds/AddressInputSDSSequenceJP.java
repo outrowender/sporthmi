@@ -24,11 +24,10 @@ extends AddressInputSDSSequence {
         super(spellerStack, iCommandListFactory, cityHistory, logChannel, iPreviewMap, iAddressInputForm, navigationEnv);
     }
 
-    @Override
     public void setHouseNumber(IMatchspellerModelAccess iMatchspellerModelAccess, String string, String string2, NaviServiceListener naviServiceListener) {
         HousenumberMatchspellerInputSimpleSequence housenumberMatchspellerInputSimpleSequence = this.env.getContainer().selectionCriterionAvailable(154) ? new HousenumberMatchspellerInputSimpleSequenceSdsJpKr(iMatchspellerModelAccess, this.spellerStack, this.commandListFactory, this.previewMap, this.addressInputService) : new HousenumberMatchspellerInputSequence(iMatchspellerModelAccess, this.spellerStack, this.commandListFactory, this.previewMap, this.addressInputService);
         CommandList commandList = this.getSetSDSInputCommandList(housenumberMatchspellerInputSimpleSequence, string, string2, naviServiceListener);
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#setHouseNumber").toString());
+        commandList.execute(this.CLASS_NAME + "#setHouseNumber");
     }
 }
 

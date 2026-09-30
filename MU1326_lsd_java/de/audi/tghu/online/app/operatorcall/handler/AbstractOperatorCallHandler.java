@@ -28,17 +28,14 @@ public abstract class AbstractOperatorCallHandler {
     protected final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
     protected OperatorCallModelHandlerCommon operatorCallModelHandlerCommon;
 
-    protected abstract AbstractConciergeCall createConciergeCall(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
-    }
+    protected abstract AbstractConciergeCall createConciergeCall(AbstractOperatorCallMain var1, TelephoneHandler var2, OperatorCallCommandListManager var3, NavigationHandler var4, IFrameworkAccess var5, IntelliDestOperatorCallDataProvider var6, OnlinePOICall var7, RemoteHMIService var8);
 
-    protected abstract AbstractPoiCall createPoiCall(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
-    }
+    protected abstract AbstractPoiCall createPoiCall(AbstractOperatorCallMain var1, TelephoneHandler var2, OperatorCallCommandListManager var3, NavigationHandler var4, IFrameworkAccess var5, IntelliDestOperatorCallDataProvider var6, OnlinePOICall var7, RemoteHMIService var8);
 
-    protected abstract AbstractBreakdownCall createBreakdownCall(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, OperatorCallModelHandlerCommon operatorCallModelHandlerCommon, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
-    }
+    protected abstract AbstractBreakdownCall createBreakdownCall(AbstractOperatorCallMain var1, TelephoneHandler var2, OperatorCallCommandListManager var3, NavigationHandler var4, IFrameworkAccess var5, OperatorCallModelHandlerCommon var6, IntelliDestOperatorCallDataProvider var7, OnlinePOICall var8, RemoteHMIService var9);
 
     public AbstractOperatorCallHandler(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
-        this.logChannel.log(-2137614336, "AbstractOperatorCallHandler#init remoteHMIService=%1", (Object)remoteHMIService);
+        this.logChannel.log(10000000, "AbstractOperatorCallHandler#init remoteHMIService=%1", (Object)remoteHMIService);
         this.operatorCallModelHandlerCommon = new OperatorCallModelHandlerCommon(iFrameworkAccess.getHMIService(), telephoneHandler);
         this.bCall = this.createBreakdownCall(abstractOperatorCallMain, telephoneHandler, operatorCallCommandListManager, navigationHandler, iFrameworkAccess, this.operatorCallModelHandlerCommon, intelliDestOperatorCallDataProvider, onlinePOICall, remoteHMIService);
         this.pCall = this.createPoiCall(abstractOperatorCallMain, telephoneHandler, operatorCallCommandListManager, navigationHandler, iFrameworkAccess, intelliDestOperatorCallDataProvider, onlinePOICall, remoteHMIService);
@@ -57,7 +54,7 @@ public abstract class AbstractOperatorCallHandler {
                 return this.cCall;
             }
         }
-        this.logChannel.log(-1601830656, "AbstractOperatorCallHandler#getOperatorCall: serviceType (%1) is unknown!", (long)n);
+        this.logChannel.log(100000, "AbstractOperatorCallHandler#getOperatorCall: serviceType (%1) is unknown!", (long)n);
         return null;
     }
 
@@ -203,7 +200,7 @@ public abstract class AbstractOperatorCallHandler {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "AbstractOperatorCallHandler#resetFactorySettings: invalid serviceType (%1)", (long)n);
+                this.logChannel.log(100000, "AbstractOperatorCallHandler#resetFactorySettings: invalid serviceType (%1)", (long)n);
             }
         }
     }

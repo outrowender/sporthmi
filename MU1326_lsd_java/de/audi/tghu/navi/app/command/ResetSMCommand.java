@@ -8,7 +8,7 @@ import de.audi.tghu.navi.app.command.ToggleMediatorCommand;
 public class ResetSMCommand
 extends ToggleMediatorCommand {
     public ResetSMCommand() {
-        super(689767936);
+        super(400681);
     }
 }
 

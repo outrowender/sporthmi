@@ -26,7 +26,7 @@ class SDISOnOffLineHandler {
         }
         if (this.stubCounter < this.tvUserCounter) {
             this.tvUserCounter = this.stubCounter;
-            this.log.log(-2137614336, "[SDISOnOffLineHandler.unregisterStub] stub counter was lower then user counter. Assuming SDIS crash!");
+            this.log.log(10000000, "[SDISOnOffLineHandler.unregisterStub] stub counter was lower then user counter. Assuming SDIS crash!");
         }
         return this.stubCounter == 0;
     }

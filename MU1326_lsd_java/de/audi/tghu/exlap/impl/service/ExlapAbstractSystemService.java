@@ -4,39 +4,53 @@
 package de.audi.tghu.exlap.impl.service;
 
 import de.audi.tghu.exlap.ExlapAbstractService;
+import de.audi.tghu.exlap.ExlapListener;
+import de.audi.tghu.exlap.ListenerIterator;
 import de.audi.tghu.exlap.ifc.listener.ExlapSystemListener;
 import de.audi.tghu.exlap.ifc.service.ExlapSystemService;
 import de.audi.tghu.exlap.impl.container.EncodedVehicleTypeContainer;
 import de.audi.tghu.exlap.impl.container.LanguageInfoContainer;
 import de.audi.tghu.exlap.impl.container.SkinInfoContainer;
 import de.audi.tghu.exlap.impl.container.UnitDistanceContainer;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSystemService$1;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSystemService$2;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSystemService$3;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractSystemService$4;
 
 public abstract class ExlapAbstractSystemService
 extends ExlapAbstractService
 implements ExlapSystemService,
 ExlapSystemListener {
-    @Override
-    public void updateSkinInfo(SkinInfoContainer skinInfoContainer) {
-        this.iterateListener(5, new ExlapAbstractSystemService$1(this, skinInfoContainer));
+    public void updateSkinInfo(final SkinInfoContainer skinInfoContainer) {
+        this.iterateListener(5, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSystemListener)exlapListener).updateSkinInfo(skinInfoContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateLanguageInfo(LanguageInfoContainer languageInfoContainer) {
-        this.iterateListener(6, new ExlapAbstractSystemService$2(this, languageInfoContainer));
+    public void updateLanguageInfo(final LanguageInfoContainer languageInfoContainer) {
+        this.iterateListener(6, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSystemListener)exlapListener).updateLanguageInfo(languageInfoContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateUnitDistance(UnitDistanceContainer unitDistanceContainer) {
-        this.iterateListener(13, new ExlapAbstractSystemService$3(this, unitDistanceContainer));
+    public void updateUnitDistance(final UnitDistanceContainer unitDistanceContainer) {
+        this.iterateListener(13, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSystemListener)exlapListener).updateUnitDistance(unitDistanceContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateEncodedVehicleType(EncodedVehicleTypeContainer encodedVehicleTypeContainer) {
-        this.iterateListener(51, new ExlapAbstractSystemService$4(this, encodedVehicleTypeContainer));
+    public void updateEncodedVehicleType(final EncodedVehicleTypeContainer encodedVehicleTypeContainer) {
+        this.iterateListener(51, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapSystemListener)exlapListener).updateEncodedVehicleType(encodedVehicleTypeContainer);
+            }
+        });
     }
 }
 

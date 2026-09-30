@@ -10,7 +10,6 @@ import de.audi.tghu.dsi.high.audio.DSISoundExtHigh;
 
 public class HighFacadeFactory
 implements IFacadeFactory {
-    @Override
     public DSISoundExt getDSISoundExt(LogChannel logChannel) {
         return new DSISoundExtHigh(logChannel);
     }

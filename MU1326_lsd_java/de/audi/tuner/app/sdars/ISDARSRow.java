@@ -8,16 +8,12 @@ import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.sdars.seek.AddToSeeksPossibilityEnum;
 
 public interface ISDARSRow {
-    default public void setProgramData(SdarsRadioText sdarsRadioText, int n) {
-    }
+    public void setProgramData(SdarsRadioText var1, int var2);
 
-    default public void resetPdt() {
-    }
+    public void resetPdt();
 
-    default public StationInfoExt getStation() {
-    }
+    public StationInfoExt getStation();
 
-    default public void setSeekPossibility(AddToSeeksPossibilityEnum addToSeeksPossibilityEnum, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum2, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum3, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum4) {
-    }
+    public void setSeekPossibility(AddToSeeksPossibilityEnum var1, AddToSeeksPossibilityEnum var2, AddToSeeksPossibilityEnum var3, AddToSeeksPossibilityEnum var4);
 }
 

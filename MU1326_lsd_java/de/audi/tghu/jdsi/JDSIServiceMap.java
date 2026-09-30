@@ -3,45 +3,45 @@
  */
 package de.audi.tghu.jdsi;
 
-import de.audi.tghu.jdsi.JDSIManager$DSIInstance;
-import de.audi.tghu.jdsi.JDSIServiceMap$DSINameComparer;
+import de.audi.tghu.jdsi.JDSIManager;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class JDSIServiceMap
 extends HashMap {
-    private static final int INITIAL_INSTANCE_COUNT;
-    private static final int DISTINCTNAME_ITEMS;
-    private static final int ALL_ITEMS;
-    private static final int PENDING_ITEMS;
+    private static final int INITIAL_INSTANCE_COUNT = 4;
+    private static final int DISTINCTNAME_ITEMS = 0;
+    private static final int ALL_ITEMS = 1;
+    private static final int PENDING_ITEMS = 2;
 
     public JDSIServiceMap(int n) {
         super(n);
     }
 
-    void ensureCapacity(JDSIManager$DSIInstance jDSIManager$DSIInstance) {
+    void ensureCapacity(JDSIManager.DSIInstance dSIInstance) {
         int n;
-        JDSIManager$DSIInstance[] jDSIManager$DSIInstanceArray = (JDSIManager$DSIInstance[])this.get(jDSIManager$DSIInstance.getServiceName());
-        for (n = 4; jDSIManager$DSIInstance.getInstanceID() >= n; n *= 2) {
+        JDSIManager.DSIInstance[] dSIInstanceArray = (JDSIManager.DSIInstance[])this.get(dSIInstance.getServiceName());
+        for (n = 4; dSIInstance.getInstanceID() >= n; n *= 2) {
         }
-        if (jDSIManager$DSIInstanceArray == null) {
-            jDSIManager$DSIInstanceArray = new JDSIManager$DSIInstance[n];
-            this.put(jDSIManager$DSIInstance.getServiceName(), jDSIManager$DSIInstanceArray);
-        } else if (n > jDSIManager$DSIInstanceArray.length) {
-            JDSIManager$DSIInstance[] jDSIManager$DSIInstanceArray2 = new JDSIManager$DSIInstance[n];
-            System.arraycopy((Object)jDSIManager$DSIInstanceArray, 0, (Object)jDSIManager$DSIInstanceArray2, 0, jDSIManager$DSIInstanceArray.length);
-            this.put(jDSIManager$DSIInstance.getServiceName(), jDSIManager$DSIInstanceArray2);
+        if (dSIInstanceArray == null) {
+            dSIInstanceArray = new JDSIManager.DSIInstance[n];
+            this.put(dSIInstance.getServiceName(), dSIInstanceArray);
+        } else if (n > dSIInstanceArray.length) {
+            JDSIManager.DSIInstance[] dSIInstanceArray2 = new JDSIManager.DSIInstance[n];
+            System.arraycopy((Object)dSIInstanceArray, 0, (Object)dSIInstanceArray2, 0, dSIInstanceArray.length);
+            this.put(dSIInstance.getServiceName(), dSIInstanceArray2);
         }
     }
 
-    void mapDSIInstance(JDSIManager$DSIInstance jDSIManager$DSIInstance) {
-        if (jDSIManager$DSIInstance != null) {
-            this.ensureCapacity(jDSIManager$DSIInstance);
-            ((JDSIManager$DSIInstance[])this.get((Object)jDSIManager$DSIInstance.getServiceName()))[jDSIManager$DSIInstance.getInstanceID()] = jDSIManager$DSIInstance;
+    void mapDSIInstance(JDSIManager.DSIInstance dSIInstance) {
+        if (dSIInstance != null) {
+            this.ensureCapacity(dSIInstance);
+            ((JDSIManager.DSIInstance[])this.get((Object)dSIInstance.getServiceName()))[dSIInstance.getInstanceID()] = dSIInstance;
         }
     }
 
@@ -57,7 +57,7 @@ extends HashMap {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 if (objectArray[i2] == null) continue;
                 if (n == 2) {
-                    if (((JDSIManager$DSIInstance)objectArray[i2]).getPendingDSIHandler() == null) continue;
+                    if (((JDSIManager.DSIInstance)objectArray[i2]).getPendingDSIHandler() == null) continue;
                     arrayList.add(objectArray[i2]);
                     continue;
                 }
@@ -73,12 +73,12 @@ extends HashMap {
         String[][] stringArray = null;
         if (list != null) {
             stringArray = new String[list.size()][2];
-            JDSIManager$DSIInstance jDSIManager$DSIInstance = null;
+            JDSIManager.DSIInstance dSIInstance = null;
             for (int i2 = 0; i2 < list.size(); ++i2) {
-                jDSIManager$DSIInstance = (JDSIManager$DSIInstance)list.get(i2);
-                if (jDSIManager$DSIInstance == null) continue;
-                stringArray[i2][0] = jDSIManager$DSIInstance.getServiceName();
-                stringArray[i2][1] = Integer.toString(jDSIManager$DSIInstance.getInstanceID());
+                dSIInstance = (JDSIManager.DSIInstance)list.get(i2);
+                if (dSIInstance == null) continue;
+                stringArray[i2][0] = dSIInstance.getServiceName();
+                stringArray[i2][1] = Integer.toString(dSIInstance.getInstanceID());
             }
         }
         return stringArray;
@@ -89,14 +89,14 @@ extends HashMap {
         String[][] stringArray = null;
         if (list != null) {
             stringArray = new String[list.size()][2];
-            JDSIManager$DSIInstance jDSIManager$DSIInstance = null;
+            JDSIManager.DSIInstance dSIInstance = null;
             for (int i2 = 0; i2 < list.size(); ++i2) {
                 String string;
-                jDSIManager$DSIInstance = (JDSIManager$DSIInstance)list.get(i2);
-                if (jDSIManager$DSIInstance == null) continue;
-                String string2 = jDSIManager$DSIInstance.getServiceName();
+                dSIInstance = (JDSIManager.DSIInstance)list.get(i2);
+                if (dSIInstance == null) continue;
+                String string2 = dSIInstance.getServiceName();
                 try {
-                    Field field = jDSIManager$DSIInstance.getService().getClass().getField("VERSION");
+                    Field field = dSIInstance.getService().getClass().getField("VERSION");
                     string = (String)field.get(null);
                 }
                 catch (Exception exception) {
@@ -105,7 +105,7 @@ extends HashMap {
                 stringArray[i2][0] = string2.substring(string2.lastIndexOf(46) + 1);
                 stringArray[i2][1] = string;
             }
-            Arrays.sort((Object[])stringArray, new JDSIServiceMap$DSINameComparer(null));
+            Arrays.sort((Object[])stringArray, new DSINameComparer());
         }
         if (stringArray == null) {
             stringArray = new String[0][0];
@@ -113,12 +113,39 @@ extends HashMap {
         return stringArray;
     }
 
-    JDSIManager$DSIInstance getDSIInstance(String string, int n) {
-        JDSIManager$DSIInstance[] jDSIManager$DSIInstanceArray = (JDSIManager$DSIInstance[])this.get(string);
-        if (jDSIManager$DSIInstanceArray != null && jDSIManager$DSIInstanceArray.length > n) {
-            return jDSIManager$DSIInstanceArray[n];
+    JDSIManager.DSIInstance getDSIInstance(String string, int n) {
+        JDSIManager.DSIInstance[] dSIInstanceArray = (JDSIManager.DSIInstance[])this.get(string);
+        if (dSIInstanceArray != null && dSIInstanceArray.length > n) {
+            return dSIInstanceArray[n];
         }
         return null;
+    }
+
+    private static class DSINameComparer
+    implements Comparator {
+        private DSINameComparer() {
+        }
+
+        public int compare(Object object, Object object2) {
+            int n = 0;
+            if (object == null && object2 == null) {
+                n = 0;
+            } else if (object == null) {
+                n = 1;
+            } else if (object2 == null) {
+                n = -1;
+            } else {
+                try {
+                    String string = ((String[])object)[0];
+                    String string2 = ((String[])object)[0];
+                    n = string.compareToIgnoreCase(string2);
+                }
+                catch (ClassCastException classCastException) {
+                    n = 0;
+                }
+            }
+            return n;
+        }
     }
 }
 

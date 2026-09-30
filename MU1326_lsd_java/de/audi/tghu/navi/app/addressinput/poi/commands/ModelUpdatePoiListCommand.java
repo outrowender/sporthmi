@@ -15,7 +15,6 @@ extends NavCommand {
         this.modelAccess = iPoiScreenOnUpdatePoiList;
     }
 
-    @Override
     public void execute() {
         LIValueList lIValueList = this.dsiResponseContainer.getPOIValueList();
         this.modelAccess.onUpdatePoiList(lIValueList);

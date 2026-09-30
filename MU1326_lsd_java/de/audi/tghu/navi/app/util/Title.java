@@ -12,17 +12,17 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class Title {
-    private static final char INFOS_MARKER;
-    private static final char INFOS_SEPARATOR;
-    private static final int STRING_POS_ICONINDEX;
-    private static final int STRING_POS_SUBINDEX;
-    private static final int STRING_POS_ADDITIONALFLAGS;
-    private static final int STRING_POS_RLOCATOR_VALID;
-    private static final int STRING_POS_RLOCATOR_ID;
-    private static final int STRING_POS_RLOCATOR_URL;
-    private static final int STRING_POS_MAX;
-    private static final int INVALID;
-    private static final int VALID;
+    private static final char INFOS_MARKER = '@';
+    private static final char INFOS_SEPARATOR = '|';
+    private static final int STRING_POS_ICONINDEX = 0;
+    private static final int STRING_POS_SUBINDEX = 1;
+    private static final int STRING_POS_ADDITIONALFLAGS = 2;
+    private static final int STRING_POS_RLOCATOR_VALID = 3;
+    private static final int STRING_POS_RLOCATOR_ID = 4;
+    private static final int STRING_POS_RLOCATOR_URL = 5;
+    private static final int STRING_POS_MAX = 6;
+    private static final int INVALID = 0;
+    private static final int VALID = 1;
     private String defaultTitle;
     private int iconIndex;
     private int subIndex;
@@ -87,7 +87,7 @@ public class Title {
     private final void initializeTitle(NavigationEnv navigationEnv, String string) {
         boolean bl;
         if (string == null || string.length() == 0) {
-            navigationEnv.getLogChannel().log(-1601830656, "Title#initializeTitle() - invalid persistentTitle string: '%1' ", (Object)string);
+            navigationEnv.getLogChannel().log(100000, "Title#initializeTitle() - invalid persistentTitle string: '%1' ", (Object)string);
             this.defaultTitle = "";
             return;
         }
@@ -145,7 +145,7 @@ public class Title {
         this.locator_valid = 0;
         this.locator_id = 0;
         this.locator_url = null;
-        if (LocationFormatter.getLocationType(navLocation) == 0x800000) {
+        if (LocationFormatter.getLocationType(navLocation) == 32768) {
             object = Util.getLocationAccessor(navLocation);
             this.iconIndex = object.getIconIndex();
             this.subIndex = object.getSubIconIndex();
@@ -201,7 +201,7 @@ public class Title {
         } else {
             String string11 = LocationFormatter.formatGeocoordinates(navLocation);
             if (!Util.isEmpty(string3)) {
-                if (!Util.isEmpty(string2) && Util.isAdditionalFlagSet(navLocation, 96)) {
+                if (!Util.isEmpty(string2) && Util.isAdditionalFlagSet(navLocation, 0x60000000)) {
                     buffer.append(string2);
                     buffer.append(" ");
                 }
@@ -230,10 +230,10 @@ public class Title {
                     buffer.append(", ");
                     buffer.append(this.defaultCityCenterText);
                     if (this.env.getLogChannel().isDebug2()) {
-                        this.env.getLogChannel().log(14808325, "Title#formatDefaultTitleECE() - CityCenterText: %1 ", (Object)this.defaultCityCenterText);
+                        this.env.getLogChannel().log(100000000, "Title#formatDefaultTitleECE() - CityCenterText: %1 ", (Object)this.defaultCityCenterText);
                     }
                 }
-                if (!Util.isEmpty(string4) && Util.isAdditionalFlagSet(navLocation, 144)) {
+                if (!Util.isEmpty(string4) && Util.isAdditionalFlagSet(navLocation, -1879048192)) {
                     buffer.append(", ");
                     buffer.append(string4);
                 }
@@ -247,7 +247,7 @@ public class Title {
             }
         }
         if (this.env.getLogChannel().isDebug2()) {
-            this.env.getLogChannel().log(14808325, "Title#formatDefaultTitleECE() - %1 ", (Object)buffer.toString());
+            this.env.getLogChannel().log(100000000, "Title#formatDefaultTitleECE() - %1 ", (Object)buffer.toString());
         }
         return buffer.toString();
     }

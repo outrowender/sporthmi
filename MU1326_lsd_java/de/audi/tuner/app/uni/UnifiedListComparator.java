@@ -6,21 +6,20 @@ package de.audi.tuner.app.uni;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.uni.UniListRow;
-import de.audi.tuner.app.uni.UniStationList$CompServiceLookup;
+import de.audi.tuner.app.uni.UniStationList;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import java.util.Comparator;
 
 class UnifiedListComparator
 implements Comparator {
     private final LanguageManager langMngr;
-    private final UniStationList$CompServiceLookup compServiceLookup;
+    private final UniStationList.CompServiceLookup compServiceLookup;
 
-    UnifiedListComparator(LanguageManager languageManager, UniStationList$CompServiceLookup uniStationList$CompServiceLookup) {
+    UnifiedListComparator(LanguageManager languageManager, UniStationList.CompServiceLookup compServiceLookup) {
         this.langMngr = languageManager;
-        this.compServiceLookup = uniStationList$CompServiceLookup;
+        this.compServiceLookup = compServiceLookup;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         String string;
         UnifiedStationExt unifiedStationExt = ((UniListRow)object).getStation();

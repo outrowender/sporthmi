@@ -4,28 +4,20 @@
 package de.audi.tghu.tts;
 
 public interface TTSManagerListener {
-    default public void sessionStarted() {
-    }
+    public void sessionStarted();
 
-    default public void sessionStopped() {
-    }
+    public void sessionStopped();
 
-    default public void speakingFinished() {
-    }
+    public void speakingFinished();
 
-    default public void speakingAborted() {
-    }
+    public void speakingAborted();
 
-    default public void sessionPaused() {
-    }
+    public void sessionPaused();
 
-    default public void sessionResumed() {
-    }
+    public void sessionResumed();
 
-    default public void speakingFailed() {
-    }
+    public void speakingFailed();
 
-    default public void audioAvailable(boolean bl) {
-    }
+    public void audioAvailable(boolean var1);
 }
 

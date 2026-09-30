@@ -4,7 +4,7 @@
 package de.audi.tghu.navi.app.sds;
 
 import de.audi.atip.hmi.model.list.BaseListModelApp;
-import de.audi.atip.interapp.NaviService$NaviSUIDetails;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.sds.ISUIListRowBuilder;
@@ -22,20 +22,19 @@ implements ISUIModelAccess {
         this.suiListRowBuilder = iSUIListRowBuilder;
     }
 
-    @Override
-    public byte fillNaviSUIList(NaviService$NaviSUIDetails[] naviService$NaviSUIDetailsArray) {
+    public byte fillNaviSUIList(NaviService.NaviSUIDetails[] naviSUIDetailsArray) {
         BaseListModelApp baseListModelApp = this.vdeSUIListModel.getEmptyCopy();
-        if (naviService$NaviSUIDetailsArray == null) {
-            this.logChannel.log(-1601830656, "SUIModelAccess#fillNaviSUIList() - No entries available, clearing list! ");
+        if (naviSUIDetailsArray == null) {
+            this.logChannel.log(100000, "SUIModelAccess#fillNaviSUIList() - No entries available, clearing list! ");
             this.vdeSUIListModel.update(baseListModelApp);
             return 1;
         }
-        this.logChannel.log(-2137614336, "SUIModelAccess#fillNaviSUIList( length: %1 )", (long)naviService$NaviSUIDetailsArray.length);
-        int n = naviService$NaviSUIDetailsArray.length;
+        this.logChannel.log(10000000, "SUIModelAccess#fillNaviSUIList( length: %1 )", (long)naviSUIDetailsArray.length);
+        int n = naviSUIDetailsArray.length;
         for (int i2 = 0; i2 < n; ++i2) {
-            NaviService$NaviSUIDetails naviService$NaviSUIDetails = naviService$NaviSUIDetailsArray[i2];
-            this.logChannel.log(-2137614336, "SUIModelAccess#fillNaviSUIList() - naviSUIDetails: %1 ", (Object)naviService$NaviSUIDetails);
-            baseListModelApp.append(this.suiListRowBuilder.buildEvoListRow(naviService$NaviSUIDetails, i2));
+            NaviService.NaviSUIDetails naviSUIDetails = naviSUIDetailsArray[i2];
+            this.logChannel.log(10000000, "SUIModelAccess#fillNaviSUIList() - naviSUIDetails: %1 ", (Object)naviSUIDetails);
+            baseListModelApp.append(this.suiListRowBuilder.buildEvoListRow(naviSUIDetails, i2));
         }
         this.vdeSUIListModel.update(baseListModelApp);
         return 0;

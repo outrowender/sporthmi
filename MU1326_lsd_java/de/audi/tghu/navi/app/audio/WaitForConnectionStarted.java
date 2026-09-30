@@ -14,10 +14,9 @@ extends AudioState {
         super(navigationEnv, audioStateMachine, speechManager);
     }
 
-    @Override
     public void startConnection(int n, int n2) {
         if (AudioStateMachine.isNaviAudioConnection(n)) {
-            this.logChannel.log(-2137614336, "WaitForConnectionStarted#startConnection( %1 ) ", (long)n);
+            this.logChannel.log(10000000, "WaitForConnectionStarted#startConnection( %1 ) ", (long)n);
             int n3 = this.stateMachine.getAudioState();
             if (n3 == 3 || n3 == 1) {
                 this.fadeToConnection(n);

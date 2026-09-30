@@ -26,7 +26,6 @@ extends NavCommand {
         this.modelAccessHelper = iAddressInputFormModelAccessHelper;
     }
 
-    @Override
     public void execute() {
         if (this.modelAccess == null) {
             if (this.modelAccessHelper == null) {
@@ -76,7 +75,7 @@ extends NavCommand {
     }
 
     private boolean canStreetBeEntered() {
-        return this.env.getContainer().selectionCriterionAvailable(3) || this.env.getContainer().selectionCriterionAvailable(0xE800000) && this.env.getContainer().refinementCriterionAvailable(2);
+        return this.env.getContainer().selectionCriterionAvailable(3) || this.env.getContainer().selectionCriterionAvailable(32782) && this.env.getContainer().refinementCriterionAvailable(2);
     }
 
     private boolean canHousenumberBeEntered() {
@@ -88,7 +87,7 @@ extends NavCommand {
     }
 
     private boolean canPOINameBeEntered() {
-        return this.env.getContainer().selectionCriterionAvailable(0x3800000);
+        return this.env.getContainer().selectionCriterionAvailable(32771);
     }
 
     private boolean canPrefectureBeEntered() {

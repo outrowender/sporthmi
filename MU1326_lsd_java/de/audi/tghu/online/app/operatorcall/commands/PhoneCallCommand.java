@@ -12,11 +12,9 @@ extends AbstractCommand {
         super(abstractOperatorCall, string);
     }
 
-    @Override
     public void execute() {
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }

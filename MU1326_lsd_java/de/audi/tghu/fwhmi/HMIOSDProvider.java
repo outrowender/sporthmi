@@ -15,17 +15,14 @@ implements IOSDDataProvider {
         this.dispatcher = eventDispatcherAdmin;
     }
 
-    @Override
     public String getName() {
         return "HMI Event Queue Statistics";
     }
 
-    @Override
     public String[] getData() {
         return this.dispatcher.getStatisticData();
     }
 
-    @Override
     public void setTestSupport(ITestSupportSession iTestSupportSession) {
     }
 }

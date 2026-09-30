@@ -16,7 +16,7 @@ import de.audi.tghu.swdl.app.list.SwdlListItemModule;
 
 public class SwdlListHandlerFile
 extends AbstractSwdlListHandlerDeviceInfo {
-    static final int ITEM_CELL_COUNT;
+    static final int ITEM_CELL_COUNT = 9;
 
     public SwdlListHandlerFile(SwdlEnv swdlEnv, IDeviceInfoManager iDeviceInfoManager, ListModelApp listModelApp) {
         super(iDeviceInfoManager, swdlEnv, listModelApp, listModelApp.getID(), 9);
@@ -30,7 +30,6 @@ extends AbstractSwdlListHandlerDeviceInfo {
         return swdlListItemFile;
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = super.getNewRow();
         listCellArray[4] = new IntegerListCell(0, 1);

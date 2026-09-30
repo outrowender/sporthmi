@@ -27,16 +27,16 @@ AddSelectedDestinationAtIndexCommandListCreator {
     private IStartGuidanceManager routeManager;
     private DemoModeManager demoModeManager;
     private IDestinationHandler destinationHandler;
-    public static final int SINGLE_DEST_MODE;
-    public static final int STOP_OVER_MODE;
-    public static final int REPLACE_STOP_OVER_MODE;
-    public static final int REPLACE_ALL_DEST;
-    public static final int INDEX_MODE;
+    public static final int SINGLE_DEST_MODE = 1;
+    public static final int STOP_OVER_MODE = 2;
+    public static final int REPLACE_STOP_OVER_MODE = 3;
+    public static final int REPLACE_ALL_DEST = 4;
+    public static final int INDEX_MODE = 5;
     private IAlternativeRouteStateManager alternativeRouteStateManager;
     private MapInterface mapInterface;
     private IPoiService poiService;
     private final CombiBAPListener combiBAPListener;
-    private static final int STOP_OVER_INDEX;
+    private static final int STOP_OVER_INDEX = 0;
     private volatile int mode = 1;
     private volatile int destinationIndex;
     private volatile boolean replace;
@@ -61,12 +61,12 @@ AddSelectedDestinationAtIndexCommandListCreator {
     }
 
     public void cleanUp() {
-        this.env.getButtonModel(-1927346688).setButtonListener(null);
-        this.env.getButtonModel(1562314240).setButtonListener(null);
-        this.env.getButtonModel(-1893792256).setButtonListener(null);
-        this.env.getButtonModel(-1910569472).setButtonListener(null);
-        this.env.getButtonModel(1780352512).setButtonListener(null);
-        this.env.getButtonModel(1797129728).setButtonListener(null);
+        this.env.getButtonModel(401293).setButtonListener(null);
+        this.env.getButtonModel(401245).setButtonListener(null);
+        this.env.getButtonModel(401295).setButtonListener(null);
+        this.env.getButtonModel(401294).setButtonListener(null);
+        this.env.getButtonModel(401002).setButtonListener(null);
+        this.env.getButtonModel(401003).setButtonListener(null);
         this.env = null;
         this.destinationHandler = null;
         this.mapInterface = null;
@@ -75,31 +75,28 @@ AddSelectedDestinationAtIndexCommandListCreator {
     }
 
     private void initListeners() {
-        this.env.getButtonModel(-1927346688).setButtonListener(this);
-        this.env.getButtonModel(1562314240).setButtonListener(this);
-        this.env.getButtonModel(-1893792256).setButtonListener(this);
-        this.env.getButtonModel(-1910569472).setButtonListener(this);
-        this.env.getButtonModel(1780352512).setButtonListener(this);
-        this.env.getButtonModel(1797129728).setButtonListener(this);
+        this.env.getButtonModel(401293).setButtonListener(this);
+        this.env.getButtonModel(401245).setButtonListener(this);
+        this.env.getButtonModel(401295).setButtonListener(this);
+        this.env.getButtonModel(401294).setButtonListener(this);
+        this.env.getButtonModel(401002).setButtonListener(this);
+        this.env.getButtonModel(401003).setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped. modelId: %1, keyId: %2", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped. modelId: %1, keyId: %2", (long)n, (long)n2);
         if (this.poiService != null) {
             this.poiService.setRouteGuidanceStartedByUser(true);
         } else {
-            this.env.getPOILogChannel().log(-1601830656, "StartRouteGuidanceDependentHMIListener#keyTyped - poiService is null!");
+            this.env.getPOILogChannel().log(100000, "StartRouteGuidanceDependentHMIListener#keyTyped - poiService is null!");
         }
-        if (n == 1780352512) {
+        if (n == 401002) {
             if (this.destinationHandler.getDestinationType() == 0) {
                 if (this.env.getContainer().isRgActive()) {
                     this.startGuidance(this.mode, false);
@@ -111,9 +108,9 @@ AddSelectedDestinationAtIndexCommandListCreator {
             } else if (this.destinationHandler.getDestinationType() == 2) {
                 this.startGuidance(this.destinationHandler.getSegmentID(), false);
             } else {
-                this.env.getLogChannel().log(-2137614336, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped unknown DestinationType %1", (long)this.destinationHandler.getDestinationType());
+                this.env.getLogChannel().log(10000000, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped unknown DestinationType %1", (long)this.destinationHandler.getDestinationType());
             }
-        } else if (n == 1797129728) {
+        } else if (n == 401003) {
             if (this.destinationHandler.getDestinationType() == 0) {
                 if (this.env.getContainer().isRgActive()) {
                     this.startGuidance(this.mode, true);
@@ -125,19 +122,19 @@ AddSelectedDestinationAtIndexCommandListCreator {
             } else if (this.destinationHandler.getDestinationType() == 2) {
                 this.startGuidance(this.destinationHandler.getSegmentID(), true);
             } else {
-                this.env.getLogChannel().log(-2137614336, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped unknown DestinationType %1", (long)this.destinationHandler.getDestinationType());
+                this.env.getLogChannel().log(10000000, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped unknown DestinationType %1", (long)this.destinationHandler.getDestinationType());
             }
         } else {
-            if (n == -1927346688) {
+            if (n == 401293) {
                 this.mode = 1;
-            } else if (n == 1562314240) {
+            } else if (n == 401245) {
                 this.mode = 2;
-            } else if (n == -1893792256) {
+            } else if (n == 401295) {
                 this.mode = 3;
-            } else if (n == -1910569472) {
+            } else if (n == 401294) {
                 this.mode = 1;
             } else {
-                this.env.getLogChannel().log(-1601830656, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped() - unsupported modelID: %1", (long)n);
+                this.env.getLogChannel().log(100000, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped() - unsupported modelID: %1", (long)n);
                 return;
             }
             if (!this.env.getContainer().isEtcDemoMode()) {
@@ -145,11 +142,10 @@ AddSelectedDestinationAtIndexCommandListCreator {
             }
         }
         this.combiBAPListener.popupButtonPressed();
-        this.env.getLogChannel().log(-2137614336, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped. modelId: %1, keyId: %2 - fire model event", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "[RouteGuidance] StartRouteGuidanceDependentHMIListener#keyTyped. modelId: %1, keyId: %2 - fire model event", (long)n, (long)n2);
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -161,7 +157,7 @@ AddSelectedDestinationAtIndexCommandListCreator {
         if (bl) {
             commandList2 = this.demoModeManager.getCommandListToTurnDemoMode(false);
         }
-        this.env.getLogChannel().log(-1601830656, "StartRouteGuidanceDependentHMIListener#startGuidance #### Starting Route Guidance in mode = %1, Demomode will be turned to = %2", (Object)new StringBuffer().append(n).append("").toString(), (Object)new StringBuffer().append(bl).append("").toString());
+        this.env.getLogChannel().log(100000, "StartRouteGuidanceDependentHMIListener#startGuidance #### Starting Route Guidance in mode = %1, Demomode will be turned to = %2", (Object)(n + ""), (Object)(bl + ""));
         switch (n) {
             case 3: {
                 if (Util.alternativeRoutesWithStopOverAreDisabled(this.env.getFramework())) {
@@ -192,7 +188,7 @@ AddSelectedDestinationAtIndexCommandListCreator {
                 break;
             }
             default: {
-                this.env.getLogChannel().log(-1601830656, "StartRouteGuidanceDependentHMIListener#startGuidance- unknown mode: %1", (long)n);
+                this.env.getLogChannel().log(100000, "StartRouteGuidanceDependentHMIListener#startGuidance- unknown mode: %1", (long)n);
                 Object var6_7 = null;
                 return;
             }
@@ -231,7 +227,6 @@ AddSelectedDestinationAtIndexCommandListCreator {
         commandList.execute("StartRouteGuidanceDependentHMIListener#startGuidanceToRoute(NavSegmentID, boolean)");
     }
 
-    @Override
     public CommandList createAddSelectedDestinationAtIndexCommandList(int n, boolean bl) {
         this.mode = 5;
         this.destinationIndex = n;
@@ -245,14 +240,12 @@ AddSelectedDestinationAtIndexCommandListCreator {
         return this.routeManager.getStartGuidance(this.destinationHandler.getLocation(), n, bl, false);
     }
 
-    @Override
     public void addAsStopOver(NavLocation navLocation, int n, boolean bl, boolean bl2, CommandList commandList) {
-        this.env.getLogChannel().log(-1601830656, "StartRouteGuidanceDependentHMIListener#addAsStopOver --> NOT IMPLEMENTED");
+        this.env.getLogChannel().log(100000, "StartRouteGuidanceDependentHMIListener#addAsStopOver --> NOT IMPLEMENTED");
     }
 
-    @Override
     public void addAsStopOver(NavLocation navLocation, int n, boolean bl, CommandList commandList) {
-        this.env.getLogChannel().log(-1601830656, "StartRouteGuidanceDependentHMIListener#addAsStopOver --> NOT IMPLEMENTED");
+        this.env.getLogChannel().log(100000, "StartRouteGuidanceDependentHMIListener#addAsStopOver --> NOT IMPLEMENTED");
     }
 }
 

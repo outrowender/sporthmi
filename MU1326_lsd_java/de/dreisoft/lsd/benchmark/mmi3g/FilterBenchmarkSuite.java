@@ -3,14 +3,14 @@
  */
 package de.dreisoft.lsd.benchmark.mmi3g;
 
-import de.dreisoft.lsd.benchmark.mmi3g.FilterBenchmarkSuite$DummyServiceTrackerCustomizer;
-import de.dreisoft.lsd.benchmark.mmi3g.FilterBenchmarkSuite$Suite;
+import de.dreisoft.lsd.ServiceInfo;
 import de.dreisoft.lsd.benchmark.mmi3g.MMI3gBenchmarkSuite;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -21,10 +21,9 @@ extends MMI3gBenchmarkSuite {
     }
 
     public static FilterBenchmarkSuite getInstance() {
-        return FilterBenchmarkSuite$Suite.instance;
+        return Suite.instance;
     }
 
-    @Override
     public void runTests() {
         System.out.println(new StringBuffer().append("run ").append(this.name).append(" tests").toString());
         if (bundle != null) {
@@ -68,7 +67,7 @@ extends MMI3gBenchmarkSuite {
             }
             this.setStartTag(6, n2, string2);
             for (n = 0; n < n2; ++n) {
-                serviceTrackerArray[n] = new ServiceTracker(bundleContext, filter, (ServiceTrackerCustomizer)new FilterBenchmarkSuite$DummyServiceTrackerCustomizer(this, new StringBuffer().append(string2).append(" no").append(n).toString(), false));
+                serviceTrackerArray[n] = new ServiceTracker(bundleContext, filter, (ServiceTrackerCustomizer)new DummyServiceTrackerCustomizer(new StringBuffer().append(string2).append(" no").append(n).toString(), false));
             }
             this.setEndTag(6, n2, string2);
             this.setStartTag(7, n2, string2);
@@ -79,6 +78,40 @@ extends MMI3gBenchmarkSuite {
             for (n = 0; n < n2; ++n) {
                 serviceTrackerArray[n].close();
             }
+        }
+    }
+
+    private static class Suite {
+        public static FilterBenchmarkSuite instance = new FilterBenchmarkSuite();
+
+        private Suite() {
+        }
+    }
+
+    private class DummyServiceTrackerCustomizer
+    implements ServiceTrackerCustomizer {
+        private final String name;
+        private final boolean setTags;
+
+        public DummyServiceTrackerCustomizer(String string, boolean bl) {
+            this.name = string;
+            this.setTags = bl;
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            ServiceInfo serviceInfo = (ServiceInfo)serviceReference;
+            serviceInfo.getServiceInterfaces();
+            long l = serviceInfo.getServiceID();
+            if (this.setTags) {
+                FilterBenchmarkSuite.this.setTag(8, new StringBuffer().append(this.name).append(": service s").append(l).append(" added").toString());
+            }
+            return null;
+        }
+
+        public void modifiedService(ServiceReference serviceReference, Object object) {
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
         }
     }
 }

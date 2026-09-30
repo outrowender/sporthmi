@@ -17,9 +17,8 @@ implements HMIAudioServiceListener {
         this.cmdListManager = iRadioCmdManager;
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
-        this.lc.log(-2137614336, "[HMIAudioServiceCmdListener.updateAMAvailable] available:%1", bl);
+        this.lc.log(10000000, "[HMIAudioServiceCmdListener.updateAMAvailable] available:%1", bl);
         try {
             this.cmdListManager.getActiveAudioCmd().updateAMAvailable(bl);
         }
@@ -28,9 +27,8 @@ implements HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
-        this.lc.log(-2137614336, "[HMIAudioServiceCmdListener.stopConnection] AC:%1 HT:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[HMIAudioServiceCmdListener.stopConnection] AC:%1 HT:%2", (long)n, (long)n2);
         try {
             this.cmdListManager.getActiveAudioCmd().stopConnection(n, n2);
         }
@@ -39,9 +37,8 @@ implements HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
-        this.lc.log(-2137614336, "[HMIAudioServiceCmdListener.pauseConnection] AC:%1 HT:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[HMIAudioServiceCmdListener.pauseConnection] AC:%1 HT:%2", (long)n, (long)n2);
         try {
             this.cmdListManager.getActiveAudioCmd().pauseConnection(n, n2);
         }
@@ -50,9 +47,8 @@ implements HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void startConnection(int n, int n2) {
-        this.lc.log(-2137614336, "[HMIAudioServiceCmdListener.startConnection] AC:%1 HT:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[HMIAudioServiceCmdListener.startConnection] AC:%1 HT:%2", (long)n, (long)n2);
         try {
             this.cmdListManager.getActiveAudioCmd().startConnection(n, n2);
         }
@@ -61,7 +57,6 @@ implements HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
         this.lc.log(10000, "[HMIAudioServiceCmdListener.errorConnection] AC:%1 HT:%2", (long)n, (long)n2);
         try {
@@ -72,9 +67,8 @@ implements HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
-        this.lc.log(-2137614336, "[HMIAudioServiceCmdListener.fadedIn] AC:%1 HT:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[HMIAudioServiceCmdListener.fadedIn] AC:%1 HT:%2", (long)n, (long)n2);
         try {
             this.cmdListManager.getActiveAudioCmd().fadedIn(n, n2);
         }
@@ -83,9 +77,8 @@ implements HMIAudioServiceListener {
         }
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
-        this.lc.log(-2137614336, "[HMIAudioServiceCmdListener.updateVolumeLock] AC:%1 HT:%2 VL:%3", (long)n, (long)n2, bl);
+        this.lc.log(10000000, "[HMIAudioServiceCmdListener.updateVolumeLock] AC:%1 HT:%2 VL:%3", (long)n, (long)n2, bl);
     }
 }
 

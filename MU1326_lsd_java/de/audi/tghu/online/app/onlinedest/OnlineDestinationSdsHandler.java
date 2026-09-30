@@ -22,7 +22,6 @@ implements IOnlineSDSMyAudiService {
         this.application = onlineDestinationController;
     }
 
-    @Override
     public AdbEntry selectContactById(long l) {
         PortalADBEntry portalADBEntry = this.models.getPortalEntryById(l);
         this.writeSDSModels(portalADBEntry);

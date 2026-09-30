@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.car;
 
 public interface IUpdateVehicleStandstillObserver {
-    default public void updateVehicleStandstill(boolean bl) {
-    }
+    public void updateVehicleStandstill(boolean var1);
 }
 

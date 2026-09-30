@@ -9,25 +9,18 @@ import de.audi.tuner.ifc.IStationListHandler;
 import de.audi.tuner.ifc.IStoreStationHandler;
 
 public interface ITunerGUIHandler {
-    default public IStationListHandler getStationListHandler() {
-    }
+    public IStationListHandler getStationListHandler();
 
-    default public IPowerEvent getPoPowerStateListener() {
-    }
+    public IPowerEvent getPoPowerStateListener();
 
-    default public boolean tuneById(long l, int n) {
-    }
+    public boolean tuneById(long var1, int var3);
 
-    default public TunerObjectContainer[] getStationList() {
-    }
+    public TunerObjectContainer[] getStationList();
 
-    default public TunerObjectContainer[] getStationList(int n) {
-    }
+    public TunerObjectContainer[] getStationList(int var1);
 
-    default public TunerObjectContainer getCurrentStation() {
-    }
+    public TunerObjectContainer getCurrentStation();
 
-    default public void register(IStoreStationHandler iStoreStationHandler) {
-    }
+    public void register(IStoreStationHandler var1);
 }
 

@@ -14,32 +14,27 @@ implements DSIPoiOnlineSearchListener {
 
     public OnlineDSIDefaultListener(LogChannel logChannel) {
         this.logger = logChannel;
-        logChannel.log(1078071040, "OnlineDSIDefaultListener#OnlineDSIDefaultListener()");
+        logChannel.log(1000000, "OnlineDSIDefaultListener#OnlineDSIDefaultListener()");
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.log(1078071040, "OnlineDSIDefaultListener#asyncException()");
+        this.logger.log(1000000, "OnlineDSIDefaultListener#asyncException()");
     }
 
-    @Override
     public void poiResult(int n, int n2, int n3) {
-        this.logger.log(1078071040, "OnlineDSIDefaultListener#poiResult()");
+        this.logger.log(1000000, "OnlineDSIDefaultListener#poiResult()");
     }
 
-    @Override
     public void poiSpellingSuggestion(int n, String string, String[] stringArray) {
-        this.logger.log(1078071040, "OnlineDSIDefaultListener#poiSpellingSuggestion()");
+        this.logger.log(1000000, "OnlineDSIDefaultListener#poiSpellingSuggestion()");
     }
 
-    @Override
     public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) {
-        this.logger.log(1078071040, "OnlineDSIDefaultListener#poiValueList()");
+        this.logger.log(1000000, "OnlineDSIDefaultListener#poiValueList()");
     }
 
-    @Override
     public void precheckDynamicPOICategoryResponse(int n, OSRServiceState oSRServiceState) {
-        this.logger.log(1078071040, "OnlineDSIDefaultListener#precheckDynamicPOICategoryResponse()");
+        this.logger.log(1000000, "OnlineDSIDefaultListener#precheckDynamicPOICategoryResponse()");
     }
 }
 

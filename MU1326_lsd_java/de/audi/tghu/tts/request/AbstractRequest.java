@@ -13,14 +13,14 @@ import de.audi.tghu.tts.request.TTSResult;
 
 public abstract class AbstractRequest
 implements TimerListener {
-    public static final String SYSTEM_PROPERTY_TTS_REQ;
-    private static final long TIMER_VALUE;
-    protected static final int RT_SPEAK;
-    protected static final int RT_SPEAK_SEPARATELY;
-    protected static final int RT_ABORT;
-    protected static final int RT_INIT;
-    protected static final int RT_SET_LANGUAGE;
-    protected static final int RT_PLAY_BEEP;
+    public static final String SYSTEM_PROPERTY_TTS_REQ = "ttsRequestTimer";
+    private static final long TIMER_VALUE = 60000L;
+    protected static final int RT_SPEAK = 0;
+    protected static final int RT_SPEAK_SEPARATELY = 1;
+    protected static final int RT_ABORT = 2;
+    protected static final int RT_INIT = 3;
+    protected static final int RT_SET_LANGUAGE = 4;
+    protected static final int RT_PLAY_BEEP = 5;
     protected short sourceId;
     protected int type;
     protected RequestQueue requestProcessor;
@@ -36,31 +36,30 @@ implements TimerListener {
         this.type = n;
         this.dsiCaller = dSITTSCaller;
         this.ttsListener = tTSListener;
-        this.timer = new Timer("TTSRequestTimer", Long.getLong("ttsRequestTimer", 0), true, this);
+        this.timer = new Timer("TTSRequestTimer", Long.getLong(SYSTEM_PROPERTY_TTS_REQ, 60000L), true, this);
     }
 
     public void process() {
         AbstractRequest abstractRequest = this.requestProcessor.getRunningRequest();
         if (abstractRequest == null) {
-            this.logCh.log(-2137614336, "[AbstractRequest#process] No running request.");
+            this.logCh.log(10000000, "[AbstractRequest#process] No running request.");
             if (this.requestProcessor.isEmpty()) {
-                this.logCh.log(-2137614336, "[AbstractRequest#process] Empty request queue, set requst to running.");
+                this.logCh.log(10000000, "[AbstractRequest#process] Empty request queue, set requst to running.");
                 this.execute();
                 this.requestProcessor.setRunningRequest(this);
             } else {
-                this.logCh.log(-2137614336, "[AbstractRequest#process] Should not happen, do nothing.");
+                this.logCh.log(10000000, "[AbstractRequest#process] Should not happen, do nothing.");
             }
         } else {
-            this.logCh.log(-2137614336, "[AbstractRequest#process] Adding request to queue.");
+            this.logCh.log(10000000, "[AbstractRequest#process] Adding request to queue.");
             this.requestProcessor.addRequest(this);
         }
     }
 
-    protected abstract void execute() {
-    }
+    protected abstract void execute();
 
     protected void finish() {
-        this.logCh.log(-2137614336, "[AbstractRequest#finish] Called.");
+        this.logCh.log(10000000, "[AbstractRequest#finish] Called.");
         this.timer.cancel();
         this.requestProcessor.finishRequest();
     }
@@ -74,53 +73,51 @@ implements TimerListener {
     }
 
     public String toString() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
     public TTSResult responseSpeakText(int n) {
-        this.logCh.log(-2137614336, "[AbstractRequest#responseSpeakText] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#responseSpeakText] Called, result: %1", (long)n);
         return new TTSResult(null, 1);
     }
 
     public TTSResult responseSpeakPrompt(int n) {
-        this.logCh.log(-2137614336, "[AbstractRequest#responseSpeakPrompt] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#responseSpeakPrompt] Called, result: %1", (long)n);
         return new TTSResult(null, 1);
     }
 
     public TTSResult responseAudioTrigger(short s, int n) {
-        this.logCh.log(-2137614336, "[AbstractRequest#responseAudioTrigger] Called, sourceID: %1, result: %2", (long)s, (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#responseAudioTrigger] Called, sourceID: %1, result: %2", (long)s, (long)n);
         return new TTSResult(null, 1);
     }
 
     public TTSResult responsePlayTone(int n) {
-        this.logCh.log(-2137614336, "[AbstractRequest#responsePlayTone] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#responsePlayTone] Called, result: %1", (long)n);
         return new TTSResult(null, 1);
     }
 
     public TTSResult updateAudioRequest(int n, int n2) {
-        this.logCh.log(-2137614336, "[AbstractRequest#updateAudioRequest] Called, audioInfo: %1", (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#updateAudioRequest] Called, audioInfo: %1", (long)n);
         return new TTSResult(null, 1);
     }
 
     public TTSResult responseInit(int n) {
-        this.logCh.log(-2137614336, "[AbstractRequest#responseInit] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#responseInit] Called, result: %1", (long)n);
         return new TTSResult(null, 1);
     }
 
     public TTSResult responseSetLanguage(int n) {
-        this.logCh.log(-2137614336, "[AbstractRequest#responseSetLanguage] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[AbstractRequest#responseSetLanguage] Called, result: %1", (long)n);
         return new TTSResult(null, 1);
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logCh.log(-2137614336, "[AbstractRequest#fireTimer] Called, stop request object.");
+        this.logCh.log(10000000, "[AbstractRequest#fireTimer] Called, stop request object.");
         this.finish();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.logCh.log(-2137614336, "[AbstractRequest#cancelTimer] Called.");
+        this.logCh.log(10000000, "[AbstractRequest#cancelTimer] Called.");
     }
 
     public static boolean isAbortableByLanguageChange(int n) {

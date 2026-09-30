@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.car;
 
 public interface IUpdateDisplayDayNightObserver {
-    default public void updateDisplayDayNightDesign(boolean bl) {
-    }
+    public void updateDisplayDayNightDesign(boolean var1);
 }
 

@@ -18,7 +18,6 @@ implements IFocusProvider {
         this.favoritesList = tVFavoritesList;
     }
 
-    @Override
     public AbstractStationList getFocusedList(int n) {
         return n == 0 ? this.stationList : this.favoritesList;
     }

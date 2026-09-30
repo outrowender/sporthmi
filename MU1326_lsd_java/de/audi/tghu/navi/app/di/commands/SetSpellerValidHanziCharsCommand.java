@@ -14,11 +14,10 @@ extends NavCommand {
         this.matchspellerModelApp = matchspellerModelApp;
     }
 
-    @Override
     public void execute() {
         String string = this.dsiResponseContainer.getLispNextValidCharacters();
         int n = this.dsiResponseContainer.getLispNextValidCharactersCount();
-        this.logger.log(-2137614336, "SetSpellerValidHanziCharsCommand#execute() setValidHanziChars() with hanzichars = %1, amount = %2", (Object)string, (long)n);
+        this.logger.log(10000000, "SetSpellerValidHanziCharsCommand#execute() setValidHanziChars() with hanzichars = %1, amount = %2", (Object)string, (long)n);
         this.matchspellerModelApp.setValidHanziChars(string, n);
         this.getCommandList().commandFinished();
     }

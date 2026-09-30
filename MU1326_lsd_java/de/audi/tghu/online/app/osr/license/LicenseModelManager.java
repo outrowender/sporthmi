@@ -20,12 +20,12 @@ import java.util.List;
 import org.dsi.ifc.online.OSRLicense;
 
 public abstract class LicenseModelManager {
-    protected static final int LIST_RECORD_SET;
-    protected static final int LIST_NAME_FIELD;
-    protected static final int LIST_CURRENT_STATUS_FIELD;
-    protected static final int LIST_DATE_NEXT_FIELD;
-    protected static final int LIST_LAYOUT_FIELD;
-    protected static final int LIST_EXPIRE_DATE_FIELD;
+    protected static final int LIST_RECORD_SET = 0;
+    protected static final int LIST_NAME_FIELD = 1;
+    protected static final int LIST_CURRENT_STATUS_FIELD = 2;
+    protected static final int LIST_DATE_NEXT_FIELD = 3;
+    protected static final int LIST_LAYOUT_FIELD = 4;
+    protected static final int LIST_EXPIRE_DATE_FIELD = 5;
     protected HMIService hmiService;
     protected BaseListModelApp baseListModel;
     protected LogChannel log;
@@ -63,11 +63,9 @@ public abstract class LicenseModelManager {
     public void initButtonModel(int n, ButtonListener buttonListener) {
     }
 
-    public abstract void setLicenseAvailableStatus(int n) {
-    }
+    public abstract void setLicenseAvailableStatus(int var1);
 
-    public abstract void initChoiceModel(int n, ChoiceListener choiceListener) {
-    }
+    public abstract void initChoiceModel(int var1, ChoiceListener var2);
 
     protected String getStringFromDateTime(OSRLicense oSRLicense) {
         return null;
@@ -84,29 +82,29 @@ public abstract class LicenseModelManager {
             case 0: {
                 n2 = 1;
                 n3 = 3;
-                this.log.log(-2137614336, "LicensingModelManager#setServiceListDownloaded: showing service");
+                this.log.log(10000000, "LicensingModelManager#setServiceListDownloaded: showing service");
                 break;
             }
             case 1: {
                 n2 = 1;
                 n3 = -1;
-                this.log.log(-2137614336, "LicensingModelManager#setServiceListDownloaded: showing license screen");
+                this.log.log(10000000, "LicensingModelManager#setServiceListDownloaded: showing license screen");
                 break;
             }
             case 2: {
                 n2 = 0;
                 n3 = 0;
-                this.log.log(-2137614336, "LicensingModelManager#setServiceListDownloaded: showing 'Please wait' screen");
+                this.log.log(10000000, "LicensingModelManager#setServiceListDownloaded: showing 'Please wait' screen");
                 break;
             }
             case 3: {
                 n2 = 2;
                 n3 = 0;
-                this.log.log(-2137614336, "LicensingModelManager#setServiceListDownloaded: showing error screen");
+                this.log.log(10000000, "LicensingModelManager#setServiceListDownloaded: showing error screen");
                 break;
             }
             default: {
-                this.log.log(-2137614336, "LicensingModelManager#setServiceListDownloaded: invalid state");
+                this.log.log(10000000, "LicensingModelManager#setServiceListDownloaded: invalid state");
             }
         }
         ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(3947);
@@ -117,14 +115,12 @@ public abstract class LicenseModelManager {
         this.flushLicenseExpiredGroup();
     }
 
-    public abstract void setLabelForEnteredApplication(String string) {
-    }
+    public abstract void setLabelForEnteredApplication(String var1);
 
     public void setLicenseExpirationDetail(int n) {
     }
 
-    public abstract void setListContent(BaseListModelApp baseListModelApp, List list, String string, int n) {
-    }
+    public abstract void setListContent(BaseListModelApp var1, List var2, String var3, int var4);
 
     public void handleWarnPopups() {
     }
@@ -144,7 +140,7 @@ public abstract class LicenseModelManager {
     }
 
     public boolean isESimUsed() {
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(-601479680);
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2500316);
         return choiceModelApp.getValue() != 0;
     }
 
@@ -169,7 +165,7 @@ public abstract class LicenseModelManager {
 
     protected void setLicenseListRow(String string, EvoListRow evoListRow, BaseListModelApp baseListModelApp) {
         int n = this.getRowIndex(string);
-        this.log.log(-2137614336, "LicenseModelManager#setLicenseEntryInList() rowIndex=%1, row=%2", (Object)Integer.toString(n), (Object)evoListRow);
+        this.log.log(10000000, "LicenseModelManager#setLicenseEntryInList() rowIndex=%1, row=%2", (Object)Integer.toString(n), (Object)evoListRow);
         if (n >= baseListModelApp.getLength()) {
             baseListModelApp.append(evoListRow);
         } else {

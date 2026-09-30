@@ -22,56 +22,46 @@ implements TTSListener {
         this.bufferedText = string;
     }
 
-    @Override
     public void sessionStarted() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#sessionStarted] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#sessionStarted] Called. ");
     }
 
-    @Override
     public void sessionStopped() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#sessionStopped] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#sessionStopped] Called. ");
     }
 
-    @Override
     public void speakingFinished() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#speakingFinished] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#speakingFinished] Called. ");
     }
 
-    @Override
     public void speakingAborted() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#speakingAborted] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#speakingAborted] Called. ");
     }
 
-    @Override
     public void speakingPaused() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#speakingPaused] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#speakingPaused] Called. ");
     }
 
-    @Override
     public void sessionPaused() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#sessionPaused] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#sessionPaused] Called. ");
         this.singleSpeaker.abortSpeaking();
     }
 
-    @Override
     public void sessionResumed() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#resumeSpeakingPossible] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#resumeSpeakingPossible] Called. ");
         this.singleSpeaker.speak(this.bufferedText);
     }
 
-    @Override
     public void speakingFailed() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#speakingFailed] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#speakingFailed] Called. ");
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#audioAvailable] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#audioAvailable] Called. ");
     }
 
-    @Override
     public void speakingStarted() {
-        this.logCh.log(-2137614336, "[TTSSingleSpeakerDefaultListener#speakingStarted] Called. ");
+        this.logCh.log(10000000, "[TTSSingleSpeakerDefaultListener#speakingStarted] Called. ");
     }
 }
 

@@ -59,7 +59,6 @@ IStandardController {
         this.hasNadModuleFeedback = iFrameworkAccess.getSysConstManager().getSysConst(463) == 0;
     }
 
-    @Override
     public void init() {
         this.hmiListener = new OnlineEvoStandardHmiListener(this.log, this);
         this.modelHandler = new OnlineEvoStandardModelHandler(this.hmiService, this.log, this.i18nHandler);
@@ -68,10 +67,9 @@ IStandardController {
         this.modelHandler.init();
         this.powerManager = new OnlinePowerManagerListener(this.hmiService, this.log, this.shutdownPopupId, this.framework.getPowerMgr());
         this.powerManager.setPrivacyMode(this.privacyModeIsActive);
-        this.log.log(1078071040, "AbstractStandardController#init finished");
+        this.log.log(1000000, "AbstractStandardController#init finished");
     }
 
-    @Override
     public void setMobileKeyLicenseListener(IMobileKeyLicenseListener iMobileKeyLicenseListener) {
         this.mobileKeyLicenseListener = iMobileKeyLicenseListener;
         iMobileKeyLicenseListener.updateMobileKeyLicense(this.mobileKeyLicenseValid);
@@ -80,11 +78,11 @@ IStandardController {
     private void extractMobileKeyLicence(Service[] serviceArray) {
         Object object;
         boolean bl;
-        this.log.log(-2137614336, "GreyServiceHighController#extractMobileKeyLicence called.");
+        this.log.log(10000000, "GreyServiceHighController#extractMobileKeyLicence called.");
         Service service = null;
         for (bl = false; bl < serviceArray.length; bl += 1) {
             if (!"mobilekey_sales_v1".equals(serviceArray[bl].getId())) continue;
-            this.log.log(1078071040, "GreyServiceHighController#extractMobileKeyLicence: found mobile key entry.");
+            this.log.log(1000000, "GreyServiceHighController#extractMobileKeyLicence: found mobile key entry.");
             service = serviceArray[bl];
             break;
         }
@@ -93,24 +91,23 @@ IStandardController {
             int n = ((License)object).getState();
             bl = n == 2 || n == 4;
         }
-        this.log.log(1078071040, "GreyServiceHighController#extractMobileKeyLicence: licensed: %1", bl);
+        this.log.log(1000000, "GreyServiceHighController#extractMobileKeyLicence: licensed: %1", bl);
         this.mobileKeyLicenseValid = bl;
         if (this.mobileKeyLicenseListener != null) {
             this.mobileKeyLicenseListener.updateMobileKeyLicense(bl);
         } else {
-            this.log.log(1078071040, "GreyServiceHighController#extractMobileKeyLicence: mobileKeyStatusDisplayController is null!");
+            this.log.log(1000000, "GreyServiceHighController#extractMobileKeyLicence: mobileKeyStatusDisplayController is null!");
         }
-        object = this.hmiService.getChoiceModel(2015306496);
+        object = this.hmiService.getChoiceModel(2301816);
         if (object != null) {
             object.setValue(bl ? 0 : 1);
         } else {
-            this.log.log(-1601830656, "GreyServiceHighController#extractMobileKeyLicence: license model is null!");
+            this.log.log(100000, "GreyServiceHighController#extractMobileKeyLicence: license model is null!");
         }
     }
 
-    @Override
     public void setPrivacyModeFeatureAvailable(boolean bl, PrivacyFeatureStorageAccess privacyFeatureStorageAccess) {
-        this.log.log(1078071040, "AbstractStandardController#setPrivacyModeFeatureAvailable: %1", bl);
+        this.log.log(1000000, "AbstractStandardController#setPrivacyModeFeatureAvailable: %1", bl);
         this.privacyModeFeatureAvailable = bl;
         this.privacyFeatureStorageAccess = privacyFeatureStorageAccess;
         if (this.eniService != null) {
@@ -118,18 +115,16 @@ IStandardController {
         }
     }
 
-    @Override
     public void initiateHmiJump() {
     }
 
-    @Override
     public void changeApplicationState(boolean bl) {
         Service service = this.modelHandler.getCurrentApplication();
         if (service == null) {
-            this.log.log(1078071040, "AbstractStandardController#changeApplicationState invalidApplication (null)");
+            this.log.log(1000000, "AbstractStandardController#changeApplicationState invalidApplication (null)");
             return;
         }
-        this.log.log(1078071040, "AbstractStandardController#changeApplicationState %1 with ID %2 to %3", (Object)service.getName(), (Object)service.getId(), (Object)bl);
+        this.log.log(1000000, "AbstractStandardController#changeApplicationState %1 with ID %2 to %3", (Object)service.getName(), (Object)service.getId(), (Object)bl);
         if (this.eniService == null) {
             this.log.log(10000, "AbstractStandardController#changeApplicationState no eniService available");
             return;
@@ -141,9 +136,8 @@ IStandardController {
         }
     }
 
-    @Override
     public void setEniServiceOnline(ENIServiceOnline eNIServiceOnline) {
-        this.log.log(1078071040, "AbstractStandardController#setEniServiceOnline eniService set: %1", (Object)eNIServiceOnline);
+        this.log.log(1000000, "AbstractStandardController#setEniServiceOnline eniService set: %1", (Object)eNIServiceOnline);
         this.eniService = eNIServiceOnline;
         eNIServiceOnline.setPrivacyModeFeatureAvailable(this.privacyModeFeatureAvailable);
         if (this.initialPrivacyModePending) {
@@ -152,20 +146,17 @@ IStandardController {
         }
     }
 
-    @Override
     public ENIServiceOnlineListener getEniServiceListener() {
         return this;
     }
 
-    @Override
     public void setRemoteHmiService(RemoteHMIService remoteHMIService) {
         this.remoteHmiService = remoteHMIService;
         this.modelHandler.setRemoteHmiService(remoteHMIService);
     }
 
-    @Override
     public void onServiceList(Service[] serviceArray) {
-        this.log.log(-2137614336, "AbstractStandardController#onServiceList: getting CGW services %1", (long)serviceArray.length);
+        this.log.log(10000000, "AbstractStandardController#onServiceList: getting CGW services %1", (long)serviceArray.length);
         this.modelHandler.updateServiceList(serviceArray);
         this.services = serviceArray;
         if (this.licenseCollectionService != null) {
@@ -184,7 +175,7 @@ IStandardController {
         Buffer buffer3 = new Buffer();
         Buffer buffer4 = new Buffer();
         if (serviceArray == null) {
-            this.log.log(-2137614336, "AbstractStandardController#sendCGWServicesToBEM: given Services are NULL!");
+            this.log.log(10000000, "AbstractStandardController#sendCGWServicesToBEM: given Services are NULL!");
         }
         buffer.append(serviceArray.length);
         buffer.append(" received: ");
@@ -221,7 +212,7 @@ IStandardController {
                 this.remoteHmiService.getDiagnosisComponent().update(buffer.toString(), 13);
             }
         } else {
-            this.log.log(-2137614336, "AbstractStandardController#sendCGWUserInfoToBEM: given Users are NULL!");
+            this.log.log(10000000, "AbstractStandardController#sendCGWUserInfoToBEM: given Users are NULL!");
         }
     }
 
@@ -259,7 +250,6 @@ IStandardController {
         }
     }
 
-    @Override
     public void onUserList(User[] userArray) {
         this.modelHandler.setCgwUserListStatus(true);
         this.modelHandler.updateUserList(userArray);
@@ -267,89 +257,78 @@ IStandardController {
         this.powerManager.indicateUsersAvailable(userArray != null && userArray.length > 0);
     }
 
-    @Override
     public void onMonitorings(int n, int n2, int n3) {
         this.modelHandler.updateAlertServices(n, n2, n3);
     }
 
-    @Override
     public void triggerMainUserSetUsingVehiclePINResponse(int n, int n2) {
         this.modelHandler.setMainUserResponse(n, n2);
     }
 
-    @Override
     public void triggerMainUserResetResponse(boolean bl) {
         int n = bl ? 0 : 1;
         this.modelHandler.resetUserResponse(n);
     }
 
-    @Override
     public void triggerUpdateUserListResponse(boolean bl) {
         this.modelHandler.setCgwUserListStatus(bl);
     }
 
-    @Override
     public void setMainUser(String string, String string2) {
-        this.log.log(1078071040, "AbstractStandardController#setMainUser %1 with pwd: %2", (Object)string, (Object)string2);
+        this.log.log(1000000, "AbstractStandardController#setMainUser %1 with pwd: %2", (Object)string, (Object)string2);
         this.modelHandler.resetLoginModels();
         if (this.eniService == null) {
-            this.log.log(1078071040, "AbstractStandardController#setMainUser no eniService! aborting");
+            this.log.log(1000000, "AbstractStandardController#setMainUser no eniService! aborting");
             return;
         }
         this.eniService.triggerPairMainUserUsingVehiclePIN(string, string2);
     }
 
-    @Override
     public void resetMainUser() {
-        this.log.log(1078071040, "AbstractStandardController#resetMainUser");
+        this.log.log(1000000, "AbstractStandardController#resetMainUser");
         this.modelHandler.resetLogoutModels();
         if (this.eniService == null) {
-            this.log.log(1078071040, "AbstractStandardController#resetMainUser no eniService! aborting");
+            this.log.log(1000000, "AbstractStandardController#resetMainUser no eniService! aborting");
             return;
         }
         this.eniService.triggerMainUserReset();
     }
 
-    @Override
     public void setLicenseCollectionService(LicenseCollectionService licenseCollectionService) {
-        this.log.log(1078071040, "AbstractStandardController#setLicenseCollectionService: Called");
+        this.log.log(1000000, "AbstractStandardController#setLicenseCollectionService: Called");
         this.licenseCollectionService = licenseCollectionService;
         if (licenseCollectionService != null && this.services != null) {
             licenseCollectionService.setLicensesFromCGW(this.services);
         }
     }
 
-    @Override
     public void setServiceListenerDelegate(IBAPServiceListener iBAPServiceListener) {
-        this.log.log(1078071040, "AbstractStandardController#setServiceListenerDelegate: Called");
+        this.log.log(1000000, "AbstractStandardController#setServiceListenerDelegate: Called");
         this.serviceListenerDelegate = iBAPServiceListener;
         if (this.serviceListenerDelegate != null && this.services != null) {
             this.serviceListenerDelegate.onServiceList(this.services);
         }
     }
 
-    @Override
     public Object getPowerManagerListener() {
         return this.powerManager;
     }
 
-    @Override
     public void triggerUpdateUserlist() {
         if (this.eniService != null) {
-            this.log.log(1078071040, "AbstractStandardController#triggerUpDateUserlist");
+            this.log.log(1000000, "AbstractStandardController#triggerUpDateUserlist");
             this.eniService.triggerUpdateUserList();
         }
     }
 
-    @Override
     public void triggerPrivacyMode(boolean bl) {
         if (!this.privacyModeFeatureAvailable) {
-            this.log.log(-1601830656, "AbstractStandardController#triggerPrivacyMode: Privacy mode feature is not available! Call is ignored.");
+            this.log.log(100000, "AbstractStandardController#triggerPrivacyMode: Privacy mode feature is not available! Call is ignored.");
             return;
         }
         this.privacyModeIsActive = bl;
         if (this.eniService != null) {
-            this.log.log(1078071040, "AbstractStandardController#triggerPrivacyMode");
+            this.log.log(1000000, "AbstractStandardController#triggerPrivacyMode");
             this.hmiService.getChoiceModel(5619).setValue(1);
             this.eniService.triggerPrivacyMode(bl);
             this.needsCgwSync = false;
@@ -359,25 +338,21 @@ IStandardController {
         this.powerManager.setPrivacyMode(bl);
     }
 
-    @Override
     public void triggerSubmitChangesToBackend() {
         if (this.eniService != null) {
-            this.log.log(1078071040, "AbstractStandardController#triggerSubmitChangesToBackend");
+            this.log.log(1000000, "AbstractStandardController#triggerSubmitChangesToBackend");
             this.eniService.triggerSubmitChangesToBackend();
         }
     }
 
-    @Override
     public void clearAuthentication() {
         this.modelHandler.clearAuthentication();
     }
 
-    @Override
     public LicenseCollectionService getLicenseCollectionService() {
         return this.licenseCollectionService;
     }
 
-    @Override
     public void setAlertServicesPrivacyDisclaimerTextVisible(boolean bl) {
         this.modelHandler.setAlertServicesPrivacyDisclaimerTextVisibleChoice(bl);
     }
@@ -386,7 +361,6 @@ IStandardController {
         this.hasNadModuleFeedback = true;
     }
 
-    @Override
     public void onPrivacySetup(PrivacySetup privacySetup) {
         boolean bl = this.needsCgwSync = privacySetup.isPrivacyModeOn() != this.privacyModeIsActive;
         if (this.needsCgwSync && this.hasNadModuleFeedback) {
@@ -400,19 +374,17 @@ IStandardController {
         }
     }
 
-    @Override
     public void onRemoteProcessPrivacyModeReturnedToIdle() {
         if (this.privacyFeatureStateChanged) {
-            this.log.log(1078071040, "AbstractStandardController#onRemoteProcessPrivacyModeReturnedToIdle: Idle ignored because of privacy feature!");
+            this.log.log(1000000, "AbstractStandardController#onRemoteProcessPrivacyModeReturnedToIdle: Idle ignored because of privacy feature!");
             return;
         }
         this.hmiService.getChoiceModel(5619).setValue(0);
     }
 
-    @Override
     public void updatePrivacyModeFeatureAvailable(boolean bl) {
         if (bl == this.privacyModeFeatureAvailable) {
-            this.log.log(1078071040, "AbstractStandardController#updatePrivacyModeFeatureAvailable: nothing changed.");
+            this.log.log(1000000, "AbstractStandardController#updatePrivacyModeFeatureAvailable: nothing changed.");
             return;
         }
         this.privacyFeatureStateChanged = true;

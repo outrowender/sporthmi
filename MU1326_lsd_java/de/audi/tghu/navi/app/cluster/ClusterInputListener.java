@@ -10,21 +10,24 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.HomeAddressHandler;
 import de.audi.tghu.navi.app.Navigation;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.cluster.ClusterInputListener$State;
+import de.audi.tghu.navi.app.PersistentState;
 import de.audi.tghu.navi.app.cluster.ClusterService;
 import de.audi.tghu.navi.app.cluster.ClusterViewMode;
 import de.audi.tghu.navi.app.command.RGStopGuidanceCommand;
 import de.audi.tghu.navi.app.command.via.RemoveViaPointsCommand;
 import de.audi.tghu.navi.app.util.Util;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import org.dsi.ifc.global.NavLocation;
 
 public class ClusterInputListener
 implements ChoiceListener {
-    protected static final int MENU_ITEM_COMPASS;
-    protected static final int MENU_ITEM_KDK;
-    protected static final int MENU_ITEM_MAP;
-    protected static final int MENU_ITEM_HOME;
-    protected static final int MENU_ITEM_STOP_RG;
+    protected static final int MENU_ITEM_COMPASS = 0;
+    protected static final int MENU_ITEM_KDK = 1;
+    protected static final int MENU_ITEM_MAP = 2;
+    protected static final int MENU_ITEM_HOME = 3;
+    protected static final int MENU_ITEM_STOP_RG = 4;
     protected final NavigationEnv env;
     protected LogChannel logChannel;
     protected ClusterService service;
@@ -35,10 +38,9 @@ implements ChoiceListener {
         this.service = clusterService;
         this.logChannel = navigationEnv.getLogChannel();
         this.navigation = Navigation.getInstance();
-        navigationEnv.getChoiceModel(203097600).setChoiceListener(this);
+        navigationEnv.getChoiceModel(400140).setChoiceListener(this);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 400140: {
@@ -84,7 +86,7 @@ implements ChoiceListener {
             this.fireEventNoHome();
             return false;
         }
-        this.logChannel.log(-2137614336, "ClusterInputListener#startGuidanceToHomeAddress(): %1", (Object)navLocation);
+        this.logChannel.log(10000000, "ClusterInputListener#startGuidanceToHomeAddress(): %1", (Object)navLocation);
         CommandList commandList = this.navigation.getRouteManager().getStartRouteGuidanceToSingleDestinationSequence(navLocation);
         commandList.execute("ClusterInputListener.startGuidanceToHomeAddress");
         return true;
@@ -98,21 +100,20 @@ implements ChoiceListener {
         boolean bl2 = homeAddressHandler.isHomeAddressAvailable();
         boolean bl3 = bl = navLocation == null ? false : navLocation.isPositionValid();
         if (!bl2 || !bl) {
-            this.logChannel.log(!bl2 ? 10000 : 1078071040, "ClusterInputListener#isHomeAddressValid( %1 ) - %2", (Object)navLocation, (Object)(!bl2 ? "Home status unknown!" : "Home location is unavailable or not navigable!"));
+            this.logChannel.log(!bl2 ? 10000 : 1000000, "ClusterInputListener#isHomeAddressValid( %1 ) - %2", (Object)navLocation, (Object)(!bl2 ? "Home status unknown!" : "Home location is unavailable or not navigable!"));
             return false;
         }
         return true;
     }
 
     protected void stopRouteGuidance() {
-        this.logChannel.log(-2137614336, "ClusterInputListener#stopRouteGuidance()");
+        this.logChannel.log(10000000, "ClusterInputListener#stopRouteGuidance()");
         CommandList commandList = this.navigation.getCommandListFactory().createCommandList(1);
         commandList.add(new RGStopGuidanceCommand());
         commandList.add(new RemoveViaPointsCommand());
         commandList.execute("ClusterInputListener.stopRouteGuidance");
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
@@ -121,10 +122,10 @@ implements ChoiceListener {
     }
 
     public void setFavoredViewMode(int n, boolean bl) {
-        ClusterInputListener$State clusterInputListener$State;
+        State state;
         IStorageAccess iStorageAccess;
         int n2;
-        this.logChannel.log(-2137614336, "ClusterInputListener#setFavoredViewMode( %2, %1 )", bl, (Object)ClusterViewMode.viewModeToString(n));
+        this.logChannel.log(10000000, "ClusterInputListener#setFavoredViewMode( %2, %1 )", bl, (Object)ClusterViewMode.viewModeToString(n));
         int n3 = this.validateViewMode(n);
         switch (n3) {
             case 2: {
@@ -139,21 +140,21 @@ implements ChoiceListener {
                 n2 = 0;
             }
         }
-        this.env.getChoiceModel(203097600).setValue(n2);
+        this.env.getChoiceModel(400140).setValue(n2);
         this.service.getClusterViewMode().setFavoredViewMode(n3);
-        if (bl && (iStorageAccess = this.env.getFramework().getStorageMgr()) != null && (clusterInputListener$State = new ClusterInputListener$State(iStorageAccess, this.logChannel, this.env)).getFavoredViewMode() != n3) {
-            clusterInputListener$State.setFavoredViewMode(n3);
-            clusterInputListener$State.serializeAndWrite();
+        if (bl && (iStorageAccess = this.env.getFramework().getStorageMgr()) != null && (state = new State(iStorageAccess, this.logChannel, this.env)).getFavoredViewMode() != n3) {
+            state.setFavoredViewMode(n3);
+            state.serializeAndWrite();
         }
     }
 
     public void loadState() {
-        this.logChannel.log(-2137614336, "ClusterInputListener#loadState()");
+        this.logChannel.log(10000000, "ClusterInputListener#loadState()");
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         if (iStorageAccess != null) {
-            ClusterInputListener$State clusterInputListener$State = new ClusterInputListener$State(iStorageAccess, this.logChannel, this.env);
-            clusterInputListener$State.readAndDeserialize();
-            this.setFavoredViewMode(clusterInputListener$State.getFavoredViewMode(), false);
+            State state = new State(iStorageAccess, this.logChannel, this.env);
+            state.readAndDeserialize();
+            this.setFavoredViewMode(state.getFavoredViewMode(), false);
         }
     }
 
@@ -173,13 +174,13 @@ implements ChoiceListener {
     private int validateViewMode(int n) {
         int n2 = n;
         if (Util.isClusterKDKOnly(this.env.getFramework())) {
-            this.logChannel.log(-2137614336, "ClusterInputListener#validateViewMode( ) - KDK-only configuration, using default view mode");
+            this.logChannel.log(10000000, "ClusterInputListener#validateViewMode( ) - KDK-only configuration, using default view mode");
             return ClusterInputListener.getDefaultViewMode(this.env);
         }
         if (Util.isClusterMapAvailable(this.env.getFramework())) {
             if (Util.isClusterMapFPK(this.env.getFramework())) {
                 if (n != 0 && n != 3) {
-                    this.logChannel.log(-2137614336, "ClusterInputListener#validateViewMode( %1 ) - invalid view mode for FPK! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
+                    this.logChannel.log(10000000, "ClusterInputListener#validateViewMode( %1 ) - invalid view mode for FPK! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
                     return ClusterInputListener.getDefaultViewMode(this.env);
                 }
             } else if (Util.isClusterMapMOST(this.env.getFramework())) {
@@ -187,13 +188,13 @@ implements ChoiceListener {
                     return 2;
                 }
                 if (n != 2 && n != 3) {
-                    this.logChannel.log(-2137614336, "ClusterInputListener#validateViewMode( %1 ) - invalid view mode for MOST-Cluster! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
+                    this.logChannel.log(10000000, "ClusterInputListener#validateViewMode( %1 ) - invalid view mode for MOST-Cluster! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
                     return ClusterInputListener.getDefaultViewMode(this.env);
                 }
             }
         } else {
             if (Util.isClusterMMI(this.env.getFramework())) {
-                this.logChannel.log(-2137614336, "ClusterInputListener#validateViewMode( %1 ) - Using Default for MMI-Cluster: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
+                this.logChannel.log(10000000, "ClusterInputListener#validateViewMode( %1 ) - Using Default for MMI-Cluster: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
                 return ClusterInputListener.getDefaultViewMode(this.env);
             }
             if (Util.isClusterRGI(this.env.getFramework())) {
@@ -201,30 +202,26 @@ implements ChoiceListener {
                     return 1;
                 }
                 if (n != 1) {
-                    this.logChannel.log(-2137614336, "ClusterInputListener#validateViewMode( %1 ) - invalid view mode for RGI-Cluster! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
+                    this.logChannel.log(10000000, "ClusterInputListener#validateViewMode( %1 ) - invalid view mode for RGI-Cluster! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
                     return ClusterInputListener.getDefaultViewMode(this.env);
                 }
             } else {
-                this.logChannel.log(-2137614336, "ClusterInputListener#validateViewMode( %1 ) - unknow cluster! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
+                this.logChannel.log(10000000, "ClusterInputListener#validateViewMode( %1 ) - unknow cluster! Using Default: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(ClusterInputListener.getDefaultViewMode(this.env)));
                 return ClusterInputListener.getDefaultViewMode(this.env);
             }
         }
         return n2;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -233,8 +230,54 @@ implements ChoiceListener {
         this.service = null;
     }
 
-    static /* synthetic */ int access$000(NavigationEnv navigationEnv) {
-        return ClusterInputListener.getDefaultViewMode(navigationEnv);
+    public static class State
+    extends PersistentState {
+        public static final int VERSION = 1;
+        public static final int KEY = 860;
+        private NavigationEnv naviEnv;
+        private int favoredViewMode;
+
+        public State(IStorageAccess iStorageAccess, LogChannel logChannel, NavigationEnv navigationEnv) {
+            super(iStorageAccess, 1, 1004, 860, logChannel);
+            this.naviEnv = navigationEnv;
+        }
+
+        protected void initWithDefaultValues() {
+            this.favoredViewMode = ClusterInputListener.getDefaultViewMode(this.naviEnv);
+        }
+
+        protected void initFromOldKeys(IStorageAccess iStorageAccess) {
+            this.favoredViewMode = iStorageAccess.getInt(1004, 290, ClusterInputListener.getDefaultViewMode(this.naviEnv));
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeInt(this.favoredViewMode);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.favoredViewMode = dataInputStream.readInt();
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            this.getLogChannel().log(10000000, "ClusterInputListener.State#convertContainer( %1, %2 )", (long)n, (long)n2);
+            this.initWithDefaultValues();
+            try {
+                if (n > 0) {
+                    this.favoredViewMode = dataInputStream.readInt();
+                }
+            }
+            catch (IOException iOException) {
+                this.getLogChannel().log(10000, "ClusterInputListener.State#convertContainer - error on converting the persistent state format", (Throwable)iOException);
+            }
+        }
+
+        public int getFavoredViewMode() {
+            return this.favoredViewMode;
+        }
+
+        public void setFavoredViewMode(int n) {
+            this.favoredViewMode = n;
+        }
     }
 }
 

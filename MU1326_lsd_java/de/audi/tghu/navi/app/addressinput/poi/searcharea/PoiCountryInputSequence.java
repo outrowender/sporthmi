@@ -11,9 +11,8 @@ import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.country.CountryInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.IPoiSearchAreaModelAccess;
-import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiCountryInputSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiCountryInputSequence$2;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
@@ -28,35 +27,39 @@ extends CountryInputSequence {
         this.searchMainModelAccess = iPoiSearchAreaModelAccess;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = super.getSelectListElementCommandList(lIValueListElement, bl);
-        commandList.add(new PoiCountryInputSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiCountryInputSequence.this.poiSearchArea.setLocation(this.dsiResponseContainer.getLiCurrentLD());
+                PoiCountryInputSequence.this.poiSearchArea.setSearchContext(5);
+                PoiCountryInputSequence.this.searchMainModelAccess.onUpdateHistoryList();
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         this.getSelectListElementCommandList(lIValueListElement, bl).execute("PoiCountryInputSequence#selectListElement");
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = super.getSelectElementByIdentifierCommandList(string);
-        commandList.add(new PoiCountryInputSequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiCountryInputSequence.this.poiSearchArea.setLocation(this.dsiResponseContainer.getLiCurrentLD());
+                PoiCountryInputSequence.this.poiSearchArea.setSearchContext(5);
+                PoiCountryInputSequence.this.searchMainModelAccess.onUpdateHistoryList();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("PoiCountryInputSequence#selectElementByIdentifier");
     }
 
-    @Override
     public void addCharacter(String string, int n, boolean bl) {
-    }
-
-    static /* synthetic */ PoiSearchArea access$000(PoiCountryInputSequence poiCountryInputSequence) {
-        return poiCountryInputSequence.poiSearchArea;
-    }
-
-    static /* synthetic */ IPoiSearchAreaModelAccess access$100(PoiCountryInputSequence poiCountryInputSequence) {
-        return poiCountryInputSequence.searchMainModelAccess;
     }
 }
 

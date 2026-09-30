@@ -21,9 +21,8 @@ extends AbstractTVCommand {
         this.mapper = stationMapper;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(14808325, "[RemoveFavoriteCmd.execute] command started");
+        this.logger.log(100000000, "[RemoveFavoriteCmd.execute] command started");
         ServiceInfo[] serviceInfoArray = this.serviceListsResource.getOldFavorites();
         long[] lArray = this.mapper.getServicesIDs(serviceInfoArray);
         for (int i2 = 0; i2 < serviceInfoArray.length; ++i2) {
@@ -31,7 +30,7 @@ extends AbstractTVCommand {
             this.serviceListsResource.removeFavorite(serviceInfoArray[i2], lArray[i2]);
         }
         this.serviceListsResource.unmarkFavorites(lArray);
-        this.logger.log(14808325, "[RemoveFavoriteCmd.execute] command finished");
+        this.logger.log(100000000, "[RemoveFavoriteCmd.execute] command finished");
         this.commandFinished();
     }
 }

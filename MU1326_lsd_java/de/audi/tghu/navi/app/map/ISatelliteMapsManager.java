@@ -8,28 +8,20 @@ import de.audi.tghu.navi.app.map.SatelliteMapsMediator;
 import org.dsi.ifc.global.NavRectangle;
 
 public interface ISatelliteMapsManager {
-    default public void changeMapStyle(int n) {
-    }
+    public void changeMapStyle(int var1);
 
-    default public void setCopyrightPosition(NavRectangle navRectangle, int n, int n2) {
-    }
+    public void setCopyrightPosition(NavRectangle var1, int var2, int var3);
 
-    default public boolean isSatelliteMapSupported() {
-    }
+    public boolean isSatelliteMapSupported();
 
-    default public boolean isSatelliteMapActive() {
-    }
+    public boolean isSatelliteMapActive();
 
-    default public void setMediator(SatelliteMapsMediator satelliteMapsMediator) {
-    }
+    public void setMediator(SatelliteMapsMediator var1);
 
-    default public void setSatelliteMapIconsAccordingToSetup() {
-    }
+    public void setSatelliteMapIconsAccordingToSetup();
 
-    default public int getActiveRendererID() {
-    }
+    public int getActiveRendererID();
 
-    default public AbstractMap getMap() {
-    }
+    public AbstractMap getMap();
 }
 

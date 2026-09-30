@@ -13,11 +13,11 @@ import de.audi.tghu.online.app.remotehmi.connectivity.bundled.IBundledConnectivi
 
 public abstract class AbstractBundledConnectivityHandler
 extends AbstractCommandHandler {
-    public static final int ESIM_DATA_BALANCE_DEFAULT_HMI_INTERNAL;
-    public static final int ESIM_DATA_BALANCE_LOW_HMI_INTERNAL;
-    public static final int ESIM_DATA_BALANCE_EMPTY_HMI_INTERNAL;
-    public static final int ESIM_SERVICE_AVAILABLE;
-    public static final int ESIM_SERVICE_INACCESSIBLE;
+    public static final int ESIM_DATA_BALANCE_DEFAULT_HMI_INTERNAL = -1;
+    public static final int ESIM_DATA_BALANCE_LOW_HMI_INTERNAL = 0;
+    public static final int ESIM_DATA_BALANCE_EMPTY_HMI_INTERNAL = 1;
+    public static final int ESIM_SERVICE_AVAILABLE = 0;
+    public static final int ESIM_SERVICE_INACCESSIBLE = 1;
     protected LogChannel logChannel;
     private RemoteHMIService remoteHmiService;
     protected HMIService hmiService;
@@ -29,18 +29,17 @@ extends AbstractCommandHandler {
         super(string);
         this.logChannel = logChannel;
         this.remoteHmiService = remoteHMIService;
-        this.remoteHmiService.addCommandHandler(835620929, this);
+        this.remoteHmiService.addCommandHandler(1100009009, this);
         this.hmiService = this.remoteHmiService.getFrameworkAccess().getHMIService();
         this.popupConfig = iBundledConnectivityPopupConfig;
     }
 
-    @Override
     public void indicateCommand(int n, Object object) {
         if (object instanceof IRemoteHMIBundledConnectivityPayload) {
             this.payload = (IRemoteHMIBundledConnectivityPayload)object;
             this.indicateCommandInternal();
         } else {
-            this.logChannel.log(-1601830656, "AbstractBundledConnectivityHandler#indicateCommand encountered unexpected payload %1", object);
+            this.logChannel.log(100000, "AbstractBundledConnectivityHandler#indicateCommand encountered unexpected payload %1", object);
         }
     }
 
@@ -48,8 +47,7 @@ extends AbstractCommandHandler {
         return this.payload;
     }
 
-    protected abstract void indicateCommandInternal() {
-    }
+    protected abstract void indicateCommandInternal();
 
     protected void showPopup(int n) {
         if (n != -1) {

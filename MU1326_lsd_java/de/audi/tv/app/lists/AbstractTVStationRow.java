@@ -12,8 +12,8 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public abstract class AbstractTVStationRow
 extends EvoListRow {
-    private static final int COL_SERVICE_NAME;
-    public static final int COL_COUNT;
+    private static final int COL_SERVICE_NAME = 0;
+    public static final int COL_COUNT = 1;
     public final ServiceInfo service;
     final boolean tmpAdded;
 
@@ -34,26 +34,20 @@ extends EvoListRow {
         this.setText(0, serviceInfo.name);
     }
 
-    public abstract void makeFavorite(boolean bl) {
-    }
+    public abstract void makeFavorite(boolean var1);
 
-    public abstract void evaluateProgramInfo(ProgramInfo programInfo) {
-    }
+    public abstract void evaluateProgramInfo(ProgramInfo var1);
 
     public void resetProgramInfo() {
     }
 
-    public abstract void setStationStatus(StationStatus stationStatus) {
-    }
+    public abstract void setStationStatus(StationStatus var1);
 
-    public abstract StationStatus getState() {
-    }
+    public abstract StationStatus getState();
 
-    public abstract PropertyListCell getProperties() {
-    }
+    public abstract PropertyListCell getProperties();
 
-    public abstract void updateLogo(ResourceLocator resourceLocator) {
-    }
+    public abstract void updateLogo(ResourceLocator var1);
 
     protected static int getServiceClassification(int n) {
         if ((n & 0xE0) == 224) {

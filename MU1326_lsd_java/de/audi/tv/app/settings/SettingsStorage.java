@@ -4,21 +4,24 @@
 package de.audi.tv.app.settings;
 
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.storage.AbstractStorageDataContainer;
+import de.audi.atip.storage.IStorageAccess;
 import de.audi.tv.app.base.TVEnv;
-import de.audi.tv.app.settings.SettingsStorage$SettingsData;
-import de.audi.tv.app.settings.SettingsStorage$StorageDataContainer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class SettingsStorage {
-    private static final int VERSION;
+    private static final int VERSION = 3;
     private final LogChannel lc;
-    private final SettingsStorage$StorageDataContainer container;
-    private final SettingsStorage$SettingsData settingsData = new SettingsStorage$SettingsData(null);
+    private final StorageDataContainer container;
+    private final SettingsData settingsData = new SettingsData();
     private final TVEnv env;
 
     SettingsStorage(TVEnv tVEnv) {
         this.env = tVEnv;
         this.lc = tVEnv.lcMain;
-        this.container = new SettingsStorage$StorageDataContainer(this, tVEnv.framework.getStorageMgr());
+        this.container = new StorageDataContainer(tVEnv.framework.getStorageMgr());
         this.container.readAndDeserialize();
     }
 
@@ -230,21 +233,142 @@ public class SettingsStorage {
     }
 
     public String loadParentalPassword(String string) {
-        this.lc.log(-2137614336, "[SettingsStorage.loadParentalPassword] trying to load password.");
+        this.lc.log(10000000, "[SettingsStorage.loadParentalPassword] trying to load password.");
         return this.env.framework.getStorageMgr().getString(1002, 19, string);
     }
 
     public void saveParentalPassword(String string) {
-        this.lc.log(-2137614336, "[SettingsStorage.saveParentalPassword] %1.", (Object)string);
+        this.lc.log(10000000, "[SettingsStorage.saveParentalPassword] %1.", (Object)string);
         this.env.framework.getStorageMgr().setString(1002, 19, string);
     }
 
-    static /* synthetic */ LogChannel access$100(SettingsStorage settingsStorage) {
-        return settingsStorage.lc;
+    private static class SettingsData {
+        volatile boolean subtitle = false;
+        volatile boolean serviceLinking = true;
+        volatile boolean visualAudio = true;
+        volatile boolean ews = true;
+        volatile int tvNorm = 100;
+        volatile int avNorm = 0;
+        volatile int tvAspectRatio = 0;
+        volatile int avAspectRatio = 1;
+        volatile int channelSorting = 0;
+        volatile int parentalLevel = 0;
+        volatile int tvBrightness = 0;
+        volatile int tvColor = 0;
+        volatile int tvContrast = 0;
+        volatile int tvTint = 0;
+        volatile int avBrightness = 0;
+        volatile int avColor = 0;
+        volatile int avContrast = 0;
+        volatile int avTint = 0;
+        volatile int[] viewSettings = new int[0];
+
+        private SettingsData() {
+        }
     }
 
-    static /* synthetic */ SettingsStorage$SettingsData access$200(SettingsStorage settingsStorage) {
-        return settingsStorage.settingsData;
+    private class StorageDataContainer
+    extends AbstractStorageDataContainer {
+        StorageDataContainer(IStorageAccess iStorageAccess) {
+            super(iStorageAccess, 3, 1007, 39);
+        }
+
+        protected void handleCRC32Error() {
+            SettingsStorage.this.lc.log(10000, "[SettingsStorage.handleCRC32Error]");
+        }
+
+        protected void handleStorageReadError(Exception exception) {
+            SettingsStorage.this.lc.log(100000, "[SettingsStorage.handleStorageReadError] %1", (Object)exception.getMessage());
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
+            SettingsStorage.this.lc.log(1000000, "[SettingsStorage.convertContainer] persisted:%1 container:%2", (long)n, (long)n2);
+            switch (n) {
+                case 3: {
+                    this.deserializeV3(dataInputStream);
+                    break;
+                }
+                case 2: {
+                    this.deserializeV2(dataInputStream);
+                    break;
+                }
+            }
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] subtitle:%1 serviceLinking:%2", ((SettingsStorage)SettingsStorage.this).settingsData.subtitle, ((SettingsStorage)SettingsStorage.this).settingsData.serviceLinking);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] visualAudio:%1 ews:%2", ((SettingsStorage)SettingsStorage.this).settingsData.visualAudio, ((SettingsStorage)SettingsStorage.this).settingsData.ews);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] tvNorm:%1 avNorm:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvNorm, (long)((SettingsStorage)SettingsStorage.this).settingsData.avNorm);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] tvAspectRatio:%1 avAspectRatio:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvAspectRatio, (long)((SettingsStorage)SettingsStorage.this).settingsData.avAspectRatio);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] channelSorting:%1 parentalLevel:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.channelSorting, (long)((SettingsStorage)SettingsStorage.this).settingsData.parentalLevel);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] tvBrighness:%1 tvColor:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvBrightness, (long)((SettingsStorage)SettingsStorage.this).settingsData.tvColor);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] tvContrast:%1 tvTint:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvContrast, (long)((SettingsStorage)SettingsStorage.this).settingsData.tvTint);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] avBrighness:%1 avColor:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.avBrightness, (long)((SettingsStorage)SettingsStorage.this).settingsData.avColor);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] avContrast:%1 avTint:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.avContrast, (long)((SettingsStorage)SettingsStorage.this).settingsData.avTint);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.serialize] viewSettings: %1", (Object)((SettingsStorage)SettingsStorage.this).settingsData.viewSettings);
+            dataOutputStream.writeBoolean(((SettingsStorage)SettingsStorage.this).settingsData.subtitle);
+            dataOutputStream.writeBoolean(((SettingsStorage)SettingsStorage.this).settingsData.serviceLinking);
+            dataOutputStream.writeBoolean(((SettingsStorage)SettingsStorage.this).settingsData.visualAudio);
+            dataOutputStream.writeBoolean(((SettingsStorage)SettingsStorage.this).settingsData.ews);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.tvNorm);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.avNorm);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.tvAspectRatio);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.avAspectRatio);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.channelSorting);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.parentalLevel);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.tvBrightness);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.tvColor);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.tvContrast);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.tvTint);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.avBrightness);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.avColor);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.avContrast);
+            dataOutputStream.writeInt(((SettingsStorage)SettingsStorage.this).settingsData.avTint);
+            this.serializeIntArray(((SettingsStorage)SettingsStorage.this).settingsData.viewSettings, dataOutputStream);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserialize]");
+            this.deserializeV3(dataInputStream);
+        }
+
+        private void deserializeV3(DataInputStream dataInputStream) throws IOException {
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV3]");
+            this.deserializeV2(dataInputStream);
+            ((SettingsStorage)SettingsStorage.this).settingsData.viewSettings = this.deserializeIntArray(dataInputStream);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV3] viewSettings: %1", (Object)((SettingsStorage)SettingsStorage.this).settingsData.viewSettings);
+        }
+
+        private void deserializeV2(DataInputStream dataInputStream) throws IOException {
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2]");
+            ((SettingsStorage)SettingsStorage.this).settingsData.subtitle = dataInputStream.readBoolean();
+            ((SettingsStorage)SettingsStorage.this).settingsData.serviceLinking = dataInputStream.readBoolean();
+            ((SettingsStorage)SettingsStorage.this).settingsData.visualAudio = dataInputStream.readBoolean();
+            ((SettingsStorage)SettingsStorage.this).settingsData.ews = dataInputStream.readBoolean();
+            ((SettingsStorage)SettingsStorage.this).settingsData.tvNorm = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.avNorm = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.tvAspectRatio = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.avAspectRatio = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.channelSorting = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.parentalLevel = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.tvBrightness = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.tvColor = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.tvContrast = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.tvTint = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.avBrightness = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.avColor = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.avContrast = dataInputStream.readInt();
+            ((SettingsStorage)SettingsStorage.this).settingsData.avTint = dataInputStream.readInt();
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] subtitle:%1 serviceLinking:%2", ((SettingsStorage)SettingsStorage.this).settingsData.subtitle, ((SettingsStorage)SettingsStorage.this).settingsData.serviceLinking);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] visualAudio:%1 ews:%2", ((SettingsStorage)SettingsStorage.this).settingsData.visualAudio, ((SettingsStorage)SettingsStorage.this).settingsData.ews);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] tvNorm:%1 avNorm:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvNorm, (long)((SettingsStorage)SettingsStorage.this).settingsData.avNorm);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] tvAspectRatio:%1 avAspectRatio:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvAspectRatio, (long)((SettingsStorage)SettingsStorage.this).settingsData.avAspectRatio);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] channelSorting:%1 parentalLevel:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.channelSorting, (long)((SettingsStorage)SettingsStorage.this).settingsData.parentalLevel);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] tvBrighness:%1 tvColor:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvBrightness, (long)((SettingsStorage)SettingsStorage.this).settingsData.tvColor);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] tvContrast:%1 tvTint:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.tvContrast, (long)((SettingsStorage)SettingsStorage.this).settingsData.tvTint);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] avBrighness:%1 avColor:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.avBrightness, (long)((SettingsStorage)SettingsStorage.this).settingsData.avColor);
+            SettingsStorage.this.lc.log(10000000, "[SettingsStorage.deserializeV2] avContrast:%1 avTint:%2", (long)((SettingsStorage)SettingsStorage.this).settingsData.avContrast, (long)((SettingsStorage)SettingsStorage.this).settingsData.avTint);
+        }
     }
 }
 

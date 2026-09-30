@@ -6,17 +6,15 @@ package de.audi.tghu.navi.app.details;
 import de.audi.atip.hmi.model.list.EvoListRow;
 
 public interface IDetailsRowBuilder {
-    public static final int COLUMN_ICON;
-    public static final int COLUMN_TEXT;
-    public static final int COLUMN_LAYOUT;
-    public static final int COLUMN_COUNT;
-    public static final int LAYOUT_TEXT;
-    public static final int LAYOUT_ICON_TEXT;
+    public static final int COLUMN_ICON = 0;
+    public static final int COLUMN_TEXT = 1;
+    public static final int COLUMN_LAYOUT = 2;
+    public static final int COLUMN_COUNT = 3;
+    public static final int LAYOUT_TEXT = 0;
+    public static final int LAYOUT_ICON_TEXT = 1;
 
-    default public EvoListRow buildListRow(String string, int n) {
-    }
+    public EvoListRow buildListRow(String var1, int var2);
 
-    default public EvoListRow buildListRowWithIcon(String string, int n, int n2) {
-    }
+    public EvoListRow buildListRowWithIcon(String var1, int var2, int var3);
 }
 

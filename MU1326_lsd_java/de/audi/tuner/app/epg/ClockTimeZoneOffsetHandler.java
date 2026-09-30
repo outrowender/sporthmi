@@ -4,15 +4,14 @@
 package de.audi.tuner.app.epg;
 
 import de.audi.atip.log.LogChannel;
-import de.audi.tuner.app.epg.ClockTimeZoneOffsetHandler$DSICarTimeUnitsLanguageListenerImpl;
-import de.audi.tuner.app.epg.ClockTimeZoneOffsetHandler$IClockTimeZoneOffsetListener;
+import de.audi.atip.util.DefaultDSICarTimeUnitsLanguageListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.dsi.ifc.cartimeunitslanguage.ClockTime;
 import org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguageListener;
 
 public class ClockTimeZoneOffsetHandler {
-    public final DSICarTimeUnitsLanguageListener dsiListener = new ClockTimeZoneOffsetHandler$DSICarTimeUnitsLanguageListenerImpl(this, null);
+    public final DSICarTimeUnitsLanguageListener dsiListener = new DSICarTimeUnitsLanguageListenerImpl();
     private final Object mutex = new Object();
     private final LogChannel lc;
     private final ArrayList clockTimeZoneOffsetListeners = new ArrayList(2);
@@ -25,10 +24,10 @@ public class ClockTimeZoneOffsetHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void addClockTimeZoneOffsetListener(ClockTimeZoneOffsetHandler$IClockTimeZoneOffsetListener clockTimeZoneOffsetHandler$IClockTimeZoneOffsetListener) {
+    public void addClockTimeZoneOffsetListener(IClockTimeZoneOffsetListener iClockTimeZoneOffsetListener) {
         Object object = this.mutex;
         synchronized (object) {
-            this.clockTimeZoneOffsetListeners.add(clockTimeZoneOffsetHandler$IClockTimeZoneOffsetListener);
+            this.clockTimeZoneOffsetListeners.add(iClockTimeZoneOffsetListener);
         }
     }
 
@@ -41,20 +40,37 @@ public class ClockTimeZoneOffsetHandler {
      */
     private void onDSUpdateClockTime(ClockTime clockTime) {
         long l;
-        this.lc.log(-2137614336, "[ClockTimeZoneOffsetHandler.onDSUpdateClockTime] offset: %1 ", (double)clockTime.timeZone);
-        this.lc.log(-2137614336, "[ClockTimeZoneOffsetHandler.onDSUpdateClockTime] summertime: %1", clockTime.summerTime);
-        this.timeZoneOffset = l = (long)(clockTime.timeZone + (float)(clockTime.summerTime ? 1 : 0)) * 0 * 0;
+        this.lc.log(10000000, "[ClockTimeZoneOffsetHandler.onDSUpdateClockTime] offset: %1 ", (double)clockTime.timeZone);
+        this.lc.log(10000000, "[ClockTimeZoneOffsetHandler.onDSUpdateClockTime] summertime: %1", clockTime.summerTime);
+        this.timeZoneOffset = l = (long)(clockTime.timeZone + (float)(clockTime.summerTime ? 1 : 0)) * 3600L * 1000L;
         Object object = this.mutex;
         synchronized (object) {
             Iterator iterator = this.clockTimeZoneOffsetListeners.iterator();
             while (iterator.hasNext()) {
-                ((ClockTimeZoneOffsetHandler$IClockTimeZoneOffsetListener)iterator.next()).offsetChanged(l);
+                ((IClockTimeZoneOffsetListener)iterator.next()).offsetChanged(l);
             }
         }
     }
 
-    static /* synthetic */ void access$100(ClockTimeZoneOffsetHandler clockTimeZoneOffsetHandler, ClockTime clockTime) {
-        clockTimeZoneOffsetHandler.onDSUpdateClockTime(clockTime);
+    public static interface IClockTimeZoneOffsetListener {
+        public void offsetChanged(long var1);
+    }
+
+    private class DSICarTimeUnitsLanguageListenerImpl
+    extends DefaultDSICarTimeUnitsLanguageListener {
+        private boolean summerTime;
+        private float timeZone;
+
+        private DSICarTimeUnitsLanguageListenerImpl() {
+        }
+
+        public void updateClockTime(ClockTime clockTime, int n) {
+            if (n == 1 && (this.summerTime != clockTime.summerTime || this.timeZone != clockTime.timeZone)) {
+                this.summerTime = clockTime.summerTime;
+                this.timeZone = clockTime.timeZone;
+                ClockTimeZoneOffsetHandler.this.onDSUpdateClockTime(clockTime);
+            }
+        }
     }
 }
 

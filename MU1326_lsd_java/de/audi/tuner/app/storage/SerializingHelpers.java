@@ -23,9 +23,9 @@ import org.dsi.ifc.radio.EnsembleInfo;
 import org.dsi.ifc.radio.ServiceInfo;
 
 public class SerializingHelpers {
-    public static final int VERSION;
+    public static final int VERSION = 8;
 
-    static void serializeAmFm(DataOutputStream dataOutputStream, AMFMStation aMFMStation) {
+    static void serializeAmFm(DataOutputStream dataOutputStream, AMFMStation aMFMStation) throws IOException {
         ResourceLocator resourceLocator;
         dataOutputStream.writeUTF(aMFMStation.name);
         dataOutputStream.writeLong(aMFMStation.frequency);
@@ -51,7 +51,7 @@ public class SerializingHelpers {
         dataOutputStream.writeInt(aMFMStation.getDatabaseId());
     }
 
-    private static AMFMStation deserializeAMFM_V03(DataInputStream dataInputStream) {
+    private static AMFMStation deserializeAMFM_V03(DataInputStream dataInputStream) throws IOException {
         AMFMStation aMFMStation = new AMFMStation();
         aMFMStation.name = dataInputStream.readUTF();
         aMFMStation.frequency = dataInputStream.readLong();
@@ -72,32 +72,32 @@ public class SerializingHelpers {
         return aMFMStation;
     }
 
-    private static AMFMStation deserializeAMFM_V04(DataInputStream dataInputStream) {
+    private static AMFMStation deserializeAMFM_V04(DataInputStream dataInputStream) throws IOException {
         AMFMStation aMFMStation = SerializingHelpers.deserializeAMFM_V03(dataInputStream);
         String string = dataInputStream.readUTF();
         aMFMStation.stationArt = new ResourceLocator(string);
         return aMFMStation;
     }
 
-    private static AMFMStation deserializeAMFM_V05(DataInputStream dataInputStream) {
+    private static AMFMStation deserializeAMFM_V05(DataInputStream dataInputStream) throws IOException {
         AMFMStation aMFMStation = SerializingHelpers.deserializeAMFM_V04(dataInputStream);
         aMFMStation.scrollingPS = dataInputStream.readBoolean();
         return aMFMStation;
     }
 
-    private static AMFMStation deserializeAMFM_V06(DataInputStream dataInputStream) {
+    private static AMFMStation deserializeAMFM_V06(DataInputStream dataInputStream) throws IOException {
         AMFMStation aMFMStation = SerializingHelpers.deserializeAMFM_V05(dataInputStream);
         aMFMStation.setHdStructure(dataInputStream.readInt());
         return aMFMStation;
     }
 
-    private static AMFMStation deserializeAMFM_V07(DataInputStream dataInputStream) {
+    private static AMFMStation deserializeAMFM_V07(DataInputStream dataInputStream) throws IOException {
         AMFMStation aMFMStation = SerializingHelpers.deserializeAMFM_V06(dataInputStream);
         aMFMStation.setDatabaseId(dataInputStream.readInt());
         return aMFMStation;
     }
 
-    public static AMFMStation deserializeAMFM(DataInputStream dataInputStream, int n) {
+    public static AMFMStation deserializeAMFM(DataInputStream dataInputStream, int n) throws IOException {
         switch (n) {
             case 1: 
             case 2: 
@@ -117,7 +117,7 @@ public class SerializingHelpers {
         return SerializingHelpers.deserializeAMFM_V07(dataInputStream);
     }
 
-    static void serializeDab(DataOutputStream dataOutputStream, DabStation dabStation) {
+    static void serializeDab(DataOutputStream dataOutputStream, DabStation dabStation) throws IOException {
         dataOutputStream.writeUTF(dabStation.ensemble.fullName);
         dataOutputStream.writeUTF(dabStation.ensemble.shortName);
         dataOutputStream.writeInt(dabStation.ensemble.getFrequencyValue());
@@ -139,11 +139,11 @@ public class SerializingHelpers {
         dataOutputStream.writeInt(dabStation.getDatabaseId());
     }
 
-    static DabStation deserializeDAB(DataInputStream dataInputStream, int n) {
+    static DabStation deserializeDAB(DataInputStream dataInputStream, int n) throws IOException {
         return n < 7 ? SerializingHelpers.deserializeDab_V06(dataInputStream) : SerializingHelpers.deserializeDab_V07(dataInputStream);
     }
 
-    private static DabStation deserializeDab_V06(DataInputStream dataInputStream) {
+    private static DabStation deserializeDab_V06(DataInputStream dataInputStream) throws IOException {
         EnsembleInfo ensembleInfo = new EnsembleInfo();
         ensembleInfo.fullName = dataInputStream.readUTF();
         ensembleInfo.shortName = dataInputStream.readUTF();
@@ -183,13 +183,13 @@ public class SerializingHelpers {
         return true;
     }
 
-    private static DabStation deserializeDab_V07(DataInputStream dataInputStream) {
+    private static DabStation deserializeDab_V07(DataInputStream dataInputStream) throws IOException {
         DabStation dabStation = SerializingHelpers.deserializeDab_V06(dataInputStream);
         dabStation.setDatabaseId(dataInputStream.readInt());
         return dabStation;
     }
 
-    static void serializeUni(DataOutputStream dataOutputStream, UnifiedStationExt unifiedStationExt) {
+    static void serializeUni(DataOutputStream dataOutputStream, UnifiedStationExt unifiedStationExt) throws IOException {
         dataOutputStream.writeUTF(unifiedStationExt.longName);
         dataOutputStream.writeUTF(unifiedStationExt.shortName);
         dataOutputStream.writeLong(unifiedStationExt.frequency);
@@ -233,11 +233,11 @@ public class SerializingHelpers {
         }
     }
 
-    static UnifiedStationExt deserializeUni(DataInputStream dataInputStream, int n) {
+    static UnifiedStationExt deserializeUni(DataInputStream dataInputStream, int n) throws IOException {
         return n < 8 ? SerializingHelpers.deserializeUni_V07(dataInputStream, n) : SerializingHelpers.deserializeUni_V08(dataInputStream, n);
     }
 
-    static UnifiedStationExt deserializeUni_V07(DataInputStream dataInputStream, int n) {
+    static UnifiedStationExt deserializeUni_V07(DataInputStream dataInputStream, int n) throws IOException {
         UnifiedStationExt unifiedStationExt = new UnifiedStationExt();
         unifiedStationExt.longName = dataInputStream.readUTF();
         unifiedStationExt.shortName = dataInputStream.readUTF();
@@ -265,7 +265,7 @@ public class SerializingHelpers {
         return unifiedStationExt;
     }
 
-    static UnifiedStationExt deserializeUni_V08(DataInputStream dataInputStream, int n) {
+    static UnifiedStationExt deserializeUni_V08(DataInputStream dataInputStream, int n) throws IOException {
         boolean bl;
         UnifiedStationExt unifiedStationExt = new UnifiedStationExt();
         unifiedStationExt = SerializingHelpers.deserializeUni_V07(dataInputStream, n);
@@ -295,7 +295,7 @@ public class SerializingHelpers {
         return unifiedStationExt;
     }
 
-    static void serializeSdars(DataOutputStream dataOutputStream, StationInfoExt stationInfoExt) {
+    static void serializeSdars(DataOutputStream dataOutputStream, StationInfoExt stationInfoExt) throws IOException {
         dataOutputStream.writeUTF(stationInfoExt.fullLabel);
         dataOutputStream.writeUTF(stationInfoExt.shortLabel);
         dataOutputStream.writeShort(stationInfoExt.sID);
@@ -312,7 +312,7 @@ public class SerializingHelpers {
         dataOutputStream.writeBoolean(stationInfoExt.isGraceNoteRequest());
     }
 
-    static StationInfoExt deserializeSDARS(DataInputStream dataInputStream) {
+    static StationInfoExt deserializeSDARS(DataInputStream dataInputStream) throws IOException {
         StationInfoExt stationInfoExt = new StationInfoExt();
         stationInfoExt.fullLabel = dataInputStream.readUTF();
         stationInfoExt.shortLabel = dataInputStream.readUTF();
@@ -329,7 +329,7 @@ public class SerializingHelpers {
         return stationInfoExt;
     }
 
-    static void serializeTV(DataOutputStream dataOutputStream, TVStation tVStation) {
+    static void serializeTV(DataOutputStream dataOutputStream, TVStation tVStation) throws IOException {
         dataOutputStream.writeLong(tVStation.namePID);
         dataOutputStream.writeInt(tVStation.servicePID);
         dataOutputStream.writeInt(tVStation.sType);
@@ -344,7 +344,7 @@ public class SerializingHelpers {
         }
     }
 
-    static TunerObjectContainer deserializeTV(DataInputStream dataInputStream) {
+    static TunerObjectContainer deserializeTV(DataInputStream dataInputStream) throws IOException {
         long l = dataInputStream.readLong();
         int n = dataInputStream.readInt();
         int n2 = dataInputStream.readInt();
@@ -355,7 +355,7 @@ public class SerializingHelpers {
         return new TunerObjectContainer(new TVStation(l, n, string, n2, n3, new ResourceLocator(n4, string2)));
     }
 
-    static void serializeByteArray(byte[] byArray, DataOutputStream dataOutputStream) {
+    static void serializeByteArray(byte[] byArray, DataOutputStream dataOutputStream) throws IOException {
         if (byArray == null) {
             dataOutputStream.writeInt(-1);
             return;
@@ -366,7 +366,7 @@ public class SerializingHelpers {
         }
     }
 
-    static byte[] deserializeByteArray(DataInputStream dataInputStream) {
+    static byte[] deserializeByteArray(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         if (n > 1024) {
             throw new IOException("deserializeByteArray: length to large!");
@@ -381,7 +381,7 @@ public class SerializingHelpers {
         return byArray;
     }
 
-    public static void serializeByteArray(byte[] byArray, ObjectOutputStream objectOutputStream) {
+    public static void serializeByteArray(byte[] byArray, ObjectOutputStream objectOutputStream) throws IOException {
         if (byArray == null) {
             objectOutputStream.writeInt(-1);
             return;
@@ -392,7 +392,7 @@ public class SerializingHelpers {
         }
     }
 
-    public static byte[] deserializeByteArray(ObjectInputStream objectInputStream) {
+    public static byte[] deserializeByteArray(ObjectInputStream objectInputStream) throws IOException {
         int n = objectInputStream.readInt();
         if (n > 1024) {
             throw new IOException("deserializeByteArray: length to large!");

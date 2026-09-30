@@ -11,7 +11,6 @@ import org.dsi.ifc.navigation.TryBestMatchResultData;
 
 public class CheckTryBestMatchResultCommand
 extends NavCommand {
-    @Override
     public void execute() {
         TryBestMatchResultData[] tryBestMatchResultDataArray = this.dsiResponseContainer.getTryBestMatchResultData();
         if (tryBestMatchResultDataArray != null && tryBestMatchResultDataArray.length > 0 && tryBestMatchResultDataArray[0] != null && tryBestMatchResultDataArray[0].getLocation() != null) {
@@ -19,11 +18,11 @@ extends NavCommand {
             boolean bl = iMyLocationAccessor.isNavigable();
             if (!bl) {
                 this.navigation.getFunctionCounter().incCounter(52);
-                this.logger.log(-2137614336, "CheckTryBestMatchResultCommand#execute() - try best match result was not a valid destination. %1", (Object)LocationFormatter.formatLocationShort(tryBestMatchResultDataArray[0].getLocation()));
-                this.env.getChoiceModel(-249690624).setValue(0);
+                this.logger.log(10000000, "CheckTryBestMatchResultCommand#execute() - try best match result was not a valid destination. %1", (Object)LocationFormatter.formatLocationShort(tryBestMatchResultDataArray[0].getLocation()));
+                this.env.getChoiceModel(401137).setValue(0);
             } else {
-                this.logger.log(-2137614336, "CheckTryBestMatchResultCommand#execute() - try best match result was a valid destination. ");
-                this.env.getChoiceModel(-249690624).setValue(1);
+                this.logger.log(10000000, "CheckTryBestMatchResultCommand#execute() - try best match result was a valid destination. ");
+                this.env.getChoiceModel(401137).setValue(1);
             }
             this.getCommandList().commandFinished();
         } else {

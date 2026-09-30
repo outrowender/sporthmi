@@ -14,14 +14,15 @@ import de.audi.tghu.navi.app.addressinput.commands.LISPGetLocationFromLIValueLis
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
-import de.audi.tghu.navi.app.addressinput.street.StreetInputSequence$1;
 import de.audi.tghu.navi.app.addressinput.street.StreetInputSimpleSequence;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class StreetInputSequence
 extends StreetInputSimpleSequence {
-    public static final String LOCATION_TO_TEST;
+    public static final String LOCATION_TO_TEST = "LocationToTest";
 
     public StreetInputSequence(IMatchspellerModelAccess iMatchspellerModelAccess, IMatchspellerModelAccess iMatchspellerModelAccess2, SpellerStack spellerStack, ICommandListFactory iCommandListFactory, boolean bl, IPreviewMap iPreviewMap, IAddressInputForm iAddressInputForm) {
         super(iMatchspellerModelAccess, iMatchspellerModelAccess2, spellerStack, iCommandListFactory, bl, iPreviewMap, iAddressInputForm);
@@ -31,7 +32,6 @@ extends StreetInputSimpleSequence {
         super(iMatchspellerModelAccess, iMatchspellerModelAccess2, spellerStack, iCommandListFactory, true, iPreviewMap, iAddressInputForm);
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);
@@ -45,10 +45,18 @@ extends StreetInputSimpleSequence {
         return commandList;
     }
 
-    public void checkIfElementIsAmbiguous(LIValueListElement lIValueListElement, Command command) {
+    public void checkIfElementIsAmbiguous(LIValueListElement lIValueListElement, final Command command) {
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
-        commandList.add(new StreetInputSequence$1(this, "Get NavLocation from Response Container", command));
+        commandList.add(new NavCommand("Get NavLocation from Response Container"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getSelectedLocation();
+                this.logger.log(10000000, "Get NavLocation from Response Container - location=%1", (Object)navLocation);
+                this.getCommandList().put(StreetInputSequence.LOCATION_TO_TEST, navLocation);
+                this.getCommandList().commandFinishedWithPostCommand(command);
+            }
+        });
         commandList.execute("StreetInputSequence#createCheckIfStreetIsAmbiguousCommandList");
     }
 }

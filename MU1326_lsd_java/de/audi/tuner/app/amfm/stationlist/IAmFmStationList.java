@@ -12,34 +12,24 @@ import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 
 public interface IAmFmStationList {
-    default public void register(IStoreStationHandler iStoreStationHandler) {
-    }
+    public void register(IStoreStationHandler var1);
 
-    default public boolean tuneById(long l, int n) {
-    }
+    public boolean tuneById(long var1, int var3);
 
-    default public TunerObjectContainer[] getStationList() {
-    }
+    public TunerObjectContainer[] getStationList();
 
-    default public void addUpdateListener(IUpdateListener iUpdateListener) {
-    }
+    public void addUpdateListener(IUpdateListener var1);
 
-    default public void setSortAlgo(int n) {
-    }
+    public void setSortAlgo(int var1);
 
-    default public RadioInfo getDsiUpListener() {
-    }
+    public RadioInfo getDsiUpListener();
 
-    default public RadioInfo getDsiDownListener() {
-    }
+    public RadioInfo getDsiDownListener();
 
-    default public IPrevNext getPrevNextHandler() {
-    }
+    public IPrevNext getPrevNextHandler();
 
-    default public AMFMStation getActiveStation() {
-    }
+    public AMFMStation getActiveStation();
 
-    default public void init(TunerStorage tunerStorage) {
-    }
+    public void init(TunerStorage var1);
 }
 

@@ -16,7 +16,6 @@ implements IPageHistory {
     private HashMap IndexMap = new HashMap();
     private final LogChannel logChannel;
 
-    @Override
     public void setExpansionState(String string, int n, boolean bl) {
         Boolean bl2 = new Boolean(bl);
         this.IdMap.put(string, bl2);
@@ -27,7 +26,6 @@ implements IPageHistory {
         this.logChannel = logChannel;
     }
 
-    @Override
     public boolean isExpanded(String string, int n, boolean bl) {
         if (this.IdMap.containsKey(string)) {
             Boolean bl2 = (Boolean)this.IdMap.get(string);
@@ -41,7 +39,6 @@ implements IPageHistory {
         return bl;
     }
 
-    @Override
     public void restoreToGrid(IGridList iGridList) {
         ListIterator listIterator = iGridList.listIterator();
         while (listIterator.hasNext()) {

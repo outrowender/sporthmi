@@ -19,11 +19,9 @@ extends EvoListRow {
         this.leagueId = abstractTeamRow.leagueId;
     }
 
-    abstract int getTeamID() {
-    }
+    abstract int getTeamID();
 
-    abstract int getActivationCheckBox() {
-    }
+    abstract int getActivationCheckBox();
 
     public int getLeagueId() {
         return this.leagueId;

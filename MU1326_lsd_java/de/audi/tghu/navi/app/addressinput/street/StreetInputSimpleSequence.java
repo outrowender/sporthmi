@@ -9,7 +9,6 @@ import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.addressinput.AbstractMatchspellerInputSequence;
 import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
-import de.audi.tghu.navi.app.addressinput.IMatchspellerInputSequence;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerInputSequenceExt;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
@@ -18,10 +17,13 @@ import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
+import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.addressinput.street.IStreetInputSequence;
-import de.audi.tghu.navi.app.addressinput.street.StreetInputSimpleSequence$1;
+import de.audi.tghu.navi.app.addressinput.street.StreetRefinementByCityInputSequence;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class StreetInputSimpleSequence
@@ -43,7 +45,6 @@ IMatchspellerInputSequenceExt {
         this(iMatchspellerModelAccess, iMatchspellerModelAccess2, spellerStack, iCommandListFactory, true, iPreviewMap, iAddressInputForm);
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPCancelSpellerCommand());
@@ -51,7 +52,6 @@ IMatchspellerInputSequenceExt {
         return commandList;
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement, boolean bl) {
         if (this.childSequence != null) {
             this.childSequence.selectListElement(lIValueListElement, bl);
@@ -61,22 +61,41 @@ IMatchspellerInputSequenceExt {
         commandList.execute("StreetInputSimpleSequence#selectListElement");
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, lIValueListElement);
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new StreetInputSimpleSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    StreetInputSimpleSequence.this.modelAccess.onElementSelected(navLocation);
+                    CommandList commandList = StreetInputSimpleSequence.this.commandListFactory.createCommandList();
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(StreetInputSimpleSequence.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(StreetInputSimpleSequence.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(StreetInputSimpleSequence.this.addressInputForm));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    StreetInputSimpleSequence.this.modelAccess.onAmbiguousElementSelected();
+                    this.logger.log(10000000, "StreetInputSimpleSequence#getSelectListElementCommandList - refine: %1", StreetInputSimpleSequence.this.refine);
+                    if (StreetInputSimpleSequence.this.refine) {
+                        StreetInputSimpleSequence.this.childSequence = new StreetRefinementByCityInputSequence(StreetInputSimpleSequence.this.refinementModelAccess, StreetInputSimpleSequence.this.spellerStack, StreetInputSimpleSequence.this.commandListFactory, StreetInputSimpleSequence.this.previewMap, StreetInputSimpleSequence.this.addressInputForm);
+                        this.getCommandList().commandFinishedWithPostSequence(((StreetRefinementByCityInputSequence)StreetInputSimpleSequence.this.childSequence).createStartCommandList(false));
+                    } else {
+                        this.getCommandList().commandFinished();
+                    }
+                }
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void selectElementByIdentifier(String string) {
         CommandList commandList = this.getSelectElementByIdentifierCommandList(string);
         commandList.execute("StreetInputSimpleSequence#selectElementByIdentifier");
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
@@ -87,55 +106,6 @@ IMatchspellerInputSequenceExt {
             commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, 1, null, null));
         }
         return commandList;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$000(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.modelAccess;
-    }
-
-    static /* synthetic */ ICommandListFactory access$100(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.commandListFactory;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$200(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.modelAccess;
-    }
-
-    static /* synthetic */ IPreviewMap access$300(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.previewMap;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$400(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.modelAccess;
-    }
-
-    static /* synthetic */ boolean access$500(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.refine;
-    }
-
-    static /* synthetic */ IMatchspellerInputSequence access$602(StreetInputSimpleSequence streetInputSimpleSequence, IMatchspellerInputSequence iMatchspellerInputSequence) {
-        streetInputSimpleSequence.childSequence = iMatchspellerInputSequence;
-        return streetInputSimpleSequence.childSequence;
-    }
-
-    static /* synthetic */ IMatchspellerModelAccess access$700(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.refinementModelAccess;
-    }
-
-    static /* synthetic */ SpellerStack access$800(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.spellerStack;
-    }
-
-    static /* synthetic */ ICommandListFactory access$900(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.commandListFactory;
-    }
-
-    static /* synthetic */ IPreviewMap access$1000(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.previewMap;
-    }
-
-    static /* synthetic */ IMatchspellerInputSequence access$1100(StreetInputSimpleSequence streetInputSimpleSequence) {
-        return streetInputSimpleSequence.childSequence;
     }
 }
 

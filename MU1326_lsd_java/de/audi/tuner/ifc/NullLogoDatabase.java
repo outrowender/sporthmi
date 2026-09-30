@@ -16,32 +16,25 @@ public class NullLogoDatabase
 implements ILogoDatabase {
     public static final ILogoDatabase INSTANCE = new NullLogoDatabase();
 
-    @Override
     public void requestDataById(TunerObjectContainer[] tunerObjectContainerArray, IRSDBResult iRSDBResult) {
     }
 
-    @Override
     public HMIResourceLocator getLogo(long l) {
         return ISimpleTuner.EMPTY_RL;
     }
 
-    @Override
     public void requestAmFmData(AMFMStation[] aMFMStationArray, IRSDBResult iRSDBResult) {
     }
 
-    @Override
     public void requestUniData(UnifiedStationExt[] unifiedStationExtArray, IRSDBResult iRSDBResult) {
     }
 
-    @Override
     public void requestDabData(DabStation[] dabStationArray, IRSDBResult iRSDBResult) {
     }
 
-    @Override
     public void resetToDefaultSettings() {
     }
 
-    @Override
     public boolean isRealDatabase() {
         return false;
     }

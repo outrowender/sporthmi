@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.addressinput;
 
 public interface IAddressInputSequence {
-    default public void start() {
-    }
+    public void start();
 }
 

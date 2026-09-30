@@ -45,7 +45,7 @@ public class AddToSeeksPossibilityEnum {
     }
 
     public static void setSeekDependingModelsAndProperties(long l, SeekPossibility seekPossibility, SdarsRadioText sdarsRadioText, ISDARSRow iSDARSRow, TunerModels tunerModels) {
-        ChoiceModelApp choiceModelApp = tunerModels.getChoiceModel(1871249664);
+        ChoiceModelApp choiceModelApp = tunerModels.getChoiceModel(100719);
         AddToSeeksPossibilityEnum addToSeeksPossibilityEnum = AddToSeeksPossibilityEnum.forTeamA(seekPossibility, choiceModelApp);
         AddToSeeksPossibilityEnum addToSeeksPossibilityEnum2 = AddToSeeksPossibilityEnum.forTeamB(seekPossibility, choiceModelApp);
         SdarsRadioText sdarsRadioText2 = SdarsRadioText.EMPTY_RADIOTEXT;
@@ -55,10 +55,10 @@ public class AddToSeeksPossibilityEnum {
         AddToSeeksPossibilityEnum addToSeeksPossibilityEnum3 = AddToSeeksPossibilityEnum.forArtist(sdarsRadioText2, seekPossibility, choiceModelApp);
         AddToSeeksPossibilityEnum addToSeeksPossibilityEnum4 = AddToSeeksPossibilityEnum.forSong(sdarsRadioText2, seekPossibility, choiceModelApp);
         iSDARSRow.setSeekPossibility(addToSeeksPossibilityEnum3, addToSeeksPossibilityEnum4, addToSeeksPossibilityEnum, addToSeeksPossibilityEnum2);
-        tunerModels.getChoiceModel(1971912960).setValue(addToSeeksPossibilityEnum3.ordinal);
-        tunerModels.getChoiceModel(1955135744).setValue(addToSeeksPossibilityEnum4.ordinal);
-        tunerModels.getChoiceModel(1938358528).setValue(addToSeeksPossibilityEnum.ordinal);
-        tunerModels.getChoiceModel(1988690176).setValue(addToSeeksPossibilityEnum2.ordinal);
+        tunerModels.getChoiceModel(100725).setValue(addToSeeksPossibilityEnum3.ordinal);
+        tunerModels.getChoiceModel(100724).setValue(addToSeeksPossibilityEnum4.ordinal);
+        tunerModels.getChoiceModel(100723).setValue(addToSeeksPossibilityEnum.ordinal);
+        tunerModels.getChoiceModel(100726).setValue(addToSeeksPossibilityEnum2.ordinal);
     }
 
     private static AddToSeeksPossibilityEnum forMusic(SdarsRadioText sdarsRadioText, int n, int n2, ChoiceModelApp choiceModelApp) {

@@ -20,7 +20,6 @@ extends HousenumberMatchspellerInputSimpleSequence {
         super(iMatchspellerModelAccess, spellerStack, iCommandListFactory, iPreviewMap, iAddressInputForm);
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPCancelSpellerCommand());

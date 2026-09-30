@@ -6,21 +6,17 @@ package de.audi.tghu.navi.app.predictivenav;
 import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public interface IPredictiveNavModelAccess {
-    public static final int PREDICTIVE_NAVIGATION_RESULTS_INVISIBLE;
-    public static final int PREDICTIVE_NAVIGATION_RESULTS_VISIBLE;
-    public static final int PREDICTIVE_NAVIGATION_STATUSBAR_INVISIBLE;
-    public static final int PREDICTIVE_NAVIGATION_STATUSBAR_VISIBLE;
+    public static final int PREDICTIVE_NAVIGATION_RESULTS_INVISIBLE = 0;
+    public static final int PREDICTIVE_NAVIGATION_RESULTS_VISIBLE = 1;
+    public static final int PREDICTIVE_NAVIGATION_STATUSBAR_INVISIBLE = 0;
+    public static final int PREDICTIVE_NAVIGATION_STATUSBAR_VISIBLE = 1;
 
-    default public void updateSelection(LikelyDestination[] likelyDestinationArray) {
-    }
+    public void updateSelection(LikelyDestination[] var1);
 
-    default public void clearLikelyDestinations() {
-    }
+    public void clearLikelyDestinations();
 
-    default public int getPredictiveRouteListLength() {
-    }
+    public int getPredictiveRouteListLength();
 
-    default public void updateOperationModeModels(boolean bl) {
-    }
+    public void updateOperationModeModels(boolean var1);
 }
 

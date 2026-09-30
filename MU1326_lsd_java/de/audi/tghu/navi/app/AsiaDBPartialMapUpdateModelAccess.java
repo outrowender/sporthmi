@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app;
 
 public interface AsiaDBPartialMapUpdateModelAccess {
-    default public void onUpdateMapIntegrationState(int n) {
-    }
+    public void onUpdateMapIntegrationState(int var1);
 
-    default public void setCurrentDatabaseVersionLabel(String string) {
-    }
+    public void setCurrentDatabaseVersionLabel(String var1);
 }
 

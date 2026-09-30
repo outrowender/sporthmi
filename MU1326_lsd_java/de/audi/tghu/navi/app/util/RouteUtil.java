@@ -142,13 +142,13 @@ public class RouteUtil {
 
     public static void setIndexOfCurrentDestination(Route route, int n, LogChannel logChannel) {
         if (route == null) {
-            logChannel.log(-1601830656, "RouteUtil#setIndexOfCurrentDestination() - failed to set index: %1, route is null", (long)n);
+            logChannel.log(100000, "RouteUtil#setIndexOfCurrentDestination() - failed to set index: %1, route is null", (long)n);
         } else {
             try {
                 route.setIndexOfCurrentDestination(n);
             }
             catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
-                logChannel.log(-1601830656, "RouteUtil#setIndexOfCurrentDestination() - failed to set index: %2, index out of bounds: %1", (Object)arrayIndexOutOfBoundsException.getMessage(), (long)n);
+                logChannel.log(100000, "RouteUtil#setIndexOfCurrentDestination() - failed to set index: %2, index out of bounds: %1", (Object)arrayIndexOutOfBoundsException.getMessage(), (long)n);
             }
         }
     }
@@ -217,7 +217,7 @@ public class RouteUtil {
                 routeDestination = RouteHelper.getDestinationAtPosition(route, n2);
             }
             catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
-                logChannel.log(-1601830656, "RouteUtil#getCurrentDestinationType() - failed to get destination, index out of bounds: %1", (Throwable)arrayIndexOutOfBoundsException);
+                logChannel.log(100000, "RouteUtil#getCurrentDestinationType() - failed to get destination, index out of bounds: %1", (Throwable)arrayIndexOutOfBoundsException);
             }
         }
         if (routeDestination == null) {
@@ -292,7 +292,7 @@ public class RouteUtil {
             if (n6 != -1) {
                 iconCell = new IconCell(new HMIResourceLocator(n6));
             } else {
-                navigationEnv.getLogChannel().log(-2137614336, "RouteUtil#fillRouteListModel() - failed to resolve icon for %1", (Object)title);
+                navigationEnv.getLogChannel().log(10000000, "RouteUtil#fillRouteListModel() - failed to resolve icon for %1", (Object)title);
             }
             integerListCell2 = iconCell != null ? IntegerListCell.create(bl3 ? 3 : 2) : IntegerListCell.create(bl3 ? 1 : 0);
             ListCell[] listCellArray = new ListCell[]{integerListCell, textListCell, textListCell2, integerListCell2, iconCell};
@@ -361,7 +361,7 @@ public class RouteUtil {
         }
         if (navLocation != null) {
             RouteDestination[] routeDestinationArray = new RouteDestination[]{new RouteDestination(navLocation, new RouteOptions[]{new RouteOptions()}, 1)};
-            Route route = new Route(0L, 0, routeDestinationArray, string2);
+            Route route = new Route(0L, 2L, routeDestinationArray, string2);
             return route;
         }
         return null;

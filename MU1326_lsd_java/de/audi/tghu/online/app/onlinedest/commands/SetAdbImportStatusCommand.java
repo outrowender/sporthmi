@@ -8,9 +8,8 @@ import de.audi.tghu.online.app.onlinedest.commands.AbstractOnlineDestinationComm
 
 public class SetAdbImportStatusCommand
 extends AbstractOnlineDestinationCommand {
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "StoreAddressListInNavigation#execute()");
+        this.logger.log(1000000, "StoreAddressListInNavigation#execute()");
         NaviMyAudiImport naviMyAudiImport = this.getNaviMyAudiService();
         if (naviMyAudiImport == null) {
             this.logger.log(10000, "StoreAddressListInNavigation#execute(): no NaviMyAudiImport Service tracked!!");

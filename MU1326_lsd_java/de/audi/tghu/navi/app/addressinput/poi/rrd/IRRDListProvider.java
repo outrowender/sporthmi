@@ -8,19 +8,14 @@ import org.dsi.ifc.navigation.PosPosition;
 import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public interface IRRDListProvider {
-    default public NavLocationWgs84[] getRRDCalculationList() {
-    }
+    public NavLocationWgs84[] getRRDCalculationList();
 
-    default public void updateDirectionAndAirDistance(PosPosition posPosition) {
-    }
+    public void updateDirectionAndAirDistance(PosPosition var1);
 
-    default public int getRRDListCalculationLimit() {
-    }
+    public int getRRDListCalculationLimit();
 
-    default public void updateRRDDistances(RrdCalculationInfo[] rrdCalculationInfoArray) {
-    }
+    public void updateRRDDistances(RrdCalculationInfo[] var1);
 
-    default public void unitsChanged() {
-    }
+    public void unitsChanged();
 }
 

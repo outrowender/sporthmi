@@ -3,17 +3,20 @@
  */
 package de.audi.tuner.app;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.DefaultOptionListener;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.MemoryListHandler;
-import de.audi.tuner.app.PsFreezeHandler$ButtonListener;
-import de.audi.tuner.app.PsFreezeHandler$OptionListener;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
+import de.audi.tuner.app.TunerObjectContainer;
 import de.audi.tuner.app.TunerProxyManager;
+import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.IPSFreezeDB;
 import de.audi.tuner.app.cmd.uni.IUnifiedTuner;
 import de.audi.tuner.app.history.HistoryTuner;
+import de.audi.tuner.ifc.AbstractRadioListRow;
 import de.audi.tuner.ifc.IAMFMTuner;
 
 public class PsFreezeHandler {
@@ -35,14 +38,14 @@ public class PsFreezeHandler {
         this.psFreezeDB = iPSFreezeDB;
         this.amFmTuner = TunerProxyManager.getInstance().getAmFmTuner();
         this.uniTuner = TunerProxyManager.getInstance().getUnifiedTuner();
-        PsFreezeHandler$OptionListener psFreezeHandler$OptionListener = new PsFreezeHandler$OptionListener(this, null);
-        this.models.getOptionModel(-1383661312).setListener(psFreezeHandler$OptionListener, -813235968);
-        this.models.getOptionModel(-1383661312).setListener(psFreezeHandler$OptionListener, 1753743616);
-        this.models.getOptionModel(-1383661312).setListener(psFreezeHandler$OptionListener, 1770520832);
-        this.models.getOptionModel(-1383661312).setListener(psFreezeHandler$OptionListener, 1938292992);
-        this.models.getOptionModel(-1383661312).setListener(psFreezeHandler$OptionListener, 1921515776);
-        this.models.getButtonModel(847708416).setButtonListener(new PsFreezeHandler$ButtonListener(this, null));
-        this.models.getSpellerModel(830996736).setMaxLength(16);
+        OptionListener optionListener = new OptionListener();
+        this.models.getOptionModel(100269).setListener(optionListener, 100303);
+        this.models.getOptionModel(100269).setListener(optionListener, 100456);
+        this.models.getOptionModel(100269).setListener(optionListener, 100457);
+        this.models.getOptionModel(100269).setListener(optionListener, 100467);
+        this.models.getOptionModel(100269).setListener(optionListener, 100466);
+        this.models.getButtonModel(100146).setButtonListener(new ButtonListener());
+        this.models.getSpellerModel(100401).setMaxLength(16);
     }
 
     public void freezeDefreze() {
@@ -86,32 +89,49 @@ public class PsFreezeHandler {
     }
 
     private void deFreezeStation() {
-        this.logger.hmi.log(-2137614336, "[GUIHAMFM.psFreezePressed] unfreeze %1", (Object)this.stationToFreeze);
+        this.logger.hmi.log(10000000, "[GUIHAMFM.psFreezePressed] unfreeze %1", (Object)this.stationToFreeze);
         this.stationToFreeze.unfreezePs();
         this.psFreezeDB.remove(this.stationToFreeze);
         this.postFreezeAction();
     }
 
-    static /* synthetic */ TunerModels access$200(PsFreezeHandler psFreezeHandler) {
-        return psFreezeHandler.models;
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            PsFreezeHandler.this.freezeDefreze();
+        }
     }
 
-    static /* synthetic */ AMFMStation access$302(PsFreezeHandler psFreezeHandler, AMFMStation aMFMStation) {
-        psFreezeHandler.stationToFreeze = aMFMStation;
-        return psFreezeHandler.stationToFreeze;
-    }
+    private class OptionListener
+    extends DefaultOptionListener {
+        private OptionListener() {
+        }
 
-    static /* synthetic */ int access$402(PsFreezeHandler psFreezeHandler, int n) {
-        psFreezeHandler.band = n;
-        return psFreezeHandler.band;
-    }
-
-    static /* synthetic */ AMFMStation access$300(PsFreezeHandler psFreezeHandler) {
-        return psFreezeHandler.stationToFreeze;
-    }
-
-    static /* synthetic */ void access$500(PsFreezeHandler psFreezeHandler) {
-        psFreezeHandler.deFreezeStation();
+        public void keyTyped(int n, int n2, int n3, int n4, int n5) {
+            TunerObjectContainer tunerObjectContainer = ((AbstractRadioListRow)PsFreezeHandler.this.models.getBaseListModel(n2).getRow(n3)).getTOContainer();
+            if (tunerObjectContainer.getType() == 3) {
+                PsFreezeHandler.this.stationToFreeze = tunerObjectContainer.getAMFMService();
+                PsFreezeHandler.this.band = Utilities.getBandIdByWaveband(((PsFreezeHandler)PsFreezeHandler.this).stationToFreeze.waveband);
+            } else {
+                PsFreezeHandler.this.stationToFreeze = tunerObjectContainer.getUniStation().getFmStation();
+                PsFreezeHandler.this.band = 11;
+            }
+            if (PsFreezeHandler.this.stationToFreeze.isPsFreezed()) {
+                PsFreezeHandler.this.deFreezeStation();
+            } else {
+                String string = ((PsFreezeHandler)PsFreezeHandler.this).stationToFreeze.name;
+                if (string.length() == 0) {
+                    string = PsFreezeHandler.this.stationToFreeze.getFrequencyString();
+                }
+                int n6 = Utilities.isEmpty(string) ? 0 : 1;
+                PsFreezeHandler.this.models.getButtonModel(100146).setStatus(n6);
+                PsFreezeHandler.this.models.getSpellerModel(100401).setText(string);
+                PsFreezeHandler.this.models.getOptionModel(100269).fireEvent(n5);
+            }
+        }
     }
 }
 

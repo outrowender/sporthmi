@@ -37,7 +37,6 @@ implements IRouteCriteria {
         this.setValuesFromObject(iRouteCriteria);
     }
 
-    @Override
     public final void setValuesFromObject(IRouteCriteria iRouteCriteria) {
         this.ferries = iRouteCriteria.getFerries();
         this.freeways = iRouteCriteria.getFreeways();
@@ -144,10 +143,9 @@ implements IRouteCriteria {
         return n;
     }
 
-    @Override
     public RouteOptions[] getRouteOptions(boolean bl) {
         if (this.env.getLogChannel().isDebug2()) {
-            this.env.getLogChannel().log(14808325, "RouteCriteria#getRouteOptions() - singleRoute: %1", bl);
+            this.env.getLogChannel().log(100000000, "RouteCriteria#getRouteOptions() - singleRoute: %1", bl);
         }
         RouteOptions routeOptions = new RouteOptions();
         RouteOptions routeOptions2 = new RouteOptions();
@@ -189,7 +187,7 @@ implements IRouteCriteria {
             routeOptions.setRouteType(this.getDynamicRouteCalcType(this.routeCalcType));
         }
         if (this.env.getLogChannel().isDebug2()) {
-            this.env.getLogChannel().log(14808325, "RouteCriteria#getRouteOptions() - route 1: %1, route 2: %2, route 3: %3", (Object)routeOptions, (Object)routeOptions2, (Object)routeOptions3);
+            this.env.getLogChannel().log(100000000, "RouteCriteria#getRouteOptions() - route 1: %1, route 2: %2, route 3: %3", (Object)routeOptions, (Object)routeOptions2, (Object)routeOptions3);
         }
         return new RouteOptions[]{routeOptions, routeOptions2, routeOptions3};
     }
@@ -255,7 +253,7 @@ implements IRouteCriteria {
             routeOptions.setTrailer(1);
         } else if (this.trailer == 3) {
             int n = 2;
-            int n2 = this.env.getChoiceModel(1981875712).getValue();
+            int n2 = this.env.getChoiceModel(401782).getValue();
             n = n2 == 1 ? 1 : 2;
             routeOptions.setTrailer(n);
         }
@@ -275,104 +273,84 @@ implements IRouteCriteria {
         }
     }
 
-    @Override
     public int getTrafficRerouting() {
         return this.trafficRerouting;
     }
 
-    @Override
     public void setTrafficRerouting(int n) {
         this.trafficRerouting = n;
     }
 
-    @Override
     public int getFreeways() {
         return this.freeways;
     }
 
-    @Override
     public void setFreeways(int n) {
         this.freeways = n;
     }
 
-    @Override
     public int getTollRoads() {
         return this.tollRoads;
     }
 
-    @Override
     public void setTollRoads(int n) {
         this.tollRoads = n;
     }
 
-    @Override
     public int getFerries() {
         return this.ferries;
     }
 
-    @Override
     public void setFerries(int n) {
         this.ferries = n;
     }
 
-    @Override
     public int getMotorrail() {
         return this.motorrail;
     }
 
-    @Override
     public void setMotorrail(int n) {
         this.motorrail = n;
     }
 
-    @Override
     public int getTimeRestrictedRoads() {
         return this.timeRestrictedRoads;
     }
 
-    @Override
     public void setTimeRestrictedRoads(int n) {
         this.timeRestrictedRoads = n;
     }
 
-    @Override
     public int getSeasonRestricted() {
         return this.seasonRestricted;
     }
 
-    @Override
     public void setSeasonRestricted(int n) {
         this.seasonRestricted = n;
     }
 
-    @Override
     public int getTrailer() {
         return this.trailer;
     }
 
-    @Override
     public void setTrailer(int n) {
         this.trailer = n;
     }
 
-    @Override
     public int getVignettes() {
         return this.vignettes;
     }
 
-    @Override
     public void setVignettes(int n) {
         this.vignettes = n;
     }
 
-    @Override
     public int[] getVignetteCountries() {
         int[] nArray = new int[this.vignetteCountries.length];
         System.arraycopy((Object)this.vignetteCountries, 0, (Object)nArray, 0, this.vignetteCountries.length);
         return nArray;
     }
 
-    @Override
     public void setVignetteCountries(int[] nArray) {
         if (nArray == null) {
             this.vignetteCountries = new int[0];
@@ -387,7 +365,6 @@ implements IRouteCriteria {
         return this.routeCalcType;
     }
 
-    @Override
     public void setRouteOption(int n) {
         this.routeCalcType = n;
     }
@@ -452,42 +429,34 @@ implements IRouteCriteria {
         return n;
     }
 
-    @Override
     public void setTunnels(int n) {
         this.tunnels = n;
     }
 
-    @Override
     public int getTunnels() {
         return this.tunnels;
     }
 
-    @Override
     public int getHovLanes() {
         return this.hovLanes;
     }
 
-    @Override
     public void setHovLanes(int n) {
         this.hovLanes = n;
     }
 
-    @Override
     public void setUnpaved(int n) {
         this.unpaved = n;
     }
 
-    @Override
     public int getUnpaved() {
         return this.unpaved;
     }
 
-    @Override
     public void setIpd(int n) {
         this.ipd = n;
     }
 
-    @Override
     public int getIpd() {
         return this.ipd;
     }

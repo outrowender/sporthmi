@@ -13,15 +13,14 @@ public abstract class DSISoundExt {
 
     public DSISoundExt(LogChannel logChannel) {
         this.lc = logChannel;
-        this.dsi = new NullDSISound(logChannel, -2137614336);
+        this.dsi = new NullDSISound(logChannel, 10000000);
     }
 
     public void register(DSISound dSISound) {
-        this.lc.log(-2137614336, "[DSISoundExt.register] %1", (Object)dSISound);
+        this.lc.log(10000000, "[DSISoundExt.register] %1", (Object)dSISound);
         this.dsi = dSISound;
     }
 
-    public abstract void setMicGainLevel(int n) {
-    }
+    public abstract void setMicGainLevel(int var1);
 }
 

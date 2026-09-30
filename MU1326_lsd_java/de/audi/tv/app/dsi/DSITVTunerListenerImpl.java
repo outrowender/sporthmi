@@ -60,13 +60,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateTunerState(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateTunerState] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateTunerState] INVALID:%1", (long)n2);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateTunerState] state:%1", (long)n);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateTunerState] state:%1", (long)n);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateTunerState(n);
@@ -77,17 +76,16 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateStartUpMUConfig(StartUpConfig startUpConfig, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateStartUpMUConfig] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateStartUpMUConfig] INVALID:%1", (long)n);
             return;
         }
         if (startUpConfig == null) {
             this.log.log(10000, "<- [DSITVTunerListener.updateStartUpMUConfig] startupConfig:NULL");
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateStartUpMUConfig] %1", (Object)startUpConfig);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateStartUpMUConfig] %1", (Object)startUpConfig);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateStartUpMUConfig(startUpConfig);
@@ -99,10 +97,9 @@ implements DSITVTunerListener {
         this.lastUpdatedStartUpConfig = startUpConfig;
     }
 
-    @Override
     public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateServiceList] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateServiceList] INVALID:%1", (long)n);
             return;
         }
         if (serviceInfoArray == null) {
@@ -115,9 +112,9 @@ implements DSITVTunerListener {
             for (int i2 = 0; i2 < serviceInfoArray.length; ++i2) {
                 buffer.append("    ").append(i2).append(": ").append(serviceInfoArray[i2]).append('\n');
             }
-            this.log.log(-2137614336, buffer.toString());
+            this.log.log(10000000, buffer.toString());
         } else {
-            this.log.log(1078071040, "<- [DSITVTunerListener.updateServiceList] #%1", (long)serviceInfoArray.length);
+            this.log.log(1000000, "<- [DSITVTunerListener.updateServiceList] #%1", (long)serviceInfoArray.length);
         }
         try {
             for (int i3 = 0; i3 < this.listeners.length; ++i3) {
@@ -130,10 +127,9 @@ implements DSITVTunerListener {
         this.lastUpdatedServiceList = serviceInfoArray;
     }
 
-    @Override
     public void updateSelectedService(ProgramInfo programInfo, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateSelectedService] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateSelectedService] INVALID:%1", (long)n);
             return;
         }
         if (programInfo == null) {
@@ -146,10 +142,10 @@ implements DSITVTunerListener {
         }
         this.lastUpdatedProgramInfo = programInfo;
         if (programInfo.availableAudioChannels == null) {
-            this.log.log(-1601830656, " [DSITVTunerListener.updateSelectedService]:%1", (Object)"serviceInfo.availableAudioChannels is null");
+            this.log.log(100000, " [DSITVTunerListener.updateSelectedService]:%1", (Object)"serviceInfo.availableAudioChannels is null");
             programInfo.availableAudioChannels = new AudioChannel[0];
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateSelectedService] %1 ", (Object)programInfo);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateSelectedService] %1 ", (Object)programInfo);
         ProgramInfo programInfo2 = this.correctInvalidService(programInfo);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -161,15 +157,14 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateSelectedSource(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateSelectedSource] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateSelectedSource] INVALID:%1", (long)n2);
             return;
         }
         if (this.log.isDebug()) {
             String string = n == 0 ? "TV" : "AV";
-            this.log.log(-2137614336, "<- [DSITVTunerListener.updateSelectedSource] %1(%2)", (Object)string, (long)n);
+            this.log.log(10000000, "<- [DSITVTunerListener.updateSelectedSource] %1(%2)", (Object)string, (long)n);
         }
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -181,14 +176,13 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateTVNormArea(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateTVNormArea] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateTVNormArea] INVALID:%1", (long)n2);
             return;
         }
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "<- [DSITVTunerListener.updateTVNormArea] 0x%1", (Object)Integer.toHexString(n));
+            this.log.log(10000000, "<- [DSITVTunerListener.updateTVNormArea] 0x%1", (Object)Integer.toHexString(n));
         }
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -200,13 +194,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateTerminalMode(int n, int n2, int n3) {
         if (n3 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateTerminalMode] INVALID:%1", (long)n3);
+            this.log.log(100000, "<- [DSITVTunerListener.updateTerminalMode] INVALID:%1", (long)n3);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateTerminalMode] terminal:0x%1 screen:0x%2", (long)n, (long)n2);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateTerminalMode] terminal:0x%1 screen:0x%2", (long)n, (long)n2);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateTerminalMode(n, n2);
@@ -217,13 +210,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateMuteState(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateMuteState] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateMuteState] INVALID:%1", (long)n2);
             return;
         }
-        this.log.log(-2137614336, "<- [TVTunerDSIListener.updateMuteState] %1", (long)n);
+        this.log.log(10000000, "<- [TVTunerDSIListener.updateMuteState] %1", (long)n);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateMuteState(n);
@@ -234,10 +226,9 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateTVNormList(int[] nArray, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateTVNormList] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateTVNormList] INVALID:%1", (long)n);
             return;
         }
         if (nArray == null) {
@@ -249,7 +240,7 @@ implements DSITVTunerListener {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
                 buffer.append(" 0x").append(Integer.toHexString(nArray[i2]));
             }
-            this.log.log(-2137614336, "<- [TVTunerDSIListener.updateTVNormList]%1", (Object)buffer);
+            this.log.log(10000000, "<- [TVTunerDSIListener.updateTVNormList]%1", (Object)buffer);
         }
         try {
             for (int i3 = 0; i3 < this.listeners.length; ++i3) {
@@ -261,21 +252,20 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateEWSInfoList(EWSInfo[] eWSInfoArray, int n) {
         int n2;
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateEWSInfoList] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateEWSInfoList] INVALID:%1", (long)n);
             return;
         }
         if (eWSInfoArray == null) {
             this.log.log(10000, "<- [TVTunerDSIListener.updateEWSInfoList] ewsInfoList:NULL");
             return;
         }
-        this.log.log(-2137614336, "<- [TVTunerDSIListener.updateEWSInfoList] #%1", (long)eWSInfoArray.length);
+        this.log.log(10000000, "<- [TVTunerDSIListener.updateEWSInfoList] #%1", (long)eWSInfoArray.length);
         if (this.log.isDebug2()) {
             for (n2 = 0; n2 < eWSInfoArray.length; ++n2) {
-                this.log.log(14808325, "<- [TVTunerDSIListener.updateEWSInfoList] [%2] %1", (Object)eWSInfoArray[n2], (long)n2);
+                this.log.log(100000000, "<- [TVTunerDSIListener.updateEWSInfoList] [%2] %1", (Object)eWSInfoArray[n2], (long)n2);
             }
         }
         for (n2 = 0; n2 < eWSInfoArray.length; ++n2) {
@@ -298,17 +288,15 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateAudioChannel(int n, int n2) {
     }
 
-    @Override
     public void updateServiceLinking(boolean bl, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateServiceLinking] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateServiceLinking] INVALID:%1", (long)n);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateServiceLinking] linkingState:%1", bl);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateServiceLinking] linkingState:%1", bl);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateServiceLinking(bl);
@@ -319,14 +307,13 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateAVNorm(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateAVNorm] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateAVNorm] INVALID:%1", (long)n2);
             return;
         }
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "<- [DSITVTunerListener.updateAVNorm] %1(%2)", (Object)AVNorm.toString(n), (long)n);
+            this.log.log(10000000, "<- [DSITVTunerListener.updateAVNorm] %1(%2)", (Object)AVNorm.toString(n), (long)n);
         }
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -338,13 +325,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateSubtitle(boolean bl, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateSubtitle] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateSubtitle] INVALID:%1", (long)n);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateSubtitle] state:%1", bl);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateSubtitle] state:%1", bl);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateSubtitle(bl);
@@ -355,21 +341,20 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateLogoList(LogoInfo[] logoInfoArray, int n) {
         int n2;
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateLogoList] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateLogoList] INVALID:%1", (long)n);
             return;
         }
         if (logoInfoArray == null) {
             this.log.log(10000, "<- [DSITVTunerListener.updateLogoList] logoList:NULL");
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateLogoList] #%1", (long)logoInfoArray.length);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateLogoList] #%1", (long)logoInfoArray.length);
         if (this.log.isDebug2()) {
             for (n2 = 0; n2 < logoInfoArray.length; ++n2) {
-                this.log.log(14808325, "<- [DSITVTunerListener.updateLogoList] [%2] %1", (Object)logoInfoArray[n2], (long)n2);
+                this.log.log(100000000, "<- [DSITVTunerListener.updateLogoList] [%2] %1", (Object)logoInfoArray[n2], (long)n2);
             }
         }
         try {
@@ -382,17 +367,16 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateCASInfo(boolean bl, String string, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateCASInfo] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateCASInfo] INVALID:%1", (long)n);
             return;
         }
         if (string == null) {
             this.log.log(10000, "<- [DSITVTunerListener.updateCASInfo] casIDText:NULL");
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateCASInfo] permanentID:%1 casID:%2", bl, (Object)string);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateCASInfo] permanentID:%1 casID:%2", bl, (Object)string);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateCASInfo(bl, string);
@@ -403,13 +387,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateTMTVKeyPanel(short s, short s2, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateTMTVKeyPanel] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateTMTVKeyPanel] INVALID:%1", (long)n);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateTMTVKeyPanel] id:0x%1 status:0x%2", (long)s, (long)s2);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateTMTVKeyPanel] id:0x%1 status:0x%2", (long)s, (long)s2);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateTMTVKeyPanel(s, s2);
@@ -420,13 +403,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateMessageService(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateMessageService] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateMessageService] INVALID:%1", (long)n2);
             return;
         }
-        this.log.log(1078071040, "<- [DSITVTunerListener.updateMessageService] id:%1 valid:%2", (long)n, (long)n2);
+        this.log.log(1000000, "<- [DSITVTunerListener.updateMessageService] id:%1 valid:%2", (long)n, (long)n2);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateMessageService(n);
@@ -437,9 +419,8 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void selectNextService(int n) {
-        int n2 = n == 1 ? -2137614336 : 10000;
+        int n2 = n == 1 ? 10000000 : 10000;
         this.log.log(n2, "<- [DSITVTunerListener.selectNextService] result:%1", (long)n);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -451,20 +432,18 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void abortSeek(int n) {
-        int n2 = n == 1 ? -2137614336 : 10000;
+        int n2 = n == 1 ? 10000000 : 10000;
         this.log.log(n2, "<- [DSITVTunerListener.abortSeek] result:%1", (long)n);
     }
 
-    @Override
     public void updateTuneStatus(boolean bl, boolean bl2, boolean bl3, int n) {
         if (n != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateTuneStatus] INVALID:%1", (long)n);
+            this.log.log(100000, "<- [DSITVTunerListener.updateTuneStatus] INVALID:%1", (long)n);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateTuneStatus] tuneToStatus:%1 valid:%2", bl3, (long)n);
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateTuneStatus] tuneUpStatus:%1 tuneDownStatus:%2", bl, bl2);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateTuneStatus] tuneToStatus:%1 valid:%2", bl3, (long)n);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateTuneStatus] tuneUpStatus:%1 tuneDownStatus:%2", bl, bl2);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateTuneStatus(bl, bl2, bl3);
@@ -475,19 +454,16 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateTVNormAreaSubList(int[] nArray, int n) {
-        this.log.log(14808325, "<- [TVTunerDSIListener.updateTVNormAreaSubList] %1 valid:%2", (Object)nArray, (long)n);
+        this.log.log(100000000, "<- [TVTunerDSIListener.updateTVNormAreaSubList] %1 valid:%2", (Object)nArray, (long)n);
     }
 
-    @Override
     public void updateInfoTextState(String string, int n) {
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateInfoTextState] infoText:%1 valid:%2", (Object)string, (long)n);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateInfoTextState] infoText:%1 valid:%2", (Object)string, (long)n);
     }
 
-    @Override
     public void selectService(int n) {
-        int n2 = n == 1 ? -2137614336 : 10000;
+        int n2 = n == 1 ? 10000000 : 10000;
         this.log.log(n2, "<- [TVTunerDSIListener.selectService] result:%1", (long)n);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -499,9 +475,8 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void switchSource(int n) {
-        int n2 = n == 1 ? -2137614336 : 10000;
+        int n2 = n == 1 ? 10000000 : 10000;
         this.log.log(n2, "<- [DSITVTunerListener.switchSource] result:%1", (long)n);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
@@ -513,13 +488,12 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void updateBrowserListSort(int n, int n2) {
         if (n2 != 1) {
-            this.log.log(-1601830656, "<- [DSITVTunerListener.updateBrowserListSort] INVALID:%1", (long)n2);
+            this.log.log(100000, "<- [DSITVTunerListener.updateBrowserListSort] INVALID:%1", (long)n2);
             return;
         }
-        this.log.log(-2137614336, "<- [DSITVTunerListener.updateBrowserListSort] sort:%1 valid:%2", (long)n, (long)n2);
+        this.log.log(10000000, "<- [DSITVTunerListener.updateBrowserListSort] sort:%1 valid:%2", (long)n, (long)n2);
         try {
             for (int i2 = 0; i2 < this.listeners.length; ++i2) {
                 this.listeners[i2].updateBrowserListSort(n);
@@ -530,7 +504,6 @@ implements DSITVTunerListener {
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.log.log(10000, "<- [DSITVTunerListener.asyncException] msg:%1 code:%2 type:%3", (Object)string, (long)n, (long)n2);
     }
@@ -549,13 +522,13 @@ implements DSITVTunerListener {
         }
         ServiceInfo serviceInfo = null;
         if (this.favoritesList instanceof EmptyFavoritesList) {
-            this.log.log(-1601830656, "[DSITVTunerListenerImpl.correctInvalidService] unable to get fallback service, no memoryList is set!");
+            this.log.log(100000, "[DSITVTunerListenerImpl.correctInvalidService] unable to get fallback service, no memoryList is set!");
         } else {
             long l = this.favoritesList.getFavoriteID(programInfo.serviceInfo);
             serviceInfo = this.favoritesList.getServiceForUniqueID(l);
         }
         if (serviceInfo == null) {
-            this.log.log(1078071040, "[DSITVTunerListener.correctInvalidService] Use channel name %1 as %2 not found in memory list", (Object)programInfo.channelName, (Object)programInfo.serviceInfo);
+            this.log.log(1000000, "[DSITVTunerListener.correctInvalidService] Use channel name %1 as %2 not found in memory list", (Object)programInfo.channelName, (Object)programInfo.serviceInfo);
             programInfo.serviceInfo.name = programInfo.channelName;
             return programInfo;
         }
@@ -563,7 +536,7 @@ implements DSITVTunerListener {
         programInfo.serviceInfo.name = serviceInfo.name;
         programInfo.nowStartTime = new Time();
         programInfo.nowEndTime = new Time();
-        this.log.log(1078071040, "[TVTunerContentListener.correctInvalidService] Corrected UNDEF|DUMMY service: %1", (Object)programInfo);
+        this.log.log(1000000, "[TVTunerContentListener.correctInvalidService] Corrected UNDEF|DUMMY service: %1", (Object)programInfo);
         return programInfo;
     }
 }

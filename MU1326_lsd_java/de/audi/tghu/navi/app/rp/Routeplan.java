@@ -27,13 +27,13 @@ public class Routeplan {
     }
 
     public synchronized void unitsChanged() {
-        this.mainLogChannel.log(-2137614336, "Routeplan#unitsChanged()");
+        this.mainLogChannel.log(10000000, "Routeplan#unitsChanged()");
         this.refreshTripData();
     }
 
     public void updateRgActive(boolean bl) {
         if (this.mainLogChannel.isDebug2()) {
-            this.mainLogChannel.log(14808325, "Routeplan#updateRgActive( %1 )", bl);
+            this.mainLogChannel.log(100000000, "Routeplan#updateRgActive( %1 )", bl);
         }
         this.refreshTripData();
     }
@@ -51,10 +51,10 @@ public class Routeplan {
         }
         boolean bl = this.env.getContainer().isRgActive();
         if (this.guidanceLogChannel.isDebug2()) {
-            this.guidanceLogChannel.log(14808325, "RouteplanAudi#refreshTripData() - rgActive: %1, tripData: %2", bl, (Object)var1_1);
+            this.guidanceLogChannel.log(100000000, "RouteplanAudi#refreshTripData() - rgActive: %1, tripData: %2", bl, (Object)var1_1);
         }
         if ((n = RouteUtil.getRouteLength(route = this.manager.getFilteredRoute())) <= 0) {
-            this.guidanceLogChannel.log(-1601830656, "RouteplanAudi#refreshRouteData() - onRoadRoute length is 0!");
+            this.guidanceLogChannel.log(100000, "RouteplanAudi#refreshRouteData() - onRoadRoute length is 0!");
             return;
         }
         int n2 = RouteUtil.getIndexOfCurrentDestination(route);
@@ -76,7 +76,7 @@ public class Routeplan {
                         bl3 &= n7 >= 0 && n6 >= 0 && n7 >= n6;
                         n3 += n7 - n6;
                     } else {
-                        this.guidanceLogChannel.log(-1601830656, "RouteplanAudi#refreshRouteData() - rgDestinationInfo array too small!");
+                        this.guidanceLogChannel.log(100000, "RouteplanAudi#refreshRouteData() - rgDestinationInfo array too small!");
                         bl2 = false;
                         bl3 = false;
                     }
@@ -111,7 +111,7 @@ public class Routeplan {
                     n2 += n5 - n4;
                     continue;
                 }
-                this.guidanceLogChannel.log(-1601830656, "RouteplanAudi#getDistanceToFinalDestination() - rgDestinationInfo array too small!");
+                this.guidanceLogChannel.log(100000, "RouteplanAudi#getDistanceToFinalDestination() - rgDestinationInfo array too small!");
             }
         }
         return n2;

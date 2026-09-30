@@ -17,9 +17,8 @@ extends AbstractOSRCommand {
         this.licenseCollector = licenseCollectionService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[ORSGetOnlineApplicationListCommand#execute] enter");
+        this.logger.log(10000000, "[ORSGetOnlineApplicationListCommand#execute] enter");
         if (this.getDSI() != null) {
             this.getDSI().getOnlineApplicationList();
         } else {
@@ -28,10 +27,9 @@ extends AbstractOSRCommand {
         }
     }
 
-    @Override
     public void getOnlineApplicationListResponse(OSRApplication[] oSRApplicationArray) {
         for (int i2 = 0; i2 < oSRApplicationArray.length; ++i2) {
-            this.logger.log(-2137614336, "[ORSGetOnlineApplicationListCommand#getOnlineApplicationListResponse] adding application: %1", (Object)oSRApplicationArray[i2].getId());
+            this.logger.log(10000000, "[ORSGetOnlineApplicationListCommand#getOnlineApplicationListResponse] adding application: %1", (Object)oSRApplicationArray[i2].getId());
             this.application.getContainer().addOrUpdateOnlineApplication(oSRApplicationArray[i2], this.application);
         }
         this.application.syncServices();

@@ -6,6 +6,7 @@ package de.audi.tghu.online.app.operatorcall.data;
 import de.audi.atip.util.StringUtilities;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.online.OperatorCallAddressEntry;
 import org.dsi.ifc.online.OperatorCallResult;
@@ -74,7 +75,7 @@ public class OperatorCallPoiStorage {
         return new NavLocationWgs84(this.longitude, this.latitude);
     }
 
-    public void serialize(DataOutputStream dataOutputStream) {
+    public void serialize(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeUTF(this.serviceId);
         dataOutputStream.writeInt(this.serviceType);
         dataOutputStream.writeUTF(this.name);

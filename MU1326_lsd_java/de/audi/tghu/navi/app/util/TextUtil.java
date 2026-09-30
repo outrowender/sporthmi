@@ -7,16 +7,16 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TextUtil {
-    private static final String DEFAULT_CENTER_NAME;
-    private static final String DEFAULT_OFFROAD_NAME;
-    private static final String DEFAULT_IN_ALL_CITIES;
-    private static final String DEFAULT_STREET_BASENAME_MARKER;
-    private static final String DEFAULT_PETROL_STATION_24H_MARKER;
-    private static String CENTER_NAME;
-    private static String OFFROAD_NAME;
-    private static String IN_ALL_CITIES;
-    private static String STREET_BASENAME_MARKER;
-    private static String PETROL_STATION_24H_MARKER;
+    private static final String DEFAULT_CENTER_NAME = "ZENTRUM";
+    private static final String DEFAULT_OFFROAD_NAME = "off road";
+    private static final String DEFAULT_IN_ALL_CITIES = "In allen St\u00e4dten";
+    private static final String DEFAULT_STREET_BASENAME_MARKER = "(All)";
+    private static final String DEFAULT_PETROL_STATION_24H_MARKER = "(24h)";
+    private static String CENTER_NAME = "";
+    private static String OFFROAD_NAME = "---";
+    private static String IN_ALL_CITIES = "";
+    private static String STREET_BASENAME_MARKER = "";
+    private static String PETROL_STATION_24H_MARKER = "";
 
     public static String getCenterName() {
         return CENTER_NAME;
@@ -43,19 +43,11 @@ public class TextUtil {
     }
 
     public static void updateTranslations(NavigationEnv navigationEnv) {
-        CENTER_NAME = navigationEnv.getTranslatedText(5, "ZENTRUM");
-        OFFROAD_NAME = navigationEnv.getTranslatedText(13, "off road");
-        IN_ALL_CITIES = navigationEnv.getTranslatedText(11, "In allen St\u00e4dten");
-        STREET_BASENAME_MARKER = "(All)";
-        PETROL_STATION_24H_MARKER = "(24h)";
-    }
-
-    static {
-        CENTER_NAME = "";
-        OFFROAD_NAME = "---";
-        IN_ALL_CITIES = "";
-        STREET_BASENAME_MARKER = "";
-        PETROL_STATION_24H_MARKER = "";
+        CENTER_NAME = navigationEnv.getTranslatedText(5, DEFAULT_CENTER_NAME);
+        OFFROAD_NAME = navigationEnv.getTranslatedText(13, DEFAULT_OFFROAD_NAME);
+        IN_ALL_CITIES = navigationEnv.getTranslatedText(11, DEFAULT_IN_ALL_CITIES);
+        STREET_BASENAME_MARKER = DEFAULT_STREET_BASENAME_MARKER;
+        PETROL_STATION_24H_MARKER = DEFAULT_PETROL_STATION_24H_MARKER;
     }
 }
 

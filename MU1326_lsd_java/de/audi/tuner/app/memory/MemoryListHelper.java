@@ -10,22 +10,22 @@ import de.audi.tuner.app.memory.AbstractMemoryRow;
 import java.util.ArrayList;
 
 public class MemoryListHelper {
-    public static final int RS_DEFAULT;
-    static final int RS_PAG_EMPTY;
-    public static final int RS_PAG_LOGO;
-    public static final int RS_PAG_BEST_FM;
-    public static final int RS_PAG_NON_RDS;
-    public static final int RS_PAG_BEST_FM_TWO_COLS;
-    public static final int RS_EVO_NAR;
-    public static final int RS_TWO_COLS_WITH_UNIT;
-    public static final int RS_TWO_COLS_WITH_UNIT_ARABIC;
-    public static final int RS_ONE_COL_WITH_UNIT_NO_NAME;
-    public static final int RS_EVO_NAR_AMFM;
-    public static final int RS_SHOW_STORE;
-    public static final int RS_SDARS_GREY;
-    public static final int RS_PGEN2_NAME;
-    public static final int RS_PGEN2_FREQ;
-    public static final int RS_PGEN2_LOGO;
+    public static final int RS_DEFAULT = 0;
+    static final int RS_PAG_EMPTY = 1;
+    public static final int RS_PAG_LOGO = 2;
+    public static final int RS_PAG_BEST_FM = 3;
+    public static final int RS_PAG_NON_RDS = 4;
+    public static final int RS_PAG_BEST_FM_TWO_COLS = 5;
+    public static final int RS_EVO_NAR = 1;
+    public static final int RS_TWO_COLS_WITH_UNIT = 4;
+    public static final int RS_TWO_COLS_WITH_UNIT_ARABIC = 9;
+    public static final int RS_ONE_COL_WITH_UNIT_NO_NAME = 5;
+    public static final int RS_EVO_NAR_AMFM = 6;
+    public static final int RS_SHOW_STORE = 7;
+    public static final int RS_SDARS_GREY = 8;
+    public static final int RS_PGEN2_NAME = 0;
+    public static final int RS_PGEN2_FREQ = 1;
+    public static final int RS_PGEN2_LOGO = 2;
     private final BaseListModelApp model;
 
     public MemoryListHelper(BaseListModelApp baseListModelApp, LogChannel logChannel, int n) {
@@ -35,7 +35,7 @@ public class MemoryListHelper {
     final AbstractMemoryRow getRow(int n) {
         AbstractMemoryRow abstractMemoryRow = (AbstractMemoryRow)this.model.getRow(n);
         if (abstractMemoryRow == null) {
-            throw new IllegalStateException(new StringBuffer().append("No row for index ").append(n).append(" found!").toString());
+            throw new IllegalStateException("No row for index " + n + " found!");
         }
         return abstractMemoryRow;
     }

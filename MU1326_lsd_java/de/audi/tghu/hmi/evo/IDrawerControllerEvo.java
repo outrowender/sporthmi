@@ -15,50 +15,37 @@ IScreenEvo,
 IDrawer,
 ScreenAreaFocus,
 ScreenChangeAnimationItem {
-    public static final int TYPE_UNDEFINED;
-    public static final int TYPE_SELECTION_DRAWER;
-    public static final int TYPE_OPTION_DRAWER;
-    public static final int TYPE_ENTERTAINMENT_DRAWER;
-    public static final int MMI_COMBI_SYNC_MODE_STANDARD;
-    public static final int MMI_COMBI_SYNC_MODE_HIDDEN_BUT_ANIMATED;
+    public static final int TYPE_UNDEFINED = 0;
+    public static final int TYPE_SELECTION_DRAWER = 1;
+    public static final int TYPE_OPTION_DRAWER = 2;
+    public static final int TYPE_ENTERTAINMENT_DRAWER = 3;
+    public static final int MMI_COMBI_SYNC_MODE_STANDARD = 1;
+    public static final int MMI_COMBI_SYNC_MODE_HIDDEN_BUT_ANIMATED = 2;
 
-    default public void setClosedIconVisible(boolean bl) {
-    }
+    public void setClosedIconVisible(boolean var1);
 
-    default public void setDrawerType(int n) {
-    }
+    public void setDrawerType(int var1);
 
-    default public void setMMICombiSyncMode(int n) {
-    }
+    public void setMMICombiSyncMode(int var1);
 
-    default public boolean canOpen() {
-    }
+    public boolean canOpen();
 
-    default public boolean canClose() {
-    }
+    public boolean canClose();
 
-    default public boolean isVerticalLineVisible() {
-    }
+    public boolean isVerticalLineVisible();
 
-    default public void setVerticalLineVisible(boolean bl) {
-    }
+    public void setVerticalLineVisible(boolean var1);
 
-    default public int getCurrentAudioSource() {
-    }
+    public int getCurrentAudioSource();
 
-    default public void setTransitionForward(boolean bl) {
-    }
+    public void setTransitionForward(boolean var1);
 
-    default public boolean isSDSAudioSource(int n) {
-    }
+    public boolean isSDSAudioSource(int var1);
 
-    default public boolean isPhoneAudioSource(int n) {
-    }
+    public boolean isPhoneAudioSource(int var1);
 
-    default public void setIsBlockedWhileLockingIsActive(boolean bl) {
-    }
+    public void setIsBlockedWhileLockingIsActive(boolean var1);
 
-    default public boolean isBlockedWhileLockingIsActive() {
-    }
+    public boolean isBlockedWhileLockingIsActive();
 }
 

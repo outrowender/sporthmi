@@ -11,13 +11,12 @@ import org.osgi.framework.BundleContext;
 
 public class Activator
 implements BundleActivator {
-    private static final int d;
-    private static final int e;
-    public static final int a;
+    private static final int d = 0;
+    private static final int e = 1;
+    public static final int a = 5;
     d b;
     d c;
 
-    @Override
     public void start(BundleContext bundleContext) {
         TraceClient.init("organizer.VCardParser");
         de.eso.a.d.b.c("JVCARDIMPORT start bundle.");
@@ -37,7 +36,6 @@ implements BundleActivator {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         d d2 = this.b;
         if (d2 == null) {

@@ -37,7 +37,7 @@ public class BundlesInfo {
             String string = this.stripBundleName(bundleArray[i2]);
             String string2 = this.getState(bundleArray[i2]);
             ListCell[] listCellArray = new ListCell[]{new TextListCell(string), new TextListCell(string2), new IntegerListCell(i2)};
-            listCellArray[0] = new TextListCell(new StringBuffer().append(string).append(": ").append(string2).toString());
+            listCellArray[0] = new TextListCell(string + ": " + string2);
             if (bl) {
                 this.detectedBundlesList.addRow(listCellArray);
             }

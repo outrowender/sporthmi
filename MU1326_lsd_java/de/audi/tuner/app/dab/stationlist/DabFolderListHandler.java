@@ -3,12 +3,15 @@
  */
 package de.audi.tuner.app.dab.stationlist;
 
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
+import de.audi.tuner.app.RadioBaseListModelListener;
 import de.audi.tuner.app.RadioComparators;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
+import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerObjectContainer;
 import de.audi.tuner.app.TunerProxyManager;
 import de.audi.tuner.app.Utilities;
@@ -22,16 +25,13 @@ import de.audi.tuner.app.dab.stationlist.ComparatorComponent;
 import de.audi.tuner.app.dab.stationlist.ComparatorEnsemble;
 import de.audi.tuner.app.dab.stationlist.ComparatorService;
 import de.audi.tuner.app.dab.stationlist.DABListMemory;
-import de.audi.tuner.app.dab.stationlist.DABListMemory$DABLists;
-import de.audi.tuner.app.dab.stationlist.DabFolderListHandler$DsiDownListener;
-import de.audi.tuner.app.dab.stationlist.DabFolderListHandler$DsiUpListener;
-import de.audi.tuner.app.dab.stationlist.DabFolderListHandler$ListListener;
 import de.audi.tuner.app.dab.stationlist.DabFolderListModel;
 import de.audi.tuner.app.dab.stationlist.DabListRow;
 import de.audi.tuner.app.dab.stationlist.IFolderListModel;
 import de.audi.tuner.app.dab.stationlist.RecordSets;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.ifc.AbstractListRowFactory;
+import de.audi.tuner.ifc.AbstractRadioListRow;
 import de.audi.tuner.ifc.IScanHandler;
 import de.audi.tuner.ifc.IStoreStationHandler;
 import de.audi.tuner.ifc.ITunerVariantExt;
@@ -46,8 +46,8 @@ import org.dsi.ifc.radio.ServiceInfo;
 
 public class DabFolderListHandler
 extends AbstractDABListHandler {
-    public final DABDsiUpInfo dsiUpListener = new DabFolderListHandler$DsiUpListener(this, null);
-    public final DABDsiDownInfo dsiDownListener = new DabFolderListHandler$DsiDownListener(this, null);
+    public final DABDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final DABDsiDownInfo dsiDownListener = new DsiDownListener();
     private final IFolderListModel fullDABList;
     private DabStation[] components = new DabStation[0];
     private DabStation[] ensembles = new DabStation[0];
@@ -74,8 +74,8 @@ extends AbstractDABListHandler {
         this.currentStation = tunerStorage.loadLastDABService();
         this.langMngr = languageManager;
         this.imgType = tunerStorage.loadPreferredImageType();
-        this.fullDABList = new DabFolderListModel(tunerBasics, -1954021120, this.imgType, this);
-        this.fullDABList.setListener(new DabFolderListHandler$ListListener(this, tunerBasics.getModels(), 310903040));
+        this.fullDABList = new DabFolderListModel(tunerBasics, 100491, this.imgType, this);
+        this.fullDABList.setListener(new ListListener(tunerBasics.getModels(), 100370));
         this.recordSets = new RecordSets(this, 1);
         this.rowFactory = iTunerVariantExt.getListRowFactory();
         if (!Utilities.isPGen1OrBentley()) {
@@ -96,7 +96,7 @@ extends AbstractDABListHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void listUpdate(DabStation[] dabStationArray, DabStation[] dabStationArray2, DabStation[] dabStationArray3) {
-        this.logger.dabList.log(14808325, "[DABSLH.listupdate] E:%1 S: %2 C: %3", (long)dabStationArray.length, (long)dabStationArray2.length, (long)dabStationArray3.length);
+        this.logger.dabList.log(100000000, "[DABSLH.listupdate] E:%1 S: %2 C: %3", (long)dabStationArray.length, (long)dabStationArray2.length, (long)dabStationArray3.length);
         IFolderListModel iFolderListModel = this.fullDABList;
         synchronized (iFolderListModel) {
             this.orgLists.setLists(dabStationArray, dabStationArray2, dabStationArray3);
@@ -104,7 +104,7 @@ extends AbstractDABListHandler {
             this.services = dabStationArray2;
             this.components = dabStationArray3;
             if (this.ensembles == null || this.services == null) {
-                this.logger.dabList.log(1078071040, "listUpdate: invalid source array, ensembles %1, services %2 ", (Object)this.ensembles, (Object)this.services);
+                this.logger.dabList.log(1000000, "listUpdate: invalid source array, ensembles %1, services %2 ", (Object)this.ensembles, (Object)this.services);
                 return;
             }
         }
@@ -130,24 +130,24 @@ extends AbstractDABListHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void buildFullList() {
-        this.logger.dabList.log(1078071040, "buildFullList#entry ");
+        this.logger.dabList.log(1000000, "buildFullList#entry ");
         if (this.ensembles == null || this.services == null) {
-            this.logger.dabList.log(1078071040, "buildFullList: invalid source array, ensembles %1, services %2 ", (Object)this.ensembles, (Object)this.services);
+            this.logger.dabList.log(1000000, "buildFullList: invalid source array, ensembles %1, services %2 ", (Object)this.ensembles, (Object)this.services);
             return;
         }
         IFolderListModel iFolderListModel = this.fullDABList;
         synchronized (iFolderListModel) {
             try {
                 this.removeTmpItemsFromArrays();
-                this.logger.dabList.log(1078071040, "buildFullList: E:%1 S:%2 C:%3", (long)this.ensembles.length, (long)this.services.length, (long)this.components.length);
+                this.logger.dabList.log(1000000, "buildFullList: E:%1 S:%2 C:%3", (long)this.ensembles.length, (long)this.services.length, (long)this.components.length);
                 this.tmpAddedEnsemble = null;
                 this.tmpAddedService = null;
                 this.tmpAddedComponent = null;
                 this.addActiveStationToList();
-                this.logger.dabDeepDebug.log(1078071040, "Tmp added Ens %1", (Object)this.tmpAddedEnsemble);
-                this.logger.dabDeepDebug.log(1078071040, "Tmp added Ser %1", (Object)this.tmpAddedService);
-                this.logger.dabDeepDebug.log(1078071040, "Tmp added Com %1", (Object)this.tmpAddedComponent);
-                this.logger.dabList.log(1078071040, "buildFullList: E:%1 S:%2 C:%3", (long)this.ensembles.length, (long)this.services.length, (long)this.components.length);
+                this.logger.dabDeepDebug.log(1000000, "Tmp added Ens %1", (Object)this.tmpAddedEnsemble);
+                this.logger.dabDeepDebug.log(1000000, "Tmp added Ser %1", (Object)this.tmpAddedService);
+                this.logger.dabDeepDebug.log(1000000, "Tmp added Com %1", (Object)this.tmpAddedComponent);
+                this.logger.dabList.log(1000000, "buildFullList: E:%1 S:%2 C:%3", (long)this.ensembles.length, (long)this.services.length, (long)this.components.length);
                 List list = this.buildHierarchicalList();
                 this.fullDABList.update(list, this.currentStation);
             }
@@ -158,11 +158,11 @@ extends AbstractDABListHandler {
         if (this.listIsActive) {
             this.propagateUpdatedStationList(5);
         }
-        this.logger.dabList.log(1078071040, "buildFullList#exit ");
+        this.logger.dabList.log(1000000, "buildFullList#exit ");
     }
 
     private List buildHierarchicalList() {
-        this.logger.dabDeepDebug.log(-2137614336, "[DABSLH.buildHierarchicalList]");
+        this.logger.dabDeepDebug.log(10000000, "[DABSLH.buildHierarchicalList]");
         Arrays.sort(this.ensembles, new ComparatorEnsemble(this.langMngr));
         ArrayList arrayList = new ArrayList(this.ensembles.length + this.services.length + this.components.length + 3);
         for (int i2 = 0; i2 < this.ensembles.length; ++i2) {
@@ -170,9 +170,9 @@ extends AbstractDABListHandler {
             if (this.ensembles[i2] == null) continue;
             Object[] objectArray = this.getServicesByEnsemble(this.ensembles[i2].ensemble.ensID, this.ensembles[i2].ensemble.ensECC);
             if (objectArray.length == 0) {
-                this.logger.dabList.log(-2137614336, "No services for ensemble %1 found ", (long)this.ensembles[i2].ensemble.ensID);
+                this.logger.dabList.log(10000000, "No services for ensemble %1 found ", (long)this.ensembles[i2].ensemble.ensID);
                 for (n = 0; n < this.services.length; ++n) {
-                    this.logger.dabList.log(-2137614336, "%1 ", (Object)this.services[n]);
+                    this.logger.dabList.log(10000000, "%1 ", (Object)this.services[n]);
                 }
                 continue;
             }
@@ -195,7 +195,7 @@ extends AbstractDABListHandler {
 
     private DabListRow createRow(DabStation dabStation) {
         DabListRow dabListRow;
-        this.logger.dabDeepDebug.log(1078071040, "DABSLH.createRow %1", (Object)dabStation);
+        this.logger.dabDeepDebug.log(1000000, "DABSLH.createRow %1", (Object)dabStation);
         if (RadioComparators.equals(this.currentStation, dabStation)) {
             dabListRow = this.rowFactory.getDabListRow(this.recordSets, this.currentStation, false, this.imgType);
             dabListRow.setStationActive(true);
@@ -209,9 +209,8 @@ extends AbstractDABListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void highlightItem(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
-        this.logger.dabList.log(-2137614336, "[DabFolderListHandler.highlightItem] %1", (Object)dabStation);
+        this.logger.dabList.log(10000000, "[DabFolderListHandler.highlightItem] %1", (Object)dabStation);
         this.reception = dabReceptionStatus;
         if (dabStation.isEnsemble()) {
             this.logger.dabList.log(10000, "[DabFolderListHandler.highlightItem] with Ensemble called");
@@ -219,12 +218,12 @@ extends AbstractDABListHandler {
         }
         int n = -1;
         this.currentStation = dabStation;
-        this.logger.dabList.log(-2137614336, "[DabFolderListHandler.highlightItem] highlightItem#%1 ", (Object)dabStation);
+        this.logger.dabList.log(10000000, "[DabFolderListHandler.highlightItem] highlightItem#%1 ", (Object)dabStation);
         IFolderListModel iFolderListModel = this.fullDABList;
         synchronized (iFolderListModel) {
             n = this.fullDABList.getIndexForUniqueID(dabStation.getUniqueId());
             if (n == -1) {
-                this.logger.dabList.log(1078071040, "[DabFolderListHandler.highlightItem] highlight: Item not in list: %1 ", (Object)dabStation);
+                this.logger.dabList.log(1000000, "[DabFolderListHandler.highlightItem] highlight: Item not in list: %1 ", (Object)dabStation);
                 this.buildFullList();
                 return;
             }
@@ -244,7 +243,7 @@ extends AbstractDABListHandler {
         if (this.listIsActive) {
             this.propagateUpdatedActiveStation(5);
         }
-        this.logger.dabList.log(1078071040, "[DabFolderListHandler.highlightItem] highlightItemLeft");
+        this.logger.dabList.log(1000000, "[DabFolderListHandler.highlightItem] highlightItemLeft");
     }
 
     private boolean chkRemoveTmpStations(DabStation dabStation) {
@@ -274,7 +273,7 @@ extends AbstractDABListHandler {
         if (this.fullDABList.getLength() == 0) {
             return;
         }
-        this.logger.dabList.log(-2137614336, "[DabFolderListHandler.setSyncLiskState]sync %1 link %2 ", (long)n, (long)n2);
+        this.logger.dabList.log(10000000, "[DabFolderListHandler.setSyncLiskState]sync %1 link %2 ", (long)n, (long)n2);
         IFolderListModel iFolderListModel = this.fullDABList;
         synchronized (iFolderListModel) {
             try {
@@ -315,14 +314,14 @@ extends AbstractDABListHandler {
             return null;
         }
         int n2 = this.fullDABList.getSelected();
-        this.logger.hmi.log(14808325, "Active index DAB list is: %1 ", (long)n2);
+        this.logger.hmi.log(100000000, "Active index DAB list is: %1 ", (long)n2);
         if (n2 == -1) {
             n2 = 0;
         }
         DabListRow dabListRow = null;
         for (int i2 = 0; i2 < n && dabListRow == null; ++i2) {
             n2 = this.getNextListIndex(bl, n, n2);
-            this.logger.hmi.log(14808325, "Next index is: %1 ", (long)n2);
+            this.logger.hmi.log(100000000, "Next index is: %1 ", (long)n2);
             dabListRow = this.fullDABList.getRow(n2);
             if (!dabListRow.isEnsemble()) continue;
             dabListRow = null;
@@ -368,10 +367,10 @@ extends AbstractDABListHandler {
     }
 
     private void removeTmpItemsFromArrays() {
-        DABListMemory$DABLists dABListMemory$DABLists = this.orgLists.getLists();
-        this.ensembles = dABListMemory$DABLists.ensembles;
-        this.services = dABListMemory$DABLists.services;
-        this.components = dABListMemory$DABLists.components;
+        DABListMemory.DABLists dABLists = this.orgLists.getLists();
+        this.ensembles = dABLists.ensembles;
+        this.services = dABLists.services;
+        this.components = dABLists.components;
     }
 
     private void initFolderStates(TunerStorage tunerStorage) {
@@ -381,7 +380,7 @@ extends AbstractDABListHandler {
 
     public boolean tuneById(long l, int n) {
         Serializable serializable;
-        this.logger.combi.log(-2137614336, "AbstractStationList#tuneById, id: %1", l);
+        this.logger.combi.log(10000000, "AbstractStationList#tuneById, id: %1", l);
         DabListRow dabListRow = null;
         for (int i2 = 0; i2 < this.fullDABList.getLength(); ++i2) {
             dabListRow = this.fullDABList.getRow(i2);
@@ -433,7 +432,6 @@ extends AbstractDABListHandler {
         return tunerObjectContainer;
     }
 
-    @Override
     public DabStation getCurrentStation() {
         return this.currentStation;
     }
@@ -458,24 +456,54 @@ extends AbstractDABListHandler {
         this.listIsActive = n == 1;
     }
 
-    static /* synthetic */ IScanHandler access$200(DabFolderListHandler dabFolderListHandler) {
-        return dabFolderListHandler.scanHandler;
+    private class ListListener
+    extends RadioBaseListModelListener {
+        public ListListener(TunerModels tunerModels, int n) {
+            super(tunerModels, n);
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            DabFolderListHandler.this.scanHandler.abortScan();
+            if (this.isNewSelection(evoListRow, n, n2, n3, n4)) {
+                DabStation dabStation = DabFolderListHandler.this.getStation((DabListRow)evoListRow);
+                DabFolderListHandler.this.dabTuner.selectStation(dabStation, dabStation.isComponent() ? 3 : 2, n4);
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            DabFolderListHandler.this.scanHandler.abortScan();
+            if (n2 != DabFolderListHandler.this.fullDABList.getSelected()) {
+                DabStation dabStation = ((DabListRow)evoListRow).getDabStation();
+                TunerProxyManager.getInstance().getDABTuner().selectStation(dabStation, 0, n4);
+            }
+            if (DabFolderListHandler.this.longPressHandler != null) {
+                DabFolderListHandler.this.longPressHandler.prepareStore(n4, ((AbstractRadioListRow)evoListRow).getTOContainer());
+            }
+        }
     }
 
-    static /* synthetic */ DabStation access$300(DabFolderListHandler dabFolderListHandler, DabListRow dabListRow) {
-        return dabFolderListHandler.getStation(dabListRow);
+    private class DsiUpListener
+    extends DABDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void listUpdate(DabStation[] dabStationArray, DabStation[] dabStationArray2, DabStation[] dabStationArray3) {
+            DabFolderListHandler.this.listUpdate(dabStationArray, dabStationArray2, dabStationArray3);
+        }
+
+        public void updateCurrentStation(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
+            DabFolderListHandler.this.highlightItem(dabStation, dabReceptionStatus);
+        }
     }
 
-    static /* synthetic */ DABTuner access$400(DabFolderListHandler dabFolderListHandler) {
-        return dabFolderListHandler.dabTuner;
-    }
+    private class DsiDownListener
+    extends DABDsiDownInfo {
+        private DsiDownListener() {
+        }
 
-    static /* synthetic */ IFolderListModel access$500(DabFolderListHandler dabFolderListHandler) {
-        return dabFolderListHandler.fullDABList;
-    }
-
-    static /* synthetic */ IStoreStationHandler access$600(DabFolderListHandler dabFolderListHandler) {
-        return dabFolderListHandler.longPressHandler;
+        public void preTuneAction(DabStation dabStation, DabReceptionStatus dabReceptionStatus, int n) {
+            DabFolderListHandler.this.highlightItem(dabStation, dabReceptionStatus);
+        }
     }
 }
 

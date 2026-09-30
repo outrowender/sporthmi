@@ -9,25 +9,18 @@ import de.audi.tghu.navi.app.map.IView;
 
 public interface IAsiaMapContentView
 extends IView {
-    default public ButtonModelApp getRemoveAllPOI() {
-    }
+    public ButtonModelApp getRemoveAllPOI();
 
-    default public ChoiceModelApp getTrafficFlow() {
-    }
+    public ChoiceModelApp getTrafficFlow();
 
-    default public ChoiceModelApp getTrafficEventIcons() {
-    }
+    public ChoiceModelApp getTrafficEventIcons();
 
-    default public ChoiceModelApp getTrafficEventNotice() {
-    }
+    public ChoiceModelApp getTrafficEventNotice();
 
-    default public ChoiceModelApp getUncrowdedRoad() {
-    }
+    public ChoiceModelApp getUncrowdedRoad();
 
-    default public ChoiceModelApp getFavorites() {
-    }
+    public ChoiceModelApp getFavorites();
 
-    default public ChoiceModelApp getWeatherIcons() {
-    }
+    public ChoiceModelApp getWeatherIcons();
 }
 

@@ -25,45 +25,39 @@ implements IOnlineConnectivityStateListener {
         this.listeners.add(iOnlineConnectivityStateListener);
     }
 
-    @Override
     public void onlineStateChanged() {
-        this.logger.log(-2137614336, "RemoteHMIConnectivityChangedService#onlineStateChanged: Called.");
-        ChoiceModelApp choiceModelApp = this.remoteHmiService.getFrameworkAccess().getHMIService().getChoiceModel(1209803520);
+        this.logger.log(10000000, "RemoteHMIConnectivityChangedService#onlineStateChanged: Called.");
+        ChoiceModelApp choiceModelApp = this.remoteHmiService.getFrameworkAccess().getHMIService().getChoiceModel(2301000);
         choiceModelApp.setValue(~choiceModelApp.getValue());
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             ((IOnlineConnectivityStateListener)this.listeners.get(i2)).onlineStateChanged();
         }
     }
 
-    @Override
     public void updateErrorState(boolean bl, int n) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             ((IOnlineConnectivityStateListener)this.listeners.get(i2)).updateErrorState(bl, n);
         }
     }
 
-    @Override
     public void updateConnectionState(boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             ((IOnlineConnectivityStateListener)this.listeners.get(i2)).updateConnectionState(bl);
         }
     }
 
-    @Override
     public void connectivityCheckEntryAction() {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             ((IOnlineConnectivityStateListener)this.listeners.get(i2)).connectivityCheckEntryAction();
         }
     }
 
-    @Override
     public void connectivityCheckExitAction(boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             ((IOnlineConnectivityStateListener)this.listeners.get(i2)).connectivityCheckExitAction(bl);
         }
     }
 
-    @Override
     public void connectivityCheckExitAction(int n, boolean bl) {
         for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
             ((IOnlineConnectivityStateListener)this.listeners.get(i2)).connectivityCheckExitAction(n, bl);

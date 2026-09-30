@@ -29,15 +29,14 @@ implements IVehicleStatesEventsProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateTankInfo(TankInfo tankInfo, int n) {
-        this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateTankInfo( %1, %2 )", (Object)tankInfo, (long)n);
+        this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateTankInfo( %1, %2 )", (Object)tankInfo, (long)n);
         if (n != 1) {
-            this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateTankInfo() - update is invalid");
+            this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateTankInfo() - update is invalid");
             return;
         }
         if (tankInfo == null) {
-            this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateTankInfo() - tankInfo are null");
+            this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateTankInfo() - tankInfo are null");
             return;
         }
         ArrayList arrayList = this.observersList;
@@ -58,11 +57,10 @@ implements IVehicleStatesEventsProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDisplayDayNightDesign(boolean bl, int n) {
-        this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateDisplayDayNightDesign( %1, %2 )", bl, (long)n);
+        this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateDisplayDayNightDesign( %1, %2 )", bl, (long)n);
         if (n != 1) {
-            this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateDisplayDayNightDesign() - update is invalid");
+            this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateDisplayDayNightDesign() - update is invalid");
             return;
         }
         ArrayList arrayList = this.observersList;
@@ -83,11 +81,10 @@ implements IVehicleStatesEventsProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateVehicleStandstill(boolean bl, int n) {
-        this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateVehicleStandstill( %1, %2 )", bl, (long)n);
+        this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateVehicleStandstill( %1, %2 )", bl, (long)n);
         if (n != 1) {
-            this.logChannel.log(1078071040, "NaviDSIGeneralVehicleStatesListener#updateVehicleStandstill() - update is invalid");
+            this.logChannel.log(1000000, "NaviDSIGeneralVehicleStatesListener#updateVehicleStandstill() - update is invalid");
             return;
         }
         ArrayList arrayList = this.observersList;
@@ -112,7 +109,6 @@ implements IVehicleStatesEventsProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public synchronized void registerListener(IVehicleStatesObserver iVehicleStatesObserver) {
         ArrayList arrayList = this.observersList;
         synchronized (arrayList) {
@@ -123,7 +119,6 @@ implements IVehicleStatesEventsProvider {
         }
     }
 
-    @Override
     public void unregisterListener(IVehicleStatesObserver iVehicleStatesObserver) {
     }
 }

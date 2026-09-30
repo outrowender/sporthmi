@@ -4,20 +4,19 @@
 package de.audi.tghu.navi.app.poi.online;
 
 import de.audi.tghu.navi.app.command.NavCommand;
-import de.audi.tghu.navi.app.poi.online.OnlinePOIResultList$ResultElement;
+import de.audi.tghu.navi.app.poi.online.OnlinePOIResultList;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
 
 class RefreshResolvedEntryCommand
 extends NavCommand {
-    private OnlinePOIResultList$ResultElement result;
+    private OnlinePOIResultList.ResultElement result;
 
-    public RefreshResolvedEntryCommand(OnlinePOIResultList$ResultElement onlinePOIResultList$ResultElement) {
-        this.result = onlinePOIResultList$ResultElement;
+    public RefreshResolvedEntryCommand(OnlinePOIResultList.ResultElement resultElement) {
+        this.result = resultElement;
     }
 
-    @Override
     public void execute() {
         NavLocation navLocation = this.dsiResponseContainer.getTransformedLocation();
         if (Util.isEmpty(navLocation.getStreet())) {
@@ -30,7 +29,7 @@ extends NavCommand {
         if (!Util.isEmpty(this.result.element.url)) {
             Util.setURLOnLocation(navLocation, this.result.element.url);
         }
-        this.logger.log(-2137614336, "RefreshResolvedEntryCommand#execute() - resolvedLocation: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logger.log(10000000, "RefreshResolvedEntryCommand#execute() - resolvedLocation: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
         this.result.setTransformedLocation(navLocation);
         this.getCommandList().commandFinished();
     }

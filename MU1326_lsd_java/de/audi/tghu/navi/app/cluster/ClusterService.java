@@ -27,7 +27,6 @@ import de.audi.tghu.navi.app.OperationManager;
 import de.audi.tghu.navi.app.SpeechManager;
 import de.audi.tghu.navi.app.audio.AudioStateMachine;
 import de.audi.tghu.navi.app.cluster.BAPDistanceFormatter;
-import de.audi.tghu.navi.app.cluster.BAPDistanceFormatter$BAPDistance;
 import de.audi.tghu.navi.app.cluster.ClusterInputListener;
 import de.audi.tghu.navi.app.cluster.ClusterKDKHandler;
 import de.audi.tghu.navi.app.cluster.ClusterKDKHandlerImpl;
@@ -44,7 +43,7 @@ import de.audi.tghu.navi.app.map.handler.MapScaleHandler;
 import de.audi.tghu.navi.app.map.handler.MapScaleInfo;
 import de.audi.tghu.navi.app.map.handler.MapScaleTimer;
 import de.audi.tghu.navi.app.map.routecalc.RcciEvent;
-import de.audi.tghu.navi.app.rp.TripHandler$TripData;
+import de.audi.tghu.navi.app.rp.TripHandler;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.util.addressformatting.AddressFormatter;
@@ -65,7 +64,7 @@ import org.dsi.ifc.tmc.TmcMessage;
 public class ClusterService
 implements NaviMoKoKDKConstants,
 PowerEventListener {
-    public static final String EMPTY_STREET_LABEL;
+    public static final String EMPTY_STREET_LABEL = "---";
     protected LogChannel logChannel;
     protected final NavigationEnv env;
     private boolean rgiDataValid = false;
@@ -127,7 +126,7 @@ PowerEventListener {
     }
 
     private void initializeModels() {
-        this.logChannel.log(-2137614336, "ClusterService#initializeModels() ");
+        this.logChannel.log(10000000, "ClusterService#initializeModels() ");
         this.env.getLabelModel(71).setText("");
         this.env.getChoiceModel(69).setValue(0);
         this.turnToStreetValid = false;
@@ -155,9 +154,9 @@ PowerEventListener {
         return new CombiBAPListener(this, this.logChannel, this.env, speechManager, operationManager, audioStateMachine, mapManager, iCommandListFactory, iViewSizeManager);
     }
 
-    public synchronized void unitsChanged(TripHandler$TripData tripHandler$TripData) {
-        this.logChannel.log(-2137614336, "ClusterService#unitsChanged()");
-        this.refreshTravelParameters(tripHandler$TripData);
+    public synchronized void unitsChanged(TripHandler.TripData tripData) {
+        this.logChannel.log(10000000, "ClusterService#unitsChanged()");
+        this.refreshTravelParameters(tripData);
         this.refreshDistanceToNextManeuver();
         this.combiBAPListener.updateSemidynamicRouteGuidance();
         this.combiBAPListener.updateAltitude();
@@ -185,19 +184,19 @@ PowerEventListener {
     }
 
     public void setCombiBAPService(CombiBAPServiceNavi combiBAPServiceNavi) {
-        this.logChannel.log(-2137614336, "ClusterService#setCombiBAPService()");
+        this.logChannel.log(10000000, "ClusterService#setCombiBAPService()");
         this.combiBAPListener.setCombiService(combiBAPServiceNavi);
         this.combiBAPServiceNavi = combiBAPServiceNavi;
     }
 
     public void setCombiService(CombiService combiService) {
-        this.logChannel.log(-2137614336, "ClusterService#setCombiService()");
+        this.logChannel.log(10000000, "ClusterService#setCombiService()");
         this.clusterViewMode.setCombiService(combiService);
         this.combiDDP2ServiceNavi = combiService;
     }
 
     public void setMOSTFrameVisible(boolean bl) {
-        this.logChannel.log(-2137614336, "ClusterService#setMOSTFrameVisible( %1 )", bl);
+        this.logChannel.log(10000000, "ClusterService#setMOSTFrameVisible( %1 )", bl);
         this.komoService.notifyVisibility(bl);
     }
 
@@ -206,15 +205,15 @@ PowerEventListener {
     }
 
     public void updateCurrentStreet(String string) {
-        this.logChannel.log(14808325, "ClusterService#updateCurrentStreet( %1 )", (Object)string);
+        this.logChannel.log(100000000, "ClusterService#updateCurrentStreet( %1 )", (Object)string);
         String string2 = string;
         String string3 = string;
         String string4 = string;
         if (Util.isEmpty(string2)) {
-            this.logChannel.log(-2137614336, "ClusterService#updateCurrentStreet() - invalid currentStreet: %1", (Object)string2);
+            this.logChannel.log(10000000, "ClusterService#updateCurrentStreet() - invalid currentStreet: %1", (Object)string2);
             string3 = "";
             string2 = "";
-            string4 = "---";
+            string4 = EMPTY_STREET_LABEL;
         }
         this.env.getLabelModel(62).setText(string4);
         this.komoService.setCurrentStreet(string2);
@@ -222,7 +221,7 @@ PowerEventListener {
     }
 
     public void updateTurnToStreet(String string, boolean bl) {
-        this.logChannel.log(14808325, "ClusterService#updateTurnToStreet( %1 )", (Object)string);
+        this.logChannel.log(100000000, "ClusterService#updateTurnToStreet( %1 )", (Object)string);
         this.turnToStreet = string;
         this.turnToStreetValid = !Util.isEmpty(string);
         this.env.getLabelModel(71).setText(string);
@@ -230,7 +229,7 @@ PowerEventListener {
     }
 
     private void refreshStreetMode() {
-        this.logChannel.log(14808325, "ClusterService#refreshStreetMode() - turnToStreetValid: %1, showBargraph: %2 ", this.turnToStreetValid, this.showBargraph);
+        this.logChannel.log(100000000, "ClusterService#refreshStreetMode() - turnToStreetValid: %1, showBargraph: %2 ", this.turnToStreetValid, this.showBargraph);
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(69);
         if (this.turnToStreetValid && this.showBargraph) {
             choiceModelApp.setValue(1);
@@ -269,7 +268,7 @@ PowerEventListener {
                 return 5;
             }
         }
-        this.logChannel.log(-1601830656, "ClusterService#convertBAP2KOMOUnit() - unknown or not convertable BAP unit: %1", (long)n);
+        this.logChannel.log(100000, "ClusterService#convertBAP2KOMOUnit() - unknown or not convertable BAP unit: %1", (long)n);
         return 255;
     }
 
@@ -279,18 +278,18 @@ PowerEventListener {
         long l;
         Object object;
         if (distanceToNextManeuver == null) {
-            this.logChannel.log(1078071040, "ClusterService#refreshDistanceToNextManeuver() - distanceToNextManeuver is null! ");
+            this.logChannel.log(1000000, "ClusterService#refreshDistanceToNextManeuver() - distanceToNextManeuver is null! ");
             return;
         }
-        this.logChannel.log(14808325, "ClusterService#refreshDistanceToNextManeuver() - distanceToNextManeuver: %1", (Object)distanceToNextManeuver);
+        this.logChannel.log(100000000, "ClusterService#refreshDistanceToNextManeuver() - distanceToNextManeuver: %1", (Object)distanceToNextManeuver);
         boolean bl2 = distanceToNextManeuver.showDistance;
         int n2 = distanceToNextManeuver.distance;
         this.showBargraph = distanceToNextManeuver.showBargraph;
         int n3 = distanceToNextManeuver.bargraph;
         if (n2 > 0) {
             object = this.bapDistanceFormatter.formatDistanceToTurn(n2, Distance.getSystemUnit() == 1);
-            l = ((BAPDistanceFormatter$BAPDistance)object).getValue();
-            n = this.convertBAP2KOMODistanceUnit(((BAPDistanceFormatter$BAPDistance)object).getUnit());
+            l = ((BAPDistanceFormatter.BAPDistance)object).getValue();
+            n = this.convertBAP2KOMODistanceUnit(((BAPDistanceFormatter.BAPDistance)object).getUnit());
             bl = !this.showBargraph;
         } else {
             l = -1L;
@@ -299,7 +298,7 @@ PowerEventListener {
         }
         object = this.env.getMetricsModel(64);
         if (bl2 && n2 > 0) {
-            this.distanceToManeuver.setValue((float)n2 / 31300);
+            this.distanceToManeuver.setValue((float)n2 / 1000.0f);
             object.setMetric(this.distanceToManeuver);
         }
         if (bl2 && n2 > 0 && !this.showBargraph) {
@@ -315,15 +314,15 @@ PowerEventListener {
         this.combiBAPListener.setDistanceToNextManeuver(n2, this.showBargraph, n3);
     }
 
-    public void refreshTravelParameters(TripHandler$TripData tripHandler$TripData) {
-        this.logChannel.log(14808325, "ClusterService#refreshTravelParameters()");
-        if (tripHandler$TripData.etaModeActive) {
-            this.updateArrivalTime(tripHandler$TripData.etaValid, tripHandler$TripData.etaToNextDestination, tripHandler$TripData.isTimeZoneOffset);
+    public void refreshTravelParameters(TripHandler.TripData tripData) {
+        this.logChannel.log(100000000, "ClusterService#refreshTravelParameters()");
+        if (tripData.etaModeActive) {
+            this.updateArrivalTime(tripData.etaValid, tripData.etaToNextDestination, tripData.isTimeZoneOffset);
         } else {
-            this.updateRemainingTravelTime(tripHandler$TripData.etaValid, tripHandler$TripData.timeToNextDestination * 0);
+            this.updateRemainingTravelTime(tripData.etaValid, tripData.timeToNextDestination * 1000L);
         }
         this.followInfoRIE.destinationIndex = this.getDestIndex();
-        this.updateDistanceToDestination(tripHandler$TripData.distanceToNextDestination, this.followInfoRIE.destinationIndex == 0);
+        this.updateDistanceToDestination(tripData.distanceToNextDestination, this.followInfoRIE.destinationIndex == 0);
         this.updateKOMOFollowInfo();
         this.travelParametersGroup.flush();
     }
@@ -370,7 +369,7 @@ PowerEventListener {
 
     protected void updateArrivalTime(boolean bl, long l, boolean bl2) {
         String string;
-        this.logChannel.log(14808325, "ClusterService#updateArrivalTime( %1, %2 )", bl, l);
+        this.logChannel.log(100000000, "ClusterService#updateArrivalTime( %1, %2 )", bl, l);
         MetricsModelApp metricsModelApp = this.env.getMetricsModel(66);
         if (bl) {
             this.etaDateMetric.setDate(l);
@@ -378,7 +377,7 @@ PowerEventListener {
             Util.setModelStatus(metricsModelApp, 1);
             string = Util.formatTime(l, 2, this.env);
         } else {
-            this.logChannel.log(-2137614336, "ClusterService#updateArrivalTime() - invalid flag for ETA set! ");
+            this.logChannel.log(10000000, "ClusterService#updateArrivalTime() - invalid flag for ETA set! ");
             Util.setModelStatus(metricsModelApp, 3);
             string = "--:--";
         }
@@ -390,14 +389,14 @@ PowerEventListener {
     }
 
     protected void updateRemainingTravelTime(boolean bl, long l) {
-        this.logChannel.log(14808325, "ClusterService#RemainingTravelTime( %1, %2 )", bl, l);
+        this.logChannel.log(100000000, "ClusterService#RemainingTravelTime( %1, %2 )", bl, l);
         MetricsModelApp metricsModelApp = this.env.getMetricsModel(66);
         if (bl) {
             this.rttDateMetric.setDate(l);
             metricsModelApp.setMetric(this.rttDateMetric);
             Util.setModelStatus(metricsModelApp, 1);
         } else {
-            this.logChannel.log(-2137614336, "ClusterService#updateArrivalTime() - invalid flag for ETA set! ");
+            this.logChannel.log(10000000, "ClusterService#updateArrivalTime() - invalid flag for ETA set! ");
             Util.setModelStatus(metricsModelApp, 3);
         }
         KOMOTime kOMOTime = KOMOService.convertDurationToKOMO(l);
@@ -408,21 +407,21 @@ PowerEventListener {
     protected void updateDistanceToDestination(int n, boolean bl) {
         boolean bl2;
         String string;
-        this.logChannel.log(14808325, "ClusterService#updateDistanceToDestination( %1 )", (long)n);
+        this.logChannel.log(100000000, "ClusterService#updateDistanceToDestination( %1 )", (long)n);
         long l = -1L;
         int n2 = -1;
         MetricsModelApp metricsModelApp = this.env.getMetricsModel(63);
         if (n > 0) {
-            this.distanceToDestination.setValue((float)n / 31300);
+            this.distanceToDestination.setValue((float)n / 1000.0f);
             metricsModelApp.setMetric(this.distanceToDestination);
             Util.setModelStatus(metricsModelApp, 1);
-            string = Util.formatDistance(n, 1, 2, "---");
-            BAPDistanceFormatter$BAPDistance bAPDistanceFormatter$BAPDistance = this.bapDistanceFormatter.formatDistanceToDestination(n, Distance.getSystemUnit() == 1);
-            l = bAPDistanceFormatter$BAPDistance.getValue();
-            n2 = this.convertBAP2KOMODistanceUnit(bAPDistanceFormatter$BAPDistance.getUnit());
+            string = Util.formatDistance(n, 1, 2, EMPTY_STREET_LABEL);
+            BAPDistanceFormatter.BAPDistance bAPDistance = this.bapDistanceFormatter.formatDistanceToDestination(n, Distance.getSystemUnit() == 1);
+            l = bAPDistance.getValue();
+            n2 = this.convertBAP2KOMODistanceUnit(bAPDistance.getUnit());
             bl2 = true;
         } else {
-            this.logChannel.log(-2137614336, "ClusterService#updateDistanceToDestination() - invalid distanceToDestination! ");
+            this.logChannel.log(10000000, "ClusterService#updateDistanceToDestination() - invalid distanceToDestination! ");
             Util.setModelStatus(metricsModelApp, 3);
             string = "";
             bl2 = false;
@@ -433,7 +432,7 @@ PowerEventListener {
     }
 
     public void updateSoPosPosition(PosPosition posPosition) {
-        this.logChannel.log(14808325, "ClusterService#updateSoPosPosition( %1 )", (Object)posPosition);
+        this.logChannel.log(100000000, "ClusterService#updateSoPosPosition( %1 )", (Object)posPosition);
         short s = 0;
         short s2 = 255;
         int n = -1;
@@ -442,20 +441,20 @@ PowerEventListener {
             s2 = (short)posPosition.getDirectionSymbolic();
             n = posPosition.getState();
         } else {
-            this.logChannel.log(-1601830656, "ClusterService#updateSoPosPosition() - invalid soPosPosition!");
+            this.logChannel.log(100000, "ClusterService#updateSoPosPosition() - invalid soPosPosition!");
         }
         this.combiBAPListener.setVehicleHeading(s, s2);
         this.combiBAPListener.setInfoStateGPS(n);
     }
 
     public void updateSoPosPositionDescription(NavLocation navLocation) {
-        this.logChannel.log(14808325, "ClusterService#updateSoPosPositionDescription( %1 )", (Object)navLocation);
+        this.logChannel.log(100000000, "ClusterService#updateSoPosPositionDescription( %1 )", (Object)navLocation);
         String string = LocationFormatter.formatCity(navLocation);
         this.komoService.setCityName(string);
     }
 
     public void updateRgDirectionToNextDestination(short s) {
-        this.logChannel.log(14808325, "ClusterService#updateRgDirectionToNextDestination( %1 )", (long)s);
+        this.logChannel.log(100000000, "ClusterService#updateRgDirectionToNextDestination( %1 )", (long)s);
     }
 
     public void updateRGIString(short[] sArray) {
@@ -464,13 +463,13 @@ PowerEventListener {
             this.env.getDataModel(68).set(sArray);
         } else {
             this.rgiDataValid = false;
-            this.logChannel.log(-2137614336, "ClusterService#updateRGIData() - invalid RGI data ");
+            this.logChannel.log(10000000, "ClusterService#updateRGIData() - invalid RGI data ");
         }
         this.refreshRGIValid();
     }
 
     public void updateRgActive(boolean bl) {
-        this.logChannel.log(14808325, "ClusterService#updateRgActive( %1 )", bl);
+        this.logChannel.log(100000000, "ClusterService#updateRgActive( %1 )", bl);
         this.refreshRGIValid();
         this.clusterViewMode.refreshRGState();
         if (!bl) {
@@ -485,7 +484,7 @@ PowerEventListener {
     }
 
     public void updateNavState(int n, int n2) {
-        this.logChannel.log(-2137614336, "ClusterService#updateNavState( %1, %2 )", (long)n, (long)n2);
+        this.logChannel.log(10000000, "ClusterService#updateNavState( %1, %2 )", (long)n, (long)n2);
         if (this.combiDDP2ServiceNavi != null) {
             this.combiDDP2ServiceNavi.updateNavInitialized(n, n2);
         }
@@ -494,7 +493,7 @@ PowerEventListener {
     private void refreshRGIValid() {
         boolean bl = this.env.getContainer().isRgActive();
         boolean bl2 = bl && this.rgiDataValid;
-        this.logChannel.log(14808325, "ClusterService#refreshRGIValid() - rgActive: %1, rgiDataValid: %2", bl, this.rgiDataValid);
+        this.logChannel.log(100000000, "ClusterService#refreshRGIValid() - rgActive: %1, rgiDataValid: %2", bl, this.rgiDataValid);
         this.clusterViewMode.setRGIValid(bl2);
     }
 
@@ -548,7 +547,7 @@ PowerEventListener {
     }
 
     public synchronized void updateOperationState(int n) {
-        this.logChannel.log(1078071040, "ClusterService#updateOperationState( %1 )", (long)n);
+        this.logChannel.log(1000000, "ClusterService#updateOperationState( %1 )", (long)n);
         this.operationStateIsKnownToTheKombi = this.combiBAPListener.setInfoStateNavi(n);
         this.combiBAPListener.forceShowInitScreen(this.initScreenNeededOnKombi());
         if (this.combiBAPListener.lvdsMapVisible && this.env.getContainer().getNavstateOfOperation() == 5) {
@@ -569,7 +568,7 @@ PowerEventListener {
     }
 
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
-        this.logChannel.log(14808325, "ClusterService#updateRgInfoForNextDestination(%1)", (Object)rgInfoForNextDestination);
+        this.logChannel.log(100000000, "ClusterService#updateRgInfoForNextDestination(%1)", (Object)rgInfoForNextDestination);
         this.rgInfoForNextDestination = rgInfoForNextDestination;
         this.updateRgDirectionToNextDestination(rgInfoForNextDestination.getDirectionToNextDest());
     }
@@ -579,7 +578,7 @@ PowerEventListener {
     }
 
     public synchronized void updateKombiMapReady(boolean bl) {
-        this.logChannel.log(1078071040, "ClusterService#updateKombiMapReady( %1 )", bl);
+        this.logChannel.log(1000000, "ClusterService#updateKombiMapReady( %1 )", bl);
         if (bl) {
             this.switchDisplayContextKombi(8);
             if (Util.isClusterMapAlwaysOn()) {
@@ -594,20 +593,20 @@ PowerEventListener {
     }
 
     public void showKombiMap(boolean bl) {
-        this.logChannel.log(1078071040, "ClusterService#showKombiMap( %1 )", bl);
+        this.logChannel.log(1000000, "ClusterService#showKombiMap( %1 )", bl);
         this.mapInterface.showKombiMap(bl);
     }
 
     public void setSupplementaryMap(int n, boolean bl) {
-        this.logChannel.log(-2137614336, "ClusterService#setSupplementaryMap() - supplementaryMapView: %2, visible: %1", bl, (long)n);
+        this.logChannel.log(10000000, "ClusterService#setSupplementaryMap() - supplementaryMapView: %2, visible: %1", bl, (long)n);
         if (n != 1 && bl) {
-            this.logChannel.log(-1601830656, "ClusterService#setSupplementaryMap() - got request to show supplementary map although not available or unimplemented");
+            this.logChannel.log(100000, "ClusterService#setSupplementaryMap() - got request to show supplementary map although not available or unimplemented");
         }
         this.setKDKVisibility(bl);
     }
 
     public void switchDisplayContextKombi(int n) {
-        this.logChannel.log(1078071040, "ClusterService#switchDisplayContextKombi( %1 )", (long)n);
+        this.logChannel.log(1000000, "ClusterService#switchDisplayContextKombi( %1 )", (long)n);
         this.mapInterface.switchDisplayContextKombi(n);
     }
 
@@ -619,14 +618,14 @@ PowerEventListener {
 
     public int getKOMODataRate() {
         boolean bl;
-        this.logChannel.log(14808325, "ClusterService#getKOMODataRate()");
+        this.logChannel.log(100000000, "ClusterService#getKOMODataRate()");
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1, 168);
         int n = choiceModelApp.getHints();
         boolean bl2 = (n & 2) == 2;
         boolean bl3 = bl = (n & 1) == 1;
         if (bl2) {
             if (bl) {
-                this.logChannel.log(-1601830656, "ClusterService#getKOMODataRate() - undefined state: full and reduced framerate -> assuming full framerate");
+                this.logChannel.log(100000, "ClusterService#getKOMODataRate() - undefined state: full and reduced framerate -> assuming full framerate");
             }
             return 2;
         }
@@ -640,7 +639,7 @@ PowerEventListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void reSyncKOMO() {
-        this.logChannel.log(1078071040, "ClusterService#reSyncKOMO()");
+        this.logChannel.log(1000000, "ClusterService#reSyncKOMO()");
         Object object = this.komoDataRateMutex;
         synchronized (object) {
             int n = this.getKOMODataRate();
@@ -654,7 +653,7 @@ PowerEventListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void setKOMODataRate(int n, boolean bl) {
-        this.logChannel.log(1078071040, "ClusterService#setKOMODataRate( %1 )", (long)n);
+        this.logChannel.log(1000000, "ClusterService#setKOMODataRate( %1 )", (long)n);
         Object object = this.komoDataRateMutex;
         synchronized (object) {
             ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1, 168);
@@ -679,10 +678,10 @@ PowerEventListener {
     }
 
     public void updateKOMOFollowInfo() {
-        this.logChannel.log(14808325, "ClusterService#updateKOMOFollowInfo())");
+        this.logChannel.log(100000000, "ClusterService#updateKOMOFollowInfo())");
         if (this.komoService != null && Util.isKOMOFollowMode(this.env.getFramework())) {
             try {
-                this.logChannel.log(14808325, "ClusterService#updateKOMOFollowInfo() - followInfoRIE: %1, nextManeuverElement: %2", (Object)this.followInfoRIE, (Object)this.nextManeuverElement);
+                this.logChannel.log(100000000, "ClusterService#updateKOMOFollowInfo() - followInfoRIE: %1, nextManeuverElement: %2", (Object)this.followInfoRIE, (Object)this.nextManeuverElement);
                 if (Util.isSetRouteInfoDSIAvailable(this.env.getFramework())) {
                     this.komoService.setRouteInfo(new RouteInfoElement[]{this.followInfoRIE, this.nextManeuverElement});
                 } else {
@@ -696,7 +695,7 @@ PowerEventListener {
     }
 
     public void updateAltitude(int n) {
-        this.logChannel.log(14808325, "ClusterService#updateAltitude( %1 )", (long)n);
+        this.logChannel.log(100000000, "ClusterService#updateAltitude( %1 )", (long)n);
         this.combiBAPListener.setAltitude(n);
     }
 
@@ -710,7 +709,7 @@ PowerEventListener {
             return string != null ? string : "";
         }
         catch (Exception exception) {
-            this.env.getLogChannel().log(-1601830656, "Util#getString4BAPFromNavLocation - got an exception from AddressFormatter#formatTwoLines: %1", (Throwable)exception);
+            this.env.getLogChannel().log(100000, "Util#getString4BAPFromNavLocation - got an exception from AddressFormatter#formatTwoLines: %1", (Throwable)exception);
             return "";
         }
     }
@@ -730,7 +729,7 @@ PowerEventListener {
     public void updateDestinationInfo(NavLocation navLocation, int n, int n2) {
         CombiBAPDestinationInfo combiBAPDestinationInfo;
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "ClusterService#updateDestinationInfo() - noOfStopovers: %2, noOfNextStopover: %3, nextDestination: %1", (Object)LocationFormatter.formatLocationShort(navLocation), (long)n, (long)n2);
+            this.logChannel.log(100000000, "ClusterService#updateDestinationInfo() - noOfStopovers: %2, noOfNextStopover: %3, nextDestination: %1", (Object)LocationFormatter.formatLocationShort(navLocation), (long)n, (long)n2);
         }
         CombiBAPNaviDestination combiBAPNaviDestination = this.getBAPNaviDestFromLocation(navLocation);
         if (navLocation != null) {
@@ -745,7 +744,7 @@ PowerEventListener {
 
     public void updateSemidynamicRouteGuidance(RcciEvent rcciEvent) {
         CombiBAPSemiDynamicRouteInfo combiBAPSemiDynamicRouteInfo;
-        this.logChannel.log(-2137614336, "ClusterService#updateSemidynamicRouteGuidance() - TrafficImpactOnCurrentRoute: %1, delay: %2", rcciEvent.hasTrafficImpactOnCurrentRoute(), rcciEvent.delay);
+        this.logChannel.log(10000000, "ClusterService#updateSemidynamicRouteGuidance() - TrafficImpactOnCurrentRoute: %1, delay: %2", rcciEvent.hasTrafficImpactOnCurrentRoute(), rcciEvent.delay);
         KOMOTime kOMOTime = KOMOService.convertDurationToKOMO(rcciEvent.delay);
         short s = kOMOTime.min;
         short s2 = kOMOTime.hour;
@@ -783,26 +782,22 @@ PowerEventListener {
     }
 
     public void updateExitView(int n) {
-        this.logChannel.log(14808325, "ClusterService#updateExitView( %1 )", (long)n);
+        this.logChannel.log(100000000, "ClusterService#updateExitView( %1 )", (long)n);
         this.combiBAPListener.setExitView(n);
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
         this.clusterKDKHandler.notifyPowerListenerOnEnterState(n, n2);
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
         this.clusterKDKHandler.notifyPowerListenerOnExitState(n, n2);
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
         this.clusterKDKHandler.notifyPowerTriggerAction(n, n2);
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         this.clusterKDKHandler.updateClampState(bl, bl2, bl3, bl4);
     }
@@ -816,7 +811,7 @@ PowerEventListener {
     }
 
     public void applySetupHandlerSettings() {
-        this.logChannel.log(-2137614336, "ClusterService#applySetupHandlerSettings( )");
+        this.logChannel.log(10000000, "ClusterService#applySetupHandlerSettings( )");
         this.combiBAPListener.initFromSetup();
     }
 
@@ -843,11 +838,11 @@ PowerEventListener {
     }
 
     public static float wgs84ToDeg(int n) {
-        return (float)n / 1611347531;
+        return (float)n / 1.1930464E7f;
     }
 
     public void setSupportedSupplementaryMapView(int n) {
-        this.logChannel.log(-2137614336, "ClusterService#setSupportedSupplementaryMapView()");
+        this.logChannel.log(10000000, "ClusterService#setSupportedSupplementaryMapView()");
     }
 
     public void updateOnlineNavigationState() {
@@ -855,11 +850,11 @@ PowerEventListener {
         if (this.mapInterface.getKombiMap() != null && this.mapInterface.getKombiMap().getSetup() != null) {
             n = this.mapInterface.getKombiMap().getSetup().getMapRepresentation();
         } else {
-            this.logChannel.log(-2137614336, "ClusterService#updateOnlineNavigationState() - Kombi map does not exist or not initialized yet!");
+            this.logChannel.log(10000000, "ClusterService#updateOnlineNavigationState() - Kombi map does not exist or not initialized yet!");
             n = 0;
         }
         int n2 = this.env.getChoiceModel(162).getValue();
-        this.logChannel.log(-2137614336, "ClusterService#updateOnlineNavigationState() - mapRepresentation: %1, bufferProgress: %2, dataConnectivityAvailable: %3", (long)n, (long)n2, true);
+        this.logChannel.log(10000000, "ClusterService#updateOnlineNavigationState() - mapRepresentation: %1, bufferProgress: %2, dataConnectivityAvailable: %3", (long)n, (long)n2, true);
         this.combiBAPListener.setOnlineNavigationState(n == 1 && !this.hasSatMapProviderChanged(), n2, true);
     }
 
@@ -879,14 +874,14 @@ PowerEventListener {
     }
 
     public void updateMapScale(int n, int n2, boolean bl) {
-        this.logChannel.log(14808325, "ClusterService#updateMapScale( %1, %2, %3 )", (long)n, (long)n2, bl);
+        this.logChannel.log(100000000, "ClusterService#updateMapScale( %1, %2, %3 )", (long)n, (long)n2, bl);
         boolean[] blArray = new boolean[]{false};
         boolean[] blArray2 = new boolean[]{false};
         this.komoService.setMapScale(0, 0, blArray, n, n2, blArray2, bl);
     }
 
     public void setHomeAddress(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "ClusterService#updateHomeAddress() - homeAddress: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "ClusterService#updateHomeAddress() - homeAddress: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
         if (navLocation == null) {
             this.combiBAPListener.setHomeAddress(null);
         } else {

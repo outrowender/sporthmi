@@ -11,9 +11,9 @@ import de.audi.tuner.app.amfm.AMFMStation;
 
 class WrongPiHandler
 implements TimerListener {
-    private static final int NORDS;
-    private static final int RDS;
-    private static final int WRONGPI;
+    private static final int NORDS = 0;
+    private static final int RDS = 1;
+    private static final int WRONGPI = 2;
     private final Logger logger;
     private final Timer timer;
     private final Object mutex;
@@ -23,7 +23,7 @@ implements TimerListener {
 
     WrongPiHandler(TunerBasics tunerBasics) {
         this.logger = tunerBasics.getLogger();
-        this.timer = new Timer("WrongPiHandlerTimer", 0, true, this);
+        this.timer = new Timer("WrongPiHandlerTimer", 60000L, true, this);
         this.mutex = new Object();
     }
 
@@ -52,7 +52,7 @@ implements TimerListener {
             this.reset(aMFMStation.pi);
         } else if (this.wrongPiDetected) {
             if (!this.timer.isRunning()) {
-                this.logger.amfmDSI.log(1078071040, "[WPH.update] Original PI back -> start timer");
+                this.logger.amfmDSI.log(1000000, "[WPH.update] Original PI back -> start timer");
                 this.timer.restart();
             }
             AMFMStation aMFMStation2 = new AMFMStation(aMFMStation);
@@ -61,7 +61,7 @@ implements TimerListener {
             aMFMStation2.rds = false;
             aMFMStation2.radioText = false;
             this.origStation = aMFMStation;
-            this.logger.amfmDSI.log(1078071040, "[WPH.update] Original PI back %1", (Object)aMFMStation);
+            this.logger.amfmDSI.log(1000000, "[WPH.update] Original PI back %1", (Object)aMFMStation);
             return aMFMStation2;
         }
         return aMFMStation;
@@ -75,7 +75,7 @@ implements TimerListener {
         aMFMStation2.ptyCode = 0;
         aMFMStation2.radioText = false;
         this.wrongPiDetected = true;
-        this.logger.amfmDSI.log(1078071040, "[WPH.update] WrongPI detected %1", (Object)aMFMStation);
+        this.logger.amfmDSI.log(1000000, "[WPH.update] WrongPI detected %1", (Object)aMFMStation);
         return aMFMStation2;
     }
 
@@ -84,7 +84,7 @@ implements TimerListener {
         this.wrongPiDetected = false;
         this.piListening = n;
         this.timer.cancel();
-        this.logger.amfmDeepDebug.log(1078071040, "[WPH.reset] PI listening: 0x%1", (Object)Integer.toHexString(n));
+        this.logger.amfmDeepDebug.log(1000000, "[WPH.reset] PI listening: 0x%1", (Object)Integer.toHexString(n));
     }
 
     private int getStatus(AMFMStation aMFMStation) {
@@ -100,19 +100,17 @@ implements TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         Object object = this.mutex;
         synchronized (object) {
             if (this.origStation != null) {
-                this.logger.amfmDSI.log(1078071040, "[WPH.fireTimer] update to original PI %1", (Object)this.origStation);
+                this.logger.amfmDSI.log(1000000, "[WPH.fireTimer] update to original PI %1", (Object)this.origStation);
                 this.origStation = null;
             }
             this.wrongPiDetected = false;
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

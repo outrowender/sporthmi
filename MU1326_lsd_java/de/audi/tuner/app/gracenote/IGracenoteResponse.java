@@ -6,7 +6,6 @@ package de.audi.tuner.app.gracenote;
 import org.dsi.ifc.global.ResourceLocator;
 
 interface IGracenoteResponse {
-    default public boolean setCoverArt(int n, ResourceLocator resourceLocator) {
-    }
+    public boolean setCoverArt(int var1, ResourceLocator var2);
 }
 

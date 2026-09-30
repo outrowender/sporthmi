@@ -6,39 +6,37 @@ package de.audi.tghu.navi.app.util.addressformatting.audi.tooltip;
 import de.audi.atip.interapp.locationaccessor.IMyLocationAccessor;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
-import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter$TooltipStringBuilder;
-import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter$TooltipFormatterEnvironment;
+import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter;
+import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter;
 import de.audi.tghu.navi.app.util.addressformatting.audi.tooltip.TooltipFormatterKREnglish;
 import org.dsi.ifc.global.NavLocation;
 
 public class TooltipFormatterKRNative
 extends TooltipFormatterKREnglish {
-    public TooltipFormatterKRNative(ITooltipFormatter$TooltipFormatterEnvironment iTooltipFormatter$TooltipFormatterEnvironment) {
-        super(iTooltipFormatter$TooltipFormatterEnvironment);
+    public TooltipFormatterKRNative(ITooltipFormatter.TooltipFormatterEnvironment tooltipFormatterEnvironment) {
+        super(tooltipFormatterEnvironment);
     }
 
-    @Override
     protected String format(String string, String string2, String string3, boolean bl) {
-        AbstractTooltipFormatter$TooltipStringBuilder abstractTooltipFormatter$TooltipStringBuilder = new AbstractTooltipFormatter$TooltipStringBuilder(this);
+        AbstractTooltipFormatter.TooltipStringBuilder tooltipStringBuilder = new AbstractTooltipFormatter.TooltipStringBuilder();
         if (bl) {
-            abstractTooltipFormatter$TooltipStringBuilder.addString(string);
-            bl = abstractTooltipFormatter$TooltipStringBuilder.addLineBreak();
-            abstractTooltipFormatter$TooltipStringBuilder.addString(string3);
+            tooltipStringBuilder.addString(string);
+            bl = tooltipStringBuilder.addLineBreak();
+            tooltipStringBuilder.addString(string3);
         } else {
-            abstractTooltipFormatter$TooltipStringBuilder.addString(string);
-            abstractTooltipFormatter$TooltipStringBuilder.addString(string3);
+            tooltipStringBuilder.addString(string);
+            tooltipStringBuilder.addString(string3);
         }
-        return abstractTooltipFormatter$TooltipStringBuilder.toString();
+        return tooltipStringBuilder.toString();
     }
 
-    @Override
     public String formatPOIStack(NavLocation navLocation, int n) {
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
-        AbstractTooltipFormatter$TooltipStringBuilder abstractTooltipFormatter$TooltipStringBuilder = new AbstractTooltipFormatter$TooltipStringBuilder(this);
-        abstractTooltipFormatter$TooltipStringBuilder.addString(LocationFormatter.formatPOIName(navLocation));
-        abstractTooltipFormatter$TooltipStringBuilder.addLineBreak();
-        abstractTooltipFormatter$TooltipStringBuilder.addString(this.getCityWardCounty(iMyLocationAccessor));
-        return abstractTooltipFormatter$TooltipStringBuilder.toString();
+        AbstractTooltipFormatter.TooltipStringBuilder tooltipStringBuilder = new AbstractTooltipFormatter.TooltipStringBuilder();
+        tooltipStringBuilder.addString(LocationFormatter.formatPOIName(navLocation));
+        tooltipStringBuilder.addLineBreak();
+        tooltipStringBuilder.addString(this.getCityWardCounty(iMyLocationAccessor));
+        return tooltipStringBuilder.toString();
     }
 }
 

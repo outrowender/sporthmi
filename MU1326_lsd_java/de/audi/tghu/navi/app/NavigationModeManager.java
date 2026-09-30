@@ -4,8 +4,8 @@
 package de.audi.tghu.navi.app;
 
 public class NavigationModeManager {
-    public static final int NAVIGATIONMODE_ROUTECALC;
-    public static final int NAVIGATIONMODE_FOLLOW;
+    public static final int NAVIGATIONMODE_ROUTECALC = 0;
+    public static final int NAVIGATIONMODE_FOLLOW = 1;
     private volatile int navigationMode;
 
     public int getNavigationMode() {

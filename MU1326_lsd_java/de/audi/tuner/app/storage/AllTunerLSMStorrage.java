@@ -3,6 +3,8 @@
  */
 package de.audi.tuner.app.storage;
 
+import de.audi.atip.hmi.model.HMIResourceLocator;
+import de.audi.atip.storage.AbstractStorageDataContainer;
 import de.audi.atip.storage.IStorageAccess;
 import de.audi.tuner.app.GlobalOptionsMngr;
 import de.audi.tuner.app.Logger;
@@ -14,11 +16,12 @@ import de.audi.tuner.app.dab.DABSetupHandler;
 import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.sdars.SDARSSetupHandler;
 import de.audi.tuner.app.sdars.StationInfoExt;
-import de.audi.tuner.app.storage.AllTunerLSMStorrage$StorageDataContainer;
 import de.audi.tuner.app.storage.SerializingHelpers;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.ComponentInfo;
 import org.dsi.ifc.radio.EnsembleInfo;
@@ -27,12 +30,12 @@ import org.dsi.ifc.radio.UnifiedStation;
 import org.dsi.ifc.sdars.StationInfo;
 
 public class AllTunerLSMStorrage {
-    private static final int VERSION;
-    public static final int INDEX_FM;
-    public static final int INDEX_AM;
-    public static final int INDEX_TI;
-    public static final int AMFMVIEW_SHOW_STATIONNAME;
-    public static final int AMFMVIEW_SHOW_FREQUENCY;
+    private static final int VERSION = 10;
+    public static final int INDEX_FM = 0;
+    public static final int INDEX_AM = 1;
+    public static final int INDEX_TI = 2;
+    public static final int AMFMVIEW_SHOW_STATIONNAME = 0;
+    public static final int AMFMVIEW_SHOW_FREQUENCY = 1;
     private final IStorageAccess storageAccess;
     private final Logger logger;
     private volatile int lsmBand;
@@ -68,38 +71,38 @@ public class AllTunerLSMStorrage {
         long l = System.currentTimeMillis();
         AllTunerLSMStorrage allTunerLSMStorrage = this;
         synchronized (allTunerLSMStorrage) {
-            AllTunerLSMStorrage$StorageDataContainer allTunerLSMStorrage$StorageDataContainer = new AllTunerLSMStorrage$StorageDataContainer(this);
-            allTunerLSMStorrage$StorageDataContainer.readAndDeserialize();
+            StorageDataContainer storageDataContainer = new StorageDataContainer();
+            storageDataContainer.readAndDeserialize();
         }
-        this.logger.startup.log(-2137614336, "[AllTunerLSMStorrage.AllTunerLSMStorrage] read persistence %1 ms", System.currentTimeMillis() - l);
+        this.logger.startup.log(10000000, "[AllTunerLSMStorrage.AllTunerLSMStorrage] read persistence %1 ms", System.currentTimeMillis() - l);
         if (this.logger.startup.isDebug2()) {
             this.dump();
         }
     }
 
     private void dump() {
-        this.logger.startup.log(14808325, "list: %1 Band: %2", (long)this.lsmList, (long)this.lsmBand);
-        this.logger.startup.log(14808325, "FM %1", (Object)this.stations[0]);
-        this.logger.startup.log(14808325, "AM %1", (Object)this.stations[1]);
-        this.logger.startup.log(14808325, "TI %1", (Object)this.stations[2]);
-        this.logger.startup.log(14808325, "AmFm Setup %1", (Object)this.amFmSetup);
-        this.logger.startup.log(14808325, "DAB Ensemble %1", (Object)this.dabLsm.ensemble);
-        this.logger.startup.log(14808325, "DAB Service %1", (Object)this.dabLsm.service);
-        this.logger.startup.log(14808325, "DAB Component %1", (Object)this.dabLsm.component);
-        this.logger.startup.log(14808325, "DAB Setup", (Object)this.dabSetup);
-        this.logger.startup.log(14808325, "DAB List Keys %1", (Object)this.ensState.getKeys());
-        this.logger.startup.log(14808325, "DAB List Vals %1", (Object)this.ensState.getValues());
-        this.logger.startup.log(14808325, "Uni %1", (Object)this.uniLsm);
-        this.logger.startup.log(14808325, "SDARS %1", (Object)this.sdarsLsm);
-        this.logger.startup.log(14808325, "SDARS Setup %1", (Object)this.sdarsSetup);
-        this.logger.startup.log(14808325, "TA %1", (Object)this.taSetup);
-        this.logger.startup.log(14808325, "Preferred Img type %1", (long)this.prefImgType);
-        this.logger.startup.log(14808325, "Gracenote Online Lookup %1", this.gracenoteLookup);
-        this.logger.startup.log(14808325, "HdTuner %1", this.isAmFmHd);
-        this.logger.startup.log(14808325, "LogoDB Country %1", (long)this.databaseCountry);
-        this.logger.startup.log(14808325, "slideshowEnabled %1", this.slideshowEnabled);
-        this.logger.startup.log(14808325, "suppressTAPopup %1", this.suppressTAPopup);
-        this.logger.startup.log(14808325, "listOrCoverflowViewSetting %1", (Object)this.listOrCoverflowViewSetting);
+        this.logger.startup.log(100000000, "list: %1 Band: %2", (long)this.lsmList, (long)this.lsmBand);
+        this.logger.startup.log(100000000, "FM %1", (Object)this.stations[0]);
+        this.logger.startup.log(100000000, "AM %1", (Object)this.stations[1]);
+        this.logger.startup.log(100000000, "TI %1", (Object)this.stations[2]);
+        this.logger.startup.log(100000000, "AmFm Setup %1", (Object)this.amFmSetup);
+        this.logger.startup.log(100000000, "DAB Ensemble %1", (Object)this.dabLsm.ensemble);
+        this.logger.startup.log(100000000, "DAB Service %1", (Object)this.dabLsm.service);
+        this.logger.startup.log(100000000, "DAB Component %1", (Object)this.dabLsm.component);
+        this.logger.startup.log(100000000, "DAB Setup", (Object)this.dabSetup);
+        this.logger.startup.log(100000000, "DAB List Keys %1", (Object)this.ensState.getKeys());
+        this.logger.startup.log(100000000, "DAB List Vals %1", (Object)this.ensState.getValues());
+        this.logger.startup.log(100000000, "Uni %1", (Object)this.uniLsm);
+        this.logger.startup.log(100000000, "SDARS %1", (Object)this.sdarsLsm);
+        this.logger.startup.log(100000000, "SDARS Setup %1", (Object)this.sdarsSetup);
+        this.logger.startup.log(100000000, "TA %1", (Object)this.taSetup);
+        this.logger.startup.log(100000000, "Preferred Img type %1", (long)this.prefImgType);
+        this.logger.startup.log(100000000, "Gracenote Online Lookup %1", this.gracenoteLookup);
+        this.logger.startup.log(100000000, "HdTuner %1", this.isAmFmHd);
+        this.logger.startup.log(100000000, "LogoDB Country %1", (long)this.databaseCountry);
+        this.logger.startup.log(100000000, "slideshowEnabled %1", this.slideshowEnabled);
+        this.logger.startup.log(100000000, "suppressTAPopup %1", this.suppressTAPopup);
+        this.logger.startup.log(100000000, "listOrCoverflowViewSetting %1", (Object)this.listOrCoverflowViewSetting);
     }
 
     synchronized void storeLastMode(int n, int n2) {
@@ -113,8 +116,8 @@ public class AllTunerLSMStorrage {
     }
 
     synchronized void storeAmFmLsm(AMFMStation aMFMStation, int n) {
-        this.logger.main.log(-2137614336, "[AllTunerLSMStorrage.storeAmFmLsm]");
-        this.logger.main.log(14808325, "[AllTunerLSMStorrage.storeAmFmLsm] Saving %1", (Object)aMFMStation);
+        this.logger.main.log(10000000, "[AllTunerLSMStorrage.storeAmFmLsm]");
+        this.logger.main.log(100000000, "[AllTunerLSMStorrage.storeAmFmLsm] Saving %1", (Object)aMFMStation);
         boolean bl = false;
         AMFMStation aMFMStation2 = null;
         switch (n) {
@@ -137,7 +140,7 @@ public class AllTunerLSMStorrage {
                 break;
             }
         }
-        this.logger.main.log(14808325, "[AllTunerLSMStorrage.storeAmFmLsm] Serialization necessary? %1", (Object)(bl ? "true" : "false"));
+        this.logger.main.log(100000000, "[AllTunerLSMStorrage.storeAmFmLsm] Serialization necessary? %1", (Object)(bl ? "true" : "false"));
         if (bl) {
             this.write();
         }
@@ -167,7 +170,7 @@ public class AllTunerLSMStorrage {
 
     synchronized void storeDabLsm(DabStation dabStation) {
         this.dabLsm = dabStation;
-        this.logger.dabDSI.log(-2137614336, "[AllTunerLSMStorrage.storeDabLsm] store DAB station %1", (Object)dabStation);
+        this.logger.dabDSI.log(10000000, "[AllTunerLSMStorrage.storeDabLsm] store DAB station %1", (Object)dabStation);
         this.write();
     }
 
@@ -197,8 +200,8 @@ public class AllTunerLSMStorrage {
         if (unifiedStationExt.frequency == 0L) {
             this.logger.uniDSI.log(10000, "[AllTunerLSMStorrage.storeUniLsm] defect station %1", (Object)unifiedStationExt);
         } else {
-            this.logger.main.log(-2137614336, "[AllTunerLSMStorrage.storeUniLsm]");
-            this.logger.main.log(14808325, "[AllTunerLSMStorrage.storeUniLsm] Saving %1", (Object)unifiedStationExt);
+            this.logger.main.log(10000000, "[AllTunerLSMStorrage.storeUniLsm]");
+            this.logger.main.log(100000000, "[AllTunerLSMStorrage.storeUniLsm] Saving %1", (Object)unifiedStationExt);
         }
         this.uniLsm = unifiedStationExt;
         this.write();
@@ -209,7 +212,7 @@ public class AllTunerLSMStorrage {
     }
 
     synchronized void storeSdarsLsm(StationInfoExt stationInfoExt) {
-        this.logger.sdarsDSI.log(-2137614336, "[AllTunerLSMStorrage.storeSdarsLsm] store sdars station %1", (Object)stationInfoExt);
+        this.logger.sdarsDSI.log(10000000, "[AllTunerLSMStorrage.storeSdarsLsm] store sdars station %1", (Object)stationInfoExt);
         this.sdarsLsm = stationInfoExt;
         this.write();
     }
@@ -336,11 +339,11 @@ public class AllTunerLSMStorrage {
     }
 
     private synchronized void write() {
-        AllTunerLSMStorrage$StorageDataContainer allTunerLSMStorrage$StorageDataContainer = new AllTunerLSMStorrage$StorageDataContainer(this);
-        allTunerLSMStorrage$StorageDataContainer.serializeAndWrite();
+        StorageDataContainer storageDataContainer = new StorageDataContainer();
+        storageDataContainer.serializeAndWrite();
     }
 
-    private UnifiedStationExt deserialzieUniLsmOld(DataInputStream dataInputStream) {
+    private UnifiedStationExt deserialzieUniLsmOld(DataInputStream dataInputStream) throws IOException {
         UnifiedStationExt unifiedStationExt = new UnifiedStationExt();
         unifiedStationExt.shortName = dataInputStream.readUTF();
         unifiedStationExt.longName = dataInputStream.readUTF();
@@ -357,7 +360,7 @@ public class AllTunerLSMStorrage {
         unifiedStationExt.stationLogo = new ResourceLocator();
         if (unifiedStationExt.frequency == 0L) {
             this.logger.startup.log(10000, "[AllTunerLSMStorrage.deserialzieUniLsm] defect station read %1", (Object)unifiedStationExt);
-            return new UnifiedStationExt(new UnifiedStation("", "", 0, 0, 0, 0, 0, 1, false, 0, 1, new byte[]{0}, false, false, false, false, new ResourceLocator(), false));
+            return new UnifiedStationExt(new UnifiedStation("", "", 88300L, 0, 0, 0, 0, 1, false, 0, 1, new byte[]{0}, false, false, false, false, new ResourceLocator(), false));
         }
         if (unifiedStationExt.ensId == 0) {
             unifiedStationExt.setAudioStatus(1);
@@ -372,13 +375,13 @@ public class AllTunerLSMStorrage {
         this.lsmBand = 1;
         this.stations = new AMFMStation[3];
         this.stations[0] = new AMFMStation();
-        this.stations[0].frequency = 0;
+        this.stations[0].frequency = 88300L;
         this.stations[0].waveband = 1;
         this.stations[1] = new AMFMStation();
-        this.stations[1].frequency = 0;
+        this.stations[1].frequency = 540L;
         this.stations[1].waveband = 3;
         this.stations[2] = new AMFMStation();
-        this.stations[2].frequency = 0;
+        this.stations[2].frequency = 1620L;
         this.stations[2].waveband = 3;
         this.amFmSetup = AMFMSetupHandler.getDefaultSetup();
         EnsembleInfo ensembleInfo = new EnsembleInfo(0, 0, "Ens 0", "Ensemble 0", "", 0, false, false);
@@ -387,7 +390,7 @@ public class AllTunerLSMStorrage {
         this.dabLsm = new DabStation(ensembleInfo, serviceInfo, componentInfo);
         this.dabSetup = DABSetupHandler.getDefaultSetup();
         this.ensState = new SimpleIntIntMap(10);
-        this.uniLsm = new UnifiedStationExt(new UnifiedStation("", "", 0, 0, 0, 0, 0, 1, false, 0, 1, new byte[]{0}, false, false, false, false, new ResourceLocator(), false));
+        this.uniLsm = new UnifiedStationExt(new UnifiedStation("", "", 88300L, 0, 0, 0, 0, 1, false, 0, 1, new byte[]{0}, false, false, false, false, new ResourceLocator(), false));
         StationInfo stationInfo = new StationInfo(1, 1, "fixme", "FIXME", 2, 0, false, new ResourceLocator());
         this.sdarsLsm = new StationInfoExt(stationInfo);
         this.sdarsSetup = SDARSSetupHandler.getDefaultSetup();
@@ -407,139 +410,9 @@ public class AllTunerLSMStorrage {
         this.listOrCoverflowViewSetting = new int[0];
     }
 
-    static /* synthetic */ IStorageAccess access$000(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.storageAccess;
-    }
-
-    static /* synthetic */ Logger access$100(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.logger;
-    }
-
-    static /* synthetic */ int access$200(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.lsmList;
-    }
-
-    static /* synthetic */ int access$300(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.lsmBand;
-    }
-
-    static /* synthetic */ AMFMStation[] access$400(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.stations;
-    }
-
-    static /* synthetic */ int[] access$500(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.amFmSetup;
-    }
-
-    static /* synthetic */ DabStation access$600(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.dabLsm;
-    }
-
-    static /* synthetic */ int[] access$700(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.dabSetup;
-    }
-
-    static /* synthetic */ SimpleIntIntMap access$800(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.ensState;
-    }
-
-    static /* synthetic */ UnifiedStationExt access$900(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.uniLsm;
-    }
-
-    static /* synthetic */ StationInfoExt access$1000(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.sdarsLsm;
-    }
-
-    static /* synthetic */ int[] access$1100(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.sdarsSetup;
-    }
-
-    static /* synthetic */ SimpleIntIntMap access$1200(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.sdarsCatFilter;
-    }
-
-    static /* synthetic */ int[] access$1300(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.taSetup;
-    }
-
-    static /* synthetic */ int access$1400(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.prefImgType;
-    }
-
-    static /* synthetic */ boolean access$1500(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.gracenoteLookup;
-    }
-
-    static /* synthetic */ boolean access$1600(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.isAmFmHd;
-    }
-
-    static /* synthetic */ boolean access$1700(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.showRadioText;
-    }
-
-    static /* synthetic */ int access$1800(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.presetBank;
-    }
-
-    static /* synthetic */ int access$1900(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.amfmView;
-    }
-
-    static /* synthetic */ int access$2000(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.databaseCountry;
-    }
-
-    static /* synthetic */ int access$2100(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.databaseActivated;
-    }
-
-    static /* synthetic */ boolean access$2200(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.slideshowEnabled;
-    }
-
-    static /* synthetic */ boolean access$2300(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.suppressTAPopup;
-    }
-
-    static /* synthetic */ int[] access$2400(AllTunerLSMStorrage allTunerLSMStorrage) {
-        return allTunerLSMStorrage.listOrCoverflowViewSetting;
-    }
-
     static /* synthetic */ int[] access$2402(AllTunerLSMStorrage allTunerLSMStorrage, int[] nArray) {
         allTunerLSMStorrage.listOrCoverflowViewSetting = nArray;
         return nArray;
-    }
-
-    static /* synthetic */ boolean access$2302(AllTunerLSMStorrage allTunerLSMStorrage, boolean bl) {
-        allTunerLSMStorrage.suppressTAPopup = bl;
-        return allTunerLSMStorrage.suppressTAPopup;
-    }
-
-    static /* synthetic */ boolean access$2202(AllTunerLSMStorrage allTunerLSMStorrage, boolean bl) {
-        allTunerLSMStorrage.slideshowEnabled = bl;
-        return allTunerLSMStorrage.slideshowEnabled;
-    }
-
-    static /* synthetic */ int access$2102(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.databaseActivated = n;
-        return allTunerLSMStorrage.databaseActivated;
-    }
-
-    static /* synthetic */ int access$2002(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.databaseCountry = n;
-        return allTunerLSMStorrage.databaseCountry;
-    }
-
-    static /* synthetic */ int access$202(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.lsmList = n;
-        return allTunerLSMStorrage.lsmList;
-    }
-
-    static /* synthetic */ int access$302(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.lsmBand = n;
-        return allTunerLSMStorrage.lsmBand;
     }
 
     static /* synthetic */ AMFMStation[] access$402(AllTunerLSMStorrage allTunerLSMStorrage, AMFMStation[] aMFMStationArray) {
@@ -552,29 +425,9 @@ public class AllTunerLSMStorrage {
         return nArray;
     }
 
-    static /* synthetic */ DabStation access$602(AllTunerLSMStorrage allTunerLSMStorrage, DabStation dabStation) {
-        allTunerLSMStorrage.dabLsm = dabStation;
-        return allTunerLSMStorrage.dabLsm;
-    }
-
     static /* synthetic */ int[] access$702(AllTunerLSMStorrage allTunerLSMStorrage, int[] nArray) {
         allTunerLSMStorrage.dabSetup = nArray;
         return nArray;
-    }
-
-    static /* synthetic */ SimpleIntIntMap access$802(AllTunerLSMStorrage allTunerLSMStorrage, SimpleIntIntMap simpleIntIntMap) {
-        allTunerLSMStorrage.ensState = simpleIntIntMap;
-        return allTunerLSMStorrage.ensState;
-    }
-
-    static /* synthetic */ UnifiedStationExt access$902(AllTunerLSMStorrage allTunerLSMStorrage, UnifiedStationExt unifiedStationExt) {
-        allTunerLSMStorrage.uniLsm = unifiedStationExt;
-        return allTunerLSMStorrage.uniLsm;
-    }
-
-    static /* synthetic */ StationInfoExt access$1002(AllTunerLSMStorrage allTunerLSMStorrage, StationInfoExt stationInfoExt) {
-        allTunerLSMStorrage.sdarsLsm = stationInfoExt;
-        return allTunerLSMStorrage.sdarsLsm;
     }
 
     static /* synthetic */ int[] access$1102(AllTunerLSMStorrage allTunerLSMStorrage, int[] nArray) {
@@ -582,48 +435,271 @@ public class AllTunerLSMStorrage {
         return nArray;
     }
 
-    static /* synthetic */ SimpleIntIntMap access$1202(AllTunerLSMStorrage allTunerLSMStorrage, SimpleIntIntMap simpleIntIntMap) {
-        allTunerLSMStorrage.sdarsCatFilter = simpleIntIntMap;
-        return allTunerLSMStorrage.sdarsCatFilter;
-    }
-
     static /* synthetic */ int[] access$1302(AllTunerLSMStorrage allTunerLSMStorrage, int[] nArray) {
         allTunerLSMStorrage.taSetup = nArray;
         return nArray;
     }
 
-    static /* synthetic */ int access$1402(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.prefImgType = n;
-        return allTunerLSMStorrage.prefImgType;
-    }
+    private class StorageDataContainer
+    extends AbstractStorageDataContainer {
+        public StorageDataContainer() {
+            super(AllTunerLSMStorrage.this.storageAccess, 10, 1001, Utilities.isPGen1OrBentley() ? 30 : 29);
+        }
 
-    static /* synthetic */ boolean access$1502(AllTunerLSMStorrage allTunerLSMStorrage, boolean bl) {
-        allTunerLSMStorrage.gracenoteLookup = bl;
-        return allTunerLSMStorrage.gracenoteLookup;
-    }
+        protected void handleCRC32Error() {
+            ((AllTunerLSMStorrage)AllTunerLSMStorrage.this).logger.main.log(10000, "[AllTunerLSMStorrage.handleCRC32Error]");
+            AllTunerLSMStorrage.this.defaultValues();
+        }
 
-    static /* synthetic */ boolean access$1602(AllTunerLSMStorrage allTunerLSMStorrage, boolean bl) {
-        allTunerLSMStorrage.isAmFmHd = bl;
-        return allTunerLSMStorrage.isAmFmHd;
-    }
+        protected void handleStorageReadError(Exception exception) {
+            ((AllTunerLSMStorrage)AllTunerLSMStorrage.this).logger.main.log(10000, "[AllTunerLSMStorrage.handleStorageReadError]: %1", (Object)exception.toString());
+            AllTunerLSMStorrage.this.defaultValues();
+        }
 
-    static /* synthetic */ boolean access$1702(AllTunerLSMStorrage allTunerLSMStorrage, boolean bl) {
-        allTunerLSMStorrage.showRadioText = bl;
-        return allTunerLSMStorrage.showRadioText;
-    }
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) throws IOException {
+            ((AllTunerLSMStorrage)AllTunerLSMStorrage.this).logger.main.log(10000, "[AllTunerLSMStorrage.convertContainer] persisted:%1 container:%2", (long)n, (long)n2);
+            AllTunerLSMStorrage.this.defaultValues();
+            switch (n) {
+                case 9: {
+                    this.deserializeV9(dataInputStream);
+                    break;
+                }
+                case 8: {
+                    this.deserializeV8(dataInputStream);
+                    break;
+                }
+                case 7: {
+                    this.deserializeV7(dataInputStream);
+                    break;
+                }
+                case 6: {
+                    this.deserializeV6(dataInputStream);
+                    break;
+                }
+                case 5: {
+                    this.deserializeV5(dataInputStream);
+                    break;
+                }
+                case 4: {
+                    this.deserializeV4(dataInputStream);
+                    break;
+                }
+                case 3: {
+                    this.deserializeV3(dataInputStream);
+                    break;
+                }
+                case 2: {
+                    this.deserializeV2(dataInputStream);
+                    break;
+                }
+            }
+        }
 
-    static /* synthetic */ int access$1802(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.presetBank = n;
-        return allTunerLSMStorrage.presetBank;
-    }
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.lsmList);
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.lsmBand);
+            dataOutputStream.writeInt(8);
+            SerializingHelpers.serializeAmFm(dataOutputStream, AllTunerLSMStorrage.this.stations[0]);
+            SerializingHelpers.serializeAmFm(dataOutputStream, AllTunerLSMStorrage.this.stations[1]);
+            SerializingHelpers.serializeAmFm(dataOutputStream, AllTunerLSMStorrage.this.stations[2]);
+            this.serializeIntArray(AllTunerLSMStorrage.this.amFmSetup, dataOutputStream);
+            SerializingHelpers.serializeDab(dataOutputStream, AllTunerLSMStorrage.this.dabLsm);
+            this.serializeIntArray(AllTunerLSMStorrage.this.dabSetup, dataOutputStream);
+            int[] nArray = AllTunerLSMStorrage.this.ensState.getKeys();
+            int[] nArray2 = AllTunerLSMStorrage.this.ensState.getValues();
+            this.serializeIntArray(nArray, dataOutputStream);
+            this.serializeIntArray(nArray2, dataOutputStream);
+            SerializingHelpers.serializeUni(dataOutputStream, AllTunerLSMStorrage.this.uniLsm);
+            SerializingHelpers.serializeSdars(dataOutputStream, AllTunerLSMStorrage.this.sdarsLsm);
+            this.serializeIntArray(AllTunerLSMStorrage.this.sdarsSetup, dataOutputStream);
+            nArray = AllTunerLSMStorrage.this.sdarsCatFilter.getKeys();
+            nArray2 = AllTunerLSMStorrage.this.sdarsCatFilter.getValues();
+            this.serializeIntArray(nArray, dataOutputStream);
+            this.serializeIntArray(nArray2, dataOutputStream);
+            this.serializeIntArray(AllTunerLSMStorrage.this.taSetup, dataOutputStream);
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.prefImgType);
+            dataOutputStream.writeBoolean(AllTunerLSMStorrage.this.gracenoteLookup);
+            dataOutputStream.writeBoolean(AllTunerLSMStorrage.this.isAmFmHd);
+            dataOutputStream.writeBoolean(AllTunerLSMStorrage.this.showRadioText);
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.presetBank);
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.amfmView);
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.databaseCountry);
+            dataOutputStream.writeInt(AllTunerLSMStorrage.this.databaseActivated);
+            dataOutputStream.writeBoolean(AllTunerLSMStorrage.this.slideshowEnabled);
+            dataOutputStream.writeBoolean(AllTunerLSMStorrage.this.suppressTAPopup);
+            this.serializeIntArray(AllTunerLSMStorrage.this.listOrCoverflowViewSetting, dataOutputStream);
+        }
 
-    static /* synthetic */ int access$1902(AllTunerLSMStorrage allTunerLSMStorrage, int n) {
-        allTunerLSMStorrage.amfmView = n;
-        return allTunerLSMStorrage.amfmView;
-    }
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV10(dataInputStream);
+        }
 
-    static /* synthetic */ UnifiedStationExt access$2500(AllTunerLSMStorrage allTunerLSMStorrage, DataInputStream dataInputStream) {
-        return allTunerLSMStorrage.deserialzieUniLsmOld(dataInputStream);
+        private void deserializeV10(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV9(dataInputStream);
+            AllTunerLSMStorrage.access$2402(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+        }
+
+        private void deserializeV9(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV8(dataInputStream);
+            AllTunerLSMStorrage.this.suppressTAPopup = dataInputStream.readBoolean();
+        }
+
+        private void deserializeV8(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV7(dataInputStream);
+            AllTunerLSMStorrage.this.slideshowEnabled = dataInputStream.readBoolean();
+        }
+
+        private void deserializeV7(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV6(dataInputStream);
+            AllTunerLSMStorrage.this.databaseActivated = dataInputStream.readInt();
+        }
+
+        private void deserializeV6(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV5(dataInputStream);
+            AllTunerLSMStorrage.this.databaseCountry = dataInputStream.readInt();
+        }
+
+        private void deserializeV5(DataInputStream dataInputStream) throws IOException {
+            int n;
+            AllTunerLSMStorrage.this.lsmList = dataInputStream.readInt();
+            AllTunerLSMStorrage.this.lsmBand = dataInputStream.readInt();
+            int n2 = dataInputStream.readInt();
+            AllTunerLSMStorrage.access$402(AllTunerLSMStorrage.this, new AMFMStation[3]);
+            ((AllTunerLSMStorrage)AllTunerLSMStorrage.this).stations[0] = SerializingHelpers.deserializeAMFM(dataInputStream, n2);
+            ((AllTunerLSMStorrage)AllTunerLSMStorrage.this).stations[1] = SerializingHelpers.deserializeAMFM(dataInputStream, n2);
+            ((AllTunerLSMStorrage)AllTunerLSMStorrage.this).stations[2] = SerializingHelpers.deserializeAMFM(dataInputStream, n2);
+            AllTunerLSMStorrage.access$502(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            AllTunerLSMStorrage.this.dabLsm = SerializingHelpers.deserializeDAB(dataInputStream, n2);
+            AllTunerLSMStorrage.access$702(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            int[] nArray = this.deserializeIntArray(dataInputStream);
+            int[] nArray2 = this.deserializeIntArray(dataInputStream);
+            AllTunerLSMStorrage.this.ensState = new SimpleIntIntMap(nArray.length + 10);
+            for (n = 0; n < nArray.length; ++n) {
+                AllTunerLSMStorrage.this.ensState.add(nArray[n], nArray2[n]);
+            }
+            AllTunerLSMStorrage.this.uniLsm = SerializingHelpers.deserializeUni(dataInputStream, n2);
+            AllTunerLSMStorrage.this.sdarsLsm = SerializingHelpers.deserializeSDARS(dataInputStream);
+            AllTunerLSMStorrage.access$1102(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            nArray = this.deserializeIntArray(dataInputStream);
+            nArray2 = this.deserializeIntArray(dataInputStream);
+            AllTunerLSMStorrage.this.sdarsCatFilter = new SimpleIntIntMap(nArray.length + 10);
+            for (n = 0; n < nArray.length; ++n) {
+                AllTunerLSMStorrage.this.sdarsCatFilter.add(nArray[n], nArray2[n]);
+            }
+            AllTunerLSMStorrage.access$1302(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            AllTunerLSMStorrage.this.prefImgType = dataInputStream.readInt();
+            AllTunerLSMStorrage.this.gracenoteLookup = dataInputStream.readBoolean();
+            AllTunerLSMStorrage.this.isAmFmHd = dataInputStream.readBoolean();
+            AllTunerLSMStorrage.this.showRadioText = dataInputStream.readBoolean();
+            AllTunerLSMStorrage.this.presetBank = dataInputStream.readInt();
+            AllTunerLSMStorrage.this.amfmView = dataInputStream.readInt();
+        }
+
+        private void deserializeV2(DataInputStream dataInputStream) throws IOException {
+            int n;
+            AllTunerLSMStorrage.this.lsmList = dataInputStream.readInt();
+            AllTunerLSMStorrage.this.lsmBand = dataInputStream.readInt();
+            AllTunerLSMStorrage.access$402(AllTunerLSMStorrage.this, this.deserialzieAmFmLsmOld(dataInputStream));
+            AllTunerLSMStorrage.access$502(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            this.deserializeDabLsmOld(dataInputStream);
+            AllTunerLSMStorrage.access$702(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            int[] nArray = this.deserializeIntArray(dataInputStream);
+            int[] nArray2 = this.deserializeIntArray(dataInputStream);
+            AllTunerLSMStorrage.this.ensState = new SimpleIntIntMap(nArray.length + 10);
+            for (n = 0; n < nArray.length; ++n) {
+                AllTunerLSMStorrage.this.ensState.add(nArray[n], nArray2[n]);
+            }
+            AllTunerLSMStorrage.this.uniLsm = AllTunerLSMStorrage.this.deserialzieUniLsmOld(dataInputStream);
+            AllTunerLSMStorrage.this.sdarsLsm = this.deserializeSdarsLsmOld(dataInputStream);
+            AllTunerLSMStorrage.access$1102(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            nArray = this.deserializeIntArray(dataInputStream);
+            nArray2 = this.deserializeIntArray(dataInputStream);
+            AllTunerLSMStorrage.this.sdarsCatFilter = new SimpleIntIntMap(nArray.length + 10);
+            for (n = 0; n < nArray.length; ++n) {
+                AllTunerLSMStorrage.this.sdarsCatFilter.add(nArray[n], nArray2[n]);
+            }
+            AllTunerLSMStorrage.access$1302(AllTunerLSMStorrage.this, this.deserializeIntArray(dataInputStream));
+            AllTunerLSMStorrage.this.prefImgType = dataInputStream.readInt();
+            AllTunerLSMStorrage.this.gracenoteLookup = dataInputStream.readBoolean();
+        }
+
+        private void deserializeV3(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV2(dataInputStream);
+            AllTunerLSMStorrage.this.isAmFmHd = dataInputStream.readBoolean();
+        }
+
+        private void deserializeV4(DataInputStream dataInputStream) throws IOException {
+            this.deserializeV3(dataInputStream);
+            AllTunerLSMStorrage.this.showRadioText = dataInputStream.readBoolean();
+            AllTunerLSMStorrage.this.presetBank = dataInputStream.readInt();
+            AllTunerLSMStorrage.this.amfmView = dataInputStream.readInt();
+        }
+
+        private StationInfoExt deserializeSdarsLsmOld(DataInputStream dataInputStream) throws IOException {
+            StationInfoExt stationInfoExt = new StationInfoExt();
+            stationInfoExt.sID = dataInputStream.readInt();
+            stationInfoExt.stationNumber = (short)dataInputStream.readInt();
+            stationInfoExt.categoryNumber = (short)dataInputStream.readInt();
+            stationInfoExt.fullLabel = dataInputStream.readUTF();
+            stationInfoExt.shortLabel = dataInputStream.readUTF();
+            String string = dataInputStream.readUTF();
+            int n = dataInputStream.readInt();
+            stationInfoExt.setStationArt(new HMIResourceLocator(n, string));
+            stationInfoExt.subscription = 2;
+            return stationInfoExt;
+        }
+
+        private AMFMStation[] deserialzieAmFmLsmOld(DataInputStream dataInputStream) throws IOException {
+            AMFMStation[] aMFMStationArray = new AMFMStation[3];
+            aMFMStationArray[0] = new AMFMStation();
+            aMFMStationArray[0].waveband = 1;
+            aMFMStationArray[0].frequency = dataInputStream.readInt();
+            aMFMStationArray[0].pi = dataInputStream.readInt();
+            aMFMStationArray[0].rds = dataInputStream.readBoolean();
+            aMFMStationArray[0].serviceId = dataInputStream.readInt();
+            aMFMStationArray[0].name = dataInputStream.readUTF();
+            aMFMStationArray[0].shortNameHD = dataInputStream.readUTF();
+            aMFMStationArray[0].longNameHD = dataInputStream.readUTF();
+            aMFMStationArray[0].hd = dataInputStream.readBoolean();
+            aMFMStationArray[0].setHdStructure(1 | aMFMStationArray[0].serviceId);
+            aMFMStationArray[1] = new AMFMStation();
+            aMFMStationArray[1].waveband = 3;
+            aMFMStationArray[1].frequency = dataInputStream.readInt();
+            aMFMStationArray[1].pi = -1;
+            aMFMStationArray[1].name = dataInputStream.readUTF();
+            aMFMStationArray[1].shortNameHD = dataInputStream.readUTF();
+            aMFMStationArray[1].longNameHD = dataInputStream.readUTF();
+            aMFMStationArray[2] = new AMFMStation();
+            aMFMStationArray[2].waveband = 3;
+            aMFMStationArray[2].frequency = dataInputStream.readInt();
+            aMFMStationArray[2].pi = -1;
+            return aMFMStationArray;
+        }
+
+        private void deserializeDabLsmOld(DataInputStream dataInputStream) throws IOException {
+            EnsembleInfo ensembleInfo = new EnsembleInfo();
+            ensembleInfo.ensID = dataInputStream.readInt();
+            ensembleInfo.ensECC = dataInputStream.readInt();
+            ensembleInfo.frequencyValue = dataInputStream.readInt();
+            ensembleInfo.fullName = dataInputStream.readUTF();
+            ensembleInfo.shortName = dataInputStream.readUTF();
+            ServiceInfo serviceInfo = new ServiceInfo();
+            serviceInfo.ensID = ensembleInfo.ensID;
+            serviceInfo.ensECC = ensembleInfo.ensECC;
+            serviceInfo.sID = dataInputStream.readInt();
+            serviceInfo.fullName = dataInputStream.readUTF();
+            serviceInfo.shortName = dataInputStream.readUTF();
+            serviceInfo.ptyCodes = new byte[]{0};
+            ComponentInfo componentInfo = new ComponentInfo();
+            componentInfo.ensID = ensembleInfo.ensID;
+            componentInfo.ensECC = ensembleInfo.ensECC;
+            componentInfo.sID = serviceInfo.sID;
+            componentInfo.sCIDI = dataInputStream.readInt();
+            componentInfo.primaryService = dataInputStream.readBoolean();
+            componentInfo.fullName = dataInputStream.readUTF();
+            componentInfo.shortName = dataInputStream.readUTF();
+            AllTunerLSMStorrage.this.dabLsm = new DabStation(ensembleInfo, serviceInfo, componentInfo);
+        }
     }
 }
 

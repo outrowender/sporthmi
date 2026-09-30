@@ -36,24 +36,24 @@ public class GeneralMiniAppHandler {
     private ConciergeCallMiniAppHandler cMiniAppHandler;
     private final LogChannel logChannel = Online.getInstance().getOperatorCallLogChannel();
     private OnlineEnv env;
-    private final int[] labelIds = new int[]{1998398208, 1864180480, 1914512128, 2031952640, 1964843776, 1931289344, 2048729856, 1981620992, 2065507072, 1897734912, 1948066560, 1880957696, 2082284288, 2099061504, 2015175424};
+    private final int[] labelIds = new int[]{2301303, 2301295, 2301298, 2301305, 2301301, 2301299, 2301306, 2301302, 2301307, 2301297, 2301300, 2301296, 2301308, 2301309, 2301304};
 
     public GeneralMiniAppHandler(OnlineEnv onlineEnv, AbstractOperatorCallHandler abstractOperatorCallHandler) {
-        this.LABEL01 = 1998398208;
-        this.LABEL02 = 1864180480;
-        this.LABEL03 = 1914512128;
-        this.LABEL04 = 2031952640;
-        this.LABEL05 = 1964843776;
-        this.LABEL06 = 1931289344;
-        this.LABEL07 = 2048729856;
-        this.LABEL08 = 1981620992;
-        this.LABEL09 = 2065507072;
-        this.LABEL10 = 1897734912;
-        this.LABEL11 = 1948066560;
-        this.LABEL12 = 1880957696;
-        this.LABEL13 = 2082284288;
-        this.LABEL14 = 2099061504;
-        this.LABEL15 = 2015175424;
+        this.LABEL01 = 2301303;
+        this.LABEL02 = 2301295;
+        this.LABEL03 = 2301298;
+        this.LABEL04 = 2301305;
+        this.LABEL05 = 2301301;
+        this.LABEL06 = 2301299;
+        this.LABEL07 = 2301306;
+        this.LABEL08 = 2301302;
+        this.LABEL09 = 2301307;
+        this.LABEL10 = 2301297;
+        this.LABEL11 = 2301300;
+        this.LABEL12 = 2301296;
+        this.LABEL13 = 2301308;
+        this.LABEL14 = 2301309;
+        this.LABEL15 = 2301304;
         this.env = onlineEnv;
         this.pMiniAppHandler = new PoiCallMiniAppHandler(onlineEnv, abstractOperatorCallHandler.getOperatorCall(2));
         this.cMiniAppHandler = new ConciergeCallMiniAppHandler(onlineEnv, abstractOperatorCallHandler.getOperatorCall(1));
@@ -73,7 +73,7 @@ public class GeneralMiniAppHandler {
             for (n = 0; iterator.hasNext() && n < 15; ++n) {
                 OnlineApplicationOtherContext onlineApplicationOtherContext = (OnlineApplicationOtherContext)iterator.next();
                 String string = onlineApplicationOtherContext.getAppName();
-                this.logChannel.log(-2137614336, "GeneralMiniAppHandler#updateMiniAppList# %1. miniapp is %2", (Object)Util.createInteger(n + 1), (Object)string);
+                this.logChannel.log(10000000, "GeneralMiniAppHandler#updateMiniAppList# %1. miniapp is %2", (Object)Util.createInteger(n + 1), (Object)string);
                 String string2 = onlineApplicationOtherContext.getAppContext();
                 this.pMiniAppHandler.setNewMiniApp(n, string, string2);
                 this.cMiniAppHandler.setNewMiniApp(n, string, string2);
@@ -81,8 +81,8 @@ public class GeneralMiniAppHandler {
                 labelModelApp.setText(string);
             }
         }
-        this.logChannel.log(1078071040, "GeneralMiniAppHandler#updateMiniAppList called with size %1", (long)n3);
-        this.setChoiceValue(1847403264, "NUMBER_OF_REMOTE_HMI_APPS_IN_OPERATORCALL_CHOICE", n);
+        this.logChannel.log(1000000, "GeneralMiniAppHandler#updateMiniAppList called with size %1", (long)n3);
+        this.setChoiceValue(2301294, "NUMBER_OF_REMOTE_HMI_APPS_IN_OPERATORCALL_CHOICE", n);
         this.pMiniAppHandler.configureModelsMiniApps(n2, 0);
         this.cMiniAppHandler.configureModelsMiniApps(n2, 0);
     }
@@ -98,7 +98,7 @@ public class GeneralMiniAppHandler {
     }
 
     protected void setChoiceValue(int n, String string, int n2) {
-        this.logChannel.log(14808325, "AbstractBaseModelHandler#setChoiceValue: %1 : %2 -> %3", (Object)string, (long)this.getChoiceValue(n), (long)n2);
+        this.logChannel.log(100000000, "AbstractBaseModelHandler#setChoiceValue: %1 : %2 -> %3", (Object)string, (long)this.getChoiceValue(n), (long)n2);
         this.env.getChoiceModel(n).setValue(n2);
     }
 
@@ -107,7 +107,7 @@ public class GeneralMiniAppHandler {
     }
 
     public void triggerLanguageChange() {
-        this.logChannel.log(1078071040, "GeneralMiniAppHandler#triggerLanguageChange: called");
+        this.logChannel.log(1000000, "GeneralMiniAppHandler#triggerLanguageChange: called");
         this.updateMiniAppList(null);
     }
 }

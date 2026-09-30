@@ -14,7 +14,7 @@ implements TimerListener {
 
     public LangChangeWatchDog(ILanguageUIHandler iLanguageUIHandler) {
         this.langMngrUI = iLanguageUIHandler;
-        this.timer = new Timer("LangChangeWatchDog", 0, true, this);
+        this.timer = new Timer("LangChangeWatchDog", 15000L, true, this);
     }
 
     public void start() {
@@ -25,12 +25,10 @@ implements TimerListener {
         this.timer.cancel();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.langMngrUI.langChangeFinished();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

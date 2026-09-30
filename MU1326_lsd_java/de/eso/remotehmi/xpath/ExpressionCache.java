@@ -25,7 +25,7 @@ final class ExpressionCache {
         this.LRU_SIZE = 64;
     }
 
-    final synchronized AbstractPathEntry[] get(Map map, String string) {
+    final synchronized AbstractPathEntry[] get(Map map, String string) throws PoorMansXPathException {
         this.lru.remove(string);
         this.lru.addFirst(string);
         while (this.lru.size() > 64) {

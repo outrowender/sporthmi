@@ -12,23 +12,18 @@ import de.audi.tghu.exlap.impl.container.SoundVolumeRangesContainer;
 
 public class ExlapSoundEmptyListener
 implements ExlapSoundListener {
-    @Override
     public void updateSoundVolume(SoundVolumeContainer soundVolumeContainer) {
     }
 
-    @Override
     public void updateSoundVolumeRanges(SoundVolumeRangesContainer soundVolumeRangesContainer) {
     }
 
-    @Override
     public void updateBalanceFader(BalanceFaderContainer balanceFaderContainer) {
     }
 
-    @Override
     public void updateBalanceFaderRanges(BalanceFaderRangesContainer balanceFaderRangesContainer) {
     }
 
-    @Override
     public void updateEntertainmentContext(EntertainmentContextContainer entertainmentContextContainer) {
     }
 }

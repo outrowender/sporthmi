@@ -16,21 +16,19 @@ extends NavCommand {
         this.doAudioStatemachineTransition = bl;
     }
 
-    @Override
     public void execute() {
         int n = this.navigation.getAudioStateMachine().getAudioState();
         if (n == 1) {
-            this.logger.log(-2137614336, "RequestAudioTriggerAbortCommand#execute() - calling requestAudioTrigger(AUDIOMODE_ABORT) ");
+            this.logger.log(10000000, "RequestAudioTriggerAbortCommand#execute() - calling requestAudioTrigger(AUDIOMODE_ABORT) ");
             this.getDSINavigation().requestAudioTrigger(2);
         } else {
-            this.logger.log(-2137614336, "RequestAudioTriggerAbortCommand#execute() - audioState = %1 != ACTIVE", (long)n);
+            this.logger.log(10000000, "RequestAudioTriggerAbortCommand#execute() - audioState = %1 != ACTIVE", (long)n);
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateAudioRequest(int n) {
-        this.logger.log(-2137614336, "RequestAudioTriggerAbortCommand#updateAudioRequest( %2 ), doAudioStatemachineTransition = %1", this.doAudioStatemachineTransition, (long)n);
+        this.logger.log(10000000, "RequestAudioTriggerAbortCommand#updateAudioRequest( %2 ), doAudioStatemachineTransition = %1", this.doAudioStatemachineTransition, (long)n);
         if (this.doAudioStatemachineTransition) {
             super.updateAudioRequest(n);
         } else {

@@ -14,28 +14,25 @@ public class DSIRegisteredCmd
 extends AbstractAllBandCmd {
     public DSIRegisteredCmd(IFrameworkAccess iFrameworkAccess, ISimpleTuner iSimpleTuner, LogChannel logChannel) {
         super(iFrameworkAccess, iSimpleTuner, logChannel);
-        this.setName(new Buffer().append("DSIRegisteredCmd( ").append(super.getClass().getName()).append(" )"));
+        this.setName(new Buffer().append("DSIRegisteredCmd( ").append(iSimpleTuner.getClass().getName()).append(" )"));
     }
 
-    @Override
     public void execute() {
         this.logExecuteFirstCmd();
         boolean bl = this.tuner.isDsiFound();
-        this.logger.log(-2137614336, "[DSIRegisteredCmd.execute] dsiRegistered:%1", bl);
+        this.logger.log(10000000, "[DSIRegisteredCmd.execute] dsiRegistered:%1", bl);
         if (bl) {
             this.commandFinished();
         }
     }
 
-    @Override
     protected void commandFinished() {
         this.logFinishFirstCmd();
         super.commandFinished();
     }
 
-    @Override
     public void dsiRegistered(DSIBase dSIBase) {
-        this.logger.log(-2137614336, "[DSIRegisteredCmd.dsiRegistered] %1", (Object)dSIBase);
+        this.logger.log(10000000, "[DSIRegisteredCmd.dsiRegistered] %1", (Object)dSIBase);
         this.commandFinished();
     }
 }

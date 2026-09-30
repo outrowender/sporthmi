@@ -12,14 +12,13 @@ import org.dsi.ifc.radio.Station;
 class SortAlgoAlphabeticallyNAR
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2793054579318091520L;
     private final transient LanguageManager langMngr;
 
     public SortAlgoAlphabeticallyNAR(LanguageManager languageManager) {
         this.langMngr = languageManager;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         AMFMStation aMFMStation = (AMFMStation)object;
         AMFMStation aMFMStation2 = (AMFMStation)object2;

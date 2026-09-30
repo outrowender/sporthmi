@@ -4,37 +4,27 @@
 package de.audi.tv.app.tm;
 
 interface ITouchpadHandler {
-    public static final short VALUE_DO_NOTHING;
-    public static final short VALUE_FIRE_EVENT;
+    public static final short VALUE_DO_NOTHING = -1;
+    public static final short VALUE_FIRE_EVENT = -2;
 
-    default public short jsWest() {
-    }
+    public short jsWest();
 
-    default public short jsEast() {
-    }
+    public short jsEast();
 
-    default public short jsNorth() {
-    }
+    public short jsNorth();
 
-    default public short jsSouth() {
-    }
+    public short jsSouth();
 
-    default public short touchScreenPressed() {
-    }
+    public short touchScreenPressed();
 
-    default public short touchScreenReleased() {
-    }
+    public short touchScreenReleased();
 
-    default public short keyPressed() {
-    }
+    public short keyPressed();
 
-    default public short keyReleased() {
-    }
+    public short keyReleased();
 
-    default public short increment() {
-    }
+    public short increment();
 
-    default public short decrement() {
-    }
+    public short decrement();
 }
 

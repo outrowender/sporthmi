@@ -11,14 +11,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class LanguageInfoContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_LANGUAGE_INFO;
-    private static final int ELEMENT_ID_LANGUAGE_ID;
+    private static final int CONTAINER_ID_LANGUAGE_INFO = 6;
+    private static final int ELEMENT_ID_LANGUAGE_ID = 15;
     private Map map = new HashMap();
 
     public LanguageInfoContainer(String string) {
@@ -44,14 +43,12 @@ extends AbstractContainer {
         return (String)this.map.get(new Integer(15));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(6, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -62,11 +59,11 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 15: {
-                    hASDataElementArray[n++] = new StringElement(15, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(15, (String)entry.getValue());
                     break;
                 }
             }
@@ -74,20 +71,19 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("LanguageInfoContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 15: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("languageId(String)=null");
                         break;
                     }
                     stringWriter.write("languageId(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -98,7 +94,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         LanguageInfoContainer languageInfoContainer = new LanguageInfoContainer(this);
         return languageInfoContainer;

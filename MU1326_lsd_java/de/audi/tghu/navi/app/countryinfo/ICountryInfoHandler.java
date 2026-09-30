@@ -9,25 +9,18 @@ import org.dsi.ifc.navigation.CountryInfo;
 import org.dsi.ifc.trafficregulation.RoadClassSpeedInfo;
 
 public interface ICountryInfoHandler {
-    default public void updateRoadClassSpeedInfo(RoadClassSpeedInfo[] roadClassSpeedInfoArray) {
-    }
+    public void updateRoadClassSpeedInfo(RoadClassSpeedInfo[] var1);
 
-    default public void updateCountryInfo(CountryInfo countryInfo) {
-    }
+    public void updateCountryInfo(CountryInfo var1);
 
-    default public void startCountryInput(boolean bl) {
-    }
+    public void startCountryInput(boolean var1);
 
-    default public void startCountryInput(boolean bl, char c2) {
-    }
+    public void startCountryInput(boolean var1, char var2);
 
-    default public void initiateCountry() {
-    }
+    public void initiateCountry();
 
-    default public void setCountry(NavLocation navLocation) {
-    }
+    public void setCountry(NavLocation var1);
 
-    default public void setCountry(NavLocation navLocation, CommandList commandList) {
-    }
+    public void setCountry(NavLocation var1, CommandList var2);
 }
 

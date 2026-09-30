@@ -4,18 +4,21 @@
 package de.audi.tuner.app;
 
 import de.audi.atip.hmi.model.menu.MenuModelListener;
-import de.audi.tuner.app.RadioMenuModelListener$1;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.ifc.ISearchBreak;
 
 public class RadioMenuModelListener
 implements MenuModelListener {
-    private static final int CURSOR_NO_SEEKRESULT;
-    private static final int CURSOR_SEEKRESULT;
+    private static final int CURSOR_NO_SEEKRESULT = 1;
+    private static final int CURSOR_SEEKRESULT = 2;
     private int cursorPos;
-    private ISearchBreak searchListener = new RadioMenuModelListener$1(this);
-    private int searchResultBaseListId = -129;
+    private ISearchBreak searchListener = new ISearchBreak(){
+
+        public void cursorInSearchResult(boolean bl) {
+        }
+    };
+    private int searchResultBaseListId = Integer.MAX_VALUE;
 
     public RadioMenuModelListener() {
     }
@@ -32,7 +35,6 @@ implements MenuModelListener {
         this.searchResultBaseListId = n;
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
         int n4 = n == this.searchResultBaseListId ? 2 : 1;
         if (this.cursorPos != n4) {

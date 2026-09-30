@@ -4,6 +4,8 @@
 package de.audi.tghu.exlap.impl.service;
 
 import de.audi.tghu.exlap.ExlapAbstractService;
+import de.audi.tghu.exlap.ExlapListener;
+import de.audi.tghu.exlap.ListenerIterator;
 import de.audi.tghu.exlap.ifc.listener.ExlapRadioListener;
 import de.audi.tghu.exlap.ifc.service.ExlapRadioService;
 import de.audi.tghu.exlap.impl.container.RadioBandsContainer;
@@ -13,87 +15,126 @@ import de.audi.tghu.exlap.impl.container.RadioStationInfoContainer;
 import de.audi.tghu.exlap.impl.container.RadioStationsContainer;
 import de.audi.tghu.exlap.impl.container.RadioTextContainer;
 import de.audi.tghu.exlap.impl.container.TrafficAnnouncementContainer;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$1;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$10;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$11;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$12;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$13;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$2;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$3;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$4;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$5;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$6;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$7;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$8;
-import de.audi.tghu.exlap.impl.service.ExlapAbstractRadioService$9;
 
 public abstract class ExlapAbstractRadioService
 extends ExlapAbstractService
 implements ExlapRadioService,
 ExlapRadioListener {
-    @Override
-    public void updateAvailableRadioBands(RadioBandsContainer radioBandsContainer) {
-        this.iterateListener(28, new ExlapAbstractRadioService$1(this, radioBandsContainer));
+    public void updateAvailableRadioBands(final RadioBandsContainer radioBandsContainer) {
+        this.iterateListener(28, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateAvailableRadioBands(radioBandsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAvailableAMStations(RadioStationsContainer radioStationsContainer) {
-        this.iterateListener(31, new ExlapAbstractRadioService$2(this, radioStationsContainer));
+    public void updateAvailableAMStations(final RadioStationsContainer radioStationsContainer) {
+        this.iterateListener(31, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateAvailableAMStations(radioStationsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAvailableFMStations(RadioStationsContainer radioStationsContainer) {
-        this.iterateListener(32, new ExlapAbstractRadioService$3(this, radioStationsContainer));
+    public void updateAvailableFMStations(final RadioStationsContainer radioStationsContainer) {
+        this.iterateListener(32, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateAvailableFMStations(radioStationsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAvailableDABEnsembles(RadioStationsContainer radioStationsContainer) {
-        this.iterateListener(33, new ExlapAbstractRadioService$4(this, radioStationsContainer));
+    public void updateAvailableDABEnsembles(final RadioStationsContainer radioStationsContainer) {
+        this.iterateListener(33, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateAvailableDABEnsembles(radioStationsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAvailableDABServices(RadioStationsContainer radioStationsContainer) {
-        this.iterateListener(34, new ExlapAbstractRadioService$5(this, radioStationsContainer));
+    public void updateAvailableDABServices(final RadioStationsContainer radioStationsContainer) {
+        this.iterateListener(34, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateAvailableDABServices(radioStationsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateAvailableDABServiceComponents(RadioStationsContainer radioStationsContainer) {
-        this.iterateListener(35, new ExlapAbstractRadioService$6(this, radioStationsContainer));
+    public void updateAvailableDABServiceComponents(final RadioStationsContainer radioStationsContainer) {
+        this.iterateListener(35, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateAvailableDABServiceComponents(radioStationsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateRadioAMPresets(RadioPresetsContainer radioPresetsContainer) {
-        this.iterateListener(36, new ExlapAbstractRadioService$7(this, radioPresetsContainer));
+    public void updateRadioAMPresets(final RadioPresetsContainer radioPresetsContainer) {
+        this.iterateListener(36, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateRadioAMPresets(radioPresetsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateRadioFMPresets(RadioPresetsContainer radioPresetsContainer) {
-        this.iterateListener(37, new ExlapAbstractRadioService$8(this, radioPresetsContainer));
+    public void updateRadioFMPresets(final RadioPresetsContainer radioPresetsContainer) {
+        this.iterateListener(37, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateRadioFMPresets(radioPresetsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateRadioDABPresets(RadioPresetsContainer radioPresetsContainer) {
-        this.iterateListener(38, new ExlapAbstractRadioService$9(this, radioPresetsContainer));
+    public void updateRadioDABPresets(final RadioPresetsContainer radioPresetsContainer) {
+        this.iterateListener(38, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateRadioDABPresets(radioPresetsContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateRadioTuner(RadioStationInfoContainer radioStationInfoContainer) {
-        this.iterateListener(39, new ExlapAbstractRadioService$10(this, radioStationInfoContainer));
+    public void updateRadioTuner(final RadioStationInfoContainer radioStationInfoContainer) {
+        this.iterateListener(39, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateRadioTuner(radioStationInfoContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateRadioFrequencyRanges(RadioFrequencyRangesContainer radioFrequencyRangesContainer) {
-        this.iterateListener(40, new ExlapAbstractRadioService$11(this, radioFrequencyRangesContainer));
+    public void updateRadioFrequencyRanges(final RadioFrequencyRangesContainer radioFrequencyRangesContainer) {
+        this.iterateListener(40, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateRadioFrequencyRanges(radioFrequencyRangesContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateTrafficAnnouncement(TrafficAnnouncementContainer trafficAnnouncementContainer) {
-        this.iterateListener(48, new ExlapAbstractRadioService$12(this, trafficAnnouncementContainer));
+    public void updateTrafficAnnouncement(final TrafficAnnouncementContainer trafficAnnouncementContainer) {
+        this.iterateListener(48, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateTrafficAnnouncement(trafficAnnouncementContainer);
+            }
+        });
     }
 
-    @Override
-    public void updateRadioText(RadioTextContainer radioTextContainer) {
-        this.iterateListener(49, new ExlapAbstractRadioService$13(this, radioTextContainer));
+    public void updateRadioText(final RadioTextContainer radioTextContainer) {
+        this.iterateListener(49, new ListenerIterator(){
+
+            public void processListener(ExlapListener exlapListener) {
+                ((ExlapRadioListener)exlapListener).updateRadioText(radioTextContainer);
+            }
+        });
     }
 }
 

@@ -17,7 +17,6 @@ implements de.eso.a.a.a {
         this.b = n;
     }
 
-    @Override
     public void a() {
         if (null == this.a) {
             return;

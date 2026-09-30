@@ -17,15 +17,13 @@ extends NavCommand {
         this.location = navLocation;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LIDisambiguateLocationCommand#execute() - calling liDisambiguateLocation(%1)", (Object)LocationFormatter.formatLocationShort(this.location));
+        this.logger.log(10000000, "LIDisambiguateLocationCommand#execute() - calling liDisambiguateLocation(%1)", (Object)LocationFormatter.formatLocationShort(this.location));
         this.getDSINavigation().liDisambiguateLocation(this.location);
     }
 
-    @Override
     public void liDisambiguateLocationResult(int[] nArray, NavLocation[] navLocationArray) {
-        this.logger.log(-2137614336, "LIDisambiguateLocationCommand#liDisambiguateLocationResult - type.length=%1, locations.length=%2", (long)nArray.length, (long)navLocationArray.length);
+        this.logger.log(10000000, "LIDisambiguateLocationCommand#liDisambiguateLocationResult - type.length=%1, locations.length=%2", (long)nArray.length, (long)navLocationArray.length);
         if (nArray == null || navLocationArray == null) {
             this.getCommandList().commandAborted("LIDisambiguateLocationCommand#liDisambiguateLocationResult - result lists are null.");
         } else if (nArray.length != navLocationArray.length) {
@@ -40,7 +38,7 @@ extends NavCommand {
             disambiguatedNavLocationArray[i2] = new DisambiguatedNavLocation(nArray[i2], navLocationArray[i2]);
             buffer.append(disambiguatedNavLocationArray[i2].toString()).append("\n");
         }
-        this.logger.log(-2137614336, "LIDisambiguateLocationCommand#liDisambiguateLocationResult - results=%1", (Object)buffer.toString());
+        this.logger.log(10000000, "LIDisambiguateLocationCommand#liDisambiguateLocationResult - results=%1", (Object)buffer.toString());
         this.dsiResponseContainer.setDisambiguatedNavLocations(disambiguatedNavLocationArray);
         this.getCommandList().commandFinished();
     }

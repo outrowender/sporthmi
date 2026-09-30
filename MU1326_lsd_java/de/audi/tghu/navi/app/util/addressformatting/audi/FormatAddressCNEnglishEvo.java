@@ -15,7 +15,6 @@ extends FormatAddressAsiaEnglishEvo {
         super(navigationEnv);
     }
 
-    @Override
     protected void formatStreet(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.junction.isEmpty()) {
             if (locationFormattingRequest.houseNumber.isEmpty()) {
@@ -35,7 +34,6 @@ extends FormatAddressAsiaEnglishEvo {
         }
     }
 
-    @Override
     protected void formatDefaultTwoLines(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.district.isEmpty()) {
             if (!locationFormattingRequest.city.isEmpty()) {
@@ -49,7 +47,7 @@ extends FormatAddressAsiaEnglishEvo {
                 locationFormattingResponse.appendToFirstLine(locationFormattingRequest.state);
                 locationFormattingResponse.appendToSecondLine(locationFormattingRequest.state);
             } else {
-                this.logChannel.log(-2137614336, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information!", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information!", (Object)this.CLASS_NAME);
             }
         } else {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.district);
@@ -65,7 +63,6 @@ extends FormatAddressAsiaEnglishEvo {
         }
     }
 
-    @Override
     protected void formatFullAddressInformationForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.houseNumber.isEmpty() && !locationFormattingRequest.street.isEmpty()) {
             locationFormattingResponse.appendToSecondLine(locationFormattingRequest.houseNumber);
@@ -83,7 +80,6 @@ extends FormatAddressAsiaEnglishEvo {
         }
     }
 
-    @Override
     protected void formatThreeLevelCityForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         locationFormattingResponse.appendToSecondLine(locationFormattingRequest.district);
         if (!locationFormattingRequest.city.isEmpty()) {

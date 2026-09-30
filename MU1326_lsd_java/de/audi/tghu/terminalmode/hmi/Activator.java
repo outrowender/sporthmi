@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(32, "TerminalMode", System.getProperty("variant.skin", "EvoHighScale"), new TerminalModeModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new TerminalModeScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new TerminalModeConditionBank((TerminalModeScreenFactory)this.getScreenFactory());

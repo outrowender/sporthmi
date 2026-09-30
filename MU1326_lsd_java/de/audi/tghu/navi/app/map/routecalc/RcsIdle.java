@@ -14,16 +14,14 @@ extends RcsBase {
         super(routeCalcSM, "RcsIdle");
     }
 
-    @Override
     public void enter() {
         this.stateMachine.resetIgnoreBetterRouteFlags();
         this.data.iBetterRouteState = 1;
         this.getStateMachine().setWaitForAvailableRoute(true);
     }
 
-    @Override
     public void startRouteCalculation(Route route, int n, boolean bl, boolean bl2, boolean bl3) {
-        this.getLogger().log(-2137614336, "RcsIdle#startRouteCalculation() - numOfAlt = %1", (long)n);
+        this.getLogger().log(10000000, "RcsIdle#startRouteCalculation() - numOfAlt = %1", (long)n);
         if (this.isOffroadTour(route)) {
             this.getData().currentRoute = route;
             if (n == 1) {
@@ -59,7 +57,7 @@ extends RcsBase {
                 return;
             }
             n2 = n > 1 || !this.getStateMachine().isSingleRoute() ? 1 : 0;
-            this.getLogger().log(1078071040, "RcsIdle#startRouteCalculation() - prepare map, switch to context %1", (long)(n2 != 0 ? 0 : 0));
+            this.getLogger().log(1000000, "RcsIdle#startRouteCalculation() - prepare map, switch to context %1", n2 != 0 ? 5L : 33L);
             if (bl) {
                 this.stateMachine.prepareMap(n, bl3);
             }
@@ -70,28 +68,25 @@ extends RcsBase {
         return route != null && route.routelist.length > 0 && route.routelist[0] != null && route.routelist[0].getRouteOptions() != null && route.routelist[0].routeOptions[0].getRouteType() == 4;
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
         if (bl) {
             if (this.getStateMachine().getLastState() == 3) {
                 this.goTo(7);
             } else {
-                this.getLogger().log(14808325, "RcsIdle#updateRgActive( true ) - RG has been started via PNAV -> Switch to STATE_RG_ACTIVATED");
+                this.getLogger().log(100000000, "RcsIdle#updateRgActive( true ) - RG has been started via PNAV -> Switch to STATE_RG_ACTIVATED");
                 this.goTo(7);
             }
         }
     }
 
-    @Override
     public void updateRgRouteCalculationState(int n) {
         if (n == 3) {
-            this.getLogger().log(-2137614336, "RcsIdle#updateRgRouteCalculationState( %1 ) - ignore", (long)n);
+            this.getLogger().log(10000000, "RcsIdle#updateRgRouteCalculationState( %1 ) - ignore", (long)n);
         }
         super.updateRgRouteCalculationState(n);
     }
 
-    @Override
     public int getValue4Model() {
         return 0;
     }

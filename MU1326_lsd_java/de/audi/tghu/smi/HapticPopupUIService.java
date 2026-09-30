@@ -14,7 +14,6 @@ extends AbstractHapticUIService {
     private Popup popup;
     private int lastScrID = -1;
 
-    @Override
     public void setStateMachine(AbstractStateMachine abstractStateMachine) {
         super.setStateMachine(abstractStateMachine);
         this.popup = ((PopupStateMachine)abstractStateMachine).getPopup();
@@ -24,7 +23,6 @@ extends AbstractHapticUIService {
         return this.lastScrID;
     }
 
-    @Override
     protected void showScreen(int n, int[] nArray, boolean bl, boolean bl2, boolean bl3, int[] nArray2, AdditionalScreenData additionalScreenData) {
         this.stateMachine.errLog.startActivatingScreen(this.stateMachine.getActiveScreenState(), n);
         long[] lArray = this.stateMachine.getContexts();

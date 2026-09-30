@@ -9,22 +9,16 @@ import de.audi.tghu.hmi.evo.IDrawerControllerEvo;
 
 public interface ITerminalContextEvo
 extends ITerminalContext {
-    default public IDrawerControllerEvo[] getSelectionDrawers(int n) {
-    }
+    public IDrawerControllerEvo[] getSelectionDrawers(int var1);
 
-    default public IDrawerControllerEvo[] getOptionDrawers(int n) {
-    }
+    public IDrawerControllerEvo[] getOptionDrawers(int var1);
 
-    default public Object getKanziResource(String string, Object object, int n, int n2) {
-    }
+    public Object getKanziResource(String var1, Object var2, int var3, int var4);
 
-    default public void notifyScreenFadedOut(int n, int n2) {
-    }
+    public void notifyScreenFadedOut(int var1, int var2);
 
-    default public void notifyScreenConnected(int n, int n2) {
-    }
+    public void notifyScreenConnected(int var1, int var2);
 
-    default public Screen getPartialPopup(int n, int n2) {
-    }
+    public Screen getPartialPopup(int var1, int var2);
 }
 

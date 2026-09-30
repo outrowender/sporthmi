@@ -18,37 +18,26 @@ public interface IPoiInputSequence
 extends ISpellerInputSequence,
 IPoiSubstringSearchListener,
 IRestorable {
-    default public void startCategoriesOrResultsSequence(IPoiCategoriesOrResultsModelAccess iPoiCategoriesOrResultsModelAccess, int n) {
-    }
+    public void startCategoriesOrResultsSequence(IPoiCategoriesOrResultsModelAccess var1, int var2);
 
-    default public void startCategories(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public void startCategories(IPoiSpellerModelAccess var1);
 
-    default public void startResultsSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, int n) {
-    }
+    public void startResultsSequence(IPoiSpellerModelAccess var1, int var2);
 
-    default public void startSubstringSearch(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public void startSubstringSearch(IPoiSpellerModelAccess var1);
 
-    default public void startBrands(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public void startBrands(IPoiSpellerModelAccess var1);
 
-    default public void startGuidance(IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
-    }
+    public void startGuidance(IStartGuidanceToDestinationSequence var1);
 
-    default public void startGuidance(ILocationHandler iLocationHandler, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
-    }
+    public void startGuidance(ILocationHandler var1, IStartGuidanceToDestinationSequence var2);
 
-    default public void startGuidanceToSingleDestination(IRouteManager iRouteManager) {
-    }
+    public void startGuidanceToSingleDestination(IRouteManager var1);
 
-    default public void startParentChild(IPoiSpellerModelAccess iPoiSpellerModelAccess, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
-    }
+    public void startParentChild(IPoiSpellerModelAccess var1, IStartGuidanceToDestinationSequence var2);
 
-    default public void retrieveNavLocation(GuiModelAccessDetailsNavi guiModelAccessDetailsNavi) {
-    }
+    public void retrieveNavLocation(GuiModelAccessDetailsNavi var1);
 
-    default public void startDetailsForSelectedElement(IPreviewMap iPreviewMap, GuiModelAccessDetailsNavi guiModelAccessDetailsNavi) {
-    }
+    public void startDetailsForSelectedElement(IPreviewMap var1, GuiModelAccessDetailsNavi var2);
 }
 

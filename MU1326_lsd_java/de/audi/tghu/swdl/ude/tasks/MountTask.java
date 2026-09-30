@@ -17,7 +17,6 @@ implements Runnable {
         this.lc = iEApplication.getLogChannel();
     }
 
-    @Override
     public void run() {
         File file = this.app.getMedium();
         if (file == null) {
@@ -30,11 +29,11 @@ implements Runnable {
             this.app.mountFinished(false);
             return;
         }
-        String string = new StringBuffer().append("mount -uw ").append(file).toString();
-        this.lc.log(-2137614336, "[MountTask] Exec '%1'", (Object)string);
+        String string = "mount -uw " + file;
+        this.lc.log(10000000, "[MountTask] Exec '%1'", (Object)string);
         try {
             Runtime.getRuntime().exec(string);
-            Thread.sleep(0);
+            Thread.sleep(3000L);
         }
         catch (Exception exception) {
             this.lc.log(10000, "[MountTask] Mounting '%1' writable failed!", (Object)file, (Throwable)exception);

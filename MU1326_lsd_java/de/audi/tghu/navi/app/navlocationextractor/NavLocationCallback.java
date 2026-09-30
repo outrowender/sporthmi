@@ -7,7 +7,6 @@ import de.audi.tghu.command.ICommandList;
 import org.dsi.ifc.global.NavLocation;
 
 public interface NavLocationCallback {
-    default public void callBack(NavLocation navLocation, ICommandList iCommandList) {
-    }
+    public void callBack(NavLocation var1, ICommandList var2);
 }
 

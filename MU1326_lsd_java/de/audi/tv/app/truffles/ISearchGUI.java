@@ -4,7 +4,6 @@
 package de.audi.tv.app.truffles;
 
 public interface ISearchGUI {
-    default public void runCommands() {
-    }
+    public void runCommands();
 }
 

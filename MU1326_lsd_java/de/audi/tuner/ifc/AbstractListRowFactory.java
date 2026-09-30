@@ -23,59 +23,44 @@ import org.dsi.ifc.sdars.RadioText;
 import org.dsi.ifc.sdars.SeekEntry;
 
 public abstract class AbstractListRowFactory {
-    private static long uniqueFavoriteId = 0;
+    private static long uniqueFavoriteId = 1000L;
 
     public static long getNextUniqueId() {
         return ++uniqueFavoriteId;
     }
 
-    public abstract AbstractAmFmRow getAmFmListRow(int n, AMFMStation aMFMStation, RecordSets recordSets, int n2) {
-    }
+    public abstract AbstractAmFmRow getAmFmListRow(int var1, AMFMStation var2, RecordSets var3, int var4);
 
-    public abstract int getNumOfCols(int n) {
-    }
+    public abstract int getNumOfCols(int var1);
 
-    public abstract DabListRow getDabListRow(de.audi.tuner.app.dab.stationlist.RecordSets recordSets, DabStation dabStation, boolean bl, int n) {
-    }
+    public abstract DabListRow getDabListRow(de.audi.tuner.app.dab.stationlist.RecordSets var1, DabStation var2, boolean var3, int var4);
 
-    public abstract UniListRow getUniListRow(UnifiedStationExt unifiedStationExt, boolean bl, int n) {
-    }
+    public abstract UniListRow getUniListRow(UnifiedStationExt var1, boolean var2, int var3);
 
-    public abstract SDARSListRow getSdarsListRow(StationInfoExt stationInfoExt, boolean bl, boolean bl2) {
-    }
+    public abstract SDARSListRow getSdarsListRow(StationInfoExt var1, boolean var2, boolean var3);
 
-    public abstract AbstractMemoryRow getAmFmFavRow(AMFMStation aMFMStation, int n, int n2) {
-    }
+    public abstract AbstractMemoryRow getAmFmFavRow(AMFMStation var1, int var2, int var3);
 
-    public abstract AbstractMemoryRow getDabFavRow(TunerObjectContainer tunerObjectContainer, int n) {
-    }
+    public abstract AbstractMemoryRow getDabFavRow(TunerObjectContainer var1, int var2);
 
-    public abstract AbstractMemoryRow getUniFavRow(UnifiedStationExt unifiedStationExt, int n) {
-    }
+    public abstract AbstractMemoryRow getUniFavRow(UnifiedStationExt var1, int var2);
 
-    public abstract AbstractMemoryRow getSdarsFavRow(TunerObjectContainer tunerObjectContainer, int n, int n2) {
-    }
+    public abstract AbstractMemoryRow getSdarsFavRow(TunerObjectContainer var1, int var2, int var3);
 
-    public abstract AbstractMemoryRow getEmptyFavRow(int n) {
-    }
+    public abstract AbstractMemoryRow getEmptyFavRow(int var1);
 
-    public abstract AbstractMemoryRow getFavRow(TunerObjectContainer tunerObjectContainer, int n, int n2) {
-    }
+    public abstract AbstractMemoryRow getFavRow(TunerObjectContainer var1, int var2, int var3);
 
-    public abstract EPGListRow[] getEpgRows(EPGShortInfoExt ePGShortInfoExt, long l) {
-    }
+    public abstract EPGListRow[] getEpgRows(EPGShortInfoExt var1, long var2);
 
     public AbstractSdarsEpgListRow[] getSdarsStationEpgRows(de.audi.tuner.app.epg.sdars.EPGShortInfoExt ePGShortInfoExt, long l) {
         return this.getSdarsGlobalEpgRows(ePGShortInfoExt, l, ePGShortInfoExt.epgProgramInfo.length);
     }
 
-    public abstract AbstractSdarsEpgListRow[] getSdarsGlobalEpgRows(de.audi.tuner.app.epg.sdars.EPGShortInfoExt ePGShortInfoExt, long l, int n) {
-    }
+    public abstract AbstractSdarsEpgListRow[] getSdarsGlobalEpgRows(de.audi.tuner.app.epg.sdars.EPGShortInfoExt var1, long var2, int var4);
 
-    public abstract AlertRow getSdarsAlertRow(StationInfoExt stationInfoExt, SeekEntry seekEntry, String string, String string2) {
-    }
+    public abstract AlertRow getSdarsAlertRow(StationInfoExt var1, SeekEntry var2, String var3, String var4);
 
-    public abstract ArtistTitleRow getSdarsArtistTitleRow(RadioText radioText, StationInfoExt stationInfoExt, int n) {
-    }
+    public abstract ArtistTitleRow getSdarsArtistTitleRow(RadioText var1, StationInfoExt var2, int var3);
 }
 

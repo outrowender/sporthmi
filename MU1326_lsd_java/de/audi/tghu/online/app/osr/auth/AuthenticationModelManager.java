@@ -11,7 +11,6 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.IOsrUserCacheInformation;
 import de.audi.tghu.online.app.osr.auth.AbstractModelManager;
-import de.audi.tghu.online.app.osr.auth.AuthenticationModelManager$OsrUserContainer;
 import de.audi.tghu.online.app.osr.auth.T2AuthenticationService;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,14 +20,14 @@ import org.dsi.ifc.online.OSRUser;
 
 public class AuthenticationModelManager
 extends AbstractModelManager {
-    private static final int COLUMN_CHECKBOX;
-    private static final int COLUMN_USER_IMAGE;
-    private static final int COLUMN_USER_NAME;
-    private static final int COLUMN_PROPERTY;
-    public static final int CREDENTIALS_AVAILABLE;
-    public static final int CREDENTIALS_NOT_AVAILABLE;
-    public static final int USER_TYPE_SIM;
-    public static final int USER_TYPE_SMARTPHONE;
+    private static final int COLUMN_CHECKBOX = 2;
+    private static final int COLUMN_USER_IMAGE = 1;
+    private static final int COLUMN_USER_NAME = 2;
+    private static final int COLUMN_PROPERTY = 4;
+    public static final int CREDENTIALS_AVAILABLE = 1;
+    public static final int CREDENTIALS_NOT_AVAILABLE = 0;
+    public static final int USER_TYPE_SIM = 0;
+    public static final int USER_TYPE_SMARTPHONE = 1;
     private int drawerCategory = -1;
     private ArrayList userList;
     private List availableDevices = new ArrayList();
@@ -38,14 +37,14 @@ extends AbstractModelManager {
     private boolean authenticated;
     private LogChannel log;
     private OSRUser focusedUser;
-    private AuthenticationModelManager$OsrUserContainer currentUsrContainer;
+    private OsrUserContainer currentUsrContainer;
 
     public AuthenticationModelManager(HMIService hMIService, LogChannel logChannel) {
         super(hMIService);
         this.log = logChannel;
         this.userList = new ArrayList(0);
-        this.hmiService.getChoiceModel(-501538048).setValue(6);
-        this.hmiService.getBaseListModel(152838912).setStatus(0);
+        this.hmiService.getChoiceModel(2300898).setValue(6);
+        this.hmiService.getBaseListModel(2300937).setStatus(0);
     }
 
     public void setDrawerCategory(int n) {
@@ -57,41 +56,41 @@ extends AbstractModelManager {
     }
 
     public void updateAuthStatus(int n) {
-        this.log.log(1078071040, "AuthenticationModelManager#updateAuthStatus dsiValue: %1", (long)n);
+        this.log.log(1000000, "AuthenticationModelManager#updateAuthStatus dsiValue: %1", (long)n);
         int n2 = T2AuthenticationService.convertDsiToHmiStates(n);
-        this.log.log(1078071040, "AuthenticationModelManager#updateAuthStatus hmiValue: %1", (long)n2);
-        this.hmiService.getChoiceModel(-501538048).setValue(n2);
-        this.hmiService.getChoiceModel(-501538048).setStatus(1);
+        this.log.log(1000000, "AuthenticationModelManager#updateAuthStatus hmiValue: %1", (long)n2);
+        this.hmiService.getChoiceModel(2300898).setValue(n2);
+        this.hmiService.getChoiceModel(2300898).setStatus(1);
         this.authenticated = n == 0;
     }
 
     public void storeCacheInfosForUser(OSRUser oSRUser, IOsrUserCacheInformation iOsrUserCacheInformation) {
-        AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer = this.getOsrContainer(oSRUser);
-        if (authenticationModelManager$OsrUserContainer == null) {
-            this.log.log(-1601830656, "AuthenticationModelManager#storeCacheInfosForUser no userContainer found");
+        OsrUserContainer osrUserContainer = this.getOsrContainer(oSRUser);
+        if (osrUserContainer == null) {
+            this.log.log(100000, "AuthenticationModelManager#storeCacheInfosForUser no userContainer found");
             return;
         }
-        authenticationModelManager$OsrUserContainer.setCacheInfo(iOsrUserCacheInformation);
+        osrUserContainer.setCacheInfo(iOsrUserCacheInformation);
     }
 
-    public AuthenticationModelManager$OsrUserContainer getOsrContainer(OSRUser oSRUser) {
+    public OsrUserContainer getOsrContainer(OSRUser oSRUser) {
         Iterator iterator = this.userList.iterator();
         while (iterator.hasNext()) {
-            AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer = (AuthenticationModelManager$OsrUserContainer)iterator.next();
-            if (!authenticationModelManager$OsrUserContainer.equals(new AuthenticationModelManager$OsrUserContainer(this, oSRUser, "doesntMatter"))) continue;
-            return authenticationModelManager$OsrUserContainer;
+            OsrUserContainer osrUserContainer = (OsrUserContainer)iterator.next();
+            if (!osrUserContainer.equals(new OsrUserContainer(oSRUser, "doesntMatter"))) continue;
+            return osrUserContainer;
         }
         if (this.currentUsrContainer == null) {
             return null;
         }
-        if (this.currentUsrContainer.equals(new AuthenticationModelManager$OsrUserContainer(this, oSRUser, ""))) {
+        if (this.currentUsrContainer.equals(new OsrUserContainer(oSRUser, ""))) {
             return this.currentUsrContainer;
         }
         return null;
     }
 
     public void setSyncModelsWaiting() {
-        this.hmiService.getChoiceModel(-501538048).setStatus(0);
+        this.hmiService.getChoiceModel(2300898).setStatus(0);
     }
 
     public void clearSpellermodel(int n) {
@@ -103,15 +102,15 @@ extends AbstractModelManager {
     }
 
     public void updateUsersListModel() {
-        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(152838912);
+        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(2300937);
         baseListModelApp.removeAll();
         if (this.userList != null) {
             int n = this.userList.size();
             for (int i2 = 0; i2 < n; ++i2) {
-                AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer = (AuthenticationModelManager$OsrUserContainer)this.userList.get(i2);
-                OSRUser oSRUser = authenticationModelManager$OsrUserContainer.user;
+                OsrUserContainer osrUserContainer = (OsrUserContainer)this.userList.get(i2);
+                OSRUser oSRUser = osrUserContainer.user;
                 int n2 = this.determineUserIcon(oSRUser);
-                this.log.log(1078071040, "AuthenticationModelManager#updateUsersListModel: current size: %1, iconId: %2", (long)baseListModelApp.getLength(), (long)n2);
+                this.log.log(1000000, "AuthenticationModelManager#updateUsersListModel: current size: %1, iconId: %2", (long)baseListModelApp.getLength(), (long)n2);
                 EvoListRow evoListRow = new EvoListRow(i2, 10);
                 evoListRow.setText(2, oSRUser.getName());
                 evoListRow.setInteger(1, n2);
@@ -119,7 +118,7 @@ extends AbstractModelManager {
                 baseListModelApp.append(evoListRow);
             }
         }
-        this.log.log(1078071040, "AuthenticationModelManager#updateUsersListModel: current size: %1", (long)baseListModelApp.getLength());
+        this.log.log(1000000, "AuthenticationModelManager#updateUsersListModel: current size: %1", (long)baseListModelApp.getLength());
     }
 
     private int determineUserIcon(OSRUser oSRUser) {
@@ -131,7 +130,7 @@ extends AbstractModelManager {
             OSRDevice oSRDevice = oSRDeviceArray[0];
             n2 = oSRDevice.getPIdentifier().pType;
         }
-        this.log.log(1078071040, "AuthenticationModelManager#determineUserIcon: privacyFlags: %1, deviceType: %2 Username: %3", (Object)new Integer(n), (Object)new Integer(n2), (Object)oSRUser.getName());
+        this.log.log(1000000, "AuthenticationModelManager#determineUserIcon: privacyFlags: %1, deviceType: %2 Username: %3", (Object)new Integer(n), (Object)new Integer(n2), (Object)oSRUser.getName());
         boolean bl2 = (n & 8) == 8;
         boolean bl3 = bl = (n & 0x10) == 16;
         if (bl2) {
@@ -147,24 +146,24 @@ extends AbstractModelManager {
     }
 
     public void checkCredentialsForSelectedUser(int n) {
-        this.log.log(1078071040, "AuthenticationModelManager#checkCredentialForSelectedUser: index: %1", (long)n);
+        this.log.log(1000000, "AuthenticationModelManager#checkCredentialForSelectedUser: index: %1", (long)n);
         if (n >= this.userList.size()) {
             this.log.log(10000, "AuthenticationModelManager#checkCredentialForSelectedUser: index out of bounds. list length is %1", (long)this.userList.size());
-            this.hmiService.getChoiceModel(1843968).setValue(0);
+            this.hmiService.getChoiceModel(2300928).setValue(0);
             return;
         }
-        this.currentUser = ((AuthenticationModelManager$OsrUserContainer)this.userList.get((int)n)).user;
+        this.currentUser = ((OsrUserContainer)this.userList.get((int)n)).user;
         int n2 = this.currentUser.getPrivacyFlag();
-        this.log.log(1078071040, "AuthenticationModelManager#checkCredentialForSelectedUser: user %1 with credentials %2", (Object)this.currentUser.getName(), (long)n2);
+        this.log.log(1000000, "AuthenticationModelManager#checkCredentialForSelectedUser: user %1 with credentials %2", (Object)this.currentUser.getName(), (long)n2);
         boolean bl = this.isCredentialsAvailable(n2);
         this.setPrivacyCheckboxes(n2);
         this.setLoginSettings(this.currentUser);
         if (bl) {
-            this.hmiService.getChoiceModel(1843968).setValue(1);
+            this.hmiService.getChoiceModel(2300928).setValue(1);
         } else {
-            this.getSpellerModel(136061696).setText(this.currentUser.getPortalUser());
-            this.setTextFieldText(-904125696, this.currentUser.getPortalUser());
-            this.hmiService.getChoiceModel(1843968).setValue(0);
+            this.getSpellerModel(2300936).setText(this.currentUser.getPortalUser());
+            this.setTextFieldText(2301130, this.currentUser.getPortalUser());
+            this.hmiService.getChoiceModel(2300928).setValue(0);
         }
         this.setCreateNewUser(false);
         this.setUserSelectedFromUcl();
@@ -182,14 +181,14 @@ extends AbstractModelManager {
         boolean bl2 = (n & 2) == 2;
         boolean bl3 = bl = (n & 1) == 1;
         if (bl2) {
-            this.hmiService.getChoiceModel(68952832).setValue(1);
-            this.hmiService.getChoiceModel(119284480).setValue(0);
+            this.hmiService.getChoiceModel(2300932).setValue(1);
+            this.hmiService.getChoiceModel(2300935).setValue(0);
         } else if (bl) {
-            this.hmiService.getChoiceModel(119284480).setValue(1);
-            this.hmiService.getChoiceModel(68952832).setValue(0);
+            this.hmiService.getChoiceModel(2300935).setValue(1);
+            this.hmiService.getChoiceModel(2300932).setValue(0);
         } else {
-            this.hmiService.getChoiceModel(68952832).setValue(0);
-            this.hmiService.getChoiceModel(119284480).setValue(0);
+            this.hmiService.getChoiceModel(2300932).setValue(0);
+            this.hmiService.getChoiceModel(2300935).setValue(0);
         }
     }
 
@@ -198,18 +197,18 @@ extends AbstractModelManager {
         int n = oSRUser != null ? oSRUser.privacyFlag : 0;
         boolean bl2 = bl = (n & 2) == 2;
         if (bl) {
-            this.hmiService.getChoiceModel(-1658969344).setValue(1);
-            this.hmiService.getChoiceModel(-987880704).setValue(0);
-            this.hmiService.getChoiceModel(-1692523776).setValue(0);
+            this.hmiService.getChoiceModel(2301597).setValue(1);
+            this.hmiService.getChoiceModel(2301637).setValue(0);
+            this.hmiService.getChoiceModel(2301595).setValue(0);
         } else {
-            this.hmiService.getChoiceModel(-1658969344).setValue(0);
-            this.hmiService.getChoiceModel(-987880704).setValue(1);
-            this.hmiService.getChoiceModel(-1692523776).setValue(0);
+            this.hmiService.getChoiceModel(2301597).setValue(0);
+            this.hmiService.getChoiceModel(2301637).setValue(1);
+            this.hmiService.getChoiceModel(2301595).setValue(0);
         }
         if (oSRUser != null && oSRUser.getDevicesForAutologin() != null && oSRUser.getDevicesForAutologin().length != 0) {
-            this.hmiService.getChoiceModel(-1658969344).setValue(0);
-            this.hmiService.getChoiceModel(-987880704).setValue(0);
-            this.hmiService.getChoiceModel(-1692523776).setValue(1);
+            this.hmiService.getChoiceModel(2301597).setValue(0);
+            this.hmiService.getChoiceModel(2301637).setValue(0);
+            this.hmiService.getChoiceModel(2301595).setValue(1);
         }
     }
 
@@ -219,11 +218,11 @@ extends AbstractModelManager {
     }
 
     public void setCreateNewUser(boolean bl) {
-        this.log.log(1078071040, "AuthenticationModelManager#setCreateNewUser %1", (Object)Boolean.toString(bl));
+        this.log.log(1000000, "AuthenticationModelManager#setCreateNewUser %1", (Object)Boolean.toString(bl));
         this.createNewUser = bl;
         int n = bl ? 1 : 0;
-        this.hmiService.getChoiceModel(840704768).setValue(n);
-        this.hmiService.getChoiceModel(840704768).setStatus(0);
+        this.hmiService.getChoiceModel(2300978).setValue(n);
+        this.hmiService.getChoiceModel(2300978).setStatus(0);
     }
 
     public boolean isCreateNewUser() {
@@ -231,12 +230,12 @@ extends AbstractModelManager {
     }
 
     public void releaseCreateUserSyncModel(int n) {
-        this.hmiService.getChoiceModel(840704768).setStatus(1);
+        this.hmiService.getChoiceModel(2300978).setStatus(1);
     }
 
     public void setCreateUserModelWaiting() {
-        this.hmiService.getChoiceModel(840704768).setValue(1);
-        this.hmiService.getChoiceModel(840704768).setStatus(0);
+        this.hmiService.getChoiceModel(2300978).setValue(1);
+        this.hmiService.getChoiceModel(2300978).setStatus(0);
     }
 
     public void addDevice(OSRDevice oSRDevice) {
@@ -255,7 +254,7 @@ extends AbstractModelManager {
     public void removeDevice(OSRDevice oSRDevice) {
         int n = this.getDeviceIndex(oSRDevice);
         if (n != -1) {
-            this.log.log(1078071040, "AuthenticationModelManager#removeDevice %1 deleted from list [PId: %2]", (Object)oSRDevice.getName(), (Object)oSRDevice.getPIdentifier().getPIdentifier());
+            this.log.log(1000000, "AuthenticationModelManager#removeDevice %1 deleted from list [PId: %2]", (Object)oSRDevice.getName(), (Object)oSRDevice.getPIdentifier().getPIdentifier());
             this.availableDevices.remove(n);
             this.refreshDeviceListModel();
         }
@@ -264,7 +263,7 @@ extends AbstractModelManager {
     public void updateDevice(OSRDevice oSRDevice) {
         int n = this.getDeviceIndex(oSRDevice);
         if (n != -1) {
-            this.log.log(1078071040, "AuthenticationModelManager#updateDevice %1: [PId: %2]", (Object)oSRDevice.getName(), (Object)oSRDevice.getPIdentifier().getPIdentifier());
+            this.log.log(1000000, "AuthenticationModelManager#updateDevice %1: [PId: %2]", (Object)oSRDevice.getName(), (Object)oSRDevice.getPIdentifier().getPIdentifier());
             this.availableDevices.set(n, oSRDevice);
             this.refreshDeviceListModel();
         }
@@ -290,18 +289,18 @@ extends AbstractModelManager {
         if (this.availableDevices == null) {
             return;
         }
-        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(18621184);
+        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(2300929);
         baseListModelApp.removeAll();
         Iterator iterator = this.availableDevices.iterator();
         while (iterator.hasNext()) {
             OSRDevice oSRDevice = (OSRDevice)iterator.next();
-            this.log.log(1078071040, "AuthenticationModelManager#refreshDeviceList()device: name: %1 id: %2", (Object)oSRDevice.getName(), (Object)oSRDevice.getPIdentifier());
+            this.log.log(1000000, "AuthenticationModelManager#refreshDeviceList()device: name: %1 id: %2", (Object)oSRDevice.getName(), (Object)oSRDevice.getPIdentifier());
             EvoListRow evoListRow = new EvoListRow(oSRDevice.hashCode(), 4);
             evoListRow.setText(1, oSRDevice.getName());
             evoListRow.setInteger(2, 0);
             baseListModelApp.append(evoListRow);
         }
-        this.log.log(1078071040, "AuthenticationModelManager#refreshDeviceList() listlength: %1", (long)baseListModelApp.getLength());
+        this.log.log(1000000, "AuthenticationModelManager#refreshDeviceList() listlength: %1", (long)baseListModelApp.getLength());
     }
 
     public OSRUser getCurrentUser() {
@@ -309,10 +308,10 @@ extends AbstractModelManager {
     }
 
     public int getPrivacySettings() {
-        if (this.hmiService.getChoiceModel(68952832).getValue() == 1) {
+        if (this.hmiService.getChoiceModel(2300932).getValue() == 1) {
             return 3;
         }
-        if (this.hmiService.getChoiceModel(119284480).getValue() == 1) {
+        if (this.hmiService.getChoiceModel(2300935).getValue() == 1) {
             return 1;
         }
         return 0;
@@ -327,7 +326,7 @@ extends AbstractModelManager {
     }
 
     public OSRDevice[] getLoginDevices() {
-        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(18621184);
+        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(2300929);
         ArrayList arrayList = new ArrayList(1);
         int n = baseListModelApp.getLength();
         for (int i2 = 0; i2 < n; ++i2) {
@@ -335,7 +334,7 @@ extends AbstractModelManager {
             int n2 = evoListRow.getInteger(2);
             if (n2 != 1) continue;
             if (i2 >= this.availableDevices.size()) {
-                throw new ArrayIndexOutOfBoundsException(new StringBuffer().append("base List model index ").append(i2).append(". availableDevices.size: ").append(n).toString());
+                throw new ArrayIndexOutOfBoundsException("base List model index " + i2 + ". availableDevices.size: " + n);
             }
             arrayList.add(this.availableDevices.get(i2));
         }
@@ -350,12 +349,12 @@ extends AbstractModelManager {
         this.setCreateNewUser(true);
         this.clearSpellers();
         this.clearTextFieldModels();
-        this.clearLabelModel(-1071897856);
+        this.clearLabelModel(2301120);
         this.setPrivacyCheckboxes(0);
         this.determineTitleLabels();
-        this.getChoiceModel(-1407311104).setValue(0);
-        this.log.log(-2137614336, "AuthenticationModelManager#initializeAuthentication(): Resetting AUTHENTICATION_CREDENTIALS_AVAILABLE_CHOICE to CREDENTIALS_NOT_AVAILABLE");
-        this.hmiService.getChoiceModel(1843968).setValue(0);
+        this.getChoiceModel(2301612).setValue(0);
+        this.log.log(10000000, "AuthenticationModelManager#initializeAuthentication(): Resetting AUTHENTICATION_CREDENTIALS_AVAILABLE_CHOICE to CREDENTIALS_NOT_AVAILABLE");
+        this.hmiService.getChoiceModel(2300928).setValue(0);
     }
 
     private void determineTitleLabels() {
@@ -368,25 +367,25 @@ extends AbstractModelManager {
 
     public void setCurrentUser(OSRUser oSRUser) {
         this.currentUser = oSRUser;
-        this.currentUsrContainer = new AuthenticationModelManager$OsrUserContainer(this, oSRUser, "");
+        this.currentUsrContainer = new OsrUserContainer(oSRUser, "");
         String string = this.currentUser != null ? this.currentUser.getName() : "";
         String string2 = this.currentUser != null ? this.currentUser.getPortalUser() : "";
-        this.hmiService.getLabelModel(-1675877632).setText(string);
-        this.hmiService.getTextfieldModel(656220928).setText1(string2);
-        this.hmiService.getSpellerModel(639443712).setText(string2);
+        this.hmiService.getLabelModel(2301084).setText(string);
+        this.hmiService.getTextfieldModel(2301223).setText1(string2);
+        this.hmiService.getSpellerModel(2301222).setText(string2);
         this.setLoginSettings(this.currentUser);
     }
 
     public void clearSpellers() {
-        this.clearSpellermodel(52175616);
-        this.clearSpellermodel(136061696);
-        this.clearSpellermodel(-82107648);
+        this.clearSpellermodel(2300931);
+        this.clearSpellermodel(2300936);
+        this.clearSpellermodel(2300923);
     }
 
     public void clearTextFieldModels() {
-        this.log.log(1078071040, "AuthenticationModelManager#clearTextFieldModels() called.");
-        this.clearTextFieldModel(-904125696);
-        this.clearTextFieldModel(-920902912);
+        this.log.log(1000000, "AuthenticationModelManager#clearTextFieldModels() called.");
+        this.clearTextFieldModel(2301130);
+        this.clearTextFieldModel(2301129);
     }
 
     public void clearLabelModel(int n) {
@@ -394,17 +393,17 @@ extends AbstractModelManager {
     }
 
     public void setRegistrationModelsWaiting() {
-        this.getChoiceModel(874259200).setStatus(0);
+        this.getChoiceModel(2300980).setStatus(0);
     }
 
     public void setRegistrationModelsResult(int n) {
         int n2 = n == 0 ? 0 : 1;
-        this.getChoiceModel(874259200).setValue(n2);
-        this.getChoiceModel(874259200).setStatus(1);
+        this.getChoiceModel(2300980).setValue(n2);
+        this.getChoiceModel(2300980).setStatus(1);
     }
 
     public void releaseLogoutModel() {
-        ChoiceModelApp choiceModelApp = this.getChoiceModel(1427907328);
+        ChoiceModelApp choiceModelApp = this.getChoiceModel(2301013);
         choiceModelApp.setValue(choiceModelApp.getValue() ^ 1);
     }
 
@@ -413,18 +412,18 @@ extends AbstractModelManager {
     }
 
     public void addNewUser(OSRUser oSRUser, String string) {
-        AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer = new AuthenticationModelManager$OsrUserContainer(this, oSRUser, string);
-        if (!this.userList.contains(authenticationModelManager$OsrUserContainer)) {
-            this.userList.add(authenticationModelManager$OsrUserContainer);
+        OsrUserContainer osrUserContainer = new OsrUserContainer(oSRUser, string);
+        if (!this.userList.contains(osrUserContainer)) {
+            this.userList.add(osrUserContainer);
             this.updateUsersListModel();
-            this.log.log(1078071040, "AuthenticationModelManager#addNewUser user %1", (Object)oSRUser.personalIdentifier.getPIdentifier());
+            this.log.log(1000000, "AuthenticationModelManager#addNewUser user %1", (Object)oSRUser.personalIdentifier.getPIdentifier());
             return;
         }
-        this.log.log(1078071040, "AuthenticationModelManager#addNewUser user %1 already exists. not added", (Object)oSRUser.personalIdentifier.getPIdentifier());
+        this.log.log(1000000, "AuthenticationModelManager#addNewUser user %1 already exists. not added", (Object)oSRUser.personalIdentifier.getPIdentifier());
     }
 
     public void removeUser(OSRUser oSRUser) {
-        this.userList.remove(new AuthenticationModelManager$OsrUserContainer(this, oSRUser, "doesntMatter"));
+        this.userList.remove(new OsrUserContainer(oSRUser, "doesntMatter"));
         this.updateUsersListModel();
     }
 
@@ -433,17 +432,17 @@ extends AbstractModelManager {
     }
 
     public void setFocusedUser(int n) {
-        this.log.log(1078071040, "AuthenticationModelManager#setFocusedUser: index: %1", (long)n);
+        this.log.log(1000000, "AuthenticationModelManager#setFocusedUser: index: %1", (long)n);
         if (n >= this.userList.size()) {
             this.log.log(10000, "AuthenticationModelManager#setFocusedUser: index out of bounds. list length is %1", (long)this.userList.size());
             return;
         }
-        AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer = (AuthenticationModelManager$OsrUserContainer)this.userList.get(n);
-        this.focusedUser = authenticationModelManager$OsrUserContainer.user;
+        OsrUserContainer osrUserContainer = (OsrUserContainer)this.userList.get(n);
+        this.focusedUser = osrUserContainer.user;
         int n2 = this.focusedUser.devicesForAutologin == null || this.focusedUser.devicesForAutologin.length == 0 ? 0 : 1;
-        this.hmiService.getLabelModel(-1675877632).setText(this.focusedUser.getName());
-        this.hmiService.getChoiceModel(-1625545984).setValue(n2);
-        this.log.log(1078071040, "AuthenticationModelManager#setFocusedUser: focused user is: %1", (Object)this.focusedUser.getName());
+        this.hmiService.getLabelModel(2301084).setText(this.focusedUser.getName());
+        this.hmiService.getChoiceModel(2301087).setValue(n2);
+        this.log.log(1000000, "AuthenticationModelManager#setFocusedUser: focused user is: %1", (Object)this.focusedUser.getName());
     }
 
     public OSRUser getFocusedUser() {
@@ -456,7 +455,7 @@ extends AbstractModelManager {
     }
 
     public int getDeletionMode() {
-        return this.hmiService.getChoiceModel(-1625545984).getValue();
+        return this.hmiService.getChoiceModel(2301087).getValue();
     }
 
     public OSRDevice[] getActiveDevicesForUser(OSRUser oSRUser) {
@@ -471,19 +470,19 @@ extends AbstractModelManager {
     }
 
     public void setCoreServicesReady() {
-        this.log.log(1078071040, "AuthenticationModelManager#setCoreServicesReady");
+        this.log.log(1000000, "AuthenticationModelManager#setCoreServicesReady");
         this.determineTitleLabels();
-        this.hmiService.getBaseListModel(152838912).setStatus(1);
+        this.hmiService.getBaseListModel(2300937).setStatus(1);
     }
 
     public void replaceUser(OSRUser oSRUser) {
         int n = 0;
         Iterator iterator = this.userList.iterator();
         while (iterator.hasNext()) {
-            AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer = (AuthenticationModelManager$OsrUserContainer)iterator.next();
-            AuthenticationModelManager$OsrUserContainer authenticationModelManager$OsrUserContainer2 = new AuthenticationModelManager$OsrUserContainer(this, oSRUser, "doesntMatter");
-            if (authenticationModelManager$OsrUserContainer.equals(new AuthenticationModelManager$OsrUserContainer(this, oSRUser, "doesntMatter"))) {
-                this.userList.set(n, authenticationModelManager$OsrUserContainer2);
+            OsrUserContainer osrUserContainer = (OsrUserContainer)iterator.next();
+            OsrUserContainer osrUserContainer2 = new OsrUserContainer(oSRUser, "doesntMatter");
+            if (osrUserContainer.equals(new OsrUserContainer(oSRUser, "doesntMatter"))) {
+                this.userList.set(n, osrUserContainer2);
             }
             ++n;
         }
@@ -491,18 +490,64 @@ extends AbstractModelManager {
     }
 
     public void setEmptyUcl() {
-        this.getChoiceModel(404562688).setValue(0);
-        this.getChoiceModel(421339904).setValue(0);
+        this.getChoiceModel(2301208).setValue(0);
+        this.getChoiceModel(2301209).setValue(0);
     }
 
     public void setUserSelectedFromUcl() {
-        this.getChoiceModel(404562688).setValue(1);
-        this.getChoiceModel(421339904).setValue(1);
+        this.getChoiceModel(2301208).setValue(1);
+        this.getChoiceModel(2301209).setValue(1);
     }
 
     public void setOtherUser() {
-        this.getChoiceModel(404562688).setValue(2);
-        this.getChoiceModel(421339904).setValue(2);
+        this.getChoiceModel(2301208).setValue(2);
+        this.getChoiceModel(2301209).setValue(2);
+    }
+
+    public static class TitleHelper {
+        public static final int BC_OPTIONEN = 0;
+        public static final int BC_LOGIN = 1;
+        public static final int BC_LIST = 2;
+        public static final int TITLE_LOGIN = 0;
+        public static final int TITLE_USERDATA = 1;
+        public static final int TITLE_OTHER = 2;
+    }
+
+    public class OsrUserContainer {
+        OSRUser user;
+        String source;
+        IOsrUserCacheInformation cacheInfo;
+
+        public OsrUserContainer(OSRUser oSRUser, String string) {
+            this.user = oSRUser;
+            this.source = string;
+        }
+
+        public void setCacheInfo(IOsrUserCacheInformation iOsrUserCacheInformation) {
+            this.cacheInfo = iOsrUserCacheInformation;
+        }
+
+        public IOsrUserCacheInformation getCacheInfo() {
+            return this.cacheInfo;
+        }
+
+        public boolean equals(Object object) {
+            OsrUserContainer osrUserContainer = (OsrUserContainer)object;
+            if (osrUserContainer == null) {
+                return false;
+            }
+            if (this.user == null && osrUserContainer.user == null) {
+                return true;
+            }
+            if (this.user == null || osrUserContainer.user == null) {
+                return false;
+            }
+            return this.user.portalUser.equals(osrUserContainer.user.portalUser) && this.user.authIdentifier.equals(osrUserContainer.user.authIdentifier);
+        }
+
+        public int hashCode() {
+            return 0;
+        }
     }
 }
 

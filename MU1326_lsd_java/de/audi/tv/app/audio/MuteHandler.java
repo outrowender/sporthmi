@@ -5,16 +5,16 @@ package de.audi.tv.app.audio;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.audio.IAudioListener;
-import de.audi.tv.app.audio.MuteHandler$DSICallListenerExt;
-import de.audi.tv.app.audio.MuteHandler$TVListenerImpl;
 import de.audi.tv.app.audio.TVAudioService;
 import de.audi.tv.app.cas.CasIDs;
 import de.audi.tv.app.dsi.DSICallListener;
 import de.audi.tv.app.dsi.DefaultTVListener;
+import org.dsi.ifc.tvtuner.ProgramInfo;
+import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class MuteHandler {
-    public final DefaultTVListener tvListener = new MuteHandler$TVListenerImpl(this, null);
-    public final DSICallListener dsiCallListener = new MuteHandler$DSICallListenerExt(this, null);
+    public final DefaultTVListener tvListener = new TVListenerImpl();
+    public final DSICallListener dsiCallListener = new DSICallListenerExt();
     private final IAudioListener audioListener;
     private volatile int muteState;
     private volatile int casState = 0;
@@ -31,7 +31,7 @@ public class MuteHandler {
     private void updateVolumeLock() {
         String string;
         boolean bl;
-        this.lc.log(14808325, "[MuteHandler.updateVolumeLock]");
+        this.lc.log(100000000, "[MuteHandler.updateVolumeLock]");
         if (this.selectedSource == 1) {
             bl = false;
             string = "AV active";
@@ -54,26 +54,43 @@ public class MuteHandler {
         this.updateVolumeLock();
     }
 
-    static /* synthetic */ int access$202(MuteHandler muteHandler, int n) {
-        muteHandler.selectedSource = n;
-        return muteHandler.selectedSource;
+    private class TVListenerImpl
+    extends DefaultTVListener {
+        private TVListenerImpl() {
+        }
+
+        public void updateSelectedSource(int n) {
+            MuteHandler.this.selectedSource = n;
+            MuteHandler.this.updateVolumeLock();
+        }
+
+        public void updateSelectedService(ProgramInfo programInfo) {
+            MuteHandler.this.casState = programInfo.casStatus;
+            MuteHandler.this.updateVolumeLock();
+        }
+
+        public void updateMuteState(int n) {
+            MuteHandler.this.setMuteState(n);
+        }
     }
 
-    static /* synthetic */ void access$300(MuteHandler muteHandler) {
-        muteHandler.updateVolumeLock();
-    }
+    private class DSICallListenerExt
+    extends DSICallListener {
+        private DSICallListenerExt() {
+        }
 
-    static /* synthetic */ int access$402(MuteHandler muteHandler, int n) {
-        muteHandler.casState = n;
-        return muteHandler.casState;
-    }
+        public void selectService(ServiceInfo serviceInfo, boolean bl) {
+            MuteHandler.this.setMuteState(0);
+            if (bl) {
+                MuteHandler.this.audio.demute();
+            }
+        }
 
-    static /* synthetic */ void access$500(MuteHandler muteHandler, int n) {
-        muteHandler.setMuteState(n);
-    }
-
-    static /* synthetic */ TVAudioService access$600(MuteHandler muteHandler) {
-        return muteHandler.audio;
+        public void switchSource(int n, boolean bl) {
+            if (bl) {
+                MuteHandler.this.audio.demute();
+            }
+        }
     }
 }
 

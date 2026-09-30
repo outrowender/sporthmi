@@ -6,13 +6,10 @@ package de.eso.a.a;
 import java.util.List;
 
 public interface b {
-    default public void a(List list) {
-    }
+    public void a(List var1);
 
-    default public int a() {
-    }
+    public int a();
 
-    default public int b() {
-    }
+    public int b();
 }
 

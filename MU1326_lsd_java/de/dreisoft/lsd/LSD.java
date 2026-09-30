@@ -15,10 +15,10 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 
 public class LSD {
-    public static final boolean DEBUG;
-    public static final boolean DEBUG_AUDIT;
-    private static final String PROP_BUNDLES;
-    private static final String RESOURCE_FILE;
+    public static final boolean DEBUG = false;
+    public static final boolean DEBUG_AUDIT = false;
+    private static final String PROP_BUNDLES = "lsd.bundles";
+    private static final String RESOURCE_FILE = "resources/bundles";
 
     private static ClassLoader getResourceClassLoader(Object object) {
         return object.getClass().getClassLoader() != null ? object.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
@@ -42,22 +42,22 @@ public class LSD {
         return throwable;
     }
 
-    public static void initBundleRegistry(BundleRegistry bundleRegistry) {
+    public static void initBundleRegistry(BundleRegistry bundleRegistry) throws BundleException {
         Object object;
-        String string = System.getProperty("lsd.bundles");
+        String string = System.getProperty(PROP_BUNDLES);
         if (string != null) {
             object = new File(string);
             try {
-                System.out.println(new StringBuffer().append("[LSD] Using ").append(string).toString());
+                System.out.println("[LSD] Using " + string);
                 bundleRegistry.load((File)object);
                 return;
             }
             catch (Exception exception) {
-                System.out.println(new StringBuffer().append("[LSD] Reading ").append(string).append(" failed!").toString());
+                System.out.println("[LSD] Reading " + string + " failed!");
                 exception.printStackTrace();
             }
         }
-        object = ResourceBundle.getBundle("resources/bundles", Locale.GERMANY, LSD.getResourceClassLoader(bundleRegistry));
+        object = ResourceBundle.getBundle(RESOURCE_FILE, Locale.GERMANY, LSD.getResourceClassLoader(bundleRegistry));
         bundleRegistry.load((ResourceBundle)object);
     }
 

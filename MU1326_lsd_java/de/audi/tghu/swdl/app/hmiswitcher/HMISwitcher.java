@@ -20,9 +20,9 @@ import de.audi.tghu.swdl.app.hmiswitcher.manager.IProgressManager;
 import de.audi.tghu.swdl.app.hmiswitcher.manager.ISelectionManager;
 
 public final class HMISwitcher {
-    public static final int TYPE_ENGINEERING;
-    public static final int TYPE_CUSTOMER;
-    public static final int TYPE_VERSION_INFO;
+    public static final int TYPE_ENGINEERING = 0;
+    public static final int TYPE_CUSTOMER = 1;
+    public static final int TYPE_VERSION_INFO = 2;
     private final SwdlEnv swdlEnv;
     private final AbstractSwdlJoinedDownloadState swdlJoinedDownloadState;
     private final SwdlDSIManager dsiManager;
@@ -93,20 +93,20 @@ public final class HMISwitcher {
     }
 
     public void initEngineeringHMI() {
-        this.getLogMain().log(1078071040, "[HMISwitcher] initEngineeringHMI(): request focus");
+        this.getLogMain().log(1000000, "[HMISwitcher] initEngineeringHMI(): request focus");
         this.dsiManager.getSelectionDSIHandler().doSetUserSwdl(false);
         this.dsiManager.getSelectionDSIHandler().requestFocus();
         if (this.getSwdlEnv().isRebootToDownload()) {
-            this.getLogMain().log(-2137614336, "[HMISwitcher] initEngineeringHMI(): trigger latest panel");
+            this.getLogMain().log(10000000, "[HMISwitcher] initEngineeringHMI(): trigger latest panel");
             this.getProgressManager().triggerLatestPanel();
         } else {
-            this.getLogMain().log(-2137614336, "[HMISwitcher] initEngineeringHMI(): get available media");
+            this.getLogMain().log(10000000, "[HMISwitcher] initEngineeringHMI(): get available media");
             this.getSelectionManager().doGetSourceMedia();
         }
     }
 
     public void deinitEngineeringHMI() {
-        this.getLogMain().log(-2137614336, "[HMISwitcher] deinitEngineeringHMI(): release focus");
+        this.getLogMain().log(10000000, "[HMISwitcher] deinitEngineeringHMI(): release focus");
         this.dsiManager.getSelectionDSIHandler().releaseFocus();
     }
 
@@ -147,13 +147,13 @@ public final class HMISwitcher {
     }
 
     public void initCustomerUpdate(int n, boolean bl, int n2) {
-        this.getSwdlEnv().getLogCustomer().log(-2137614336, "[HMISwitcher] initCustomerUpdate(sourceMediumID=%1,reboot=%2,terminalID=%3)", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)Integer.toString(n2));
+        this.getSwdlEnv().getLogCustomer().log(10000000, "[HMISwitcher] initCustomerUpdate(sourceMediumID=%1,reboot=%2,terminalID=%3)", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)Integer.toString(n2));
         this.getSwdlModels().getStartDownloadDisabled().setValue(1);
         this.getSelectionDSIHandler().clearNotification(new int[]{3});
         this.getSwdlEnv().setCustomerDownloadActive(true);
         this.getSwdlEnv().sendMessage(8);
         if (!this.getSwdlEnv().getBulkCopyAccess().bulkCopyLock()) {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "[HMISwitcher] initCustomerUpdate: The bulk-copy lock was not available!");
+            this.getSwdlEnv().getLogMain().log(100000, "[HMISwitcher] initCustomerUpdate: The bulk-copy lock was not available!");
         }
         this.switchToCustomerHmi(n2);
         this.getSelectionDSIHandler().doSetUserSwdl(true);

@@ -4,10 +4,8 @@
 package de.audi.tv.app.interapp;
 
 public interface IInterappConnectionListener {
-    default public void onGotInterappConnection() {
-    }
+    public void onGotInterappConnection();
 
-    default public void onLostInterappConnection() {
-    }
+    public void onLostInterappConnection();
 }
 

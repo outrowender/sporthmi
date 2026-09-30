@@ -4,7 +4,6 @@
 package de.audi.tghu.info.app.tmc.readout;
 
 public interface TMCReadOutQueueListener {
-    default public void containsMessages() {
-    }
+    public void containsMessages();
 }
 

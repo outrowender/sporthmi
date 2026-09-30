@@ -36,7 +36,6 @@ extends PreviewMapHandlerAbstract {
         this.guiTimerWaitingForApply = new GuiTimerWaitingForApply(navigationEnv, this.logger);
     }
 
-    @Override
     public void setPreviewMapWaitSyncChoiceModelId(int n) {
         GuiTimerWaitingForApply guiTimerWaitingForApply = this.guiTimerWaitingForApply;
         if (guiTimerWaitingForApply != null) {
@@ -46,7 +45,7 @@ extends PreviewMapHandlerAbstract {
 
     protected PreviewMapStateAbstract getPreviewMapState(int n) {
         if (n == -1) {
-            this.logger.log(-1601830656, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapState() no valid client id");
+            this.logger.log(100000, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapState() no valid client id");
             return null;
         }
         if (this.hashMapPreviewMapStates == null) {
@@ -55,19 +54,18 @@ extends PreviewMapHandlerAbstract {
         }
         PreviewMapStateAbstract previewMapStateAbstract = (PreviewMapStateAbstract)this.hashMapPreviewMapStates.get(new Integer(n));
         if (previewMapStateAbstract == null) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapState() clientId=%1 no previewMapState available", (long)n);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapState() clientId=%1 no previewMapState available", (long)n);
         }
         return previewMapStateAbstract;
     }
 
-    @Override
     protected PreviewMapStateAbstract getPreviewMapStateCurrent() {
         int n = this.getPreviewMapClientIdActive();
         PreviewMapStateAbstract previewMapStateAbstract = this.getPreviewMapState(n);
         if (previewMapStateAbstract != null) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapStateCurrent() clientId=%1 %2", (Object)new Integer(n), (Object)previewMapStateAbstract);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapStateCurrent() clientId=%1 %2", (Object)new Integer(n), (Object)previewMapStateAbstract);
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapStateCurrent() clientId=%1 null", (Object)new Integer(n));
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#getPreviewMapStateCurrent() clientId=%1 null", (Object)new Integer(n));
         }
         return previewMapStateAbstract;
     }
@@ -82,24 +80,24 @@ extends PreviewMapHandlerAbstract {
                 this.hashMapPreviewMapStates = new HashMap();
             }
             if ((object = this.hashMapPreviewMapStates.put(new Integer(n), previewMapStateAbstract)) != null) {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 new=%2 old=%3", (Object)new Integer(n), (Object)previewMapStateAbstract, object);
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 new=%2 old=%3", (Object)new Integer(n), (Object)previewMapStateAbstract, object);
             } else {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 new=%2 no-old", (Object)new Integer(n), (Object)previewMapStateAbstract);
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 new=%2 no-old", (Object)new Integer(n), (Object)previewMapStateAbstract);
             }
             if (n == this.getPreviewMapClientIdActive()) {
                 this.refreshMapPreviewDetailIfActive(previewMapStateAbstract);
                 this.refreshMapFullScreenIfActive(previewMapStateAbstract);
                 if (this.previewMapMode == 4) {
-                    this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() apply before shown");
+                    this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() apply before shown");
                     this.refreshMapContext();
                 }
             }
         } else {
             Object object = this.hashMapPreviewMapStates.remove(new Integer(n));
             if (object != null) {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 removed=%2", (Object)new Integer(n), object);
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 removed=%2", (Object)new Integer(n), object);
             } else {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 removed", (Object)new Integer(n));
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapState() clientId=%1 removed", (Object)new Integer(n));
             }
             if (this.previewMapMode == 3) {
                 this.setPreviewMapMode(1);
@@ -109,30 +107,28 @@ extends PreviewMapHandlerAbstract {
 
     private void refreshMapFullScreenIfActive(PreviewMapStateAbstract previewMapStateAbstract) {
         if (this.previewMapMode == 3) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapFullScreenIfActive() refreshMapFullScreen");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapFullScreenIfActive() refreshMapFullScreen");
             this.refreshMapFullScreen(previewMapStateAbstract);
         }
     }
 
-    @Override
     public void refreshLastRequestedState(int n) {
         PreviewMapStateAbstract previewMapStateAbstract = this.getPreviewMapStateCurrent();
         if (PreviewMapUtils.isPreviewMapStateValid(previewMapStateAbstract) && (n != 2 || previewMapStateAbstract.isRefreshRequiredOnUpdateRgActive())) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapPreviewDetailIfActive");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapPreviewDetailIfActive");
             this.refreshMapPreviewDetailIfActive(previewMapStateAbstract);
         }
     }
 
     private void refreshMapPreviewDetailIfActive(PreviewMapStateAbstract previewMapStateAbstract) {
         if (this.previewMapMode == 2) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapPreviewDetailIfActive() refreshMapPreview");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapPreviewDetailIfActive() refreshMapPreview");
             this.refreshMapPreviewDetail(previewMapStateAbstract);
         }
     }
 
-    @Override
     public void setPreviewMapNone(int n) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapNone() clientId=%1", (long)n);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapNone() clientId=%1", (long)n);
         this.setPreviewMapState(n, null);
     }
 
@@ -143,7 +139,7 @@ extends PreviewMapHandlerAbstract {
             if (n != -1) {
                 this.previewMapClientIdLast = n;
             }
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapClientIdActive() previewMapClientId=%1 old=%2 last=%3", (long)n, (long)n2, (long)this.previewMapClientIdLast);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewMapClientIdActive() previewMapClientId=%1 old=%2 last=%3", (long)n, (long)n2, (long)this.previewMapClientIdLast);
             if (n != n2 && !PreviewMapUtils.isPreviewMapStateValid(this.getPreviewMapState(n))) {
                 this.releasePreviewMapStateForApplyToScreenDetail();
                 this.releasePreviewMapStateForApplyToFullScreenMap();
@@ -162,7 +158,6 @@ extends PreviewMapHandlerAbstract {
         return this.previewMapClientIdActive;
     }
 
-    @Override
     protected int getPreviewMapLayoutIdCurrent() {
         int n = this.getPreviewMapClientIdActive();
         if (n == -1) {
@@ -175,12 +170,10 @@ extends PreviewMapHandlerAbstract {
         return -1;
     }
 
-    @Override
     public int getPreviewMapClientIdLast() {
         return this.previewMapClientIdLast;
     }
 
-    @Override
     protected void refreshMapContext() {
         super.refreshMapContext();
         int n = 0;
@@ -189,7 +182,7 @@ extends PreviewMapHandlerAbstract {
             if (PreviewMapUtils.isPreviewMapStateValid(previewMapStateAbstract)) {
                 this.refreshMapPreviewDetail(previewMapStateAbstract);
             } else {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapContext() - no entry");
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapContext() - no entry");
             }
         } else {
             if (this.previewMapMode == 3) {
@@ -208,11 +201,11 @@ extends PreviewMapHandlerAbstract {
                     this.getMapForFullScreen().getMapInterface().destOptShowInMapPAG(navLocation, false);
                 } else {
                     this.getMapForPreview().switchToContext(3);
-                    this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapContext() mapContextNew=%1", (long)n);
+                    this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapContext() mapContextNew=%1", (long)n);
                     this.getMapForPreview().switchToContext(n);
                 }
             } else {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapContext() not possible - mapContextNew=%1 activeCid=%2 previewMapClientIdActive=%3", (long)n, (long)this.getMapForPreview().getActiveContextIndex(), (long)this.previewMapClientIdActive);
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapContext() not possible - mapContextNew=%1 activeCid=%2 previewMapClientIdActive=%3", (long)n, (long)this.getMapForPreview().getActiveContextIndex(), (long)this.previewMapClientIdActive);
             }
         }
     }
@@ -220,7 +213,6 @@ extends PreviewMapHandlerAbstract {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void previewMapScreenEntering(int n, int n2) {
         this.setRefreshAllowed(false);
         try {
@@ -229,7 +221,7 @@ extends PreviewMapHandlerAbstract {
             this.previewMapScreenSetLayout(n, n2, bl);
         }
         catch (Exception exception) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() exception=%1", (Throwable)exception);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() exception=%1", (Throwable)exception);
         }
         finally {
             this.setRefreshAllowed(true);
@@ -242,13 +234,12 @@ extends PreviewMapHandlerAbstract {
     private void previewMapScreenSetLayout(int n, int n2, boolean bl) {
         Integer n3 = (Integer)this.mapPreviewMapClientIdToPreviewMapLayoutId.put(new Integer(n), new Integer(n2));
         this.isRefreshLayoutNecessary = n3 == null || n3 != n2;
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() clientChanged=%1 layoutChanged=%2", (Object)new Boolean(bl), (Object)new Boolean(this.isRefreshLayoutNecessary));
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() clientChanged=%1 layoutChanged=%2", (Object)new Boolean(bl), (Object)new Boolean(this.isRefreshLayoutNecessary));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void previewMapScreenApplyItemBeforeShown(int n, int n2) {
         if (this.previewMapMode == 1 || this.previewMapMode == 4) {
             this.setRefreshAllowed(false);
@@ -258,7 +249,7 @@ extends PreviewMapHandlerAbstract {
                 this.previewMapScreenSetLayout(n, n2, bl);
             }
             catch (Exception exception) {
-                this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() exception=%1", (Throwable)exception);
+                this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() exception=%1", (Throwable)exception);
             }
             finally {
                 this.setRefreshAllowed(true);
@@ -267,11 +258,10 @@ extends PreviewMapHandlerAbstract {
                 this.refreshPreviewMapLayoutZoomArea();
             }
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstract#previewMapScreenApplyItemBeforeShown() previewMapClientId=%1 previewMapScreenLayoutId=%2 previewMapMode=%3 apply not possible", (long)n, (long)n2, (long)this.previewMapMode);
+            this.logger.log(10000000, "PreviewMapHandlerAbstract#previewMapScreenApplyItemBeforeShown() previewMapClientId=%1 previewMapScreenLayoutId=%2 previewMapMode=%3 apply not possible", (long)n, (long)n2, (long)this.previewMapMode);
         }
     }
 
-    @Override
     public void previewMapScreenExited() {
         super.previewMapScreenExited();
         if (this.previewMapMode == 1) {
@@ -279,9 +269,8 @@ extends PreviewMapHandlerAbstract {
         }
     }
 
-    @Override
     public void previewMapFullScreenShowItemSelectedWithToolTipLast() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemSelectedWithToolTipLast() previewMapClientIdLast=%1", (long)this.previewMapClientIdLast);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemSelectedWithToolTipLast() previewMapClientIdLast=%1", (long)this.previewMapClientIdLast);
         if (this.previewMapClientIdLast != -1) {
             this.previewMapFullScreenShowItemSelectedWithToolTip(this.previewMapClientIdLast);
         } else {
@@ -289,63 +278,58 @@ extends PreviewMapHandlerAbstract {
         }
     }
 
-    @Override
     public void previewMapFullScreenShowItemSelectedWithToolTip(int n) {
         super.previewMapFullScreenShowItemSelectedWithToolTip(n);
         boolean bl = this.setPreviewMapClientIdActive(n);
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemSelectedWithToolTip() clientChanged=%1", bl);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemSelectedWithToolTip() clientChanged=%1", bl);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void previewMapFullScreenShowItemInMapWithToolTip() {
         this.setRefreshAllowed(false);
         try {
             super.previewMapFullScreenShowItemInMapWithToolTip();
             boolean bl = this.setPreviewMapClientIdActive(0);
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemInMapWithToolTip() clientChanged=%1", bl);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemInMapWithToolTip() clientChanged=%1", bl);
         }
         catch (Exception exception) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemInMapWithToolTip() exception=%1", (Throwable)exception);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemInMapWithToolTip() exception=%1", (Throwable)exception);
         }
         finally {
             this.setRefreshAllowed(true);
         }
     }
 
-    @Override
     public void previewMapFullScreenShowItemInMapWithToolTipWithoutCenteringMapPosition() {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemInMapWithToolTipWithoutCenteringMapPosition()");
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapFullScreenShowItemInMapWithToolTipWithoutCenteringMapPosition()");
         this.setPreviewMapPositionRefreshAllowed(false);
         this.previewMapFullScreenShowItemInMapWithToolTip();
         this.setPreviewMapPositionRefreshAllowed(true);
     }
 
-    @Override
     public void callbackByMapContextOnEnteringMapPreview() {
         PreviewMapStateAbstract previewMapStateAbstract = this.getPreviewMapStateCurrent();
         if (PreviewMapUtils.isPreviewMapStateValid(previewMapStateAbstract)) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapPreview() - apply backupState");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapPreview() - apply backupState");
             this.freezeAllowed = false;
             this.refreshMapPreviewDetail(previewMapStateAbstract);
             this.freezeAllowed = true;
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapPreview() - no entry");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapPreview() - no entry");
         }
     }
 
-    @Override
     public void callbackByMapContextOnEnteringMapFullscreen() {
         PreviewMapStateAbstract previewMapStateAbstract = this.getPreviewMapStateCurrent();
         if (PreviewMapUtils.isPreviewMapStateValid(previewMapStateAbstract)) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapFullscreen() - enter");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapFullscreen() - enter");
             this.freezeAllowed = false;
             this.refreshMapFullScreen(previewMapStateAbstract);
             this.freezeAllowed = true;
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapFullscreen() - no entry");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#callbackByMapContextOnEnteringMapFullscreen() - no entry");
         }
     }
 
@@ -372,13 +356,13 @@ extends PreviewMapHandlerAbstract {
             this.mapUnfreeze();
             this.getMapForPreview().getGuiInterface().showPreviewMap(true);
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapPreviewDetail() - not ready to apply");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapPreviewDetail() - not ready to apply");
         }
     }
 
     public void refreshMapFullScreen(PreviewMapStateAbstract previewMapStateAbstract) {
         if (PreviewMapUtils.isPreviewMapStateValid(previewMapStateAbstract)) {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapFullScreen() previewMapState=%1", (Object)previewMapStateAbstract);
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapFullScreen() previewMapState=%1", (Object)previewMapStateAbstract);
             this.mapFreeze();
             try {
                 this.releasePreviewMapStatesOld(previewMapStateAbstract);
@@ -392,7 +376,7 @@ extends PreviewMapHandlerAbstract {
             }
             this.mapUnfreeze();
         } else {
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapFullScreen() - not ready to apply");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#refreshMapFullScreen() - not ready to apply");
         }
     }
 
@@ -409,254 +393,211 @@ extends PreviewMapHandlerAbstract {
         this.releasePreviewMapStateForApplyToFullScreenMap();
     }
 
-    @Override
     public void previewMapScreenEntering(int n, int n2, int n3, int n4, boolean bl) {
         this.logger.log(10000, "PreviewMapHandlerAbstractMapStatesMultiple#previewMapScreenEntering() not used in PAG");
     }
 
-    @Override
     public void setPreviewAreaAroundCCP(int n) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewAreaAroundCCP() previewMapClientId=%1", (Object)new Integer(n));
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewAreaAroundCCP() previewMapClientId=%1", (Object)new Integer(n));
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapAroundCCP());
     }
 
-    @Override
     public void setPreviewLocation(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocation() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocation() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationSds(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationSds() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationSds() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationDistant(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationDistant() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationDistant() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationAroundReferencePoint(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationAroundReferencePoint() previewMapClientId=%1 navLocation=%2 referencePoint=%3", (Object)new Integer(n), (Object)navLocation, (Object)navLocationWgs84);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationAroundReferencePoint() previewMapClientId=%1 navLocation=%2 referencePoint=%3", (Object)new Integer(n), (Object)navLocation, (Object)navLocationWgs84);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationAroundCCP(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationAroundCCP() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationAroundCCP() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationAroundDestination(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationAroundDestination() previewMapClientId=%1 navLocation=%2 destination=%3", (Object)new Integer(n), (Object)navLocation, (Object)navLocationWgs84);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationAroundDestination() previewMapClientId=%1 navLocation=%2 destination=%3", (Object)new Integer(n), (Object)navLocation, (Object)navLocationWgs84);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewDestination(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewDestination() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewDestination() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewAddressBookEntry(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewAddressBookEntry() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewAddressBookEntry() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewFavoriteHome(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewFavoriteHome() previewMapClientId=%1 homeLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewFavoriteHome() previewMapClientId=%1 homeLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewState(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewState() previewMapClientId=%1 locationOfState=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewState() previewMapClientId=%1 locationOfState=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationCity(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationCity() previewMapClientId=%1 locationOfCity=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationCity() previewMapClientId=%1 locationOfCity=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocations(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocations() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocations() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewTour(NavLocation[] navLocationArray, String string, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTour() previewMapClientId=%1 locations=%2 tourName=%3", (Object)new Integer(n), (Object)navLocationArray, (Object)string);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTour() previewMapClientId=%1 locations=%2 tourName=%3", (Object)new Integer(n), (Object)navLocationArray, (Object)string);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapTour(navLocationArray, string, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationsForOperatorCall(NavLocationWgs84[] navLocationWgs84Array, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationsForOperatorCall() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationWgs84Array);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationsForOperatorCall() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationWgs84Array);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(Util.wgs84sToNavLocations(navLocationWgs84Array), guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPOIsOnboard(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboard() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboard() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPOIsOnboardDistant(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardDistant() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardDistant() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPOIsOnboardAroundCCP(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardAroundCCP() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardAroundCCP() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPOIsOnboardAroundReferencePoint(NavLocation[] navLocationArray, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardAroundReferencePoint() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardAroundReferencePoint() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPOIsOnboardAroundDestination(NavLocation[] navLocationArray, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardAroundDestination() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardAroundDestination() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewRoadSegment(int n, int n2, int n3, int n4, long l, long l2, int n5, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
         this.logger.log(10000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewRoadSegment() not implemented");
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n, boolean bl) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvent()");
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvent()");
         if (tmcMessage == null) {
             this.logger.log(10000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvent() tmcMessage is null");
         }
         this.getMapForFullScreen().getNaviInterface().getTMCGateWay().setPreviewTrafficInfoTmcEvent(tmcMessage, n, bl);
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEvents(long[] lArray, NavRectangle navRectangle, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvents() previewMapClientId=%1 messageIds=%2 rectangle=%3", (Object)new Integer(n), (Object)lArray, (Object)navRectangle);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvents() previewMapClientId=%1 messageIds=%2 rectangle=%3", (Object)new Integer(n), (Object)lArray, (Object)navRectangle);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapTrafficInfoEvents(lArray, navRectangle, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewRoute(boolean bl, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewRoute() previewMapClientId=%1 completeRoute=%2", (Object)new Integer(n), (Object)new Boolean(bl));
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewRoute() previewMapClientId=%1 completeRoute=%2", (Object)new Integer(n), (Object)new Boolean(bl));
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapRoute(bl));
     }
 
-    @Override
     public void setPreviewRoute(boolean bl, boolean bl2, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewRoute() previewMapClientId=%1 completeRoute=%2 rgActive=%3", (Object)new Integer(n), (Object)new Boolean(bl), (Object)new Boolean(bl2));
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewRoute() previewMapClientId=%1 completeRoute=%2 rgActive=%3", (Object)new Integer(n), (Object)new Boolean(bl), (Object)new Boolean(bl2));
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapRouteRgActive(bl, bl2));
     }
 
-    @Override
     public void setPreviewRouteEvent(NavLocation navLocation, int n, int n2, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(1078071040, "PreviewMapHandler#previewRouteEvent() - NOT YET IMPLEMENTED");
+        this.logger.log(1000000, "PreviewMapHandler#previewRouteEvent() - NOT YET IMPLEMENTED");
     }
 
-    @Override
     public void setPreviewSDSPicklistEvents(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewSDSPicklistEvents() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewSDSPicklistEvents() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapSDSPicklistEvents(navLocationArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEvent(long l, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvent() previewMapClientId=%1 messageId=%2", (Object)new Integer(n), l);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEvent() previewMapClientId=%1 messageId=%2", (Object)new Integer(n), l);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapTrafficInfoEvent(l, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewTrafficInfoTmcEventsForRouteList(NavRectangle navRectangle, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEventsForRouteList() previewMapClientId=%1 rectangle=%2", (Object)new Integer(n), (Object)navRectangle);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewTrafficInfoTmcEventsForRouteList() previewMapClientId=%1 rectangle=%2", (Object)new Integer(n), (Object)navRectangle);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapTrafficInfoEventsForRouteList(navRectangle, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPredictiveNavigationRoute(NavSegmentID navSegmentID, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapRouteSelenaSingle(navSegmentID, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPredictiveNavigationRoutes(NavSegmentID[] navSegmentIDArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapRouteSelenaOverview(navSegmentIDArray, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewRouteOffroad(NavSegmentID navSegmentID, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapRouteOffroad(navSegmentID, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPoiOnlineAroundCCP(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPoiOnlineAroundCCP() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPoiOnlineAroundCCP() previewMapClientId=%1 locations=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPoiOnlineAroundDestination(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPoiOnlineAroundDestination() previewMapClientId=%1 location=%2 destination=%3", (Object)new Integer(n), (Object)LocationFormatter.formatLocationShort(navLocation), (Object)navLocationWgs84);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPoiOnlineAroundDestination() previewMapClientId=%1 location=%2 destination=%3", (Object)new Integer(n), (Object)LocationFormatter.formatLocationShort(navLocation), (Object)navLocationWgs84);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(new NavLocation[]{navLocation}, false, false, navLocationWgs84 != null, navLocationWgs84, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewPoiOnlineAroundReferencePoint(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPoiOnlineAroundReferencePoint() previewMapClientId=%1 location=%2 referencePoint=%3", (Object)new Integer(n), (Object)LocationFormatter.formatLocationShort(navLocation), (Object)navLocationWgs84);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPoiOnlineAroundReferencePoint() previewMapClientId=%1 location=%2 referencePoint=%3", (Object)new Integer(n), (Object)LocationFormatter.formatLocationShort(navLocation), (Object)navLocationWgs84);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocations(new NavLocation[]{navLocation}, false, false, navLocationWgs84 != null, navLocationWgs84, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewFavorite(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewFavorite() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewFavorite() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationConcierge(NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationConcierge() previewMapClientId=%1", (long)n);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationConcierge() previewMapClientId=%1", (long)n);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(Util.wgs84ToNavLocation(navLocationWgs84), guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer));
     }
 
-    @Override
     public void setPreviewLocationTpeg(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationTpeg() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationTpeg() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewLocation(navLocation, n, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
     }
 
-    @Override
     public void setPreviewPOIsOnboardFromTourListOrRouteList(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardFromTourListOrRouteList() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocationArray);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewPOIsOnboardFromTourListOrRouteList() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocationArray);
         this.setPreviewLocations(navLocationArray, n, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
     }
 
-    @Override
     public void setPreviewLocationFromTourList(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationFromTourList() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocationFromTourList() previewMapClientId=%1 location=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewLocation(navLocation, n, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
     }
 
-    @Override
     public void setStoreFocusForEnterOnce(boolean bl) {
     }
 
-    @Override
     public GuiPreviewMapLayout getGuiPreviewMapLayoutCurrent() {
         if (this.mapPreviewMapLayouts == null) {
             return null;
@@ -680,7 +621,6 @@ extends PreviewMapHandlerAbstract {
         }
     }
 
-    @Override
     public int getMapContextCorrected(int n) {
         int n2 = n;
         if (n == 13) {
@@ -690,12 +630,11 @@ extends PreviewMapHandlerAbstract {
             }
         } else if (MapUtils.isCtxPositionMap(n) && this.getPreviewMapClientIdActive() == 0 && PreviewMapUtils.isPreviewMapStateValid(this.getPreviewMapStateCurrent())) {
             n2 = 12;
-            this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#getMapContextPreferred() corrected position map to crosshair map");
+            this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#getMapContextPreferred() corrected position map to crosshair map");
         }
         return n2;
     }
 
-    @Override
     public void cleanUp() {
         GuiTimerWaitingForApply guiTimerWaitingForApply = this.guiTimerWaitingForApply;
         if (guiTimerWaitingForApply != null) {
@@ -705,9 +644,8 @@ extends PreviewMapHandlerAbstract {
         this.hashMapPreviewMapStates = null;
     }
 
-    @Override
     public void setPreviewLocation(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer, boolean bl, String string) {
-        this.logger.log(-2137614336, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocation() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
+        this.logger.log(10000000, "PreviewMapHandlerAbstractMapStatesMultiple#setPreviewLocation() previewMapClientId=%1 navLocation=%2", (Object)new Integer(n), (Object)navLocation);
         this.setPreviewMapState(n, this.getFactoryPreviewMapState().createPreviewMapNavLocation(navLocation, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer, bl, string));
     }
 }

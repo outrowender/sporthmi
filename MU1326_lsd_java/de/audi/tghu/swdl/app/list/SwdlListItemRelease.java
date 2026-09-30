@@ -10,7 +10,7 @@ import de.audi.tghu.swdl.app.list.ISwdlListItem;
 
 public class SwdlListItemRelease
 extends AbstractSwdlListItem {
-    private static final String SWDL_CLASS_NAME;
+    private static final String SWDL_CLASS_NAME = "[SwdlRelease]";
     private ISelectionManager selectionManager;
 
     public SwdlListItemRelease(ISelectionManager iSelectionManager, ISwdlListItem iSwdlListItem, int n, String string) {
@@ -22,19 +22,17 @@ extends AbstractSwdlListItem {
         return this.selectionManager;
     }
 
-    @Override
     public void select(int n) {
         this.getSelectionManager().doSelectRelease(n);
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         baseListRow.setInteger(0, this.getId());
         baseListRow.setText(1, this.getName());
     }
 
     public String getSwdlClassName() {
-        return "[SwdlRelease]";
+        return SWDL_CLASS_NAME;
     }
 }
 

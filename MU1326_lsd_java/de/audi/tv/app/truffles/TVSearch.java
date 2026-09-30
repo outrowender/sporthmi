@@ -27,39 +27,32 @@ implements ITVSearch {
         this.init();
     }
 
-    @Override
     public final void init() {
-        this.logChannel.log(1078071040, "[%1.init]", (Object)LOGCLASS);
+        this.logChannel.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.startDSI();
     }
 
-    @Override
     public final void deinit() {
-        this.logChannel.log(1078071040, "[%1.deinit]", (Object)LOGCLASS);
+        this.logChannel.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.stopDSI();
     }
 
-    @Override
     protected void initDSI() {
         super.initDSI();
-        this.env.getChoiceModel(-1179900160).setValue(1);
+        this.env.getChoiceModel(2600121).setValue(1);
     }
 
-    @Override
     public void setActiveGuiSearchHandler(ISearchGUI iSearchGUI) {
         super.setActiveGuiSearchHandler((AbstractGuiSearchHandler)((Object)iSearchGUI));
     }
 
-    @Override
     public void cancelQuerry() {
         super.cancelQuery();
     }
 
-    @Override
     public void setEnvironmentResult(int n) {
     }
 
-    @Override
     public void updateSearchIsActive(boolean bl, int n) {
         if (!this.ignoreUpdateSearchIsActive || bl) {
             super.updateSearchIsActive(bl, n);
@@ -67,17 +60,14 @@ implements ITVSearch {
         this.ignoreUpdateSearchIsActive = false;
     }
 
-    @Override
     public void updateSearchIsActive(int n, boolean bl, int n2) {
         this.updateSearchIsActive(bl, n2);
     }
 
-    @Override
     public void setIgnoreSearchIsActive(boolean bl) {
         this.ignoreUpdateSearchIsActive = bl;
     }
 
-    @Override
     public void removeAllFromHistoryBySourceResult(int n) {
     }
 
@@ -85,32 +75,25 @@ implements ITVSearch {
         return 10;
     }
 
-    @Override
     public void cancelQueryResult(int n, int n2) {
         this.cancelQueryResult(n2);
     }
 
-    @Override
     public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) {
     }
 
-    @Override
     public void updateProfileState(int n, int n2, int n3) {
     }
 
-    @Override
     public void profileChanged(int n, int n2) {
     }
 
-    @Override
     public void profileCopied(int n, int n2, int n3) {
     }
 
-    @Override
     public void profileReset(int n, int n2) {
     }
 
-    @Override
     public void profileResetAll(int n) {
     }
 

@@ -8,9 +8,10 @@ import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.event.ScreenDebugInfoEvent;
 import de.audi.atip.hmi.view.IDisplayListener;
 import de.audi.tghu.fwhmi.DisplayManager;
-import de.audi.tghu.fwhmi.DisplayManagerMIB2High$DisplayManagerProvider;
 import de.audi.tghu.fwhmi.IDisplayManagerKombiControl;
 import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.fw.util.commons.error.DumpInfoProvider;
+import java.io.PrintStream;
 import org.dsi.ifc.displaymanagement.DisplayContext;
 import org.dsi.ifc.global.ResourceLocator;
 
@@ -23,23 +24,20 @@ IDisplayManagerKombiControl {
 
     public DisplayManagerMIB2High(IFrameworkAccess iFrameworkAccess) {
         super(iFrameworkAccess);
-        iFrameworkAccess.getErrorMgr().registerDumpInfoProvider(new DisplayManagerMIB2High$DisplayManagerProvider(this, null));
+        iFrameworkAccess.getErrorMgr().registerDumpInfoProvider(new DisplayManagerProvider());
         for (int i2 = 0; i2 < this.visibleKDKs.length; ++i2) {
             this.visibleKDKs[i2] = -1;
         }
     }
 
-    @Override
     protected int getMappedInternalContext(int n) {
         return n;
     }
 
-    @Override
     protected int getMappedExternalContext(int n) {
         return n;
     }
 
-    @Override
     protected void defineContexts() {
         this.dc = this.framework.getKombiType() == 4 ? new DisplayContext[158] : new DisplayContext[79];
         this.dc[0] = new DisplayContext(0, new int[]{16});
@@ -152,7 +150,6 @@ IDisplayManagerKombiControl {
         return nArray2;
     }
 
-    @Override
     protected void configureDM() {
         if (this.framework.getSysConst(541) == 2) {
             this.createImageDisplayable(new ResourceLocator(102, "/mnt/app/eso/hmi/lsd/images/HMISystemEvoHigh/987.png"), 102);
@@ -160,17 +157,14 @@ IDisplayManagerKombiControl {
         }
     }
 
-    @Override
     public void setupKDKBackground(int n) {
     }
 
-    @Override
     public void activeContext(int n, int n2) {
     }
 
-    @Override
     public void setKDKVisible(int n, int n2) {
-        this.log.log(1078071040, "DisplayManager#setKDKVisible visibleKDK %1 terminal %2 ", (long)n, (long)n2);
+        this.log.log(1000000, "DisplayManager#setKDKVisible visibleKDK %1 terminal %2 ", (long)n, (long)n2);
         if (this.visibleKDKs[n2] != n) {
             this.visibleKDKs[n2] = n;
             int n3 = this.getCurrentContextID(n2);
@@ -200,19 +194,16 @@ IDisplayManagerKombiControl {
         }
     }
 
-    @Override
     public boolean isKDKVisible(int n) {
         return this.visibleKDKs[n] != -1;
     }
 
-    @Override
     public int getVisibleKDK(int n) {
         return this.visibleKDKs[n];
     }
 
-    @Override
     public synchronized void switchContext(int n, int n2, IDisplayListener iDisplayListener) {
-        this.log.log(1078071040, "DisplayManager#switchContext visibleKDK %1 terminal %2 ", (long)this.visibleKDKs[n2], (long)n2);
+        this.log.log(1000000, "DisplayManager#switchContext visibleKDK %1 terminal %2 ", (long)this.visibleKDKs[n2], (long)n2);
         if (this.visibleKDKs[n2] == 20) {
             n = this.addKDKToContext(n);
         }
@@ -286,19 +277,17 @@ IDisplayManagerKombiControl {
                     n = 73;
                 }
             }
-            this.log.log(1078071040, "DisplayManager#addKDKToContext new context %1 ", (long)n);
+            this.log.log(1000000, "DisplayManager#addKDKToContext new context %1 ", (long)n);
         }
         return n;
     }
 
-    @Override
     public void setKDKOpacity(int n, int n2) {
         if (this.visibleKDKs[n] != -1) {
             super.setOpacity(this.visibleKDKs[n], n, n2);
         }
     }
 
-    @Override
     public void setOpacity(int n, int n2, int n3) {
         super.setOpacity(n, n2, n3);
         if (SHOW_DM_INFO && this.getCurrentContextID(n2) > -1) {
@@ -306,12 +295,36 @@ IDisplayManagerKombiControl {
         }
     }
 
-    static /* synthetic */ String[] access$000(DisplayManagerMIB2High displayManagerMIB2High, int n) {
-        return displayManagerMIB2High.createContextInfo(n);
-    }
+    private class DisplayManagerProvider
+    implements DumpInfoProvider {
+        private DisplayManagerProvider() {
+        }
 
-    static /* synthetic */ String[] access$100(DisplayManagerMIB2High displayManagerMIB2High, int n, int n2) {
-        return displayManagerMIB2High.createOpacityInfo(n, n2);
+        public String getName() {
+            return "DisplayManager-Info";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            this.dumpTerminalInfo(printStream, 0);
+            this.dumpTerminalInfo(printStream, 1);
+        }
+
+        private void dumpTerminalInfo(PrintStream printStream, int n) {
+            printStream.println(new StringBuffer().append("DM info for terminal: ").append(n).toString());
+            if (DisplayManagerMIB2High.this.getCurrentContextID(n) != -1) {
+                int n2;
+                String[] stringArray = DisplayManagerMIB2High.this.createContextInfo(DisplayManagerMIB2High.this.getCurrentContextID(n));
+                String[] stringArray2 = DisplayManagerMIB2High.this.createOpacityInfo(DisplayManagerMIB2High.this.getCurrentContextID(n), n);
+                for (n2 = 0; n2 < stringArray.length; ++n2) {
+                    printStream.println(stringArray[n2]);
+                }
+                for (n2 = 0; n2 < stringArray2.length; ++n2) {
+                    printStream.println(stringArray2[n2]);
+                }
+            } else {
+                printStream.println("no context activated ");
+            }
+        }
     }
 }
 

@@ -4,28 +4,20 @@
 package de.audi.tghu.navi.app.map.handler;
 
 public interface ZoomEventListener {
-    default public void updateZoomList(float[] fArray, float[] fArray2) {
-    }
+    public void updateZoomList(float[] var1, float[] var2);
 
-    default public void updateZoomListIndex(int n) {
-    }
+    public void updateZoomListIndex(int var1);
 
-    default public void updateSoftZoomEnabled(boolean bl) {
-    }
+    public void updateSoftZoomEnabled(boolean var1);
 
-    default public void updateAutoZoomEnabled(boolean bl) {
-    }
+    public void updateAutoZoomEnabled(boolean var1);
 
-    default public void updateManoeuvreZoomEnabled(boolean bl) {
-    }
+    public void updateManoeuvreZoomEnabled(boolean var1);
 
-    default public void updateZoomEngineState(int n) {
-    }
+    public void updateZoomEngineState(int var1);
 
-    default public void updateRecommendedZoom(float f2) {
-    }
+    public void updateRecommendedZoom(float var1);
 
-    default public void updateZoomLevel(float f2) {
-    }
+    public void updateZoomLevel(float var1);
 }
 

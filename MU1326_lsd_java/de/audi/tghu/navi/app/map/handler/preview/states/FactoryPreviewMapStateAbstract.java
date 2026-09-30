@@ -22,49 +22,34 @@ public abstract class FactoryPreviewMapStateAbstract {
         this.previewMapHandler = previewMapHandlerAbstract;
     }
 
-    public abstract PreviewMapStateAbstract createPreviewMapNavLocation(NavLocation navLocation, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapNavLocation(NavLocation var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 
-    public abstract PreviewMapStateAbstract createPreviewMapNavLocation(NavLocation navLocation, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer, boolean bl, String string) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapNavLocation(NavLocation var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3, boolean var4, String var5);
 
-    public abstract PreviewMapStateAbstract createPreviewMapNavLocations(NavLocation[] navLocationArray, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapNavLocations(NavLocation[] var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 
-    public abstract PreviewMapStateAbstract createPreviewMapNavLocations(NavLocation[] navLocationArray, boolean bl, boolean bl2, boolean bl3, NavLocationWgs84 navLocationWgs84, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapNavLocations(NavLocation[] var1, boolean var2, boolean var3, boolean var4, NavLocationWgs84 var5, GuiModelAccessForPreviewMapDetailScreen var6, GuiTooltipInformationContainer var7);
 
-    public abstract PreviewMapStateAbstract createPreviewMapTour(NavLocation[] navLocationArray, String string, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapTour(NavLocation[] var1, String var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    public abstract PreviewMapStateAbstract createPreviewMapAroundCCP() {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapAroundCCP();
 
-    public abstract PreviewMapStateAbstract createPreviewMapRouteSelenaSingle(NavSegmentID navSegmentID, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapRouteSelenaSingle(NavSegmentID var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 
-    public abstract PreviewMapStateAbstract createPreviewMapRouteSelenaOverview(NavSegmentID[] navSegmentIDArray, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapRouteSelenaOverview(NavSegmentID[] var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 
-    public abstract PreviewMapStateAbstract createPreviewMapRoute(boolean bl) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapRoute(boolean var1);
 
-    public abstract PreviewMapStateAbstract createPreviewMapRouteOffroad(NavSegmentID navSegmentID, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapRouteOffroad(NavSegmentID var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 
-    public abstract PreviewMapStateAbstract createPreviewMapRouteRgActive(boolean bl, boolean bl2) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapRouteRgActive(boolean var1, boolean var2);
 
-    public abstract PreviewMapStateAbstract createPreviewMapTrafficInfoEvent(long l, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapTrafficInfoEvent(long var1, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    public abstract PreviewMapStateAbstract createPreviewMapTrafficInfoEventsForRouteList(NavRectangle navRectangle, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapTrafficInfoEventsForRouteList(NavRectangle var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 
-    public abstract PreviewMapStateAbstract createPreviewMapTrafficInfoEvents(long[] lArray, NavRectangle navRectangle, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapTrafficInfoEvents(long[] var1, NavRectangle var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    public abstract PreviewMapStateAbstract createPreviewMapSDSPicklistEvents(NavLocation[] navLocationArray, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract PreviewMapStateAbstract createPreviewMapSDSPicklistEvents(NavLocation[] var1, GuiModelAccessForPreviewMapDetailScreen var2, GuiTooltipInformationContainer var3);
 }
 

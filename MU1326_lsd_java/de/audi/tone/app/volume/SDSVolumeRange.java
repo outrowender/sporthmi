@@ -13,36 +13,32 @@ import de.audi.tone.app.volume.samples.SDSSamplePlayer;
 
 public class SDSVolumeRange
 extends AbstractVolumeRange {
-    private static final int CONNECTION;
+    private static final int CONNECTION = 86;
     private final int[] volumeConnections = SDSVolumeRange.merge(AudioConnection.SDS, 86);
     private final int[] greyOutConnections = AudioConnection.GREY_OUT_ALL;
     private final SDSSamplePlayer samplePlayer;
     private final String name;
 
     SDSVolumeRange(VolumeRangeManager volumeRangeManager) {
-        super(volumeRangeManager, 1463947008, -2109600000, 86);
+        super(volumeRangeManager, 1000023, 1000066, 86);
         this.name = "SDSVolumeRange";
         this.samplePlayer = new SDSSamplePlayer(this.env.lcMain);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-1774055680);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1000086);
         this.greyOutHandler = new DefaultGreyOutAndPopupHandler(choiceModelApp, this.greyOutConnections, this.env.lcHMI, "SDSVolumeRange");
     }
 
-    @Override
     protected String getName() {
         return "SDSVolumeRange";
     }
 
-    @Override
     protected int getID() {
         return 2;
     }
 
-    @Override
     protected ISamplePlayer getSamplePlayer() {
         return this.samplePlayer;
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return this.volumeConnections;
     }

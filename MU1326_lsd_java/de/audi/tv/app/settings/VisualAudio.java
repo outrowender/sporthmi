@@ -3,17 +3,17 @@
  */
 package de.audi.tv.app.settings;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.utils.generics.Consumer;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.settings.ISettingListener;
 import de.audi.tv.app.settings.SettingsStorage;
-import de.audi.tv.app.settings.VisualAudio$1;
-import de.audi.tv.app.settings.VisualAudio$ChoiceListener;
 
 class VisualAudio {
-    protected static final boolean DEFAULT;
-    private static final int VISUAL_AUDIO_ENABLED;
-    private static final int VISUAL_AUDIO_DISABLED;
+    protected static final boolean DEFAULT = true;
+    private static final int VISUAL_AUDIO_ENABLED = 1;
+    private static final int VISUAL_AUDIO_DISABLED = 0;
     private final TVEnv env;
     private final SettingsStorage storage;
     private final ISettingListener provider;
@@ -23,11 +23,22 @@ class VisualAudio {
         this.env = tVEnv;
         this.storage = settingsStorage;
         this.provider = iSettingListener;
-        this.visualAudioChoice = tVEnv.getChoiceModel(1269573376);
-        this.visualAudioChoice.setChoiceListener(new VisualAudio$ChoiceListener(this, null));
+        this.visualAudioChoice = tVEnv.getChoiceModel(2600011);
+        this.visualAudioChoice.setChoiceListener(new ChoiceListener());
         this.visualAudioChoice.setValue(1);
         this.env.properties.settings.visualAudioActive.accept(new Boolean(true));
-        this.env.properties.settings.visualAudioActive.subscribe(new VisualAudio$1(this));
+        this.env.properties.settings.visualAudioActive.subscribe(new Consumer<Boolean>(){
+
+            @Override
+            public void accept(Boolean bl) {
+                VisualAudio.this.update(bl);
+            }
+
+            @Override
+            public /* synthetic */ void accept(Object object) {
+                this.accept((Boolean)object);
+            }
+        });
         iSettingListener.updateVisualAudio(true);
     }
 
@@ -50,12 +61,17 @@ class VisualAudio {
         this.storage.saveVisualAudio(bl);
     }
 
-    static /* synthetic */ void access$100(VisualAudio visualAudio, boolean bl) {
-        visualAudio.update(bl);
-    }
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
 
-    static /* synthetic */ TVEnv access$200(VisualAudio visualAudio) {
-        return visualAudio.env;
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            boolean bl = n2 == 1;
+            ((VisualAudio)VisualAudio.this).env.lcHMI.log(10000000, "[VisualAudio.itemSelected] %2 -> %1", bl, (long)n2);
+            VisualAudio.this.update(bl);
+            ((VisualAudio)VisualAudio.this).env.properties.settings.visualAudioActive.accept(new Boolean(bl));
+        }
     }
 }
 

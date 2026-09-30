@@ -24,7 +24,7 @@ extends AbstractVolumeRange {
             return;
         }
         this.scenario = n;
-        this.env.lcMain.log(1078071040, "[RingtoneVolumeRange.setPhoneAudioScenario] %1", (long)n);
+        this.env.lcMain.log(1000000, "[RingtoneVolumeRange.setPhoneAudioScenario] %1", (long)n);
         switch (n) {
             case 1: {
                 n2 = 88;

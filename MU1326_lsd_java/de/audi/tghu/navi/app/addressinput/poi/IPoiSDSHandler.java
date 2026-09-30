@@ -3,52 +3,38 @@
  */
 package de.audi.tghu.navi.app.addressinput.poi;
 
-import de.audi.atip.interapp.NaviService$POISDSListEntry;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.SDSListEntry;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IPoiSDSHandler {
-    default public void startDestinationInput(NaviServiceListener naviServiceListener) {
-    }
+    public void startDestinationInput(NaviServiceListener var1);
 
-    default public byte fillPOIPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillPOIPickList(SDSListEntry[] var1);
 
-    default public SDSListEntry getPOIPickListEntryDetails(int n) {
-    }
+    public SDSListEntry getPOIPickListEntryDetails(int var1);
 
-    default public NaviService$POISDSListEntry getResultListEntryDetails(int n, int n2) {
-    }
+    public NaviService.POISDSListEntry getResultListEntryDetails(int var1, int var2);
 
-    default public SDSListEntry getPoiTopPoiListEntryDetails(int n) {
-    }
+    public SDSListEntry getPoiTopPoiListEntryDetails(int var1);
 
-    default public NaviService$POISDSListEntry getPOIEntryDetails(int n, byte by) {
-    }
+    public NaviService.POISDSListEntry getPOIEntryDetails(int var1, byte var2);
 
-    default public void selectPOI(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectPOI(int var1, NaviServiceListener var2);
 
-    default public void selectPOIbyListIndex(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectPOIbyListIndex(int var1, NaviServiceListener var2);
 
-    default public void selectTopPOI(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectTopPOI(int var1, NaviServiceListener var2);
 
-    default public byte setPOISearchArea(byte by) {
-    }
+    public byte setPOISearchArea(byte var1);
 
-    default public void triggerPOIReturn(NaviServiceListener naviServiceListener) {
-    }
+    public void triggerPOIReturn(NaviServiceListener var1);
 
-    default public void selectNaturalPoi(int n, NaviServiceListener naviServiceListener) {
-    }
+    public void selectNaturalPoi(int var1, NaviServiceListener var2);
 
-    default public void startPoiSearchByName(NaviServiceListener naviServiceListener) {
-    }
+    public void startPoiSearchByName(NaviServiceListener var1);
 
-    default public NavLocation getPoiSearchAreaLocation() {
-    }
+    public NavLocation getPoiSearchAreaLocation();
 }
 

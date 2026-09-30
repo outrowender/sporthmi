@@ -3,6 +3,10 @@
  */
 package de.audi.tuner.app.sdars.seek;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
@@ -12,25 +16,21 @@ import de.audi.tuner.app.sdars.dsi.SDARSDSISeekDownManager;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiDownInfo;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
 import de.audi.tuner.app.sdars.seek.AbstractSeekListSizeRistrictionHandler;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$ActionProxyListener;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$ButtonListener;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$CancelButtonListener;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$DsiDownListener;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$DsiUpListener;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$FavoriteReplaceListListener;
-import de.audi.tuner.app.sdars.seek.SeekActiveContentHandler$ReplaceButtonListener;
+import de.audi.tuner.app.sdars.seek.MusicHandler;
+import de.audi.tuner.app.sdars.seek.SelectedTeamRow;
 import de.audi.tuner.ifc.ITunerVariantExt;
 import java.util.HashMap;
 import org.dsi.ifc.sdars.SeekEntry;
+import org.dsi.ifc.sdars.SeekPossibility;
 
 public class SeekActiveContentHandler {
-    public final SDARSDsiDownInfo dsiDownListener = new SeekActiveContentHandler$DsiDownListener(this, null);
-    public final SDARSDsiUpInfo dsiUpListener = new SeekActiveContentHandler$DsiUpListener(this, null);
-    public final TunerActionProxyListener actionProxyListener = new SeekActiveContentHandler$ActionProxyListener(this, null);
-    public static final int SEEKTYPE_NONE;
-    public static final int SEEKTYPE_MUSIC;
-    public static final int SEEKTYPE_GAME;
-    public static final int SEEKTYPE_WEATHER;
+    public final SDARSDsiDownInfo dsiDownListener = new DsiDownListener();
+    public final SDARSDsiUpInfo dsiUpListener = new DsiUpListener();
+    public final TunerActionProxyListener actionProxyListener = new ActionProxyListener();
+    public static final int SEEKTYPE_NONE = -1;
+    public static final int SEEKTYPE_MUSIC = 0;
+    public static final int SEEKTYPE_GAME = 1;
+    public static final int SEEKTYPE_WEATHER = 2;
     private final LogChannel log;
     private final SDARSDSISeekDownManager dsi;
     private final ITunerVariantExt varExt;
@@ -48,19 +48,19 @@ public class SeekActiveContentHandler {
         this.varExt = iTunerVariantExt;
         this.models = tunerBasics.getModels();
         this.sizeRestrictionHandler = abstractSeekListSizeRistrictionHandler;
-        SeekActiveContentHandler$ButtonListener seekActiveContentHandler$ButtonListener = new SeekActiveContentHandler$ButtonListener(this, null);
-        this.models.getButtonModel(646512896).setButtonListener(seekActiveContentHandler$ButtonListener);
-        this.models.getButtonModel(663290112).setButtonListener(seekActiveContentHandler$ButtonListener);
-        this.models.getButtonModel(629735680).setButtonListener(seekActiveContentHandler$ButtonListener);
-        this.models.getButtonModel(680067328).setButtonListener(seekActiveContentHandler$ButtonListener);
-        this.models.getButtonModel(-1870069504).setButtonListener(new SeekActiveContentHandler$CancelButtonListener(this, null));
-        this.models.getButtonModel(-1886846720).setButtonListener(new SeekActiveContentHandler$ReplaceButtonListener(this, null));
-        this.models.getBaseListModel(-1903623936).setListener(new SeekActiveContentHandler$FavoriteReplaceListListener(this, null));
+        ButtonListener buttonListener = new ButtonListener();
+        this.models.getButtonModel(100646).setButtonListener(buttonListener);
+        this.models.getButtonModel(100647).setButtonListener(buttonListener);
+        this.models.getButtonModel(100645).setButtonListener(buttonListener);
+        this.models.getButtonModel(100648).setButtonListener(buttonListener);
+        this.models.getButtonModel(100752).setButtonListener(new CancelButtonListener());
+        this.models.getButtonModel(100751).setButtonListener(new ReplaceButtonListener());
+        this.models.getBaseListModel(100750).setListener(new FavoriteReplaceListListener());
         this.adjustSeekTypeModel(-1);
     }
 
     public void resetToDefaultSettings() {
-        this.log.log(-2137614336, "[SdarsSeekHAndler.resetToDefaultSettings]");
+        this.log.log(10000000, "[SdarsSeekHAndler.resetToDefaultSettings]");
         this.dsi.reset(1);
         this.dsi.reset(2);
     }
@@ -70,7 +70,7 @@ public class SeekActiveContentHandler {
     }
 
     private void adjustSeekTypeModel(int n) {
-        this.models.getChoiceModel(1284047104).setValue(n);
+        this.models.getChoiceModel(100684).setValue(n);
     }
 
     private void cancelReplace() {
@@ -80,84 +80,217 @@ public class SeekActiveContentHandler {
         this.varExt.hidePartialPopup(17);
         this.varExt.hidePartialPopup(19);
         this.varExt.hidePartialPopup(20);
-        this.models.getButtonModel(-1870069504).fireEvent(0);
+        this.models.getButtonModel(100752).fireEvent(0);
     }
 
-    static /* synthetic */ ITunerVariantExt access$700(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.varExt;
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(StationInfoExt stationInfoExt) {
+            SeekActiveContentHandler.this.currentStation = stationInfoExt;
+        }
+
+        public void updateSeekList(SeekEntry[] seekEntryArray) {
+            if (SeekActiveContentHandler.this.currentSeeks != null && SeekActiveContentHandler.this.waitingForSeek) {
+                SeekActiveContentHandler.this.waitingForSeek = false;
+                for (int i2 = 0; i2 < seekEntryArray.length; ++i2) {
+                    SeekEntry seekEntry = seekEntryArray[i2];
+                    if (SeekActiveContentHandler.this.currentSeeks.containsKey(new Integer(seekEntry.getSeekID()))) continue;
+                    SeekActiveContentHandler.this.updateNewSeek(seekEntry);
+                    break;
+                }
+            }
+            HashMap hashMap = new HashMap();
+            for (int i3 = 0; i3 < seekEntryArray.length; ++i3) {
+                SeekEntry seekEntry = seekEntryArray[i3];
+                hashMap.put(new Integer(seekEntry.getSeekID()), seekEntry);
+            }
+            SeekActiveContentHandler.this.currentSeeks = hashMap;
+        }
+
+        public void updateSeekPossibility(SeekPossibility seekPossibility) {
+            int n = -1;
+            switch (seekPossibility.getTypeOfContent()) {
+                case 1: {
+                    n = 0;
+                    break;
+                }
+                case 3: {
+                    n = 1;
+                    break;
+                }
+            }
+            SeekActiveContentHandler.this.adjustSeekTypeModel(n);
+        }
     }
 
-    static /* synthetic */ TunerModels access$800(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.models;
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            boolean bl;
+            int n4;
+            String string;
+            int n5;
+            SeekActiveContentHandler.this.varExt.hidePartialPopup(12);
+            switch (n) {
+                case 100646: {
+                    n5 = 2;
+                    string = SeekActiveContentHandler.this.models.getLabelModel(100349).getText();
+                    n4 = 13;
+                    bl = SeekActiveContentHandler.this.sizeRestrictionHandler.isSeekListFull(1);
+                    break;
+                }
+                case 100647: {
+                    n5 = 1;
+                    string = SeekActiveContentHandler.this.models.getLabelModel(100351).getText();
+                    n4 = 14;
+                    bl = SeekActiveContentHandler.this.sizeRestrictionHandler.isSeekListFull(1);
+                    break;
+                }
+                case 100645: {
+                    n5 = 4;
+                    string = SeekActiveContentHandler.this.models.getLabelModel(100192).getText();
+                    n4 = 15;
+                    bl = SeekActiveContentHandler.this.sizeRestrictionHandler.isSeekListFull(3);
+                    break;
+                }
+                case 100648: {
+                    n5 = 5;
+                    string = SeekActiveContentHandler.this.models.getLabelModel(100194).getText();
+                    n4 = 15;
+                    bl = SeekActiveContentHandler.this.sizeRestrictionHandler.isSeekListFull(3);
+                    break;
+                }
+                default: {
+                    n5 = 0;
+                    string = "";
+                    n4 = -1;
+                    bl = false;
+                    SeekActiveContentHandler.this.log.log(10000, "[SeekActiveContentHandler.ButtonListener.keyTyped] wrong seekContentType!");
+                }
+            }
+            if (bl) {
+                BaseListModelApp baseListModelApp;
+                switch (n) {
+                    case 100646: 
+                    case 100647: {
+                        baseListModelApp = SeekActiveContentHandler.this.models.getBaseListModel(100483);
+                        break;
+                    }
+                    case 100645: 
+                    case 100648: {
+                        baseListModelApp = SeekActiveContentHandler.this.models.getBaseListModel(100481);
+                        break;
+                    }
+                    default: {
+                        baseListModelApp = null;
+                    }
+                }
+                if (baseListModelApp != null) {
+                    BaseListModelApp baseListModelApp2 = SeekActiveContentHandler.this.models.getBaseListModel(100750);
+                    baseListModelApp2.removeAll();
+                    for (int i2 = 0; i2 < baseListModelApp.getLength(); ++i2) {
+                        baseListModelApp2.append(baseListModelApp.getRow(i2));
+                    }
+                    SeekActiveContentHandler.this.waitingForSeek = true;
+                    SeekActiveContentHandler.this.relacementFinishedPopupId = n4;
+                    SeekActiveContentHandler.this.dsi.setSeekCommand(((SeekActiveContentHandler)SeekActiveContentHandler.this).currentStation.sID, n5, 1);
+                    SeekActiveContentHandler.this.varExt.showPartialPopup(17);
+                }
+            } else {
+                SeekActiveContentHandler.this.log.log(10000000, "[DSISDARSSeek.setSeekCommand] sId %1, seekType %2", (long)((SeekActiveContentHandler)SeekActiveContentHandler.this).currentStation.sID, (long)n5);
+                SeekActiveContentHandler.this.dsi.setSeekCommand(((SeekActiveContentHandler)SeekActiveContentHandler.this).currentStation.sID, n5, 1);
+                SeekActiveContentHandler.this.models.getLabelModel(100670).setText(string);
+                SeekActiveContentHandler.this.varExt.showPartialPopup(n4);
+            }
+        }
     }
 
-    static /* synthetic */ AbstractSeekListSizeRistrictionHandler access$900(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.sizeRestrictionHandler;
+    private class DsiDownListener
+    extends SDARSDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        public void preTuneAction(StationInfoExt stationInfoExt) {
+            SeekActiveContentHandler.this.adjustSeekTypeModel(-1);
+        }
     }
 
-    static /* synthetic */ LogChannel access$1000(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.log;
+    private class ActionProxyListener
+    extends TunerActionProxyListener {
+        private ActionProxyListener() {
+        }
+
+        public void sdarsReplaceListLeft() {
+            SeekActiveContentHandler.this.cancelReplace();
+        }
+
+        public void hmiDeactivatedTuner() {
+            SeekActiveContentHandler.this.cancelReplace();
+        }
     }
 
-    static /* synthetic */ boolean access$1102(SeekActiveContentHandler seekActiveContentHandler, boolean bl) {
-        seekActiveContentHandler.waitingForSeek = bl;
-        return seekActiveContentHandler.waitingForSeek;
+    private class CancelButtonListener
+    extends DefaultButtonListener {
+        private CancelButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            SeekActiveContentHandler.this.cancelReplace();
+        }
     }
 
-    static /* synthetic */ int access$1202(SeekActiveContentHandler seekActiveContentHandler, int n) {
-        seekActiveContentHandler.relacementFinishedPopupId = n;
-        return seekActiveContentHandler.relacementFinishedPopupId;
+    private class ReplaceButtonListener
+    extends DefaultButtonListener {
+        private ReplaceButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (SeekActiveContentHandler.this.overflowSeek != null) {
+                SeekActiveContentHandler.this.varExt.hidePartialPopup(17);
+                switch (SeekActiveContentHandler.this.overflowSeek.getTypeOfContent()) {
+                    case 1: {
+                        SeekActiveContentHandler.this.varExt.showPartialPopup(19);
+                        break;
+                    }
+                    case 2: 
+                    case 3: {
+                        SeekActiveContentHandler.this.varExt.showPartialPopup(20);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
-    static /* synthetic */ StationInfoExt access$1300(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.currentStation;
-    }
+    private class FavoriteReplaceListListener
+    extends DefaultBaseListModelListener {
+        private FavoriteReplaceListListener() {
+        }
 
-    static /* synthetic */ SDARSDSISeekDownManager access$1400(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.dsi;
-    }
-
-    static /* synthetic */ void access$1500(SeekActiveContentHandler seekActiveContentHandler) {
-        seekActiveContentHandler.cancelReplace();
-    }
-
-    static /* synthetic */ SeekEntry access$1600(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.overflowSeek;
-    }
-
-    static /* synthetic */ int access$1200(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.relacementFinishedPopupId;
-    }
-
-    static /* synthetic */ SeekEntry access$1602(SeekActiveContentHandler seekActiveContentHandler, SeekEntry seekEntry) {
-        seekActiveContentHandler.overflowSeek = seekEntry;
-        return seekActiveContentHandler.overflowSeek;
-    }
-
-    static /* synthetic */ StationInfoExt access$1302(SeekActiveContentHandler seekActiveContentHandler, StationInfoExt stationInfoExt) {
-        seekActiveContentHandler.currentStation = stationInfoExt;
-        return seekActiveContentHandler.currentStation;
-    }
-
-    static /* synthetic */ HashMap access$1700(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.currentSeeks;
-    }
-
-    static /* synthetic */ boolean access$1100(SeekActiveContentHandler seekActiveContentHandler) {
-        return seekActiveContentHandler.waitingForSeek;
-    }
-
-    static /* synthetic */ void access$1800(SeekActiveContentHandler seekActiveContentHandler, SeekEntry seekEntry) {
-        seekActiveContentHandler.updateNewSeek(seekEntry);
-    }
-
-    static /* synthetic */ HashMap access$1702(SeekActiveContentHandler seekActiveContentHandler, HashMap hashMap) {
-        seekActiveContentHandler.currentSeeks = hashMap;
-        return seekActiveContentHandler.currentSeeks;
-    }
-
-    static /* synthetic */ void access$1900(SeekActiveContentHandler seekActiveContentHandler, int n) {
-        seekActiveContentHandler.adjustSeekTypeModel(n);
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            SeekActiveContentHandler.this.models.getBaseListModel(100750).setSelectedIndex(n2);
+            SeekActiveContentHandler.this.models.getBaseListModel(100750).fireEvent(n4);
+            SeekActiveContentHandler.this.varExt.hidePartialPopup(19);
+            SeekActiveContentHandler.this.varExt.hidePartialPopup(20);
+            if (SeekActiveContentHandler.this.overflowSeek != null) {
+                if (SeekActiveContentHandler.this.overflowSeek.getTypeOfContent() == 1) {
+                    MusicHandler.MusicSeekRow musicSeekRow = (MusicHandler.MusicSeekRow)evoListRow;
+                    SeekActiveContentHandler.this.dsi.manageSeek2(1, musicSeekRow.getSeekID(), -1, 3);
+                    SeekActiveContentHandler.this.varExt.showPartialPopup(SeekActiveContentHandler.this.relacementFinishedPopupId);
+                } else if (SeekActiveContentHandler.this.overflowSeek.getTypeOfContent() == 3) {
+                    SelectedTeamRow selectedTeamRow = (SelectedTeamRow)evoListRow;
+                    SeekActiveContentHandler.this.dsi.manageSeek2(3, selectedTeamRow.getTeamID(), selectedTeamRow.getLeagueId(), 3);
+                    SeekActiveContentHandler.this.varExt.showPartialPopup(15);
+                }
+                SeekActiveContentHandler.this.overflowSeek = null;
+            }
+        }
     }
 }
 

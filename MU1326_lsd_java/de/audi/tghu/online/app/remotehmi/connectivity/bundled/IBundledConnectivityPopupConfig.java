@@ -4,25 +4,19 @@
 package de.audi.tghu.online.app.remotehmi.connectivity.bundled;
 
 public interface IBundledConnectivityPopupConfig {
-    public static final int POPUP_ID_DEFAULT;
-    public static final int MODEL_ID_DEFAULT;
+    public static final int POPUP_ID_DEFAULT = -1;
+    public static final int MODEL_ID_DEFAULT = -1;
 
-    default public void registerPopupIdToType(int n, int n2) {
-    }
+    public void registerPopupIdToType(int var1, int var2);
 
-    default public int getPopupId(int n) {
-    }
+    public int getPopupId(int var1);
 
-    default public void registerConditionModelIdToPopupType(int n, int n2) {
-    }
+    public void registerConditionModelIdToPopupType(int var1, int var2);
 
-    default public int getConditionModelId(int n) {
-    }
+    public int getConditionModelId(int var1);
 
-    default public int getBuyNewDataPlanButtonModelId() {
-    }
+    public int getBuyNewDataPlanButtonModelId();
 
-    default public int getShowDashboardButtonModelId() {
-    }
+    public int getShowDashboardButtonModelId();
 }
 

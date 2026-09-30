@@ -36,9 +36,9 @@ public class MapFlagUtils {
         AddressData addressData = MapUtils.extractAddressDataOfEntryType(adbEntry.getAddressData(), 1);
         if (addressData != null) {
             NavLocation navLocation = locationSerializer.streamToLocation(addressData.getNavLocation());
-            MapFlagUtils.getLogChannel().log(14808325, "MapFlagUtils#convertAdbEntryToTopDestBusiness: loc = %1", (Object)navLocation);
+            MapFlagUtils.getLogChannel().log(100000000, "MapFlagUtils#convertAdbEntryToTopDestBusiness: loc = %1", (Object)navLocation);
             mapFlag = new MapFlag(navLocation.getLongitude(), navLocation.getLatitude(), 1, -1L);
-            MapFlagUtils.getLogChannel().log(14808325, "MapFlagUtils#convertAdbEntryToTopDestBusiness: mf = %1", (Object)mapFlag);
+            MapFlagUtils.getLogChannel().log(100000000, "MapFlagUtils#convertAdbEntryToTopDestBusiness: mf = %1", (Object)mapFlag);
         }
         return mapFlag;
     }
@@ -51,9 +51,9 @@ public class MapFlagUtils {
         AddressData addressData = MapUtils.extractAddressDataOfEntryType(adbEntry.getAddressData(), 2);
         if (addressData != null) {
             NavLocation navLocation = locationSerializer.streamToLocation(addressData.getNavLocation());
-            MapFlagUtils.getLogChannel().log(14808325, "MapFlagUtils#convertAdbEntryToTopDestPrivate: loc = %1", (Object)navLocation);
+            MapFlagUtils.getLogChannel().log(100000000, "MapFlagUtils#convertAdbEntryToTopDestPrivate: loc = %1", (Object)navLocation);
             mapFlag = new MapFlag(navLocation.getLongitude(), navLocation.getLatitude(), 0, -1L);
-            MapFlagUtils.getLogChannel().log(14808325, "MapFlagUtils#convertAdbEntryToTopDestPrivate: mf = %1", (Object)mapFlag);
+            MapFlagUtils.getLogChannel().log(100000000, "MapFlagUtils#convertAdbEntryToTopDestPrivate: mf = %1", (Object)mapFlag);
         }
         return mapFlag;
     }
@@ -116,7 +116,7 @@ public class MapFlagUtils {
         for (int i2 = 0; i2 < n2; ++i2) {
             MapFlag mapFlag = new MapFlag(onlinePOIResultList.getPOIElementAt((int)i2).longitude, onlinePOIResultList.getPOIElementAt((int)i2).latitude, onlinePOIResultList.getStyleTypeAt(i2), -1L);
             mapUserFlagArray[i2] = MapFlagUtils.createUserFlag(mapFlag, i2, onlinePOIResultList.getPOIElementAt((int)i2).name, n);
-            MapFlagUtils.getLogChannel().log(14808325, "MapFlagUtils#convertResultListToUserFlags(): result[%2]=%1", (Object)mapUserFlagArray[i2], (long)i2);
+            MapFlagUtils.getLogChannel().log(100000000, "MapFlagUtils#convertResultListToUserFlags(): result[%2]=%1", (Object)mapUserFlagArray[i2], (long)i2);
         }
         return mapUserFlagArray;
     }
@@ -146,7 +146,7 @@ public class MapFlagUtils {
     }
 
     public static MapUserFlag convertPicNavCoordinateToUserFlag(NavLocationWgs84 navLocationWgs84) {
-        MapFlagUtils.getLogChannel().log(14808325, "MapFlagUtils#convertPicNavCoordinateToUserFlag(): picNavCoordinate: %1", (Object)navLocationWgs84);
+        MapFlagUtils.getLogChannel().log(100000000, "MapFlagUtils#convertPicNavCoordinateToUserFlag(): picNavCoordinate: %1", (Object)navLocationWgs84);
         if (navLocationWgs84 == null) {
             return null;
         }

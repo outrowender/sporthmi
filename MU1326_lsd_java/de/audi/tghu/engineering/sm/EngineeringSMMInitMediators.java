@@ -9,6 +9,7 @@ import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.EventMediator;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.mediator.DataUpdateMediator;
+import java.util.NoSuchElementException;
 
 public class EngineeringSMMInitMediators
 implements SMModuleConstants {
@@ -21,11 +22,11 @@ implements SMModuleConstants {
     }
 
     protected void initMediators() {
-        EventMediator[] eventMediatorArray = new EventMediator[]{new DataUpdateMediator(0, this.smm, 752227072, 718672640, 735449856, -1, 936776448, 0), new DataUpdateMediator(0, this.smm, 936776448, 919999232, -1, -1, 1574310656, 0)};
+        EventMediator[] eventMediatorArray = new EventMediator[]{new DataUpdateMediator(1300000L, this.smm, 1300012, 1300010, 1300011, -1, 1300023, 3000L), new DataUpdateMediator(1300001L, this.smm, 1300023, 1300022, -1, -1, 1300061, 3000L)};
         this.smm.setMediatorList(eventMediatorArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

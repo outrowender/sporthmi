@@ -19,15 +19,14 @@ extends NavCommand {
         this.nextPage = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute() - anchorIndex = %2, nextPage = %3", (Object)this.CLASS_NAME, (Object)String.valueOf(this.anchorIndex), (Object)String.valueOf(this.nextPage));
+        this.logger.log(10000000, "%1#execute() - anchorIndex = %2, nextPage = %3", (Object)this.CLASS_NAME, (Object)String.valueOf(this.anchorIndex), (Object)String.valueOf(this.nextPage));
         if (Util.isPorsche(this.env.getFramework()) || Util.isPorscheGen2(this.env.getFramework()) || Util.isBentley(this.env.getFramework())) {
             long l = this.dsiResponseContainer.getLispValueListCount();
             if (l > (long)this.anchorIndex) {
                 this.getDSINavigation().lispRequestValueListByListIndex(this.anchorIndex, this.nextPage);
             } else {
-                this.logger.log(-2137614336, "%1#execute() - anchorIndex = %2, lispValueListCount = %3, anchorIndex is bigger than lispValueListCount, lispRequestValueListByListIndex will be ingored", (Object)this.CLASS_NAME, (Object)String.valueOf(this.anchorIndex), (Object)String.valueOf(l));
+                this.logger.log(10000000, "%1#execute() - anchorIndex = %2, lispValueListCount = %3, anchorIndex is bigger than lispValueListCount, lispRequestValueListByListIndex will be ingored", (Object)this.CLASS_NAME, (Object)String.valueOf(this.anchorIndex), (Object)String.valueOf(l));
                 this.getCommandList().commandFinished();
             }
         } else {
@@ -35,7 +34,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liValueList(LIValueList lIValueList, long l) {
         this.dsiResponseContainer.setLiValueList(lIValueList, l);
         this.liValueListResponded = true;
@@ -48,7 +46,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
         this.dsiResponseContainer.setLispUpdateSpellerResult(string, n, bl, bl2, string2, n2, n3, bl3, bl4, n4);
         if (l == 0L) {

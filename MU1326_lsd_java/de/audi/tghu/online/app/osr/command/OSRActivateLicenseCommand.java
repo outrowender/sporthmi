@@ -27,13 +27,11 @@ extends AbstractOSRCommand {
         this.callback = null;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ORSActivateLicenseCommand#execute() applicationId: %1 license>%2", (Object)this.applicationId, (Object)this.license.getId());
+        this.logger.log(10000000, "ORSActivateLicenseCommand#execute() applicationId: %1 license>%2", (Object)this.applicationId, (Object)this.license.getId());
         this.getDSI().activateLicense(this.license);
     }
 
-    @Override
     public void activateLicenseResponse(OSRLicense oSRLicense, int n) {
         this.status = n;
         if (this.callback != null) {

@@ -10,7 +10,7 @@ import de.audi.tghu.swdl.app.SwdlEnv;
 
 public class AudioManagementHandler
 implements HMIAudioServiceListener {
-    private static final String CLASSNAME;
+    private static final String CLASSNAME = "[AudioMgmtDSIHandler]";
     private HMIAudioService hmiAudioService;
     private final SwdlEnv swdlEnv;
     public boolean hasAudioConnection;
@@ -36,24 +36,20 @@ implements HMIAudioServiceListener {
         return this.getSwdlEnv().getLogDSI();
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
     }
 
-    @Override
     public void startConnection(int n, int n2) {
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
     }
 
     void requestAudio(int n, int n2) {
-        this.getLogDSI().log(-2137614336, "%1 requestAudio for connection: %2 %3", (Object)"[AudioMgmtDSIHandler]", (long)n, (long)n2);
+        this.getLogDSI().log(10000000, "%1 requestAudio for connection: %2 %3", (Object)CLASSNAME, (long)n, (long)n2);
         if (this.hmiAudioService != null) {
             if (n2 == -1) {
                 if (this.getSwdlEnv().isFrontMU()) {
@@ -66,12 +62,12 @@ implements HMIAudioServiceListener {
                 this.hmiAudioService.requestConnection(n, n2);
             }
         } else {
-            this.getLogDSI().log(-1601830656, "%1 ignore requestRequestAudio for connection: %2. No audio DSI! ", (Object)"[AudioMgmtDSIHandler]", (long)n);
+            this.getLogDSI().log(100000, "%1 ignore requestRequestAudio for connection: %2. No audio DSI! ", (Object)CLASSNAME, (long)n);
         }
     }
 
     void returnAudio(int n, int n2) {
-        this.getLogDSI().log(-2137614336, "%1 releaseAudio for connection: %2 ", (Object)"[AudioMgmtDSIHandler]", (long)n);
+        this.getLogDSI().log(10000000, "%1 releaseAudio for connection: %2 ", (Object)CLASSNAME, (long)n);
         if (this.hmiAudioService != null) {
             if (n2 == -1) {
                 if (this.getSwdlEnv().isFrontMU()) {
@@ -84,15 +80,13 @@ implements HMIAudioServiceListener {
                 this.hmiAudioService.releaseConnection(n, n2);
             }
         } else {
-            this.getLogDSI().log(-1601830656, "%1 ignore releaseAudio for connection: %2. No audio DSI! ", (Object)"[AudioMgmtDSIHandler]", (long)n);
+            this.getLogDSI().log(100000, "%1 ignore releaseAudio for connection: %2. No audio DSI! ", (Object)CLASSNAME, (long)n);
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
         if (this.getSwdlEnv().isSwdlHMIActive() && bl && !this.getSwdlEnv().isRebootToDownload()) {
             this.muteAudio("AudioMgmtDSIHandler.updateAMAvailable", -1);
@@ -100,26 +94,25 @@ implements HMIAudioServiceListener {
     }
 
     public void muteAudio(String string, int n) {
-        this.getLogDSI().log(-2137614336, "%1 %2: mute audio", (Object)"[AudioMgmtDSIHandler]", (Object)string);
+        this.getLogDSI().log(10000000, "%1 %2: mute audio", (Object)CLASSNAME, (Object)string);
         try {
             this.requestAudio(7, n);
         }
         catch (Exception exception) {
-            this.getLogDSI().log(-1601830656, "%1 %2: mute audio failed! %3", (Object)"[AudioMgmtDSIHandler]", (Object)string, (Object)exception);
+            this.getLogDSI().log(100000, "%1 %2: mute audio failed! %3", (Object)CLASSNAME, (Object)string, (Object)exception);
         }
     }
 
     public final void unmuteAudio(String string, int n) {
-        this.getLogDSI().log(-2137614336, "%1 %2: unmute audio", (Object)"[AudioMgmtDSIHandler]", (Object)string);
+        this.getLogDSI().log(10000000, "%1 %2: unmute audio", (Object)CLASSNAME, (Object)string);
         try {
             this.returnAudio(7, n);
         }
         catch (Exception exception) {
-            this.getLogDSI().log(-1601830656, "%1 %2: unmute audio failed! %3", (Object)"[AudioMgmtDSIHandler]", (Object)string, (Object)exception);
+            this.getLogDSI().log(100000, "%1 %2: unmute audio failed! %3", (Object)CLASSNAME, (Object)string, (Object)exception);
         }
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 }

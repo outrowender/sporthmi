@@ -4,55 +4,43 @@
 package de.audi.tghu.exlap.impl.worker;
 
 import de.audi.atip.base.IFrameworkAccess;
-import de.audi.atip.log.LogChannel;
-import de.audi.tghu.exlap.Container;
 import de.audi.tghu.exlap.ExlapListener;
 import de.audi.tghu.exlap.app.ExlapAbstractWorker;
 import de.audi.tghu.exlap.app.ExlapDispatcher;
-import de.audi.tghu.exlap.impl.worker.ExlapContextStatesWorker$1;
+import de.audi.tghu.exlap.impl.container.ContextStatesContainer;
+import de.audi.tghu.exlap.impl.listener.ExlapExlapEmptyListener;
 import org.dsi.ifc.has.DSIHAS;
 
 public class ExlapContextStatesWorker
 extends ExlapAbstractWorker {
-    private static final int CONTEXT_STATES_PROPERTY;
+    private static final int CONTEXT_STATES_PROPERTY = 0x1000000;
 
     public ExlapContextStatesWorker(IFrameworkAccess iFrameworkAccess, ExlapDispatcher exlapDispatcher, DSIHAS dSIHAS) {
         super(iFrameworkAccess, exlapDispatcher, dSIHAS);
     }
 
-    @Override
     public void sendUpdates() {
-        this.log.log(-2137614336, "[ExlapContextStatesWorker#sendUpdates] sending container: %1", (Object)this.container);
+        this.log.log(10000000, "[ExlapContextStatesWorker#sendUpdates] sending container: %1", (Object)this.container);
         if (this.container != null) {
-            this.dsiHas.propertyUpdate(1, this.container.createContainer(), 0);
+            this.dsiHas.propertyUpdate(0x1000000, this.container.createContainer(), 0);
         }
     }
 
-    @Override
     public ExlapListener createListener() {
-        return new ExlapContextStatesWorker$1(this);
+        return new ExlapExlapEmptyListener(){
+
+            public void updateContextStates(ContextStatesContainer contextStatesContainer) {
+                ExlapContextStatesWorker.this.log.log(10000000, "[new ExlapExlapEmptyListener#updateContextStates] received new container: %1", (Object)contextStatesContainer);
+                ExlapContextStatesWorker.this.container = contextStatesContainer;
+                if (ExlapContextStatesWorker.this.interval != -1) {
+                    ExlapContextStatesWorker.this.trigger();
+                }
+            }
+        };
     }
 
-    @Override
     public int[] getAttributes() {
-        return new int[]{1};
-    }
-
-    static /* synthetic */ LogChannel access$000(ExlapContextStatesWorker exlapContextStatesWorker) {
-        return exlapContextStatesWorker.log;
-    }
-
-    static /* synthetic */ Container access$102(ExlapContextStatesWorker exlapContextStatesWorker, Container container) {
-        exlapContextStatesWorker.container = container;
-        return exlapContextStatesWorker.container;
-    }
-
-    static /* synthetic */ int access$200(ExlapContextStatesWorker exlapContextStatesWorker) {
-        return exlapContextStatesWorker.interval;
-    }
-
-    static /* synthetic */ void access$300(ExlapContextStatesWorker exlapContextStatesWorker) {
-        exlapContextStatesWorker.trigger();
+        return new int[]{0x1000000};
     }
 }
 

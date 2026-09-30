@@ -16,15 +16,13 @@ extends NavCommand {
         this.location = navLocation;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LISetCurrentLDCommand#execute() - calling liSetCurrentLD( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location));
+        this.logger.log(10000000, "LISetCurrentLDCommand#execute() - calling liSetCurrentLD( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location));
         this.getDSINavigation().liSetCurrentLD(this.location);
     }
 
-    @Override
     public void liCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2, long l) {
-        this.logger.log(-2137614336, "LISetCurrentLDCommand#liCurrentState - liCurrentLD=%1; availableSelectionCriteria=%2, usefulRefinementCriteria=%3)", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Selcrit.asString(nArray), (Object)Selcrit.asString(nArray2));
+        this.logger.log(10000000, "LISetCurrentLDCommand#liCurrentState - liCurrentLD=%1; availableSelectionCriteria=%2, usefulRefinementCriteria=%3)", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Selcrit.asString(nArray), (Object)Selcrit.asString(nArray2));
         if (l != 0L) {
             this.getCommandList().commandAborted(l);
             return;

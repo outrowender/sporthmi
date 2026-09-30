@@ -11,15 +11,8 @@ import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.commands.LISPDeleteAllCharactersCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.SetInputCommand;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$1;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$2;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$3;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$4;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$5;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$6;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$7;
-import de.audi.tghu.navi.app.addressinput.disambiguation.AddressDisambiguator$8;
 import de.audi.tghu.navi.app.addressinput.disambiguation.LISPGetLocationFromIndexCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LiGetStateCommand;
 import de.audi.tghu.navi.app.command.NavCommand;
@@ -30,8 +23,8 @@ import org.dsi.ifc.navigation.TryMatchLocationResultData;
 import org.dsi.ifc.search.Token;
 
 public abstract class AddressDisambiguator {
-    protected static final int SELCRITDES_HOUSENUMBER_NOT_AVAILABLE;
-    public static String receivedSelcrit;
+    protected static final int SELCRITDES_HOUSENUMBER_NOT_AVAILABLE = -1;
+    public static String receivedSelcrit = "ReceivedSelcriterion";
     protected SearchResultListRow searchResultListRow;
     public int terminal;
     public NavigationEnv env;
@@ -39,17 +32,13 @@ public abstract class AddressDisambiguator {
     public ICommandListFactory commandListFactory;
     private LISpellerData spellerState;
 
-    protected abstract void getBestPointAndNearestHNr() {
-    }
+    protected abstract void getBestPointAndNearestHNr();
 
-    protected abstract boolean fillRowsIn(LIValueList lIValueList) {
-    }
+    protected abstract boolean fillRowsIn(LIValueList var1);
 
-    protected abstract void setListModels(int n) {
-    }
+    protected abstract void setListModels(int var1);
 
-    protected abstract void setSpellerInput(String string) {
-    }
+    protected abstract void setSpellerInput(String var1);
 
     public AddressDisambiguator(NavigationEnv navigationEnv, ICommandListFactory iCommandListFactory, LogChannel logChannel) {
         this.env = navigationEnv;
@@ -68,32 +57,78 @@ public abstract class AddressDisambiguator {
     protected CommandList getHNrFreeMatchPopupCL(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new SetInputCommand(string));
-        commandList.add(new AddressDisambiguator$1(this, "freeMatch: get HNrFreeMatch-Popup-Infos: bestPt and nearestHNr"));
+        commandList.add(new NavCommand("freeMatch: get HNrFreeMatch-Popup-Infos: bestPt and nearestHNr"){
+
+            public void execute() {
+                AddressDisambiguator.this.getBestPointAndNearestHNr();
+                AddressDisambiguator.this.setListModels(2);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new LISPGetLocationFromIndexCommand(0));
         return commandList;
     }
 
     protected NavCommand getSelectedNavLocCommand() {
-        LogChannel logChannel = this.logger;
-        AddressDisambiguator$2 addressDisambiguator$2 = new AddressDisambiguator$2(this, "tracing out selected location navLoc", logChannel);
-        return addressDisambiguator$2;
+        final LogChannel logChannel = this.logger;
+        NavCommand navCommand = new NavCommand("tracing out selected location navLoc"){
+
+            public void execute() {
+                if (logChannel.isDebug2()) {
+                    logChannel.log(100000000, "Selected location navLoc is >>%1<<", (Object)this.env.getContainer().getSelectedLocation());
+                }
+                this.getCommandList().commandFinished();
+            }
+        };
+        return navCommand;
     }
 
     private CommandList getHNRListCL(boolean bl, boolean bl2) {
-        LogChannel logChannel = this.logger;
+        final LogChannel logChannel = this.logger;
         CommandList commandList = this.commandListFactory.createCommandList();
-        boolean bl3 = bl;
+        final boolean bl3 = bl;
         if (bl2) {
             commandList.add(new LISPDeleteAllCharactersCommand());
         }
-        commandList.add(new AddressDisambiguator$3(this, "Take HNr-list out of iValueList", logChannel, bl3));
+        commandList.add(new NavCommand("Take HNr-list out of iValueList"){
+
+            public void execute() {
+                LIValueList lIValueList = this.env.getContainer().getLispValueList();
+                if (0 == lIValueList.list.length) {
+                    logChannel.log(100000, "getHNRListCL no values received");
+                    this.getCommandList().commandAborted("getHNRListCL no values received");
+                    return;
+                }
+                if (bl3) {
+                    AddressDisambiguator.this.setSpellerInput(AddressDisambiguator.this.getHouseNrUserInput());
+                }
+                if (!AddressDisambiguator.this.fillRowsIn(lIValueList)) {
+                    logChannel.log(100000, "getHNRListCL negative fillRowsIn(env.getContainer().getLispValueList(), fillSpeller)");
+                    this.getCommandList().commandAborted("getHNRListCL negative fillRowsIn(env.getContainer().getLispValueList(), fillSpeller)");
+                    return;
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     protected CommandList getIncompleteOrInvalidCL() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new SetInputCommand(this.getHouseNrUserInput()));
-        commandList.add(new AddressDisambiguator$4(this, "incompl/ivalid: Get ValueList"));
+        commandList.add(new NavCommand("incompl/ivalid: Get ValueList"){
+
+            public void execute() {
+                this.logger.log(1000000, "Choose if [HNRSeq2ambig] or [HNRSeq3invalid] by inspecting values=>>%1<<", (Object)this.env.getContainer().getLispValueList());
+                if (0 == this.env.getContainer().getLispValueList().list.length) {
+                    AddressDisambiguator.this.setListModels(4);
+                    this.getCommandList().commandFinishedWithPostSequence(AddressDisambiguator.this.getHNRListCL(false, true));
+                } else {
+                    AddressDisambiguator.this.setListModels(5);
+                    this.getCommandList().commandFinishedWithPostSequence(AddressDisambiguator.this.getHNRListCL(true, false));
+                }
+            }
+        });
         return commandList;
     }
 
@@ -104,11 +139,11 @@ public abstract class AddressDisambiguator {
     }
 
     public void setDisambiguationChoice(int n) {
-        this.env.getChoiceModel(1042286080).setValue(n);
+        this.env.getChoiceModel(401470).setValue(n);
     }
 
     protected int getDisambiguationChoice() {
-        return this.env.getChoiceModel(1042286080).getValue();
+        return this.env.getChoiceModel(401470).getValue();
     }
 
     protected void setSpellerState(LISpellerData lISpellerData) {
@@ -125,16 +160,67 @@ public abstract class AddressDisambiguator {
         NavLocation navLocation = null;
         TryMatchLocationResultData[] tryMatchLocationResultDataArray = this.env.getContainer().getTryMatchLocationResultData();
         if (AddressDisambiguator.isHNrUnclear(tryMatchLocationResultDataArray, this.logger) && null == (navLocation = tryMatchLocationResultDataArray[0].getLocation())) {
-            this.logger.log(-1601830656, "AddressDisambiguator#prepareCandidatesList result-data navLoc is null");
+            this.logger.log(100000, "AddressDisambiguator#prepareCandidatesList result-data navLoc is null");
             return null;
         }
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISetCurrentLDCommand(navLocation));
-        commandList.add(new AddressDisambiguator$5(this, "AddressDisambiguator#prepareCandidatesList - Choose SelectionCriterion"));
-        commandList.add(new AddressDisambiguator$6(this, "AddressDisambiguator#prepareCandidatesList - Call LIStartSpellerCommand with LiCurrentLD from DSIResponseContainer"));
-        commandList.add(new AddressDisambiguator$7(this, "AddressDisambiguator#prepareCandidatesList - Decide follow action for disambiguation"));
+        commandList.add(new NavCommand("AddressDisambiguator#prepareCandidatesList - Choose SelectionCriterion"){
+
+            public void execute() {
+                if (this.env.getContainer().refinementCriterionAvailable(136)) {
+                    this.logger.log(1000000, "AddressDisambiguator#prepareCandidatesList SELCRITDES_HOUSENUMBER_ALTERNATIVES (free text match)");
+                    this.getCommandList().put(receivedSelcrit, new Integer(136));
+                } else if (this.env.getContainer().refinementCriterionAvailable(5)) {
+                    this.logger.log(1000000, "AddressDisambiguator#prepareCandidatesList SELCRITDES_HOUSENUMBER (nvc match)");
+                    this.getCommandList().put(receivedSelcrit, new Integer(5));
+                } else if (this.env.getContainer().refinementCriterionAvailable(135)) {
+                    this.logger.log(100000, "AddressDisambiguator#prepareCandidatesList == Not in seq diagr == SELCRITDES_HOUSENUMBER_FREETEXT");
+                    this.getCommandList().put(receivedSelcrit, new Integer(-1));
+                } else {
+                    this.logger.log(100000, "AddressDisambiguator#prepareCandidatesList unknown refinementCriterionAvailable");
+                    this.getCommandList().put(receivedSelcrit, new Integer(-1));
+                }
+                if (null == this.getCommandList().get(receivedSelcrit)) {
+                    this.logger.log(100000, "AddressDisambiguator#prepareCandidatesList no usable refinementCriterionAvailable received");
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand("AddressDisambiguator#prepareCandidatesList - Call LIStartSpellerCommand with LiCurrentLD from DSIResponseContainer"){
+
+            public void execute() {
+                if ((Integer)this.getCommandList().get(receivedSelcrit) == -1) {
+                    this.getCommandList().commandFinishedWithPostSequence(this.navigation.getStartGuidanceDependantSequence().getStartSequence(this.dsiResponseContainer.getLiCurrentLD()));
+                } else {
+                    int n = (Integer)this.getCommandList().get(receivedSelcrit);
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(n, false, false, false));
+                }
+            }
+        });
+        commandList.add(new NavCommand("AddressDisambiguator#prepareCandidatesList - Decide follow action for disambiguation"){
+
+            public void execute() {
+                int n = (Integer)this.getCommandList().get(receivedSelcrit);
+                if (136 == n) {
+                    AddressDisambiguator.this.setDisambiguationChoice(2);
+                    this.getCommandList().commandFinishedWithPostSequence(AddressDisambiguator.this.getHNrFreeMatchPopupCL(AddressDisambiguator.this.getHouseNrUserInput()));
+                } else if ((Integer)this.getCommandList().get(receivedSelcrit) == -1) {
+                    AddressDisambiguator.this.setDisambiguationChoice(0);
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.getCommandList().commandFinishedWithPostSequence(AddressDisambiguator.this.getIncompleteOrInvalidCL());
+                }
+            }
+        });
         commandList.add(new LiGetStateCommand());
-        commandList.add(new AddressDisambiguator$8(this, "AddressDisambiguator#prepareCandidatesList - CacheSpellerStateCommand"));
+        commandList.add(new NavCommand("AddressDisambiguator#prepareCandidatesList - CacheSpellerStateCommand"){
+
+            public void execute() {
+                AddressDisambiguator.this.setSpellerState(this.env.getContainer().getSpellerState());
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -145,14 +231,6 @@ public abstract class AddressDisambiguator {
             return null;
         }
         return tryMatchLocationResultDataArray[0].getLocation();
-    }
-
-    static /* synthetic */ CommandList access$000(AddressDisambiguator addressDisambiguator, boolean bl, boolean bl2) {
-        return addressDisambiguator.getHNRListCL(bl, bl2);
-    }
-
-    static {
-        receivedSelcrit = "ReceivedSelcriterion";
     }
 }
 

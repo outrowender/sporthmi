@@ -7,11 +7,13 @@ import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.swdl.app.customer.uota.AbstractPkgListRow;
 import de.audi.tghu.swdl.app.customer.uota.BaseUpdateOverTheAirController;
-import de.audi.tghu.swdl.app.customer.uota.PkgNode$NameComparator;
+import de.audi.tghu.swdl.app.customer.uota.GenericPkgRow;
+import de.audi.tghu.swdl.app.customer.uota.SysProposalPkgRow;
 import de.audi.tghu.swdl.app.customer.uota.UotaPkgInfoWrapper;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,14 +21,14 @@ import org.dsi.ifc.uota.PackageInfo;
 
 class PkgNode {
     private final BaseUpdateOverTheAirController uotaController;
-    static final int ROOT_LEVEL;
-    static final int PACKAGE_LEVEL;
-    static final int COUNTRY_LEVEL;
-    static final int MAX_DEPTH;
-    static final char NAME_VERSION_SEPARATOR;
-    static final int DISABLED;
-    static final int ENABLED;
-    static final int NOT_TOGGLED;
+    static final int ROOT_LEVEL = 0;
+    static final int PACKAGE_LEVEL = 1;
+    static final int COUNTRY_LEVEL = 2;
+    static final int MAX_DEPTH = 2;
+    static final char NAME_VERSION_SEPARATOR = '\n';
+    static final int DISABLED = 0;
+    static final int ENABLED = 1;
+    static final int NOT_TOGGLED = -1;
     private UotaPkgInfoWrapper[] pkgInfo = null;
     private PkgNode parent = null;
     private Map childNodes = null;
@@ -90,7 +92,7 @@ class PkgNode {
 
     private void normalizePackageHierarchyToFlatList(PackageInfo[] packageInfoArray) {
         if (null != packageInfoArray) {
-            this.getLogUota().log(-2137614336, "[PkgNode].normalizePackageHierarchyToFlatList()");
+            this.getLogUota().log(10000000, "[PkgNode].normalizePackageHierarchyToFlatList()");
             for (int i2 = 0; i2 < packageInfoArray.length; ++i2) {
                 packageInfoArray[i2].hierarchyInfo = this.reduceHierarchyToFlatList(packageInfoArray[i2].hierarchyInfo);
             }
@@ -100,7 +102,7 @@ class PkgNode {
     private String[] reduceHierarchyToFlatList(String[] stringArray) {
         if (stringArray.length > 2) {
             if (this.getLogUota().isDebug()) {
-                this.getLogUota().log(14808325, "[PkgNode].reduceHierarchyToFlatList(): %1", (Object)stringArray[stringArray.length - 1]);
+                this.getLogUota().log(100000000, "[PkgNode].reduceHierarchyToFlatList(): %1", (Object)stringArray[stringArray.length - 1]);
             }
             String[] stringArray2 = new String[]{stringArray[0], stringArray[stringArray.length - 1]};
             return stringArray2;
@@ -223,7 +225,7 @@ class PkgNode {
         UotaPkgInfoWrapper uotaPkgInfoWrapper = pkgNode.pkgInfo[n];
         String[] stringArray = uotaPkgInfoWrapper.getUniqueNames();
         String[] stringArray2 = uotaPkgInfoWrapper.getDisplayVersions();
-        this.getLogUota().log(14808325, "[PkgNode].addPkg(%1): level=%2, lastname=%3, pkgID=%4", (Object)Integer.toString(n), (Object)Integer.toString(this.level), (Object)uotaPkgInfoWrapper.getLastName(), (Object)uotaPkgInfoWrapper.getPkgId());
+        this.getLogUota().log(100000000, "[PkgNode].addPkg(%1): level=%2, lastname=%3, pkgID=%4", (Object)Integer.toString(n), (Object)Integer.toString(this.level), (Object)uotaPkgInfoWrapper.getLastName(), (Object)uotaPkgInfoWrapper.getPkgId());
         if (null == stringArray) {
             this.getLogUota().log(10000, "[PkgNode].addPkg(%1): Missing hierarchy info - ignoring package", (Object)pkgNode.pkgInfo[n]);
             return;
@@ -251,7 +253,7 @@ class PkgNode {
     }
 
     private PkgNode createPkgNode(PkgNode pkgNode, int n, String string, String string2, UotaPkgInfoWrapper uotaPkgInfoWrapper) {
-        this.getLogUota().log(14808325, "[PkgNode].createPkgNode(): create new PkgNode name=%1", (Object)string);
+        this.getLogUota().log(100000000, "[PkgNode].createPkgNode(): create new PkgNode name=%1", (Object)string);
         PkgNode pkgNode2 = new PkgNode(this.uotaController, this.level + 1, string, pkgNode.pkgInfo[n].getDisplayName(this.level), string2, uotaPkgInfoWrapper.getPkgId(), this);
         pkgNode2.setIsPOI(pkgNode.pkgInfo[n].isPPOI());
         pkgNode2.setIsSystemPackage(pkgNode.pkgInfo[n].isSystemPackage());
@@ -330,7 +332,7 @@ class PkgNode {
             arrayList.add(abstractPkgListRow);
         }
         if (arrayList.size() > 1) {
-            Collections.sort(arrayList, new PkgNode$NameComparator(this, null));
+            Collections.sort(arrayList, new NameComparator());
         }
         iterator = arrayList.iterator();
         while (iterator.hasNext()) {
@@ -343,15 +345,15 @@ class PkgNode {
 
     AbstractPkgListRow getRow() {
         if (this.isLeaf() && 8 == (this.getSelection() & 8)) {
-            this.getLogUota().log(-2137614336, "[PkgNode].getRow(): Package %1 is hidden, no row was built", (Object)this.name);
+            this.getLogUota().log(10000000, "[PkgNode].getRow(): Package %1 is hidden, no row was built", (Object)this.name);
             return null;
         }
         if (1 == this.level) {
             if (this.hasAllowedChildren(this)) {
-                this.getLogUota().log(-2137614336, "[PkgNode].getRow(): build a generic row for the package %1 (PPOI=%2)", (Object)this.name, (Object)Boolean.toString(this.isPPOI()));
+                this.getLogUota().log(10000000, "[PkgNode].getRow(): build a generic row for the package %1 (PPOI=%2)", (Object)this.name, (Object)Boolean.toString(this.isPPOI()));
                 return (AbstractPkgListRow)this.getUotaController().getGenericPackageRow(this);
             }
-            this.getLogUota().log(-2137614336, "[PkgNode].getRow(): Package %1 has only children without license, no row was built", (Object)this.name);
+            this.getLogUota().log(10000000, "[PkgNode].getRow(): Package %1 has only children without license, no row was built", (Object)this.name);
             return null;
         }
         return (AbstractPkgListRow)this.getUotaController().getNaviDataPackageRow(this);
@@ -359,7 +361,7 @@ class PkgNode {
 
     AbstractPkgListRow getSysProposalRow() {
         if (this.isLeaf() && 8 == (this.getSelection() & 8)) {
-            this.getLogUota().log(-2137614336, "[PkgNode].getRow(): Package %1 is hidden, no row was built", (Object)this.name);
+            this.getLogUota().log(10000000, "[PkgNode].getRow(): Package %1 is hidden, no row was built", (Object)this.name);
             return null;
         }
         return this.getUotaController().getSysProposalPackageRow(this);
@@ -424,7 +426,7 @@ class PkgNode {
         AbstractPkgListRow abstractPkgListRow;
         int n = baseListModelApp.getIndexForUniqueID(this.rowId);
         if (0 <= n && null != (abstractPkgListRow = (AbstractPkgListRow)baseListModelApp.getRow(n))) {
-            this.getLogUota().log(-2137614336, "[PkgNode].updateModelRow(): Updated row: %1, class=%2", (Object)abstractPkgListRow, (Object)super.getClass().getName());
+            this.getLogUota().log(10000000, "[PkgNode].updateModelRow(): Updated row: %1, class=%2", (Object)abstractPkgListRow, (Object)abstractPkgListRow.getClass().getName());
             baseListModelApp.setRow(n, abstractPkgListRow);
         }
     }
@@ -437,7 +439,7 @@ class PkgNode {
         }
         if (this.isLeaf()) {
             if (nArray[this.index] != this.getSelection()) {
-                this.getLogUota().log(-2137614336, "[BaseUpdateOverTheAirController.PkgNode].toggleSelection(): Selection changed for leaf node, index: %1", (long)this.index);
+                this.getLogUota().log(10000000, "[BaseUpdateOverTheAirController.PkgNode].toggleSelection(): Selection changed for leaf node, index: %1", (long)this.index);
                 pkgNode.pkgInfo[this.index].setSelectionStatus(nArray[this.index]);
                 this.updateRow();
                 return true;
@@ -446,7 +448,7 @@ class PkgNode {
         }
         boolean bl = false;
         if (this.index >= 0 && nArray[this.index] != this.getSelection()) {
-            this.getLogUota().log(-2137614336, "[BaseUpdateOverTheAirController.PkgNode].toggleSelection(): Selection changed for group node, index: %1", (long)this.index);
+            this.getLogUota().log(10000000, "[BaseUpdateOverTheAirController.PkgNode].toggleSelection(): Selection changed for group node, index: %1", (long)this.index);
             pkgNode.pkgInfo[this.index].setSelectionStatus(nArray[this.index]);
         }
         Iterator iterator = this.childNodes.values().iterator();
@@ -468,7 +470,7 @@ class PkgNode {
         }
         if (this.isLeaf()) {
             if (!this.isSystemPackage && !this.isPPOI && bl == this.isAllowedForSelection() && !pkgNode.pkgInfo[this.index].isSelected() && pkgNode.pkgInfo[this.index].isRestrictionAllowed()) {
-                this.getLogUota().log(-2137614336, "[BaseUpdateOverTheAirController.PkgNode].toggleRestriction(%2): Restriction changed for leaf node, index: %1", (Object)new Integer(this.index), (Object)new Boolean(bl));
+                this.getLogUota().log(10000000, "[BaseUpdateOverTheAirController.PkgNode].toggleRestriction(%2): Restriction changed for leaf node, index: %1", (Object)new Integer(this.index), (Object)new Boolean(bl));
                 this.setAllowedForSelection(!bl);
                 this.updateRow();
             }
@@ -695,7 +697,7 @@ class PkgNode {
     void setPriority(int n) {
         this.priority = n;
         if (n > 2000) {
-            this.priority = -129;
+            this.priority = Integer.MAX_VALUE;
         }
     }
 
@@ -742,7 +744,7 @@ class PkgNode {
         }
         PkgNode pkgNode = this.getUotaController().getHierarchyRoot();
         if (null == pkgNode) {
-            this.getLogUota().log(-2137614336, "Missing root node!");
+            this.getLogUota().log(10000000, "Missing root node!");
             return;
         }
         Buffer buffer = new Buffer(512);
@@ -763,7 +765,7 @@ class PkgNode {
         if (null != this.getPackageInfo()) {
             buffer.append(" pkgInfo: ").append(this.getPackageInfo());
         }
-        this.getLogUota().log(-2137614336, "%1", (Object)buffer);
+        this.getLogUota().log(10000000, "%1", (Object)buffer);
         if (!this.isLeaf()) {
             Iterator iterator = this.childNodes.values().iterator();
             while (iterator.hasNext()) {
@@ -780,8 +782,39 @@ class PkgNode {
         return this.getUotaController().getLogUota();
     }
 
-    static /* synthetic */ int access$100(PkgNode pkgNode) {
-        return pkgNode.priority;
+    private class NameComparator
+    implements Comparator {
+        private NameComparator() {
+        }
+
+        public int compare(Object object, Object object2) {
+            if (object instanceof SysProposalPkgRow) {
+                if (object2 instanceof SysProposalPkgRow) {
+                    int n = PkgNode.this.getUotaController().compareSysProposalPackages(object, object2);
+                    if (n != Integer.MAX_VALUE) {
+                        return n;
+                    }
+                    if (((SysProposalPkgRow)object).getNode().getRegionISOCode() > 0 && ((SysProposalPkgRow)object2).getNode().getRegionISOCode() > 0) {
+                        return ((SysProposalPkgRow)object).getNode().getRegionISOCode() - ((SysProposalPkgRow)object2).getNode().getRegionISOCode();
+                    }
+                    return ((SysProposalPkgRow)object).getNode().getDisplayName().compareTo(((SysProposalPkgRow)object2).getNode().getDisplayName());
+                }
+                return -1;
+            }
+            if (object2 instanceof SysProposalPkgRow) {
+                return 1;
+            }
+            if (((GenericPkgRow)object).getNode().isPPOI() && !((GenericPkgRow)object2).getNode().isPPOI()) {
+                return -1;
+            }
+            if (((GenericPkgRow)object2).getNode().isPPOI() && !((GenericPkgRow)object).getNode().isPPOI()) {
+                return 1;
+            }
+            if (((GenericPkgRow)object2).getNode().priority != ((GenericPkgRow)object).getNode().priority) {
+                return new Integer(((GenericPkgRow)object2).getNode().priority).compareTo(new Integer(((GenericPkgRow)object).getNode().priority));
+            }
+            return ((GenericPkgRow)object).getNode().getVersion().compareTo(((GenericPkgRow)object2).getNode().getVersion());
+        }
     }
 }
 

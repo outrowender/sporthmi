@@ -3,12 +3,12 @@
  */
 package de.audi.tghu.navi.app.map.context;
 
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.IsViewSizeDepended;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
-import de.audi.tghu.navi.app.map.context.CtxRouteBase$1;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxShown;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator;
@@ -24,15 +24,19 @@ import org.dsi.ifc.navigation.RouteOptions;
 public abstract class CtxRouteBase
 extends CtxShown
 implements IsViewSizeDepended,
-CTags$HasZoomArea {
+CTags.HasZoomArea {
     CtxRouteBase(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
         if (this.container.sRefreshETATimer == null) {
-            this.container.sRefreshETATimer = new Timer("RefreshETATimer", 0, false, new CtxRouteBase$1(this));
+            this.container.sRefreshETATimer = new Timer("RefreshETATimer", 60000L, false, new DefaultTimerListener(){
+
+                public void fireTimer(Timer timer) {
+                    CtxRouteBase.this.refreshSidebarData();
+                }
+            });
         }
     }
 
-    @Override
     public synchronized void cleanup() {
         super.cleanup();
         this.getRefreshETATimer().cancel();
@@ -42,7 +46,6 @@ CTags$HasZoomArea {
         return this.container.sRefreshETATimer;
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.shutdownAdditionalInfos();
@@ -61,17 +64,13 @@ CTags$HasZoomArea {
         this.getData().switchBackToCalculation = true;
     }
 
-    @Override
-    protected abstract int getMapMode() {
-    }
+    protected abstract int getMapMode();
 
-    @Override
     public void exit() {
         super.exit();
         this.getRefreshETATimer().cancel();
     }
 
-    @Override
     public void displayCurrentRoute() {
         int n = this.naviMap.getRouteCalculationHandler().getSelectedRouteIndex();
         this.naviMap.getMVRequest().rbSelectAlternativeRoute(n);
@@ -108,7 +107,7 @@ CTags$HasZoomArea {
                 }
             }
             ((Buffer)object).append(", motorways=").append(routeOptions.motorways).append(", timeDomain=").append(routeOptions.timeDomain);
-            this.getLogChannel().log(-2137614336, "CtxRouteBase#refreshRouteOptions() - %1", (Object)((Buffer)object).toString());
+            this.getLogChannel().log(10000000, "CtxRouteBase#refreshRouteOptions() - %1", (Object)((Buffer)object).toString());
             switch (routeOptions.dynamic) {
                 case 6: {
                     n2 = 0;
@@ -123,7 +122,7 @@ CTags$HasZoomArea {
                     break;
                 }
                 default: {
-                    this.getLogChannel().log(-1601830656, "CtxRouteBase#refreshRouteOptions() - invalid dynamic : %1", (long)routeOptions.dynamic);
+                    this.getLogChannel().log(100000, "CtxRouteBase#refreshRouteOptions() - invalid dynamic : %1", (long)routeOptions.dynamic);
                     n2 = 2;
                 }
             }
@@ -133,21 +132,19 @@ CTags$HasZoomArea {
             }
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "CtxRouteBase#refreshRouteOptions() - no route option available. %1", (Throwable)exception);
+            this.getLogChannel().log(100000, "CtxRouteBase#refreshRouteOptions() - no route option available. %1", (Throwable)exception);
         }
     }
 
-    @Override
     public void refreshRoutes() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBase#refreshRoutes()");
+        this.getLogChannel().log(10000000, "CtxRouteBase#refreshRoutes()");
         this.displayCurrentRoute();
         this.refreshSidebarData();
         this.refreshRouteOptions();
     }
 
-    @Override
     public void initViewPort() {
-        this.getLogChannel().log(-2137614336, "CtxRouteBase#initViewPort()");
+        this.getLogChannel().log(10000000, "CtxRouteBase#initViewPort()");
         super.initViewPort();
         IRouteCalculator iRouteCalculator = this.getMap().getRouteCalculationHandler();
         if (iRouteCalculator.getRoute() != null && iRouteCalculator.getRoute().getRoutelist() != null) {
@@ -157,36 +154,31 @@ CTags$HasZoomArea {
         }
     }
 
-    protected abstract void refreshSidebarData() {
-    }
+    protected abstract void refreshSidebarData();
 
-    @Override
     public void enterMapScreen(int n) {
-        this.getLogChannel().log(1078071040, "CtxRouteBase#enterMapScreen()");
+        this.getLogChannel().log(1000000, "CtxRouteBase#enterMapScreen()");
     }
 
-    @Override
     public void screenHidden() {
         super.screenHidden();
     }
 
-    @Override
     public void screenVisible() {
         super.screenVisible();
         if (this.getMap().getRouteCalculationHandler().isCalculationFinished()) {
             // empty if block
         }
         if (!this.container.sRGActive && !this.getMap().getRouteCalculationHandler().isRouteCalculationActive()) {
-            this.getLogChannel().log(-2137614336, "CtxRouteBase#screenVisible() - RG has been canceled through popop like SDS");
+            this.getLogChannel().log(10000000, "CtxRouteBase#screenVisible() - RG has been canceled through popop like SDS");
             this.getMap().switchToAShownContext();
         }
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         super.viewSizeChanged(n);
         if (n == 1) {
-            this.getLogChannel().log(1078071040, "CtxRouteBase#viewSizeChanged( ) - switch to normal map");
+            this.getLogChannel().log(1000000, "CtxRouteBase#viewSizeChanged( ) - switch to normal map");
             IRouteCalculator iRouteCalculator = this.getMap().getRouteCalculationHandler();
             if (iRouteCalculator.isCalcFurtherAltRoutes()) {
                 iRouteCalculator.startRG(0);
@@ -203,19 +195,19 @@ CTags$HasZoomArea {
     }
 
     protected void initViewport(RouteDestination[] routeDestinationArray) {
-        this.getLogChannel().log(-2137614336, "CtxRouteBase#initViewport() - use route list");
+        this.getLogChannel().log(10000000, "CtxRouteBase#initViewport() - use route list");
         PosPosition posPosition = this.getMap().getNaviInterface().getVehicle().getPosition();
         int n = posPosition.getLatitude();
         int n2 = posPosition.getLatitude();
         int n3 = posPosition.getLongitude();
         int n4 = posPosition.getLongitude();
-        this.getLogChannel().log(-2137614336, "CtxRouteBase#initViewport() - [car] lat=%1, long=%2", (long)n, (long)n3);
+        this.getLogChannel().log(10000000, "CtxRouteBase#initViewport() - [car] lat=%1, long=%2", (long)n, (long)n3);
         for (int i2 = 0; i2 < routeDestinationArray.length; ++i2) {
             if (null == routeDestinationArray[i2].routeLocation) {
-                this.getLogChannel().log(-2137614336, "CtxRouteBase#initViewport() - rds[%1].routeLocation is null", (long)i2);
+                this.getLogChannel().log(10000000, "CtxRouteBase#initViewport() - rds[%1].routeLocation is null", (long)i2);
                 continue;
             }
-            this.getLogChannel().log(-2137614336, "CtxRouteBase#initViewport() - [%1] lat=%2, long=%3", (long)i2, (long)routeDestinationArray[i2].routeLocation.latitude, (long)routeDestinationArray[i2].routeLocation.longitude);
+            this.getLogChannel().log(10000000, "CtxRouteBase#initViewport() - [%1] lat=%2, long=%3", (long)i2, (long)routeDestinationArray[i2].routeLocation.latitude, (long)routeDestinationArray[i2].routeLocation.longitude);
             n = Math.min(n, routeDestinationArray[i2].routeLocation.latitude);
             n2 = Math.max(n2, routeDestinationArray[i2].routeLocation.latitude);
             n3 = Math.min(n3, routeDestinationArray[i2].routeLocation.longitude);
@@ -223,37 +215,34 @@ CTags$HasZoomArea {
         }
         NavLocation navLocation = Util.getLocationFromGeoPos(n3, n);
         NavLocation navLocation2 = Util.getLocationFromGeoPos(n4, n2);
-        this.naviMap.getMVRequest().setMapViewportByLD(navLocation2, navLocation, this.retrieveZoomListIndex(51266));
+        this.naviMap.getMVRequest().setMapViewportByLD(navLocation2, navLocation, this.retrieveZoomListIndex(100.0f));
     }
 
     protected void initViewport(NavLocation navLocation) {
-        this.getLogChannel().log(-2137614336, "CtxRouteBase#initViewport() - use single destination");
+        this.getLogChannel().log(10000000, "CtxRouteBase#initViewport() - use single destination");
         PosPosition posPosition = this.getMap().getNaviInterface().getVehicle().getPosition();
         NavLocation navLocation2 = Util.getLocationFromGeoPos(posPosition.longitude, posPosition.latitude);
-        this.naviMap.getMVRequest().setMapViewportByLD(navLocation2, navLocation, this.retrieveZoomListIndex(51266));
+        this.naviMap.getMVRequest().setMapViewportByLD(navLocation2, navLocation, this.retrieveZoomListIndex(100.0f));
     }
 
     protected void restartScreenSwitchDelayer() {
-        this.getLogChannel().log(-1601830656, "CtxRouteBase#restartScreenSwitchDelayer() - no timer");
+        this.getLogChannel().log(100000, "CtxRouteBase#restartScreenSwitchDelayer() - no timer");
     }
 
     protected void cancelScreenSwitchDelayer() {
-        this.getLogChannel().log(-1601830656, "CtxRouteBase#cancelScreenSwitchDelayer() - no timer");
+        this.getLogChannel().log(100000, "CtxRouteBase#cancelScreenSwitchDelayer() - no timer");
     }
 
-    @Override
     protected void restore() {
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         if (!bl) {
-            this.getLogChannel().log(-2137614336, "CtxRouteBase#updateRgActive( false )");
+            this.getLogChannel().log(10000000, "CtxRouteBase#updateRgActive( false )");
             this.getMap().switchToAShownContext();
         }
         super.updateRgActive(bl);

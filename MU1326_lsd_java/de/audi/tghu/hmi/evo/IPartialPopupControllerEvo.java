@@ -10,150 +10,106 @@ import de.audi.atip.hmi.view.IPartialPopupController;
 
 public interface IPartialPopupControllerEvo
 extends IPartialPopupController {
-    public static final int STYLE_ANIMATED;
-    public static final int STYLE_NOT_ANIMATED;
-    public static final int SHOW_OK;
-    public static final int SHOW_ERROR;
-    public static final int HIDE_OK;
-    public static final int HIDE_ERROR;
-    public static final int TIMER_MODE_DEFAULT;
-    public static final int TIMER_MODE_IDLE_TIMER;
-    public static final int LAYER_ALL;
-    public static final int LAYER_BEHIND_DRAWERS;
-    public static final int LAYER_IN_FRONT_OF_DRAWERS;
-    public static final int LAYER_POPUP_DRAWER;
-    public static final int LAYER_BETWEEN_DRAWERS;
+    public static final int STYLE_ANIMATED = 1;
+    public static final int STYLE_NOT_ANIMATED = 2;
+    public static final int SHOW_OK = 1;
+    public static final int SHOW_ERROR = 2;
+    public static final int HIDE_OK = 1;
+    public static final int HIDE_ERROR = 2;
+    public static final int TIMER_MODE_DEFAULT = 0;
+    public static final int TIMER_MODE_IDLE_TIMER = 1;
+    public static final int LAYER_ALL = -1;
+    public static final int LAYER_BEHIND_DRAWERS = 0;
+    public static final int LAYER_IN_FRONT_OF_DRAWERS = 1;
+    public static final int LAYER_POPUP_DRAWER = 2;
+    public static final int LAYER_BETWEEN_DRAWERS = 3;
 
-    default public int show(int n) {
-    }
+    public int show(int var1);
 
-    default public int getStyle() {
-    }
+    public int getStyle();
 
-    default public int hide(int n) {
-    }
+    public int hide(int var1);
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public void setType(int n) {
-    }
+    public void setType(int var1);
 
-    default public int getWidth() {
-    }
+    public int getWidth();
 
-    default public int getHeight() {
-    }
+    public int getHeight();
 
-    default public void setAutoHideTime(int n) {
-    }
+    public void setAutoHideTime(int var1);
 
-    default public void restartAutoHideTimer() {
-    }
+    public void restartAutoHideTimer();
 
-    default public void setScreenFactory(AbstractScreenFactory abstractScreenFactory) {
-    }
+    public void setScreenFactory(AbstractScreenFactory var1);
 
-    default public boolean processModelUpdateEventWithBoolean(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public boolean processModelUpdateEventWithBoolean(ModelUpdateEvent var1);
 
-    default public void setInvalid(boolean bl) {
-    }
+    public void setInvalid(boolean var1);
 
-    default public boolean survivesScreenChange() {
-    }
+    public boolean survivesScreenChange();
 
-    default public void processSDSEvent(SDSEvent sDSEvent) {
-    }
+    public void processSDSEvent(SDSEvent var1);
 
-    default public void setConsumeHKReturn(int n) {
-    }
+    public void setConsumeHKReturn(int var1);
 
-    default public void setConsumeDDSPress(int n) {
-    }
+    public void setConsumeDDSPress(int var1);
 
-    default public void setConsumeKeyTurned(int n) {
-    }
+    public void setConsumeKeyTurned(int var1);
 
-    default public void setConsumeSKPress(int n) {
-    }
+    public void setConsumeSKPress(int var1);
 
-    default public void setConsumeTouchPad(int n) {
-    }
+    public void setConsumeTouchPad(int var1);
 
-    default public void setConsumeGenericKeys(int n, int[] nArray) {
-    }
+    public void setConsumeGenericKeys(int var1, int[] var2);
 
-    default public void setOpacity(float f2) {
-    }
+    public void setOpacity(float var1);
 
-    default public void setDepth(int n) {
-    }
+    public void setDepth(int var1);
 
-    default public void setHKReturnEvent(int n) {
-    }
+    public void setHKReturnEvent(int var1);
 
-    default public void setEvent(int n) {
-    }
+    public void setEvent(int var1);
 
-    default public boolean checkModelStatusAndInformPopupManager() {
-    }
+    public boolean checkModelStatusAndInformPopupManager();
 
-    default public void notifyPartialPopup(int n, int n2) {
-    }
+    public void notifyPartialPopup(int var1, int var2);
 
-    default public void setShowPopupAfterConnecting(boolean bl) {
-    }
+    public void setShowPopupAfterConnecting(boolean var1);
 
-    default public int getSlot() {
-    }
+    public int getSlot();
 
-    default public void setSlot(int n) {
-    }
+    public void setSlot(int var1);
 
-    default public void connected(boolean bl, boolean bl2) {
-    }
+    public void connected(boolean var1, boolean var2);
 
-    default public void makeSubtreeDirty() {
-    }
+    public void makeSubtreeDirty();
 
-    default public void setLayer(int n) {
-    }
+    public void setLayer(int var1);
 
-    default public int getlayer() {
-    }
+    public int getlayer();
 
-    default public void activateBackgroundGrayOut() {
-    }
+    public void activateBackgroundGrayOut();
 
-    default public void deactivateBackgroundGrayOut() {
-    }
+    public void deactivateBackgroundGrayOut();
 
-    default public boolean isPopupActive() {
-    }
+    public boolean isPopupActive();
 
-    default public boolean hasPopupDrawer() {
-    }
+    public boolean hasPopupDrawer();
 
-    default public void setFocusedLayer(int n) {
-    }
+    public void setFocusedLayer(int var1);
 
-    default public void closePopupDrawer() {
-    }
+    public void closePopupDrawer();
 
-    default public int getX() {
-    }
+    public int getX();
 
-    default public int getY() {
-    }
+    public int getY();
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public boolean isFallbackScreenAllowed() {
-    }
+    public boolean isFallbackScreenAllowed();
 
-    default public void setFallbackScreenAllowed(boolean bl) {
-    }
+    public void setFallbackScreenAllowed(boolean var1);
 }
 

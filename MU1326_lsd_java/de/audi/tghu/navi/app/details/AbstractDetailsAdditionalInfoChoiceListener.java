@@ -14,7 +14,7 @@ extends DefaultChoiceListener {
     protected final int additionalinfoBrowserChoice;
 
     public AbstractDetailsAdditionalInfoChoiceListener(NavigationEnv navigationEnv) {
-        this.additionalinfoBrowserChoice = -668989952;
+        this.additionalinfoBrowserChoice = 401624;
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getLogChannel();
     }

@@ -6,13 +6,10 @@ package de.dreisoft.lsd;
 import de.dreisoft.lsd.ServiceInfo;
 
 public interface ServiceObserver {
-    default public String[] getObservedClasses() {
-    }
+    public String[] getObservedClasses();
 
-    default public boolean addingService(ServiceInfo serviceInfo) {
-    }
+    public boolean addingService(ServiceInfo var1);
 
-    default public void removedService(ServiceInfo serviceInfo) {
-    }
+    public void removedService(ServiceInfo var1);
 }
 

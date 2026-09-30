@@ -11,28 +11,27 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class MediaCapabilitiesContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_MEDIA_CAPABILITIES;
-    private static final int ELEMENT_ID_COVER_ART;
-    private static final int ELEMENT_ID_DATABASE_BROWSE_MODE;
-    private static final int ELEMENT_ID_DETAIL_INFO;
-    private static final int ELEMENT_ID_ELAPSED_TIME;
-    private static final int ELEMENT_ID_FAST_BACKWARD;
-    private static final int ELEMENT_ID_FAST_FORWARD;
-    private static final int ELEMENT_ID_PAUSE;
-    private static final int ELEMENT_ID_PLAY;
-    private static final int ELEMENT_ID_PLAYBACK_MODES;
-    private static final int ELEMENT_ID_PLAYING_TIME;
-    private static final int ELEMENT_ID_PMLTMODE;
-    private static final int ELEMENT_ID_RAW_BROWSE_MODE;
-    private static final int ELEMENT_ID_SET_TIME_POS;
-    private static final int ELEMENT_ID_SKIP_BACKWARD;
-    private static final int ELEMENT_ID_SKIP_FORWARD;
+    private static final int CONTAINER_ID_MEDIA_CAPABILITIES = 66;
+    private static final int ELEMENT_ID_COVER_ART = 152;
+    private static final int ELEMENT_ID_DATABASE_BROWSE_MODE = 153;
+    private static final int ELEMENT_ID_DETAIL_INFO = 154;
+    private static final int ELEMENT_ID_ELAPSED_TIME = 155;
+    private static final int ELEMENT_ID_FAST_BACKWARD = 156;
+    private static final int ELEMENT_ID_FAST_FORWARD = 157;
+    private static final int ELEMENT_ID_PAUSE = 158;
+    private static final int ELEMENT_ID_PLAY = 159;
+    private static final int ELEMENT_ID_PLAYBACK_MODES = 160;
+    private static final int ELEMENT_ID_PLAYING_TIME = 161;
+    private static final int ELEMENT_ID_PMLTMODE = 162;
+    private static final int ELEMENT_ID_RAW_BROWSE_MODE = 163;
+    private static final int ELEMENT_ID_SET_TIME_POS = 164;
+    private static final int ELEMENT_ID_SKIP_BACKWARD = 165;
+    private static final int ELEMENT_ID_SKIP_FORWARD = 166;
     private Map map = new HashMap();
 
     public MediaCapabilitiesContainer() {
@@ -304,14 +303,12 @@ extends AbstractContainer {
         return (Boolean)this.map.get(new Integer(166));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(66, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -322,67 +319,67 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 152: {
-                    hASDataElementArray[n++] = new BooleanElement(152, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(152, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 153: {
-                    hASDataElementArray[n++] = new BooleanElement(153, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(153, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 154: {
-                    hASDataElementArray[n++] = new BooleanElement(154, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(154, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 155: {
-                    hASDataElementArray[n++] = new BooleanElement(155, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(155, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 156: {
-                    hASDataElementArray[n++] = new BooleanElement(156, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(156, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 157: {
-                    hASDataElementArray[n++] = new BooleanElement(157, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(157, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 158: {
-                    hASDataElementArray[n++] = new BooleanElement(158, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(158, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 159: {
-                    hASDataElementArray[n++] = new BooleanElement(159, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(159, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 160: {
-                    hASDataElementArray[n++] = new BooleanElement(160, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(160, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 161: {
-                    hASDataElementArray[n++] = new BooleanElement(161, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(161, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 162: {
-                    hASDataElementArray[n++] = new BooleanElement(162, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(162, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 163: {
-                    hASDataElementArray[n++] = new BooleanElement(163, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(163, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 164: {
-                    hASDataElementArray[n++] = new BooleanElement(164, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(164, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 165: {
-                    hASDataElementArray[n++] = new BooleanElement(165, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(165, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 166: {
-                    hASDataElementArray[n++] = new BooleanElement(166, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(166, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
             }
@@ -390,160 +387,159 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("MediaCapabilitiesContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 152: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("coverArt(boolean)=null");
                         break;
                     }
                     stringWriter.write("coverArt(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 153: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("databaseBrowseMode(boolean)=null");
                         break;
                     }
                     stringWriter.write("databaseBrowseMode(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 154: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("detailInfo(boolean)=null");
                         break;
                     }
                     stringWriter.write("detailInfo(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 155: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("elapsedTime(boolean)=null");
                         break;
                     }
                     stringWriter.write("elapsedTime(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 156: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("fastBackward(boolean)=null");
                         break;
                     }
                     stringWriter.write("fastBackward(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 157: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("fastForward(boolean)=null");
                         break;
                     }
                     stringWriter.write("fastForward(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 158: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("pause(boolean)=null");
                         break;
                     }
                     stringWriter.write("pause(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 159: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("play(boolean)=null");
                         break;
                     }
                     stringWriter.write("play(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 160: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("playbackModes(boolean)=null");
                         break;
                     }
                     stringWriter.write("playbackModes(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 161: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("playingTime(boolean)=null");
                         break;
                     }
                     stringWriter.write("playingTime(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 162: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("pMLTMode(boolean)=null");
                         break;
                     }
                     stringWriter.write("pMLTMode(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 163: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("rawBrowseMode(boolean)=null");
                         break;
                     }
                     stringWriter.write("rawBrowseMode(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 164: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("setTimePos(boolean)=null");
                         break;
                     }
                     stringWriter.write("setTimePos(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 165: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("skipBackward(boolean)=null");
                         break;
                     }
                     stringWriter.write("skipBackward(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 166: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("skipForward(boolean)=null");
                         break;
                     }
                     stringWriter.write("skipForward(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -554,7 +550,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         MediaCapabilitiesContainer mediaCapabilitiesContainer = new MediaCapabilitiesContainer(this);
         return mediaCapabilitiesContainer;

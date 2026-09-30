@@ -4,10 +4,8 @@
 package de.audi.tone.app.volume;
 
 public interface IDrawerStateListener {
-    default public void menuDrawerFocused(int n) {
-    }
+    public void menuDrawerFocused(int var1);
 
-    default public void menuDrawerUnfocused(int n) {
-    }
+    public void menuDrawerUnfocused(int var1);
 }
 

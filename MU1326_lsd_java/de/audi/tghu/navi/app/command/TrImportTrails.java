@@ -9,25 +9,23 @@ import org.dsi.ifc.global.NavSegmentID;
 public class TrImportTrails
 extends NavCommand {
     private final String fileName;
-    public static final String NAV_SEGMENT_IDS;
+    public static final String NAV_SEGMENT_IDS = "NavSegmentIDs";
 
     public TrImportTrails(String string) {
         this.fileName = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "TrImportTrails#execute( fileName: %1 )", (Object)this.fileName);
+        this.logger.log(10000000, "TrImportTrails#execute( fileName: %1 )", (Object)this.fileName);
         this.getDSINavigation().trImportTrails(this.fileName);
     }
 
-    @Override
     public void trImportTrailsResult(NavSegmentID[] navSegmentIDArray, int n) {
-        this.logger.log(-2137614336, "TrImportTrails#trImportTrailsResult( %1, %2 )", (Object)navSegmentIDArray, (long)n);
+        this.logger.log(10000000, "TrImportTrails#trImportTrailsResult( %1, %2 )", (Object)navSegmentIDArray, (long)n);
         if (n != 0) {
             this.getCommandList().commandAborted(n);
         }
-        this.getCommandList().put("NavSegmentIDs", navSegmentIDArray);
+        this.getCommandList().put(NAV_SEGMENT_IDS, navSegmentIDArray);
         this.getCommandList().commandFinished();
     }
 }

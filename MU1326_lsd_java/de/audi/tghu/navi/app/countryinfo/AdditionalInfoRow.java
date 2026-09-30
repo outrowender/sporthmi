@@ -13,11 +13,11 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class AdditionalInfoRow
 extends ListRow {
-    public static final int CELL_0_ADDITIONAL_ICON;
-    public static final int CELL_1_ADDITIONAL_INFO;
-    public static final int ROW_NUMBER_OF_CELLS;
-    public static final int FORMAT_ICON_TEXT;
-    public static final int FORMAT_TEXT;
+    public static final int CELL_0_ADDITIONAL_ICON = 0;
+    public static final int CELL_1_ADDITIONAL_INFO = 1;
+    public static final int ROW_NUMBER_OF_CELLS = 2;
+    public static final int FORMAT_ICON_TEXT = 0;
+    public static final int FORMAT_TEXT = 1;
     private int additionalInfoIconId = 0;
 
     public AdditionalInfoRow(IconHandler iconHandler, int n, String string) {
@@ -30,7 +30,6 @@ extends ListRow {
         }
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == null) {
             return false;
@@ -59,7 +58,6 @@ extends ListRow {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode();
     }

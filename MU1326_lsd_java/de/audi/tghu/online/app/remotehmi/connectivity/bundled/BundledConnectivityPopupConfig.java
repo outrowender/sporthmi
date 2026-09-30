@@ -22,7 +22,6 @@ implements IBundledConnectivityPopupConfig {
         this.showDashboardButtonModelId = n2;
     }
 
-    @Override
     public void registerPopupIdToType(int n, int n2) {
         this.registerElementIdToType(this.popupIds, n, n2);
     }
@@ -30,11 +29,10 @@ implements IBundledConnectivityPopupConfig {
     private void registerElementIdToType(Map map, int n, int n2) {
         Object object = map.put(new Integer(n), new Integer(n2));
         if (object != null) {
-            this.logChannel.log(-1601830656, "BundledConnectivityPopupConfig#registerPopupIdToType replaced popup ID %1 with popup ID %2 for popup type %3", object, (Object)new Integer(n2), (Object)new Integer(n));
+            this.logChannel.log(100000, "BundledConnectivityPopupConfig#registerPopupIdToType replaced popup ID %1 with popup ID %2 for popup type %3", object, (Object)new Integer(n2), (Object)new Integer(n));
         }
     }
 
-    @Override
     public int getPopupId(int n) {
         return this.getElementId(this.popupIds, n, -1);
     }
@@ -48,22 +46,18 @@ implements IBundledConnectivityPopupConfig {
         return n3;
     }
 
-    @Override
     public void registerConditionModelIdToPopupType(int n, int n2) {
         this.registerElementIdToType(this.conditionModelIds, n, n2);
     }
 
-    @Override
     public int getConditionModelId(int n) {
         return this.getElementId(this.conditionModelIds, n, -1);
     }
 
-    @Override
     public int getBuyNewDataPlanButtonModelId() {
         return this.buyNewDataPlanButtonModelId;
     }
 
-    @Override
     public int getShowDashboardButtonModelId() {
         return this.showDashboardButtonModelId;
     }

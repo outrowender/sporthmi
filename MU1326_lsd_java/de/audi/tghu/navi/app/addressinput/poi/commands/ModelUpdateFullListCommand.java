@@ -16,7 +16,7 @@ extends NavCommand {
     private final IMatchspellerModelAccess modelAccess;
     private final ICommandListFactory commandListFactory;
     private final int maximumResults;
-    private static final int NO_MAX;
+    private static final int NO_MAX = 0;
 
     public ModelUpdateFullListCommand(IMatchspellerModelAccess iMatchspellerModelAccess, ICommandListFactory iCommandListFactory, int n) {
         this.modelAccess = iMatchspellerModelAccess;
@@ -28,16 +28,15 @@ extends NavCommand {
         this(iMatchspellerModelAccess, iCommandListFactory, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "ModelUpdateFullListCommand#execute - maxResults: %1", (long)this.maximumResults);
+        this.logger.log(1000000, "ModelUpdateFullListCommand#execute - maxResults: %1", (long)this.maximumResults);
         int n = 0;
         LIValueList lIValueList = this.dsiResponseContainer.getLispValueList();
         if (lIValueList != null && lIValueList.getList() != null && (n = lIValueList.getList().length) > 0) {
             n = lIValueList.getList()[n - 1].getListIndex() + 1;
         }
         if ((long)n >= this.dsiResponseContainer.getLispValueListCount() || this.maximumResults > 0 && n >= this.maximumResults) {
-            this.logger.log(1078071040, "ModelUpdateFullListCommand#execute - valueListSize: %1, rcCount: %2", (long)n, this.dsiResponseContainer.getLispValueListCount());
+            this.logger.log(1000000, "ModelUpdateFullListCommand#execute - valueListSize: %1, rcCount: %2", (long)n, this.dsiResponseContainer.getLispValueListCount());
             this.getCommandList().commandFinishedWithPostCommand(new ModelUpdateResultListCommand(this.modelAccess));
         } else {
             CommandList commandList = this.commandListFactory.createCommandList();

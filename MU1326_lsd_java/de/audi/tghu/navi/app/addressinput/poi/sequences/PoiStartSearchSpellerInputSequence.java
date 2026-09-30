@@ -16,9 +16,8 @@ import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractStartPoiInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.IPoiResults;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailsSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiStartSearchSpellerInputSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiStartSearchSpellerInputSequence$2;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.SubstringSearchHandler;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.GuiModelAccessDetailsNavi;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.guidance.IVehicle;
@@ -38,24 +37,22 @@ implements IPoiResults {
     protected final LogChannel logChannel;
 
     public PoiStartSearchSpellerInputSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, ICommandListFactory iCommandListFactory, PoiSearchArea poiSearchArea, NavigationEnv navigationEnv, IVehicle iVehicle, IDetailsScreen iDetailsScreen) {
-        super(iPoiSpellerModelAccess, iCommandListFactory, 0xA800000, poiSearchArea, navigationEnv, iDetailsScreen);
+        super(iPoiSpellerModelAccess, iCommandListFactory, 32778, poiSearchArea, navigationEnv, iDetailsScreen);
         this.vehicle = iVehicle;
         this.substringSearchHandler = new SubstringSearchHandler(navigationEnv, iPoiSpellerModelAccess);
         this.logChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     public void start() {
-        this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#start()");
+        this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#start()");
         CommandList commandList = this.commandListFactory.createCommandList();
         this.env.getContainer().setLiCurrentState(this.getSpellerCountryLocation(), new int[0], new int[0]);
         commandList.add(this.createStartSequence());
         commandList.execute("PoiStartSearchSpellerInputSequence#start");
     }
 
-    @Override
     public void setInput(String string) {
-        this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#setInput( %1 )", (Object)string);
+        this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#setInput( %1 )", (Object)string);
         LIValueList lIValueList = new LIValueList();
         lIValueList.list = new LIValueListElement[0];
         this.env.getContainer().setLispValueListCount(0L);
@@ -68,25 +65,22 @@ implements IPoiResults {
         commandList.execute("PoiStartSearchSpellerInputSequence#setInput");
     }
 
-    @Override
     public void selectListElement(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#selectListElement( )");
+        this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#selectListElement( )");
         if (this.substringSearchHandler != null) {
             this.substringSearchHandler.stopSearch("Element was selected");
         }
         this.selectedElement = lIValueListElement;
     }
 
-    @Override
     public void startGuidance(IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
         this.startGuidance(null, iStartGuidanceToDestinationSequence);
     }
 
-    @Override
-    public void startGuidanceToSingleDestination(IRouteManager iRouteManager) {
-        this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance()");
+    public void startGuidanceToSingleDestination(final IRouteManager iRouteManager) {
+        this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance()");
         if (this.selectedElement == null) {
-            this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - no element has been selected");
+            this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - no element has been selected");
             return;
         }
         if (this.substringSearchHandler != null) {
@@ -97,15 +91,25 @@ implements IPoiResults {
         if (this.modelAccess != null) {
             commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         }
-        commandList.add(new PoiStartSearchSpellerInputSequence$1(this, iRouteManager));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    this.logger.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - starting route guidance.");
+                    this.getCommandList().commandFinishedWithPostSequence(iRouteManager.getStartRouteGuidanceToSingleDestinationSequence(navLocation));
+                } else {
+                    this.getCommandList().commandAborted("Position for element is not valid");
+                }
+            }
+        });
         commandList.execute("PoiStartSearchSpellerInputSequence#startGuidance");
     }
 
-    @Override
-    public void startGuidance(ILocationHandler iLocationHandler, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
-        this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance()");
+    public void startGuidance(final ILocationHandler iLocationHandler, final IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
+        this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance()");
         if (this.selectedElement == null) {
-            this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - no element has been selected");
+            this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - no element has been selected");
             return;
         }
         if (this.substringSearchHandler != null) {
@@ -116,19 +120,29 @@ implements IPoiResults {
         if (this.modelAccess != null) {
             commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         }
-        commandList.add(new PoiStartSearchSpellerInputSequence$2(this, iStartGuidanceToDestinationSequence, iLocationHandler));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    this.logger.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - starting route guidance.");
+                    this.getCommandList().commandFinishedWithPostSequence(iStartGuidanceToDestinationSequence.getStartSequence(iLocationHandler, navLocation));
+                } else {
+                    this.getCommandList().commandAborted("Position for element is not valid");
+                }
+            }
+        });
         commandList.execute("PoiStartSearchSpellerInputSequence#startGuidance");
     }
 
-    @Override
     public void retrieveNavLocation(GuiModelAccessDetailsNavi guiModelAccessDetailsNavi) {
-        this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#retrieveNavLocation()");
+        this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#retrieveNavLocation()");
         if (this.hasActiveSubSequence()) {
             this.currentInputSequence.retrieveNavLocation(guiModelAccessDetailsNavi);
             return;
         }
         if (this.selectedElement == null) {
-            this.logChannel.log(-2137614336, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - no element has been selected");
+            this.logChannel.log(10000000, "[PoiInput] PoiStartSearchSpellerInputSequence#startGuidance() - no element has been selected");
             return;
         }
         if (this.substringSearchHandler != null) {
@@ -138,20 +152,17 @@ implements IPoiResults {
         poiDetailsSequence.start();
     }
 
-    @Override
     public boolean hasActiveSubSequence() {
         return false;
     }
 
-    @Override
     public void updatePoiSubstringSearchStatus(ValueListStatus valueListStatus) {
-        this.logChannel.log(-2137614336, "[PoiInput] AbstractPoiResultsInputSequence#updatePoiSubstringSearchStatus()");
+        this.logChannel.log(10000000, "[PoiInput] AbstractPoiResultsInputSequence#updatePoiSubstringSearchStatus()");
         if (this.substringSearchHandler != null) {
             this.substringSearchHandler.updatePoiSubstringSearchStatus(valueListStatus);
         }
     }
 
-    @Override
     protected int getSortOrder() {
         return 1;
     }
@@ -172,7 +183,6 @@ implements IPoiResults {
         return this.vehicle.getVehicleCountryLocation();
     }
 
-    @Override
     protected String getStringId() {
         return "PoiStartSearchSpellerInputSequence";
     }

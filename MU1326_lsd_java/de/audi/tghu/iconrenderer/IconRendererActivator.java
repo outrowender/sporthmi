@@ -37,7 +37,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void registerServices() {
-        this.logCh.log(-2137614336, "[IconRendererActivator#registerServices] Register listener for DSIIconrenderer.");
+        this.logCh.log(10000000, "[IconRendererActivator#registerServices] Register listener for DSIIconrenderer.");
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$org$dsi$ifc$iconhandling$DSIIconExtractorListener == null ? (class$org$dsi$ifc$iconhandling$DSIIconExtractorListener = IconRendererActivator.class$("org.dsi.ifc.iconhandling.DSIIconExtractorListener")) : class$org$dsi$ifc$iconhandling$DSIIconExtractorListener).getName());
         hashtable.put("DEVICE_INSTANCE", new Integer(0));
@@ -49,16 +49,14 @@ implements ServiceTrackerCustomizer {
         this.iconRendererTracker.open();
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.logCh = this.framework.getLogChannel("Fw.IconRenderer");
         this.iconRenderer = new IconRenderer(this.logCh);
-        this.logCh.log(-2137614336, "[IconRendererActivator#start] called");
+        this.logCh.log(10000000, "[IconRendererActivator#start] called");
         this.registerServices();
         this.initTrackers();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.iconRendererTracker != null) {
             this.iconRendererTracker.close();
@@ -76,7 +74,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void addIconRendererService(ServiceReference serviceReference) {
-        this.logCh.log(-2137614336, "[IconRendererActivator#addIconRendererService] Icon renderer DSI was found.");
+        this.logCh.log(10000000, "[IconRendererActivator#addIconRendererService] Icon renderer DSI was found.");
         DSIIconExtractor dSIIconExtractor = (DSIIconExtractor)this.getBundleContext().getService(serviceReference);
         boolean bl = Boolean.getBoolean("UseIconExtractor");
         if (bl) {
@@ -96,9 +94,8 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logCh.log(-2137614336, "[IconRendererActivator#addingService] Called.");
+        this.logCh.log(10000000, "[IconRendererActivator#addingService] Called.");
         String string = (String)serviceReference.getProperty("DEVICE_NAME");
         if ((class$org$dsi$ifc$iconhandling$DSIIconExtractor == null ? (class$org$dsi$ifc$iconhandling$DSIIconExtractor = IconRendererActivator.class$("org.dsi.ifc.iconhandling.DSIIconExtractor")) : class$org$dsi$ifc$iconhandling$DSIIconExtractor).getName().equals(string)) {
             this.addIconRendererService(serviceReference);
@@ -106,13 +103,11 @@ implements ServiceTrackerCustomizer {
         return string;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logCh.log(-2137614336, "[IconRendererActivator#removedService] Called.");
+        this.logCh.log(10000000, "[IconRendererActivator#removedService] Called.");
         String string = (String)serviceReference.getProperty("DEVICE_NAME");
         if ((class$org$dsi$ifc$iconhandling$DSIIconExtractor == null ? (class$org$dsi$ifc$iconhandling$DSIIconExtractor = IconRendererActivator.class$("org.dsi.ifc.iconhandling.DSIIconExtractor")) : class$org$dsi$ifc$iconhandling$DSIIconExtractor).getName().equals(string)) {
             this.removeIconRendererService(serviceReference);

@@ -5,10 +5,10 @@ package de.audi.tghu.navi.app.cluster;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.cluster.ClusterKDKHandler;
-import de.audi.tghu.navi.app.cluster.ClusterKDKHandlerImpl$1;
 import de.audi.tghu.navi.app.cluster.CombiBAPListener;
 import de.audi.tghu.navi.app.interapp.IViewSizeChangeHandler;
 import de.audi.tghu.navi.app.util.Util;
@@ -43,15 +43,28 @@ implements ClusterKDKHandler {
         this.kdkControlModel.forceUpdate(true);
         this.kdkControlModel.resetHints();
         this.kdkControlModel.publishHints();
-        this.fallbackTimer = Util.isClusterMapFPK(navigationEnv.getFramework()) && Q7FPK_FALLBACK_TIMEOUT > 0 ? new Timer("ClusterKDKHandler#fallbackTimer", Q7FPK_FALLBACK_TIMEOUT, true, new ClusterKDKHandlerImpl$1(this)) : null;
+        this.fallbackTimer = Util.isClusterMapFPK(navigationEnv.getFramework()) && Q7FPK_FALLBACK_TIMEOUT > 0 ? new Timer("ClusterKDKHandler#fallbackTimer", Q7FPK_FALLBACK_TIMEOUT, true, new DefaultTimerListener(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void fireTimer(Timer timer) {
+                Object object = ClusterKDKHandlerImpl.this.mutex;
+                synchronized (object) {
+                    if (ClusterKDKHandlerImpl.this.expectedKdkVisibilityInTheFuture != ClusterKDKHandlerImpl.this.kdkVisible) {
+                        ClusterKDKHandlerImpl.this.logChannel.log(100000, "ClusterKDKHandler - did not get request from Kombi in time... setting expected KDK visibility: %1", ClusterKDKHandlerImpl.this.expectedKdkVisibilityInTheFuture);
+                        ClusterKDKHandlerImpl.this.setKDKVisibility(ClusterKDKHandlerImpl.this.expectedKdkVisibilityInTheFuture);
+                    }
+                }
+            }
+        }) : null;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateKOMOViewEnabled(boolean bl) {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#setKOMOViewEnabled( %1 )", bl);
+        this.logChannel.log(1000000, "ClusterKDKHandler#setKOMOViewEnabled( %1 )", bl);
         Object object = this.mutex;
         synchronized (object) {
             this.komoViewEnabled = bl;
@@ -62,9 +75,8 @@ implements ClusterKDKHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateKOMOViewVisible(boolean bl) {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#setKOMOViewVisible( %1 )", bl);
+        this.logChannel.log(1000000, "ClusterKDKHandler#setKOMOViewVisible( %1 )", bl);
         Object object = this.mutex;
         synchronized (object) {
             this.komoViewVisible = bl;
@@ -75,10 +87,9 @@ implements ClusterKDKHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgActive(boolean bl) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "ClusterKDKHandler#updateRgActive( %1 )", bl);
+            this.logChannel.log(100000000, "ClusterKDKHandler#updateRgActive( %1 )", bl);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -93,12 +104,12 @@ implements ClusterKDKHandler {
 
     private void refreshState(boolean bl) {
         if (!Util.isClusterMMI(this.env.getFramework()) && !Util.isClusterMapFPK(this.env.getFramework())) {
-            this.logChannel.log(14808325, "ClusterKDKHandler#refreshKDKVisibility() - not running on MMI-Cluster/FPK - ignore");
+            this.logChannel.log(100000000, "ClusterKDKHandler#refreshKDKVisibility() - not running on MMI-Cluster/FPK - ignore");
             return;
         }
         Buffer buffer = new Buffer(100);
         buffer.append("komoViewEnabled: ").append(this.komoViewEnabled).append(", komoViewVisible: ").append(this.komoViewVisible).append(", rgActive: ").append(this.rgActive).append(", isInStandBy: ").append(this.isInStandBy).append(", clamp15: ").append(this.clamp15);
-        this.logChannel.log(1078071040, "ClusterKDKHandler#refreshState() - %1", (Object)buffer);
+        this.logChannel.log(1000000, "ClusterKDKHandler#refreshState() - %1", (Object)buffer);
         boolean bl2 = this.komoViewEnabled && this.komoViewVisible;
         boolean bl3 = this.expectedKdkVisibilityInTheFuture = bl2 && !this.isInStandBy && this.rgActive;
         if (Util.isClusterMapFPK(this.env.getFramework())) {
@@ -111,7 +122,7 @@ implements ClusterKDKHandler {
         buffer.append("KDK available: ").append(this.kdkAvailable).append(" -> ").append(bl2);
         buffer.append(", KDK visible: ").append(this.kdkVisible).append(" -> ").append(bl);
         buffer.append(", expected KDK visibility: ").append(this.expectedKdkVisibilityInTheFuture);
-        this.logChannel.log(1078071040, "ClusterKDKHandler#refreshState() - %1", (Object)buffer);
+        this.logChannel.log(1000000, "ClusterKDKHandler#refreshState() - %1", (Object)buffer);
         if (this.fallbackTimer != null) {
             if (this.expectedKdkVisibilityInTheFuture != bl) {
                 this.fallbackTimer.restart();
@@ -129,7 +140,7 @@ implements ClusterKDKHandler {
 
     private void notifyKombi() {
         if (Util.isClusterMMI(this.env.getFramework())) {
-            this.logChannel.log(14808325, "ClusterKDKHandler#notifyKombi() - ignoring (is cluster MMI)");
+            this.logChannel.log(100000000, "ClusterKDKHandler#notifyKombi() - ignoring (is cluster MMI)");
             return;
         }
         this.combiBapListener.setSupplementaryMapVisibility(this.kdkVisible, true);
@@ -143,13 +154,12 @@ implements ClusterKDKHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setKDKVisibility(boolean bl) {
         if (!Util.isClusterMapFPK(this.env.getFramework())) {
-            this.logChannel.log(-2137614336, "ClusterKDKHandler#setKDKVisibility() - not running on Q7-FPK version - ignore");
+            this.logChannel.log(10000000, "ClusterKDKHandler#setKDKVisibility() - not running on Q7-FPK version - ignore");
             return;
         }
-        this.logChannel.log(1078071040, "ClusterKDKHandler#setKDKVisibility() - visible: %1", bl);
+        this.logChannel.log(1000000, "ClusterKDKHandler#setKDKVisibility() - visible: %1", bl);
         Object object = this.mutex;
         synchronized (object) {
             this.refreshState(bl);
@@ -163,7 +173,7 @@ implements ClusterKDKHandler {
     }
 
     private void setKDKVisibilityHints() {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#setKDKVisibilityHints() - KDK available: %1, KDK visible: %2", this.kdkAvailable, this.kdkVisible);
+        this.logChannel.log(1000000, "ClusterKDKHandler#setKDKVisibilityHints() - KDK available: %1, KDK visible: %2", this.kdkAvailable, this.kdkVisible);
         if (this.kdkVisible) {
             this.kdkControlModel.addHint(16);
         } else {
@@ -178,24 +188,23 @@ implements ClusterKDKHandler {
 
     private void setKDKPositionHints() {
         if (!Util.isClusterMapFPK(this.env.getFramework())) {
-            this.logChannel.log(14808325, "ClusterKDKHandler#viewSizeChanged() - not running on Q7-FPK version - ignore");
+            this.logChannel.log(100000000, "ClusterKDKHandler#viewSizeChanged() - not running on Q7-FPK version - ignore");
             return;
         }
         if (this.viewSizeChangeHandler.isSmallStageActive()) {
             this.kdkControlModel.addHint(8);
-            this.logChannel.log(1078071040, "ClusterKDKHandler#setKDKPositionHints() - small stage - kdk in tube");
+            this.logChannel.log(1000000, "ClusterKDKHandler#setKDKPositionHints() - small stage - kdk in tube");
         } else {
             this.kdkControlModel.removeHint(8);
-            this.logChannel.log(1078071040, "ClusterKDKHandler#setKDKPositionHints() - big stage - kdk in flap");
+            this.logChannel.log(1000000, "ClusterKDKHandler#setKDKPositionHints() - big stage - kdk in flap");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void viewSizeChanged(int n) {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#viewSizeChanged() - newViewSize: %1", (long)n);
+        this.logChannel.log(1000000, "ClusterKDKHandler#viewSizeChanged() - newViewSize: %1", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             this.refreshHints();
@@ -205,9 +214,8 @@ implements ClusterKDKHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#notifyPowerListenerOnEnterState( %1 )", (long)n);
+        this.logChannel.log(1000000, "ClusterKDKHandler#notifyPowerListenerOnEnterState( %1 )", (long)n);
         if (n == 2) {
             Object object = this.mutex;
             synchronized (object) {
@@ -222,9 +230,8 @@ implements ClusterKDKHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#notifyPowerListenerOnExitState( %1 )", (long)n);
+        this.logChannel.log(1000000, "ClusterKDKHandler#notifyPowerListenerOnExitState( %1 )", (long)n);
         if (n == 2) {
             Object object = this.mutex;
             synchronized (object) {
@@ -236,16 +243,14 @@ implements ClusterKDKHandler {
         }
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.logChannel.log(1078071040, "ClusterKDKHandler#updateClampState() - clamp15 = %1", bl2);
+        this.logChannel.log(1000000, "ClusterKDKHandler#updateClampState() - clamp15 = %1", bl2);
         Object object = this.mutex;
         synchronized (object) {
             this.clamp15 = bl2;
@@ -253,27 +258,10 @@ implements ClusterKDKHandler {
         }
     }
 
-    @Override
     public void cleanup() {
         if (this.fallbackTimer != null) {
             this.fallbackTimer.cancel();
         }
-    }
-
-    static /* synthetic */ Object access$000(ClusterKDKHandlerImpl clusterKDKHandlerImpl) {
-        return clusterKDKHandlerImpl.mutex;
-    }
-
-    static /* synthetic */ boolean access$100(ClusterKDKHandlerImpl clusterKDKHandlerImpl) {
-        return clusterKDKHandlerImpl.expectedKdkVisibilityInTheFuture;
-    }
-
-    static /* synthetic */ boolean access$200(ClusterKDKHandlerImpl clusterKDKHandlerImpl) {
-        return clusterKDKHandlerImpl.kdkVisible;
-    }
-
-    static /* synthetic */ LogChannel access$300(ClusterKDKHandlerImpl clusterKDKHandlerImpl) {
-        return clusterKDKHandlerImpl.logChannel;
     }
 }
 

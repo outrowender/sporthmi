@@ -8,23 +8,17 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IHousenumberModelAccess
 extends IAddressInputModelAccess {
-    public static final int HOUSENUMBER_VALID;
-    public static final int HOUSENUMBER_INVALID;
+    public static final int HOUSENUMBER_VALID = 1;
+    public static final int HOUSENUMBER_INVALID = 0;
 
-    @Override
-    default public void onStart(NavLocation navLocation) {
-    }
+    public void onStart(NavLocation var1);
 
-    default public void onHousenumberValid() {
-    }
+    public void onHousenumberValid();
 
-    default public void onElementSelected(NavLocation navLocation) {
-    }
+    public void onElementSelected(NavLocation var1);
 
-    default public void onHousenumberInvalid(String string) {
-    }
+    public void onHousenumberInvalid(String var1);
 
-    default public void updatePreviewHousenumber(String string) {
-    }
+    public void updatePreviewHousenumber(String var1);
 }
 

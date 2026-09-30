@@ -8,14 +8,14 @@ import de.audi.tuner.app.sdars.StationInfoExt;
 
 public abstract class AbstractSdarsEpgListRow
 extends EvoListRow {
-    public static final int INDEX_RECORDSET;
-    public static final int COL_COUNT;
-    public static final int RECORDSET_STATION;
-    public static final int RECORDSET_PROGRAM;
-    public static final int ACTION_NONE;
-    public static final int ACTION_PROGRAM_LIST;
-    public static final int ACTION_PROGRAM_DETAILS;
-    public static final int ACTION_TUNE;
+    public static final int INDEX_RECORDSET = 0;
+    public static final int COL_COUNT = 1;
+    public static final int RECORDSET_STATION = 0;
+    public static final int RECORDSET_PROGRAM = 1;
+    public static final int ACTION_NONE = 0;
+    public static final int ACTION_PROGRAM_LIST = 1;
+    public static final int ACTION_PROGRAM_DETAILS = 2;
+    public static final int ACTION_TUNE = 3;
     public final StationInfoExt station;
 
     public AbstractSdarsEpgListRow(long l, int n, int n2, StationInfoExt stationInfoExt) {
@@ -37,17 +37,14 @@ extends EvoListRow {
         return this.station.sID;
     }
 
-    public abstract boolean representsStation() {
-    }
+    public abstract boolean representsStation();
 
-    public abstract boolean representsProgram() {
-    }
+    public abstract boolean representsProgram();
 
     public boolean correspondsTo(StationInfoExt stationInfoExt) {
         return this.station.sID == stationInfoExt.sID;
     }
 
-    public abstract int getActionForSelection(int n) {
-    }
+    public abstract int getActionForSelection(int var1);
 }
 

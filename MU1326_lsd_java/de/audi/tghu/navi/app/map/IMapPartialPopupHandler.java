@@ -4,25 +4,18 @@
 package de.audi.tghu.navi.app.map;
 
 public interface IMapPartialPopupHandler {
-    default public void showPopupSemidynBlockMain() {
-    }
+    public void showPopupSemidynBlockMain();
 
-    default public void showPopupSemidynBetterMain() {
-    }
+    public void showPopupSemidynBetterMain();
 
-    default public void hidePopupSemidynBlockMain() {
-    }
+    public void hidePopupSemidynBlockMain();
 
-    default public void hidePopupSemidynBetterMain() {
-    }
+    public void hidePopupSemidynBetterMain();
 
-    default public void showPopupGoogleOfflineNoCache() {
-    }
+    public void showPopupGoogleOfflineNoCache();
 
-    default public void showPopupTrafficeNoticeMap(boolean bl) {
-    }
+    public void showPopupTrafficeNoticeMap(boolean var1);
 
-    default public void showOnlineTrafficWarningPPU(boolean bl) {
-    }
+    public void showOnlineTrafficWarningPPU(boolean var1);
 }
 

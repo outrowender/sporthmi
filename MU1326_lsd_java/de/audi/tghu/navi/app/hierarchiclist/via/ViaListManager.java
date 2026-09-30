@@ -20,8 +20,8 @@ import org.dsi.ifc.navigation.ViaPointListElement;
 
 public class ViaListManager
 extends AbstractHierarchyListManager {
-    public static final int WINDOW_SIZE;
-    public static final int OFFSET;
+    public static final int WINDOW_SIZE = 21;
+    public static final int OFFSET = 10;
     protected ViaApp viaApp;
     private final IconHandler iconHandler;
     private final ICommandListFactory commandListFactory;
@@ -34,14 +34,13 @@ extends AbstractHierarchyListManager {
     }
 
     void itemFocused(ListRow listRow, int n) {
-        this.getLogChannel().log(-2137614336, "ViaListManager#itemFocused( %1, %2 )", (Object)listRow, (long)n);
+        this.getLogChannel().log(10000000, "ViaListManager#itemFocused( %1, %2 )", (Object)listRow, (long)n);
         this.setFocusedRow(listRow);
         this.setCursorPosition(n);
     }
 
-    @Override
     public void itemSelected(HMIModelApp hMIModelApp, ListRow listRow, int n, boolean bl) {
-        this.getLogChannel().log(-2137614336, "ViaListManager#itemSelected()");
+        this.getLogChannel().log(10000000, "ViaListManager#itemSelected()");
         ViaListRow viaListRow = (ViaListRow)listRow;
         if (viaListRow.isEnabled()) {
             super.itemSelected(hMIModelApp, listRow, n, bl);
@@ -55,37 +54,33 @@ extends AbstractHierarchyListManager {
     }
 
     void updateList() {
-        this.getLogChannel().log(-2137614336, "ViaListManager#updateList()");
+        this.getLogChannel().log(10000000, "ViaListManager#updateList()");
         this.requestWindow(this.getFocusedRow(), false);
     }
 
-    @Override
     protected long getInitAnchorId() {
         return -1L;
     }
 
-    @Override
     protected void requestInitialWindow() {
-        this.getLogChannel().log(-2137614336, "ViaListManager#requestInitialWindow()");
+        this.getLogChannel().log(10000000, "ViaListManager#requestInitialWindow()");
         this.initValues();
         this.requestWindow(-1L, this.getOpenedAnchorId());
     }
 
-    @Override
     protected void requestWindow(long l, long l2) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetViaPointListCommand(this, 21, 10, (int)l, (int)l2));
         commandList.execute("ViaListManager#requestWindow");
     }
 
-    @Override
     protected void requestWindow(long[] lArray, long l) {
         this.getLogChannel().log(10000, "ViaListManager#requestWindow( %1, %2 ) - not implemented!", (Object)lArray, l);
     }
 
     public void updateViaList(long l, ViaPointListElement[] viaPointListElementArray, int n, int n2) {
         if (viaPointListElementArray != null && viaPointListElementArray.length > 0) {
-            this.getLogChannel().log(-2137614336, "ViaListManager#updateViaList( #%1, %2 )", (long)viaPointListElementArray.length, l);
+            this.getLogChannel().log(10000000, "ViaListManager#updateViaList( #%1, %2 )", (long)viaPointListElementArray.length, l);
             ListRow[] listRowArray = new ViaListRow[viaPointListElementArray.length];
             try {
                 Object object;
@@ -93,16 +88,16 @@ extends AbstractHierarchyListManager {
                 int n4 = -1;
                 long l2 = -1L;
                 if (this.getFocusedRow() != null) {
-                    this.getLogChannel().log(-2137614336, "[ViaListManager#updateViaList] Current focused message not null, msg: %1", (Object)this.getFocusedRow());
+                    this.getLogChannel().log(10000000, "[ViaListManager#updateViaList] Current focused message not null, msg: %1", (Object)this.getFocusedRow());
                     l2 = ((ViaListRow)this.getFocusedRow()).getUid();
                 } else {
                     l2 = viaPointListElementArray[0].getId();
                 }
-                this.getLogChannel().log(-2137614336, "[ViaListManager#updateViaList] Current focused message ID: %1", l2);
+                this.getLogChannel().log(10000000, "[ViaListManager#updateViaList] Current focused message ID: %1", l2);
                 for (n3 = 0; n3 < listRowArray.length; ++n3) {
                     object = viaPointListElementArray[n3];
                     if ((long)((ViaPointListElement)object).getId() == l2) {
-                        this.getLogChannel().log(-2137614336, "ViaListManager#updateViaList() - current focused element ID '%1' available", l2);
+                        this.getLogChannel().log(10000000, "ViaListManager#updateViaList() - current focused element ID '%1' available", l2);
                         n4 = n3;
                     }
                     listRowArray[n3] = this.createListRow((ViaPointListElement)object);
@@ -149,14 +144,14 @@ extends AbstractHierarchyListManager {
     }
 
     private int getListBorders(int n, int n2, int n3, int n4) {
-        this.getLogChannel().log(-2137614336, "ViaListManager#getListBorders()");
+        this.getLogChannel().log(10000000, "ViaListManager#getListBorders()");
         int n5 = 0;
         if (n >= n3) {
-            this.getLogChannel().log(-2137614336, "ViaListManager#getListBorders() - found upper window border");
+            this.getLogChannel().log(10000000, "ViaListManager#getListBorders() - found upper window border");
             n5 |= 1;
         }
         if (n2 - n >= n4 - n3) {
-            this.getLogChannel().log(-2137614336, "ViaListManager#getListBorders() - found lower window border");
+            this.getLogChannel().log(10000000, "ViaListManager#getListBorders() - found lower window border");
             n5 |= 2;
         }
         return n5;

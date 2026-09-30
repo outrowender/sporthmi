@@ -6,16 +6,12 @@ package de.eso.vcalendar.a;
 import de.eso.vcalendar.b.d;
 
 public interface f {
-    default public void a(int n, d d2, int n2) {
-    }
+    public void a(int var1, d var2, int var3);
 
-    default public void a(int n) {
-    }
+    public void a(int var1);
 
-    default public void b(int n) {
-    }
+    public void b(int var1);
 
-    default public void a(int n, long[] lArray, int n2, String string, int n3) {
-    }
+    public void a(int var1, long[] var2, int var3, String var4, int var5);
 }
 

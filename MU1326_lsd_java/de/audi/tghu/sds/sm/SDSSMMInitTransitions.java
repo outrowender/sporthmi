@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class SDSSMMInitTransitions
 implements SMModuleConstants {
@@ -45783,7 +45784,7 @@ implements SMModuleConstants {
         this.smm.setTransIncludeJumpTransition(hashMap);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

@@ -6,10 +6,8 @@ package de.audi.tuner.app;
 import de.audi.tuner.ifc.AbstractRadioListRow;
 
 public interface IStoreHandler {
-    default public boolean isStoreModeActive() {
-    }
+    public boolean isStoreModeActive();
 
-    default public void store(AbstractRadioListRow abstractRadioListRow) {
-    }
+    public void store(AbstractRadioListRow var1);
 }
 

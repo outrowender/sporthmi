@@ -16,8 +16,8 @@ import java.util.Vector;
 
 public class FavoriteIndex
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final int[] favPersKeys;
+    private static final long serialVersionUID = -3548470157447528441L;
+    private static final int[] favPersKeys = new int[]{991, 992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040};
     private transient List allFavPersistenceKeys;
     private final List favorites = new LinkedList();
 
@@ -40,7 +40,7 @@ implements Serializable {
         return this.favorites.size() == FavoriteIndex.getMaxSize();
     }
 
-    public int addFavorite(FavoriteLocation favoriteLocation) {
+    public int addFavorite(FavoriteLocation favoriteLocation) throws IllegalStateException {
         if (favoriteLocation == null) {
             throw new NullPointerException("Favorite can not be null");
         }
@@ -96,18 +96,14 @@ implements Serializable {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(Util.getClassName(super.getClass()));
-        stringBuffer.append(new StringBuffer().append(" with size= ").append(this.favorites.size()).toString());
+        StringBuffer stringBuffer = new StringBuffer(Util.getClassName(this.getClass()));
+        stringBuffer.append(" with size= " + this.favorites.size());
         Iterator iterator = this.favorites.iterator();
         while (iterator.hasNext()) {
             stringBuffer.append("\n");
             stringBuffer.append(iterator.next());
         }
         return stringBuffer.toString();
-    }
-
-    static {
-        favPersKeys = new int[]{991, 992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040};
     }
 }
 

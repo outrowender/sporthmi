@@ -8,11 +8,11 @@ import de.audi.tuner.app.sdars.seek.AbstractTeamRow;
 
 public class TeamRow
 extends AbstractTeamRow {
-    private static final int INDEX_TEAM_NAME;
-    private static final int INDEX_TEAM_CHECKBOX_ID;
-    private static final int INDEX_TEAM_ID;
-    private static final int INDEX_TEAM_INITIAL_CHECKBOX_VALUE;
-    private static final int TEAM_COLUMNS;
+    private static final int INDEX_TEAM_NAME = 0;
+    private static final int INDEX_TEAM_CHECKBOX_ID = 1;
+    private static final int INDEX_TEAM_ID = 2;
+    private static final int INDEX_TEAM_INITIAL_CHECKBOX_VALUE = 3;
+    private static final int TEAM_COLUMNS = 4;
 
     TeamRow(int n, String string, int n2, int n3, int n4) {
         super(n, n3, 4);
@@ -26,17 +26,14 @@ extends AbstractTeamRow {
         super(teamRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new TeamRow(this);
     }
 
-    @Override
     int getTeamID() {
         return this.getInteger(2);
     }
 
-    @Override
     int getActivationCheckBox() {
         return this.getInteger(1);
     }

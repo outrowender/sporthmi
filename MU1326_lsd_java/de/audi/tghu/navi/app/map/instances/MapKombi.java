@@ -38,19 +38,18 @@ extends AbstractMap {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void initDSI() {
-        this.getMapLogChannel().log(-2137614336, "MapKombi#initDSI() - hasGE = %1, GE DSI ready = %2", this.mapConfig.hasGoogleEarth(), this.allGEDSIsReceived());
+        this.getMapLogChannel().log(10000000, "MapKombi#initDSI() - hasGE = %1, GE DSI ready = %2", this.mapConfig.hasGoogleEarth(), this.allGEDSIsReceived());
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.allKombiMapDSIsReceived()) {
                 if (!this.bMapKombiInitiated) {
-                    this.sMapLogChannel.log(1078071040, "MapKombi#initDSI() - all MapKombi DSIs received. Starting initialization...");
+                    this.sMapLogChannel.log(1000000, "MapKombi#initDSI() - all MapKombi DSIs received. Starting initialization...");
                     this.bMapKombiInitiated = true;
                     this.switchToContext(32);
                 }
             } else if (this.bMapKombiInitiated) {
-                this.sMapLogChannel.log(-1601830656, "MapKombi#initDSI() - MapKombi DSIs failed! MapKombi is not operable any more!");
+                this.sMapLogChannel.log(100000, "MapKombi#initDSI() - MapKombi DSIs failed! MapKombi is not operable any more!");
                 this.bMapKombiInitiated = false;
                 this.switchToContext(0);
                 this.getMainRequestCtl().setOperable(false);
@@ -60,13 +59,13 @@ extends AbstractMap {
                 boolean bl = this.allGEDSIsReceived();
                 if (bl) {
                     if (!this.bGEInitiated) {
-                        this.sMapLogChannel.log(1078071040, "MapKombi#init() - all GE DSIs received. Starting initialization...");
+                        this.sMapLogChannel.log(1000000, "MapKombi#init() - all GE DSIs received. Starting initialization...");
                         Util.logStartupEvent(this.env.getFramework(), "[Startup] Map#initDSI() - all GE DSIs received. Starting initialization...");
                         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("MapKombi#initDSI() - Google Earth map enabled in setup: ").append(this.getMapRepresentation() == 1));
                         this.bGEInitiated = true;
                     }
                 } else if (this.bGEInitiated) {
-                    this.sMapLogChannel.log(-1601830656, "MapKombi#init() - GE DSIs failed! GE is not operable any more!");
+                    this.sMapLogChannel.log(100000, "MapKombi#init() - GE DSIs failed! GE is not operable any more!");
                     this.bGEInitiated = false;
                     this.getMVRequest().getMVRequestGoogleCtrl().setOperable(false);
                 }
@@ -74,27 +73,24 @@ extends AbstractMap {
         }
     }
 
-    @Override
     public void mapInitialized() {
         super.mapInitialized();
         this.naviInterface.updateKombiMapReady(true);
     }
 
-    @Override
     public void mapNotInitialized() {
         super.mapNotInitialized();
         this.naviInterface.updateKombiMapReady(false);
     }
 
-    @Override
     protected boolean isSwitchContextAllowed() {
         IContext iContext = this.getActiveContext();
         int n = this.getSetup().getAutoZoom(true);
-        this.getMapLogChannel().log(-2137614336, "MapKombi#isSwitchContextAllowed() - %1", (Object)iContext);
-        this.getMapLogChannel().log(-2137614336, "MapKombi#isSwitchContextAllowed() - %1", this.getMapConfig().hasZoomEngine());
-        this.getMapLogChannel().log(-2137614336, "MapKombi#isSwitchContextAllowed() - %1", iContext.getManoeuvreZoomDisabledWithReturn());
-        this.getMapLogChannel().log(-2137614336, "MapKombi#isSwitchContextAllowed() - %1", (Object)this.getSetup());
-        this.getMapLogChannel().log(-2137614336, "MapKombi#isSwitchContextAllowed() - %1", (long)n);
+        this.getMapLogChannel().log(10000000, "MapKombi#isSwitchContextAllowed() - %1", (Object)iContext);
+        this.getMapLogChannel().log(10000000, "MapKombi#isSwitchContextAllowed() - %1", this.getMapConfig().hasZoomEngine());
+        this.getMapLogChannel().log(10000000, "MapKombi#isSwitchContextAllowed() - %1", iContext.getManoeuvreZoomDisabledWithReturn());
+        this.getMapLogChannel().log(10000000, "MapKombi#isSwitchContextAllowed() - %1", (Object)this.getSetup());
+        this.getMapLogChannel().log(10000000, "MapKombi#isSwitchContextAllowed() - %1", (long)n);
         int n2 = 0;
         if (this.getMapConfig().hasZoomEngine()) {
             n2 = this.getZoomEngineState();
@@ -102,12 +98,10 @@ extends AbstractMap {
         return !iContext.getManoeuvreZoomDisabledWithReturn() && n2 == 3 && (n == 1 || n == 0);
     }
 
-    @Override
     protected boolean isStdMapInitiated() {
         return this.bMapKombiInitiated;
     }
 
-    @Override
     protected boolean isGEInitiated() {
         return this.bGEInitiated;
     }
@@ -115,9 +109,8 @@ extends AbstractMap {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void forceHiddenContextRefresh() {
-        this.sMapLogChannel.log(1078071040, "MapKombi#forceContextRefresh()");
+        this.sMapLogChannel.log(1000000, "MapKombi#forceContextRefresh()");
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             this.forceSwitchToAShownContext();
@@ -129,12 +122,10 @@ extends AbstractMap {
         return this.getMVRequest().getMVRequestStd().isReady() && this.getMVRequest().getMVRequestZoomEngine().isReady();
     }
 
-    @Override
     protected ChoiceModelApp getActiveRendererChoice() {
-        return this.env.getChoiceModel(-568392192);
+        return this.env.getChoiceModel(401374);
     }
 
-    @Override
     public IRouteInfoContextHandler getRouteInfoContextHandler() {
         return this.routeInfoContextHandler;
     }

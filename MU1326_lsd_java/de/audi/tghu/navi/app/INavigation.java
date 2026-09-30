@@ -7,7 +7,6 @@ import de.audi.tghu.navi.app.AbstractNavigationActivator;
 import de.audi.tghu.navi.app.NavigationEnv;
 
 public interface INavigation {
-    default public void init(AbstractNavigationActivator abstractNavigationActivator, NavigationEnv navigationEnv) {
-    }
+    public void init(AbstractNavigationActivator var1, NavigationEnv var2);
 }
 

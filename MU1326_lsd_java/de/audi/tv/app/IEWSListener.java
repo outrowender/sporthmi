@@ -4,10 +4,8 @@
 package de.audi.tv.app;
 
 public interface IEWSListener {
-    default public void onEWSInfosActivated() {
-    }
+    public void onEWSInfosActivated();
 
-    default public void onEWSInfosDeactivated() {
-    }
+    public void onEWSInfosDeactivated();
 }
 

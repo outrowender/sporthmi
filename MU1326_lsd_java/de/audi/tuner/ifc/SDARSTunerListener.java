@@ -18,61 +18,42 @@ import org.dsi.ifc.sdars.SubscriptionStatus;
 
 public interface SDARSTunerListener
 extends CmdDefaultListener {
-    default public void updateElectronicSerialCode(String string) {
-    }
+    public void updateElectronicSerialCode(String var1);
 
-    default public void updateServiceStatus3(ServiceStatus3 serviceStatus3) {
-    }
+    public void updateServiceStatus3(ServiceStatus3 var1);
 
-    default public void updateSignalQuality(SignalQuality signalQuality) {
-    }
+    public void updateSignalQuality(SignalQuality var1);
 
-    default public void updateSelectedStation(StationInfo stationInfo) {
-    }
+    public void updateSelectedStation(StationInfo var1);
 
-    default public void updateStationList(StationInfo[] stationInfoArray) {
-    }
+    public void updateStationList(StationInfo[] var1);
 
-    default public void updateCategoryList(CategoryInfo[] categoryInfoArray) {
-    }
+    public void updateCategoryList(CategoryInfo[] var1);
 
-    default public void informationRadioText(RadioText radioText) {
-    }
+    public void informationRadioText(RadioText var1);
 
-    default public void informationRadioText2(RadioText[] radioTextArray) {
-    }
+    public void informationRadioText2(RadioText[] var1);
 
-    default public void updateStaticTaggingInfo(String string, String string2) {
-    }
+    public void updateStaticTaggingInfo(String var1, String var2);
 
-    default public void updateDetectedDevice(int n) {
-    }
+    public void updateDetectedDevice(int var1);
 
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1);
 
-    default public void updateAvailability(int n) {
-    }
+    public void updateAvailability(int var1);
 
-    default public void updateStationDescription(StationDescription[] stationDescriptionArray) {
-    }
+    public void updateStationDescription(StationDescription[] var1);
 
-    default public void responseTime(DateTime dateTime) {
-    }
+    public void responseTime(DateTime var1);
 
-    default public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus) {
-    }
+    public void updateSubscriptionStatus(SubscriptionStatus var1);
 
-    default public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) {
-    }
+    public void informationEPGChannelList(EPGShortInfo[] var1);
 
-    default public void responseEPG24Hour(EPGShortInfo ePGShortInfo) {
-    }
+    public void responseEPG24Hour(EPGShortInfo var1);
 
-    default public void responseEPGDescription(EPGDescription ePGDescription) {
-    }
+    public void responseEPGDescription(EPGDescription var1);
 
-    default public void informationChannelArt(ImageInformation[] imageInformationArray) {
-    }
+    public void informationChannelArt(ImageInformation[] var1);
 }
 

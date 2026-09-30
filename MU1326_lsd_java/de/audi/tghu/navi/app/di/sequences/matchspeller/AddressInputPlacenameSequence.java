@@ -13,12 +13,12 @@ import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultListCommand;
+import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
+import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputPlacenameSequence$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputPlacenameSequence$2;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputPlacenameSequence$3;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
@@ -32,7 +32,6 @@ extends AbstractAddressInputMatchSpellerSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
@@ -45,13 +44,45 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new AddressInputPlacenameSequence$1(this, "Update choice model according to selection critiria"));
-        commandList.add(new AddressInputPlacenameSequence$2(this, "Check whether center is selected"));
-        commandList.add(new AddressInputPlacenameSequence$3(this));
+        commandList.add(new NavCommand("Update choice model according to selection critiria"){
+
+            public void execute() {
+                AddressInputPlacenameSequence.this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand("Check whether center is selected"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (AddressInputPlacenameSequence.this.isCenterSelected(navLocation) && !this.dsiResponseContainer.selectionCriterionAvailable(5)) {
+                    AddressInputPlacenameSequence.setIsPlaceNameCenterSelected(true);
+                } else {
+                    AddressInputPlacenameSequence.setIsPlaceNameCenterSelected(false);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    AddressInputPlacenameSequence.this.modelAccess.onElementSelected(this.dsiResponseContainer.getLiCurrentLD());
+                    CommandList commandList = AddressInputPlacenameSequence.this.commandListFactory.createCommandList();
+                    commandList.add(new UpdateAddressInputFormScreenModelsCommand(AddressInputPlacenameSequence.this.modelAccess));
+                    commandList.add(new CmdNaviPreviewMapUpdate(AddressInputPlacenameSequence.this.previewMap, 1, null, null));
+                    commandList.add(new SetBackupLocationForAddressInputFormCommand(AddressInputPlacenameSequence.this.inputManager));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    AddressInputPlacenameSequence.this.logChannel.log(10000000, "Selected item is not a valid position!");
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -71,13 +102,8 @@ extends AbstractAddressInputMatchSpellerSequence {
         return isPlaceNameCenterSelected;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         return null;
-    }
-
-    static /* synthetic */ boolean access$000(AddressInputPlacenameSequence addressInputPlacenameSequence, NavLocation navLocation) {
-        return addressInputPlacenameSequence.isCenterSelected(navLocation);
     }
 }
 

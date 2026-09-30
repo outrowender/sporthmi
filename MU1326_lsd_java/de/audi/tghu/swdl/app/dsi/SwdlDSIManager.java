@@ -5,6 +5,7 @@ package de.audi.tghu.swdl.app.dsi;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.swdl.app.AbstractSwdlJoinedDownloadState;
 import de.audi.tghu.swdl.app.PropertiesAccessor;
 import de.audi.tghu.swdl.app.SwdlEnv;
@@ -14,13 +15,12 @@ import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerDeviceInfo;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerLogging;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerProgress;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerSelection;
-import de.audi.tghu.swdl.app.dsi.SwdlDSIManager$1;
-import de.audi.tghu.swdl.app.dsi.SwdlDSIManager$2;
 import de.audi.tghu.swdl.app.hmiswitcher.HMIContainer;
 import org.dsi.ifc.swdldeviceinfo.DSISwdlDeviceInfo;
 import org.dsi.ifc.swdllogging.DSISwdlLogging;
 import org.dsi.ifc.swdlprogress.DSISwdlProgress;
 import org.dsi.ifc.swdlselection.DSISwdlSelection;
+import org.dsi.ifc.swdlselection.LameClient;
 import org.dsi.ifc.uota.DSIUotA;
 
 public class SwdlDSIManager {
@@ -83,10 +83,10 @@ public class SwdlDSIManager {
 
     private final void updateDSIAvailableModel(boolean bl) {
         if (bl) {
-            this.getLogMain().log(1078071040, "[SwdlDSIManager] All DSIs available, leave init screen.");
+            this.getLogMain().log(1000000, "[SwdlDSIManager] All DSIs available, leave init screen.");
             this.getSwdlModels().getDSIisAvailableChoice().setValue(1);
         } else {
-            this.getLogMain().log(1078071040, "[SwdlDSIManager] Waiting for at least one DSI.");
+            this.getLogMain().log(1000000, "[SwdlDSIManager] Waiting for at least one DSI.");
             this.getSwdlModels().getDSIisAvailableChoice().setValue(0);
         }
     }
@@ -98,7 +98,15 @@ public class SwdlDSIManager {
             this.updateDSIAvailableModel(bl);
             if (bl) {
                 this.getProgressDSIHandler().startPanelNotification();
-                new Timer("SwdlDSIAvailableTimer", 5, this.getLogMain(), new SwdlDSIManager$1(this), 0, true).restart();
+                new Timer("SwdlDSIAvailableTimer", 5, this.getLogMain(), new TimerListener(){
+
+                    public void fireTimer(Timer timer) {
+                        SwdlDSIManager.this.updateDSIAvailableModel(SwdlDSIManager.this.areAllDSIsAvailable());
+                    }
+
+                    public void cancelTimer(Timer timer) {
+                    }
+                }, 2000L, true).restart();
             }
         }
     }
@@ -142,20 +150,19 @@ public class SwdlDSIManager {
     public void initDSIHandlers() {
         this.getSelectionDSIHandler().initWaitForLameClients();
         if (PropertiesAccessor.isSimulateSWDL()) {
-            this.getSwdlEnv().executeInUtilThread(new SwdlDSIManager$2(this));
+            this.getSwdlEnv().executeInUtilThread(new Runnable(){
+
+                public void run() {
+                    SwdlDSIManager.this.getSelectionDSIHandler().waitForLameClients();
+                    SwdlDSIManager.this.getSwdlEnv().sleep(1000L);
+                    SwdlDSIManager.this.getSelectionDSIHandler().updateLameClients(new LameClient[]{new LameClient("RU", 259), new LameClient("CDC", 261)}, 1);
+                    SwdlDSIManager.this.getSwdlEnv().sleep(20000L);
+                    SwdlDSIManager.this.getSelectionDSIHandler().updateLameClients(new LameClient[]{new LameClient("CDC", 261)}, 1);
+                    SwdlDSIManager.this.getSwdlEnv().sleep(10000L);
+                    SwdlDSIManager.this.getSelectionDSIHandler().updateLameClients(new LameClient[0], 1);
+                }
+            });
         }
-    }
-
-    static /* synthetic */ boolean access$000(SwdlDSIManager swdlDSIManager) {
-        return swdlDSIManager.areAllDSIsAvailable();
-    }
-
-    static /* synthetic */ void access$100(SwdlDSIManager swdlDSIManager, boolean bl) {
-        swdlDSIManager.updateDSIAvailableModel(bl);
-    }
-
-    static /* synthetic */ SwdlEnv access$200(SwdlDSIManager swdlDSIManager) {
-        return swdlDSIManager.getSwdlEnv();
     }
 }
 

@@ -16,17 +16,14 @@ extends FormatAddress {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         LocationFormattingResponse locationFormattingResponse2 = this.asTwoLines(locationFormattingRequest);

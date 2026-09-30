@@ -4,10 +4,8 @@
 package de.audi.tuner.itunes;
 
 public interface ITaggingManagerListener {
-    default public void taggedContentChanged() {
-    }
+    public void taggedContentChanged();
 
-    default public void updateTagResult(int n) {
-    }
+    public void updateTagResult(int var1);
 }
 

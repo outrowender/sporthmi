@@ -34,15 +34,15 @@ import org.dsi.ifc.navigation.RouteDestination;
 public class PoiFuelWarningService
 implements IPoiFuelWarningService,
 IUpdateTankInfoObserver {
-    private static final int FUEL_TANK_INDEX_PRIMARY;
-    private static final int FUEL_TANK_INDEX_SECONDARY;
-    private static final int FUEL_TANK_INDEX_PRIMARY_SECONDARY;
-    private static final String CATEGORY_NEXT_PETROLSTATION;
-    private static final String CATEGORY_NEXT_CHARGINGSTATION;
-    private static final String CATEGORY_NEXT_CNGSTATION;
-    private static final String CATEGORY_NEXT_LPGSTATION;
-    private static final String CATEGORY_NEXT_PETROLSTATION_DIESEL_NAR;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private static final int FUEL_TANK_INDEX_PRIMARY = 1;
+    private static final int FUEL_TANK_INDEX_SECONDARY = 2;
+    private static final int FUEL_TANK_INDEX_PRIMARY_SECONDARY = 3;
+    private static final String CATEGORY_NEXT_PETROLSTATION = "CATEGORY_NEXT_PETROLSTATION";
+    private static final String CATEGORY_NEXT_CHARGINGSTATION = "CATEGORY_NEXT_CHARGINGSTATION";
+    private static final String CATEGORY_NEXT_CNGSTATION = "CATEGORY_NEXT_CNGSTATION";
+    private static final String CATEGORY_NEXT_LPGSTATION = "CATEGORY_NEXT_LPGSTATION";
+    private static final String CATEGORY_NEXT_PETROLSTATION_DIESEL_NAR = "CATEGORY_NEXT_PETROLSTATION_DIESEL_NAR";
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final IVehicle vehicle;
     protected final ICommandListFactory commandListFactory;
     private final ICarKombiService carKombiService;
@@ -76,28 +76,27 @@ IUpdateTankInfoObserver {
         this.setFuelWarningSelection();
     }
 
-    @Override
     public void checkPendingEvents() {
-        this.logChannel.log(1078071040, "%1#checkPendingEvents() - pendingFuelWarning=%2", (Object)this.CLASS_NAME, (Object)this.pendingFuelWarning);
+        this.logChannel.log(1000000, "%1#checkPendingEvents() - pendingFuelWarning=%2", (Object)this.CLASS_NAME, (Object)this.pendingFuelWarning);
         if (!this.env.getFramework().isFrontMU()) {
-            this.logChannel.log(-2137614336, "%1#checkPendingEvents() - not supported for RSE!", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#checkPendingEvents() - not supported for RSE!", (Object)this.CLASS_NAME);
             return;
         }
         if (!this.poiFuelWarningSetup.isFuelWarningActive()) {
-            this.logChannel.log(-2137614336, "%1#checkPendingEvents() - fuelWarningRecommendation off.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#checkPendingEvents() - fuelWarningRecommendation off.", (Object)this.CLASS_NAME);
             return;
         }
         if (!this.operationManager.isFullyOperable()) {
-            this.logChannel.log(-2137614336, "%1#checkPendingEvents() - navigation currently not fully operable.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#checkPendingEvents() - navigation currently not fully operable.", (Object)this.CLASS_NAME);
             return;
         }
         if (Util.isEtronActivated()) {
-            this.logChannel.log(-2137614336, "%1#checkPendingEvents() - not supported for RS-etron!", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#checkPendingEvents() - not supported for RS-etron!", (Object)this.CLASS_NAME);
             return;
         }
         if (this.pendingFuelWarning) {
             if (this.pendingFuelWarningTankIndex == 2 && this.carKombiService.getEngineTypeSecondary() == 3) {
-                this.logChannel.log(1078071040, "%1#checkPendingEvents() - fuel warning is for electric -> ignore event!", (Object)this.CLASS_NAME);
+                this.logChannel.log(1000000, "%1#checkPendingEvents() - fuel warning is for electric -> ignore event!", (Object)this.CLASS_NAME);
                 return;
             }
             this.fuelLevelLow(this.pendingFuelWarningTankIndex);
@@ -121,10 +120,9 @@ IUpdateTankInfoObserver {
         commandList.execute("PoiFuelWarningService#finish");
     }
 
-    @Override
     public void updateTankInfo(TankInfo tankInfo) {
-        this.logChannel.log(-2137614336, "%1#updateTankInfo - tankInfo=%2", (Object)this.CLASS_NAME, (Object)tankInfo);
-        this.logChannel.log(-2137614336, "%1#updateTankInfo - fuelWarningValue=%2; fuelWarningSecondaryValue=%3", (Object)this.CLASS_NAME, (Object)this.fuelWarningValue, (Object)this.fuelWarningSecondaryValue);
+        this.logChannel.log(10000000, "%1#updateTankInfo - tankInfo=%2", (Object)this.CLASS_NAME, (Object)tankInfo);
+        this.logChannel.log(10000000, "%1#updateTankInfo - fuelWarningValue=%2; fuelWarningSecondaryValue=%3", (Object)this.CLASS_NAME, (Object)this.fuelWarningValue, (Object)this.fuelWarningSecondaryValue);
         int n = 1;
         boolean bl = false;
         if (this.fuelWarningValue != tankInfo.isFuelWarning() && tankInfo.isFuelWarning()) {
@@ -137,7 +135,7 @@ IUpdateTankInfoObserver {
         this.fuelWarningValue = tankInfo.isFuelWarning();
         this.fuelWarningSecondaryValue = tankInfo.isFuelWarningSecondary();
         if (bl) {
-            this.logChannel.log(-2137614336, "%1#updateTankInfo - tankIndex=%2", (Object)this.CLASS_NAME, (long)n);
+            this.logChannel.log(10000000, "%1#updateTankInfo - tankIndex=%2", (Object)this.CLASS_NAME, (long)n);
             this.fuelWarningTimer.start();
             this.pendingFuelWarning = true;
             this.pendingFuelWarningTankIndex = n;
@@ -150,7 +148,7 @@ IUpdateTankInfoObserver {
     private void fuelLevelLow(int n) {
         int n2 = this.determinePOICategory(n);
         boolean bl = this.routeContainsPetrolStation(this.routeManager.getRoute(), n2);
-        this.logChannel.log(-1601830656, "%1#fuelLevelLow() - routeContainsPetrolStation=%2", (Object)this.CLASS_NAME, (Object)bl);
+        this.logChannel.log(100000, "%1#fuelLevelLow() - routeContainsPetrolStation=%2", (Object)this.CLASS_NAME, (Object)bl);
         this.pendingWarningCategory = n2;
         if (!bl) {
             this.fuelWarningModelAccess.showPopUp(n2);
@@ -158,7 +156,7 @@ IUpdateTankInfoObserver {
     }
 
     private boolean routeContainsPetrolStation(Route route, int n) {
-        this.logChannel.log(-2137614336, "%1#routeContainsPetrolStation - route=%2", (Object)this.CLASS_NAME, (Object)route);
+        this.logChannel.log(10000000, "%1#routeContainsPetrolStation - route=%2", (Object)this.CLASS_NAME, (Object)route);
         if (RouteUtil.getRouteLength(route) <= 0) {
             return false;
         }
@@ -167,27 +165,27 @@ IUpdateTankInfoObserver {
         for (int i2 = (int)route.getIndexOfCurrentDestination(); i2 < routeDestinationArray.length; ++i2) {
             NavLocation navLocation = routeDestinationArray[i2].getRouteLocation();
             if (!this.isPetrolStation(navLocation, string)) continue;
-            this.logChannel.log(1078071040, "%1#fuelLevelLow() - route already contains a petrol station! ", (Object)this.CLASS_NAME);
+            this.logChannel.log(1000000, "%1#fuelLevelLow() - route already contains a petrol station! ", (Object)this.CLASS_NAME);
             return true;
         }
         return false;
     }
 
     public static void setPetrolStationFlagToLocation(LogChannel logChannel, NavLocation navLocation, int n) {
-        logChannel.log(-2137614336, "PoiFuelWarningService#setPetrolStationFlagToLocation - petrolStationCategory=%1; location=%2", (Object)LocationFormatter.formatLocationShort(navLocation));
+        logChannel.log(10000000, "PoiFuelWarningService#setPetrolStationFlagToLocation - petrolStationCategory=%1; location=%2", (Object)LocationFormatter.formatLocationShort(navLocation));
         String string = PoiFuelWarningService.getPOICatogoryPersistencyConst(logChannel, n);
         Util.setPetrolStationValue(navLocation, string);
     }
 
     private boolean isPetrolStation(NavLocation navLocation, String string) {
-        this.logChannel.log(1078071040, "%1#isPetrolStation - location=%2", (Object)this.CLASS_NAME, (Object)navLocation);
+        this.logChannel.log(1000000, "%1#isPetrolStation - location=%2", (Object)this.CLASS_NAME, (Object)navLocation);
         String string2 = Util.getPetrolStationValue(navLocation);
-        this.logChannel.log(1078071040, "%1#isPetrolStation - categoryStr=%2; petrolStationStr=%3", (Object)this.CLASS_NAME, (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "%1#isPetrolStation - categoryStr=%2; petrolStationStr=%3", (Object)this.CLASS_NAME, (Object)string, (Object)string2);
         return string2 != null && string2.equals(string);
     }
 
     private int determinePOICategory(int n) {
-        this.logChannel.log(1078071040, "%1#determinePOICategory - pendingFuelWarningTankIndex=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(1000000, "%1#determinePOICategory - pendingFuelWarningTankIndex=%2", (Object)this.CLASS_NAME, (long)n);
         int n2 = this.carKombiService.getConventionalEngineType();
         if (n == 2 || n == 3) {
             n2 = this.carKombiService.getAlternativeEngineType();
@@ -196,12 +194,12 @@ IUpdateTankInfoObserver {
     }
 
     private int getPOICategoryForFuelType(int n) {
-        this.logChannel.log(1078071040, "%1#getPOICategoryForFuelType - engineType=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(1000000, "%1#getPOICategoryForFuelType - engineType=%2", (Object)this.CLASS_NAME, (long)n);
         int n2 = 101;
         if (n == 3) {
             n2 = 134;
         } else if (n == 2) {
-            this.logChannel.log(1078071040, "%1#getPOICategoryForFuelType - Unsupported BCENGINETYPE_GAS.", (Object)this.CLASS_NAME);
+            this.logChannel.log(1000000, "%1#getPOICategoryForFuelType - Unsupported BCENGINETYPE_GAS.", (Object)this.CLASS_NAME);
         } else if (n == 8) {
             n2 = 135;
         } else if (n == 9) {
@@ -215,35 +213,35 @@ IUpdateTankInfoObserver {
         } else if (n == 7) {
             n2 = 101;
         } else {
-            this.logChannel.log(1078071040, "%1#getPOICategoryForFuelType - No match found.", (Object)this.CLASS_NAME);
+            this.logChannel.log(1000000, "%1#getPOICategoryForFuelType - No match found.", (Object)this.CLASS_NAME);
         }
-        this.logChannel.log(1078071040, "%1#getPOICategoryForFuelType - resultCategory=%2", (Object)this.CLASS_NAME, (long)n2);
+        this.logChannel.log(1000000, "%1#getPOICategoryForFuelType - resultCategory=%2", (Object)this.CLASS_NAME, (long)n2);
         return n2;
     }
 
     private static String getPOICatogoryPersistencyConst(LogChannel logChannel, int n) {
-        logChannel.log(1078071040, "PoiFuelWarningService#getPOICatogoryPersistencyConst - currentPOICategory=%1", (long)n);
-        String string = "CATEGORY_NEXT_PETROLSTATION";
+        logChannel.log(1000000, "PoiFuelWarningService#getPOICatogoryPersistencyConst - currentPOICategory=%1", (long)n);
+        String string = CATEGORY_NEXT_PETROLSTATION;
         if (n == 101) {
-            string = "CATEGORY_NEXT_PETROLSTATION";
+            string = CATEGORY_NEXT_PETROLSTATION;
         } else if (n == 134) {
-            string = "CATEGORY_NEXT_CHARGINGSTATION";
+            string = CATEGORY_NEXT_CHARGINGSTATION;
         } else if (n == 135) {
-            string = "CATEGORY_NEXT_CNGSTATION";
+            string = CATEGORY_NEXT_CNGSTATION;
         } else if (n == 136) {
-            string = "CATEGORY_NEXT_LPGSTATION";
+            string = CATEGORY_NEXT_LPGSTATION;
         } else if (n == 121) {
-            string = "CATEGORY_NEXT_PETROLSTATION_DIESEL_NAR";
+            string = CATEGORY_NEXT_PETROLSTATION_DIESEL_NAR;
         } else {
-            logChannel.log(1078071040, "PoiFuelWarningService#getPOICatogoryPersistencyConst - no match found");
+            logChannel.log(1000000, "PoiFuelWarningService#getPOICatogoryPersistencyConst - no match found");
         }
-        logChannel.log(1078071040, "PoiFuelWarningService#getPOICatogoryPersistencyConst - result=%1", (Object)string);
+        logChannel.log(1000000, "PoiFuelWarningService#getPOICatogoryPersistencyConst - result=%1", (Object)string);
         return string;
     }
 
     public void toggleFuelWarningSelection() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#toggleFuelWarningSelection()", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "%1#toggleFuelWarningSelection()", (Object)this.CLASS_NAME);
         }
         boolean bl = !this.poiFuelWarningSetup.isFuelWarningActive();
         this.poiFuelWarningSetup.setFuelWarningActive(bl, true);
@@ -252,13 +250,12 @@ IUpdateTankInfoObserver {
 
     private void setFuelWarningSelection() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#setFuelWarningSelection()", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "%1#setFuelWarningSelection()", (Object)this.CLASS_NAME);
         }
         boolean bl = this.poiFuelWarningSetup.isFuelWarningActive();
         this.fuelWarningModelAccess.setFuelWarningChoiceModel(bl);
     }
 
-    @Override
     public void resetSettings() {
         this.poiFuelWarningSetup.resetSettings();
         this.setFuelWarningSelection();
@@ -274,12 +271,10 @@ IUpdateTankInfoObserver {
         this.operationManager = null;
     }
 
-    @Override
     public boolean isFuelWarningActive() {
         return this.fuelWarningModelAccess.isFuelWarningActive();
     }
 
-    @Override
     public void setFuelWarningActive(boolean bl) {
     }
 }

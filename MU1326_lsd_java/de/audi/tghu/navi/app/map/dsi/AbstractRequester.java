@@ -66,7 +66,7 @@ implements DSIBase {
         if (this.getMap() != null) {
             this.getMap().initDSI();
         } else {
-            this.getLogger().log(-1601830656, "AbstractRequester#bind() - It (id = %1) is not bound to a map.", (long)this.getID());
+            this.getLogger().log(100000, "AbstractRequester#bind() - It (id = %1) is not bound to a map.", (long)this.getID());
         }
     }
 
@@ -117,21 +117,18 @@ implements DSIBase {
         this.dsiStateChangeListeners.add(dSIStateChangeListener);
     }
 
-    public abstract void resetMemberVariables() {
-    }
+    public abstract void resetMemberVariables();
 
-    protected abstract DSIBase getDSIBase() {
-    }
+    protected abstract DSIBase getDSIBase();
 
-    @Override
     public final void setNotification(int[] nArray, DSIListener dSIListener) {
         try {
-            this.getLogger().log(14808325, "AbstractRequester[%1]#setNotification() - length: %2", (Object)this.CLASSNAME, nArray == null ? 0L : (long)nArray.length);
+            this.getLogger().log(100000000, "AbstractRequester[%1]#setNotification() - length: %2", (Object)this.CLASSNAME, nArray == null ? 0L : (long)nArray.length);
             DSIBase dSIBase = this.getDSIBase();
             if (dSIBase != null) {
                 dSIBase.setNotification(nArray, dSIListener);
             } else {
-                this.getLogger().log(-1601830656, "AbstractRequester[%1]#setNotification() - DSI not set!", (Object)this.CLASSNAME);
+                this.getLogger().log(100000, "AbstractRequester[%1]#setNotification() - DSI not set!", (Object)this.CLASSNAME);
             }
         }
         catch (Exception exception) {
@@ -139,15 +136,14 @@ implements DSIBase {
         }
     }
 
-    @Override
     public final void setNotification(int n, DSIListener dSIListener) {
         try {
-            this.getLogger().log(14808325, "AbstractRequester[%1]#setNotification(%2)", (Object)this.CLASSNAME, (long)n);
+            this.getLogger().log(100000000, "AbstractRequester[%1]#setNotification(%2)", (Object)this.CLASSNAME, (long)n);
             DSIBase dSIBase = this.getDSIBase();
             if (dSIBase != null) {
                 dSIBase.setNotification(n, dSIListener);
             } else {
-                this.getLogger().log(-1601830656, "AbstractRequester[%1]#setNotification() - DSI not set!", (Object)this.CLASSNAME);
+                this.getLogger().log(100000, "AbstractRequester[%1]#setNotification() - DSI not set!", (Object)this.CLASSNAME);
             }
         }
         catch (Exception exception) {
@@ -155,15 +151,14 @@ implements DSIBase {
         }
     }
 
-    @Override
     public final void setNotification(DSIListener dSIListener) {
         try {
-            this.getLogger().log(14808325, "AbstractRequester[%1]#setNotification()", (Object)this.CLASSNAME);
+            this.getLogger().log(100000000, "AbstractRequester[%1]#setNotification()", (Object)this.CLASSNAME);
             DSIBase dSIBase = this.getDSIBase();
             if (dSIBase != null) {
                 dSIBase.setNotification(dSIListener);
             } else {
-                this.getLogger().log(-1601830656, "AbstractRequester[%1]#setNotification() - DSI not set!", (Object)this.CLASSNAME);
+                this.getLogger().log(100000, "AbstractRequester[%1]#setNotification() - DSI not set!", (Object)this.CLASSNAME);
             }
         }
         catch (Exception exception) {
@@ -171,15 +166,14 @@ implements DSIBase {
         }
     }
 
-    @Override
     public final void clearNotification(int[] nArray, DSIListener dSIListener) {
         try {
-            this.getLogger().log(14808325, "AbstractRequester[%1]#clearNotification() - length: %2", (Object)this.CLASSNAME, nArray == null ? 0L : (long)nArray.length);
+            this.getLogger().log(100000000, "AbstractRequester[%1]#clearNotification() - length: %2", (Object)this.CLASSNAME, nArray == null ? 0L : (long)nArray.length);
             DSIBase dSIBase = this.getDSIBase();
             if (dSIBase != null) {
                 dSIBase.clearNotification(nArray, dSIListener);
             } else {
-                this.getLogger().log(-1601830656, "AbstractRequester[%1]#clearNotification() - DSI not set!", (Object)this.CLASSNAME);
+                this.getLogger().log(100000, "AbstractRequester[%1]#clearNotification() - DSI not set!", (Object)this.CLASSNAME);
             }
         }
         catch (Exception exception) {
@@ -187,15 +181,14 @@ implements DSIBase {
         }
     }
 
-    @Override
     public final void clearNotification(int n, DSIListener dSIListener) {
         try {
-            this.getLogger().log(14808325, "AbstractRequester[%1]#clearNotification(%2)", (Object)this.CLASSNAME, (long)n);
+            this.getLogger().log(100000000, "AbstractRequester[%1]#clearNotification(%2)", (Object)this.CLASSNAME, (long)n);
             DSIBase dSIBase = this.getDSIBase();
             if (dSIBase != null) {
                 dSIBase.clearNotification(n, dSIListener);
             } else {
-                this.getLogger().log(-1601830656, "AbstractRequester[%1]#clearNotification() - DSI not set!", (Object)this.CLASSNAME);
+                this.getLogger().log(100000, "AbstractRequester[%1]#clearNotification() - DSI not set!", (Object)this.CLASSNAME);
             }
         }
         catch (Exception exception) {
@@ -203,15 +196,14 @@ implements DSIBase {
         }
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         try {
-            this.getLogger().log(14808325, "AbstractRequester[%1]#clearNotification(%2)", (Object)this.CLASSNAME, (Object)dSIListener);
+            this.getLogger().log(100000000, "AbstractRequester[%1]#clearNotification(%2)", (Object)this.CLASSNAME, (Object)dSIListener);
             DSIBase dSIBase = this.getDSIBase();
             if (dSIBase != null) {
                 dSIBase.clearNotification(dSIListener);
             } else {
-                this.getLogger().log(-1601830656, "AbstractRequester[%1]#clearNotification() - DSI not set!", (Object)this.CLASSNAME);
+                this.getLogger().log(100000, "AbstractRequester[%1]#clearNotification() - DSI not set!", (Object)this.CLASSNAME);
             }
         }
         catch (Exception exception) {

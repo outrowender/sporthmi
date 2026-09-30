@@ -8,14 +8,14 @@ import org.dsi.ifc.tvtuner.AudioChannel;
 
 class AudioChannelRow
 extends EvoListRow {
-    private static final int MAX_COLS;
-    private static final int AUDIO_CHANNEL_ID;
-    private static final int AUDIO_LANGUAGE_CODE;
-    private static final int AUDIO_CHANNEL_FORMAT;
-    private static final int AUDIO_CHANNEL_DESCRIPTION;
-    private static final int AUDIO_CHANNEL_SELECTED;
-    private static final int AUDIO_CHANNEL_IMAGE_RECORDSET;
-    private static final int AUDIO_CHANNEL_CLOSE_OPTIONMENU;
+    private static final int MAX_COLS = 7;
+    private static final int AUDIO_CHANNEL_ID = 0;
+    private static final int AUDIO_LANGUAGE_CODE = 1;
+    private static final int AUDIO_CHANNEL_FORMAT = 2;
+    private static final int AUDIO_CHANNEL_DESCRIPTION = 3;
+    private static final int AUDIO_CHANNEL_SELECTED = 4;
+    private static final int AUDIO_CHANNEL_IMAGE_RECORDSET = 5;
+    private static final int AUDIO_CHANNEL_CLOSE_OPTIONMENU = 6;
     private final AudioChannel audioChannel;
     private int selected;
     private int textCode;
@@ -75,7 +75,6 @@ extends EvoListRow {
         this.setInteger(6, 1);
     }
 
-    @Override
     public EvoListRow copy() {
         return new AudioChannelRow(this);
     }

@@ -24,10 +24,9 @@ implements GuiModelAccessInputGeoCoordinate {
         this.logChannel = navigationEnv.getGeoCoordInputLogChannel();
     }
 
-    @Override
     public void setCoordinates(NavLocation navLocation, int n) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GuiModelAccessInputGeoCoordinateImpl#setCoordinates(NavLocation vehicleposition)");
+            this.logChannel.log(100000000, "GuiModelAccessInputGeoCoordinateImpl#setCoordinates(NavLocation vehicleposition)");
         }
         this.setCoordinates(this.createGeoMetric(navLocation), n);
     }
@@ -36,26 +35,24 @@ implements GuiModelAccessInputGeoCoordinate {
         return new GeoMetric(navLocation.getLatitude(), navLocation.getLongitude());
     }
 
-    @Override
     public void setCoordinates(GeoMetric geoMetric, int n) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GuiModelAccessInputGeoCoordinateImpl#setCoordinates(GeoMetric coordinate)");
+            this.logChannel.log(100000000, "GuiModelAccessInputGeoCoordinateImpl#setCoordinates(GeoMetric coordinate)");
         }
-        this.env.getMetricsModel(538641920).setMetric(geoMetric);
+        this.env.getMetricsModel(400160).setMetric(geoMetric);
         this.showPreviewMap();
-        this.env.getMenuModel(0x6200600).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
+        this.env.getMenuModel(401414).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
     }
 
     private void showPreviewMap() {
-        if (this.env.getChoiceModel(-1591867904).getValue() == 0) {
-            this.env.getChoiceModel(-1591867904).setValue(1);
+        if (this.env.getChoiceModel(401057).getValue() == 0) {
+            this.env.getChoiceModel(401057).setValue(1);
         }
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GuiModelAccessInputGeoCoordinateImpl#setDetailedCoordinateInformation()");
+            this.logChannel.log(100000000, "GuiModelAccessInputGeoCoordinateImpl#setDetailedCoordinateInformation()");
         }
         String string = LocationFormatter.formatStreetHousenumber(navLocation);
         String string2 = LocationFormatter.formatCityZipTextfield(navLocation);
@@ -67,21 +64,19 @@ implements GuiModelAccessInputGeoCoordinate {
         stringBuffer.append("\n");
         stringBuffer.append(string3);
         if (Util.isEmpty(string) && Util.isEmpty(string2) && Util.isEmpty(string3)) {
-            this.env.getChoiceModel(-685832704).setValue(0);
+            this.env.getChoiceModel(401367).setValue(0);
         } else {
-            this.env.getLabelModel(-853604864).setText(stringBuffer.toString());
-            this.env.getChoiceModel(-685832704).setValue(1);
+            this.env.getLabelModel(401357).setText(stringBuffer.toString());
+            this.env.getChoiceModel(401367).setValue(1);
         }
     }
 
-    @Override
     public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation navLocation, String string) {
         GuiTooltipInformationContainer guiTooltipInformationContainer = new GuiTooltipInformationContainer();
         PreviewMapUtils.fillToolTipInformationContainerByNavLocation(this.env, navLocation, string, guiTooltipInformationContainer);
         return guiTooltipInformationContainer;
     }
 
-    @Override
     public void onUpdateLocationsForTour(NavLocation[] navLocationArray, String string) {
     }
 }

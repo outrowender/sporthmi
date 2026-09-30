@@ -12,9 +12,9 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 public class StationMapper {
     private final List mappedList = new ArrayList(300);
     private long indexCounter = 1L;
-    public static final long INDEX_FOR_NULL_SERVICES;
-    private static final long UNIQUE_ID_FILTER;
-    private static final long FLAG_IS_FAVORITE;
+    public static final long INDEX_FOR_NULL_SERVICES = 0L;
+    private static final long UNIQUE_ID_FILTER = Integer.MAX_VALUE;
+    private static final long FLAG_IS_FAVORITE = 0x100000000L;
 
     public synchronized long[] getServicesIDs(ServiceInfo[] serviceInfoArray) {
         if (serviceInfoArray == null) {
@@ -34,11 +34,10 @@ public class StationMapper {
 
     public synchronized long getServiceID(ServiceInfo serviceInfo) {
         if (serviceInfo == null) {
-            long l = 0L;
-            return;
+            return 0L;
         }
         StationIDMapping stationIDMapping = new StationIDMapping(serviceInfo.namePID, serviceInfo.servicePID, serviceInfo.sType, this.indexCounter);
-        long l = this.checkMapping(stationIDMapping);
+        return this.checkMapping(stationIDMapping);
     }
 
     protected synchronized Long[] getMatchingNamePidServiceIDs(long l) {
@@ -100,19 +99,19 @@ public class StationMapper {
     }
 
     public static int getCombiID(long l) {
-        return (int)(l & 0);
+        return (int)(l & Integer.MAX_VALUE);
     }
 
     public static long getPureUniqueID(long l) {
-        return l & 0;
+        return l & Integer.MAX_VALUE;
     }
 
     public static boolean isFavorite(long l) {
-        return (l & 0) == 0;
+        return (l & 0x100000000L) == 0x100000000L;
     }
 
     public static long flagUniqueIDAsFavorite(long l) {
-        return l | 0;
+        return l | 0x100000000L;
     }
 }
 

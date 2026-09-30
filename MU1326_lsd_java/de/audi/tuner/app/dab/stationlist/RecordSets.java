@@ -8,13 +8,13 @@ import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.dab.stationlist.AbstractDABListHandler;
 
 public class RecordSets {
-    public static final int RS_UNUSED;
-    static final int RS_ENSEMBLE_CLOSED;
-    static final int RS_ENSEMBLE_OPEN;
-    private static final int RS_SERVICE_FLAT;
-    private static final int RS_SERVICE;
-    private static final int RS_COMPONENT;
-    private static final int RS_COMPONENT_FLAT;
+    public static final int RS_UNUSED = -1;
+    static final int RS_ENSEMBLE_CLOSED = 0;
+    static final int RS_ENSEMBLE_OPEN = 1;
+    private static final int RS_SERVICE_FLAT = 2;
+    private static final int RS_SERVICE = 3;
+    private static final int RS_COMPONENT = 4;
+    private static final int RS_COMPONENT_FLAT = 5;
     private int sortMode;
     private final AbstractDABListHandler listHandler;
 

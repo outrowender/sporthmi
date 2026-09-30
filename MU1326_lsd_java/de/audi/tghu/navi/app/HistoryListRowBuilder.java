@@ -4,10 +4,9 @@
 package de.audi.tghu.navi.app;
 
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.tghu.navi.app.CityHistory$HistoryEntry;
+import de.audi.tghu.navi.app.CityHistory;
 
 public interface HistoryListRowBuilder {
-    default public EvoListRow buildListRow(CityHistory$HistoryEntry cityHistory$HistoryEntry, int n) {
-    }
+    public EvoListRow buildListRow(CityHistory.HistoryEntry var1, int var2);
 }
 

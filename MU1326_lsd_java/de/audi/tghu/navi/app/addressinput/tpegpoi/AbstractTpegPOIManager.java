@@ -9,15 +9,14 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LIRestoreStateCommand;
-import de.audi.tghu.navi.app.addressinput.tpegpoi.AbstractTpegPOIManager$1;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.ITpegPOIManager;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
-import de.audi.tghu.navi.app.li.SpellerStack$StackElement;
 import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractTpegPOIManager
 implements ITpegPOIManager {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected final ICommandListFactory commandListFactory;
@@ -32,19 +31,24 @@ implements ITpegPOIManager {
         this.previewMap = iPreviewMap;
     }
 
-    @Override
     public void destTpegPOIHKReturn(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#destTpegPOIHKReturn(%2, %3)", (Object)this.CLASS_NAME, (long)n, (long)n2);
-        SpellerStack$StackElement spellerStack$StackElement = null;
+        this.logChannel.log(10000000, "%1#destTpegPOIHKReturn(%2, %3)", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        SpellerStack.StackElement stackElement = null;
         if (n2 == 0) {
-            spellerStack$StackElement = this.spellerStack.pop();
+            stackElement = this.spellerStack.pop();
         }
-        if (spellerStack$StackElement != null) {
-            this.logChannel.log(-2137614336, "%1#destTpegPOIHKReturn: Element popped from SpellerStack: %2", (Object)this.CLASS_NAME, (Object)spellerStack$StackElement);
+        if (stackElement != null) {
+            this.logChannel.log(10000000, "%1#destTpegPOIHKReturn: Element popped from SpellerStack: %2", (Object)this.CLASS_NAME, (Object)stackElement);
             CommandList commandList = this.commandListFactory.createCommandList();
-            commandList.add(new LIRestoreStateCommand(spellerStack$StackElement));
-            commandList.add(new AbstractTpegPOIManager$1(this, new StringBuffer().append(this.CLASS_NAME).append("#destTpegPOIHKReturn#preparePreviewMap").toString()));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#destTpegPOIHKReturn").toString());
+            commandList.add(new LIRestoreStateCommand(stackElement));
+            commandList.add(new NavCommand(this.CLASS_NAME + "#destTpegPOIHKReturn#preparePreviewMap"){
+
+                public void execute() {
+                    AbstractTpegPOIManager.this.previewMap.setPreviewAreaAroundCCP(5);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.execute(this.CLASS_NAME + "#destTpegPOIHKReturn");
         }
     }
 }

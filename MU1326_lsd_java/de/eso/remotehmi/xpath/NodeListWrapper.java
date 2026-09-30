@@ -15,12 +15,10 @@ implements NodeList {
         this.list = list;
     }
 
-    @Override
     public Node item(int n) {
         return (Node)this.list.get(n);
     }
 
-    @Override
     public int getLength() {
         return this.list.size();
     }

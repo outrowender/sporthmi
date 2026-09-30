@@ -16,15 +16,13 @@ extends NavCommand {
         this.fileName = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "TrExportTrails#execute( traceIDs: %1 )", (Object)this.traceIDs);
+        this.logger.log(10000000, "TrExportTrails#execute( traceIDs: %1 )", (Object)this.traceIDs);
         this.getDSINavigation().trExportTrails(this.traceIDs, this.fileName);
     }
 
-    @Override
     public void trExportTrailsResult(int n) {
-        this.logger.log(-2137614336, "TrExportTrails#trExportTrailsResult( trDataResult: %1 )", (long)n);
+        this.logger.log(10000000, "TrExportTrails#trExportTrailsResult( trDataResult: %1 )", (long)n);
         if (n != 0) {
             this.getCommandList().commandAborted(n);
         }

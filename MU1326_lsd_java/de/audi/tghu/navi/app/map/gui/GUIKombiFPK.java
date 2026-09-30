@@ -16,12 +16,10 @@ extends GUIKombi {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public String getName() {
         return "GUIKombiFPK";
     }
 
-    @Override
     public int getScreenLayoutAt(int n) {
         ListModelApp listModelApp = this.getDispatcher().getmScreenLayout();
         int n2 = 0;
@@ -36,52 +34,42 @@ extends GUIKombi {
         return this.getMap().getMapManager().getGUIEventDispatcher();
     }
 
-    @Override
     public int getMixedListOffset() {
         return this.getScreenLayoutAt(5);
     }
 
-    @Override
     public int getRouteCriteriaBoxLeftOffset() {
         return this.getScreenLayoutAt(10);
     }
 
-    @Override
     public int getScreenSmallLeftOffset() {
         return this.getScreenLayoutAt(13);
     }
 
-    @Override
     public int getScreenSmallRightOffset() {
         return this.getScreenLayoutAt(14);
     }
 
-    @Override
     public int getSideBarWidth() {
         return this.getScreenLayoutAt(3);
     }
 
-    @Override
     public int getSideBarWidthAR() {
         return this.getScreenLayoutAt(4);
     }
 
-    @Override
     public int getSideBarWidthOpen() {
         return this.getScreenLayoutAt(3);
     }
 
-    @Override
     public int getStatusBarHeight() {
         return this.getScreenLayoutAt(2);
     }
 
-    @Override
     public int getTopLineHeight() {
         return this.getScreenLayoutAt(9);
     }
 
-    @Override
     public void setRotation(int n) {
     }
 }

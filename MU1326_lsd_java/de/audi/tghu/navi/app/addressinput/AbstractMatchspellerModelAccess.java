@@ -19,7 +19,7 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public abstract class AbstractMatchspellerModelAccess
 implements IMatchspellerModelAccess {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final MatchspellerModelApp matchSpellerModelApp;
     protected final TiledListModelApp previewListModelApp;
@@ -35,15 +35,13 @@ implements IMatchspellerModelAccess {
         this.previewListModelApp = navigationEnv.getTiledListModel(n2);
     }
 
-    @Override
     public void onInputChanged() {
         this.previewListModelApp.removeAll();
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#onStart was called with NavLocation %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.logChannel.log(100000000, "%1#onStart was called with NavLocation %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
         }
         Util.setModelStatus(this.matchSpellerModelApp, 0);
         this.matchSpellerModelApp.clear();
@@ -54,11 +52,10 @@ implements IMatchspellerModelAccess {
         this.previewListModelApp.clearAll();
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
         LIValueList lIValueList;
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateSpeller(%1, %2, %3, %4)").toString(), (Object)string, (Object)string2, (Object)new StringBuffer().append(bl).append("").toString(), (Object)new StringBuffer().append(bl2).append("").toString());
-        this.logChannel.log(-2137614336, "%1#onUpdateSpeller() - spellerID = %2)", (Object)this.CLASS_NAME, (long)this.matchSpellerModelApp.getID());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateSpeller(%1, %2, %3, %4)", (Object)string, (Object)string2, (Object)(bl + ""), (Object)(bl2 + ""));
+        this.logChannel.log(10000000, "%1#onUpdateSpeller() - spellerID = %2)", (Object)this.CLASS_NAME, (long)this.matchSpellerModelApp.getID());
         int n = bl2 ? 1 : 0;
         this.matchSpellerModelApp.setText(string2);
         this.matchSpellerModelApp.setValidChars(string, n);
@@ -67,7 +64,7 @@ implements IMatchspellerModelAccess {
             LIValueListElement[] lIValueListElementArray = lIValueList.getList();
             if (bl && lIValueListElementArray != null && lIValueListElementArray.length > 0 && lIValueListElementArray[0] != null) {
                 String string3 = this.getPhonemeTextFromElement(lIValueListElementArray[0]);
-                this.logChannel.log(-2137614336, "%1#onUpdateSpeller(...) - Current Input is a full match currentInput = %2, phoneme for the fullmatch = %3", (Object)this.CLASS_NAME, (Object)string2, (Object)string3);
+                this.logChannel.log(10000000, "%1#onUpdateSpeller(...) - Current Input is a full match currentInput = %2, phoneme for the fullmatch = %3", (Object)this.CLASS_NAME, (Object)string2, (Object)string3);
                 this.matchSpellerModelApp.setPhonemeText(string3, this.getPhonemeTextAlphabet(lIValueListElementArray[0]));
             }
         }
@@ -95,7 +92,6 @@ implements IMatchspellerModelAccess {
         return string;
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         if (navLocation == null) {
             this.logChannel.log(10000, "%1#onElementSelected the given navLocation is null", (Object)this.CLASS_NAME);
@@ -103,7 +99,6 @@ implements IMatchspellerModelAccess {
         }
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
@@ -115,16 +110,13 @@ implements IMatchspellerModelAccess {
         return this.previewListModelApp;
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.previewListModelApp.clearRows(n, n2);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
     }
 
-    @Override
     public void onRestore() {
     }
 }

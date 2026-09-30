@@ -7,22 +7,16 @@ import de.audi.tuner.app.PresetIds;
 import de.audi.tuner.app.TunerObjectContainer;
 
 public interface IMemoryList {
-    default public TunerObjectContainer[] getList() {
-    }
+    public TunerObjectContainer[] getList();
 
-    default public TunerObjectContainer[] getList(int n) {
-    }
+    public TunerObjectContainer[] getList(int var1);
 
-    default public TunerObjectContainer[] getList(int[] nArray) {
-    }
+    public TunerObjectContainer[] getList(int[] var1);
 
-    default public PresetIds getPresetIds(TunerObjectContainer tunerObjectContainer) {
-    }
+    public PresetIds getPresetIds(TunerObjectContainer var1);
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public boolean tuneByCombiID(int n, int n2) {
-    }
+    public boolean tuneByCombiID(int var1, int var2);
 }
 

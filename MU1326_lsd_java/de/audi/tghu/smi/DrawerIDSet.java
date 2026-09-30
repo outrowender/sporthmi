@@ -21,7 +21,7 @@ public class DrawerIDSet {
     }
 
     public String toString() {
-        return new StringBuffer().append("selectionDrawerID=").append(this.selectionDrawerID).append(", optionsDrawerID=").append(this.optionsDrawerID).toString();
+        return "selectionDrawerID=" + this.selectionDrawerID + ", optionsDrawerID=" + this.optionsDrawerID;
     }
 }
 

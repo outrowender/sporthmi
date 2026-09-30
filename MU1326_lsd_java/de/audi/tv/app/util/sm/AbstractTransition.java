@@ -8,10 +8,8 @@ import de.audi.tv.app.util.sm.State;
 
 public abstract class AbstractTransition
 extends State {
-    public abstract void performComplexTransition() {
-    }
+    public abstract void performComplexTransition();
 
-    @Override
     public final void enter(Message message) {
         this.performComplexTransition();
     }
@@ -20,12 +18,10 @@ extends State {
         this.performComplexTransition();
     }
 
-    @Override
     public final boolean processMessage(Message message) {
         return false;
     }
 
-    @Override
     public final void exit(Message message) {
     }
 }

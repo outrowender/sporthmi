@@ -13,20 +13,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class TrackInfoContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_TRACK_INFO;
-    private static final int ELEMENT_ID_TITLE;
-    private static final int ELEMENT_ID_ARTIST;
-    private static final int ELEMENT_ID_ALBUM;
-    private static final int ELEMENT_ID_COVER;
-    private static final int ELEMENT_ID_LENGTH;
-    private static final int ELEMENT_ID_TRACK_NUMBER;
+    private static final int CONTAINER_ID_TRACK_INFO = 22;
+    private static final int ELEMENT_ID_TITLE = 39;
+    private static final int ELEMENT_ID_ARTIST = 40;
+    private static final int ELEMENT_ID_ALBUM = 41;
+    private static final int ELEMENT_ID_COVER = 42;
+    private static final int ELEMENT_ID_LENGTH = 43;
+    private static final int ELEMENT_ID_TRACK_NUMBER = 67;
     private Map map = new HashMap();
 
     public TrackInfoContainer() {
@@ -145,14 +144,12 @@ extends AbstractContainer {
         return ((Long)this.map.get(new Integer(67))).intValue();
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(22, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -163,31 +160,31 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 39: {
-                    hASDataElementArray[n++] = new StringElement(39, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(39, (String)entry.getValue());
                     break;
                 }
                 case 40: {
-                    hASDataElementArray[n++] = new StringElement(40, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(40, (String)entry.getValue());
                     break;
                 }
                 case 41: {
-                    hASDataElementArray[n++] = new StringElement(41, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(41, (String)entry.getValue());
                     break;
                 }
                 case 42: {
-                    hASDataElementArray[n++] = new ResourceElement(42, (ResourceLocator)map$Entry.getValue());
+                    hASDataElementArray[n++] = new ResourceElement(42, (ResourceLocator)entry.getValue());
                     break;
                 }
                 case 43: {
-                    hASDataElementArray[n++] = new IntegerElement(43, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(43, ((Long)entry.getValue()).intValue());
                     break;
                 }
                 case 67: {
-                    hASDataElementArray[n++] = new IntegerElement(67, ((Long)map$Entry.getValue()).intValue());
+                    hASDataElementArray[n++] = new IntegerElement(67, ((Long)entry.getValue()).intValue());
                     break;
                 }
             }
@@ -195,70 +192,69 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("TrackInfoContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 39: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("title(String)=null");
                         break;
                     }
                     stringWriter.write("title(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 40: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("artist(String)=null");
                         break;
                     }
                     stringWriter.write("artist(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 41: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("album(String)=null");
                         break;
                     }
                     stringWriter.write("album(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 42: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("cover(ResourceLocator)=null");
                         break;
                     }
                     stringWriter.write("cover(ResourceLocator)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 43: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("length(int)=null");
                         break;
                     }
                     stringWriter.write("length(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 67: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("trackNumber(int)=null");
                         break;
                     }
                     stringWriter.write("trackNumber(int)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -269,7 +265,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         TrackInfoContainer trackInfoContainer = new TrackInfoContainer(this);
         return trackInfoContainer;

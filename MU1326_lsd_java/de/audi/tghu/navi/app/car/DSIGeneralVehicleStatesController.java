@@ -26,21 +26,17 @@ BundleActivator {
         this.dsiActivator = new DSIActivator(iFrameworkAccess, (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates == null ? (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates = DSIGeneralVehicleStatesController.class$("org.dsi.ifc.generalvehiclestates.DSIGeneralVehicleStates")) : class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates).getName(), (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStatesListener == null ? (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStatesListener = DSIGeneralVehicleStatesController.class$("org.dsi.ifc.generalvehiclestates.DSIGeneralVehicleStatesListener")) : class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStatesListener).getName(), new Integer(n), this.dsiListener, this);
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
     }
 
-    @Override
     public int[] getAutoNotifications() {
         return this.dsiListener.getAutoNotifications();
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.dsiActivator.start(bundleContext);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.dsiActivator != null) {
             this.dsiActivator.stop(bundleContext);

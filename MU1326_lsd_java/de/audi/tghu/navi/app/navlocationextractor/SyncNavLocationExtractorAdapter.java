@@ -5,14 +5,14 @@ package de.audi.tghu.navi.app.navlocationextractor;
 
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.tghu.command.CommandList;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.navlocationextractor.AbstractAsyncNavLocationExtractor;
 import de.audi.tghu.navi.app.navlocationextractor.NavLocationExctractor;
-import de.audi.tghu.navi.app.navlocationextractor.SyncNavLocationExtractorAdapter$GetNavLocationCommand;
 import org.dsi.ifc.global.NavLocation;
 
 public class SyncNavLocationExtractorAdapter
 implements NavLocationExctractor {
-    private static final int TIMEOUT_FOR_EXTRACT_LOCATION;
+    private static final int TIMEOUT_FOR_EXTRACT_LOCATION = 30000;
     private AbstractAsyncNavLocationExtractor asyncNavLocationExtractor;
 
     public SyncNavLocationExtractorAdapter(AbstractAsyncNavLocationExtractor abstractAsyncNavLocationExtractor) {
@@ -22,26 +22,51 @@ implements NavLocationExctractor {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public NavLocation extractNavLocationFromRow(EvoListRow evoListRow) {
         Object object = new Object();
-        SyncNavLocationExtractorAdapter$GetNavLocationCommand syncNavLocationExtractorAdapter$GetNavLocationCommand = new SyncNavLocationExtractorAdapter$GetNavLocationCommand(this, object);
+        GetNavLocationCommand getNavLocationCommand = new GetNavLocationCommand(object);
         CommandList commandList = this.asyncNavLocationExtractor.getExtractNavLocationCL(evoListRow, 1);
         if (commandList == null) {
             return null;
         }
-        commandList.add(syncNavLocationExtractorAdapter$GetNavLocationCommand);
+        commandList.add(getNavLocationCommand);
         Object object2 = object;
         synchronized (object2) {
             commandList.execute("SyncNavLocationExtractorAdapter#extractNavLocationFromRow()");
             try {
-                object.wait(0);
+                object.wait(30000L);
             }
             catch (InterruptedException interruptedException) {
                 interruptedException.printStackTrace();
             }
         }
-        return syncNavLocationExtractorAdapter$GetNavLocationCommand.getResult();
+        return getNavLocationCommand.getResult();
+    }
+
+    class GetNavLocationCommand
+    extends NavCommand {
+        private NavLocation resultLocation;
+        private Object waitingLock;
+
+        public GetNavLocationCommand(Object object) {
+            this.waitingLock = object;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void execute() {
+            Object object = this.waitingLock;
+            synchronized (object) {
+                this.resultLocation = (NavLocation)this.getCommandList().get("navLocation");
+                this.waitingLock.notify();
+            }
+            this.getCommandList().commandFinished();
+        }
+
+        public NavLocation getResult() {
+            return this.resultLocation;
+        }
     }
 }
 

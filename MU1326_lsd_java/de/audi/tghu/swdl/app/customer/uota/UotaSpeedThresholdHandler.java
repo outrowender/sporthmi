@@ -10,8 +10,8 @@ import de.audi.tghu.swdl.app.customer.uota.UotaPkgInfoWrapper;
 
 class UotaSpeedThresholdHandler
 implements SpeedThresholdListener {
-    public static final int POPUP_TYPE_SYSTEM_PROPOSAL;
-    public static final int POPUP_TYPE_DESTINATION_PROPOSAL;
+    public static final int POPUP_TYPE_SYSTEM_PROPOSAL = 0;
+    public static final int POPUP_TYPE_DESTINATION_PROPOSAL = 1;
     private final BaseUpdateOverTheAirController uotaController;
     private UotaPkgInfoWrapper[][] updatePackages = null;
     private boolean isBelowVelocityThreshold = true;
@@ -26,10 +26,9 @@ implements SpeedThresholdListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void exceedsUpperThreshold(int n) {
         if (1 == n) {
-            this.getLogUota().log(1078071040, "[UotaSpeedThresholdHandler].exceedsUpperThreshold()");
+            this.getLogUota().log(1000000, "[UotaSpeedThresholdHandler].exceedsUpperThreshold()");
             UotaSpeedThresholdHandler uotaSpeedThresholdHandler = this;
             synchronized (uotaSpeedThresholdHandler) {
                 this.isBelowVelocityThreshold = false;
@@ -40,25 +39,24 @@ implements SpeedThresholdListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void belowLowerThreshold(int n) {
         if (1 == n && this.getUotaController().isUotaUpdateAllowed(true)) {
             if (this.getUotaController().isDownloadActive() || this.getUotaController().getSwdlModels().getCustomerProgressStateChoice().getValue() != 0) {
                 if (null != this.updatePackages[0]) {
-                    this.getLogUota().log(1078071040, "[UotaSpeedThresholdHandler].belowLowerThreshold(): the system proposal is not up-to-date, clean up it");
+                    this.getLogUota().log(1000000, "[UotaSpeedThresholdHandler].belowLowerThreshold(): the system proposal is not up-to-date, clean up it");
                     this.cleanUpSysProposalPopupRequest();
                 }
             } else {
-                this.getLogUota().log(1078071040, "[UotaSpeedThresholdHandler].belowLowerThreshold()");
+                this.getLogUota().log(1000000, "[UotaSpeedThresholdHandler].belowLowerThreshold()");
                 UotaSpeedThresholdHandler uotaSpeedThresholdHandler = this;
                 synchronized (uotaSpeedThresholdHandler) {
                     this.isBelowVelocityThreshold = true;
                     if (null != this.updatePackages[1]) {
-                        this.getLogUota().log(1078071040, "[UotaSpeedThresholdHandler].belowLowerThreshold(): Triggering show destination proposal pop-up!");
+                        this.getLogUota().log(1000000, "[UotaSpeedThresholdHandler].belowLowerThreshold(): Triggering show destination proposal pop-up!");
                         this.getUotaController().showDestinationProposalPackagesAvailablePopup(this.updatePackages[1]);
                         this.updatePackages[1] = null;
                     } else if (null != this.updatePackages[0]) {
-                        this.getLogUota().log(1078071040, "[UotaSpeedThresholdHandler].belowLowerThreshold(): Triggering show system proposal pop-up!");
+                        this.getLogUota().log(1000000, "[UotaSpeedThresholdHandler].belowLowerThreshold(): Triggering show system proposal pop-up!");
                         this.getUotaController().showSystemProposalPackagesAvailablePopup(this.updatePackages[0]);
                         this.updatePackages[0] = null;
                     }
@@ -69,11 +67,11 @@ implements SpeedThresholdListener {
 
     synchronized void requestSysProposalInfoPopup(int n, UotaPkgInfoWrapper[] uotaPkgInfoWrapperArray) {
         if (n < 0 || n > 1) {
-            this.getLogUota().log(-2137614336, "[UotaSpeedThresholdHandler].requestSysProposalInfoPopup(): unknown pop-up type %1", (long)n);
+            this.getLogUota().log(10000000, "[UotaSpeedThresholdHandler].requestSysProposalInfoPopup(): unknown pop-up type %1", (long)n);
             return;
         }
         if (this.isBelowVelocityThreshold && this.getUotaController().isUotaUpdateAllowed(true) && !this.getUotaController().isDownloadActive()) {
-            this.getLogUota().log(-2137614336, "[UotaSpeedThresholdHandler].requestSysProposalInfoPopup(): Below speed threshold, showing pop-ups");
+            this.getLogUota().log(10000000, "[UotaSpeedThresholdHandler].requestSysProposalInfoPopup(): Below speed threshold, showing pop-ups");
             switch (n) {
                 case 0: {
                     this.getUotaController().showSystemProposalPackagesAvailablePopup(uotaPkgInfoWrapperArray);
@@ -85,7 +83,7 @@ implements SpeedThresholdListener {
                 }
             }
         } else {
-            this.getLogUota().log(-2137614336, "[UotaSpeedThresholdHandler].requestNewPopup(): Over speed threshold, delaying pop-ups");
+            this.getLogUota().log(10000000, "[UotaSpeedThresholdHandler].requestNewPopup(): Over speed threshold, delaying pop-ups");
             this.updatePackages[n] = uotaPkgInfoWrapperArray;
         }
     }

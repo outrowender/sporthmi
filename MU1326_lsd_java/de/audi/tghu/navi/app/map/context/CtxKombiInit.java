@@ -28,7 +28,6 @@ extends Context {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         Util.logStartupEvent(this.env.getFramework(), "CtxKombiInit#enter() - start map initialization (set notification for MapReady)");
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("CtxKombiInit#enter() - Traffic map enabled in setup: ").append(this.getMapRepresentation() == 2));
@@ -36,7 +35,7 @@ extends Context {
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
         int n = gUIInterface.getMapWidth();
         int n2 = gUIInterface.getMapHeight();
-        this.getLogChannel().log(-2137614336, "CtxKombiInit#enter() - set max resolution %1x%2", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxKombiInit#enter() - set max resolution %1x%2", (long)n, (long)n2);
         mVRequestControl.viewSetScreenViewportMaximum(new Rect(0, 0, n, n2));
         mVRequestControl.setNotification(new int[]{1}, (DSIListener)mVRequestControl.getMVResponseControl());
         if (!this.container.sInitalization) {
@@ -44,12 +43,11 @@ extends Context {
         }
     }
 
-    @Override
     public void updateReady(boolean bl, int n) {
         if (n != this.naviMap.getMainRequestCtl().getID()) {
             return;
         }
-        this.getLogChannel().log(-2137614336, "CtxKombiInit#updateReady( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxKombiInit#updateReady( %1 )", bl);
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("[Startup] CtxKombiInit#updateReady( ").append(bl).append(" )"));
         if (bl) {
             this.naviMap.getMainRequestCtl().setMetricSystem(Util.getCurrentMetricsSystem(true));
@@ -68,14 +66,12 @@ extends Context {
         }
     }
 
-    @Override
     public void updateMapOrientation(int n) {
         super.updateMapOrientation(n);
         this.mMapOrientationResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void updateZoomList(float[] fArray, int n, float[] fArray2) {
         if (fArray == null) {
             this.getLogChannel().log(1000, "CtxKombiInit#updateZoomList(): zoomList = null (map will not work properly)");
@@ -84,7 +80,6 @@ extends Context {
         this.checkFinished();
     }
 
-    @Override
     public void updateViewVisible(boolean bl) {
         super.updateViewVisible(bl);
         this.setRequestedVisibility(bl);
@@ -92,7 +87,6 @@ extends Context {
         this.checkFinished();
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
         this.setRequestedFreeze(bl);
@@ -101,9 +95,9 @@ extends Context {
     }
 
     private void checkFinished() {
-        this.getLogChannel().log(-2137614336, new Buffer().append("CtxKombiInit#checkFinished() - ").append(this.mZoomListResponded).append(" ").append(this.mViewVisibleResponded).append(" ").append(this.mViewFreezeResponded).append(" ").append(this.mMapOrientationResponded).append(" ").append(this.mZoomListIndexResponded).append(" ").toString());
+        this.getLogChannel().log(10000000, new Buffer().append("CtxKombiInit#checkFinished() - ").append(this.mZoomListResponded).append(" ").append(this.mViewVisibleResponded).append(" ").append(this.mViewFreezeResponded).append(" ").append(this.mMapOrientationResponded).append(" ").append(this.mZoomListIndexResponded).append(" ").toString());
         if (this.mZoomListResponded && this.mViewVisibleResponded && this.mViewFreezeResponded && this.mMapOrientationResponded && this.mZoomListIndexResponded) {
-            this.getLogChannel().log(-2137614336, "CtxKombiInit#checkFinished()");
+            this.getLogChannel().log(10000000, "CtxKombiInit#checkFinished()");
             this.registerMapAttributeUpdates();
             this.naviMap.getMainRequestCtl().setOperable(true);
             MapFlag[] mapFlagArray = new MapFlag[]{new MapFlag()};
@@ -124,7 +118,6 @@ extends Context {
         }
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
         super.updateZoomListIndex(n);
         this.mZoomListIndexResponded = true;

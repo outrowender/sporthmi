@@ -37,23 +37,18 @@ implements ButtonListener {
         return new RSERearManager(navigationEnv);
     }
 
-    protected abstract void setListeners() {
-    }
+    protected abstract void setListeners();
 
-    public abstract void decodeLocationStream(byte[] byArray, Criteria criteria) {
-    }
+    public abstract void decodeLocationStream(byte[] var1, Criteria var2);
 
-    public abstract CommandList prepareRouteTransfer(Route route) {
-    }
+    public abstract CommandList prepareRouteTransfer(Route var1);
 
-    public abstract CommandList prepareLocationTransfer(NavLocation navLocation, boolean bl) {
-    }
+    public abstract CommandList prepareLocationTransfer(NavLocation var1, boolean var2);
 
-    public abstract void syncCriteria(Criteria criteria) {
-    }
+    public abstract void syncCriteria(Criteria var1);
 
     public void setRSEConnection(AbstractRSEConnection abstractRSEConnection) {
-        this.logChannel.log(-2137614336, "RSEManager#setRSEConnection( %1 )", (Object)abstractRSEConnection);
+        this.logChannel.log(10000000, "RSEManager#setRSEConnection( %1 )", (Object)abstractRSEConnection);
         this.rseConnection = abstractRSEConnection;
         if (abstractRSEConnection != null) {
             abstractRSEConnection.registerCommandFactory(this.factory);
@@ -61,25 +56,22 @@ implements ButtonListener {
     }
 
     protected void sendCommand(AbstractRSECommand abstractRSECommand) {
-        this.logChannel.log(-2137614336, "RSEManager#sendCommand( %1 )", (Object)abstractRSECommand);
+        this.logChannel.log(10000000, "RSEManager#sendCommand( %1 )", (Object)abstractRSECommand);
         if (this.rseConnection != null) {
             this.rseConnection.sendCommand(abstractRSECommand);
         } else {
-            this.logChannel.log(-1601830656, "RSEManager#sendCommand() - failed to send command: connection not present!");
+            this.logChannel.log(100000, "RSEManager#sendCommand() - failed to send command: connection not present!");
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "RSEManager#keyReleased()");
+        this.logChannel.log(1000000, "RSEManager#keyReleased()");
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "RSEManager#keyTyped()");
+        this.logChannel.log(1000000, "RSEManager#keyTyped()");
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

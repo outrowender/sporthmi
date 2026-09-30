@@ -20,14 +20,12 @@ extends PreviewMapStateRoute {
         this.routeId = navSegmentID;
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilities();
         this.getPreviewMapHandler().setPreviewMapModeAndFrameRate(10);
         this.getMapForPreview().getMVRequest().setVisibleRoutes(new NavSegmentID[]{this.routeId});
     }
 
-    @Override
     public void applyToScreenFullMap() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilities();
         this.getPreviewMapHandler().setPreviewMapModeAndFrameRate(10);
@@ -39,17 +37,14 @@ extends PreviewMapStateRoute {
         }
     }
 
-    @Override
     public void releaseApplyToScreenDetail() {
         this.getPreviewMapHandler().getMapForPreview().getMVRequest().setVisibleRoutes(new NavSegmentID[0]);
     }
 
-    @Override
     public void releaseApplyToScreenFullMap() {
         this.getPreviewMapHandler().getMapForFullScreen().getMVRequest().setVisibleRoutes(new NavSegmentID[0]);
     }
 
-    @Override
     public String toString() {
         return "PreviewMapStateRouteOffroad()";
     }

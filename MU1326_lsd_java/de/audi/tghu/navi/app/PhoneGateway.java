@@ -18,7 +18,7 @@ public final class PhoneGateway {
     }
 
     public void setPhoneService(PhoneService phoneService) {
-        this.logChannel.log(-2137614336, "PhoneGateway#setPhoneService(): phone: %1 ", (Object)phoneService);
+        this.logChannel.log(10000000, "PhoneGateway#setPhoneService(): phone: %1 ", (Object)phoneService);
         this.phone = phoneService;
     }
 

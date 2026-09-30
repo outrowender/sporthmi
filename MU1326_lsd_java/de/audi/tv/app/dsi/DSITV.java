@@ -7,76 +7,52 @@ import de.audi.atip.interapp.displaymanager.Cropping;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface DSITV {
-    default public void setNormAreaSubList(int[] nArray) {
-    }
+    public void setNormAreaSubList(int[] var1);
 
-    default public void setNormArea(int n) {
-    }
+    public void setNormArea(int var1);
 
-    default public void setAudioChannel(int n) {
-    }
+    public void setAudioChannel(int var1);
 
-    default public void enableServiceLinking(boolean bl) {
-    }
+    public void enableServiceLinking(boolean var1);
 
-    default public void enableSubtitle(boolean bl) {
-    }
+    public void enableSubtitle(boolean var1);
 
-    default public void selectService(ServiceInfo serviceInfo, boolean bl) {
-    }
+    public void selectService(ServiceInfo var1, boolean var2);
 
-    default public void changeService(ServiceInfo serviceInfo, boolean bl) {
-    }
+    public void changeService(ServiceInfo var1, boolean var2);
 
-    default public void selectNextService(int n) {
-    }
+    public void selectNextService(int var1);
 
-    default public void abortSeek() {
-    }
+    public void abortSeek();
 
-    default public void switchSource(int n, boolean bl) {
-    }
+    public void switchSource(int var1, boolean var2);
 
-    default public void setTerminalMode(int n, int n2) {
-    }
+    public void setTerminalMode(int var1, int var2);
 
-    default public void setTMTVKeyPanel(short s, short s2) {
-    }
+    public void setTMTVKeyPanel(short var1, short var2);
 
-    default public void incMoved(int n) {
-    }
+    public void incMoved(int var1);
 
-    default public void setAVNorm(int n) {
-    }
+    public void setAVNorm(int var1);
 
-    default public void setBrowserListSort(int n) {
-    }
+    public void setBrowserListSort(int var1);
 
-    default public void setCropping(Cropping cropping, int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void setCropping(Cropping var1, int var2, int var3, int var4, int var5, int var6, int var7);
 
-    default public void setBrightness(int n, int n2) {
-    }
+    public void setBrightness(int var1, int var2);
 
-    default public void setContrast(int n, int n2) {
-    }
+    public void setContrast(int var1, int var2);
 
-    default public void setColor(int n, int n2) {
-    }
+    public void setColor(int var1, int var2);
 
-    default public void setTint(int n, int n2) {
-    }
+    public void setTint(int var1, int var2);
 
-    default public void startComponent(int n) {
-    }
+    public void startComponent(int var1);
 
-    default public void startComponent(int n, int n2, int n3) {
-    }
+    public void startComponent(int var1, int var2, int var3);
 
-    default public void stopComponent(int n) {
-    }
+    public void stopComponent(int var1);
 
-    default public void stopComponent(int n, int n2, int n3) {
-    }
+    public void stopComponent(int var1, int var2, int var3);
 }
 

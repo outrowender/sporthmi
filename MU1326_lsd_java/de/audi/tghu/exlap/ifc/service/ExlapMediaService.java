@@ -16,49 +16,34 @@ import de.audi.tghu.exlap.impl.container.TrackPositionContainer;
 public interface ExlapMediaService
 extends ExlapService,
 ExlapMediaListener {
-    default public void setPlayMode(int n, MediaPlayModeContainer mediaPlayModeContainer) {
-    }
+    public void setPlayMode(int var1, MediaPlayModeContainer var2);
 
-    default public void nextTrack(int n) {
-    }
+    public void nextTrack(int var1);
 
-    default public void previousTrack(int n) {
-    }
+    public void previousTrack(int var1);
 
-    default public void playMedia(int n) {
-    }
+    public void playMedia(int var1);
 
-    default public void pauseMedia(int n) {
-    }
+    public void pauseMedia(int var1);
 
-    default public void setTrackPosition(int n, TrackPositionContainer trackPositionContainer) {
-    }
+    public void setTrackPosition(int var1, TrackPositionContainer var2);
 
-    default public void activateMediaSource(int n, MediaSourceContainer mediaSourceContainer) {
-    }
+    public void activateMediaSource(int var1, MediaSourceContainer var2);
 
-    default public void selectMediaBrowserSource(int n, MediaSourceContainer mediaSourceContainer) {
-    }
+    public void selectMediaBrowserSource(int var1, MediaSourceContainer var2);
 
-    default public void mediaBrowserList(int n, ListPageRequestContainer listPageRequestContainer) {
-    }
+    public void mediaBrowserList(int var1, ListPageRequestContainer var2);
 
-    default public void resultMediaBrowserList(int n, ListPageDataContainer listPageDataContainer) {
-    }
+    public void resultMediaBrowserList(int var1, ListPageDataContainer var2);
 
-    default public void enableMediaBrowserFollowMode(int n) {
-    }
+    public void enableMediaBrowserFollowMode(int var1);
 
-    default public void disableMediaBrowserFollowMode(int n) {
-    }
+    public void disableMediaBrowserFollowMode(int var1);
 
-    default public void changeMediaBrowserFolder(int n, MediaBrowserPathContainer mediaBrowserPathContainer) {
-    }
+    public void changeMediaBrowserFolder(int var1, MediaBrowserPathContainer var2);
 
-    default public void mediaBrowserPlay(int n, MediaBrowserEntryContainer mediaBrowserEntryContainer) {
-    }
+    public void mediaBrowserPlay(int var1, MediaBrowserEntryContainer var2);
 
-    default public void activateAppConnectAudio(int n) {
-    }
+    public void activateAppConnectAudio(int var1);
 }
 

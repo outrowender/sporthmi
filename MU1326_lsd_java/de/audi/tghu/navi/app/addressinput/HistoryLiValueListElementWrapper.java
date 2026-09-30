@@ -3,15 +3,15 @@
  */
 package de.audi.tghu.navi.app.addressinput;
 
-import de.audi.tghu.navi.app.CityHistory$HistoryEntry;
+import de.audi.tghu.navi.app.CityHistory;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class HistoryLiValueListElementWrapper {
-    private final CityHistory$HistoryEntry bestMatchingHistoryEntry;
+    private final CityHistory.HistoryEntry bestMatchingHistoryEntry;
     private final LIValueListElement liValueListElement;
 
-    public HistoryLiValueListElementWrapper(CityHistory$HistoryEntry cityHistory$HistoryEntry) {
-        this.bestMatchingHistoryEntry = cityHistory$HistoryEntry;
+    public HistoryLiValueListElementWrapper(CityHistory.HistoryEntry historyEntry) {
+        this.bestMatchingHistoryEntry = historyEntry;
         this.liValueListElement = null;
     }
 
@@ -32,7 +32,7 @@ public class HistoryLiValueListElementWrapper {
         return this.liValueListElement;
     }
 
-    public CityHistory$HistoryEntry getHistoryEntry() {
+    public CityHistory.HistoryEntry getHistoryEntry() {
         return this.bestMatchingHistoryEntry;
     }
 }

@@ -11,30 +11,30 @@ import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPCurrentStationInfo;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPPresetListEntry;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry;
 import de.audi.tv.app.base.TVEnv;
-import de.audi.tv.app.combi.CombiBAPServiceHandler$CallListener;
-import de.audi.tv.app.combi.CombiBAPServiceHandler$EventListener;
-import de.audi.tv.app.combi.CombiBAPServiceHandler$ListsListener;
-import de.audi.tv.app.combi.CombiBAPServiceHandler$TVListener;
+import de.audi.tv.app.base.TVEventDefaultListener;
 import de.audi.tv.app.combi.NullCombiBAPServiceTV;
 import de.audi.tv.app.dsi.DSICallListener;
+import de.audi.tv.app.dsi.DefaultTVListener;
 import de.audi.tv.app.lists.AbstractTVStationRow;
 import de.audi.tv.app.lists.DefaultListContentSupplier;
+import de.audi.tv.app.lists.DefaultTVListsListener;
 import de.audi.tv.app.lists.IListContentSupplier;
 import de.audi.tv.app.lists.ITVListsListener;
 import de.audi.tv.app.lists.StationMapper;
 import de.audi.tv.app.storage.TVStorage;
+import org.dsi.ifc.tvtuner.StartUpConfig;
 
 public class CombiBAPServiceHandler {
-    private static final int SELECTION_CHANGE_INTERNAL;
-    private static final int SELECTION_CHANGE_SELECT;
-    private static final int SELECTION_CHANGE_SKIP;
+    private static final int SELECTION_CHANGE_INTERNAL = 0;
+    private static final int SELECTION_CHANGE_SELECT = 1;
+    private static final int SELECTION_CHANGE_SKIP = 2;
     private int selectionCause = 0;
     private final Object selectionCauseMutex = new Object();
     private CombiBAPServiceTV service = new NullCombiBAPServiceTV();
-    public final CombiBAPServiceHandler$EventListener activationListener = new CombiBAPServiceHandler$EventListener(this, null);
-    public final ITVListsListener listsListener = new CombiBAPServiceHandler$ListsListener(this, null);
-    public final CombiBAPServiceHandler$TVListener tvListener = new CombiBAPServiceHandler$TVListener(this, null);
-    public final DSICallListener callListener = new CombiBAPServiceHandler$CallListener(this, null);
+    public final EventListener activationListener = new EventListener();
+    public final ITVListsListener listsListener = new ListsListener();
+    public final TVListener tvListener = new TVListener();
+    public final DSICallListener callListener = new CallListener();
     private final TVEnv env;
     private final TVStorage storage;
     private IListContentSupplier stationList = new DefaultListContentSupplier();
@@ -119,7 +119,7 @@ public class CombiBAPServiceHandler {
     }
 
     private synchronized void updateSeekState(boolean bl) {
-        this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateSeekState] is seeking:%1", bl);
+        this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateSeekState] is seeking:%1", bl);
         try {
             this.service.updateSeekStatus(bl);
             int n = bl ? 6 : 0;
@@ -182,7 +182,7 @@ public class CombiBAPServiceHandler {
                 this.currentStationInfo.setPresetListRef(n2 + 1);
             }
             if (!this.isAvUsed) {
-                this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateCurrentStation] %1", (Object)this.currentStationInfo);
+                this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateCurrentStation] %1", (Object)this.currentStationInfo);
                 try {
                     this.service.updateCurrentStation(this.currentStationInfo);
                 }
@@ -191,11 +191,11 @@ public class CombiBAPServiceHandler {
                 }
             }
         }
-        this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateSelectedStation] sending updateCurrentStation.");
+        this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateSelectedStation] sending updateCurrentStation.");
         object = this.selectionCauseMutex;
         synchronized (object) {
             if (this.selectionCause == 1) {
-                this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateSelectedStation] sending selectListEntryResult.");
+                this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateSelectedStation] sending selectListEntryResult.");
                 try {
                     this.service.selectListEntryResult(0);
                 }
@@ -203,7 +203,7 @@ public class CombiBAPServiceHandler {
                     this.env.lcCombi.log(10000, "%1", (Throwable)exception);
                 }
             } else if (this.selectionCause == 2) {
-                this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateSelectedStation] sending skipResult.");
+                this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateSelectedStation] sending skipResult.");
                 try {
                     this.service.skipResult(true);
                 }
@@ -217,7 +217,7 @@ public class CombiBAPServiceHandler {
 
     private synchronized void updateSourceList() {
         CombiBAPAudioSource[] combiBAPAudioSourceArray = this.isTunerAvailable ? (this.isAvAvailable && this.env.getConfiguration().hasAV() ? new CombiBAPAudioSource[]{new CombiBAPAudioSource(9, 0, 11, ""), new CombiBAPAudioSource(32, 0, 11, "")} : new CombiBAPAudioSource[]{new CombiBAPAudioSource(9, 0, 11, "")}) : new CombiBAPAudioSource[]{};
-        this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateSourceList] %1", (Object)combiBAPAudioSourceArray);
+        this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateSourceList] %1", (Object)combiBAPAudioSourceArray);
         try {
             this.service.updateSourceListTv(combiBAPAudioSourceArray);
         }
@@ -230,7 +230,7 @@ public class CombiBAPServiceHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private synchronized void updateActiveSource(boolean bl) {
-        this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateActiveSource] is AV used: %1", bl);
+        this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateActiveSource] is AV used: %1", bl);
         try {
             Object object;
             if (bl) {
@@ -248,7 +248,7 @@ public class CombiBAPServiceHandler {
                 }
             }
             int n = this.getInfoState();
-            this.env.lcCombi.log(-2137614336, "[CombiBAPServiceHandler.updateActiveSource] curInfoState: %1", (long)n);
+            this.env.lcCombi.log(10000000, "[CombiBAPServiceHandler.updateActiveSource] curInfoState: %1", (long)n);
             this.service.updateActiveInfoState(n);
         }
         catch (Exception exception) {
@@ -272,100 +272,132 @@ public class CombiBAPServiceHandler {
         }
     }
 
-    static /* synthetic */ void access$400(CombiBAPServiceHandler combiBAPServiceHandler) {
-        combiBAPServiceHandler.updateFavoritesList();
+    private class TVListener
+    extends DefaultTVListener {
+        private TVListener() {
+        }
+
+        public void updateTuneStatus(boolean bl, boolean bl2, boolean bl3) {
+            boolean bl4;
+            boolean bl5 = bl4 = bl2 || bl;
+            if (CombiBAPServiceHandler.this.isSeeking ^ bl4) {
+                CombiBAPServiceHandler.this.isSeeking = bl4;
+                CombiBAPServiceHandler.this.updateSeekState(bl4);
+            }
+        }
+
+        public void updateStartUpMUConfig(StartUpConfig startUpConfig) {
+            CombiBAPServiceHandler.this.isAvAvailable = startUpConfig.avSrcAvail;
+            CombiBAPServiceHandler.this.updateSourceList();
+        }
+
+        public void updateMessageService(int n) {
+            CombiBAPServiceHandler.this.isTunerInEsm = n == 1;
+            if (CombiBAPServiceHandler.this.tvHasMuAudioFocus) {
+                CombiBAPServiceHandler.this.updateActiveSource(CombiBAPServiceHandler.this.isAvUsed);
+            }
+        }
     }
 
-    static /* synthetic */ void access$500(CombiBAPServiceHandler combiBAPServiceHandler) {
-        combiBAPServiceHandler.updateStationList();
+    private class CallListener
+    extends DSICallListener {
+        private CallListener() {
+        }
+
+        public void switchSource(int n, boolean bl) {
+            boolean bl2;
+            ((CombiBAPServiceHandler)CombiBAPServiceHandler.this).env.lcCombi.log(1000000, "[CombiBAPServiceHandler.CallListener.switchSource] sourceType=%1, isUserCall=%2", (Object)new Integer(n), (Object)(bl ? "true" : "false"));
+            boolean bl3 = bl2 = n == 1;
+            if (CombiBAPServiceHandler.this.isAvUsed != bl2) {
+                CombiBAPServiceHandler.this.isAvUsed = bl2;
+                if (CombiBAPServiceHandler.this.tvHasMuAudioFocus) {
+                    CombiBAPServiceHandler.this.updateActiveSource(CombiBAPServiceHandler.this.isAvUsed);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ int access$600(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.listState;
+    private class EventListener
+    extends TVEventDefaultListener {
+        private EventListener() {
+        }
+
+        public void onMuGotTvAudioFocus() {
+            if (!CombiBAPServiceHandler.this.tvHasMuAudioFocus) {
+                CombiBAPServiceHandler.this.updateActiveSource(CombiBAPServiceHandler.this.isAvUsed);
+                CombiBAPServiceHandler.this.tvHasMuAudioFocus = true;
+            }
+        }
+
+        public void onMuLostTvAudioFocus() {
+            CombiBAPServiceHandler.this.tvHasMuAudioFocus = false;
+        }
+
+        public void onTunerAvailable() {
+            CombiBAPServiceHandler.this.isTunerAvailable = true;
+            CombiBAPServiceHandler.this.updateSourceList();
+            if (CombiBAPServiceHandler.this.tvHasMuAudioFocus) {
+                if (CombiBAPServiceHandler.this.currentStationInfo == null) {
+                    CombiBAPServiceHandler.this.currentStationInfo = new CombiBAPCurrentStationInfo(((CombiBAPServiceHandler)CombiBAPServiceHandler.this).storage.getTunedService().name, 71);
+                }
+                CombiBAPServiceHandler.this.updateActiveSource(CombiBAPServiceHandler.this.isAvUsed);
+            }
+        }
+
+        public void onTunerUnavailable() {
+            CombiBAPServiceHandler.this.isTunerAvailable = false;
+            if (CombiBAPServiceHandler.this.tvHasMuAudioFocus) {
+                CombiBAPServiceHandler.this.updateActiveSource(CombiBAPServiceHandler.this.isAvUsed);
+            }
+            CombiBAPServiceHandler.this.updateSourceList();
+        }
+
+        public void onMuteChange(boolean bl) {
+            try {
+                CombiBAPServiceHandler.this.service.updateMuteState(bl);
+            }
+            catch (Exception exception) {
+                ((CombiBAPServiceHandler)CombiBAPServiceHandler.this).env.lcCombi.log(10000, "%1", (Throwable)exception);
+            }
+        }
+
+        public void onFocusedListChanged(int n) {
+            try {
+                CombiBAPServiceHandler.this.service.updatePreferredList(n == 0 ? 1 : 2);
+            }
+            catch (Exception exception) {
+                ((CombiBAPServiceHandler)CombiBAPServiceHandler.this).env.lcCombi.log(10000, "%1", (Throwable)exception);
+            }
+        }
     }
 
-    static /* synthetic */ int access$602(CombiBAPServiceHandler combiBAPServiceHandler, int n) {
-        combiBAPServiceHandler.listState = n;
-        return combiBAPServiceHandler.listState;
-    }
+    private class ListsListener
+    extends DefaultTVListsListener {
+        private ListsListener() {
+        }
 
-    static /* synthetic */ boolean access$700(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.isAvUsed;
-    }
+        public void updateFavoritesList() {
+            CombiBAPServiceHandler.this.updateFavoritesList();
+        }
 
-    static /* synthetic */ boolean access$800(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.tvHasMuAudioFocus;
-    }
+        public void updateStationList() {
+            CombiBAPServiceHandler.this.updateStationList();
+            if (CombiBAPServiceHandler.this.listState == 0) {
+                CombiBAPServiceHandler.this.listState = 3;
+                if (!CombiBAPServiceHandler.this.isAvUsed && CombiBAPServiceHandler.this.tvHasMuAudioFocus) {
+                    try {
+                        CombiBAPServiceHandler.this.service.updateActiveSource(9, 0, 0, true, true, CombiBAPServiceHandler.this.listState);
+                    }
+                    catch (Exception exception) {
+                        ((CombiBAPServiceHandler)CombiBAPServiceHandler.this).env.lcCombi.log(10000, "%1", (Throwable)exception);
+                    }
+                }
+            }
+        }
 
-    static /* synthetic */ CombiBAPServiceTV access$900(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.service;
-    }
-
-    static /* synthetic */ TVEnv access$1000(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.env;
-    }
-
-    static /* synthetic */ void access$1100(CombiBAPServiceHandler combiBAPServiceHandler, AbstractTVStationRow abstractTVStationRow) {
-        combiBAPServiceHandler.updateSelectedStation(abstractTVStationRow);
-    }
-
-    static /* synthetic */ void access$1200(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.updateActiveSource(bl);
-    }
-
-    static /* synthetic */ boolean access$802(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.tvHasMuAudioFocus = bl;
-        return combiBAPServiceHandler.tvHasMuAudioFocus;
-    }
-
-    static /* synthetic */ boolean access$1302(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.isTunerAvailable = bl;
-        return combiBAPServiceHandler.isTunerAvailable;
-    }
-
-    static /* synthetic */ void access$1400(CombiBAPServiceHandler combiBAPServiceHandler) {
-        combiBAPServiceHandler.updateSourceList();
-    }
-
-    static /* synthetic */ CombiBAPCurrentStationInfo access$1500(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.currentStationInfo;
-    }
-
-    static /* synthetic */ CombiBAPCurrentStationInfo access$1502(CombiBAPServiceHandler combiBAPServiceHandler, CombiBAPCurrentStationInfo combiBAPCurrentStationInfo) {
-        combiBAPServiceHandler.currentStationInfo = combiBAPCurrentStationInfo;
-        return combiBAPServiceHandler.currentStationInfo;
-    }
-
-    static /* synthetic */ TVStorage access$1600(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.storage;
-    }
-
-    static /* synthetic */ boolean access$1700(CombiBAPServiceHandler combiBAPServiceHandler) {
-        return combiBAPServiceHandler.isSeeking;
-    }
-
-    static /* synthetic */ boolean access$1702(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.isSeeking = bl;
-        return combiBAPServiceHandler.isSeeking;
-    }
-
-    static /* synthetic */ void access$1800(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.updateSeekState(bl);
-    }
-
-    static /* synthetic */ boolean access$1902(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.isAvAvailable = bl;
-        return combiBAPServiceHandler.isAvAvailable;
-    }
-
-    static /* synthetic */ boolean access$2002(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.isTunerInEsm = bl;
-        return combiBAPServiceHandler.isTunerInEsm;
-    }
-
-    static /* synthetic */ boolean access$702(CombiBAPServiceHandler combiBAPServiceHandler, boolean bl) {
-        combiBAPServiceHandler.isAvUsed = bl;
-        return combiBAPServiceHandler.isAvUsed;
+        public void updateSelectedStation(AbstractTVStationRow abstractTVStationRow) {
+            CombiBAPServiceHandler.this.updateSelectedStation(abstractTVStationRow);
+        }
     }
 }
 

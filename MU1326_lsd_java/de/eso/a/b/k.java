@@ -7,10 +7,10 @@ import de.eso.a.b.g;
 
 public class k {
     g a;
-    private static final byte e;
-    public static final int b;
-    public static final int c;
-    public static final int d;
+    private static final byte e = 61;
+    public static final int b = 0;
+    public static final int c = 1;
+    public static final int d = 2;
     private int f = 0;
     private int g;
     private int h;

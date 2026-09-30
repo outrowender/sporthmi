@@ -21,13 +21,13 @@ import de.audi.tghu.swdl.app.list.SwdlListItemModule;
 public abstract class AbstractEngineeringDeviceInfoManager
 extends AbstractDeviceInfoManager
 implements ButtonListener {
-    private static final int DEVICE_SELECTION_SCREEN;
-    private static final int MODULE_SELECTION_SCREEN;
-    private static final int FILE_SELECTION_SCREEN;
+    private static final int DEVICE_SELECTION_SCREEN = 0;
+    private static final int MODULE_SELECTION_SCREEN = 1;
+    private static final int FILE_SELECTION_SCREEN = 2;
     private final Object syncGetModules = new Object();
     private int currentDeviceId = -1;
-    private static final String[] EMPTYSTRINGARRAY;
-    private static final int[] EMPTYINTARRAY;
+    private static final String[] EMPTYSTRINGARRAY = new String[0];
+    private static final int[] EMPTYINTARRAY = new int[0];
     private SwdlListHandlerDevice swdlDeviceList;
     private SwdlListHandlerModule swdlModuleList;
     private SwdlListHandlerFile swdlFileList;
@@ -56,7 +56,6 @@ implements ButtonListener {
         return this.selectionDSIHandler;
     }
 
-    @Override
     public int getCurrentDeviceId() {
         if (this.moduleDowngradeDetectionProgress) {
             return this.currentDeviceId;
@@ -71,7 +70,6 @@ implements ButtonListener {
         this.currentDeviceId = n;
     }
 
-    @Override
     public int[] getAllDeviceIds() {
         int[] nArray = new int[this.swdlDeviceList.getEntries().length];
         for (int i2 = 0; i2 < this.swdlDeviceList.getEntries().length; ++i2) {
@@ -80,7 +78,6 @@ implements ButtonListener {
         return nArray;
     }
 
-    @Override
     public int getCurrentModuleId() {
         int n = -1;
         if (this.currentModule != null) {
@@ -89,7 +86,6 @@ implements ButtonListener {
         return n;
     }
 
-    @Override
     public boolean isStandardSelection() {
         return !this.getSelectionDSIHandler().isUserDefinedMode();
     }
@@ -113,7 +109,7 @@ implements ButtonListener {
                 string = "DEVICE_SELECTION_SCREEN";
             }
         }
-        this.getSwdlEnv().getLogMain().log(-2137614336, "AbstractEngineeringDeviceInfoManager.setSelectionScreen(screen=%1)", (Object)string);
+        this.getSwdlEnv().getLogMain().log(10000000, "AbstractEngineeringDeviceInfoManager.setSelectionScreen(screen=%1)", (Object)string);
         this.currentSelectionScreen = n;
     }
 
@@ -133,15 +129,14 @@ implements ButtonListener {
         this.currentDeviceIndex = 0;
     }
 
-    @Override
     public void doGetDevices(int n, String string, boolean bl) {
         this.setSelectionScreen(0);
-        this.getSwdlEnv().getLogMain().log(-2137614336, "AbstractEngineeringDeviceInfoManager.doGetDevices(%3, %1, %2)", (Object)string, (Object)(bl ? "true" : "false"), (long)n);
+        this.getSwdlEnv().getLogMain().log(10000000, "AbstractEngineeringDeviceInfoManager.doGetDevices(%3, %1, %2)", (Object)string, (Object)(bl ? "true" : "false"), (long)n);
         super.doGetDevices(n, string, bl);
         this.getSwdlModels().getDeviceListLabel().setText(this.getTextFactory().getLabelForAccessType(n, string));
         this.getSwdlModels().getUpdatedDeviceLabel().setText("");
         if (bl) {
-            this.getSwdlEnv().getLogMain().log(-2137614336, "doGetDevices, clear lists!");
+            this.getSwdlEnv().getLogMain().log(10000000, "doGetDevices, clear lists!");
             this.swdlDeviceList.reset();
             this.swdlModuleList.reset();
             this.swdlFileList.reset();
@@ -151,9 +146,8 @@ implements ButtonListener {
         this.getDeviceInfoDSIHandler().doGetDevices();
     }
 
-    @Override
     public void checkModulesDowngrade() {
-        this.getSwdlEnv().getLogMain().log(1078071040, "[AbstractEngineeringDeviceInfoManager] checkModulesDowngrade()");
+        this.getSwdlEnv().getLogMain().log(1000000, "[AbstractEngineeringDeviceInfoManager] checkModulesDowngrade()");
         this.moduleDowngradeDetectionProgress = true;
         if (this.swdlDeviceList != null) {
             ISwdlListItem[] iSwdlListItemArray = this.swdlDeviceList.getEntries();
@@ -169,7 +163,6 @@ implements ButtonListener {
         this.moduleDowngradeDetectionProgress = false;
     }
 
-    @Override
     public void doGetModules(int n) {
         this.setSelectionScreen(1);
         this.swdlModuleList.getList().setStatus(0);
@@ -180,16 +173,16 @@ implements ButtonListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void doGetModulesAndWait(int n) {
-        this.getSwdlEnv().getLogMain().log(-2137614336, "[SwdlDSIHandlerDeviceInfo] -> doGetModulesAndWait(%1)", (long)n);
+        this.getSwdlEnv().getLogMain().log(10000000, "[SwdlDSIHandlerDeviceInfo] -> doGetModulesAndWait(%1)", (long)n);
         Object object = this.syncGetModules;
         synchronized (object) {
             this.getDeviceInfoDSIHandler().doGetModules(n);
             try {
-                this.syncGetModules.wait(0);
+                this.syncGetModules.wait(2000L);
             }
             catch (InterruptedException interruptedException) {
                 Thread.interrupted();
-                this.getSwdlEnv().getLogMain().log(-2137614336, "doGetModulesAndWait(%1): waiting of modules was interrupted", (long)n);
+                this.getSwdlEnv().getLogMain().log(10000000, "doGetModulesAndWait(%1): waiting of modules was interrupted", (long)n);
             }
         }
     }
@@ -233,7 +226,7 @@ implements ButtonListener {
         } else {
             this.getSwdlModels().getSelectAllButton().setStatus(0);
         }
-        this.getSwdlEnv().getLogMain().log(-2137614336, "[AbstractEngineeringDeviceInfoManager] enableSelectAllButton(%1): release waitsync mediator", bl);
+        this.getSwdlEnv().getLogMain().log(10000000, "[AbstractEngineeringDeviceInfoManager] enableSelectAllButton(%1): release waitsync mediator", bl);
         this.getSwdlModels().getSelectAllSyncChoice().setStatus(1);
     }
 
@@ -243,15 +236,14 @@ implements ButtonListener {
         } else {
             this.getSwdlModels().getSelectNoneButton().setStatus(0);
         }
-        this.getSwdlEnv().getLogMain().log(-2137614336, "[AbstractEngineeringDeviceInfoManager] enableSelectNoneButton(%1): release waitsync mediator", bl);
+        this.getSwdlEnv().getLogMain().log(10000000, "[AbstractEngineeringDeviceInfoManager] enableSelectNoneButton(%1): release waitsync mediator", bl);
         this.getSwdlModels().getSelectNoneSyncChoice().setStatus(1);
     }
 
-    @Override
     public void updateDeviceList(String[] stringArray, int[] nArray, boolean bl) {
         this.swdlDeviceList.updateList(stringArray, nArray);
         this.swdlDeviceList.setSelectedEntry(this.currentDeviceIndex);
-        this.getSwdlEnv().getLogMain().log(-1601830656, "Check if Download is needed!");
+        this.getSwdlEnv().getLogMain().log(100000, "Check if Download is needed!");
         boolean bl2 = false;
         boolean bl3 = false;
         boolean bl4 = false;
@@ -265,31 +257,30 @@ implements ButtonListener {
             bl6 |= this.isDowngrade(nArray[i2]);
         }
         if (bl2) {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "At least one device needs to be updated!");
+            this.getSwdlEnv().getLogMain().log(100000, "At least one device needs to be updated!");
             this.getSwdlModels().getCheckStartDownloadButton().setStatus(1);
         } else {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "No Device needs to be updated!");
+            this.getSwdlEnv().getLogMain().log(100000, "No Device needs to be updated!");
             this.getSwdlModels().getCheckStartDownloadButton().setStatus(0);
         }
         this.enableSelectNoneButton(bl5);
         this.enableSelectAllButton(bl4);
         if (this.getAccessType() == 2 && bl3) {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "At least one device needs a retry!");
+            this.getSwdlEnv().getLogMain().log(100000, "At least one device needs a retry!");
             this.getSwdlModels().getSummmaryOkChoice().setValue(0);
         } else {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "No Device needs a retry!");
+            this.getSwdlEnv().getLogMain().log(100000, "No Device needs a retry!");
             this.getSwdlModels().getSummmaryOkChoice().setValue(1);
         }
         this.getSwdlModels().getShowDowngradeWarningChoice().setValue(bl6 ? 1 : 0);
-        this.getSwdlEnv().getLogMain().log(-2137614336, "updateDeviceList(%1) isDowngradeDetected=%2", (Object)nArray, (Object)bl6);
+        this.getSwdlEnv().getLogMain().log(10000000, "updateDeviceList(%1) isDowngradeDetected=%2", (Object)nArray, (Object)bl6);
         if (bl) {
-            this.getSwdlEnv().getLogMain().log(-2137614336, "updateDeviceList(%1) release WaitSync mediator", (Object)nArray);
+            this.getSwdlEnv().getLogMain().log(10000000, "updateDeviceList(%1) release WaitSync mediator", (Object)nArray);
             this.swdlDeviceList.getList().setStatus(1);
             this.getSwdlModels().getConfirmSummaryChangedButton().setStatus(1);
         }
     }
 
-    @Override
     public void doSelectDevice(int n) {
         this.setSelectionScreen(1);
         this.currentDeviceIndex = n;
@@ -305,12 +296,11 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void updateModuleList(String[] stringArray, int[] nArray, short[] sArray) {
         if (this.moduleDowngradeDetectionProgress) {
             this.checkModulesDowngrade(stringArray, nArray);
         } else {
-            this.getSwdlEnv().getLogMain().log(-2137614336, "updateModuleList(modules=%1,additionalInfo=%2,hwIndex=%3)", (Object)stringArray, (Object)nArray, (Object)sArray);
+            this.getSwdlEnv().getLogMain().log(10000000, "updateModuleList(modules=%1,additionalInfo=%2,hwIndex=%3)", (Object)stringArray, (Object)nArray, (Object)sArray);
             this.swdlModuleList.updateList(stringArray, nArray, sArray);
             this.swdlModuleList.getList().setStatus(1);
             this.getSwdlModels().getConfirmSummaryChangedButton().setStatus(1);
@@ -326,9 +316,9 @@ implements ButtonListener {
                     bl4 |= this.isSelected(nArray[i2]);
                 }
                 if (bl) {
-                    this.getSwdlEnv().getLogMain().log(1078071040, "All modules are selected for update -> set selection to NONE, also for files");
+                    this.getSwdlEnv().getLogMain().log(1000000, "All modules are selected for update -> set selection to NONE, also for files");
                 } else if (bl2) {
-                    this.getSwdlEnv().getLogMain().log(1078071040, "None modules are selected for update -> set selection to ALL, also for files");
+                    this.getSwdlEnv().getLogMain().log(1000000, "None modules are selected for update -> set selection to ALL, also for files");
                 }
                 this.enableSelectNoneButton(bl4);
                 this.enableSelectAllButton(bl3);
@@ -340,7 +330,7 @@ implements ButtonListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void checkModulesDowngrade(String[] stringArray, int[] nArray) {
-        this.getSwdlEnv().getLogMain().log(-2137614336, "checkModulesDowngrade(modules=%1,additionalInfo=%2): Modules downgrade detection", (Object)stringArray, (Object)nArray);
+        this.getSwdlEnv().getLogMain().log(10000000, "checkModulesDowngrade(modules=%1,additionalInfo=%2): Modules downgrade detection", (Object)stringArray, (Object)nArray);
         if (nArray.length > 0) {
             boolean bl = false;
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -357,11 +347,10 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void doSelectModule(int n) {
         this.setSelectionScreen(2);
         this.setCurrentModule((SwdlListItemModule)this.swdlModuleList.getEntry(n));
-        this.getSwdlEnv().getLogMain().log(-2137614336, "AbstractEngineeringDeviceInfoManager.doSelectModule(module=%1)", (long)n);
+        this.getSwdlEnv().getLogMain().log(10000000, "AbstractEngineeringDeviceInfoManager.doSelectModule(module=%1)", (long)n);
         this.setCurrentFile(null);
         this.getSwdlModels().getModuleLabel().setText(this.currentModule.getName());
         this.swdlFileList.setBase(this.currentModule);
@@ -369,17 +358,15 @@ implements ButtonListener {
         this.getDeviceInfoDSIHandler().queryIsDataModule(this.currentDevice.getId(), this.currentModule.getId());
     }
 
-    @Override
     public void setIsNoExclusiveBoloUpdate(boolean bl) {
         if (this.currentModule != null) {
             this.currentModule.setIsNoExclusiveBoloUpdate(bl);
             this.getSwdlModels().getNoExclusiveBoloUpdateChoice().setValue(bl ? 1 : 0);
         } else {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "Ignoring setIsNoExclusiveBoloUpdate() call! No module selected!");
+            this.getSwdlEnv().getLogMain().log(100000, "Ignoring setIsNoExclusiveBoloUpdate() call! No module selected!");
         }
     }
 
-    @Override
     public void setIsDataModule(boolean bl) {
         if (this.currentModule != null) {
             if (!bl) {
@@ -389,20 +376,18 @@ implements ButtonListener {
                 }
             }
         } else {
-            this.getSwdlEnv().getLogMain().log(-1601830656, "Ignoring setIsDataModule() call! No module selected!");
+            this.getSwdlEnv().getLogMain().log(100000, "Ignoring setIsDataModule() call! No module selected!");
         }
     }
 
-    @Override
     public void updateFileList(String[] stringArray) {
         this.swdlFileList.updateList(stringArray);
         this.swdlFileList.getList().setStatus(1);
         this.getSwdlModels().getConfirmSummaryChangedButton().setStatus(1);
     }
 
-    @Override
     public void doSelectFile(int n) {
-        this.getSwdlEnv().getLogMain().log(-2137614336, "AbstractEngineeringDeviceInfoManager.doSelectFile(file=%1)", (long)n);
+        this.getSwdlEnv().getLogMain().log(10000000, "AbstractEngineeringDeviceInfoManager.doSelectFile(file=%1)", (long)n);
         this.setCurrentFile((SwdlListItemFile)this.swdlFileList.getEntry(n));
         if (this.checkAccessType(1)) {
             if (!this.isStandardSelection()) {
@@ -413,7 +398,6 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void doGetFileInfos() {
         this.setSelectionScreen(2);
         this.swdlFileList.getList().setStatus(0);
@@ -424,23 +408,19 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void setTargetVersions(long[] lArray) {
         this.swdlFileList.setTargetVersions(lArray);
     }
 
-    @Override
     public void setVersions(long[] lArray) {
         this.swdlFileList.setVersions(lArray);
     }
 
-    @Override
     public void updateFileDetails(String string) {
-        this.getLogHMI().log(-2137614336, "updateFileDetails(%1)", (Object)string);
+        this.getLogHMI().log(10000000, "updateFileDetails(%1)", (Object)string);
         this.getSwdlModels().getFileDetailsLabel().setText(string);
     }
 
-    @Override
     public void setAdditionalInfo(int[] nArray) {
         boolean bl;
         for (bl = false; bl < nArray.length; bl += 1) {
@@ -457,9 +437,9 @@ implements ButtonListener {
                 bl |= this.isUnselected(nArray[i2]);
             }
             if (!bl) {
-                this.getSwdlEnv().getLogMain().log(1078071040, "All files are selected for update");
+                this.getSwdlEnv().getLogMain().log(1000000, "All files are selected for update");
             } else if (!bl) {
-                this.getSwdlEnv().getLogMain().log(1078071040, "All files are excluded from update");
+                this.getSwdlEnv().getLogMain().log(1000000, "All files are excluded from update");
             }
             this.enableSelectNoneButton(bl2);
             this.enableSelectAllButton(bl);
@@ -468,55 +448,49 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void updateErrors(String string) {
-        this.getLogHMI().log(-2137614336, "updateErrors(%1)", (Object)string);
+        this.getLogHMI().log(10000000, "updateErrors(%1)", (Object)string);
         this.getSwdlModels().getDeviceErrorsLabel().setText(string);
     }
 
-    @Override
     public void updateSummary(String string) {
         String string2 = this.getSwdlModels().getUpdatedDeviceLabel().getText();
         if (string2.length() == 0) {
             this.getSwdlModels().getUpdatedDeviceLabel().setText(string);
         } else {
-            this.getSwdlModels().getUpdatedDeviceLabel().setText(new StringBuffer().append(string2).append(",").append(string).toString());
+            this.getSwdlModels().getUpdatedDeviceLabel().setText(string2 + "," + string);
         }
         this.showSummaryChanged(this.getSwdlEnv().getTerminalId());
     }
 
-    @Override
     public void leaveSummaryChanged() {
         this.getSwdlModels().getUpdatedDeviceLabel().setText("");
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.getLogHMI().log(14808325, "ignore keyPressed(%1) Event!", (long)n);
+        this.getLogHMI().log(100000000, "ignore keyPressed(%1) Event!", (long)n);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.getLogHMI().log(14808325, "ignore keyReleased(%1) Event!", (long)n);
+        this.getLogHMI().log(100000000, "ignore keyReleased(%1) Event!", (long)n);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogHMI().log(1078071040, "keyTyped(%1,%2)", (long)n, (long)n2);
-        if (n == 2112952576 || n == 2129729792) {
+        this.getLogHMI().log(1000000, "keyTyped(%1,%2)", (long)n, (long)n2);
+        if (n == 1700221 || n == 1700222) {
             if (this.isStandardSelection()) {
-                this.getLogHMI().log(1078071040, "standard mode is selected -> do not change selection");
+                this.getLogHMI().log(1000000, "standard mode is selected -> do not change selection");
             } else {
-                boolean bl = n == 2112952576;
+                boolean bl = n == 1700221;
                 ButtonModelApp buttonModelApp = bl ? this.getSwdlModels().getSelectAllButton() : this.getSwdlModels().getSelectNoneButton();
-                this.getSwdlEnv().getLogMain().log(-2137614336, "Disable CheckStartDownloadButton");
+                this.getSwdlEnv().getLogMain().log(10000000, "Disable CheckStartDownloadButton");
                 this.getSwdlModels().getCheckStartDownloadButton().setStatus(0);
                 buttonModelApp.setStatus(0);
                 if (bl) {
-                    this.getSwdlEnv().getLogMain().log(-2137614336, "[AbstractEngineeringDeviceInfoManager] keyPressed(): enter waitsync mediator for swdlSelectAllButton");
+                    this.getSwdlEnv().getLogMain().log(10000000, "[AbstractEngineeringDeviceInfoManager] keyPressed(): enter waitsync mediator for swdlSelectAllButton");
                     this.getSwdlModels().getSelectAllSyncChoice().setStatus(0);
                 } else {
-                    this.getSwdlEnv().getLogMain().log(-2137614336, "[AbstractEngineeringDeviceInfoManager] keyPressed(): enter waitsync mediator for swdlSelectNoneButton");
+                    this.getSwdlEnv().getLogMain().log(10000000, "[AbstractEngineeringDeviceInfoManager] keyPressed(): enter waitsync mediator for swdlSelectNoneButton");
                     this.getSwdlModels().getSelectNoneSyncChoice().setStatus(0);
                 }
                 buttonModelApp.fireEvent(n3);
@@ -543,15 +517,15 @@ implements ButtonListener {
                         break;
                     }
                     default: {
-                        this.getLogHMI().log(-2137614336, "ignore keyPressed(%1) Event!", (long)n);
+                        this.getLogHMI().log(10000000, "ignore keyPressed(%1) Event!", (long)n);
                         break;
                     }
                 }
             }
-        } else if (n == 972101888) {
+        } else if (n == 1700153) {
             this.getDeviceInfoDSIHandler().doGetErrors(this.currentDevice.getId());
             this.getSwdlModels().getShowErrorsButton().fireEvent(n3);
-        } else if (n == 1055987968) {
+        } else if (n == 1700158) {
             this.getSwdlModels().getConfirmSummaryChangedButton().setStatus(0);
             this.getSwdlModels().getConfirmSummaryChangedButton().fireEvent(n3);
             switch (this.getSelectionScreen()) {
@@ -570,16 +544,9 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    protected abstract void showSummaryChanged(int n) {
-    }
-
-    static {
-        EMPTYSTRINGARRAY = new String[0];
-        EMPTYINTARRAY = new int[0];
-    }
+    protected abstract void showSummaryChanged(int var1);
 }
 

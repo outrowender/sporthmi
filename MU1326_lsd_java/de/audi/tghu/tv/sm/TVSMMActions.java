@@ -11,6 +11,7 @@ import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMServices;
 import de.audi.atip.statemachine.ap.EntertainmentActionProxy;
 import de.audi.atip.statemachine.ap.TVActionProxy;
+import java.util.NoSuchElementException;
 
 public class TVSMMActions
 implements SMModuleConstants {
@@ -28,12 +29,12 @@ implements SMModuleConstants {
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap0 = null;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy removed");
             return;
         }
         if (actionProxy instanceof TVActionProxy) {
             this.ap1 = null;
-            this.logChannel.log(-2137614336, "TVActionProxy Action Proxy removed");
+            this.logChannel.log(10000000, "TVActionProxy Action Proxy removed");
             return;
         }
     }
@@ -41,12 +42,12 @@ implements SMModuleConstants {
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         if (actionProxy instanceof EntertainmentActionProxy) {
             this.ap0 = (EntertainmentActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "EntertainmentActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "EntertainmentActionProxy Action Proxy added");
             return this.ap0;
         }
         if (actionProxy instanceof TVActionProxy) {
             this.ap1 = (TVActionProxy)actionProxy;
-            this.logChannel.log(-2137614336, "TVActionProxy Action Proxy added");
+            this.logChannel.log(10000000, "TVActionProxy Action Proxy added");
             return this.ap1;
         }
         return null;
@@ -57,7 +58,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'EntertainmentActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'EntertainmentActionProxy' missing for call '%1'", (Object)string);
     }
 
     private void catchActionExceptionTVActionProxy(ActionProxy actionProxy, NullPointerException nullPointerException, String string) {
@@ -65,7 +66,7 @@ implements SMModuleConstants {
             this.logChannel.log(1000, "Action Proxy 'TVActionProxy' is causing an exception in call '%1'", (Object)string, (Throwable)nullPointerException);
             throw nullPointerException;
         }
-        this.logChannel.log(1078071040, "Action Proxy 'TVActionProxy' missing for call '%1'", (Object)string);
+        this.logChannel.log(1000000, "Action Proxy 'TVActionProxy' missing for call '%1'", (Object)string);
     }
 
     public void execFocusGainedAction(SMServices sMServices, int n) {
@@ -159,7 +160,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600039: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(2007259409L);
                 this.ap0_entertainmentBlacklist_1028045899();
                 return;
             }
@@ -172,7 +173,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600042: {
-                sMServices.removeContext(0);
+                sMServices.removeContext(1996946457L);
                 this.ap0_entertainmentBlacklist_1028045899();
                 return;
             }
@@ -186,7 +187,7 @@ implements SMModuleConstants {
             }
             case 2600064: {
                 sMServices.removeContext(-120066153L);
-                sMServices.removeContext(0);
+                sMServices.removeContext(1831841151L);
                 return;
             }
             case 2600065: {
@@ -290,7 +291,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600030: {
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 69L);
                 return;
             }
             case 2600033: {
@@ -313,7 +314,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600039: {
-                sMServices.addContext(0);
+                sMServices.addContext(2007259409L);
                 this.ap0_entertainmentBlacklist_109959136();
                 return;
             }
@@ -326,7 +327,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600042: {
-                sMServices.addContext(0);
+                sMServices.addContext(1996946457L);
                 this.ap0_entertainmentBlacklist_109959136();
                 return;
             }
@@ -341,12 +342,12 @@ implements SMModuleConstants {
                 return;
             }
             case 2600056: {
-                sMServices.pushDrawerIDs(0L, 0);
+                sMServices.pushDrawerIDs(0L, 69L);
                 return;
             }
             case 2600064: {
                 sMServices.addContext(-120066153L);
-                sMServices.addContext(0);
+                sMServices.addContext(1831841151L);
                 return;
             }
             case 2600065: {
@@ -354,7 +355,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600066: {
-                sMServices.pushDrawerIDs(0, 0);
+                sMServices.pushDrawerIDs(200087L, 2600036L);
                 TVActionProxy tVActionProxy = this.ap1;
                 try {
                     tVActionProxy.hmiActivatedTV(this.smm.getTerminalID());
@@ -385,7 +386,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600095: {
-                sMServices.pushDrawerIDs(0, 0L);
+                sMServices.pushDrawerIDs(200087L, 0L);
                 this.ap0_entertainmentBlacklist_109959136();
                 return;
             }
@@ -563,7 +564,7 @@ implements SMModuleConstants {
                 return;
             }
             case 2600071: {
-                sMServices.showPartialPopup(1756112640);
+                sMServices.showPartialPopup(2600040);
                 return;
             }
             case 2600074: {
@@ -667,7 +668,7 @@ implements SMModuleConstants {
             case 2600251: {
                 switch (n2) {
                     case 1: {
-                        sMServices.hidePartialPopup(1756112640);
+                        sMServices.hidePartialPopup(2600040);
                         return;
                     }
                 }
@@ -676,7 +677,7 @@ implements SMModuleConstants {
         }
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

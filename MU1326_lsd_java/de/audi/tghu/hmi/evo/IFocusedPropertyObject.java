@@ -6,31 +6,22 @@ package de.audi.tghu.hmi.evo;
 import de.audi.tghu.hmi.evo.IRightDrawerActionReceiver;
 
 public interface IFocusedPropertyObject {
-    default public int getCategory() {
-    }
+    public int getCategory();
 
-    default public int[] getProperties() {
-    }
+    public int[] getProperties();
 
-    default public void setModelID(int n) {
-    }
+    public void setModelID(int var1);
 
-    default public int getModelID() {
-    }
+    public int getModelID();
 
-    default public void setWidgetID(int n) {
-    }
+    public void setWidgetID(int var1);
 
-    default public int getRow() {
-    }
+    public int getRow();
 
-    default public int getWidgetID() {
-    }
+    public int getWidgetID();
 
-    default public IRightDrawerActionReceiver getActionReceiverWidget() {
-    }
+    public IRightDrawerActionReceiver getActionReceiverWidget();
 
-    default public void setActionReceiverWidget(IRightDrawerActionReceiver iRightDrawerActionReceiver) {
-    }
+    public void setActionReceiverWidget(IRightDrawerActionReceiver var1);
 }
 

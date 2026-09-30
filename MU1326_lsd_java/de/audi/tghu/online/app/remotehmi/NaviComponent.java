@@ -21,7 +21,6 @@ extends AbstractRemoteHMIComponent {
     private MapService mapService;
     private INaviFormattingService formattingService;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
         this.setRemoteHMILocationInputMode(false);
@@ -31,7 +30,7 @@ extends AbstractRemoteHMIComponent {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setRemoteHMILocationInputMode(boolean bl) {
-        this.logChannel.log(1078071040, "NaviComponent#setRemoteHMILocationInputMode: %1", (Object)Boolean.toString(bl));
+        this.logChannel.log(1000000, "NaviComponent#setRemoteHMILocationInputMode: %1", (Object)Boolean.toString(bl));
         NaviComponent naviComponent = this;
         synchronized (naviComponent) {
             this.remoteHmiService.getFrameworkAccess().getHmiServiceApp().getButtonModel(205).setStatus(bl ? 1 : 0);

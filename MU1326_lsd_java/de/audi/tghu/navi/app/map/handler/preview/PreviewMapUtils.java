@@ -93,7 +93,7 @@ public class PreviewMapUtils {
         if (navLocationWgs84Array == null) {
             return null;
         }
-        logChannel.log(14808325, "PreviewMapUtils#calculateMapSection() - number of locations: %1, referenceLocation: %2, centered: %3", (Object)new Integer(navLocationWgs84Array.length), (Object)navLocationWgs84, (Object)bl);
+        logChannel.log(100000000, "PreviewMapUtils#calculateMapSection() - number of locations: %1, referenceLocation: %2, centered: %3", (Object)new Integer(navLocationWgs84Array.length), (Object)navLocationWgs84, (Object)bl);
         NavLocationWgs84[] navLocationWgs84Array2 = navLocationWgs84Array;
         if (navLocationWgs84 != null) {
             navLocationWgs84Array2 = new NavLocationWgs84[navLocationWgs84Array.length + 1];
@@ -114,21 +114,21 @@ public class PreviewMapUtils {
             if (navLocationWgs84 == null) {
                 return null;
             }
-            int n5 = 0 * (long)navLocationWgs84.getLatitude() - (long)n2 - (long)n4;
-            int n6 = 0 * (long)navLocationWgs84.getLongitude() - (long)n - (long)n3;
-            if (n5 >= 0L) {
-                n4 = (int)((long)n4 + n5);
+            long l = 2L * (long)navLocationWgs84.getLatitude() - (long)n2 - (long)n4;
+            long l2 = 2L * (long)navLocationWgs84.getLongitude() - (long)n - (long)n3;
+            if (l >= 0L) {
+                n4 = (int)((long)n4 + l);
             } else {
-                n2 = (int)((long)n2 + n5);
+                n2 = (int)((long)n2 + l);
             }
-            if (n6 >= 0L) {
-                n3 = (int)((long)n3 + n6);
+            if (l2 >= 0L) {
+                n3 = (int)((long)n3 + l2);
             } else {
-                n = (int)((long)n + n6);
+                n = (int)((long)n + l2);
             }
         }
-        logChannel.log(-2137614336, "PreviewMapUtils#calculateMapSection(): smallest location: %1/%2", (long)n, (long)n2);
-        logChannel.log(-2137614336, "PreviewMapUtils#calculateMapSection(): largest location: %1/%2", (long)n3, (long)n4);
+        logChannel.log(10000000, "PreviewMapUtils#calculateMapSection(): smallest location: %1/%2", (long)n, (long)n2);
+        logChannel.log(10000000, "PreviewMapUtils#calculateMapSection(): largest location: %1/%2", (long)n3, (long)n4);
         NavRectangle navRectangle = new NavRectangle();
         navRectangle.xLeft = n;
         navRectangle.xRight = n3;
@@ -138,14 +138,14 @@ public class PreviewMapUtils {
     }
 
     public static Rect calculateLocationRectangle(LogChannel logChannel, NavLocationWgs84[] navLocationWgs84Array) {
-        int n = -129;
-        int n2 = -129;
-        int n3 = 128;
-        int n4 = 128;
+        int n = Integer.MAX_VALUE;
+        int n2 = Integer.MAX_VALUE;
+        int n3 = Integer.MIN_VALUE;
+        int n4 = Integer.MIN_VALUE;
         boolean bl = false;
         if (navLocationWgs84Array != null && navLocationWgs84Array.length != 0) {
             int n5 = navLocationWgs84Array.length;
-            logChannel.log(-2137614336, "PreviewMapUtils#calculateLocationRectangle(): looking in %1 positions", (long)n5);
+            logChannel.log(10000000, "PreviewMapUtils#calculateLocationRectangle(): looking in %1 positions", (long)n5);
             for (int i2 = 0; i2 < n5; ++i2) {
                 NavLocationWgs84 navLocationWgs84 = navLocationWgs84Array[i2];
                 if (navLocationWgs84 == null) continue;
@@ -170,8 +170,8 @@ public class PreviewMapUtils {
         if (!bl) {
             return null;
         }
-        logChannel.log(-2137614336, "PreviewMapUtils#calculateLocationRectangle(): smallest location: %1/%2", (long)n, (long)n2);
-        logChannel.log(-2137614336, "PreviewMapUtils#calculateLocationRectangle(): largest location: %1/%2", (long)n3, (long)n4);
+        logChannel.log(10000000, "PreviewMapUtils#calculateLocationRectangle(): smallest location: %1/%2", (long)n, (long)n2);
+        logChannel.log(10000000, "PreviewMapUtils#calculateLocationRectangle(): largest location: %1/%2", (long)n3, (long)n4);
         return new Rect(n, n2, n3, n4);
     }
 

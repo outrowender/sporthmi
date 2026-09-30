@@ -24,28 +24,26 @@ public abstract class AbstractIETask {
     }
 
     public void start() {
-        this.lc.log(-2137614336, "[%1.start]", (Object)this.label);
+        this.lc.log(10000000, "[%1.start]", (Object)this.label);
         this.success = false;
         this.startNexTask();
     }
 
-    abstract void startNexTask() {
-    }
+    abstract void startNexTask();
 
-    abstract void finished(boolean bl) {
-    }
+    abstract void finished(boolean var1);
 
     protected IEClient getNextIEClient() {
         return (IEClient)this.ieClients.next();
     }
 
     public void updateClientResult(IEClient iEClient, String string, boolean bl, boolean bl2) {
-        if (this.lc.getCurrentLogThreshold() >= -2137614336) {
+        if (this.lc.getCurrentLogThreshold() >= 10000000) {
             Buffer buffer = new Buffer(100);
             buffer.append("client:").append(iEClient);
             buffer.append(" file:").append(string);
             buffer.append(" result:").append(bl);
-            this.lc.log(-2137614336, "[%1.updateClientResult] %2", (Object)this.label, (Object)buffer);
+            this.lc.log(10000000, "[%1.updateClientResult] %2", (Object)this.label, (Object)buffer);
         }
         if (bl) {
             this.success = true;

@@ -4,16 +4,12 @@
 package de.audi.tv.app.base;
 
 public interface IConfiguration {
-    default public int getDisplaySettingMinValue() {
-    }
+    public int getDisplaySettingMinValue();
 
-    default public int getDisplaySettingMaxValue() {
-    }
+    public int getDisplaySettingMaxValue();
 
-    default public int getDisplaySettingStepWidth() {
-    }
+    public int getDisplaySettingStepWidth();
 
-    default public boolean hasAV() {
-    }
+    public boolean hasAV();
 }
 

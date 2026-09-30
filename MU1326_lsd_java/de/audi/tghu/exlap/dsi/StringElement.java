@@ -11,7 +11,6 @@ extends HASDataElement {
         super(n, 2, 0L, string, 0.0, null, null);
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(1400);
         stringBuffer.append("HASDataElement(elementId=");

@@ -3,6 +3,7 @@
  */
 package de.audi.tuner.app.history;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.DragAndDropHandler;
 import de.audi.atip.hmi.model.list.BaseListModel;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
@@ -11,12 +12,14 @@ import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.i18n.Language;
 import de.audi.tuner.app.DrawerFocusManager;
 import de.audi.tuner.app.IDrawerFocusManager;
-import de.audi.tuner.app.LanguageManager$ILanguageChangeListener;
+import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.MemoryListHandler;
 import de.audi.tuner.app.RadioBaseListModelListener;
 import de.audi.tuner.app.RadioComparators;
+import de.audi.tuner.app.RadioMenuModelListener;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerObjectContainer;
@@ -26,18 +29,6 @@ import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.epg.sdars.ChoiceModifyingEPGAvailibilityCallback;
 import de.audi.tuner.app.epg.sdars.IEPGAvailibiltyCallback;
-import de.audi.tuner.app.history.HistoryStationList$1;
-import de.audi.tuner.app.history.HistoryStationList$2;
-import de.audi.tuner.app.history.HistoryStationList$3;
-import de.audi.tuner.app.history.HistoryStationList$ButtonListener;
-import de.audi.tuner.app.history.HistoryStationList$DefaultTunePlugin;
-import de.audi.tuner.app.history.HistoryStationList$LanguageChangeListener;
-import de.audi.tuner.app.history.HistoryStationList$MemoryListener;
-import de.audi.tuner.app.history.HistoryStationList$MenuModelListener;
-import de.audi.tuner.app.history.HistoryStationList$MyMessageListener;
-import de.audi.tuner.app.history.HistoryStationList$OptionsListener;
-import de.audi.tuner.app.history.HistoryStationList$PowerEventListener;
-import de.audi.tuner.app.history.HistoryStationList$PrevNextHandler;
 import de.audi.tuner.app.history.HistoryTuner;
 import de.audi.tuner.app.history.IHistoryTuneListener;
 import de.audi.tuner.app.history.ITunePlugin;
@@ -56,10 +47,13 @@ import de.audi.tuner.ifc.DefaultDragAndDropListener;
 import de.audi.tuner.ifc.IListResourceProvider;
 import de.audi.tuner.ifc.ILogoDatabase;
 import de.audi.tuner.ifc.IMemoryList;
+import de.audi.tuner.ifc.IPowerEvent;
 import de.audi.tuner.ifc.IPrevNext;
 import de.audi.tuner.ifc.IScanHandler;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 import de.audi.tuner.ifc.listener.MessageListener;
+import de.audi.tuner.sds.DefaultUpdateListener;
+import de.audi.tuner.util.jobqueue.AbstractNamedRunnable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -67,11 +61,11 @@ import java.util.List;
 class HistoryStationList
 extends RadioBaseListModelListener
 implements IListResourceProvider {
-    final HistoryStationList$PowerEventListener powerEventListener = new HistoryStationList$PowerEventListener(this, null);
-    final MessageListener messageListener = new HistoryStationList$MyMessageListener(this, null);
-    final LanguageManager$ILanguageChangeListener languageChangeListener = new HistoryStationList$LanguageChangeListener(this, null);
-    final IOptionsListener optionsListener = new HistoryStationList$OptionsListener(this, null);
-    public final IPrevNext prevNextHandler = new HistoryStationList$PrevNextHandler(this, null);
+    final PowerEventListener powerEventListener = new PowerEventListener();
+    final MessageListener messageListener = new MyMessageListener();
+    final LanguageManager.ILanguageChangeListener languageChangeListener = new LanguageChangeListener();
+    final IOptionsListener optionsListener = new OptionsListener();
+    public final IPrevNext prevNextHandler = new PrevNextHandler();
     private final BaseListModel model;
     private final MenuModelApp menu;
     private final ChoiceModelApp curStIsInHist;
@@ -86,30 +80,44 @@ implements IListResourceProvider {
     private final IScanHandler scanHandler;
     private final PdtListener pdtListener;
     private final IEPGAvailibiltyCallback sdarsEpgAvailibilityCallback;
-    private ITunePlugin tunePlugin = new HistoryStationList$DefaultTunePlugin(null);
+    private ITunePlugin tunePlugin = new DefaultTunePlugin();
     private volatile long focussedItemUniqueID = 0L;
     private volatile int registeredSid = -1;
     private final ArrayList historyTuneListeners = new ArrayList();
     private IDrawerFocusManager drawerFocus = DrawerFocusManager.NULL_DRAWER_FOCUS_MANAGER;
 
-    HistoryStationList(TunerBasics tunerBasics, AbstractListRowFactory abstractListRowFactory, TunerStorage tunerStorage, HistoryTuner historyTuner, IScanHandler iScanHandler) {
-        super(tunerBasics.getModels(), -678952704);
+    HistoryStationList(final TunerBasics tunerBasics, AbstractListRowFactory abstractListRowFactory, TunerStorage tunerStorage, HistoryTuner historyTuner, IScanHandler iScanHandler) {
+        super(tunerBasics.getModels(), 100567);
         this.basics = tunerBasics;
         this.models = tunerBasics.getModels();
         this.status = tunerBasics.getStatus();
-        this.model = (BaseListModel)tunerBasics.getModels().getBaseListModel(1921515776);
-        this.menu = tunerBasics.getModels().getMenuModel(-678952704);
-        this.menu.setListener(new HistoryStationList$MenuModelListener(this, tunerBasics, new int[]{-678952704}));
-        this.curStIsInHist = tunerBasics.getModels().getChoiceModel(-964165376);
+        this.model = (BaseListModel)tunerBasics.getModels().getBaseListModel(100466);
+        this.menu = tunerBasics.getModels().getMenuModel(100567);
+        this.menu.setListener(new MenuModelListener(tunerBasics, new int[]{100567}));
+        this.curStIsInHist = tunerBasics.getModels().getChoiceModel(100550);
         this.model.setListener(this);
         this.storage = tunerStorage;
         this.historyTuner = historyTuner;
         this.scanHandler = iScanHandler;
         this.sdarsEpgAvailibilityCallback = ChoiceModifyingEPGAvailibilityCallback.forSdarsFocussedChannelEPGAvailibilityChoice(this.models);
-        tunerBasics.getModels().getButtonModel(-477626112).setButtonListener(new HistoryStationList$ButtonListener(this, null));
+        tunerBasics.getModels().getButtonModel(100579).setButtonListener(new ButtonListener());
         this.rowFactory = abstractListRowFactory;
         this.imgType = tunerStorage.loadPreferredImageType();
-        this.pdtListener = new HistoryStationList$1(this, this, this.model, new Object(), this.imgType, tunerBasics);
+        this.pdtListener = new PdtListener(this, this.model, new Object(), this.imgType){
+
+            public void updatePdt(final int n, final SdarsRadioText sdarsRadioText) {
+                if (!tunerBasics.tunerJobQueue.isJobQueueDispatchThread()) {
+                    tunerBasics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.PdtListener.updatePdt"){
+
+                        public void run() {
+                            HistoryStationList.this.pdtListener.updatePdt(n, sdarsRadioText);
+                        }
+                    });
+                    return;
+                }
+                super.updatePdt(n, sdarsRadioText);
+            }
+        };
         this.model.setDragAndDropHandler(new DragAndDropHandler(new int[0]));
         this.model.setDragAndDropListener(new DefaultDragAndDropListener());
     }
@@ -118,7 +126,7 @@ implements IListResourceProvider {
         EvoListRow[] evoListRowArray = this.storage.loadHistoryList(iLogoDatabase);
         BaseListModelApp baseListModelApp = this.model.getEmptyCopy();
         baseListModelApp.append(evoListRowArray);
-        MemoryListHandler.adjustRowLayoutsIfNecessary(baseListModelApp, this.models.getChoiceModel(1636368640), this.status.isDisplayStationNames(), this.storage.getAmfmView());
+        MemoryListHandler.adjustRowLayoutsIfNecessary(baseListModelApp, this.models.getChoiceModel(100705), this.status.isDisplayStationNames(), this.storage.getAmfmView());
         this.model.update(baseListModelApp);
     }
 
@@ -131,12 +139,12 @@ implements IListResourceProvider {
     }
 
     public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
-        return new HistoryStationList$MemoryListener(this, iMemoryList);
+        return new MemoryListener(iMemoryList);
     }
 
     void setTunePlugin(ITunePlugin iTunePlugin) {
         if (iTunePlugin == null) {
-            iTunePlugin = new HistoryStationList$DefaultTunePlugin(null);
+            iTunePlugin = new DefaultTunePlugin();
         }
         this.tunePlugin = iTunePlugin;
     }
@@ -184,10 +192,14 @@ implements IListResourceProvider {
         this.curStIsInHist.setValue(1);
     }
 
-    @Override
-    public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+    public void itemSelected(final EvoListRow evoListRow, final int n, final int n2, final int n3, final int n4) {
         if (!this.basics.tunerJobQueue.isJobQueueDispatchThread()) {
-            this.basics.tunerJobQueue.enqueue(new HistoryStationList$2(this, "HistoryStationList.itemSelected", evoListRow, n, n2, n3, n4));
+            this.basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.itemSelected"){
+
+                public void run() {
+                    HistoryStationList.this.itemSelected(evoListRow, n, n2, n3, n4);
+                }
+            });
             return;
         }
         this.scanHandler.abortScan();
@@ -210,10 +222,14 @@ implements IListResourceProvider {
         }
     }
 
-    @Override
-    public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+    public void itemFocused(final EvoListRow evoListRow, final int n, final int n2, final int n3, final int n4) {
         if (!this.basics.tunerJobQueue.isJobQueueDispatchThread()) {
-            this.basics.tunerJobQueue.enqueue(new HistoryStationList$3(this, "HistoryStationList.itemFocused", evoListRow, n, n2, n3, n4));
+            this.basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.itemFocused"){
+
+                public void run() {
+                    HistoryStationList.this.itemFocused(evoListRow, n, n2, n3, n4);
+                }
+            });
             return;
         }
         AbstractMemoryRow abstractMemoryRow = (AbstractMemoryRow)evoListRow;
@@ -342,7 +358,6 @@ implements IListResourceProvider {
         }
     }
 
-    @Override
     public long getFocussedItemUniqueId() {
         return this.focussedItemUniqueID;
     }
@@ -376,13 +391,13 @@ implements IListResourceProvider {
 
     public void setNamesOnOff(boolean bl) {
         if (Utilities.isJapan()) {
-            MemoryListHandler.adjustRowLayoutsIfNecessary(this.model, this.models.getChoiceModel(1636368640), bl, this.storage.getAmfmView());
+            MemoryListHandler.adjustRowLayoutsIfNecessary(this.model, this.models.getChoiceModel(100705), bl, this.storage.getAmfmView());
         }
     }
 
     private void updateAmFmView(int n) {
         boolean bl = this.status.isDisplayStationNames();
-        MemoryListHandler.adjustRowLayoutsIfNecessary(this.model, this.models.getChoiceModel(1636368640), bl, n);
+        MemoryListHandler.adjustRowLayoutsIfNecessary(this.model, this.models.getChoiceModel(100705), bl, n);
     }
 
     public void updateSdarsList(StationInfoExt[] stationInfoExtArray) {
@@ -411,69 +426,209 @@ implements IListResourceProvider {
         MemoryListHandler.setSdarsListState(n, this.model);
     }
 
-    static /* synthetic */ PdtListener access$800(HistoryStationList historyStationList) {
-        return historyStationList.pdtListener;
-    }
-
-    static /* synthetic */ BaseListModel access$900(HistoryStationList historyStationList) {
-        return historyStationList.model;
-    }
-
-    static /* synthetic */ void access$1000(HistoryStationList historyStationList, int n, int n2) {
-        historyStationList.setSelectedIndex(n, n2);
-    }
-
-    static /* synthetic */ TunerBasics access$1100(HistoryStationList historyStationList) {
-        return historyStationList.basics;
-    }
-
-    static /* synthetic */ ArrayList access$1200(HistoryStationList historyStationList) {
-        return historyStationList.historyTuneListeners;
-    }
-
-    static /* synthetic */ ITunePlugin access$1300(HistoryStationList historyStationList) {
-        return historyStationList.tunePlugin;
-    }
-
-    static /* synthetic */ IDrawerFocusManager access$1400(HistoryStationList historyStationList) {
-        return historyStationList.drawerFocus;
-    }
-
-    static /* synthetic */ MenuModelApp access$1500(HistoryStationList historyStationList) {
-        return historyStationList.menu;
-    }
-
-    static /* synthetic */ void access$1700(HistoryStationList historyStationList, int n) {
-        historyStationList.orderPdt(n);
-    }
-
-    static /* synthetic */ void access$1900(HistoryStationList historyStationList, int n) {
-        historyStationList.updateAmFmView(n);
-    }
-
-    static /* synthetic */ void access$2000(HistoryStationList historyStationList) {
-        historyStationList.reset();
-    }
-
-    static /* synthetic */ TunerStatus access$2200(HistoryStationList historyStationList) {
-        return historyStationList.status;
-    }
-
-    static /* synthetic */ TunerModels access$2300(HistoryStationList historyStationList) {
-        return historyStationList.models;
-    }
-
-    static /* synthetic */ TunerStorage access$2400(HistoryStationList historyStationList) {
-        return historyStationList.storage;
-    }
-
     static /* synthetic */ TunerObjectContainer[] access$2502(HistoryStationList historyStationList, TunerObjectContainer[] tunerObjectContainerArray) {
         historyStationList.presets = tunerObjectContainerArray;
         return tunerObjectContainerArray;
     }
 
-    static /* synthetic */ int access$2600(HistoryStationList historyStationList, TunerObjectContainer tunerObjectContainer) {
-        return historyStationList.getPresetPosition(tunerObjectContainer);
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.ButtonListener.keyTyped"){
+
+                public void run() {
+                    HistoryStationList.this.reset();
+                }
+            });
+        }
+    }
+
+    private class MemoryListener
+    extends DefaultUpdateListener {
+        private final IMemoryList memory;
+
+        public MemoryListener(IMemoryList iMemoryList) {
+            this.memory = iMemoryList;
+        }
+
+        public void updatedMemoryList() {
+            if (!((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.MemoryListener.updatedMemoryList"){
+
+                    public void run() {
+                        MemoryListener.this.updatedMemoryList();
+                    }
+                });
+                return;
+            }
+            HistoryStationList.access$2502(HistoryStationList.this, this.memory.getList());
+            BaseListModelApp baseListModelApp = HistoryStationList.this.model.getCopy();
+            for (int i2 = 0; i2 < baseListModelApp.getLength(); ++i2) {
+                AbstractMemoryRow abstractMemoryRow = (AbstractMemoryRow)baseListModelApp.getRow(i2);
+                TunerObjectContainer tunerObjectContainer = abstractMemoryRow.getTOContainer();
+                int n = HistoryStationList.this.getPresetPosition(tunerObjectContainer);
+                abstractMemoryRow.setPresetIndex(n - 1);
+                baseListModelApp.setRow(i2, abstractMemoryRow);
+            }
+            HistoryStationList.this.model.update(baseListModelApp);
+        }
+    }
+
+    private class OptionsListener
+    implements IOptionsListener {
+        private OptionsListener() {
+        }
+
+        public void amFmViewChanged(final int n) {
+            if (!((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.OptionsListener.amFmViewChanged"){
+
+                    public void run() {
+                        OptionsListener.this.amFmViewChanged(n);
+                    }
+                });
+                return;
+            }
+            HistoryStationList.this.updateAmFmView(n);
+        }
+    }
+
+    private class PrevNextHandler
+    implements IPrevNext {
+        private PrevNextHandler() {
+        }
+
+        private AbstractMemoryRow getFollowingEnabledRowFromList(boolean bl, boolean bl2) {
+            int n;
+            int n2 = HistoryStationList.this.model.getLength();
+            SelectedItem selectedItem = HistoryStationList.this.model.getSelected();
+            int n3 = n = selectedItem != null ? selectedItem.getIndex() : -1;
+            for (int i2 = n2; i2 > 0; --i2) {
+                n3 = bl ? (n3 < n2 - 1 ? n3 + 1 : 0) : (n3 > 0 ? n3 - 1 : n2 - 1);
+                AbstractMemoryRow abstractMemoryRow = (AbstractMemoryRow)HistoryStationList.this.model.getRow(n3);
+                if (bl2 && abstractMemoryRow.getState() != 0) continue;
+                HistoryStationList.this.setSelectedIndex(n, n3);
+                return abstractMemoryRow;
+            }
+            return null;
+        }
+
+        public void handlePrevNext(final boolean bl) {
+            if (!((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.PrevNextHandler.handlePrevNext"){
+
+                    public void run() {
+                        PrevNextHandler.this.handlePrevNext(bl);
+                    }
+                });
+                return;
+            }
+            AbstractMemoryRow abstractMemoryRow = this.getFollowingEnabledRowFromList(bl, true);
+            if (abstractMemoryRow != null) {
+                TunerObjectContainer tunerObjectContainer = abstractMemoryRow.getTOContainer();
+                Iterator iterator = HistoryStationList.this.historyTuneListeners.iterator();
+                while (iterator.hasNext()) {
+                    ((IHistoryTuneListener)iterator.next()).historyTunePerformed(tunerObjectContainer);
+                }
+                HistoryStationList.this.tunePlugin.doTune(tunerObjectContainer, 0);
+            }
+            if (!HistoryStationList.this.drawerFocus.isDrawerOpen()) {
+                HistoryStationList.this.menu.trigger(ModelTrigger.JOIN_CURSOR);
+            }
+        }
+    }
+
+    private static class DefaultTunePlugin
+    implements ITunePlugin {
+        private DefaultTunePlugin() {
+        }
+
+        public void doTune(TunerObjectContainer tunerObjectContainer, int n) {
+            TunerProxyManager.getInstance().prepareAndTune(tunerObjectContainer, n);
+        }
+
+        public boolean doTune(TunerObjectContainer tunerObjectContainer, int n, int n2) {
+            this.doTune(tunerObjectContainer, n);
+            return true;
+        }
+    }
+
+    private class MenuModelListener
+    extends RadioMenuModelListener {
+        public MenuModelListener(TunerBasics tunerBasics, int[] nArray) {
+            super(tunerBasics, nArray);
+        }
+
+        public void itemFocused(int n, int n2, long l, int n3) {
+            super.itemFocused(n, n2, l, n3);
+            if (n != 100567) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.MenuModelListener.itemFocused"){
+
+                    public void run() {
+                        HistoryStationList.this.orderPdt(-1);
+                    }
+                });
+            }
+        }
+    }
+
+    private class MyMessageListener
+    extends MessageListener {
+        private MyMessageListener() {
+        }
+
+        public void resetToDefaultSettings() {
+            if (!((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.MyMessageListener.resetToDefaultSettings"){
+
+                    public void run() {
+                        MyMessageListener.this.resetToDefaultSettings();
+                    }
+                });
+                return;
+            }
+            HistoryStationList.this.reset();
+        }
+    }
+
+    private class PowerEventListener
+    implements IPowerEvent {
+        private PowerEventListener() {
+        }
+
+        public void notifyPowerEvent(int n, int n2) {
+            if (n == 2) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.PowerEventListener.notifyPowerEvent HMI_STANDBY"){
+
+                    public void run() {
+                        HistoryStationList.this.persist();
+                    }
+                });
+            }
+        }
+    }
+
+    private class LanguageChangeListener
+    implements LanguageManager.ILanguageChangeListener {
+        private LanguageChangeListener() {
+        }
+
+        public void languageChanged(final Language language) {
+            if (!((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.isJobQueueDispatchThread()) {
+                ((HistoryStationList)HistoryStationList.this).basics.tunerJobQueue.enqueue(new AbstractNamedRunnable("HistoryStationList.LanguageChangeListener.languageChanged"){
+
+                    public void run() {
+                        LanguageChangeListener.this.languageChanged(language);
+                    }
+                });
+                return;
+            }
+            boolean bl = HistoryStationList.this.status.isDisplayStationNames();
+            MemoryListHandler.adjustRowLayoutsIfNecessary(HistoryStationList.this.model, HistoryStationList.this.models.getChoiceModel(100705), bl, HistoryStationList.this.storage.getAmfmView());
+        }
     }
 }
 

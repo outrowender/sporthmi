@@ -21,18 +21,18 @@ public abstract class AbstractPoiScreenModelAccess {
     protected IRouteManager routeManager;
     protected IVehicle vehicle;
     protected PoiSearchArea poiSearchArea;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
 
     public AbstractPoiScreenModelAccess(NavigationEnv navigationEnv) {
-        this.NAV_POI_CLASS_COUNT_CHOICE = 18679296;
-        this.NAV_DEST_POI_CHILD_CATEGORY_NAME_LABEL = 2098923008;
+        this.NAV_POI_CLASS_COUNT_CHOICE = 400641;
+        this.NAV_DEST_POI_CHILD_CATEGORY_NAME_LABEL = 400253;
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getPOILogChannel();
     }
 
     public AbstractPoiScreenModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle, PoiSearchArea poiSearchArea) {
-        this.NAV_POI_CLASS_COUNT_CHOICE = 18679296;
-        this.NAV_DEST_POI_CHILD_CATEGORY_NAME_LABEL = 2098923008;
+        this.NAV_POI_CLASS_COUNT_CHOICE = 400641;
+        this.NAV_DEST_POI_CHILD_CATEGORY_NAME_LABEL = 400253;
         this.env = navigationEnv;
         this.iconHandler = iconHandler;
         this.routeManager = iRouteManager;
@@ -42,11 +42,11 @@ public abstract class AbstractPoiScreenModelAccess {
     }
 
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.env.getChoiceModel(35456512).setValue((int)l);
+        this.env.getChoiceModel(400642).setValue((int)l);
     }
 
     public void onUpdateSearchStatus(int n, int n2) {
-        this.env.getChoiceModel(35456512).setValue(n);
+        this.env.getChoiceModel(400642).setValue(n);
     }
 }
 

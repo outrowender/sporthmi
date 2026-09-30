@@ -3,6 +3,7 @@
  */
 package de.audi.tghu.navi.app.search;
 
+import de.audi.atip.interapp.NavigationUtilities;
 import de.audi.atip.interapp.locationaccessor.IMyLocationAccessor;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.search.AbstractSearch;
@@ -10,7 +11,7 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.LocationToStreamCommand;
-import de.audi.tghu.navi.app.search.LastDestProducer$1;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.util.addressformatting.AddressFormatter;
@@ -18,6 +19,8 @@ import de.audi.tghu.navi.app.util.addressformatting.LocationFormattingResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.search.Country;
+import org.dsi.ifc.search.NavPosition;
 import org.dsi.ifc.search.SearchResult;
 import org.dsi.ifc.search.Token;
 
@@ -33,14 +36,44 @@ public class LastDestProducer {
         this.env = navigationEnv;
     }
 
-    public void createAndSaveLastDestination(NavLocation navLocation, AbstractSearch abstractSearch) {
+    public void createAndSaveLastDestination(final NavLocation navLocation, final AbstractSearch abstractSearch) {
         if (navLocation == null) {
-            this.logger.log(-1601830656, "LastDestProducer#createAndSaveLastDestination - navLocation is null");
+            this.logger.log(100000, "LastDestProducer#createAndSaveLastDestination - navLocation is null");
             return;
         }
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new LocationToStreamCommand(navLocation));
-        commandList.add(new LastDestProducer$1(this, "CreateLastDest", navLocation, abstractSearch));
+        commandList.add(new NavCommand("CreateLastDest"){
+
+            public void execute() {
+                NavPosition navPosition;
+                if (navLocation == null || !navLocation.isPositionValid()) {
+                    this.getCommandList().commandFinished();
+                    return;
+                }
+                LastDestProducer.this.locationAccessor = Util.getLocationAccessor(navLocation);
+                SearchResult searchResult = new SearchResult();
+                searchResult.applicationData = (byte[])this.getCommandList().get("LOCATION_STREAM");
+                if (searchResult.applicationData == null) {
+                    this.logger.log(10000, "LastDestProducer#createLastDestination(): sertialization failed, bytestream is null");
+                    this.getCommandList().commandFinished();
+                    return;
+                }
+                searchResult.source = 16;
+                searchResult.entryType = LastDestProducer.this.getEntryType(navLocation, LastDestProducer.this.locationAccessor);
+                searchResult.poiType = LastDestProducer.this.locationAccessor.getPoiCategoryNumber();
+                searchResult.position = navPosition = new NavPosition((float)NavigationUtilities.wgs84ToDegree(navLocation.getLatitude()), (float)NavigationUtilities.wgs84ToDegree(navLocation.getLongitude()));
+                Country country = new Country();
+                country.name = LocationFormatter.formatCountry(navLocation);
+                country.code = LocationFormatter.formatCountryAbbreviation(navLocation);
+                country.stateName = LocationFormatter.formatState(navLocation);
+                country.stateAbbreviation = LocationFormatter.formatStateAbbreviation(navLocation);
+                searchResult.country = country;
+                searchResult.tokens = LastDestProducer.this.createTokens(navLocation, searchResult);
+                abstractSearch.addToHistory(searchResult);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("CreateAndSaveLastDestCommandList");
     }
 
@@ -136,7 +169,7 @@ public class LastDestProducer {
                 string = iMyLocationAccessor.getTown();
             }
         }
-        this.logger.log(-2137614336, "LastDestProducer#getCity - city: %1", (Object)string);
+        this.logger.log(10000000, "LastDestProducer#getCity - city: %1", (Object)string);
         return string;
     }
 
@@ -158,7 +191,7 @@ public class LastDestProducer {
         } else {
             string = LocationFormatter.formatStreetRefinement(navLocation);
         }
-        this.logger.log(-2137614336, "LastDestProducer#getCityPart - getCityPart: %1", (Object)string);
+        this.logger.log(10000000, "LastDestProducer#getCityPart - getCityPart: %1", (Object)string);
         return string;
     }
 
@@ -198,32 +231,15 @@ public class LastDestProducer {
 
     private void createPhoneticsToken(List list, NavLocation navLocation) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "LastDestProducer#createPhoneticsToken()");
+            this.logger.log(100000000, "LastDestProducer#createPhoneticsToken()");
         }
         String string = "";
         LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatPhonetics(navLocation, this.env);
         string = Util.isHURegionAsia() && (Util.isPorsche(this.env.getFramework()) || Util.isPorscheGen2(this.env.getFramework()) || Util.isBentley(this.env.getFramework())) ? locationFormattingResponse.getPhoneticsAsTextForPAGAsia(this.env) : locationFormattingResponse.getPhoneticsAsText();
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "LastDestProducer#createPhoneticsToken() --> Phonetics String: %1", (Object)string);
+            this.logger.log(100000000, "LastDestProducer#createPhoneticsToken() --> Phonetics String: %1", (Object)string);
         }
         list.add(new Token(23, string, null));
-    }
-
-    static /* synthetic */ IMyLocationAccessor access$002(LastDestProducer lastDestProducer, IMyLocationAccessor iMyLocationAccessor) {
-        lastDestProducer.locationAccessor = iMyLocationAccessor;
-        return lastDestProducer.locationAccessor;
-    }
-
-    static /* synthetic */ IMyLocationAccessor access$000(LastDestProducer lastDestProducer) {
-        return lastDestProducer.locationAccessor;
-    }
-
-    static /* synthetic */ int access$100(LastDestProducer lastDestProducer, NavLocation navLocation, IMyLocationAccessor iMyLocationAccessor) {
-        return lastDestProducer.getEntryType(navLocation, iMyLocationAccessor);
-    }
-
-    static /* synthetic */ Token[] access$200(LastDestProducer lastDestProducer, NavLocation navLocation, SearchResult searchResult) {
-        return lastDestProducer.createTokens(navLocation, searchResult);
     }
 }
 

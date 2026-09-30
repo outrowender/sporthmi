@@ -14,12 +14,10 @@ extends NavCommand {
         this.naviServiceListener = naviServiceListener;
     }
 
-    protected abstract void call(NaviServiceListener naviServiceListener) {
-    }
+    protected abstract void call(NaviServiceListener var1);
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "NotifyNaviServiceListenerCommand#execute()");
+        this.logger.log(10000000, "NotifyNaviServiceListenerCommand#execute()");
         if (this.naviServiceListener != null) {
             this.call(this.naviServiceListener);
             this.getCommandList().commandFinished();

@@ -12,14 +12,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class StartGuidanceResultContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_START_GUIDANCE_RESULT;
-    private static final int ELEMENT_ID_RESULT;
+    private static final int CONTAINER_ID_START_GUIDANCE_RESULT = 67;
+    private static final int ELEMENT_ID_RESULT = 175;
     private Map map = new HashMap();
 
     public StartGuidanceResultContainer(StartGuidanceResultEnumeration startGuidanceResultEnumeration) {
@@ -45,14 +44,12 @@ extends AbstractContainer {
         return (StartGuidanceResultEnumeration)this.map.get(new Integer(175));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(67, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -63,11 +60,11 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 175: {
-                    hASDataElementArray[n++] = new IntegerElement(175, ((StartGuidanceResultEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(175, ((StartGuidanceResultEnumeration)entry.getValue()).ordinal());
                     break;
                 }
             }
@@ -75,20 +72,19 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("StartGuidanceResultContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 175: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("result(StartGuidanceResultEnumeration)=null");
                         break;
                     }
                     stringWriter.write("result(StartGuidanceResultEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -99,7 +95,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         StartGuidanceResultContainer startGuidanceResultContainer = new StartGuidanceResultContainer(this);
         return startGuidanceResultContainer;

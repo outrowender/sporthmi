@@ -10,11 +10,9 @@ import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
 import de.audi.tghu.navi.app.command.LIGetLocationDescriptionTransformCommand;
 import de.audi.tghu.navi.app.command.LITryBestMatchCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.StreamToLocationCommand;
 import de.audi.tghu.navi.app.navlocationextractor.AbstractAsyncNavLocationExtractor;
-import de.audi.tghu.navi.app.navlocationextractor.AdbEntryAsyncNavLocationExtractor$1;
-import de.audi.tghu.navi.app.navlocationextractor.AdbEntryAsyncNavLocationExtractor$2;
-import de.audi.tghu.navi.app.navlocationextractor.AdbEntryAsyncNavLocationExtractor$3;
 import de.audi.tghu.navi.app.rows.AdbEntryListRow;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
@@ -29,7 +27,6 @@ extends AbstractAsyncNavLocationExtractor {
         this.commandListFactory = iCommandListFactory;
     }
 
-    @Override
     protected CommandList getExtractNavLocationCL(EvoListRow evoListRow, int n) {
         this.checkArgument(evoListRow);
         AdbEntryListRow adbEntryListRow = (AdbEntryListRow)evoListRow;
@@ -62,14 +59,27 @@ extends AbstractAsyncNavLocationExtractor {
     private CommandList getCLForPostAddress(AdbEntry adbEntry, int n, int n2) {
         CommandList commandList = this.commandListFactory.createCommandList(n2);
         commandList.add(new LITryBestMatchCommand(adbEntry, (short)n));
-        commandList.add(new AdbEntryAsyncNavLocationExtractor$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                AdbEntryAsyncNavLocationExtractor.this.putResultInCommandListMap("navLocation", AdbEntryAsyncNavLocationExtractor.this.getNavLocationFromTryBestMatchResult(this.dsiResponseContainer), this.getCommandList(), this.logger);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     private CommandList getCLForNavAddress(AdbEntry adbEntry, int n, int n2) {
         CommandList commandList = this.commandListFactory.createCommandList(n2);
         commandList.add(new StreamToLocationCommand(adbEntry.addressData[n].navLocation));
-        commandList.add(new AdbEntryAsyncNavLocationExtractor$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                Object object = this.getCommandList().get("STREAMED_LOCATION");
+                AdbEntryAsyncNavLocationExtractor.this.putResultInCommandListMap("navLocation", object, this.getCommandList(), this.logger);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -83,7 +93,13 @@ extends AbstractAsyncNavLocationExtractor {
         NavLocation navLocation = Util.getLocationFromGeoPos(n3, n4);
         CommandList commandList = this.commandListFactory.createCommandList(n2);
         commandList.add(new LIGetLocationDescriptionTransformCommand(navLocation));
-        commandList.add(new AdbEntryAsyncNavLocationExtractor$3(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                AdbEntryAsyncNavLocationExtractor.this.putResultInCommandListMap("navLocation", this.dsiResponseContainer.getTransformedLocation(), this.getCommandList(), this.logger);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
@@ -93,10 +109,6 @@ extends AbstractAsyncNavLocationExtractor {
             return null;
         }
         return tryBestMatchResultDataArray[0].getLocation();
-    }
-
-    static /* synthetic */ NavLocation access$000(AdbEntryAsyncNavLocationExtractor adbEntryAsyncNavLocationExtractor, DSIResponseContainer dSIResponseContainer) {
-        return adbEntryAsyncNavLocationExtractor.getNavLocationFromTryBestMatchResult(dSIResponseContainer);
     }
 }
 

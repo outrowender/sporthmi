@@ -7,19 +7,16 @@ import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.navigation.previewmap.gui.GuiModelAccessForPreviewMapDetailScreen;
+import de.audi.atip.interapp.navigation.previewmap.gui.GuiTooltipInformationContainer;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
-import de.audi.tghu.navi.app.HomeAddressHandler$1;
-import de.audi.tghu.navi.app.HomeAddressHandler$2;
-import de.audi.tghu.navi.app.HomeAddressHandler$3;
-import de.audi.tghu.navi.app.HomeAddressHandler$4;
-import de.audi.tghu.navi.app.HomeAddressHandler$5;
-import de.audi.tghu.navi.app.HomeAddressHandler$6;
 import de.audi.tghu.navi.app.INavigationInputModeManager;
 import de.audi.tghu.navi.app.LocationSerializer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.commands.HidePreviewMapCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
+import de.audi.tghu.navi.app.command.StreamToLocationCommand;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceToDestinationSequence;
 import de.audi.tghu.navi.app.util.LocalPersistNavLocationHelper;
@@ -29,8 +26,8 @@ import org.dsi.ifc.global.NavLocation;
 
 public class HomeAddressHandler
 implements ButtonListener {
-    protected static final int HOME_ADDRESS_AVAILABLE;
-    protected static final int HOME_ADDRESS_NOT_AVAILABLE;
+    protected static final int HOME_ADDRESS_AVAILABLE = 1;
+    protected static final int HOME_ADDRESS_NOT_AVAILABLE = 0;
     protected LogChannel logger;
     private LocalPersistNavLocationHelper localPersistNavLocationHelper;
     private LocationSerializer locationSerializer;
@@ -63,7 +60,7 @@ implements ButtonListener {
     }
 
     public HomeAddressHandler(NavigationEnv navigationEnv, LocationSerializer locationSerializer, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence, ICommandListFactory iCommandListFactory, MapInterface mapInterface, LogChannel logChannel, DispatcherBase dispatcherBase) {
-        this(navigationEnv, locationSerializer, iStartGuidanceToDestinationSequence, iCommandListFactory, mapInterface, logChannel, dispatcherBase, navigationEnv.getButtonModel(-467991040), navigationEnv.getButtonModel(1864238592), navigationEnv.getChoiceModel(-451213824), 940);
+        this(navigationEnv, locationSerializer, iStartGuidanceToDestinationSequence, iCommandListFactory, mapInterface, logChannel, dispatcherBase, navigationEnv.getButtonModel(400356), navigationEnv.getButtonModel(401007), navigationEnv.getChoiceModel(400357), 940);
     }
 
     protected final void registerListeners() {
@@ -73,23 +70,45 @@ implements ButtonListener {
 
     public void initHomeButtonState() {
         if (!this.homeButtonDeserialized) {
-            this.logger.log(1078071040, "HomeAddressHandler#initHomeButtonState()");
+            this.logger.log(1000000, "HomeAddressHandler#initHomeButtonState()");
             CommandList commandList = this.commandListFactory.createCommandList();
-            commandList.add(new HomeAddressHandler$1(this, "DeserializeHomeAddressCommand"));
-            commandList.add(new HomeAddressHandler$2(this, "SaveDeserializedHomeAddressCommand"));
+            commandList.add(new NavCommand("DeserializeHomeAddressCommand"){
+
+                public void execute() {
+                    byte[] byArray = HomeAddressHandler.this.localPersistNavLocationHelper.loadPersistentState();
+                    if (byArray == null || byArray.length == 0) {
+                        this.logger.log(10000000, "DeserializeHomeAddress#getPersistetHomeAddress() %1", (Object)byArray);
+                        this.getCommandList().commandFinished();
+                    } else {
+                        this.getCommandList().commandFinishedWithPostCommand(new StreamToLocationCommand(byArray));
+                    }
+                }
+            });
+            commandList.add(new NavCommand("SaveDeserializedHomeAddressCommand"){
+
+                public void execute() {
+                    NavLocation navLocation = (NavLocation)this.getCommandList().get("STREAMED_LOCATION");
+                    if (navLocation != null && navLocation.isPositionValid()) {
+                        HomeAddressHandler.this.currentHomeAddress = navLocation;
+                        HomeAddressHandler.this.updateHomeAddressAvailable();
+                    }
+                    HomeAddressHandler.this.homeButtonDeserialized = true;
+                    this.getCommandList().commandFinished();
+                }
+            });
             commandList.execute("HomeAddressHandler#DeserializeHomeAddressCommandList");
         }
     }
 
     public void onHomeButtonPressed(int n) {
-        this.logger.log(1078071040, "HomeAddressHandler#onHomeButtonPressed(), %1", (Object)LocationFormatter.formatLocationShort(this.currentHomeAddress));
+        this.logger.log(1000000, "HomeAddressHandler#onHomeButtonPressed(), %1", (Object)LocationFormatter.formatLocationShort(this.currentHomeAddress));
         if (this.isHomeAddressAvailable() && this.currentHomeAddress != null) {
             this.startGuidanceDependentSequence.start(this.currentHomeAddress);
         }
     }
 
     public void onCreateEditHomeAddress(NavLocation navLocation) {
-        this.logger.log(1078071040, "HomeAddressHandler#onCreateEditHomeAddress() - newHomeAddress: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logger.log(1000000, "HomeAddressHandler#onCreateEditHomeAddress() - newHomeAddress: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
         if (navLocation == null || !navLocation.isPositionValid()) {
             this.logger.log(10000, "HomeAddressHandler#onCreateEditHomeAddress() - newHomeAddress is null! Don't change current Home address");
             return;
@@ -100,42 +119,61 @@ implements ButtonListener {
     }
 
     public void onPrepareCreateEditHomeAddress() {
-        this.logger.log(1078071040, "HomeAddressHandler#onPrepareCreateEditHomeAddress()");
+        this.logger.log(1000000, "HomeAddressHandler#onPrepareCreateEditHomeAddress()");
         this.inputModeManager.setInputMode(2, this.env);
     }
 
     public void onDeleteHomeAddress() {
-        this.logger.log(1078071040, "HomeAddressHandler#onDeleteHomeAddress()");
+        this.logger.log(1000000, "HomeAddressHandler#onDeleteHomeAddress()");
         this.currentHomeAddress = null;
         this.setPersistetHomeAddress(null);
         this.updateHomeAddressAvailable();
     }
 
-    @Override
-    public void keyPressed(int n, int n2, int n3) {
+    public void keyPressed(final int n, int n2, final int n3) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new HomeAddressHandler$3(this, "HomeButtonPressed", n, n3));
+        commandList.add(new NavCommand("HomeButtonPressed"){
+
+            public void execute() {
+                if (n == HomeAddressHandler.this.homeAddressModel.getID()) {
+                    this.logger.log(1000000, "HomeAddressHandler#keyPressed( %1 ) - NAV_FAVORITES_HOME_BUTTON", (long)n);
+                    HomeAddressHandler.this.onHomeButtonPressed(n3);
+                    HomeAddressHandler.this.homeAddressModel.fireEvent(n3);
+                } else if (n == HomeAddressHandler.this.deleteHomeAddressModel.getID()) {
+                    this.logger.log(1000000, "HomeAddressHandler#keyPressed( %1 ) - NAV_FAVORITES_DELETE_HOME_BUTTON", (long)n);
+                    HomeAddressHandler.this.onDeleteHomeAddress();
+                    HomeAddressHandler.this.deleteHomeAddressModel.fireEvent(n3);
+                } else {
+                    this.logger.log(1000000, "HomeAddressHandler#keyPressed( %1 ) - unknown modelID", (long)n);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("HomeAddressHandler#keyPressed");
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    private void setPersistetHomeAddress(NavLocation navLocation) {
-        HomeAddressHandler$4 homeAddressHandler$4 = new HomeAddressHandler$4(this, navLocation);
+    private void setPersistetHomeAddress(final NavLocation navLocation) {
+        Runnable runnable = new Runnable(){
+
+            public void run() {
+                HomeAddressHandler.this.logger.log(10000000, "HomeAddressHandler#setPersistetHomeAddress() - homeAddress: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+                byte[] byArray = navLocation != null ? HomeAddressHandler.this.locationSerializer.locationToStream(navLocation) : new byte[]{};
+                HomeAddressHandler.this.localPersistNavLocationHelper.savePersistentState(byArray);
+            }
+        };
         if (this.dispatcher != null) {
-            this.dispatcher.execute(homeAddressHandler$4);
+            this.dispatcher.execute(runnable);
         } else {
-            homeAddressHandler$4.run();
+            runnable.run();
         }
     }
 
@@ -161,19 +199,25 @@ implements ButtonListener {
         this.handleHomeAddressFocus(null);
     }
 
-    public void handleHomeAddressFocus(GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen) {
+    public void handleHomeAddressFocus(final GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen) {
         CommandList commandList;
         block8: {
-            this.logger.log(-2137614336, "HomeAddressHandler#handleHomeAddressFocus()");
+            this.logger.log(10000000, "HomeAddressHandler#handleHomeAddressFocus()");
             if (this.mapInterface == null) {
                 return;
             }
             commandList = this.commandListFactory.createCommandList();
-            NavLocation navLocation = this.getCurrentHomeAddress();
+            final NavLocation navLocation = this.getCurrentHomeAddress();
             if (navLocation == null || !navLocation.isPositionValid()) {
                 try {
                     if (this.env.getFramework().isAsia()) {
-                        commandList.add(new HomeAddressHandler$5(this, "HomeAddressHandler#previewAreaAroundCCP"));
+                        commandList.add(new NavCommand("HomeAddressHandler#previewAreaAroundCCP"){
+
+                            public void execute() {
+                                HomeAddressHandler.this.mapInterface.getPreviewMap().setPreviewAreaAroundCCP(12);
+                                this.getCommandList().commandFinished();
+                            }
+                        });
                         break block8;
                     }
                     commandList.add(new HidePreviewMapCommand(this.mapInterface.getPreviewMap()));
@@ -183,7 +227,17 @@ implements ButtonListener {
                 }
             } else {
                 try {
-                    commandList.add(new HomeAddressHandler$6(this, "HomeAddressHandler#previewHome", guiModelAccessForPreviewMapDetailScreen, navLocation));
+                    commandList.add(new NavCommand("HomeAddressHandler#previewHome"){
+
+                        public void execute() {
+                            GuiTooltipInformationContainer guiTooltipInformationContainer = null;
+                            if (guiModelAccessForPreviewMapDetailScreen != null) {
+                                guiTooltipInformationContainer = guiModelAccessForPreviewMapDetailScreen.createMapTooltipInformationContainer(navLocation, null);
+                            }
+                            HomeAddressHandler.this.mapInterface.getPreviewMap().setPreviewFavoriteHome(navLocation, 12, guiModelAccessForPreviewMapDetailScreen, guiTooltipInformationContainer);
+                            this.getCommandList().commandFinished();
+                        }
+                    });
                 }
                 catch (Exception exception) {
                     this.logger.log(10000, "HomeAddressHandler#handleHomeAddressFocus() - ERROR=%1", (Throwable)exception);
@@ -199,19 +253,6 @@ implements ButtonListener {
 
     protected void resetInputMode() {
         this.env.getChoiceModel(170).setValue(0);
-    }
-
-    static /* synthetic */ LocalPersistNavLocationHelper access$000(HomeAddressHandler homeAddressHandler) {
-        return homeAddressHandler.localPersistNavLocationHelper;
-    }
-
-    static /* synthetic */ boolean access$102(HomeAddressHandler homeAddressHandler, boolean bl) {
-        homeAddressHandler.homeButtonDeserialized = bl;
-        return homeAddressHandler.homeButtonDeserialized;
-    }
-
-    static /* synthetic */ LocationSerializer access$200(HomeAddressHandler homeAddressHandler) {
-        return homeAddressHandler.locationSerializer;
     }
 }
 

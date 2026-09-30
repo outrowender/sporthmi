@@ -6,7 +6,7 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxShownReduced;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.util.Util;
@@ -17,24 +17,21 @@ import org.dsi.ifc.map.ViewPort;
 
 public class CtxPreviewMapShown
 extends CtxShownReduced
-implements CTags$HasZoomArea {
+implements CTags.HasZoomArea {
     protected Rect mVisibleArea = null;
 
     public CtxPreviewMapShown(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enterPrologue() {
         super.enterPrologue();
     }
 
-    @Override
     public void enterEpilogue() {
         super.enterEpilogue();
     }
 
-    @Override
     public void enter() {
         this.doEnter();
     }
@@ -81,60 +78,47 @@ implements CTags$HasZoomArea {
         this.getMapFlagHandler().refresh(true, false);
     }
 
-    @Override
     public void exit() {
         super.exit();
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
         super.updateZoomListIndex(n);
     }
 
-    @Override
     public void updateZoomList(float[] fArray, int n, float[] fArray2) {
-        this.getLogChannel().log(-2137614336, "CtxPreviewMapShown#updateZoomList() - zoomList.length: %1, zoomListBefore.length: %2, zoomListIndex: %3", (long)(fArray != null ? fArray.length : 0), (long)(fArray2 != null ? fArray2.length : 0), (long)n);
+        this.getLogChannel().log(10000000, "CtxPreviewMapShown#updateZoomList() - zoomList.length: %1, zoomListBefore.length: %2, zoomListIndex: %3", (long)(fArray != null ? fArray.length : 0), (long)(fArray2 != null ? fArray2.length : 0), (long)n);
         super.updateZoomList(fArray, n, fArray2);
         this.getMap().getMapManager().getPreviewMapHandler().refreshLastRequestedState(3);
     }
 
-    @Override
     public void updateViewPort(ViewPort viewPort) {
     }
 
-    @Override
     public void updateCurrentViewType(int n) {
     }
 
-    @Override
     public void updateViewVisible(boolean bl) {
     }
 
-    @Override
     public void updateMapMode(int n) {
     }
 
-    @Override
     public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
     }
 
-    @Override
     public void updateMapOrientation(int n) {
     }
 
-    @Override
     public void updateCarPosition(Point point) {
     }
 
-    @Override
     public void updateTmcVisible(boolean bl) {
     }
 
-    @Override
     public Rect getVisibleArea() {
         GUIInterface gUIInterface = this.getMap().getGuiInterface();
         int n = gUIInterface.getVisibleOffsetXPreviewMap();
@@ -145,7 +129,6 @@ implements CTags$HasZoomArea {
         return this.mVisibleArea;
     }
 
-    @Override
     protected void switchMobilityHorizonAccordingToSetup() {
         if (Util.isRangeMapDisplayPresent(this.env.getFramework())) {
             this.naviMap.getMVRequest().setMobilityHorizonVisibility(false);

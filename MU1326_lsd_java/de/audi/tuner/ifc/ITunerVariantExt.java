@@ -21,71 +21,58 @@ import de.audi.tuner.ifc.ICombiBAPServiceElementFactory;
 import de.audi.tuner.ifc.IScanHandler;
 
 public interface ITunerVariantExt {
-    public static final int POPUPID_FAVORITE_STORED;
-    public static final int POPUPID_FAVORITE_STORED_NAR;
-    public static final int POPUPID_ALL_FAVORITE_DELETED;
-    public static final int POPUPID_ALL_SDARS_FAVORITE_DELETED;
-    public static final int POPUPID_LISTUPDATE_RUNNING;
-    public static final int POPUP_POPUP_ANNOUNCEMENT_G24_ID;
-    public static final int POPUPID_TRAFFICPROGRAMM_DISABLED;
-    public static final int POPUPID_TRAFFICPROGRAMM_ENABLED;
-    public static final int POPUPID_ITUNES_TAGTRANSFER_MAIN;
-    public static final int POPUPID_ITUNES_TAGTRANSFER_SUCCEEDED;
-    public static final int POPUPID_ITUNES_TAGTRANSFER_FAILED;
-    public static final int POPUPID_SDARS_ADD_SEEK;
-    public static final int POPUPID_SDARS_ARTIST_SEEK_SAVED;
-    public static final int POPUPID_SDARS_TITLE_SEEK_SAVED;
-    public static final int POPUPID_SDARS_ALERT_SAVED;
-    public static final int POPUPID_SDARS_SEEK_LIST_FULL;
-    public static final int POPUPID_SDARS_SEEK_LIST_FULL_REPLACE;
-    public static final int POPUPID_SDARS_SEEK_TOO_MANY_SELECTED;
-    public static final int POPUPID_SDARS_SEEK_REPLACE_SONGARTIST;
-    public static final int POPUPID_SDARS_SEEK_REPLACE_TEAMLEAGUE;
-    public static final int POPUPID_AUTOSTORE_FINISHED;
-    public static final int POPUPID_DABEPG_PROGRAM_DETAILS;
-    public static final int POPUPID_SDARSEPG_PROGRAM_DETAILS;
-    public static final int POPUPID_SDARS_MANAGESEEK_ALREADYADDED;
-    public static final int POPUPID_SCAN_ACTIVE;
-    public static final int POPUPID_TA;
-    public static final int VIRTUALBUTTON_NONE;
+    public static final int POPUPID_FAVORITE_STORED = 1;
+    public static final int POPUPID_FAVORITE_STORED_NAR = 2;
+    public static final int POPUPID_ALL_FAVORITE_DELETED = 3;
+    public static final int POPUPID_ALL_SDARS_FAVORITE_DELETED = 4;
+    public static final int POPUPID_LISTUPDATE_RUNNING = 5;
+    public static final int POPUP_POPUP_ANNOUNCEMENT_G24_ID = 6;
+    public static final int POPUPID_TRAFFICPROGRAMM_DISABLED = 7;
+    public static final int POPUPID_TRAFFICPROGRAMM_ENABLED = 8;
+    public static final int POPUPID_ITUNES_TAGTRANSFER_MAIN = 9;
+    public static final int POPUPID_ITUNES_TAGTRANSFER_SUCCEEDED = 10;
+    public static final int POPUPID_ITUNES_TAGTRANSFER_FAILED = 11;
+    public static final int POPUPID_SDARS_ADD_SEEK = 12;
+    public static final int POPUPID_SDARS_ARTIST_SEEK_SAVED = 13;
+    public static final int POPUPID_SDARS_TITLE_SEEK_SAVED = 14;
+    public static final int POPUPID_SDARS_ALERT_SAVED = 15;
+    public static final int POPUPID_SDARS_SEEK_LIST_FULL = 16;
+    public static final int POPUPID_SDARS_SEEK_LIST_FULL_REPLACE = 17;
+    public static final int POPUPID_SDARS_SEEK_TOO_MANY_SELECTED = 18;
+    public static final int POPUPID_SDARS_SEEK_REPLACE_SONGARTIST = 19;
+    public static final int POPUPID_SDARS_SEEK_REPLACE_TEAMLEAGUE = 20;
+    public static final int POPUPID_AUTOSTORE_FINISHED = 21;
+    public static final int POPUPID_DABEPG_PROGRAM_DETAILS = 22;
+    public static final int POPUPID_SDARSEPG_PROGRAM_DETAILS = 23;
+    public static final int POPUPID_SDARS_MANAGESEEK_ALREADYADDED = 24;
+    public static final int POPUPID_SCAN_ACTIVE = 25;
+    public static final int POPUPID_TA = 26;
+    public static final int VIRTUALBUTTON_NONE = -1;
 
-    default public AbstractListRowFactory getListRowFactory() {
-    }
+    public AbstractListRowFactory getListRowFactory();
 
-    default public IMemListStorage getMemListStorage(IStorageAccess iStorageAccess, LogChannel logChannel, AbstractListRowFactory abstractListRowFactory) {
-    }
+    public IMemListStorage getMemListStorage(IStorageAccess var1, LogChannel var2, AbstractListRowFactory var3);
 
-    default public void showPartialPopup(int n) {
-    }
+    public void showPartialPopup(int var1);
 
-    default public void hidePartialPopup(int n) {
-    }
+    public void hidePartialPopup(int var1);
 
-    default public int getPopupId(int n) {
-    }
+    public int getPopupId(int var1);
 
-    default public int getFavoriteScreenId() {
-    }
+    public int getFavoriteScreenId();
 
-    default public String getBandString(int n) {
-    }
+    public String getBandString(int var1);
 
-    default public SDARSStationListHandler getSDARSStationListHandler(SDARSTuner sDARSTuner, TunerBasics tunerBasics, IStoreHandler iStoreHandler, LanguageManager languageManager, AbstractListRowFactory abstractListRowFactory, IScanHandler iScanHandler, TunerStorage tunerStorage) {
-    }
+    public SDARSStationListHandler getSDARSStationListHandler(SDARSTuner var1, TunerBasics var2, IStoreHandler var3, LanguageManager var4, AbstractListRowFactory var5, IScanHandler var6, TunerStorage var7);
 
-    default public HMIResourceLocator getDefaultImage(int n) {
-    }
+    public HMIResourceLocator getDefaultImage(int var1);
 
-    default public int getVirtualButtonModel(int n) {
-    }
+    public int getVirtualButtonModel(int var1);
 
-    default public AbstractSeekListSizeRistrictionHandler getSeekListRestriction(TunerBasics tunerBasics, SDARSDSISeekDownManager sDARSDSISeekDownManager) {
-    }
+    public AbstractSeekListSizeRistrictionHandler getSeekListRestriction(TunerBasics var1, SDARSDSISeekDownManager var2);
 
-    default public IAlertListBuilder getSdarsAlertListBuilder() {
-    }
+    public IAlertListBuilder getSdarsAlertListBuilder();
 
-    default public ICombiBAPServiceElementFactory getCombiBAPServiceElementFactory() {
-    }
+    public ICombiBAPServiceElementFactory getCombiBAPServiceElementFactory();
 }
 

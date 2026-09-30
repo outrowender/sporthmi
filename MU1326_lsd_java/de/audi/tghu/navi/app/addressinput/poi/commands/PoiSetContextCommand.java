@@ -15,9 +15,8 @@ extends NavCommand {
         this.location = navLocation;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "PoiSetContextCommand#execute() - poiSetContext( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location));
+        this.logger.log(10000000, "PoiSetContextCommand#execute() - poiSetContext( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location));
         if (this.location == null) {
             this.logger.log(10000, "PoiSetContextCommand#execute() - location is null ");
             this.getCommandList().commandAborted("Location is null.");

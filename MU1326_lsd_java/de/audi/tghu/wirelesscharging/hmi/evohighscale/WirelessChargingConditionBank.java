@@ -15,7 +15,6 @@ implements HMIConditionBank {
         this.screenFactory = wirelessChargingScreenFactory;
     }
 
-    @Override
     public AbstractCondition getCondition(int n) {
         switch (n) {
             default: 

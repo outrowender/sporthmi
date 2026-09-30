@@ -4,13 +4,11 @@
 package de.audi.tghu.exlap;
 
 public interface ExlapStatusHandler {
-    public static final int EXLAP_DISABLED;
-    public static final int EXLAP_ENABLED;
+    public static final int EXLAP_DISABLED = 0;
+    public static final int EXLAP_ENABLED = 1;
 
-    default public void setExlapStatus(boolean bl) {
-    }
+    public void setExlapStatus(boolean var1);
 
-    default public boolean getExlapStatus() {
-    }
+    public boolean getExlapStatus();
 }
 

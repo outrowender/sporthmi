@@ -10,16 +10,16 @@ import de.audi.tghu.swdl.app.customer.uota.PkgNode;
 
 class GenericPkgRow
 extends AbstractPkgListRow {
-    protected static final int COLUMNS;
-    protected static final int IDX_ROW_ID;
-    protected static final int IDX_COMPONENT_NAME;
-    protected static final int IDX_COMPONENT_SIZE;
-    protected static final int IDX_COMPONENT_SELECTED;
-    protected static final int IDX_COMPONENT_VERSION;
-    protected static final int IDX_COMPONENT_SELECTED_SUBCOMPONENTS;
-    protected static final int IDX_COMPONENT_MAX_SUBCOMPONENTS;
-    protected static final int IDX_GROUP_ROW;
-    protected static final int IDX_ENABLED;
+    protected static final int COLUMNS = 9;
+    protected static final int IDX_ROW_ID = 0;
+    protected static final int IDX_COMPONENT_NAME = 1;
+    protected static final int IDX_COMPONENT_SIZE = 2;
+    protected static final int IDX_COMPONENT_SELECTED = 3;
+    protected static final int IDX_COMPONENT_VERSION = 4;
+    protected static final int IDX_COMPONENT_SELECTED_SUBCOMPONENTS = 5;
+    protected static final int IDX_COMPONENT_MAX_SUBCOMPONENTS = 6;
+    protected static final int IDX_GROUP_ROW = 7;
+    protected static final int IDX_ENABLED = 8;
     private final boolean isSystemPackage;
 
     GenericPkgRow(PkgNode pkgNode) {
@@ -27,7 +27,6 @@ extends AbstractPkgListRow {
         this.isSystemPackage = pkgNode.isSystemPackage();
     }
 
-    @Override
     void setValues() {
         super.setLong(0, this.node.getRowId());
         super.setText(1, this.node.getDisplayName());
@@ -52,7 +51,6 @@ extends AbstractPkgListRow {
         super.setInteger(8, this.isSelectable() ? 1 : 0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new GenericPkgRow(this.node);
     }

@@ -10,8 +10,8 @@ import de.audi.atip.interapp.media.IMediaFilePlayerService;
 import de.audi.atip.interapp.media.IMediaService;
 import de.audi.tghu.waveplayer.RingTonePlayer;
 import de.audi.tghu.waveplayer.WavePlayer;
+import de.audi.tghu.waveplayer.WavePlayerListener;
 import de.audi.tone.app.volume.AbstractPhoneVolumeRange;
-import de.audi.tone.app.volume.PhoneRingtoneVolumeRange$WavePlayerListenerImpl;
 import de.audi.tone.app.volume.VolumeRangeManager;
 import de.audi.tone.app.volume.greyout.DefaultGreyOutAndPopupHandler;
 import de.audi.tone.app.volume.samples.FileSamplePlayer;
@@ -30,39 +30,35 @@ extends AbstractPhoneVolumeRange {
     private volatile boolean connectionActive;
 
     PhoneRingtoneVolumeRange(VolumeRangeManager volumeRangeManager) {
-        super(volumeRangeManager, 1497501440, -1958605056);
+        super(volumeRangeManager, 1000025, 1000075);
         this.name = "PhoneRingtoneVolumeRange";
         this.waveSamplePlayer = new RingtoneSamplePlayer(this.env);
         this.fileSamplePlayer = new FileSamplePlayer(this.env);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-1589506304);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1000097);
         this.greyOutHandler = new DefaultGreyOutAndPopupHandler(choiceModelApp, this.greyOutConnections, this.env.lcHMI, "PhoneRingtoneVolumeRange");
     }
 
     PhoneRingtoneVolumeRange(VolumeRangeManager volumeRangeManager, int n) {
-        super(volumeRangeManager, n, -1958605056);
+        super(volumeRangeManager, n, 1000075);
         this.name = "PhoneRingtoneVolumeRange";
         this.waveSamplePlayer = new RingtoneSamplePlayer(this.env);
         this.fileSamplePlayer = new FileSamplePlayer(this.env);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-1589506304);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1000097);
         this.greyOutHandler = new DefaultGreyOutAndPopupHandler(choiceModelApp, this.greyOutConnections, this.env.lcHMI, "PhoneRingtoneVolumeRange");
     }
 
-    @Override
     protected void setUserDefinedRingtone(String string, String string2) {
         this.fileSamplePlayer.setUserDefinedRingtone(string, string2);
     }
 
-    @Override
     protected String getName() {
         return "PhoneRingtoneVolumeRange";
     }
 
-    @Override
     protected int getID() {
         return 3;
     }
 
-    @Override
     protected void registerService(Object object) {
         if (object instanceof IMediaFilePlayerService) {
             this.fileSamplePlayer.registerService(object);
@@ -70,7 +66,7 @@ extends AbstractPhoneVolumeRange {
             RingTonePlayer ringTonePlayer = ((WavePlayer)object).getRingTonePlayer();
             if (ringTonePlayer != null) {
                 this.waveSamplePlayer.registerService(ringTonePlayer);
-                ringTonePlayer.setListener(new PhoneRingtoneVolumeRange$WavePlayerListenerImpl(this, null));
+                ringTonePlayer.setListener(new WavePlayerListenerImpl());
             }
         } else if (object instanceof PhoneService) {
             this.waveSamplePlayer.registerService(object);
@@ -79,7 +75,6 @@ extends AbstractPhoneVolumeRange {
         }
     }
 
-    @Override
     protected void deregisterService(Object object) {
         if (object instanceof IMediaService) {
             this.fileSamplePlayer.deregisterService(object);
@@ -92,7 +87,6 @@ extends AbstractPhoneVolumeRange {
         }
     }
 
-    @Override
     protected ISamplePlayer getSamplePlayer() {
         switch (this.scenario) {
             case 2: {
@@ -105,18 +99,15 @@ extends AbstractPhoneVolumeRange {
         return NullSamplePlayer.getInstance();
     }
 
-    @Override
     protected int[] getVolumeConnections() {
         return this.volumeConnections;
     }
 
-    @Override
     protected void entered() {
-        this.env.lcMain.log(-2137614336, "[PhoneRingtoneVolumeRange.entered] audioScenario:%1", (long)this.scenario);
+        this.env.lcMain.log(10000000, "[PhoneRingtoneVolumeRange.entered] audioScenario:%1", (long)this.scenario);
         super.entered();
     }
 
-    @Override
     protected void requestMenuConnection() {
         super.requestMenuConnection();
         if (this.scenario == 3) {
@@ -124,19 +115,17 @@ extends AbstractPhoneVolumeRange {
         }
     }
 
-    @Override
     protected void releaseMenuConnection() {
         super.releaseMenuConnection();
         if (this.scenario == 3) {
-            this.env.lcMain.log(-2137614336, "[PhoneRingtoneVolumeRange.releaseMenuConnection] audioscenario: %1", (long)this.scenario);
+            this.env.lcMain.log(10000000, "[PhoneRingtoneVolumeRange.releaseMenuConnection] audioscenario: %1", (long)this.scenario);
             this.getSamplePlayer().stop();
         }
     }
 
-    @Override
     protected void audible(boolean bl) {
         if (this.scenario == 3) {
-            this.env.lcMain.log(-2137614336, "[PhoneRingtoneVolumeRange.audible] audioscenario: %1, do nothing", (long)this.scenario);
+            this.env.lcMain.log(10000000, "[PhoneRingtoneVolumeRange.audible] audioscenario: %1, do nothing", (long)this.scenario);
             return;
         }
         this.connectionActive = bl;
@@ -147,23 +136,35 @@ extends AbstractPhoneVolumeRange {
     private void fadeToConnection() {
         int n = this.getForegroundConnection();
         if (n == 87 && this.wavePlayerState == 0 && this.connectionActive) {
-            this.env.lcHMI.log(1078071040, "[PhoneRingtoneVolumeRange.fadeToConnection] outbandringing connection: %1 wavePlayerState: %2 ", (long)n, (long)this.wavePlayerState);
+            this.env.lcHMI.log(1000000, "[PhoneRingtoneVolumeRange.fadeToConnection] outbandringing connection: %1 wavePlayerState: %2 ", (long)n, (long)this.wavePlayerState);
             this.audioService.fadeToConnection(0, n);
         } else if (n == 91 && this.connectionActive) {
-            this.env.lcHMI.log(1078071040, "[PhoneRingtoneVolumeRange.fadeToConnection] individual/mp3 ringing connectionActive: %1 connection: %2  ", this.connectionActive, (long)n);
+            this.env.lcHMI.log(1000000, "[PhoneRingtoneVolumeRange.fadeToConnection] individual/mp3 ringing connectionActive: %1 connection: %2  ", this.connectionActive, (long)n);
             this.audioService.fadeToConnection(0, n);
         } else {
-            this.env.lcHMI.log(1078071040, "[PhoneRingtoneVolumeRange.fadeToConnection] do not fadeTo connection: %1 wavePlayerState: %2 ", (long)n, (long)this.wavePlayerState);
+            this.env.lcHMI.log(1000000, "[PhoneRingtoneVolumeRange.fadeToConnection] do not fadeTo connection: %1 wavePlayerState: %2 ", (long)n, (long)this.wavePlayerState);
         }
     }
 
-    static /* synthetic */ int access$102(PhoneRingtoneVolumeRange phoneRingtoneVolumeRange, int n) {
-        phoneRingtoneVolumeRange.wavePlayerState = n;
-        return phoneRingtoneVolumeRange.wavePlayerState;
-    }
+    private class WavePlayerListenerImpl
+    implements WavePlayerListener {
+        private WavePlayerListenerImpl() {
+        }
 
-    static /* synthetic */ void access$200(PhoneRingtoneVolumeRange phoneRingtoneVolumeRange) {
-        phoneRingtoneVolumeRange.fadeToConnection();
+        public void state(int n) {
+            int n2 = PhoneRingtoneVolumeRange.this.getForegroundConnection();
+            int n3 = PhoneRingtoneVolumeRange.this.audioService.getDSI().getStatus(n2);
+            PhoneRingtoneVolumeRange.this.wavePlayerState = n;
+            PhoneRingtoneVolumeRange.this.env.lcHMI.log(10000000, "[PhoneRingtoneVolumeRange.state]  waveplayer status:%1,  connection: %2 , connectionstate: %3", (long)n, (long)n2, (long)n3);
+            if (n3 == 3) {
+                PhoneRingtoneVolumeRange.this.env.lcHMI.log(10000000, "[PhoneRingtoneVolumeRange.state]  connection: %1 , connectionstate: %2 CONN_START_REQUESTED do not call fadeToConnectioin", (long)n2, (long)n3);
+                return;
+            }
+            PhoneRingtoneVolumeRange.this.fadeToConnection();
+        }
+
+        public void playToneInfo(int n) {
+        }
     }
 }
 

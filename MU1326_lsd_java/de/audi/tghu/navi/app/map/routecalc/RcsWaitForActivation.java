@@ -16,7 +16,6 @@ extends RcsBase {
         super(routeCalcSM, "RcsWaitForActivation");
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
         if (bl) {
@@ -27,13 +26,11 @@ extends RcsBase {
         }
     }
 
-    @Override
     public void updateAvailableRoutes(AvailableRoute[] availableRouteArray, int n) {
         super.updateAvailableRoutes(availableRouteArray, n);
         this.checkFinish();
     }
 
-    @Override
     public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray) {
         super.updateRgCalculatedRoutes(calculatedRouteListElementArray);
         this.checkFinish();
@@ -49,19 +46,17 @@ extends RcsBase {
             navSegmentID2 = this.data.sAvailableRoutes[this.getActiveRendererID()][0].getNavSegmentID();
         }
         if (this.data.isRGActive && navSegmentID != null && navSegmentID2 != null && MapUtils.isEqual(navSegmentID, navSegmentID2)) {
-            this.getLogger().log(-2137614336, "RcsWaitForActivation#checkFinish() - ready (rgActive=%1, Calculated=%2, Available=%3)", this.data.isRGActive, (Object)navSegmentID, (Object)navSegmentID2);
+            this.getLogger().log(10000000, "RcsWaitForActivation#checkFinish() - ready (rgActive=%1, Calculated=%2, Available=%3)", this.data.isRGActive, (Object)navSegmentID, (Object)navSegmentID2);
             this.goTo(7);
         } else {
-            this.getLogger().log(-2137614336, "RcsWaitForActivation#checkFinish() - waiting... (rgActive=%1, Calculated=%2, Available=%3)", this.data.isRGActive, (Object)navSegmentID, (Object)navSegmentID2);
+            this.getLogger().log(10000000, "RcsWaitForActivation#checkFinish() - waiting... (rgActive=%1, Calculated=%2, Available=%3)", this.data.isRGActive, (Object)navSegmentID, (Object)navSegmentID2);
         }
     }
 
-    @Override
     public void setSelectedRouteIndex(int n) {
         this.data.iRouteIndex = n;
     }
 
-    @Override
     public int getValue4Model() {
         return 5;
     }

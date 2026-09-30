@@ -20,8 +20,8 @@ ChoiceListener {
     protected final GeoCoordInputManager geoCoordInputManager;
     protected final LogChannel logChannel;
     protected final NaviFavoriteHandler favoriteHandler;
-    protected static final int CURSOR_WAS_ON_LATITUDE;
-    protected static final int CURSOR_WAS_ON_LONGITUDE;
+    protected static final int CURSOR_WAS_ON_LATITUDE = 0;
+    protected static final int CURSOR_WAS_ON_LONGITUDE = 1;
     protected int cursorposition = -1;
 
     public GeoCoordInputHmiListener(NavigationEnv navigationEnv, GeoCoordInputManager geoCoordInputManager, NaviFavoriteHandler naviFavoriteHandler) {
@@ -34,21 +34,20 @@ ChoiceListener {
 
     private void setupListeners() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputHmiListener#setupListeners()");
+            this.logChannel.log(100000000, "GeoCoordInputHmiListener#setupListeners()");
         }
-        this.env.getButtonModel(-836827648).setButtonListener(this);
-        this.env.getButtonModel(-820050432).setButtonListener(this);
-        this.env.getButtonModel(-266729984).setButtonListener(this);
-        this.env.getButtonModel(236979712).setButtonListener(this);
-        this.env.getButtonModel(253756928).setButtonListener(this);
-        this.env.getMetricsModel(538641920).setMetricsListener(this);
-        this.env.getChoiceModel(153093632).setChoiceListener(this);
+        this.env.getButtonModel(401358).setButtonListener(this);
+        this.env.getButtonModel(401359).setButtonListener(this);
+        this.env.getButtonModel(400112).setButtonListener(this);
+        this.env.getButtonModel(401422).setButtonListener(this);
+        this.env.getButtonModel(401423).setButtonListener(this);
+        this.env.getMetricsModel(400160).setMetricsListener(this);
+        this.env.getChoiceModel(401417).setChoiceListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputHmiListener#keyPressed()");
+            this.logChannel.log(100000000, "GeoCoordInputHmiListener#keyPressed()");
         }
         switch (n) {
             case 401358: {
@@ -72,65 +71,59 @@ ChoiceListener {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "GeoCoordInputHmiListener#keyPressed() - Unknown Button pressed: %1", (long)n);
+                this.logChannel.log(10000000, "GeoCoordInputHmiListener#keyPressed() - Unknown Button pressed: %1", (long)n);
             }
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void metricsUpdated(int n, int n2) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputHmiListener#metricsUpdated()");
+            this.logChannel.log(100000000, "GeoCoordInputHmiListener#metricsUpdated()");
         }
-        if (n == 538641920) {
+        if (n == 400160) {
             this.geoCoordInputManager.coordinateUpdate((GeoMetric)this.env.getMetricsModel(n).getMetric(), this.cursorposition);
             this.env.fireModelEvent(n, n2);
             this.cursorposition = -1;
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "GeoCoordInputHmiListener#itemFocused()");
+            this.logChannel.log(100000000, "GeoCoordInputHmiListener#itemFocused()");
         }
-        if (n == 153093632) {
+        if (n == 401417) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "   --> Event from Trigger Choice Model");
+                this.logChannel.log(100000000, "   --> Event from Trigger Choice Model");
             }
             if (n2 == 0) {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "      --> CURSOR_WAS_ON_LATITUDE");
+                    this.logChannel.log(100000000, "      --> CURSOR_WAS_ON_LATITUDE");
                 }
                 this.cursorposition = 0;
             } else if (n2 == 1) {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "      --> CURSOR_WAS_ON_LONGITUDE");
+                    this.logChannel.log(100000000, "      --> CURSOR_WAS_ON_LONGITUDE");
                 }
                 this.cursorposition = 1;
             } else {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "      --> Unknown Value: %1", (long)n);
+                    this.logChannel.log(100000000, "      --> Unknown Value: %1", (long)n);
                 }
                 this.cursorposition = -1;
             }
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
     }
 

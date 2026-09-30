@@ -16,39 +16,32 @@ implements IAsiaMapContentView {
         this.env = navigationEnv;
     }
 
-    @Override
     public ButtonModelApp getRemoveAllPOI() {
-        return this.env.getButtonModel(-132053504);
+        return this.env.getButtonModel(401912);
     }
 
-    @Override
     public ChoiceModelApp getTrafficFlow() {
-        return this.env.getChoiceModel(-1440676352);
+        return this.env.getChoiceModel(401834);
     }
 
-    @Override
     public ChoiceModelApp getTrafficEventIcons() {
-        return this.env.getChoiceModel(-1491008000);
+        return this.env.getChoiceModel(401831);
     }
 
-    @Override
     public ChoiceModelApp getTrafficEventNotice() {
-        return this.env.getChoiceModel(-1474230784);
+        return this.env.getChoiceModel(401832);
     }
 
-    @Override
     public ChoiceModelApp getUncrowdedRoad() {
-        return this.env.getChoiceModel(-1457453568);
+        return this.env.getChoiceModel(401833);
     }
 
-    @Override
     public ChoiceModelApp getFavorites() {
-        return this.env.getChoiceModel(-1407121920);
+        return this.env.getChoiceModel(401836);
     }
 
-    @Override
     public ChoiceModelApp getWeatherIcons() {
-        return this.env.getChoiceModel(-366868992);
+        return this.env.getChoiceModel(402154);
     }
 }
 

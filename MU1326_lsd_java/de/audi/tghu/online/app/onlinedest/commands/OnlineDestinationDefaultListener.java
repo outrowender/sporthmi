@@ -20,24 +20,20 @@ implements DSIDestinationImportListener {
         this.log = logChannel;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(1078071040, "OnlineDestinationDefaultListener#asyncException() errorCode: %2, message: %1, requestType: %3", (Object)string, (long)n, (long)n2);
+        this.log.log(1000000, "OnlineDestinationDefaultListener#asyncException() errorCode: %2, message: %1, requestType: %3", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void downloadAddressListResult(PortalADBEntry[] portalADBEntryArray, int n, int n2) {
-        this.log.log(1078071040, "OnlineDestinationDefaultListener#downloadAddressListResult() length:%1, status:%2, remainingEntries:%3", (long)portalADBEntryArray.length, (long)n, (long)n2);
+        this.log.log(1000000, "OnlineDestinationDefaultListener#downloadAddressListResult() length:%1, status:%2, remainingEntries:%3", (long)portalADBEntryArray.length, (long)n, (long)n2);
     }
 
-    @Override
     public void stopActionResult(int n) {
-        this.log.log(1078071040, "OnlineDestinationDefaultListener#stopActionResult() success: %1", (long)n);
+        this.log.log(1000000, "OnlineDestinationDefaultListener#stopActionResult() success: %1", (long)n);
     }
 
-    @Override
     public void updateEntries(int n, int n2) {
-        this.log.log(1078071040, "OnlineDestinationDefaultListener#updateEntries() nrEntries: %1, valid: %2", (long)n, (long)n2);
+        this.log.log(1000000, "OnlineDestinationDefaultListener#updateEntries() nrEntries: %1, valid: %2", (long)n, (long)n2);
     }
 
     static /* synthetic */ Class class$(String string) {

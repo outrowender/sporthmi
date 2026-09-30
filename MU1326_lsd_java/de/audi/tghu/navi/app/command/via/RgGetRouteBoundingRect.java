@@ -17,13 +17,11 @@ extends NavCommand {
         this.iDestinationIndex = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RgGetRouteBoundingRect#execute() - calling rgGetRouteBoundingRectangle( %1, %2 ) ", this.bCompleteTour, (long)this.iDestinationIndex);
+        this.logger.log(10000000, "RgGetRouteBoundingRect#execute() - calling rgGetRouteBoundingRectangle( %1, %2 ) ", this.bCompleteTour, (long)this.iDestinationIndex);
         this.getDSINavigation().rgGetRouteBoundingRectangle(this.bCompleteTour, this.iDestinationIndex);
     }
 
-    @Override
     public void rgGetRouteBoundingRectangleResult(NavRectangle navRectangle) {
         this.getCommandList().commandFinished();
     }

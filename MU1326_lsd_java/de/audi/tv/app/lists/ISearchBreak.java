@@ -4,7 +4,6 @@
 package de.audi.tv.app.lists;
 
 public interface ISearchBreak {
-    default public void cursorInSearchResult(boolean bl) {
-    }
+    public void cursorInSearchResult(boolean var1);
 }
 

@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(23, "Online", System.getProperty("variant.skin", "EvoHighScale"), new OnlineModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new OnlineScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new OnlineConditionBank((OnlineScreenFactory)this.getScreenFactory());

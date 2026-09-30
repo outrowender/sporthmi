@@ -7,7 +7,6 @@ import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IPreviewMapHandler {
-    default public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
-    }
+    public void showLocationInPreviewMap(IPreviewMap var1, LIValueListElement var2);
 }
 

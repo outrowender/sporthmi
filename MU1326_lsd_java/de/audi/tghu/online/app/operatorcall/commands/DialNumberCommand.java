@@ -17,7 +17,6 @@ extends AbstractCommand {
         this.telHandler = telephoneHandler;
     }
 
-    @Override
     public void execute() {
         if (this.listener.getServiceType() == 1 && !this.listener.isTelephoneReady() && !this.isChina()) {
             this.listener.setCallStarted(false);

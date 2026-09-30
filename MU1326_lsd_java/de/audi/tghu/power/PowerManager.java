@@ -87,28 +87,28 @@ implements IPowerManager {
     }
 
     void processOn(ExtPowerState extPowerState, int n) {
-        this.lc.log(-2137614336, "processOn() # terminalID=%1", (long)n);
+        this.lc.log(10000000, "processOn() # terminalID=%1", (long)n);
         this.audioHandler.demute(n);
         this.nativeDisplayHandler.activateDisplay(n, extPowerState);
         this.showNoPowerPopups(extPowerState.isHMIReady(), n);
     }
 
     void processOnNoDisplay(ExtPowerState extPowerState, int n) {
-        this.lc.log(-2137614336, "processOnNoDisplay() # terminalID=%1", (long)n);
+        this.lc.log(10000000, "processOnNoDisplay() # terminalID=%1", (long)n);
         this.audioHandler.demute(n);
         this.showBlackScreenLEDsOn(extPowerState.isHMIReady(), n);
         this.nativeDisplayHandler.deactivateDisplay(n);
     }
 
     void processStandby(ExtPowerState extPowerState, int n) {
-        this.lc.log(-2137614336, "processStandby() # terminalID=%1", (long)n);
+        this.lc.log(10000000, "processStandby() # terminalID=%1", (long)n);
         this.audioHandler.mute(n);
         this.showBlackScreenLEDsOff(extPowerState.isHMIReady(), n);
         this.nativeDisplayHandler.deactivateDisplay(n);
     }
 
     void processOnMute(ExtPowerState extPowerState, int n) {
-        this.lc.log(-2137614336, "processOnMute() # terminalID=%1", (long)n);
+        this.lc.log(10000000, "processOnMute() # terminalID=%1", (long)n);
         this.audioHandler.mute(n);
         this.showNoPowerPopups(extPowerState.isHMIReady(), n);
         this.nativeDisplayHandler.activateDisplay(n, extPowerState);
@@ -120,42 +120,42 @@ implements IPowerManager {
 
     private void showNoPowerPopups(boolean bl, int n) {
         if (bl) {
-            this.lc.log(-2137614336, "show no power pop-ups");
+            this.lc.log(10000000, "show no power pop-ups");
             this.getAppSystemVariant().showNoPowerPopups(n);
         }
     }
 
     private void showBlackScreenLEDsOn(boolean bl, int n) {
         if (bl) {
-            this.lc.log(-2137614336, "show black screen (LED=on)");
+            this.lc.log(10000000, "show black screen (LED=on)");
             this.getAppSystemVariant().showBlackScreenLEDsOn(n);
         }
     }
 
     private void showBlackScreenLEDsOff(boolean bl, int n) {
         if (bl) {
-            this.lc.log(-2137614336, "show black screen (LED=off)");
+            this.lc.log(10000000, "show black screen (LED=off)");
             this.getAppSystemVariant().showBlackScreenLEDsOff(n);
         }
     }
 
     protected void showQ21Warning(boolean bl, int n) {
         if (bl) {
-            this.lc.log(-2137614336, "show Q21 warning");
+            this.lc.log(10000000, "show Q21 warning");
             this.getAppSystemVariant().showQ21Warning(n);
         }
     }
 
     protected void removeQ21Warning(boolean bl, int n) {
         if (bl) {
-            this.lc.log(-2137614336, "remove Q21 warning");
+            this.lc.log(10000000, "remove Q21 warning");
             this.getAppSystemVariant().removeQ21Warning(n);
         }
     }
 
     public void processCritcalTemperature(boolean bl, int n) {
         if (bl) {
-            this.lc.log(-2137614336, "show temperature warning | show no power pop-ups | system will shut down");
+            this.lc.log(10000000, "show temperature warning | show no power pop-ups | system will shut down");
             this.getAppSystemVariant().showCritcalTemperature(n);
             this.nativeDisplayHandler.processCriticalTemreture(n);
         }
@@ -171,27 +171,23 @@ implements IPowerManager {
         }
     }
 
-    @Override
     public void setHMIReady() {
-        this.lc.log(-2137614336, "setHMIReady()");
+        this.lc.log(10000000, "setHMIReady()");
         this.pwrCmdFactory.setHMIReadyCmd();
     }
 
-    @Override
     public void releaseStandbyMute() {
-        this.lc.log(-2137614336, "releaseStandbyMute()");
+        this.lc.log(10000000, "releaseStandbyMute()");
         this.pwrCmdFactory.releaseStandbyMuteCmd();
     }
 
-    @Override
     public void displayButtonTyped(int n, int n2) {
-        this.lc.log(-2137614336, "displayButtonTyped(terminalID=%1, key=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "displayButtonTyped(terminalID=%1, key=%2)", (long)n, (long)n2);
         this.pwrCmdFactory.setDispButtonTypedCmd(n2, n);
     }
 
-    @Override
     public void hardKeyTyped(int n, int n2) {
-        this.lc.log(-2137614336, "hardKeyTyped(terminalID=%1, key=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "hardKeyTyped(terminalID=%1, key=%2)", (long)n, (long)n2);
         this.pwrCmdFactory.setHardKeyTypedCmd(n2, n);
     }
 
@@ -199,23 +195,21 @@ implements IPowerManager {
         return this.getPowerFSM(n).getCurrentPSName();
     }
 
-    @Override
     public void setExtendedPowerState(int n, int n2) {
-        this.lc.log(-2137614336, "setExtendedPowerState(state=%1, terminalID=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "setExtendedPowerState(state=%1, terminalID=%2)", (long)n, (long)n2);
         if (n == 160) {
             this.getPowerFSM(n2).getExtPowerState().setWirelessChargingActive();
-            this.lc.log(-2137614336, "setExtendedPowerState(): set WirelessChargingActive");
+            this.lc.log(10000000, "setExtendedPowerState(): set WirelessChargingActive");
         }
         if (n == 166) {
             this.getPowerFSM(n2).getExtPowerState().setOnlineHintActive();
-            this.lc.log(-2137614336, "setExtendedPowerState(): set OnlineHintActive");
+            this.lc.log(10000000, "setExtendedPowerState(): set OnlineHintActive");
         }
         this.pwrCmdFactory.setExtPwrStateCmd(n, n2);
     }
 
-    @Override
     public void setPowerState(int n, int n2) {
-        this.lc.log(-2137614336, "setPowerState(state=%1, terminalID=%2)", (long)n, (long)n2);
+        this.lc.log(10000000, "setPowerState(state=%1, terminalID=%2)", (long)n, (long)n2);
         switch (n2) {
             case 0: 
             case 3: {
@@ -227,32 +221,27 @@ implements IPowerManager {
                 break;
             }
             default: {
-                this.lc.log(-2137614336, "Power state is ignored! (state=%1, terminal=%2)", (long)n, (long)n2);
+                this.lc.log(10000000, "Power state is ignored! (state=%1, terminal=%2)", (long)n, (long)n2);
             }
         }
     }
 
-    @Override
     public void comboKeyLastonMmiIocPressed() {
         this.pwrDSIHandler.setLaston(3);
     }
 
-    @Override
     public void rebootSystem() {
         this.pwrDSIHandler.rebootSystem();
     }
 
-    @Override
     public void rebootSystemCritical(boolean bl) {
         this.pwrDSIHandler.rebootSystem(bl);
     }
 
-    @Override
     public void keyPTTPressed() {
         this.pwrCmdFactory.setKeyPTTPressedCmd();
     }
 
-    @Override
     public void updateClampSignal(boolean bl, boolean bl2) {
         this.getPwrCmdFactory().setClampSStateCmd(new ClampSignal(bl, bl2, false, false));
     }

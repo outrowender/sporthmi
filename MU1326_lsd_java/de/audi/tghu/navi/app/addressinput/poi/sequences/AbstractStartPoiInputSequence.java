@@ -14,11 +14,11 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.ModelUpdateFullListWithWa
 import de.audi.tghu.navi.app.addressinput.poi.commands.ModelUpdateSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetContextCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiSetSortOrderCommand;
+import de.audi.tghu.navi.app.addressinput.poi.commands.PoiStartSpellerAlongRouteCommand;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractPoiSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractStartPoiInputSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractStartPoiInputSequence$2;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
@@ -38,13 +38,32 @@ extends AbstractPoiSequence {
     public CommandList createStartSequence() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetStateCommand());
-        commandList.add(new AbstractStartPoiInputSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                AbstractStartPoiInputSequence.this.initialSpellerState = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new LISPCancelSpellerCommand());
         if (this.modelAccess != null) {
             commandList.add(new ModelStartCommand(this.modelAccess));
         }
         commandList.add(new PoiSetSortOrderCommand(this.getSortOrder()));
-        commandList.add(new AbstractStartPoiInputSequence$2(this, "AbstractStartPoiInputSequence#SpellerType"));
+        commandList.add(new NavCommand("AbstractStartPoiInputSequence#SpellerType"){
+
+            public void execute() {
+                if (AbstractStartPoiInputSequence.this.searchArea.getSearchContext() == 1) {
+                    this.getCommandList().commandFinishedWithPostCommand(new PoiStartSpellerAlongRouteCommand(AbstractStartPoiInputSequence.this.spellerType, Util.isHURegionNAR()));
+                } else if (AbstractStartPoiInputSequence.this.searchArea.getSearchContext() == 5 && AbstractStartPoiInputSequence.this.spellerType == 32778) {
+                    CommandList commandList = AbstractStartPoiInputSequence.this.createStartSpellerCommandList(32771);
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    CommandList commandList = AbstractStartPoiInputSequence.this.createStartSpellerCommandList(AbstractStartPoiInputSequence.this.spellerType);
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            }
+        });
         if (this.modelAccess != null) {
             commandList.add(new ModelUpdateSpellerCommand(this.modelAccess));
             commandList.add(new ModelUpdateFullListWithWaitCommand(this.modelAccess, this.commandListFactory, -1, 0, 1));
@@ -61,7 +80,7 @@ extends AbstractPoiSequence {
     }
 
     protected NavLocation getLocation(PoiSearchArea poiSearchArea) {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] AbstractStartPoiInputSequence#getLocation() - searchContext: %1", (long)poiSearchArea.getSearchContext());
+        this.env.getLogChannel().log(10000000, "[PoiInput] AbstractStartPoiInputSequence#getLocation() - searchContext: %1", (long)poiSearchArea.getSearchContext());
         NavLocation navLocation = null;
         switch (poiSearchArea.getSearchContext()) {
             case 0: {
@@ -97,7 +116,7 @@ extends AbstractPoiSequence {
                 navLocation = null;
             }
         }
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] AbstractStartPoiInputSequence#getLocation() - location: %1", (Object)navLocation);
+        this.env.getLogChannel().log(10000000, "[PoiInput] AbstractStartPoiInputSequence#getLocation() - location: %1", (Object)navLocation);
         return navLocation;
     }
 

@@ -8,19 +8,14 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavSegmentID;
 
 public interface IMyLocationAccessorFactory {
-    default public IMyLocationAccessor createLocationAccessorFromGeoPos(int n, int n2) {
-    }
+    public IMyLocationAccessor createLocationAccessorFromGeoPos(int var1, int var2);
 
-    default public IMyLocationAccessor cloneLocationAccessor(IMyLocationAccessor iMyLocationAccessor) {
-    }
+    public IMyLocationAccessor cloneLocationAccessor(IMyLocationAccessor var1);
 
-    default public IMyLocationAccessor fromLocation(NavLocation navLocation) {
-    }
+    public IMyLocationAccessor fromLocation(NavLocation var1);
 
-    default public NavLocation toLocation(IMyLocationAccessor iMyLocationAccessor) {
-    }
+    public NavLocation toLocation(IMyLocationAccessor var1);
 
-    default public IMyLocationAccessor fromTraceId(NavSegmentID navSegmentID) {
-    }
+    public IMyLocationAccessor fromTraceId(NavSegmentID var1);
 }
 

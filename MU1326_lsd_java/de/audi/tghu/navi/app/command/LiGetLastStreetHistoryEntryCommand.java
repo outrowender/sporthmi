@@ -9,23 +9,21 @@ import org.dsi.ifc.navigation.LIStreetHistoryEntry;
 
 public class LiGetLastStreetHistoryEntryCommand
 extends NavCommand {
-    public static final String LOCATION;
+    public static final String LOCATION = "STREET_HISTORY_ENTRY_LOCATION";
     private LIStreetHistoryEntry lastStreet;
 
     public LiGetLastStreetHistoryEntryCommand(LIStreetHistoryEntry lIStreetHistoryEntry) {
         this.lastStreet = lIStreetHistoryEntry;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LiGetLastStreetHistoryEntryCommand#execute() - calling liGetLastStreetHistoryEntry(%1) ", (Object)this.lastStreet);
+        this.logger.log(10000000, "LiGetLastStreetHistoryEntryCommand#execute() - calling liGetLastStreetHistoryEntry(%1) ", (Object)this.lastStreet);
         this.getDSINavigation().liGetLastStreetHistoryEntry(this.lastStreet.getId());
     }
 
-    @Override
     public void liGetLastStreetHistoryEntryResult(NavLocation navLocation, boolean bl) {
-        this.logger.log(-2137614336, "LiGetLastStreetHistoryEntryCommand#liGetLastStreetHistoryEntryResult() - location: %1 ", (Object)navLocation);
-        this.getCommandList().put("STREET_HISTORY_ENTRY_LOCATION", navLocation);
+        this.logger.log(10000000, "LiGetLastStreetHistoryEntryCommand#liGetLastStreetHistoryEntryResult() - location: %1 ", (Object)navLocation);
+        this.getCommandList().put(LOCATION, navLocation);
         this.getCommandList().commandFinished();
     }
 }

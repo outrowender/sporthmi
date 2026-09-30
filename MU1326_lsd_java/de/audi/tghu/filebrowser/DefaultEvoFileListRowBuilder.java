@@ -10,7 +10,6 @@ import org.dsi.ifc.filebrowser.BrowsedFile;
 
 public class DefaultEvoFileListRowBuilder
 implements IEvoFileListRowBuilder {
-    @Override
     public AbstractEvoFileListRow buildRow(BrowsedFile browsedFile, int n) {
         return new EvoFileListRow(browsedFile, n);
     }

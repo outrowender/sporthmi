@@ -4,13 +4,10 @@
 package de.audi.tv.app.base;
 
 public interface INotificationHandler {
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1);
 
-    default public void setNotification(int n, boolean bl) {
-    }
+    public void setNotification(int var1, boolean var2);
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1);
 }
 

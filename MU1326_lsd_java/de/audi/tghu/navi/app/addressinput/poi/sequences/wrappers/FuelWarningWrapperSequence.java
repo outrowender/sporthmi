@@ -3,6 +3,7 @@
  */
 package de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers;
 
+import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
@@ -14,11 +15,6 @@ import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultsGeneralInputSe
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultsLimitedInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.TopPoiInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.AbstractWrapperSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.FuelWarningWrapperSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.FuelWarningWrapperSequence$2;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.FuelWarningWrapperSequence$3;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.FuelWarningWrapperSequence$4;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.FuelWarningWrapperSequence$5;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
@@ -26,11 +22,12 @@ import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
 import org.dsi.ifc.navigation.LISpellerData;
+import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class FuelWarningWrapperSequence
 extends AbstractWrapperSequence {
-    public static final int VICINITY_LIST;
+    public static final int VICINITY_LIST = 1;
     private LISpellerData spellerStateVicinity;
     private final IPoiSpellerModelAccess vicinityModelAccess;
     protected final IPoiSpellerModelAccess alongRouteModelAccess;
@@ -59,10 +56,9 @@ extends AbstractWrapperSequence {
         this.logChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     public void start() {
         CommandList commandList;
-        this.logChannel.log(-2137614336, "FuelWarningWrapperSequence#start() - topPoiCategory: %1, maxResultsAlongRoute: %2, maxResultsVicinity: %3", (long)this.topPoiCategory, (long)this.maxResultsAlongRoute, (long)this.maxResultsVicinity);
+        this.logChannel.log(10000000, "FuelWarningWrapperSequence#start() - topPoiCategory: %1, maxResultsAlongRoute: %2, maxResultsVicinity: %3", (long)this.topPoiCategory, (long)this.maxResultsAlongRoute, (long)this.maxResultsVicinity);
         if (this.maxResultsAlongRoute > 0) {
             commandList = this.commandListFactory.createCommandList();
             commandList.add(new LIGetStateCommand(SpellerStack.getInstance(), new SpellerContext(117)));
@@ -70,7 +66,21 @@ extends AbstractWrapperSequence {
             poiSearchArea.setSearchContext(1);
             CommandList commandList2 = this.getStartSequence(null, this.alongRouteModelAccess, poiSearchArea, this.maxResultsAlongRoute, false, true);
             commandList.add(commandList2);
-            commandList.add(new FuelWarningWrapperSequence$1(this, "Check valueListCount"));
+            commandList.add(new NavCommand("Check valueListCount"){
+
+                public void execute() {
+                    int n = this.dsiResponseContainer.getLispValueList().getList().length;
+                    FuelWarningWrapperSequence.this.logChannel.log(10000000, "FuelWarningWrapperSequence#start - valueListCount=%1", (long)n);
+                    if (n == 0) {
+                        this.env.getChoiceModel(400639).setValue(1);
+                        this.getCommandList().commandFinishedWithPostSequence(FuelWarningWrapperSequence.this.createCommandListVicinity(false, FuelWarningWrapperSequence.this.vicinityModelAccessBackup, FuelWarningWrapperSequence.this.maxResultsAlongRoute));
+                    } else {
+                        CommandList commandList = FuelWarningWrapperSequence.this.commandListFactory.createCommandList();
+                        commandList.add(new LiGetStateCommand());
+                        this.getCommandList().commandFinishedWithPostSequence(commandList);
+                    }
+                }
+            });
             commandList.add(this.getToggleFuelWarningCommand());
             commandList.execute("FuelWarningWrapperSequence#start#commandListAlongRoute");
         }
@@ -90,17 +100,33 @@ extends AbstractWrapperSequence {
         CommandList commandList2 = this.getStartSequence(null, iPoiSpellerModelAccess, poiSearchArea, n, true, bl);
         commandList.add(commandList2);
         commandList.add(new LiGetStateCommand());
-        commandList.add(new FuelWarningWrapperSequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                FuelWarningWrapperSequence.this.spellerStateVicinity = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     public NavCommand getToggleFuelWarningCommand() {
-        return new FuelWarningWrapperSequence$3(this, "Toggle fuel warning");
+        return new NavCommand("Toggle fuel warning"){
+
+            public void execute() {
+                ChoiceModelApp choiceModelApp = this.env.getChoiceModel(4498);
+                if (choiceModelApp.getValue() == 0) {
+                    choiceModelApp.setValue(1);
+                } else {
+                    choiceModelApp.setValue(0);
+                }
+                this.getCommandList().commandFinished();
+            }
+        };
     }
 
-    @Override
     public void restore() {
-        this.logChannel.log(-2137614336, "FuelWarningWrapperSequence#restoreToPreviousState()");
+        this.logChannel.log(10000000, "FuelWarningWrapperSequence#restoreToPreviousState()");
         if (this.spellerStateVicinity != null) {
             this.currentInputSequence.restore();
         }
@@ -112,7 +138,7 @@ extends AbstractWrapperSequence {
     }
 
     public CommandList getStartSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, IPoiSpellerModelAccess iPoiSpellerModelAccess2, PoiSearchArea poiSearchArea, int n, boolean bl, boolean bl2) {
-        this.logChannel.log(-2137614336, "FuelWarningWrapperSequence#getStartSequence() - topPoiCategory: %1 ", (long)this.topPoiCategory);
+        this.logChannel.log(10000000, "FuelWarningWrapperSequence#getStartSequence() - topPoiCategory: %1 ", (long)this.topPoiCategory);
         TopPoiInputSequence topPoiInputSequence = new TopPoiInputSequence(iPoiSpellerModelAccess, this.commandListFactory, poiSearchArea, this.env, this.vehicle, this.detailsScreen);
         LIValueListElement lIValueListElement = new LIValueListElement();
         lIValueListElement.poiUniqueId = this.topPoiCategory;
@@ -124,30 +150,28 @@ extends AbstractWrapperSequence {
         }
         CommandList commandList = this.commandListFactory.createCommandList();
         if (bl2) {
-            commandList.add(new FuelWarningWrapperSequence$4(this, "FuelWarningWrapperSequence#clearVicinityModel"));
-            commandList.add(new FuelWarningWrapperSequence$5(this, "FuelWarningWrapperSequence#clearAlongRouteModel"));
+            commandList.add(new NavCommand("FuelWarningWrapperSequence#clearVicinityModel"){
+
+                public void execute() {
+                    FuelWarningWrapperSequence.this.vicinityModelAccess.onUpdateResultList(new LIValueList(), 0L, null, false);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.add(new NavCommand("FuelWarningWrapperSequence#clearAlongRouteModel"){
+
+                public void execute() {
+                    FuelWarningWrapperSequence.this.alongRouteModelAccess.onUpdateResultList(new LIValueList(), 0L, null, false);
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
         commandList.add(topPoiInputSequence.createStartSequence());
         commandList.add(poiResultsLimitedInputSequence.createStartSequence());
         return commandList;
     }
 
-    @Override
     protected CommandList restoreCurrent() {
         return null;
-    }
-
-    static /* synthetic */ CommandList access$000(FuelWarningWrapperSequence fuelWarningWrapperSequence, boolean bl, IPoiSpellerModelAccess iPoiSpellerModelAccess, int n) {
-        return fuelWarningWrapperSequence.createCommandListVicinity(bl, iPoiSpellerModelAccess, n);
-    }
-
-    static /* synthetic */ LISpellerData access$102(FuelWarningWrapperSequence fuelWarningWrapperSequence, LISpellerData lISpellerData) {
-        fuelWarningWrapperSequence.spellerStateVicinity = lISpellerData;
-        return fuelWarningWrapperSequence.spellerStateVicinity;
-    }
-
-    static /* synthetic */ IPoiSpellerModelAccess access$200(FuelWarningWrapperSequence fuelWarningWrapperSequence) {
-        return fuelWarningWrapperSequence.vicinityModelAccess;
     }
 }
 

@@ -6,7 +6,6 @@ package de.audi.tuner.app.rse;
 import de.audi.atip.interapp.def.NullService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.ifc.IRadioInterappListener;
-import de.audi.tuner.ifc.IRadioInterappListener$RadioStation;
 import org.dsi.ifc.radio.WavebandInfo;
 
 class NullIHMISyncRadioReplies
@@ -16,28 +15,23 @@ implements IRadioInterappListener {
         super(logChannel, "NullIHMISyncRadioReplies");
     }
 
-    @Override
     public void updateBandList(int[] nArray) {
         this.log();
     }
 
-    @Override
     public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray) {
         this.log();
     }
 
-    @Override
     public void updateActiveBand(int n) {
         this.log();
     }
 
-    @Override
-    public void updateActiveStation(IRadioInterappListener$RadioStation iRadioInterappListener$RadioStation) {
+    public void updateActiveStation(IRadioInterappListener.RadioStation radioStation) {
         this.log();
     }
 
-    @Override
-    public void updateRadioStationList(IRadioInterappListener$RadioStation[] iRadioInterappListener$RadioStationArray) {
+    public void updateRadioStationList(IRadioInterappListener.RadioStation[] radioStationArray) {
         this.log();
     }
 
@@ -49,7 +43,6 @@ implements IRadioInterappListener {
         this.log();
     }
 
-    @Override
     public void enforceRadio() {
         this.log();
     }

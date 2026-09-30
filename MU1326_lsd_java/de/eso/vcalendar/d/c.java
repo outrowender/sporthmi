@@ -16,11 +16,10 @@ implements de.eso.a.c.b {
     c() {
     }
 
-    @Override
     public boolean a(File file) {
         b.c("\n\n");
         b.c("-------------------------------------------------------");
-        b.c(new StringBuffer().append("-- testrunner parsing ").append(file.getAbsolutePath()).toString());
+        b.c("-- testrunner parsing " + file.getAbsolutePath());
         b.c("-------------------------------------------------------");
         d d2 = new d();
         de.eso.vcalendar.c.a a2 = new de.eso.vcalendar.c.a(d2);
@@ -40,11 +39,10 @@ implements de.eso.a.c.b {
         }
     }
 
-    @Override
     public boolean a(InputStream inputStream) {
         b.c("\n\n");
         b.c("-------------------------------------------------------");
-        b.c(new StringBuffer().append("-- testrunner parsing ").append(inputStream.toString()).toString());
+        b.c("-- testrunner parsing " + inputStream.toString());
         b.c("-------------------------------------------------------");
         d d2 = new d();
         de.eso.vcalendar.c.a a2 = new de.eso.vcalendar.c.a(d2);

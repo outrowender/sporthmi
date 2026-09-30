@@ -6,11 +6,11 @@ package de.audi.tv.app.base;
 import de.audi.atip.statemachine.ap.TVActionProxy;
 import de.audi.tv.app.IScreenActionListener;
 import de.audi.tv.app.TVPresetHandler;
+import de.audi.tv.app.ap.TVActionProxyDefaultListenerEvo;
 import de.audi.tv.app.ap.TVActionProxyDistributorEvo;
 import de.audi.tv.app.base.EWSPopupHandler;
 import de.audi.tv.app.base.OSDUpdateTimer;
 import de.audi.tv.app.base.TVAppCommon;
-import de.audi.tv.app.base.TVAppEvo$ActivationHandler;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.base.TVServiceListener;
 import de.audi.tv.app.base.TVStateProvider;
@@ -39,7 +39,7 @@ extends TVAppCommon {
 
     public TVAppEvo(TVEnv tVEnv, BundleContext bundleContext) {
         super(tVEnv);
-        FavoritesActionListener favoritesActionListener = new FavoritesActionListener(tVEnv, this.serviceResource, 1839998720);
+        FavoritesActionListener favoritesActionListener = new FavoritesActionListener(tVEnv, this.serviceResource, 2600045);
         this.favoritesList = new TVFavoritesList(tVEnv, this.storage, this.dsiHandler, this.mapper, this.normAreaSublist, favoritesActionListener.favoriteMoveModeListener);
         this.serviceResource.registerFavoritesList(this.favoritesList);
         this.dsiListener.setFavoritesList(this.favoritesList);
@@ -48,12 +48,12 @@ extends TVAppCommon {
         this.tvStateProvider = new TVStateProvider(tVEnv.lcMain, this.storage);
         TerminalModeHandler terminalModeHandler = new TerminalModeHandler(tVEnv);
         TouchPadHandler touchPadHandler = new TouchPadHandler(tVEnv, this.tvEventDispatcher);
-        this.presetHandler = new TVPresetHandler(tVEnv, this.dsiHandler, this.audioFocus, new int[]{1839998720}, null, this.sourceActivatorAdapter);
+        this.presetHandler = new TVPresetHandler(tVEnv, this.dsiHandler, this.audioFocus, new int[]{2600045}, null, this.sourceActivatorAdapter);
         int[] nArray = new int[]{20027, 27, 10027};
-        this.searchHandler = new SearchHandler(bundleContext, tVEnv, this.dsiHandler, this.menuModelListener, this.stationList, this.favoritesList, this.focusHandler, this.mapper, -1263786240, -1297340672, -1280563456, new TVEvoRowFactory(), nArray);
+        this.searchHandler = new SearchHandler(bundleContext, tVEnv, this.dsiHandler, this.menuModelListener, this.stationList, this.favoritesList, this.focusHandler, this.mapper, 2600116, 2600114, 2600115, new TVEvoRowFactory(), nArray);
         this.osdUpdateTimer = new OSDUpdateTimer(tVEnv.lcMain, this.osd.osdUpdateListener);
         this.actionProxy = new TVActionProxyDistributorEvo(tVEnv.lcHMI);
-        this.actionProxy.setApListeners(new TVActionProxy[]{new TVAppEvo$ActivationHandler(this, null), terminalModeHandler.actionProxy, touchPadHandler.apListener});
+        this.actionProxy.setApListeners(new TVActionProxy[]{new ActivationHandler(), terminalModeHandler.actionProxy, touchPadHandler.apListener});
         this.dsiListener.addListeners(new DefaultTVListener[]{this.tvServiceListener.tvListener, this.favoritesList.tvListener, this.tvStateProvider.tvListener, this.presetHandler.tvListener});
         this.dsiHandler.addListeners(new DSICallListener[]{this.tvServiceListener.callListener, this.favoritesList.callListener, this.presetHandler.dsiDownListener});
         this.hmiApplication.addListeners(new IScreenActionListener[]{this.searchHandler.getScreenActionListener()});
@@ -78,18 +78,47 @@ extends TVAppCommon {
         this.ews.registerPopupHandler(new EWSPopupHandler(tVEnv));
     }
 
-    @Override
     public void resetSettings(boolean bl, boolean bl2) {
         super.resetSettings(bl, bl2);
         this.favoritesList.resetToDefault();
     }
 
-    @Override
     void deinit() {
         super.deinit();
         this.tvStateProvider.deinit();
         this.searchHandler.deinit();
         this.osdUpdateTimer.deinit();
+    }
+
+    private class ActivationHandler
+    extends TVActionProxyDefaultListenerEvo {
+        private ActivationHandler() {
+        }
+
+        public void hmiActivatedTV(int n) {
+            TVAppEvo.this.tvEventDispatcher.updateAppActivated(0);
+            TVAppEvo.this.audioFocus.activateTVAudio(0);
+        }
+
+        public void hmiDeactivatedTV(int n) {
+            TVAppEvo.this.tvEventDispatcher.updateAppDeactivated(0);
+        }
+
+        public void tvFullscreenEntered(int n) {
+            TVAppEvo.this.tvEventDispatcher.enteredFullscreen(n);
+        }
+
+        public void tvFullscreenLeft(int n) {
+            TVAppEvo.this.tvEventDispatcher.leftFullscreen(n);
+        }
+
+        public void tvSeekModeLeft(int n) {
+            TVAppEvo.this.seekHandler.abortSeek();
+        }
+
+        public void tvEwsPopupClosed(int n) {
+            TVAppEvo.this.ews.onEwsPopupClosed();
+        }
     }
 }
 

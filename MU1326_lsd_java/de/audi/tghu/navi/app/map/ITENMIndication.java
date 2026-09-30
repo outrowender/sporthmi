@@ -3,17 +3,23 @@
  */
 package de.audi.tghu.navi.app.map;
 
-import de.audi.tghu.navi.app.map.ITENMIndication$NullTENMIndication;
 import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface ITENMIndication {
-    public static final ITENMIndication$NullTENMIndication NULL_TENM_INDICATION = new ITENMIndication$NullTENMIndication();
+    public static final NullTENMIndication NULL_TENM_INDICATION = new NullTENMIndication();
 
-    default public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
-    }
+    public void indicateTrafficEventNoticeMap(TmcMessage var1, NavRectangle var2, int var3);
 
-    default public void cleanup() {
+    public void cleanup();
+
+    public static class NullTENMIndication
+    implements ITENMIndication {
+        public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
+        }
+
+        public void cleanup() {
+        }
     }
 }
 

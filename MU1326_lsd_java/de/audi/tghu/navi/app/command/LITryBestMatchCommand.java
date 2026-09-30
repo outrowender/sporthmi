@@ -24,9 +24,8 @@ extends NavCommand {
         this.tbmData = tryBestMatchData;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LITryBestMatchCommand#execute() - calling liTryBestMatch()");
+        this.logger.log(10000000, "LITryBestMatchCommand#execute() - calling liTryBestMatch()");
         if (this.entry != null) {
             this.tbmData = new TryBestMatchData();
             this.tbmData.country = this.entry.addressData[this.adrIndex].country;
@@ -42,13 +41,12 @@ extends NavCommand {
                 this.tbmData.phoneNumbers[i2].numberType = this.entry.phoneData[i2].numberType;
             }
         }
-        this.logger.log(-2137614336, "LITryBestMatchCommand#execute() - calling liTryBestMatch() with tbmData=%1", (Object)this.tbmData);
+        this.logger.log(10000000, "LITryBestMatchCommand#execute() - calling liTryBestMatch() with tbmData=%1", (Object)this.tbmData);
         this.getDSINavigation().liTryBestMatch(this.tbmData);
     }
 
-    @Override
     public void liTryBestMatchResult(TryBestMatchResultData[] tryBestMatchResultDataArray) {
-        this.logger.log(-2137614336, "LITryBestMatchCommand#liTryBestMatchResult() ");
+        this.logger.log(10000000, "LITryBestMatchCommand#liTryBestMatchResult() ");
         this.dsiResponseContainer.setTryBestMatchResultData(tryBestMatchResultDataArray);
         this.getCommandList().commandFinished();
     }

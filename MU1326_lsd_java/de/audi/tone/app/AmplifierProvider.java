@@ -19,15 +19,14 @@ extends AbstractAppListener {
         this.amplifierListener = new NullAmplifierListener(toneEnv.lcMain, "AmplifierListener");
     }
 
-    @Override
     public void updateAmplifier(int n) {
-        this.env.lcMain.log(1078071040, "[AmplifierProvider.updateAmplifier] amplifier: %1", (long)n);
+        this.env.lcMain.log(1000000, "[AmplifierProvider.updateAmplifier] amplifier: %1", (long)n);
         this.cachedAmplifier = n;
         this.amplifierListener.updateAmplifier(this.cachedAmplifier);
     }
 
     public void registerService(AmplifierListener amplifierListener) {
-        this.env.lcMain.log(-2137614336, "[AmplifierProvider.registerService] service  registered: %1", (Object)amplifierListener);
+        this.env.lcMain.log(10000000, "[AmplifierProvider.registerService] service  registered: %1", (Object)amplifierListener);
         this.amplifierListener = amplifierListener;
         if (this.cachedAmplifier != -1) {
             this.amplifierListener.updateAmplifier(this.cachedAmplifier);
@@ -35,7 +34,7 @@ extends AbstractAppListener {
     }
 
     public void deregisterService(AmplifierListener amplifierListener) {
-        this.env.lcMain.log(-2137614336, "[AmplifierProvider.deregisterService] service  registered: %1", (Object)amplifierListener);
+        this.env.lcMain.log(10000000, "[AmplifierProvider.deregisterService] service  registered: %1", (Object)amplifierListener);
         this.amplifierListener = new NullAmplifierListener(this.env.lcMain, "AmplifierListener");
     }
 }

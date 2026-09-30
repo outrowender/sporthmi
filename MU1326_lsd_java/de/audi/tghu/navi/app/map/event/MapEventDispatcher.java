@@ -10,7 +10,7 @@ import de.audi.tghu.navi.app.map.event.MapEventListener;
 
 public class MapEventDispatcher
 implements IEventBroker {
-    public static final int MAX_COUNT_OF_LISTENER;
+    public static final int MAX_COUNT_OF_LISTENER = 10;
     private MapEventListener[] listeners = new MapEventListener[10];
     private LogChannel logger;
 
@@ -18,7 +18,6 @@ implements IEventBroker {
         this.logger = navigationEnv.getLogChannel("App.Map.Main");
     }
 
-    @Override
     public void addListener(MapEventListener mapEventListener) {
         boolean bl = false;
         for (int i2 = 0; i2 < 10; ++i2) {
@@ -32,14 +31,12 @@ implements IEventBroker {
         }
     }
 
-    @Override
     public void fireEvent(int n) {
         this.fireEvent(n, -1);
     }
 
-    @Override
     public void fireEvent(int n, int n2) {
-        this.logger.log(14808325, "MapEventDispatcher#fireEvent( %1, %2)", (long)n, (long)n2);
+        this.logger.log(100000000, "MapEventDispatcher#fireEvent( %1, %2)", (long)n, (long)n2);
         switch (n) {
             default: 
         }
@@ -54,8 +51,8 @@ implements IEventBroker {
                 continue;
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "MapEventDispatcher#dispatchEvent() - %1", (Object)this.listeners[i2]);
-                this.logger.log(-1601830656, "MapEventDispatcher#dispatchEvent() - %1", (Throwable)exception);
+                this.logger.log(100000, "MapEventDispatcher#dispatchEvent() - %1", (Object)this.listeners[i2]);
+                this.logger.log(100000, "MapEventDispatcher#dispatchEvent() - %1", (Throwable)exception);
             }
         }
     }

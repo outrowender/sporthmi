@@ -6,7 +6,6 @@ package de.audi.tghu.exlap;
 import de.audi.tghu.exlap.Container;
 
 public interface ResultReceiver {
-    default public void actionResult(int n, int n2, Container container) {
-    }
+    public void actionResult(int var1, int var2, Container var3);
 }
 

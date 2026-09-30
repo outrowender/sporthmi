@@ -13,19 +13,16 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVEvoRowFactory
 implements ITVRowFactory {
-    @Override
     public AbstractTVStationRow createTVStationRow(long l, ServiceInfo serviceInfo, int n) {
         return new TVEvoStationRow(l, serviceInfo, n, this);
     }
 
-    @Override
     public AbstractTVStationRow createTVStationRow(long l, ServiceInfo serviceInfo, int n, boolean bl) {
         return new TVEvoStationRow(l, serviceInfo, n, bl, this);
     }
 
-    @Override
     public IRowProperties createProperties(ServiceInfo serviceInfo) {
-        return new TVRowProperties(TVUtil.isVideoService(serviceInfo) ? -597584210 : -234836044);
+        return new TVRowProperties(TVUtil.isVideoService(serviceInfo) ? -1365876260 : -1263599374);
     }
 }
 

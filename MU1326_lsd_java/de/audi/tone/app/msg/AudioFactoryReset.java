@@ -18,37 +18,32 @@ extends DefaultMsgListener {
         this.dsiSound = iDSISoundHandler;
     }
 
-    @Override
     protected void resetPhoneSettings() {
-        this.lc.log(-2137614336, "[AudioFactoryReset.resetPhoneSettings]");
+        this.lc.log(10000000, "[AudioFactoryReset.resetPhoneSettings]");
         this.dsiSound.revertToFactorySettings(0, AudioConnection.PHONE_CALL, "Phone Call");
         this.dsiSound.revertToFactorySettings(0, AudioConnection.PHONE_RINGING, "Phone Ringtone");
         this.dsiSound.revertToFactorySettings(0, 126);
     }
 
-    @Override
     protected void resetNavSettings() {
-        this.lc.log(-2137614336, "[AudioFactoryReset.resetNavSettings]");
+        this.lc.log(10000000, "[AudioFactoryReset.resetNavSettings]");
         this.dsiSound.revertToFactorySettings(0, 116);
         this.dsiSound.revertToFactorySettings(0, 117);
     }
 
-    @Override
     protected void resetSpeechSettings() {
-        this.lc.log(-2137614336, "[AudioFactoryReset.resetSpeechSettings]");
+        this.lc.log(10000000, "[AudioFactoryReset.resetSpeechSettings]");
         this.dsiSound.revertToFactorySettings(0, 112);
         this.dsiSound.revertToFactorySettings(0, 113);
     }
 
-    @Override
     protected void resetMessagingSettings() {
-        this.lc.log(-2137614336, "[AudioFactoryReset.resetMessagingSettings]");
+        this.lc.log(10000000, "[AudioFactoryReset.resetMessagingSettings]");
         this.dsiSound.revertToFactorySettings(0, 126);
     }
 
-    @Override
     protected void resetSoundSettings() {
-        this.lc.log(-2137614336, "[AudioFactoryReset.resetSoundSettings]");
+        this.lc.log(10000000, "[AudioFactoryReset.resetSoundSettings]");
         this.dsiSound.revertToFactorySettings(0, 1);
     }
 }

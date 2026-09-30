@@ -4,16 +4,12 @@
 package de.audi.tghu.hmi.evo;
 
 public interface IBalFadeTouchpadConfig {
-    default public String bftp_getConfigs() {
-    }
+    public String bftp_getConfigs();
 
-    default public String bftp_getKbType() {
-    }
+    public String bftp_getKbType();
 
-    default public void bftp_setTouchSensitivity(float f2, float f3) {
-    }
+    public void bftp_setTouchSensitivity(float var1, float var2);
 
-    default public void bftp_setLockBreakDist(float f2, float f3, float f4) {
-    }
+    public void bftp_setLockBreakDist(float var1, float var2, float var3);
 }
 

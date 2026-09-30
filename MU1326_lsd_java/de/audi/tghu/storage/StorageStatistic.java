@@ -34,15 +34,15 @@ DumpInfoProvider {
     }
 
     protected void readStart(int n, int n2) {
-        this.chan.log(-2137614336, "Start read # Namespace=%1, Key=%2", (long)n, (long)n2);
+        this.chan.log(10000000, "Start read # Namespace=%1, Key=%2", (long)n, (long)n2);
     }
 
     protected void readOK(int n, int n2, String string) {
-        this.chan.log(-2137614336, "Read result: [OK] # Namespace=%2, Key=%3 # Value=%1", (Object)string, (long)n, (long)n2);
+        this.chan.log(10000000, "Read result: [OK] # Namespace=%2, Key=%3 # Value=%1", (Object)string, (long)n, (long)n2);
     }
 
     protected void readError(NoSuchDataException noSuchDataException, String string) {
-        this.chan.log(-2137614336, "Read result: [ERROR] # %1 # Use default=%2", (Object)noSuchDataException, (Object)string);
+        this.chan.log(10000000, "Read result: [ERROR] # %1 # Use default=%2", (Object)noSuchDataException, (Object)string);
         if (noSuchDataException instanceof ProviderFailedException) {
             this.chan.log(10000, "Read result: [ERROR] # %1 # Use default=%2", (Object)noSuchDataException, (Object)string);
             if (this.providerFailedExceptions == null) {
@@ -54,11 +54,11 @@ DumpInfoProvider {
     }
 
     protected void writeStart(int n, int n2, String string) {
-        this.chan.log(-2137614336, "Start write # Namespace=%2, Key=%3 # Value=%1", (Object)string, (long)n, (long)n2);
+        this.chan.log(10000000, "Start write # Namespace=%2, Key=%3 # Value=%1", (Object)string, (long)n, (long)n2);
     }
 
     protected void writeOK(int n, long l) {
-        this.chan.log(-2137614336, "Write result: [OK] # Namespace=%1, Key=%2", (long)n, l);
+        this.chan.log(10000000, "Write result: [OK] # Namespace=%1, Key=%2", (long)n, l);
     }
 
     protected void writeError(NoSuchDataException noSuchDataException) {
@@ -66,24 +66,23 @@ DumpInfoProvider {
     }
 
     protected void writeWarning(NoSuchDataException noSuchDataException) {
-        this.chan.log(-1601830656, "Write result: [WARNING] # %1", (Throwable)noSuchDataException);
+        this.chan.log(100000, "Write result: [WARNING] # %1", (Throwable)noSuchDataException);
     }
 
     protected void flush(int n, int n2) {
-        this.chan.log(-2137614336, "flush(namespace=%1, key=%2)", (long)n, (long)n2);
+        this.chan.log(10000000, "flush(namespace=%1, key=%2)", (long)n, (long)n2);
     }
 
     protected void flush() {
-        this.chan.log(-2137614336, "flush()");
+        this.chan.log(10000000, "flush()");
     }
 
     void addLongRunningRead(int n, int n2, long l, long l2) {
         Buffer buffer = new Buffer();
         buffer.append("started: ").append(l).append(" done: ").append(l2).append(" needed: ").append(l2 - l).append(" namespace = ").append(n).append(", key = ").append(n2);
-        this.chanExtStartup.log(-1601830656, "Slow storage read: %1", (Object)buffer);
+        this.chanExtStartup.log(100000, "Slow storage read: %1", (Object)buffer);
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         int n;
         Buffer buffer = new Buffer(500);
@@ -105,12 +104,10 @@ DumpInfoProvider {
         printStream.print(buffer);
     }
 
-    @Override
     public String getName() {
         return "storage_statistic";
     }
 
-    @Override
     public void setTime2Wait4DSI(long l) {
         this.time2Wait4DSI = l;
     }

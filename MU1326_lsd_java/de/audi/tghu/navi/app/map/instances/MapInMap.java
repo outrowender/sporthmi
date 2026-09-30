@@ -18,7 +18,7 @@ import de.audi.tghu.navi.app.map.instances.MapAdditional;
 
 public class MapInMap
 extends MapAdditional {
-    private static final String NAME;
+    private static final String NAME = "MapInMap";
     private boolean bMapInMapInitiated;
     private int lastRequestedMapInMapMode = -1;
     private boolean lastRequestedMapInMapMobilityHorizonVisibility = false;
@@ -28,26 +28,24 @@ extends MapAdditional {
         this.setGUIInterface(new GUIMapInMap(navigationEnv, this));
     }
 
-    @Override
     public String getName() {
-        return "MapInMap";
+        return NAME;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void initDSI() {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             if (this.isMapInMapDSIReceived()) {
                 if (!this.bMapInMapInitiated) {
-                    this.sMapLogChannel.log(1078071040, "%1#init() - all MapInMap DSIs received. Starting initialization...", (Object)this.getName());
+                    this.sMapLogChannel.log(1000000, "%1#init() - all MapInMap DSIs received. Starting initialization...", (Object)this.getName());
                     this.bMapInMapInitiated = true;
                     this.switchToContext(24);
                 }
             } else if (this.bMapInMapInitiated) {
-                this.sMapLogChannel.log(-1601830656, "%1#init() - MapInMap DSIs failed! MapInMap is not operable any more!", (Object)this.getName());
+                this.sMapLogChannel.log(100000, "%1#init() - MapInMap DSIs failed! MapInMap is not operable any more!", (Object)this.getName());
                 this.bMapInMapInitiated = false;
             }
         }
@@ -57,19 +55,17 @@ extends MapAdditional {
         return this.getMainRequestCtl().isReady();
     }
 
-    @Override
     public void show() {
         this.show(0, false);
     }
 
     public void show(int n, boolean bl) {
-        this.getMapLogChannel().log(-2137614336, "%1#showMapInMap()", (Object)this.getName());
+        this.getMapLogChannel().log(10000000, "%1#showMapInMap()", (Object)this.getName());
         CtxMapInMapShown ctxMapInMapShown = (CtxMapInMapShown)this.getCtx(29);
         ctxMapInMapShown.setMapMode(n);
         this.switchToContext(29);
     }
 
-    @Override
     public void forceHiddenContextRefresh() {
     }
 
@@ -87,18 +83,15 @@ extends MapAdditional {
     public void switchDayNight() {
     }
 
-    @Override
     public boolean isStdMapInitiated() {
         return this.bMapInMapInitiated;
     }
 
-    @Override
     public void hide() {
-        this.getMapLogChannel().log(-2137614336, "%1#hideMapInMap()", (Object)this.getName());
+        this.getMapLogChannel().log(10000000, "%1#hideMapInMap()", (Object)this.getName());
         this.switchToContext(31);
     }
 
-    @Override
     protected ChoiceModelApp getActiveRendererChoice() {
         return null;
     }

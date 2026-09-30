@@ -18,16 +18,13 @@ extends AbstractHistoryCallListRow {
         super(historyCallListRowPorscheCommon);
     }
 
-    @Override
     public void createPropertyListCell(boolean bl) {
     }
 
-    @Override
     public int getCategory() {
         return 0;
     }
 
-    @Override
     public EvoListRow copy() {
         return new HistoryCallListRowPorscheCommon(this);
     }

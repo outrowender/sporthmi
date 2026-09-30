@@ -7,39 +7,36 @@ import de.audi.atip.interapp.locationaccessor.IMyLocationAccessor;
 import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
-import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter$TooltipStringBuilder;
-import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter$TooltipFormatterEnvironment;
+import de.audi.tghu.navi.app.util.addressformatting.AbstractTooltipFormatter;
+import de.audi.tghu.navi.app.util.addressformatting.ITooltipFormatter;
 import de.audi.tghu.navi.app.util.addressformatting.audi.tooltip.TooltipFormatterJP;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 
 public class TooltipFormatterJPNative
 extends TooltipFormatterJP {
-    public TooltipFormatterJPNative(ITooltipFormatter$TooltipFormatterEnvironment iTooltipFormatter$TooltipFormatterEnvironment) {
-        super(iTooltipFormatter$TooltipFormatterEnvironment);
+    public TooltipFormatterJPNative(ITooltipFormatter.TooltipFormatterEnvironment tooltipFormatterEnvironment) {
+        super(tooltipFormatterEnvironment);
     }
 
     protected String format(String string, String string2, String string3) {
-        AbstractTooltipFormatter$TooltipStringBuilder abstractTooltipFormatter$TooltipStringBuilder = new AbstractTooltipFormatter$TooltipStringBuilder(this);
-        abstractTooltipFormatter$TooltipStringBuilder.addString(string);
-        abstractTooltipFormatter$TooltipStringBuilder.addLineBreak();
-        abstractTooltipFormatter$TooltipStringBuilder.addStringWithoutComma(string3);
-        abstractTooltipFormatter$TooltipStringBuilder.addStringWithoutComma(string2);
-        return abstractTooltipFormatter$TooltipStringBuilder.toString();
+        AbstractTooltipFormatter.TooltipStringBuilder tooltipStringBuilder = new AbstractTooltipFormatter.TooltipStringBuilder();
+        tooltipStringBuilder.addString(string);
+        tooltipStringBuilder.addLineBreak();
+        tooltipStringBuilder.addStringWithoutComma(string3);
+        tooltipStringBuilder.addStringWithoutComma(string2);
+        return tooltipStringBuilder.toString();
     }
 
-    @Override
     public String formatPOI(NavLocation navLocation) {
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
         return this.format(LocationFormatter.formatPOIName(navLocation), iMyLocationAccessor.getWard(), LocationFormatter.getCity(iMyLocationAccessor));
     }
 
-    @Override
     public String formatPOIStack(NavLocation navLocation, int n) {
         return this.formatPOI(navLocation);
     }
 
-    @Override
     public String formatOnlinePOI(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, NavLocation navLocation) {
         if (poiOnlineSearchValuelistElement == null) {
             return null;
@@ -48,7 +45,6 @@ extends TooltipFormatterJP {
         return this.format(poiOnlineSearchValuelistElement.getName(), iMyLocationAccessor.getWard(), LocationFormatter.getCity(iMyLocationAccessor));
     }
 
-    @Override
     public String formatFavorite(IFavorite iFavorite) {
         if (iFavorite == null) {
             return null;
@@ -58,7 +54,6 @@ extends TooltipFormatterJP {
         return this.format(iFavorite.getFavoriteName(), iMyLocationAccessor.getWard(), LocationFormatter.getCity(iMyLocationAccessor));
     }
 
-    @Override
     public String formatLocation(NavLocation navLocation) {
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
         String string = this.getStreet(iMyLocationAccessor);

@@ -14,9 +14,8 @@ extends NavCommand {
         this.list = navLocationWgs84Array;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "RRDStartCalculationForPositionCommand#execute() - calling rrdStartCalculationForPosition(), length: %1 ", (long)this.list.length);
+        this.logger.log(1000000, "RRDStartCalculationForPositionCommand#execute() - calling rrdStartCalculationForPosition(), length: %1 ", (long)this.list.length);
         this.getDSINavigation().rrdStartCalculationForPosition(this.list);
         this.getCommandList().commandFinished();
     }

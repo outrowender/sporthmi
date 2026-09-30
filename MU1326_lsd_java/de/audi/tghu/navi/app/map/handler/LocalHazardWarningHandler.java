@@ -12,8 +12,8 @@ import java.util.Vector;
 import org.dsi.ifc.tmc.LocalHazardInformation;
 
 public class LocalHazardWarningHandler {
-    private static final int MAX_COLUMNS;
-    private static final int CELL_LGI_EVENT_TYPE;
+    private static final int MAX_COLUMNS = 1;
+    private static final int CELL_LGI_EVENT_TYPE = 0;
     private final LogChannel logChannel;
     private LocalHazardInformation[] localHazardWarnings;
 
@@ -31,10 +31,10 @@ public class LocalHazardWarningHandler {
 
     public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray) {
         if (localHazardInformationArray == null) {
-            this.logChannel.log(-2137614336, "LocalHazardWarningHandler#updateLocalHazardInformation( null )");
+            this.logChannel.log(10000000, "LocalHazardWarningHandler#updateLocalHazardInformation( null )");
             return;
         }
-        this.logChannel.log(-2137614336, "LocalHazardWarningHandler#updateLocalHazardInformation( %1 )", (long)localHazardInformationArray.length);
+        this.logChannel.log(10000000, "LocalHazardWarningHandler#updateLocalHazardInformation( %1 )", (long)localHazardInformationArray.length);
         this.setLocalHazardWarnings(localHazardInformationArray);
         this.updateLgiListModel(localHazardInformationArray);
     }

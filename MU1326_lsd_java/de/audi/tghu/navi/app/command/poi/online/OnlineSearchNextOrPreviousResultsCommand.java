@@ -15,12 +15,11 @@ extends AbstractOnlineSearchCommand {
     public OnlineSearchNextOrPreviousResultsCommand(LogChannel logChannel, int n, IOnlineSearchForm iOnlineSearchForm, OnlineSearchContext onlineSearchContext) {
         super(logChannel, iOnlineSearchForm, onlineSearchContext);
         this.indexOfFirstItem = n;
-        logChannel.log(1078071040, "OnlineSearchNextOrPreviousResultsCommand#OnlineSearchNextOrPreviousResultsCommand()");
+        logChannel.log(1000000, "OnlineSearchNextOrPreviousResultsCommand#OnlineSearchNextOrPreviousResultsCommand()");
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "OnlineSearchNextOrPreviousResultsCommand#execute() Requesting results from index : %1", (long)this.indexOfFirstItem);
+        this.logger.log(10000000, "OnlineSearchNextOrPreviousResultsCommand#execute() Requesting results from index : %1", (long)this.indexOfFirstItem);
         this.dsiOnlineSearch.poiRequestValueList(this.indexOfFirstItem, 10);
     }
 }

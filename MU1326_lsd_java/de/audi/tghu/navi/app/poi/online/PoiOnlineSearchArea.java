@@ -8,16 +8,16 @@ import org.dsi.ifc.global.NavLocation;
 
 public class PoiOnlineSearchArea {
     private LogChannel logger;
-    public static final int SEARCH_CONTEXT_LOCATION_VICINITY;
-    public static final int SEARCH_CONTEXT_DESTINATION_VICINITY;
-    public static final int SEARCH_CONTEXT_STOPOVER_VICINITY;
-    public static final int SEARCH_CONTEXT_NEW_LOCATION;
+    public static final int SEARCH_CONTEXT_LOCATION_VICINITY = 0;
+    public static final int SEARCH_CONTEXT_DESTINATION_VICINITY = 1;
+    public static final int SEARCH_CONTEXT_STOPOVER_VICINITY = 2;
+    public static final int SEARCH_CONTEXT_NEW_LOCATION = 3;
     private int searchContext = 0;
     private NavLocation poiContext = null;
 
     public PoiOnlineSearchArea(LogChannel logChannel) {
         this.logger = logChannel;
-        logChannel.log(1078071040, "PoiOnlineSearchArea#PoiOnlineSearchArea()");
+        logChannel.log(1000000, "PoiOnlineSearchArea#PoiOnlineSearchArea()");
     }
 
     public int getSearchContext() {
@@ -25,7 +25,7 @@ public class PoiOnlineSearchArea {
     }
 
     public void setSearchContext(int n, NavLocation navLocation) {
-        this.logger.log(1078071040, "PoiOnlineSearchArea#setSearchContext()");
+        this.logger.log(1000000, "PoiOnlineSearchArea#setSearchContext()");
         this.searchContext = n;
         this.poiContext = navLocation;
     }
@@ -35,7 +35,7 @@ public class PoiOnlineSearchArea {
     }
 
     public void setNavLocation(NavLocation navLocation) {
-        this.logger.log(1078071040, "PoiOnlineSearchArea#setPoiContext()");
+        this.logger.log(1000000, "PoiOnlineSearchArea#setPoiContext()");
         this.poiContext = navLocation;
     }
 

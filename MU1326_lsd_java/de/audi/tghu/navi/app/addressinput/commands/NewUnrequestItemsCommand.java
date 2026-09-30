@@ -18,7 +18,6 @@ extends NavCommand {
         this.modelAccess = iPoiScreenUnrequestItems;
     }
 
-    @Override
     public void execute() {
         this.modelAccess.onUnrequestItems(this.startIndex, this.length);
         this.getCommandList().commandFinished();

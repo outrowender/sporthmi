@@ -27,23 +27,22 @@ ChoiceListener {
     }
 
     private void setupListeners() {
-        this.logChannel.log(14808325, "PoiWarningHmiListener#setupListeners");
-        this.env.getButtonModel(-367065600).setButtonListener(this);
-        this.env.getChoiceModel(-350288384).setButtonListener(this);
-        this.env.getChoiceModel(-383842816).setButtonListener(this);
-        this.env.getButtonModel(-316733952).setButtonListener(this);
-        this.env.getBaseListModel(-333511168).setListener(this);
-        this.env.getBaseListModel(-299956736).setListener(this);
-        this.env.getButtonModel(-702347776).setButtonListener(this);
-        this.env.getButtonModel(790889984).setButtonListener(this);
-        this.env.getButtonModel(824444416).setButtonListener(this);
-        this.env.getButtonModel(807667200).setButtonListener(this);
-        this.env.getButtonModel(841221632).setButtonListener(this);
+        this.logChannel.log(100000000, "PoiWarningHmiListener#setupListeners");
+        this.env.getButtonModel(401386).setButtonListener(this);
+        this.env.getChoiceModel(401387).setButtonListener(this);
+        this.env.getChoiceModel(401385).setButtonListener(this);
+        this.env.getButtonModel(401389).setButtonListener(this);
+        this.env.getBaseListModel(401388).setListener(this);
+        this.env.getBaseListModel(401390).setListener(this);
+        this.env.getButtonModel(402390).setButtonListener(this);
+        this.env.getButtonModel(402479).setButtonListener(this);
+        this.env.getButtonModel(402481).setButtonListener(this);
+        this.env.getButtonModel(402480).setButtonListener(this);
+        this.env.getButtonModel(402482).setButtonListener(this);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "PoiWarningHmiListener#keyPressed --> modelID: %1, keyID: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiWarningHmiListener#keyPressed --> modelID: %1, keyID: %2", (long)n, (long)n2);
         switch (n) {
             case 401386: {
                 this.poiWarningManager.screenEntered();
@@ -75,80 +74,71 @@ ChoiceListener {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "PoiWarningHmiListener#keyPressed() - Unknown Button pressed: %1", (long)n);
+                this.logChannel.log(10000000, "PoiWarningHmiListener#keyPressed() - Unknown Button pressed: %1", (long)n);
             }
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "PoiWarningHmiListener#itemSelected (BaseListModels) --> model: %1, index: %2", (long)n, (long)n2);
-        if (n == -333511168) {
-            this.logChannel.log(14808325, "   --> POI_WARNING_MAIN_LIST_BASE_LIST");
+        this.logChannel.log(10000000, "PoiWarningHmiListener#itemSelected (BaseListModels) --> model: %1, index: %2", (long)n, (long)n2);
+        if (n == 401388) {
+            this.logChannel.log(100000000, "   --> POI_WARNING_MAIN_LIST_BASE_LIST");
             int n5 = (int)evoListRow.getUniqueID();
             this.poiWarningManager.changePoiSelection(n5);
             this.env.fireModelEvent(n, n4);
-        } else if (n == -299956736) {
-            this.logChannel.log(14808325, "   --> PPOI_LIST_BASE_LIST");
+        } else if (n == 401390) {
+            this.logChannel.log(100000000, "   --> PPOI_LIST_BASE_LIST");
             int n6 = (int)evoListRow.getUniqueID();
             this.poiWarningManager.changePpoiSelection(n6);
             this.env.fireModelEvent(n, n4);
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "PoiWarningHmiListener#itemSelected (ChoiceModels) --> modelID: %1, itemID: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiWarningHmiListener#itemSelected (ChoiceModels) --> modelID: %1, itemID: %2", (long)n, (long)n2);
         switch (n) {
             case 401387: {
-                this.logChannel.log(-2137614336, "PoiWarningHmiListener#itemSelected - Show approach hint - pressed");
+                this.logChannel.log(10000000, "PoiWarningHmiListener#itemSelected - Show approach hint - pressed");
                 this.poiWarningManager.toggleApproachHint();
                 this.env.fireModelEvent(n, n4);
                 break;
             }
             case 401385: {
-                this.logChannel.log(-2137614336, "PoiWarningHmiListener#itemSelected - give Audiofeedback - pressed");
+                this.logChannel.log(10000000, "PoiWarningHmiListener#itemSelected - give Audiofeedback - pressed");
                 this.poiWarningManager.toggleSpeachHint();
                 this.env.fireModelEvent(n, n4);
                 break;
             }
             case 402390: {
-                this.logChannel.log(-2137614336, "PoiWarningHmiListener#itemSelected - SelectAll - pressed");
+                this.logChannel.log(10000000, "PoiWarningHmiListener#itemSelected - SelectAll - pressed");
                 this.poiWarningManager.toggleSelectAll();
                 this.env.fireModelEvent(n, n4);
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "PoiWarningHmiListener#itemSelected() - Unknown Button pressed: %1", (long)n);
+                this.logChannel.log(10000000, "PoiWarningHmiListener#itemSelected() - Unknown Button pressed: %1", (long)n);
             }
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 }

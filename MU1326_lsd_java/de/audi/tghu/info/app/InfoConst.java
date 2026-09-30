@@ -4,6 +4,6 @@
 package de.audi.tghu.info.app;
 
 public class InfoConst {
-    public static final int INFO_APPLICATION_ID;
+    public static final int INFO_APPLICATION_ID = 5;
 }
 

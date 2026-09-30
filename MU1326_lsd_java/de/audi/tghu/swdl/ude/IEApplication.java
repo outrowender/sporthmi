@@ -4,18 +4,18 @@
 package de.audi.tghu.swdl.ude;
 
 import de.audi.atip.hmi.IHMIServiceApp;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tghu.redengineering.app.AbstractEngineeringTextFactory;
 import de.audi.tghu.redengineering.app.EngineeringApp;
 import de.audi.tghu.redengineering.app.EngineeringEnv;
 import de.audi.tghu.swdl.ude.IEApp;
-import de.audi.tghu.swdl.ude.IEApplication$ImportOrExportButtonListener;
-import de.audi.tghu.swdl.ude.IEApplication$RebootTimerListener;
-import de.audi.tghu.swdl.ude.IEApplication$SDorUSBChoiceListener;
 import de.audi.tghu.swdl.ude.IEClient;
 import de.audi.tghu.swdl.ude.IEStorage;
 import de.audi.tghu.swdl.ude.handler.AddressbookHandler;
@@ -71,12 +71,12 @@ implements IEApp {
         for (n = 0; n < this.browserBookmarkHandlers.length; ++n) {
             this.browserBookmarkHandlers[n] = new BrowserBookmarkHandler(n, this.getLogUDE());
         }
-        IEApplication$ImportOrExportButtonListener iEApplication$ImportOrExportButtonListener = new IEApplication$ImportOrExportButtonListener(this, null);
-        this.getButtonModel(1557533440).setButtonListener(iEApplication$ImportOrExportButtonListener);
-        this.getButtonModel(1540756224).setButtonListener(iEApplication$ImportOrExportButtonListener);
-        IEApplication$SDorUSBChoiceListener iEApplication$SDorUSBChoiceListener = new IEApplication$SDorUSBChoiceListener(this, null);
-        this.getChoiceModel(1624642304).setChoiceListener(iEApplication$SDorUSBChoiceListener);
-        this.getChoiceModel(1591087872).setChoiceListener(iEApplication$SDorUSBChoiceListener);
+        ImportOrExportButtonListener importOrExportButtonListener = new ImportOrExportButtonListener();
+        this.getButtonModel(1300060).setButtonListener(importOrExportButtonListener);
+        this.getButtonModel(1300059).setButtonListener(importOrExportButtonListener);
+        SDorUSBChoiceListener sDorUSBChoiceListener = new SDorUSBChoiceListener();
+        this.getChoiceModel(1300064).setChoiceListener(sDorUSBChoiceListener);
+        this.getChoiceModel(1300062).setChoiceListener(sDorUSBChoiceListener);
     }
 
     private final LogChannel getLogUDE() {
@@ -92,20 +92,19 @@ implements IEApp {
     }
 
     protected void addClient(IEClient iEClient) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.addClient] %1", (Object)iEClient);
+        this.getLogUDE().log(10000000, "[IEApplication.addClient] %1", (Object)iEClient);
         if (iEClient != null) {
             this.clientList.add(iEClient);
         }
     }
 
     protected void removeClient(IEClient iEClient) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.removeClient] %1", (Object)iEClient);
+        this.getLogUDE().log(10000000, "[IEApplication.removeClient] %1", (Object)iEClient);
         if (iEClient != null && this.clientList.contains(iEClient)) {
             this.clientList.remove(iEClient);
         }
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.getLogUDE();
     }
@@ -114,9 +113,8 @@ implements IEApp {
         return this.engApp.getTextFactory();
     }
 
-    @Override
     public void mountFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.mountFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.mountFinished] success:%1", bl);
         if (bl) {
             this.runExport();
         } else {
@@ -125,18 +123,17 @@ implements IEApp {
     }
 
     private void runExport() {
-        this.getLogUDE().log(-2137614336, "[IEApplication.runExport]");
+        this.getLogUDE().log(10000000, "[IEApplication.runExport]");
         new ExportTask(this, this.clientList.listIterator()).start();
     }
 
     private void runImport() {
-        this.getLogUDE().log(-2137614336, "[IEApplication.runImport]");
+        this.getLogUDE().log(10000000, "[IEApplication.runImport]");
         new ImportTask(this, this.clientList.listIterator()).start();
     }
 
-    @Override
     public void exportFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "IEApplication::exportFinished(%1)", bl);
+        this.getLogUDE().log(10000000, "IEApplication::exportFinished(%1)", bl);
         if (bl) {
             ZipTask zipTask = new ZipTask(this);
             this.execute(zipTask);
@@ -145,10 +142,9 @@ implements IEApp {
         }
     }
 
-    @Override
     public void importFinished(boolean bl) {
         String string;
-        this.getLogUDE().log(-2137614336, "[IEApplication.importFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.importFinished] success:%1", bl);
         String string2 = string = bl ? this.getTextFactory().getTextConstantImportFailed() : this.getTextFactory().getTextConstantImportFinishedSuccessfull();
         if (bl) {
             this.cleanupTask.add(IEClient.FILE_ZIP_DEC);
@@ -156,13 +152,12 @@ implements IEApp {
         }
         this.showResultAndCleanup(bl, string);
         if (bl) {
-            new Timer("RebootTimer", 0, true, new IEApplication$RebootTimerListener(this, null)).start();
+            new Timer("RebootTimer", 3000L, true, new RebootTimerListener()).start();
         }
     }
 
-    @Override
     public void unzipFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.unzipFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.unzipFinished] success:%1", bl);
         if (bl) {
             this.runImport();
         } else {
@@ -170,9 +165,8 @@ implements IEApp {
         }
     }
 
-    @Override
     public void zipFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.zipFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.zipFinished] success:%1", bl);
         if (bl) {
             this.encHandler.encrypt(IEClient.FILE_ZIP);
         } else {
@@ -180,9 +174,8 @@ implements IEApp {
         }
     }
 
-    @Override
     public void decryptionFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.decryptionFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.decryptionFinished] success:%1", bl);
         if (bl) {
             UnzipTask unzipTask = new UnzipTask(this, IEClient.FILE_ZIP_DEC, IEClient.WORKING_DIR);
             this.execute(unzipTask);
@@ -191,9 +184,8 @@ implements IEApp {
         }
     }
 
-    @Override
     public void encryptionFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.encryptionFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.encryptionFinished] success:%1", bl);
         if (bl) {
             File file = this.getMedium();
             if (file != null) {
@@ -207,23 +199,21 @@ implements IEApp {
         }
     }
 
-    @Override
     public void copyFinished(boolean bl) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.copyFinished] success:%1", bl);
+        this.getLogUDE().log(10000000, "[IEApplication.copyFinished] success:%1", bl);
         if (this.isExportSelected()) {
             String string = bl ? this.getTextFactory().getTextConstantExportFinishedSuccessfull() : this.getTextFactory().getTextConstantCopyFailedExportFailed();
             this.showResultAndCleanup(bl, string);
         }
     }
 
-    @Override
     public List getFiles() {
         ArrayList arrayList = new ArrayList(this.clientList.size());
         Iterator iterator = this.clientList.iterator();
         while (iterator.hasNext()) {
             IEClient iEClient = (IEClient)iterator.next();
             File file = iEClient.getFile();
-            this.getLogUDE().log(-2137614336, "[IEApplication.getFiles] %1 %2", (Object)iEClient, (Object)file);
+            this.getLogUDE().log(10000000, "[IEApplication.getFiles] %1 %2", (Object)iEClient, (Object)file);
             if (file == null || !file.exists()) continue;
             arrayList.add(file);
         }
@@ -231,12 +221,12 @@ implements IEApp {
     }
 
     private void triggerExport() {
-        this.getLogUDE().log(-2137614336, "[IEApplication.triggerExport]");
+        this.getLogUDE().log(10000000, "[IEApplication.triggerExport]");
         this.execute(new MountTask(this));
     }
 
     private void triggerImport() {
-        this.getLogUDE().log(-2137614336, "[IEApplication.triggerImport]");
+        this.getLogUDE().log(10000000, "[IEApplication.triggerImport]");
         File file = this.getMedium();
         if (file == null) {
             this.showResultAndCleanup(false, this.getTextFactory().getTextConstantNoMediumUsbSdFoundImportNotPossible());
@@ -248,7 +238,6 @@ implements IEApp {
         this.encHandler.decrypt(IEClient.FILE_ZIP_ENC);
     }
 
-    @Override
     public CleanupTask getCleanupTask() {
         return this.cleanupTask;
     }
@@ -267,7 +256,7 @@ implements IEApp {
 
     private void showResultAndCleanup(boolean bl, String string) {
         int n;
-        int n2 = bl ? -2137614336 : 10000;
+        int n2 = bl ? 10000000 : 10000;
         this.getLogUDE().log(n2, "[IEApplication.showResultScreen] success:%1 %2", bl, (Object)string);
         if (this.isImportSelected()) {
             n = bl ? 0 : 2;
@@ -277,19 +266,19 @@ implements IEApp {
             this.cleanupTask.add(IEClient.FILE_ZIP_ENC);
         }
         this.execute(this.cleanupTask);
-        this.getChoiceModel(1574310656).setValue(n);
-        this.getChoiceModel(1574310656).setStatus(1);
+        this.getChoiceModel(1300061).setValue(n);
+        this.getChoiceModel(1300061).setStatus(1);
     }
 
     private void execute(Runnable runnable) {
-        this.getLogUDE().log(-2137614336, "[IEApplication.execute] %1", (Object)runnable);
+        this.getLogUDE().log(10000000, "[IEApplication.execute] %1", (Object)runnable);
         this.getEngineeringEnv().executeInUtilThread(runnable);
     }
 
     public File getMedium() {
         File file = new File("/fs");
         String string = this.medium == 1 ? "sd" : "usb";
-        this.getLogUDE().log(-2137614336, "[IEApplication.getMedium] Searching %1 for dirs starting with '%2'", (Object)file, (Object)string);
+        this.getLogUDE().log(10000000, "[IEApplication.getMedium] Searching %1 for dirs starting with '%2'", (Object)file, (Object)string);
         File[] fileArray = file.listFiles();
         if (fileArray == null) {
             this.getLogUDE().log(10000, "[IEApplication.getMedium] Directory %1 not found!", (Object)file);
@@ -299,10 +288,10 @@ implements IEApp {
             File file2 = fileArray[i2];
             if (!file2.getName().startsWith(string)) continue;
             if (!file2.isDirectory()) {
-                this.getLogUDE().log(-1601830656, "[IEApplication.getMedium] %1 is not a directory!", (Object)file2);
+                this.getLogUDE().log(100000, "[IEApplication.getMedium] %1 is not a directory!", (Object)file2);
                 continue;
             }
-            this.getLogUDE().log(-2137614336, "[IEApplication.getMedium] Found %1", (Object)file2);
+            this.getLogUDE().log(10000000, "[IEApplication.getMedium] Found %1", (Object)file2);
             return file2;
         }
         this.getLogUDE().log(10000, "IEApplication::getMedium() - No matching dir '%1' found in %2! ", (Object)string, (Object)file);
@@ -310,36 +299,81 @@ implements IEApp {
     }
 
     private boolean isExportSelected() {
-        return this.getChoiceModel(1607865088).getValue() == 1;
+        return this.getChoiceModel(1300063).getValue() == 1;
     }
 
     private boolean isImportSelected() {
-        return this.getChoiceModel(1607865088).getValue() == 0;
+        return this.getChoiceModel(1300063).getValue() == 0;
     }
 
-    static /* synthetic */ LogChannel access$300(IEApplication iEApplication) {
-        return iEApplication.getLogUDE();
+    private class RebootTimerListener
+    extends DefaultTimerListener {
+        private RebootTimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            IEApplication.this.getEngineeringEnv().getLogUDE().log(1000000, "[RebootTimerListener.fireTimer] trigger reboot");
+            IEApplication.this.getEngineeringEnv().rebootSystem();
+        }
     }
 
-    static /* synthetic */ int access$402(IEApplication iEApplication, int n) {
-        iEApplication.medium = n;
-        return iEApplication.medium;
+    private class SDorUSBChoiceListener
+    extends DefaultChoiceListener {
+        private SDorUSBChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 1300064: {
+                    IEApplication.this.getLogUDE().log(10000000, "[IEApplication.itemSelected] model:%1 -> USB", (long)n);
+                    IEApplication.this.medium = 0;
+                    break;
+                }
+                case 1300062: {
+                    IEApplication.this.getLogUDE().log(10000000, "[IEApplication.itemSelected] model:%1 -> SD", (long)n);
+                    IEApplication.this.medium = 1;
+                    break;
+                }
+                default: {
+                    IEApplication.this.getLogUDE().log(10000, "[IEApplication.itemSelected] Unknown model %1! ", (long)n);
+                    return;
+                }
+            }
+            IEApplication.this.getChoiceModel(1300061).setStatus(0);
+            IEApplication.this.getChoiceModel(1300064).fireEvent(n4);
+            IEClient.WORKING_DIR.mkdirs();
+            if (IEApplication.this.isExportSelected()) {
+                IEApplication.this.triggerExport();
+            } else {
+                IEApplication.this.triggerImport();
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$500(IEApplication iEApplication) {
-        return iEApplication.isExportSelected();
-    }
+    private class ImportOrExportButtonListener
+    extends DefaultButtonListener {
+        private ImportOrExportButtonListener() {
+        }
 
-    static /* synthetic */ void access$600(IEApplication iEApplication) {
-        iEApplication.triggerExport();
-    }
-
-    static /* synthetic */ void access$700(IEApplication iEApplication) {
-        iEApplication.triggerImport();
-    }
-
-    static /* synthetic */ EngineeringEnv access$800(IEApplication iEApplication) {
-        return iEApplication.getEngineeringEnv();
+        public void keyTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 1300060: {
+                    IEApplication.this.getLogUDE().log(10000000, "[IEApplication.keyTyped] model:%1 -> IMPORT", (long)n);
+                    IEApplication.this.getChoiceModel(1300063).setValue(0);
+                    IEApplication.this.getButtonModel(1300060).fireEvent(n3);
+                    break;
+                }
+                case 1300059: {
+                    IEApplication.this.getLogUDE().log(10000000, "[IEApplication.keyTyped] model:%1 -> EXPORT", (long)n);
+                    IEApplication.this.getChoiceModel(1300063).setValue(1);
+                    IEApplication.this.getButtonModel(1300059).fireEvent(n3);
+                    break;
+                }
+                default: {
+                    IEApplication.this.getLogUDE().log(10000, "[IEApplication.keyTyped] Unknown model %1!", (long)n);
+                }
+            }
+        }
     }
 }
 

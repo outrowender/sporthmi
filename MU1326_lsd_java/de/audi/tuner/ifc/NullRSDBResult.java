@@ -9,7 +9,6 @@ public class NullRSDBResult
 implements IRSDBResult {
     public static final IRSDBResult INSTANCE = new NullRSDBResult();
 
-    @Override
     public void resultAvailable() {
     }
 }

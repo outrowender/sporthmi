@@ -7,7 +7,6 @@ import de.audi.atip.sysapp.SpeedThresholdListener;
 
 public interface IDemoModeHmiListener
 extends SpeedThresholdListener {
-    default public void cleanup() {
-    }
+    public void cleanup();
 }
 

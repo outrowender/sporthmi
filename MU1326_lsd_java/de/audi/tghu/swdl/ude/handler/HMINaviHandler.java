@@ -27,7 +27,6 @@ implements IEClient {
         this.storage = iEStorage;
     }
 
-    @Override
     public int getID() {
         return 3;
     }
@@ -36,22 +35,18 @@ implements IEClient {
         return "HMINaviHandler";
     }
 
-    @Override
     public void addService(Object object) {
     }
 
-    @Override
     public void removeService(Object object) {
     }
 
-    @Override
     public File getFile() {
         return IE_FILE_NAVI_HMI;
     }
 
-    @Override
     public void startExport(AbstractIETask abstractIETask) {
-        this.lc.log(-2137614336, "[HMINaviHandler.startExport]");
+        this.lc.log(10000000, "[HMINaviHandler.startExport]");
         boolean bl = this.exportToFile(IE_FILE_NAVI_HMI);
         abstractIETask.updateClientResult(this, IE_FILE_NAVI_HMI.getAbsolutePath(), bl, true);
     }
@@ -61,7 +56,7 @@ implements IEClient {
      */
     private boolean exportToFile(File file) {
         boolean bl;
-        this.lc.log(-2137614336, "[HMINaviHandler.exportToFile] %1", (Object)file.getAbsolutePath());
+        this.lc.log(10000000, "[HMINaviHandler.exportToFile] %1", (Object)file.getAbsolutePath());
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             try {
@@ -85,7 +80,7 @@ implements IEClient {
     }
 
     public boolean exportData(OutputStream outputStream) {
-        this.lc.log(-2137614336, "[HMINaviHandler.exportData]");
+        this.lc.log(10000000, "[HMINaviHandler.exportData]");
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
         try {
             HMINaviHandler.writeByteArray(dataOutputStream, this.storage.load(1004, 840, new byte[0], ""));
@@ -114,14 +109,13 @@ implements IEClient {
         return true;
     }
 
-    private static void writeByteArray(DataOutputStream dataOutputStream, byte[] byArray) {
+    private static void writeByteArray(DataOutputStream dataOutputStream, byte[] byArray) throws IOException {
         dataOutputStream.writeInt(byArray.length);
         dataOutputStream.write(byArray);
     }
 
-    @Override
     public void startImport(AbstractIETask abstractIETask) {
-        this.lc.log(-2137614336, "[HMINaviHandler.startImport]");
+        this.lc.log(10000000, "[HMINaviHandler.startImport]");
         boolean bl = this.importFromFile(IE_FILE_NAVI_HMI);
         abstractIETask.updateClientResult(this, IE_FILE_NAVI_HMI.getAbsolutePath(), bl, true);
     }
@@ -131,7 +125,7 @@ implements IEClient {
      */
     private boolean importFromFile(File file) {
         boolean bl;
-        this.lc.log(-2137614336, "[HMINaviHandler.importFromFile] %1", (Object)file.getAbsolutePath());
+        this.lc.log(10000000, "[HMINaviHandler.importFromFile] %1", (Object)file.getAbsolutePath());
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             try {
@@ -154,7 +148,7 @@ implements IEClient {
     }
 
     public boolean importData(InputStream inputStream) {
-        this.lc.log(-2137614336, "[HMINaviHandler.importData]");
+        this.lc.log(10000000, "[HMINaviHandler.importData]");
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         try {
             this.storage.save(1004, 840, HMINaviHandler.readByteArray(dataInputStream), "");
@@ -182,7 +176,7 @@ implements IEClient {
         return true;
     }
 
-    private static byte[] readByteArray(DataInputStream dataInputStream) {
+    private static byte[] readByteArray(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         byte[] byArray = new byte[n];
         dataInputStream.readFully(byArray);

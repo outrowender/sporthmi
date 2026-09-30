@@ -8,10 +8,8 @@ import org.dsi.ifc.map.Rect;
 
 public interface IVisibleContext
 extends IContext {
-    default public void showLandmark(float f2) {
-    }
+    public void showLandmark(float var1);
 
-    default public Rect getVisibleArea() {
-    }
+    public Rect getVisibleArea();
 }
 

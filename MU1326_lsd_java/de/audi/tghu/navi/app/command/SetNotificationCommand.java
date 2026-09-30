@@ -14,10 +14,9 @@ extends NavCommand {
         this.attributes = nArray;
     }
 
-    @Override
     public void execute() {
         if (this.attributes != null && this.attributes.length > 0) {
-            this.logger.log(-2137614336, "NotifyRestCommand#execute() - calling setNotification( %1 )", (long)this.attributes.length);
+            this.logger.log(10000000, "NotifyRestCommand#execute() - calling setNotification( %1 )", (long)this.attributes.length);
             this.getDSINavigation().setNotification(this.attributes, (DSIListener)this.getDispatcher());
         }
         this.getCommandList().commandFinished();

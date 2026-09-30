@@ -7,13 +7,10 @@ import de.audi.tuner.app.memory.AbstractMemoryRow;
 import de.audi.tuner.ifc.ILogoDatabase;
 
 public interface IMemListStorage {
-    default public AbstractMemoryRow[] readList(int n, ILogoDatabase iLogoDatabase) {
-    }
+    public AbstractMemoryRow[] readList(int var1, ILogoDatabase var2);
 
-    default public void writeList(int n, AbstractMemoryRow[] abstractMemoryRowArray) {
-    }
+    public void writeList(int var1, AbstractMemoryRow[] var2);
 
-    default public void setPreferredImgType(int n) {
-    }
+    public void setPreferredImgType(int var1);
 }
 

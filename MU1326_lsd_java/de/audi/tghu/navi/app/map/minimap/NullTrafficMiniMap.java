@@ -15,62 +15,48 @@ implements ITrafficMiniMap {
         return null;
     }
 
-    @Override
     public void startDSI(BundleContext bundleContext) {
     }
 
-    @Override
     public void stopDSI(BundleContext bundleContext) {
     }
 
-    @Override
     public DSIBase getDSI() {
         return null;
     }
 
-    @Override
     public void persistSettings() {
     }
 
-    @Override
     public void setActive(boolean bl) {
     }
 
-    @Override
     public void setCurrentSystemLanguage() {
     }
 
-    @Override
     public boolean isActive() {
         return false;
     }
 
-    @Override
     public void tmpCommandSetActive(boolean bl) {
     }
 
-    @Override
     public void loadState() {
     }
 
-    @Override
     public void resetSettings() {
     }
 
-    @Override
     public void cleanup() {
     }
 
-    @Override
     public void hideTrafficMiniMap() {
     }
 
-    @Override
     public boolean isVisible() {
         return false;
     }
 
-    @Override
     public void activateAndPersist(boolean bl) {
     }
 }

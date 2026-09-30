@@ -38,7 +38,6 @@ extends AbstractPictureStoreCommand {
         this.callBack = pictureStoreProviderListener;
     }
 
-    @Override
     public void execute() {
         DSIPictureStore dSIPictureStore = this.psp.getDSIPictureStore();
         if (dSIPictureStore != null) {
@@ -46,13 +45,11 @@ extends AbstractPictureStoreCommand {
         }
     }
 
-    @Override
     public void getRectanglePicturesGridResult(GeoPicture[] geoPictureArray) {
         this.callBack.getRectanglePicturesGridResult(geoPictureArray);
         this.commandList.commandFinished();
     }
 
-    @Override
     public void invalidData(int[] nArray, int n) {
     }
 }

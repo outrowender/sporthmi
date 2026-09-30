@@ -15,13 +15,13 @@ implements IRangeCounter {
 
     public RangeCounter(int n, int n2) {
         if (n < 0) {
-            throw new IllegalArgumentException(new StringBuffer().append("Range start must be positive. But rangeBoundaryStart = ").append(n).toString());
+            throw new IllegalArgumentException("Range start must be positive. But rangeBoundaryStart = " + n);
         }
         if (n2 <= 0) {
-            throw new IllegalArgumentException(new StringBuffer().append("Range size must be greater than 0. But rangeBoundarySize = ").append(n2).toString());
+            throw new IllegalArgumentException("Range size must be greater than 0. But rangeBoundarySize = " + n2);
         }
-        if (n2 >= -129 - n) {
-            throw new IllegalArgumentException(new StringBuffer().append("Range end must be lesser than Integer.MAX_VALUE. But rangeBoundaryStart (=").append(n).append(") + rangeBoundarySize (=").append(n).append(") = ").append((long)n + (long)n2).append(" is greater than ").append(-129).toString());
+        if (n2 >= Integer.MAX_VALUE - n) {
+            throw new IllegalArgumentException("Range end must be lesser than Integer.MAX_VALUE. But rangeBoundaryStart (=" + n + ") + rangeBoundarySize (=" + n + ") = " + ((long)n + (long)n2) + " is greater than " + Integer.MAX_VALUE);
         }
         this.rangeBoundaryStart = n;
         this.rangeBoundarySize = n2;
@@ -30,11 +30,10 @@ implements IRangeCounter {
         this.lastRangeSize = 0;
     }
 
-    @Override
     public synchronized int getNext(int n) {
         int n2 = this.rangeBoundarySize / 2;
         if (n <= 0 || n > n2) {
-            throw new IllegalArgumentException(new StringBuffer().append("Illegal argument for range= ").append(n).append(", It must be greater 0 and lesser than ").append(n2).toString());
+            throw new IllegalArgumentException("Illegal argument for range= " + n + ", It must be greater 0 and lesser than " + n2);
         }
         this.lastRangeSize = n;
         if (this.firstUnusedNumber > this.rangeBoundaryEnd - n) {
@@ -45,12 +44,10 @@ implements IRangeCounter {
         return n3;
     }
 
-    @Override
     public boolean isInsideRangeBoundary(int n) {
         return n >= this.rangeBoundaryStart && n < this.rangeBoundaryEnd;
     }
 
-    @Override
     public int getRangeBoundaryStart() {
         return this.rangeBoundaryStart;
     }

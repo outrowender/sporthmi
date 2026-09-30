@@ -22,9 +22,6 @@ import de.audi.atip.statemachine.SystemSMM;
 import de.audi.atip.statemachine.sds.TTSASR;
 import de.audi.tghu.smi.DrawerIDSet;
 import de.audi.tghu.smi.Logger;
-import de.audi.tghu.smi.SMI$AddSMModuleRunnable;
-import de.audi.tghu.smi.SMI$RemoveSMModuleRunnable;
-import de.audi.tghu.smi.SMI$SyncEventQueueElement;
 import de.audi.tghu.smi.SMIOnscreenStatisticsHandler;
 import de.audi.tghu.smi.StateMachineTerminal;
 import java.util.LinkedList;
@@ -32,7 +29,7 @@ import java.util.List;
 
 public class SMI
 implements SMInterpreter {
-    private static final boolean COMBI_ENABLED;
+    private static final boolean COMBI_ENABLED = false;
     private final IFrameworkAccess framework;
     private final Logger logger;
     private final HMIServiceSM hmiService;
@@ -43,7 +40,7 @@ implements SMInterpreter {
     private int activeJointUseModule = -1;
     private SMListener smListener;
     private List syncEventQueue = new LinkedList();
-    private SMI$SyncEventQueueElement lastSyncEvent = null;
+    private SyncEventQueueElement lastSyncEvent = null;
     private final KbdService[] keyboardServices = new KbdService[8];
     private SMIOnscreenStatisticsHandler onScreenStatisticsHandler;
     private final Object sdsServiceMutex = new Object();
@@ -100,7 +97,6 @@ implements SMInterpreter {
         return this.keyboardServices[n];
     }
 
-    @Override
     public void registersSMListener(SMListener sMListener) {
         this.smListener = sMListener;
         if (sMListener != null) {
@@ -127,7 +123,7 @@ implements SMInterpreter {
     void showScreen(int n, int n2, int n3, int[] nArray, boolean bl, boolean bl2, boolean bl3, int[] nArray2, long[] lArray, DrawerIDSet drawerIDSet, int n4, int n5, int n6, AdditionalScreenData additionalScreenData) {
         ScreenData screenData = drawerIDSet == null ? new ScreenData(n3, bl, bl3, nArray, bl2, null, nArray2, lArray, -1L, -1L, n4, n5, n6, additionalScreenData) : new ScreenData(n3, bl, bl3, nArray, bl2, null, nArray2, lArray, drawerIDSet.getSelectionDrawerID(), drawerIDSet.getOptionsDrawerID(), n4, n5, n6, additionalScreenData);
         if (this.logger.sm[n][n2].isInfo()) {
-            this.logger.sm[n][n2].log(1078071040, "[SMI#showScreen] calling hmiService.showScreen, screenData='%1', metaInfos='%2'", (Object)((Object)screenData).toString(), (Object)additionalScreenData);
+            this.logger.sm[n][n2].log(1000000, "[SMI#showScreen] calling hmiService.showScreen, screenData='%1', metaInfos='%2'", (Object)((Object)screenData).toString(), (Object)additionalScreenData);
         }
         this.getHMIServiceSM().showScreen(n, n2, screenData);
     }
@@ -136,12 +132,12 @@ implements SMInterpreter {
         ScreenData screenData = drawerIDSet == null ? new ScreenData(n3, bl, bl3, nArray, bl2, null, nArray2, popup.getPopupID(), popup.getZpmPriority(), popup.getZpmSlotID(), true, popup.getPriority(), lArray, -1L, -1L, n4, n5, n6, additionalScreenData) : new ScreenData(n3, bl, bl3, nArray, bl2, null, nArray2, popup.getPopupID(), popup.getZpmPriority(), popup.getZpmSlotID(), true, popup.getPriority(), lArray, drawerIDSet.getSelectionDrawerID(), drawerIDSet.getOptionsDrawerID(), n4, n5, n6, additionalScreenData);
         if (n2 < 0) {
             if (this.logger.sm[n][0].isInfo()) {
-                this.logger.sm[n][0].log(1078071040, "[SMI#showScreen] calling hmiService.showPopupScreen, screenData='%1', metaInfos='%2'", (Object)((Object)screenData).toString(), (Object)additionalScreenData);
+                this.logger.sm[n][0].log(1000000, "[SMI#showScreen] calling hmiService.showPopupScreen, screenData='%1', metaInfos='%2'", (Object)((Object)screenData).toString(), (Object)additionalScreenData);
             }
             this.getHMIServiceSM().showPopupScreen(n, screenData);
         } else {
             if (this.logger.sm[n][0].isInfo()) {
-                this.logger.sm[n][0].log(1078071040, "[SMI#showScreen] calling hmiService.replacePopupScreen, screenData='%1', oldScreenID='%2', popupID='%3', metaInfos='%4'", (Object)((Object)screenData).toString(), (Object)Integer.toString(n2), (Object)Integer.toString(popup.getPopupID()), (Object)additionalScreenData);
+                this.logger.sm[n][0].log(1000000, "[SMI#showScreen] calling hmiService.replacePopupScreen, screenData='%1', oldScreenID='%2', popupID='%3', metaInfos='%4'", (Object)((Object)screenData).toString(), (Object)Integer.toString(n2), (Object)Integer.toString(popup.getPopupID()), (Object)additionalScreenData);
             }
             this.getHMIServiceSM().replacePopupScreen(n, n2, popup.getPopupID(), screenData);
         }
@@ -192,7 +188,7 @@ implements SMInterpreter {
                         break;
                     }
                 }
-                this.logger.smi.log(-2137614336, "[SMI#enterJointUse] for terminal: %1", (long)n);
+                this.logger.smi.log(10000000, "[SMI#enterJointUse] for terminal: %1", (long)n);
                 break;
             }
         }
@@ -215,13 +211,12 @@ implements SMInterpreter {
                         break;
                     }
                 }
-                this.logger.smi.log(-2137614336, "[SMI#leaveJointUse] for terminal: %1", (long)n);
+                this.logger.smi.log(10000000, "[SMI#leaveJointUse] for terminal: %1", (long)n);
                 break;
             }
         }
     }
 
-    @Override
     public void jointModeLeft(int n) {
     }
 
@@ -238,7 +233,7 @@ implements SMInterpreter {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean addSMM(SMModule sMModule) {
-        this.logger.smi.log(1078071040, "[SMI#addSMM] called");
+        this.logger.smi.log(1000000, "[SMI#addSMM] called");
         if (sMModule == null) {
             return false;
         }
@@ -255,22 +250,22 @@ implements SMInterpreter {
             synchronized (object) {
                 if (n == 6) {
                     if (this.sdsService != null) {
-                        this.logger.smi.log(1078071040, "[SMI#addSMM] setting SDS service to speech terminal");
+                        this.logger.smi.log(1000000, "[SMI#addSMM] setting SDS service to speech terminal");
                         stateMachineTerminal.setSDSService(this.sdsService);
                     } else {
-                        this.logger.smi.log(1078071040, "[SMI#addSMM] sds service not yet available for speech terminal");
+                        this.logger.smi.log(1000000, "[SMI#addSMM] sds service not yet available for speech terminal");
                     }
                 }
             }
             if (this.lastSyncEvent != null) {
-                this.logger.smi.log(1078071040, "[SMI#addSMM] forwarding last syncEvent (SYNCEVID#%1)", (long)this.lastSyncEvent.syncEventID);
+                this.logger.smi.log(1000000, "[SMI#addSMM] forwarding last syncEvent (SYNCEVID#%1)", (long)this.lastSyncEvent.syncEventID);
                 stateMachineTerminal.processSyncEvent(this.lastSyncEvent.syncEventID);
             }
         } else if (sMModule instanceof ApplicationSMM) {
             bl = stateMachineTerminal.addAppSMM((ApplicationSMM)sMModule);
         } else {
             this.logger.sm[n][n2].log(1000, "[SMI#addSMM] SMM %1 (moduleID %2) of unauthorized subclass of SMModule", (Object)sMModule.getSMMName(), (long)sMModule.getModuleID());
-            this.logger.sm[n][n2].log(1078071040, "[SMI#addSMM] SMM %1 (moduleID %2) ignored", (Object)sMModule.getSMMName(), (long)sMModule.getModuleID());
+            this.logger.sm[n][n2].log(1000000, "[SMI#addSMM] SMM %1 (moduleID %2) ignored", (Object)sMModule.getSMMName(), (long)sMModule.getModuleID());
             return false;
         }
         if (bl) {
@@ -286,7 +281,7 @@ implements SMInterpreter {
 
     public boolean removeSMM(SMModule sMModule) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[SMI#removeSMM] called");
+            this.logger.smi.log(100000000, "[SMI#removeSMM] called");
         }
         int n = sMModule.getTerminalID();
         int n2 = sMModule.getSubterminalID();
@@ -311,7 +306,7 @@ implements SMInterpreter {
 
     public void removeAllSMMs() {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[SMI#removeAllSMMs] called");
+            this.logger.smi.log(100000000, "[SMI#removeAllSMMs] called");
         }
         for (int i2 = 0; i2 < 8; ++i2) {
             StateMachineTerminal stateMachineTerminal = this.getSMTerminal(i2);
@@ -320,16 +315,15 @@ implements SMInterpreter {
         }
     }
 
-    @Override
     public void startPopup(int n, int n2) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[SMI#startPopup] terminalID='%1', popupID='%2'", (long)n, (long)n2);
+            this.logger.smi.log(100000000, "[SMI#startPopup] terminalID='%1', popupID='%2'", (long)n, (long)n2);
         }
-        this.logger.event.log(1078071040, "[SMI#startPopup] SMI received start-popup event, TerminalID='%1', PopupID='(POPUPID#%2)'.", (long)n, (long)n2);
+        this.logger.event.log(1000000, "[SMI#startPopup] SMI received start-popup event, TerminalID='%1', PopupID='(POPUPID#%2)'.", (long)n, (long)n2);
         StateMachineTerminal stateMachineTerminal = this.getSMTerminal(n);
         try {
             if (stateMachineTerminal == null) {
-                this.logger.smi.log(-1601830656, "[SMI#startPopup] SM-%1 does not exist in System.", (long)n);
+                this.logger.smi.log(100000, "[SMI#startPopup] SM-%1 does not exist in System.", (long)n);
                 return;
             }
             stateMachineTerminal.startPopup(n2);
@@ -342,18 +336,17 @@ implements SMInterpreter {
         this.onScreenStatisticsHandler.updateStatistics();
     }
 
-    @Override
     public void stopPopup(int n, int n2) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[SMI#stopPopup] terminalID='%1', popupID='%2'", (long)n, (long)n2);
+            this.logger.smi.log(100000000, "[SMI#stopPopup] terminalID='%1', popupID='%2'", (long)n, (long)n2);
         }
-        this.logger.event.log(1078071040, "[SMI#stopPopup] SMI received stop-popup event, TerminalID='%1', PopupID='(POPUPID#%2)'.", (long)n, (long)n2);
+        this.logger.event.log(1000000, "[SMI#stopPopup] SMI received stop-popup event, TerminalID='%1', PopupID='(POPUPID#%2)'.", (long)n, (long)n2);
         StateMachineTerminal stateMachineTerminal = this.getSMTerminal(n);
         boolean bl = false;
         try {
             StateMachineTerminal stateMachineTerminal2;
             if (stateMachineTerminal == null) {
-                this.logger.smi.log(-1601830656, "[SMI#stopPopup] SM-%1 does not exist in System.", (long)n);
+                this.logger.smi.log(100000, "[SMI#stopPopup] SM-%1 does not exist in System.", (long)n);
                 return;
             }
             bl = stateMachineTerminal.stopPopup(n2);
@@ -371,10 +364,9 @@ implements SMInterpreter {
         }
     }
 
-    @Override
     public void setActiveSubterminal(int n, int n2) {
         StateMachineTerminal stateMachineTerminal = this.getSMTerminal(n);
-        this.logger.smi.log(1078071040, "[SMI#setActiveSubterminal] set active subterminal for terminal '%1' to '%2'.", (long)n, (long)n2);
+        this.logger.smi.log(1000000, "[SMI#setActiveSubterminal] set active subterminal for terminal '%1' to '%2'.", (long)n, (long)n2);
         if (stateMachineTerminal != null) {
             stateMachineTerminal.setActiveSubterminal(n2);
         }
@@ -382,7 +374,6 @@ implements SMInterpreter {
         this.getHMIServiceSM().setActiveSubterminal(n, n2);
     }
 
-    @Override
     public int getActiveSubterminal(int n) {
         int n2 = 0;
         StateMachineTerminal stateMachineTerminal = this.getSMTerminal(n);
@@ -392,17 +383,16 @@ implements SMInterpreter {
         return n2;
     }
 
-    @Override
     public void processEvent(StateMachineEvent stateMachineEvent) {
         AdditionalScreenData additionalScreenData = stateMachineEvent.getMetaData();
         int n = stateMachineEvent.getStateMachineID();
         int n2 = stateMachineEvent.getSMEventID();
         boolean bl = false;
         if (this.logger.event.isInfo()) {
-            this.logger.event.log(1078071040, "[SMI#processEvent(StateMachineEvent)] [%1] SMI received state machine event (EVENTID#%2), '%3'.", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)stateMachineEvent);
+            this.logger.event.log(1000000, "[SMI#processEvent(StateMachineEvent)] [%1] SMI received state machine event (EVENTID#%2), '%3'.", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)stateMachineEvent);
         }
         if (this.logger.smi.isInfo()) {
-            this.logger.smi.log(1078071040, "[SMI#processEvent(StateMachineEvent)] [%1] SMI received state machine event (EVENTID#%2), '%3'.", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)stateMachineEvent);
+            this.logger.smi.log(1000000, "[SMI#processEvent(StateMachineEvent)] [%1] SMI received state machine event (EVENTID#%2), '%3'.", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)stateMachineEvent);
         }
         if (n == -1) {
             for (int i2 = 0; i2 < 8; ++i2) {
@@ -412,29 +402,29 @@ implements SMInterpreter {
             this.processEvent(n, n2, additionalScreenData);
         }
         while (!this.syncEventQueue.isEmpty()) {
-            SMI$SyncEventQueueElement sMI$SyncEventQueueElement = (SMI$SyncEventQueueElement)this.syncEventQueue.remove(0);
-            this.logger.smi.log(-2137614336, "[SMI#processEvent(StateMachineEvent)] (SYNC) SyncEventQueue size is '%1', processing SyncEvent (SYNCEVID#%3) from terminal '%2'.", (long)this.syncEventQueue.size(), (long)sMI$SyncEventQueueElement.sourceTerminalID, (long)sMI$SyncEventQueueElement.syncEventID);
+            SyncEventQueueElement syncEventQueueElement = (SyncEventQueueElement)this.syncEventQueue.remove(0);
+            this.logger.smi.log(10000000, "[SMI#processEvent(StateMachineEvent)] (SYNC) SyncEventQueue size is '%1', processing SyncEvent (SYNCEVID#%3) from terminal '%2'.", (long)this.syncEventQueue.size(), (long)syncEventQueueElement.sourceTerminalID, (long)syncEventQueueElement.syncEventID);
             for (int i3 = 0; i3 < 8; ++i3) {
                 StateMachineTerminal stateMachineTerminal = this.getSMTerminal(i3);
-                if (stateMachineTerminal == null || i3 == sMI$SyncEventQueueElement.sourceTerminalID) continue;
-                stateMachineTerminal.processSyncEvent(sMI$SyncEventQueueElement.syncEventID);
+                if (stateMachineTerminal == null || i3 == syncEventQueueElement.sourceTerminalID) continue;
+                stateMachineTerminal.processSyncEvent(syncEventQueueElement.syncEventID);
             }
         }
         if (bl) {
-            this.logger.event.log(1078071040, "[SMI#processEvent(StateMachineEvent)] [%1] SMI processed state machine event (EVENTID#%2).", (long)n, (long)n2);
+            this.logger.event.log(1000000, "[SMI#processEvent(StateMachineEvent)] [%1] SMI processed state machine event (EVENTID#%2).", (long)n, (long)n2);
         }
         this.onScreenStatisticsHandler.updateStatistics();
     }
 
     void processSyncEvent(int n, int n2) {
-        this.logger.smi.log(-2137614336, "[SMI#processSyncEvent] putting SyncEvent (SYNCEVID#%1) from Terminal '%2' in SyncEventQueue.", (long)n2, (long)n);
-        this.lastSyncEvent = new SMI$SyncEventQueueElement(this, n, n2);
+        this.logger.smi.log(10000000, "[SMI#processSyncEvent] putting SyncEvent (SYNCEVID#%1) from Terminal '%2' in SyncEventQueue.", (long)n2, (long)n);
+        this.lastSyncEvent = new SyncEventQueueElement(n, n2);
         this.syncEventQueue.add(this.lastSyncEvent);
     }
 
     private boolean processEvent(int n, int n2, AdditionalScreenData additionalScreenData) {
         if (this.logger.smi.isDebug2()) {
-            this.logger.smi.log(14808325, "[SMI#processEvent] terminalID='%1', eventID='(EVENTID#%2)'", (long)n, (long)n2);
+            this.logger.smi.log(100000000, "[SMI#processEvent] terminalID='%1', eventID='(EVENTID#%2)'", (long)n, (long)n2);
         }
         StateMachineTerminal stateMachineTerminal = this.getSMTerminal(n);
         if (n == 1 && !this.framework.isShowDDP2Combi()) {
@@ -447,11 +437,11 @@ implements SMInterpreter {
                 if (stateMachineTerminal2 != null) {
                     bl = stateMachineTerminal2.processSMEvent(n2, additionalScreenData);
                     if (stateMachineTerminal2.isUnboundEventUnprocessed()) {
-                        this.logger.smi.log(1078071040, "[SMI#processEvent(int,int)] unbound event unprocessed");
+                        this.logger.smi.log(1000000, "[SMI#processEvent(int,int)] unbound event unprocessed");
                         String string = stateMachineTerminal2.getUnboundExtStateLabel();
                         stateMachineTerminal.jumpToState(string);
                     } else {
-                        this.logger.smi.log(1078071040, "[SMI#processEvent(int,int)] all unbound processed");
+                        this.logger.smi.log(1000000, "[SMI#processEvent(int,int)] all unbound processed");
                     }
                 }
                 if (!bl) {
@@ -460,25 +450,24 @@ implements SMInterpreter {
             } else {
                 stateMachineTerminal.processSMEvent(n2, additionalScreenData);
                 if (stateMachineTerminal.isUnboundEventUnprocessed() && stateMachineTerminal.getTerminalID() == 5) {
-                    this.logger.smi.log(1078071040, "[SMI#processEvent(int,int)] unbound event unprocessed");
+                    this.logger.smi.log(1000000, "[SMI#processEvent(int,int)] unbound event unprocessed");
                     String string = stateMachineTerminal.getUnboundExtStateLabel();
                     StateMachineTerminal stateMachineTerminal3 = this.getFocusedTerminal();
                     if (stateMachineTerminal3 != null) {
                         stateMachineTerminal3.jumpToState(string);
                     }
                 } else {
-                    this.logger.smi.log(1078071040, "[SMI#processEvent(int,int)] all unbound processed");
+                    this.logger.smi.log(1000000, "[SMI#processEvent(int,int)] all unbound processed");
                 }
             }
             return true;
         }
-        this.logger.smi.log(-1601830656, "[SMI#processEvent(int,int)] SM-%1 does not exist in System", (long)n);
-        this.logger.smi.log(1078071040, "[SMI#processEvent(int,int)] event (EVENTID#%1) postponed as responsible state machine is not present", (long)n2);
+        this.logger.smi.log(100000, "[SMI#processEvent(int,int)] SM-%1 does not exist in System", (long)n);
+        this.logger.smi.log(1000000, "[SMI#processEvent(int,int)] event (EVENTID#%1) postponed as responsible state machine is not present", (long)n2);
         this.delayedEvent[n] = n2;
         return false;
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelType();
         if (n == 100) {
@@ -497,7 +486,7 @@ implements SMInterpreter {
     private void processModelUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getTerminalID();
         int n2 = modelUpdateEvent.getModelId();
-        this.logger.event.log(1078071040, "[SMI#processModelUpdate] SMI received model-update event (MODELID#%1) with terminalID %2", (long)n2, (long)n);
+        this.logger.event.log(1000000, "[SMI#processModelUpdate] SMI received model-update event (MODELID#%1) with terminalID %2", (long)n2, (long)n);
         if (n == -1) {
             for (int i2 = 0; i2 < 8; ++i2) {
                 StateMachineTerminal stateMachineTerminal = this.getSMTerminal(i2);
@@ -544,15 +533,15 @@ implements SMInterpreter {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void setSDSService(TTSASR tTSASR) {
-        this.logger.smi.log(1078071040, "[SMI#setSDSService] setting sdsService '%1'", (Object)(tTSASR != null ? "available" : "null"));
+        this.logger.smi.log(1000000, "[SMI#setSDSService] setting sdsService '%1'", (Object)(tTSASR != null ? "available" : "null"));
         Object object = this.sdsServiceMutex;
         synchronized (object) {
             this.sdsService = tTSASR;
             StateMachineTerminal stateMachineTerminal = this.getSMTerminal(6);
             if (stateMachineTerminal == null) {
-                this.logger.smi.log(-1601830656, "[SMI#setSDSService] speech terminal still NOT available, waiting for terminal to be started..");
+                this.logger.smi.log(100000, "[SMI#setSDSService] speech terminal still NOT available, waiting for terminal to be started..");
             } else {
-                this.logger.smi.log(1078071040, "[SMI#setSDSService] speech terminal available, setting SDS service...");
+                this.logger.smi.log(1000000, "[SMI#setSDSService] speech terminal available, setting SDS service...");
                 stateMachineTerminal.setSDSService(this.sdsService);
             }
         }
@@ -577,37 +566,88 @@ implements SMInterpreter {
     }
 
     public void triggerSMModuleAddition(SMModule sMModule) {
-        this.logger.smi.log(1078071040, "[SMI#triggerSMModuleAddition] (moduleID=%1)", (long)sMModule.getModuleID());
-        this.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(true, new SMI$AddSMModuleRunnable(this, sMModule)));
+        this.logger.smi.log(1000000, "[SMI#triggerSMModuleAddition] (moduleID=%1)", (long)sMModule.getModuleID());
+        this.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(true, new AddSMModuleRunnable(sMModule)));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void triggerSMModuleRemoval(SMModule sMModule) {
-        this.logger.smi.log(1078071040, "[SMI#triggerSMModuleRemoval] Enter method! (moduleID=%1)", (long)sMModule.getModuleID());
-        SMI$RemoveSMModuleRunnable sMI$RemoveSMModuleRunnable = new SMI$RemoveSMModuleRunnable(this, sMModule);
-        this.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(true, sMI$RemoveSMModuleRunnable));
+        this.logger.smi.log(1000000, "[SMI#triggerSMModuleRemoval] Enter method! (moduleID=%1)", (long)sMModule.getModuleID());
+        RemoveSMModuleRunnable removeSMModuleRunnable = new RemoveSMModuleRunnable(sMModule);
+        this.getFramework().getHMIService().getEventDispatcher().postEvent(new RunnableEvent(true, removeSMModuleRunnable));
         if (this.getFramework().getHMIService().getEventDispatcher().isDispatchThread()) {
-            this.logger.smi.log(1078071040, "[SMI#triggerSMModuleRemoval] Exit method without waiting! (moduleID=%1)", (long)sMModule.getModuleID());
+            this.logger.smi.log(1000000, "[SMI#triggerSMModuleRemoval] Exit method without waiting! (moduleID=%1)", (long)sMModule.getModuleID());
         } else {
-            SMI$RemoveSMModuleRunnable sMI$RemoveSMModuleRunnable2 = sMI$RemoveSMModuleRunnable;
-            synchronized (sMI$RemoveSMModuleRunnable2) {
-                if (!sMI$RemoveSMModuleRunnable.done) {
+            RemoveSMModuleRunnable removeSMModuleRunnable2 = removeSMModuleRunnable;
+            synchronized (removeSMModuleRunnable2) {
+                if (!removeSMModuleRunnable.done) {
                     try {
-                        super.wait(0);
+                        removeSMModuleRunnable.wait(5000L);
                     }
                     catch (InterruptedException interruptedException) {
                         Thread.interrupted();
                     }
                 }
             }
-            this.logger.smi.log(1078071040, "[SMI#triggerSMModuleRemoval] Exit method! (moduleID=%1)", (long)sMModule.getModuleID());
+            this.logger.smi.log(1000000, "[SMI#triggerSMModuleRemoval] Exit method! (moduleID=%1)", (long)sMModule.getModuleID());
         }
     }
 
-    static /* synthetic */ Logger access$000(SMI sMI) {
-        return sMI.logger;
+    public class AddSMModuleRunnable
+    implements Runnable {
+        final SMModule stateMachineModule;
+
+        public AddSMModuleRunnable(SMModule sMModule) {
+            this.stateMachineModule = sMModule;
+        }
+
+        public final void run() {
+            if (!SMI.this.addSMM(this.stateMachineModule)) {
+                ((SMI)SMI.this).logger.smi.log(10000, "[AddSMModuleRunnable#run] Failed to add state machine module! (moduleID=%1)", (long)this.stateMachineModule.getModuleID());
+            }
+        }
+
+        public final String toString() {
+            return new StringBuffer().append("AddSMModuleRunnable( ").append(this.stateMachineModule.getModuleID()).append(" )").toString();
+        }
+    }
+
+    class SyncEventQueueElement {
+        public int sourceTerminalID;
+        public int syncEventID;
+
+        public SyncEventQueueElement(int n, int n2) {
+            this.sourceTerminalID = n;
+            this.syncEventID = n2;
+        }
+    }
+
+    public class RemoveSMModuleRunnable
+    implements Runnable {
+        final SMModule stateMachineModule;
+        boolean done = false;
+
+        public RemoveSMModuleRunnable(SMModule sMModule) {
+            this.stateMachineModule = sMModule;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public final void run() {
+            SMI.this.removeSMM(this.stateMachineModule);
+            RemoveSMModuleRunnable removeSMModuleRunnable = this;
+            synchronized (removeSMModuleRunnable) {
+                this.done = true;
+                this.notifyAll();
+            }
+        }
+
+        public final String toString() {
+            return new StringBuffer().append("RemoveSMModuleRunnable( ").append(this.stateMachineModule.getModuleID()).append(" )").toString();
+        }
     }
 }
 

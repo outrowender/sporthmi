@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app.map.handler;
 
 public interface IDrawerStateHandler {
-    default public void onExitMapScreen() {
-    }
+    public void onExitMapScreen();
 
-    default public boolean isDrawerOpen() {
-    }
+    public boolean isDrawerOpen();
 }
 

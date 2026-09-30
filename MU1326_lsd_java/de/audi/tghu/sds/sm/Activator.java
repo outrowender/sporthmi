@@ -26,7 +26,6 @@ extends AbstractSMMActivator {
     static /* synthetic */ Class class$de$audi$atip$i18n$I18NTarget;
     static /* synthetic */ Class class$de$audi$atip$hmi$SDPromptTextAccess;
 
-    @Override
     public void init() {
         this.smmList = new SDSSMM[8];
         if (this.framework.isFrontMU()) {
@@ -36,7 +35,6 @@ extends AbstractSMMActivator {
         }
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         if (this.framework.isFrontMU()) {
@@ -53,7 +51,6 @@ extends AbstractSMMActivator {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.framework.isFrontMU()) {
             if (this.svRegI18N != null) {

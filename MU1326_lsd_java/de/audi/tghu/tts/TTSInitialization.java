@@ -10,22 +10,16 @@ import org.dsi.ifc.tts.DSITTS;
 import org.dsi.ifc.tts.DSITTSListener;
 
 public interface TTSInitialization {
-    default public void init() {
-    }
+    public void init();
 
-    default public void setAudioService(HMIAudioService hMIAudioService) {
-    }
+    public void setAudioService(HMIAudioService var1);
 
-    default public HMIAudioServiceListener getAudioListener() {
-    }
+    public HMIAudioServiceListener getAudioListener();
 
-    default public void setTTSDSI(DSITTS dSITTS) {
-    }
+    public void setTTSDSI(DSITTS var1);
 
-    default public DSITTSListener getDSITTSListener() {
-    }
+    public DSITTSListener getDSITTSListener();
 
-    default public VolumeOnOffPressListener getVolumeOnOffPressListener() {
-    }
+    public VolumeOnOffPressListener getVolumeOnOffPressListener();
 }
 

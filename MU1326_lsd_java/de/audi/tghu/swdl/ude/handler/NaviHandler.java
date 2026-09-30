@@ -26,47 +26,41 @@ implements DSINavigationListener {
         return "NaviHandler";
     }
 
-    @Override
     public int getID() {
         return 2;
     }
 
-    @Override
     public void addService(Object object) {
-        this.lc.log(-2137614336, "[NaviHandler.registerDSI] %1", object);
+        this.lc.log(10000000, "[NaviHandler.registerDSI] %1", object);
         this.dsi = (DSINavigation)object;
     }
 
-    @Override
     public void removeService(Object object) {
-        this.lc.log(-2137614336, "[NaviHandler.removeService] %1", object);
+        this.lc.log(10000000, "[NaviHandler.removeService] %1", object);
         this.dsi = new NullDSINavigation(this.lc);
     }
 
-    @Override
     public void startExport(AbstractIETask abstractIETask) {
-        this.lc.log(-2137614336, "[NaviHandler.startExport] -> DSINavigation.createExportFile(%1, %2)", (Object)this.file, 0L);
+        this.lc.log(10000000, "[NaviHandler.startExport] -> DSINavigation.createExportFile(%1, %2)", (Object)this.file, 0L);
         this.setTask(abstractIETask);
         this.longRunningTaskTimer.restart();
         this.dsi.createExportFile(this.file, 0);
     }
 
-    @Override
     public void startImport(AbstractIETask abstractIETask) {
         if (!new File(this.file).exists()) {
-            this.lc.log(1078071040, "[NaviHandler.startImport] File not found: %1", (Object)this.file);
+            this.lc.log(1000000, "[NaviHandler.startImport] File not found: %1", (Object)this.file);
             abstractIETask.updateClientResult(this, this.file, false, true);
             return;
         }
-        this.lc.log(-2137614336, "[NaviHandler.startImport] -> DSINavigation.importFile(%1, %2)", (Object)this.file, 0L);
+        this.lc.log(10000000, "[NaviHandler.startImport] -> DSINavigation.importFile(%1, %2)", (Object)this.file, 0L);
         this.setTask(abstractIETask);
         this.longRunningTaskTimer.restart();
         this.dsi.importFile(this.file, 0);
     }
 
-    @Override
     public void createExportFileResult(int n, boolean bl) {
-        this.lc.log(-2137614336, "[NaviHandler] <- DSINavigationListener.createExportFileResult(%2, %1)", bl, (long)n);
+        this.lc.log(10000000, "[NaviHandler] <- DSINavigationListener.createExportFileResult(%2, %1)", bl, (long)n);
         try {
             this.longRunningTaskTimer.cancel();
             this.getTask().updateClientResult(this, this.file, bl, true);
@@ -76,9 +70,8 @@ implements DSINavigationListener {
         }
     }
 
-    @Override
     public void importFileResult(int n, boolean bl) {
-        this.lc.log(-2137614336, "[NaviHandler] <- DSINavigationListener.importFileResult(%2, %1)", bl, (long)n);
+        this.lc.log(10000000, "[NaviHandler] <- DSINavigationListener.importFileResult(%2, %1)", bl, (long)n);
         try {
             this.longRunningTaskTimer.cancel();
             this.getTask().updateClientResult(this, this.file, bl, true);
@@ -88,7 +81,6 @@ implements DSINavigationListener {
         }
     }
 
-    @Override
     public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) {
     }
 }

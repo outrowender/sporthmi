@@ -7,11 +7,12 @@ import de.audi.atip.preset.IAppPresetDefinitionHandler;
 import de.audi.atip.preset.IOnlinePresetHandler;
 import de.audi.atip.preset.ITunerNARHandler;
 import de.audi.atip.preset.Preset;
-import de.eso.widgets.preset.PresetDefinitionHandlerRegistry$1;
 import de.eso.widgets.preset.PresetManager;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
+import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -115,8 +116,53 @@ public final class PresetDefinitionHandlerRegistry {
         return buffer.toString();
     }
 
-    public void startTracker(BundleContext bundleContext) {
-        this.presetHandlerTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$preset$IAppPresetDefinitionHandler == null ? (class$de$audi$atip$preset$IAppPresetDefinitionHandler = PresetDefinitionHandlerRegistry.class$("de.audi.atip.preset.IAppPresetDefinitionHandler")) : class$de$audi$atip$preset$IAppPresetDefinitionHandler).getName(), (ServiceTrackerCustomizer)new PresetDefinitionHandlerRegistry$1(this, bundleContext));
+    public void startTracker(final BundleContext bundleContext) {
+        this.presetHandlerTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$preset$IAppPresetDefinitionHandler == null ? (class$de$audi$atip$preset$IAppPresetDefinitionHandler = PresetDefinitionHandlerRegistry.class$("de.audi.atip.preset.IAppPresetDefinitionHandler")) : class$de$audi$atip$preset$IAppPresetDefinitionHandler).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = null;
+                try {
+                    object = bundleContext.getService(serviceReference);
+                    if (object instanceof IAppPresetDefinitionHandler) {
+                        PresetDefinitionHandlerRegistry.this.registerPresetDefinitionHandler((IAppPresetDefinitionHandler)object);
+                        if (object instanceof ITunerNARHandler) {
+                            PresetDefinitionHandlerRegistry.this.tunerNARHandler = (ITunerNARHandler)object;
+                            PresetDefinitionHandlerRegistry.this.tunerNARHandler.injectPresetManager(PresetDefinitionHandlerRegistry.this.presetManager);
+                        }
+                        if (object instanceof IOnlinePresetHandler) {
+                            PresetDefinitionHandlerRegistry.this.onlineHandler = (IOnlinePresetHandler)object;
+                        }
+                        return object;
+                    }
+                    bundleContext.ungetService(serviceReference);
+                    return null;
+                }
+                catch (Exception exception) {
+                    if (object != null) {
+                        bundleContext.ungetService(serviceReference);
+                    }
+                    return null;
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                try {
+                    bundleContext.ungetService(serviceReference);
+                    if (object instanceof IAppPresetDefinitionHandler) {
+                        PresetDefinitionHandlerRegistry.this.unregisterPresetDefinitionHandler((IAppPresetDefinitionHandler)object);
+                        if (object instanceof ITunerNARHandler) {
+                            PresetDefinitionHandlerRegistry.this.tunerNARHandler = null;
+                        }
+                    }
+                }
+                catch (Exception exception) {
+                    IWidgetLogChannel.logPreset.log(10000, "PresetDefinitionHandlerRegistry#ServiceTracker#removedService %1", (Throwable)exception);
+                }
+            }
+        });
         this.presetHandlerTracker.open();
     }
 
@@ -135,24 +181,6 @@ public final class PresetDefinitionHandlerRegistry {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ ITunerNARHandler access$002(PresetDefinitionHandlerRegistry presetDefinitionHandlerRegistry, ITunerNARHandler iTunerNARHandler) {
-        presetDefinitionHandlerRegistry.tunerNARHandler = iTunerNARHandler;
-        return presetDefinitionHandlerRegistry.tunerNARHandler;
-    }
-
-    static /* synthetic */ PresetManager access$100(PresetDefinitionHandlerRegistry presetDefinitionHandlerRegistry) {
-        return presetDefinitionHandlerRegistry.presetManager;
-    }
-
-    static /* synthetic */ ITunerNARHandler access$000(PresetDefinitionHandlerRegistry presetDefinitionHandlerRegistry) {
-        return presetDefinitionHandlerRegistry.tunerNARHandler;
-    }
-
-    static /* synthetic */ IOnlinePresetHandler access$202(PresetDefinitionHandlerRegistry presetDefinitionHandlerRegistry, IOnlinePresetHandler iOnlinePresetHandler) {
-        presetDefinitionHandlerRegistry.onlineHandler = iOnlinePresetHandler;
-        return presetDefinitionHandlerRegistry.onlineHandler;
     }
 }
 

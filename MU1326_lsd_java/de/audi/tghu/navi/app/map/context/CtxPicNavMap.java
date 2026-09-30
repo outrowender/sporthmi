@@ -15,15 +15,14 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public class CtxPicNavMap
 extends CtxTMCMap {
-    private static final float DEFAULT_ZOOM_LEVEL;
+    private static final float DEFAULT_ZOOM_LEVEL = 400.0f;
 
     public CtxPicNavMap(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
-        this.getLogChannel().log(1078071040, "CtxPicNavMap#enter()");
+        this.getLogChannel().log(1000000, "CtxPicNavMap#enter()");
         super.enter();
         this.showPicNavDestination(false);
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
@@ -35,19 +34,16 @@ extends CtxTMCMap {
         this.backupPOIVisibilityAndHideAllPOIs();
     }
 
-    @Override
     public void enterEpilogue() {
         this.showMap(true);
         this.unfreezeMap();
     }
 
-    @Override
     public void exit() {
-        this.getLogChannel().log(1078071040, "CtxPicNavMap#exit()");
+        this.getLogChannel().log(1000000, "CtxPicNavMap#exit()");
         super.exit();
     }
 
-    @Override
     public NavLocation getEnterInMapLocation() {
         return this.container.sPicNavMapLocation;
     }
@@ -72,18 +68,17 @@ extends CtxTMCMap {
         return this.container.sPicNavMapTooltipLocator;
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
         if (!bl) {
             ResourceLocator resourceLocator = this.getPicNavMapTooltipLocator();
             String string = this.getPicNavMapTooltipString();
             float f2 = this.getZoomHandler().getZoom();
-            if (resourceLocator != null && !Util.isEmpty(string) && f2 <= 5292871) {
-                this.getLogChannel().log(-2137614336, "CtxPicNavMap#updateViewFreeze(): requesting delayed ToolTip %1", (Object)string);
+            if (resourceLocator != null && !Util.isEmpty(string) && f2 <= 100000.0f) {
+                this.getLogChannel().log(10000000, "CtxPicNavMap#updateViewFreeze(): requesting delayed ToolTip %1", (Object)string);
                 this.showToolTipAfterTimeout(string, this.getCrosshairHotPointX(), this.getCrosshairHotPointY(), null, null, false, true, resourceLocator);
             } else {
-                this.getLogChannel().log(-2137614336, "CtxPicNavMap#updateViewFreeze(): hiding ToolTip, zoomIndex: %1", (Object)Float.toString(f2));
+                this.getLogChannel().log(10000000, "CtxPicNavMap#updateViewFreeze(): hiding ToolTip, zoomIndex: %1", (Object)Float.toString(f2));
                 this.hideToolTip();
             }
         }
@@ -93,17 +88,17 @@ extends CtxTMCMap {
         boolean bl = this.naviMap.getMVResponseControl().getViewFreeze();
         ResourceLocator resourceLocator = this.getPicNavMapTooltipLocator();
         String string = this.getPicNavMapTooltipString();
-        if (resourceLocator != null && !Util.isEmpty(string) && !bl && n <= this.retrieveZoomListIndex(5292871)) {
-            this.getLogChannel().log(-2137614336, "CtxPicNavMap#tmcToolTipHandling(): requesting ToolTip %1", (Object)string);
+        if (resourceLocator != null && !Util.isEmpty(string) && !bl && n <= this.retrieveZoomListIndex(100000.0f)) {
+            this.getLogChannel().log(10000000, "CtxPicNavMap#tmcToolTipHandling(): requesting ToolTip %1", (Object)string);
             this.naviMap.getMapTooltip().showToolTip(string, this.getCrosshairHotPointX(), this.getCrosshairHotPointY(), null, null, false, true, resourceLocator);
         } else {
-            this.getLogChannel().log(-2137614336, "CtxPicNavMap#tmcToolTipHandling(): hiding ToolTip, mapFrozen: %1, zoomIndex: %2", bl, (long)n);
+            this.getLogChannel().log(10000000, "CtxPicNavMap#tmcToolTipHandling(): hiding ToolTip, mapFrozen: %1, zoomIndex: %2", bl, (long)n);
             this.hideToolTip();
         }
     }
 
     private void resolvePicNavLocation(NavLocation navLocation, ResourceLocator resourceLocator) {
-        this.getLogChannel().log(1078071040, "CtxPicNavMap#resolvePicNavLocation() - picNavLocation: %1, picNavLocator: %2", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)resourceLocator);
+        this.getLogChannel().log(1000000, "CtxPicNavMap#resolvePicNavLocation() - picNavLocation: %1, picNavLocator: %2", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)resourceLocator);
         this.setPicNavMapTooltipString(null);
         if (navLocation != null && resourceLocator != null) {
             if (navLocation.isPositionValid()) {
@@ -113,15 +108,14 @@ extends CtxTMCMap {
             this.getLogChannel().log(10000, "CtxPicNavMap#resolvePicNavLocation() - did not find valid location for address resolution!");
             return;
         }
-        this.getLogChannel().log(-1601830656, "CtxPicNavMap#resolvePicNavLocation() - picNavLocation or picNavLocator is null!");
+        this.getLogChannel().log(100000, "CtxPicNavMap#resolvePicNavLocation() - picNavLocation or picNavLocator is null!");
     }
 
-    @Override
     public void updatePicNavLocation(NavLocation navLocation, ResourceLocator resourceLocator) {
-        this.getLogChannel().log(1078071040, "CtxPicNavMap#updatePicNavLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.getLogChannel().log(1000000, "CtxPicNavMap#updatePicNavLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
         String string = this.naviMap.getTooltipFormatter().formatPicNavLocation(navLocation);
         if (Util.isEmpty(string)) {
-            this.getLogChannel().log(-1601830656, "CtxPicNavMap#updatePicNavLocation() - failed to retrieve tooltip string, showing only the picture!");
+            this.getLogChannel().log(100000, "CtxPicNavMap#updatePicNavLocation() - failed to retrieve tooltip string, showing only the picture!");
             string = "";
         }
         this.setPicNavMapTooltipLocator(resourceLocator);
@@ -130,17 +124,17 @@ extends CtxTMCMap {
     }
 
     private void showPicNavDestination(boolean bl) {
-        this.getLogChannel().log(1078071040, "CtxPicNavMap#showPicNavDestination()");
+        this.getLogChannel().log(1000000, "CtxPicNavMap#showPicNavDestination()");
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         NavLocation navLocation = this.getEnterInMapLocation();
         if (navLocation != null) {
             this.hideToolTip();
             this.resolvePicNavLocation(navLocation, this.getPicNavMapTooltipLocator());
-            this.getZoomHandler().setZoomLevel(51267);
-            this.getLogChannel().log(-2137614336, "CtxPicNavMap#showPicNavDestination() - setLocationByLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.getZoomHandler().setZoomLevel(400.0f);
+            this.getLogChannel().log(10000000, "CtxPicNavMap#showPicNavDestination() - setLocationByLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
             iMapRequest.setLocationByLocation(navLocation);
         } else {
-            this.getLogChannel().log(-1601830656, "CtxPicNavMap#showPicNavDestination() - location not set!");
+            this.getLogChannel().log(100000, "CtxPicNavMap#showPicNavDestination() - location not set!");
         }
         if (bl) {
             this.setPictureNavigationIconVisibility();
@@ -156,10 +150,9 @@ extends CtxTMCMap {
         }
     }
 
-    @Override
     public void setPicNavMapLocation(NavLocation navLocation, boolean bl, int n, ResourceLocator resourceLocator) {
         super.setPicNavMapLocation(navLocation, bl, n, resourceLocator);
-        this.getLogChannel().log(1078071040, "CtxPicNavMap#setPicNavMapLocation()");
+        this.getLogChannel().log(1000000, "CtxPicNavMap#setPicNavMapLocation()");
         this.freezeMap();
         this.showPicNavDestination(true);
         this.getMapFlagHandler().refresh(true);
@@ -170,12 +163,12 @@ extends CtxTMCMap {
     }
 
     public void showMapInMapPictureDest(int n, int n2) {
-        this.getLogChannel().log(1078071040, "Context#showPictureDestForMapInMap() - longitude: %1, latitude: %2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "Context#showPictureDestForMapInMap() - longitude: %1, latitude: %2", (long)n, (long)n2);
         this.notifyMapInMapPictureDestOn(n, n2);
     }
 
     public void hideMapInMapPictureDest() {
-        this.getLogChannel().log(-2137614336, "Context#hideMapInMapPictureDest()");
+        this.getLogChannel().log(10000000, "Context#hideMapInMapPictureDest()");
         this.notifyMapInMapPictureDestOff();
     }
 
@@ -185,7 +178,6 @@ extends CtxTMCMap {
     void notifyMapInMapPictureDestOff() {
     }
 
-    @Override
     public MapPin[] getDynamicPins() {
         NavLocation navLocation = this.getEnterInMapLocation();
         if (navLocation != null) {

@@ -58,7 +58,6 @@ extends AbstractMemoryRow {
         return this.station.service;
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         return new TunerObjectContainer(new DabStation(this.station));
     }
@@ -72,7 +71,6 @@ extends AbstractMemoryRow {
         this.setText(0, this.station.getFullName());
     }
 
-    @Override
     public void resetProgramData() {
         super.resetProgramData();
         this.setHMIResourceLocator(10, this.station.getImage(0));
@@ -81,13 +79,11 @@ extends AbstractMemoryRow {
         this.resetOverwrite();
     }
 
-    @Override
     public void setProgramData(TunerObjectContainer tunerObjectContainer, int n) {
         super.setProgramData(tunerObjectContainer, n);
         this.tmpOverwrite(tunerObjectContainer);
     }
 
-    @Override
     public EvoListRow copy() {
         return new DABMemoryRow(this);
     }

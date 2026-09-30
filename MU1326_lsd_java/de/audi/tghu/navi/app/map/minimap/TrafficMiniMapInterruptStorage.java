@@ -24,18 +24,18 @@ public class TrafficMiniMapInterruptStorage {
             Integer n = null;
             ArrayList arrayList = new ArrayList();
             for (int i2 = 0; i2 < interruptArray.length; ++i2) {
-                this.logger.log(1078071040, "TrafficMiniMapInterruptStorage#getNewInterrupts %1 of %2", (long)(1 + i2), (long)interruptArray.length);
+                this.logger.log(1000000, "TrafficMiniMapInterruptStorage#getNewInterrupts %1 of %2", (long)(1 + i2), (long)interruptArray.length);
                 interrupt = interruptArray[i2];
                 if (null == interrupt) {
-                    this.logger.log(-1601830656, "TrafficMiniMapInterruptStorage#getNewInterrupts interrupts[%1] nulled! -> continue", (long)i2);
+                    this.logger.log(100000, "TrafficMiniMapInterruptStorage#getNewInterrupts interrupts[%1] nulled! -> continue", (long)i2);
                     continue;
                 }
                 n = new Integer(interrupt.getInterruptId());
                 if (this.storage.containsKey(n)) {
-                    this.logger.log(1078071040, "TrafficMiniMapInterruptStorage#getNewInterrupts %1 is already in cache.", (Object)n);
+                    this.logger.log(1000000, "TrafficMiniMapInterruptStorage#getNewInterrupts %1 is already in cache.", (Object)n);
                     continue;
                 }
-                this.logger.log(1078071040, "TrafficMiniMapInterruptStorage#getNewInterrupts adding id=%1 to cache (size was %2 before).", (Object)n, (long)this.storage.size());
+                this.logger.log(1000000, "TrafficMiniMapInterruptStorage#getNewInterrupts adding id=%1 to cache (size was %2 before).", (Object)n, (long)this.storage.size());
                 this.storage.put(n, null);
                 arrayList.add(interrupt);
             }

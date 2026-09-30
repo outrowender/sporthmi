@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(1, "Tuner", System.getProperty("variant.skin", "EvoHighScale"), new TunerModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new TunerScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new TunerConditionBank((TunerScreenFactory)this.getScreenFactory());

@@ -26,7 +26,6 @@ extends MapItemSelectionActionShow {
         this.urlOnlineGoogleEarthMapPoi = string;
     }
 
-    @Override
     public void setPreviewMap(int n, AbstractMap abstractMap, IPreviewMap iPreviewMap, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
         abstractMap.getGuiInterface().newPoiPreviewMapSelectionMade(true);
         iPreviewMap.setPreviewMapPositionRefreshAllowed(false);

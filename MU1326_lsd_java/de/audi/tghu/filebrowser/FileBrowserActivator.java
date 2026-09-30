@@ -39,7 +39,6 @@ ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$tghu$filebrowser$IFileBrowserManager;
     static /* synthetic */ Class class$de$audi$atip$i18n$I18NTarget;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.log = this.framework.getLogChannel("Fw.FileBrowser");
@@ -70,7 +69,6 @@ ServiceTrackerCustomizer {
         this.manager.stop();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.serviceTracker = this.closeTracker(this.serviceTracker);
         if (this.sRefDSIFileBrowser != null) {
@@ -80,7 +78,6 @@ ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIFileBrowser) {
@@ -96,11 +93,9 @@ ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object == this.dsiFileBrowser) {
             this.manager.stop();

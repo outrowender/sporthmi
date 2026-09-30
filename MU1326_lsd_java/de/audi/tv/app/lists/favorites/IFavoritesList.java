@@ -8,43 +8,30 @@ import org.dsi.ifc.tvtuner.ProgramInfo;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface IFavoritesList {
-    default public void addFavorite(ServiceInfo serviceInfo, long l, boolean bl) {
-    }
+    public void addFavorite(ServiceInfo var1, long var2, boolean var4);
 
-    default public void setFavorites(ServiceInfo[] serviceInfoArray, long[] lArray, long l) {
-    }
+    public void setFavorites(ServiceInfo[] var1, long[] var2, long var3);
 
-    default public ServiceInfo getServiceByIndex(int n) {
-    }
+    public ServiceInfo getServiceByIndex(int var1);
 
-    default public void removeService(long l) {
-    }
+    public void removeService(long var1);
 
-    default public void clearList(boolean bl) {
-    }
+    public void clearList(boolean var1);
 
-    default public ServiceInfo[] getServices() {
-    }
+    public ServiceInfo[] getServices();
 
-    default public ServiceInfo[] getServicesFromMemory() {
-    }
+    public ServiceInfo[] getServicesFromMemory();
 
-    default public long[] getFavoritesIDs() {
-    }
+    public long[] getFavoritesIDs();
 
-    default public boolean updateSelectedProgram(ProgramInfo programInfo) {
-    }
+    public boolean updateSelectedProgram(ProgramInfo var1);
 
-    default public boolean updateSelectedService(ServiceInfo serviceInfo) {
-    }
+    public boolean updateSelectedService(ServiceInfo var1);
 
-    default public ServiceInfo getServiceForUniqueID(long l) {
-    }
+    public ServiceInfo getServiceForUniqueID(long var1);
 
-    default public long getFavoriteID(ServiceInfo serviceInfo) {
-    }
+    public long getFavoriteID(ServiceInfo var1);
 
-    default public void updateStationLogos(LogoInfo[] logoInfoArray) {
-    }
+    public void updateStationLogos(LogoInfo[] var1);
 }
 

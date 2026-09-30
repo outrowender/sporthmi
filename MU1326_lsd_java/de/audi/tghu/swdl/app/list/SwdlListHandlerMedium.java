@@ -31,7 +31,6 @@ extends AbstractSwdlListHandlerText {
         return this.selectionManager;
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = new ListCell[this.getNrCol()];
         listCellArray[0] = new IntegerListCell(-1, 99);
@@ -59,9 +58,9 @@ extends AbstractSwdlListHandlerText {
                     nArray[this.mediaInfo.length] = i2 + 1;
                     this.mediaInfo = nArray;
                     bl = true;
-                    this.getLogHMI().log(-2137614336, "[SwdlListHandlerMedium] insertMissingMedia(): %1", (long)(i2 + 1));
+                    this.getLogHMI().log(10000000, "[SwdlListHandlerMedium] insertMissingMedia(): %1", (long)(i2 + 1));
                 } else {
-                    this.getLogHMI().log(-2137614336, "[SwdlListHandlerMedium] insertMissingMedia():  %1 is already inserted", (long)(i2 + 1));
+                    this.getLogHMI().log(10000000, "[SwdlListHandlerMedium] insertMissingMedia():  %1 is already inserted", (long)(i2 + 1));
                 }
             }
             by = (byte)(by >> 1);
@@ -70,15 +69,15 @@ extends AbstractSwdlListHandlerText {
     }
 
     public void updateList(int[] nArray) {
-        this.getLogHMI().log(-2137614336, "[SwdlListHandlerMedium] New Medium Info received. ");
+        this.getLogHMI().log(10000000, "[SwdlListHandlerMedium] New Medium Info received. ");
         if (nArray == null) {
-            this.getLogHMI().log(-2137614336, "[SwdlListHandlerMedium] <null> list ");
+            this.getLogHMI().log(10000000, "[SwdlListHandlerMedium] <null> list ");
             nArray = new int[]{};
         }
         this.mediaInfo = nArray;
-        if (this.getLogHMI().getCurrentLogThreshold() == 14808325) {
+        if (this.getLogHMI().getCurrentLogThreshold() == 100000000) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
-                this.getLogHMI().log(14808325, "[SwdlListHandlerMedium] Medium %1: %2 ", (long)i2, (long)nArray[i2]);
+                this.getLogHMI().log(100000000, "[SwdlListHandlerMedium] Medium %1: %2 ", (long)i2, (long)nArray[i2]);
             }
         }
         this.adjustListLength(nArray.length);
@@ -89,7 +88,7 @@ extends AbstractSwdlListHandlerText {
                 System.arraycopy((Object)nArray, 0, (Object)nArray2, 0, nArray2.length);
                 nArray = nArray2;
                 this.getList().removeRow(this.getList().getLength() - 1);
-                this.getLogHMI().log(-2137614336, "[SwdlListHandlerMedium] updateList(): skip not allowed media %1", (long)0);
+                this.getLogHMI().log(10000000, "[SwdlListHandlerMedium] updateList(): skip not allowed media %1", 7L);
             }
             ISwdlListItem[] iSwdlListItemArray = new SwdlListItemMedium[nArray.length];
             for (int i3 = 0; i3 < nArray.length; ++i3) {
@@ -119,7 +118,7 @@ extends AbstractSwdlListHandlerText {
     public void updateAvailableMedia(byte by) {
         this.m_availableMediaFlags = (0xFF & by) << 1;
         if (this.insertMissingMedia(by)) {
-            this.getLogHMI().log(-2137614336, "[SwdlListHandlerMedium] updateAvailableMedia(%1): update media list", (long)by);
+            this.getLogHMI().log(10000000, "[SwdlListHandlerMedium] updateAvailableMedia(%1): update media list", (long)by);
             this.updateList(this.mediaInfo);
         } else {
             this.updateStateOfAvailableAndUnavailableMedia();

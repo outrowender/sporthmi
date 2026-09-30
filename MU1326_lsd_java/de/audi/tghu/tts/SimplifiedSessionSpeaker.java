@@ -25,23 +25,22 @@ implements TTSSingleSpeakService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void speakImpl(String string) {
-        this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speak] Called, text: %1", (Object)string);
+        this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speak] Called, text: %1", (Object)string);
         this.textToSpeak = string;
         Object object = this.statusMutex;
         synchronized (object) {
             if (this.sessionStatus == 2) {
-                this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speak] Session active -> start speaking.", (long)this.sessionStatus);
+                this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speak] Session active -> start speaking.", (long)this.sessionStatus);
                 this.ttsService.speak(string);
                 return;
             }
             if (this.sessionStatus == 1) {
-                this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speak] Session starting -> NOP.");
+                this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speak] Session starting -> NOP.");
                 return;
             }
             if (this.sessionStatus == 3) {
-                this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speak] Session stopping -> set restartFlag.", (long)this.sessionStatus);
+                this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speak] Session stopping -> set restartFlag.", (long)this.sessionStatus);
                 this.setRestartSessionFlag(true);
                 return;
             }
@@ -52,54 +51,50 @@ implements TTSSingleSpeakService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void sessionStarted() {
-        this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#sessionStarted] Called.");
+        this.logCh.log(10000000, "[SimplifiedSessionSpeaker#sessionStarted] Called.");
         Object object = this.statusMutex;
         synchronized (object) {
             if (this.getSessionStatus() == 3) {
-                this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#stopSession] Session is stopping -> NOP!");
+                this.logCh.log(10000000, "[SimplifiedSessionSpeaker#stopSession] Session is stopping -> NOP!");
                 return;
             }
             this.setSessionStatus((byte)2);
         }
         if (this.ttsListener != null) {
-            this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#sessionStarted] Call TTSListener INSTANCE...");
+            this.logCh.log(10000000, "[SimplifiedSessionSpeaker#sessionStarted] Call TTSListener INSTANCE...");
             this.ttsListener.sessionStarted();
         }
         this.ttsService.speak(this.textToSpeak);
     }
 
-    @Override
     public void speakingFinished() {
         this.checkStopSession();
         if (this.ttsListener != null) {
-            this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speakingFinished] Calling TTSManagerListener instance...");
+            this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speakingFinished] Calling TTSManagerListener instance...");
             this.ttsListener.speakingFinished();
         }
     }
 
     private void checkStopSession() {
         if (this.ttsService.isRequestQueueIdle()) {
-            this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speakingFinished] RequestQueue idle -> stop session of single speak...");
+            this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speakingFinished] RequestQueue idle -> stop session of single speak...");
             this.stopSession();
         }
     }
 
-    @Override
     public void speakingAborted() {
         this.checkStopSession();
         if (this.ttsListener != null) {
-            this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speakingAborted] Call TTSListener INSTANCE...");
+            this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speakingAborted] Call TTSListener INSTANCE...");
             this.ttsListener.speakingAborted();
         }
     }
 
-    @Override
     public void speakingFailed() {
         this.checkStopSession();
         if (this.ttsListener != null) {
-            this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#speakingFailed] Call TTSListener INSTANCE...");
+            this.logCh.log(10000000, "[SimplifiedSessionSpeaker#speakingFailed] Call TTSListener INSTANCE...");
             this.ttsListener.speakingFailed();
         }
     }
@@ -107,14 +102,13 @@ implements TTSSingleSpeakService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stopSession() {
-        this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#stopSession] Called.");
+        this.logCh.log(10000000, "[SimplifiedSessionSpeaker#stopSession] Called.");
         Object object = this.statusMutex;
         synchronized (object) {
             this.setRestartSessionFlag(false);
             if (this.getSessionStatus() == 3 || this.getSessionStatus() == 0) {
-                this.logCh.log(-2137614336, "[SimplifiedSessionSpeaker#stopSession] Session already stopped/stopping -> NOP!");
+                this.logCh.log(10000000, "[SimplifiedSessionSpeaker#stopSession] Session already stopped/stopping -> NOP!");
                 return;
             }
             this.setSessionStatus((byte)3);

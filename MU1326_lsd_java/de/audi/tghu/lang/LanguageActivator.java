@@ -38,7 +38,6 @@ implements ServiceTrackerCustomizer {
         return this.langMngr;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.langMngr = new LanguageManager(this.framework);
         this.sregDiagApp = bundleContext.registerService(new String[]{(class$de$audi$atip$diag$IDiagnosisApp == null ? (class$de$audi$atip$diag$IDiagnosisApp = LanguageActivator.class$("de.audi.atip.diag.IDiagnosisApp")) : class$de$audi$atip$diag$IDiagnosisApp).getName(), (class$de$esolutions$fw$util$commons$error$DumpInfoProvider == null ? (class$de$esolutions$fw$util$commons$error$DumpInfoProvider = LanguageActivator.class$("de.esolutions.fw.util.commons.error.DumpInfoProvider")) : class$de$esolutions$fw$util$commons$error$DumpInfoProvider).getName()}, (Object)this.langMngr, null);
@@ -47,7 +46,6 @@ implements ServiceTrackerCustomizer {
         this.tracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sregDiagApp != null) {
             this.sregDiagApp.unregister();
@@ -61,7 +59,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof I18NTarget) {
@@ -76,11 +73,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (!(object instanceof I18NTarget)) {
             return;

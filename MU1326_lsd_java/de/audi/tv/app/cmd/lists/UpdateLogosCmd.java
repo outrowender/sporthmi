@@ -19,11 +19,10 @@ extends AbstractTVCommand {
         this.logos = logoInfoArray;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(14808325, "[UpdateLogosCmd.execute] command started");
+        this.logger.log(100000000, "[UpdateLogosCmd.execute] command started");
         this.resource.updateLogoList(this.logos);
-        this.logger.log(14808325, "[UpdateLogosCmd.execute] command finished");
+        this.logger.log(100000000, "[UpdateLogosCmd.execute] command finished");
         this.commandFinished();
     }
 }

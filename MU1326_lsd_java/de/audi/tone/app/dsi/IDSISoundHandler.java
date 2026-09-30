@@ -7,112 +7,76 @@ import de.audi.tone.app.AmplifierVariant;
 import org.dsi.ifc.audio.DSISound;
 
 public interface IDSISoundHandler {
-    default public void registerDSI(DSISound dSISound) {
-    }
+    public void registerDSI(DSISound var1);
 
-    default public void deregisterDSISound() {
-    }
+    public void deregisterDSISound();
 
-    default public void increaseVolume(int n, int n2, int n3) {
-    }
+    public void increaseVolume(int var1, int var2, int var3);
 
-    default public void decreaseVolume(int n, int n2, int n3) {
-    }
+    public void decreaseVolume(int var1, int var2, int var3);
 
-    default public void changeBalance(int n, int n2) {
-    }
+    public void changeBalance(int var1, int var2);
 
-    default public void setBalance(int n, int n2) {
-    }
+    public void setBalance(int var1, int var2);
 
-    default public void changeFader(int n, int n2) {
-    }
+    public void changeFader(int var1, int var2);
 
-    default public void setFader(int n, int n2) {
-    }
+    public void setFader(int var1, int var2);
 
-    default public void changeBass(int n, int n2) {
-    }
+    public void changeBass(int var1, int var2);
 
-    default public void changeTreble(int n, int n2) {
-    }
+    public void changeTreble(int var1, int var2);
 
-    default public void changeNoiseCompensation(int n) {
-    }
+    public void changeNoiseCompensation(int var1);
 
-    default public void setNoiseCompensation(int n) {
-    }
+    public void setNoiseCompensation(int var1);
 
-    default public void changeSubwoofer(int n, int n2) {
-    }
+    public void changeSubwoofer(int var1, int var2);
 
-    default public void changeSurroundLevel(int n, int n2) {
-    }
+    public void changeSurroundLevel(int var1, int var2);
 
-    default public void setVolume(int n, int n2, int n3) {
-    }
+    public void setVolume(int var1, int var2, int var3);
 
-    default public void getVolume(int n, int n2) {
-    }
+    public void getVolume(int var1, int var2);
 
-    default public void changeLoweringEntertainment(int n, int n2, int n3) {
-    }
+    public void changeLoweringEntertainment(int var1, int var2, int var3);
 
-    default public void setLoweringEntertainment(int n, int n2) {
-    }
+    public void setLoweringEntertainment(int var1, int var2);
 
-    default public void revertToFactorySettings(int n, int[] nArray, String string) {
-    }
+    public void revertToFactorySettings(int var1, int[] var2, String var3);
 
-    default public void revertToFactorySettings(int n, int n2) {
-    }
+    public void revertToFactorySettings(int var1, int var2);
 
-    default public void setPresetPosition(int n, int n2) {
-    }
+    public void setPresetPosition(int var1, int var2);
 
-    default public void setPresetEQ(int n, int n2) {
-    }
+    public void setPresetEQ(int var1, int var2);
 
-    default public void getMenuVolumeRange(int n, int n2) {
-    }
+    public void getMenuVolumeRange(int var1, int var2);
 
-    default public void getMenuVolEntRange(int n) {
-    }
+    public void getMenuVolEntRange(int var1);
 
-    default public void getInputGainOffsetRange(int n, int n2) {
-    }
+    public void getInputGainOffsetRange(int var1, int var2);
 
-    default public void getInputGainOffset(int n, int n2) {
-    }
+    public void getInputGainOffset(int var1, int var2);
 
-    default public void changeInputGainOffset(int n, int n2, int n3) {
-    }
+    public void changeInputGainOffset(int var1, int var2, int var3);
 
-    default public void setMicGainLevel(int n) {
-    }
+    public void setMicGainLevel(int var1);
 
-    default public void setThreeDMode(int n) {
-    }
+    public void setThreeDMode(int var1);
 
-    default public void setThreeDMode(int n, int n2, int n3) {
-    }
+    public void setThreeDMode(int var1, int var2, int var3);
 
-    default public void setSurround(int n, int n2, boolean bl) {
-    }
+    public void setSurround(int var1, int var2, boolean var3);
 
-    default public void setSurround(int n, boolean bl) {
-    }
+    public void setSurround(int var1, boolean var2);
 
-    default public void setInputGainOffSet(int n, int n2, short s) {
-    }
+    public void setInputGainOffSet(int var1, int var2, short var3);
 
-    default public void setDuration(int n, int n2) {
-    }
+    public void setDuration(int var1, int var2);
 
-    default public void getLoweringEntertainment(int n, int n2, int n3) {
-    }
+    public void getLoweringEntertainment(int var1, int var2, int var3);
 
-    default public AmplifierVariant getAmplifierVariant() {
-    }
+    public AmplifierVariant getAmplifierVariant();
 }
 

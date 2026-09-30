@@ -8,7 +8,7 @@ import de.audi.atip.audio.HMIAudioServiceListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.waveplayer.SystemTonePlayer;
 import de.audi.tghu.waveplayer.WavePlayer;
-import de.eso.widgets.preset.BeepHandler$MyWavePlayerListener;
+import de.audi.tghu.waveplayer.WavePlayerListener;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -40,13 +40,13 @@ ServiceTrackerCustomizer {
     }
 
     private void registerSystemTonePlayer(SystemTonePlayer systemTonePlayer) {
-        lc.log(-2137614336, "BeepHandler#registerSystemTonePlayer");
-        systemTonePlayer.setListener(new BeepHandler$MyWavePlayerListener(this, null));
+        lc.log(10000000, "BeepHandler#registerSystemTonePlayer");
+        systemTonePlayer.setListener(new MyWavePlayerListener());
         this.systemTone = systemTonePlayer;
     }
 
     public void requestBeep() {
-        lc.log(-2137614336, "BeepHandler#requestBeep");
+        lc.log(10000000, "BeepHandler#requestBeep");
         if (this.audioService != null) {
             this.audioService.requestConnection(120);
             this.systemToneRequested = true;
@@ -75,43 +75,36 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
-        lc.log(-2137614336, "BeepHandler#updateAMAvailable available=%1", bl);
+        lc.log(10000000, "BeepHandler#updateAMAvailable available=%1", bl);
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
-        lc.log(-2137614336, "BeepHandler#stopConnection connection=%1", (long)n);
+        lc.log(10000000, "BeepHandler#stopConnection connection=%1", (long)n);
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
-        lc.log(-2137614336, "BeepHandler#pauseConnection connection=%1", (long)n);
+        lc.log(10000000, "BeepHandler#pauseConnection connection=%1", (long)n);
     }
 
-    @Override
     public void startConnection(int n, int n2) {
-        lc.log(1078071040, "BeepHandler#startConnection now fade to connection=%2 if systemToneRequested(%1)", this.systemToneRequested, (long)n);
+        lc.log(1000000, "BeepHandler#startConnection now fade to connection=%2 if systemToneRequested(%1)", this.systemToneRequested, (long)n);
         if (n == 120 && this.systemToneRequested) {
             this.audioService.fadeToConnection(n);
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
-        lc.log(-1601830656, "BeepHandler#errorConnection connection=%1, errorCode=%2", (long)n, (long)n3);
+        lc.log(100000, "BeepHandler#errorConnection connection=%1, errorCode=%2", (long)n, (long)n3);
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
-        lc.log(1078071040, "BeepHandler#fadeIn now play beep if systemToneRequested(%1)(connection=%2)", this.systemToneRequested, (long)n);
+        lc.log(1000000, "BeepHandler#fadeIn now play beep if systemToneRequested(%1)(connection=%2)", this.systemToneRequested, (long)n);
         if (n == 120 && this.systemToneRequested) {
             this.playBeep();
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof HMIAudioService) {
@@ -130,15 +123,12 @@ ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 
@@ -151,12 +141,21 @@ ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ LogChannel access$100() {
-        return lc;
-    }
+    private class MyWavePlayerListener
+    implements WavePlayerListener {
+        private MyWavePlayerListener() {
+        }
 
-    static /* synthetic */ void access$200(BeepHandler beepHandler) {
-        beepHandler.releaseAudio();
+        public void state(int n) {
+            lc.log(10000000, "BeepHandler#MyWavePlayerListener#state %1", (long)n);
+            if (n != 0) {
+                BeepHandler.this.releaseAudio();
+            }
+        }
+
+        public void playToneInfo(int n) {
+            lc.log(10000000, "BeepHandler#MyWavePlayerListener#playToneInfo playTone=%1 set.", (long)n);
+        }
     }
 }
 

@@ -19,7 +19,7 @@ import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public class PoiResultRRDListProvider
 implements IRRDListProvider {
-    public static final int CALCULATION_LIMIT_POI_RESULT;
+    public static final int CALCULATION_LIMIT_POI_RESULT = 10;
     private final LogChannel poiLogChannel;
     private final BaseListModelApp listModel;
     private final int modelId;
@@ -32,15 +32,14 @@ implements IRRDListProvider {
         this.poiLogChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     public NavLocationWgs84[] getRRDCalculationList() {
-        this.poiLogChannel.log(-2137614336, "PoiResultRRDListProvider#getRRDCalculationList()");
+        this.poiLogChannel.log(10000000, "PoiResultRRDListProvider#getRRDCalculationList()");
         ArrayList arrayList = new ArrayList();
         for (int i2 = 0; i2 < 10; ++i2) {
             EvoListRow evoListRow = this.listModel.getRow(i2);
             if (evoListRow == null) continue;
             if (!(evoListRow instanceof DistanceDifferentiationRow)) {
-                this.poiLogChannel.log(-2137614336, "PoiResultRRDListProvider#getAllVisibleRowsFromListModel() Row is not null. But its not an instance of DistanceDifferentiationRow");
+                this.poiLogChannel.log(10000000, "PoiResultRRDListProvider#getAllVisibleRowsFromListModel() Row is not null. But its not an instance of DistanceDifferentiationRow");
                 continue;
             }
             DistanceDifferentiationRow distanceDifferentiationRow = (DistanceDifferentiationRow)((Object)evoListRow);
@@ -49,13 +48,12 @@ implements IRRDListProvider {
         return (NavLocationWgs84[])arrayList.toArray(new NavLocationWgs84[arrayList.size()]);
     }
 
-    @Override
     public void updateDirectionAndAirDistance(PosPosition posPosition) {
         if (this.listModel == null || this.listModel.getLength() == 0) {
             if (this.listModel == null) {
-                this.poiLogChannel.log(-1601830656, "PoiResultRRDListProvider#updateDirectionAndAirDistance listModel with ID = %1 is null", (long)this.modelId);
+                this.poiLogChannel.log(100000, "PoiResultRRDListProvider#updateDirectionAndAirDistance listModel with ID = %1 is null", (long)this.modelId);
             } else {
-                this.poiLogChannel.log(-1601830656, "PoiResultRRDListProvider#updateDirectionAndAirDistance List is empty");
+                this.poiLogChannel.log(100000, "PoiResultRRDListProvider#updateDirectionAndAirDistance List is empty");
             }
             return;
         }
@@ -68,13 +66,11 @@ implements IRRDListProvider {
         this.listModel.update(baseListModelApp);
     }
 
-    @Override
     public int getRRDListCalculationLimit() {
-        this.poiLogChannel.log(-2137614336, "PoiResultRRDListProvider#getRRDListCalculationLimit()");
+        this.poiLogChannel.log(10000000, "PoiResultRRDListProvider#getRRDListCalculationLimit()");
         return 10;
     }
 
-    @Override
     public void updateRRDDistances(RrdCalculationInfo[] rrdCalculationInfoArray) {
         int n;
         Buffer buffer = new Buffer();
@@ -83,9 +79,9 @@ implements IRRDListProvider {
                 buffer.append("[null]; ");
                 continue;
             }
-            buffer.append(new StringBuffer().append(rrdCalculationInfoArray[n].toString()).append("; ").toString());
+            buffer.append(rrdCalculationInfoArray[n].toString() + "; ");
         }
-        this.poiLogChannel.log(-2137614336, "PoiResultRRDListProvider#updateRRDDistances(%1)", (Object)buffer.toString());
+        this.poiLogChannel.log(10000000, "PoiResultRRDListProvider#updateRRDDistances(%1)", (Object)buffer.toString());
         for (n = 0; n < rrdCalculationInfoArray.length; ++n) {
             EvoListRow evoListRow;
             RrdCalculationInfo rrdCalculationInfo = rrdCalculationInfoArray[n];
@@ -95,9 +91,8 @@ implements IRRDListProvider {
         }
     }
 
-    @Override
     public void unitsChanged() {
-        this.poiLogChannel.log(-2137614336, "PoiResultRRDListProvider#unitsChanged()");
+        this.poiLogChannel.log(10000000, "PoiResultRRDListProvider#unitsChanged()");
     }
 }
 

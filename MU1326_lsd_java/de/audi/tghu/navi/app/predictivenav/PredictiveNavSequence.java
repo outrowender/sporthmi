@@ -5,8 +5,8 @@ package de.audi.tghu.navi.app.predictivenav;
 
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.PredictiveNavigationSetActivationModeCommand;
-import de.audi.tghu.navi.app.predictivenav.PredictiveNavSequence$1;
 import org.dsi.ifc.global.NavSegmentID;
 
 public class PredictiveNavSequence {
@@ -16,9 +16,15 @@ public class PredictiveNavSequence {
         this.commandListFactory = iCommandListFactory;
     }
 
-    public void startGuidanceBySegmendID(NavSegmentID navSegmentID) {
+    public void startGuidanceBySegmendID(final NavSegmentID navSegmentID) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new PredictiveNavSequence$1(this, "enqueue the StartGuidanceDependantSequence for SeLeNa route", navSegmentID));
+        commandList.add(new NavCommand("enqueue the StartGuidanceDependantSequence for SeLeNa route"){
+
+            public void execute() {
+                this.navigation.getStartGuidanceDependantSequence().start(navSegmentID);
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("PredictiveNavSequence#startGuidanceBySegmendID");
     }
 

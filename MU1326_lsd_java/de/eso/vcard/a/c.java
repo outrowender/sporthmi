@@ -32,19 +32,18 @@ implements de.eso.a.a.a {
         this.e = vCardParserReply;
     }
 
-    @Override
     public void a() {
         try {
             this.b();
         }
         catch (MethodException methodException) {
-            de.eso.a.d.b.d(new StringBuffer().append("Cannot send reply parseVCardDirectoryResult: ").append(methodException.getMessage()).toString());
+            de.eso.a.d.b.d("Cannot send reply parseVCardDirectoryResult: " + methodException.getMessage());
         }
     }
 
     private void b() {
         if (this.b == null || this.b.length() < 1) {
-            de.eso.a.d.b.a(new StringBuffer().append(this.b).append(" IS NOT A VCARD FOLDER! Ignoring parseVCard call, sending FILE_NOT_FOUND result.").toString());
+            de.eso.a.d.b.a(this.b + " IS NOT A VCARD FOLDER! Ignoring parseVCard call, sending FILE_NOT_FOUND result.");
             this.e.parseVCardDirectoryResult(2, null, this.c, this.d);
             return;
         }
@@ -67,13 +66,13 @@ implements de.eso.a.a.a {
             } else if (d2.accept(file.getParentFile(), file.getName())) {
                 n = this.a(file);
             } else {
-                de.eso.a.d.b.a(new StringBuffer().append(this.b).append(" is an existing file, but it's not a .vcf file").toString());
+                de.eso.a.d.b.a(this.b + " is an existing file, but it's not a .vcf file");
                 n = 1;
             }
             AdbEntry[] adbEntryArray = (AdbEntry[])this.a.toArray(new AdbEntry[this.a.size()]);
             this.e.parseVCardDirectoryResult(n, adbEntryArray, this.c, this.d);
         } else {
-            de.eso.a.d.b.a(new StringBuffer().append(this.b).append(" IS NOT A VCARD FOLDER! Ignoring parseVCard call, sending FILE_NOT_FOUND result.").toString());
+            de.eso.a.d.b.a(this.b + " IS NOT A VCARD FOLDER! Ignoring parseVCard call, sending FILE_NOT_FOUND result.");
             this.e.parseVCardDirectoryResult(2, null, this.c, this.d);
         }
     }
@@ -98,7 +97,7 @@ implements de.eso.a.a.a {
             return 3;
         }
         catch (Throwable throwable) {
-            de.eso.a.d.b.d(new StringBuffer().append("Severe vcard error: ").append(throwable.getMessage()).toString());
+            de.eso.a.d.b.d("Severe vcard error: " + throwable.getMessage());
             this.a.add(null);
             return 3;
         }

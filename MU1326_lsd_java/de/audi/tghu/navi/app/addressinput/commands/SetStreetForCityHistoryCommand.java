@@ -7,18 +7,16 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class SetStreetForCityHistoryCommand
 extends NavCommand {
-    @Override
     public void execute() {
         this.getDSINavigation().liSetStreetForCityHistory(this.dsiResponseContainer.getLiCurrentLD().street);
     }
 
-    @Override
     public void liHistoryResult(int n) {
         if (n == 0) {
-            this.logger.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#updateLiCityHistory#liHistoryResult() - result OK").toString());
+            this.logger.log(10000000, this.CLASS_NAME + "#updateLiCityHistory#liHistoryResult() - result OK");
             this.getCommandList().commandFinished();
         } else {
-            this.logger.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#updateLiCityHistory#liHistoryResult() - commandAborted").toString());
+            this.logger.log(10000000, this.CLASS_NAME + "#updateLiCityHistory#liHistoryResult() - commandAborted");
             this.getCommandList().commandAborted(n);
         }
     }

@@ -6,13 +6,10 @@ package de.audi.tghu.navi.app.routeguidance;
 import org.dsi.ifc.navigation.Route;
 
 public interface IRouteGuidanceStateModelAccess {
-    default public void updateRgActive(boolean bl, Route route) {
-    }
+    public void updateRgActive(boolean var1, Route var2);
 
-    default public void updateActiveDestinations(int n) {
-    }
+    public void updateActiveDestinations(int var1);
 
-    default public void setPredictiveRgRunning(boolean bl) {
-    }
+    public void setPredictiveRgRunning(boolean var1);
 }
 

@@ -8,22 +8,16 @@ import de.audi.tuner.ifc.ISearchBreak;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 
 public interface IStationListHandler {
-    default public boolean tuneById(long l, int n) {
-    }
+    public boolean tuneById(long var1, int var3);
 
-    default public void addUpdateListener(IUpdateListener iUpdateListener) {
-    }
+    public void addUpdateListener(IUpdateListener var1);
 
-    default public void setPrefImgType(int n) {
-    }
+    public void setPrefImgType(int var1);
 
-    default public boolean isEnsemble(int n) {
-    }
+    public boolean isEnsemble(int var1);
 
-    default public void register(ISearchBreak iSearchBreak, int n) {
-    }
+    public void register(ISearchBreak var1, int var2);
 
-    default public void register(IDrawerFocusManager iDrawerFocusManager) {
-    }
+    public void register(IDrawerFocusManager var1);
 }
 

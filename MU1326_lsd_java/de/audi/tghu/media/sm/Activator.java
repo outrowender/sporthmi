@@ -9,7 +9,6 @@ import de.audi.tghu.media.sm.MediaSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new MediaSMM[8];
         if (this.framework.isFrontMU()) {

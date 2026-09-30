@@ -21,17 +21,15 @@ extends NavCommand {
         this.singleRouteMode = n <= 1;
     }
 
-    @Override
     public void execute() {
         this.dsiResponseContainer.setIndexOfCalculatedRoutes(0);
         this.navigation.getDemoModeManager().setDemoModeRoute(this.route);
         this.navigation.getMapInterface().startRouteCalculation(this.route, this.numberOfRoutes, this.prepareMap, false, false);
-        this.logger.log(-2137614336, "RGCalculateRoute#execute() - calling rgCalculateRoute( %1, %2 ) ", (Object)RouteUtil.formatRouteShort(this.route), (long)this.numberOfRoutes);
+        this.logger.log(10000000, "RGCalculateRoute#execute() - calling rgCalculateRoute( %1, %2 ) ", (Object)RouteUtil.formatRouteShort(this.route), (long)this.numberOfRoutes);
         this.getDSINavigation().rgCalculateRoute(this.route, this.numberOfRoutes);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void rgNotPossible(int n) {
         this.logger.log(10000, "RGCalculateRoute#rgNotPossible() - route could not be calculated ( %1 )!", (long)n);
         this.getCommandList().commandAborted(n);

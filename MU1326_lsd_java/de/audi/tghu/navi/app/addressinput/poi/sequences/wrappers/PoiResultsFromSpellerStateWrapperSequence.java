@@ -12,7 +12,7 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.LiGetStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultsGeneralInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.AbstractWrapperSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiResultsFromSpellerStateWrapperSequence$1;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import org.dsi.ifc.navigation.LISpellerData;
@@ -48,12 +48,17 @@ extends AbstractWrapperSequence {
         this.selectByUID = bl;
     }
 
-    @Override
     public void start() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiClassResultsFromSpellerStateWrapperSequence#start() - classElementIndex: %1 ", (Object)this.classElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiClassResultsFromSpellerStateWrapperSequence#start() - classElementIndex: %1 ", (Object)this.classElement);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetStateCommand());
-        commandList.add(new PoiResultsFromSpellerStateWrapperSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiResultsFromSpellerStateWrapperSequence.this.initialSpellerState = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new LIRestoreStateCommand(this.classesSpellerData));
         PoiResultsGeneralInputSequence poiResultsGeneralInputSequence = new PoiResultsGeneralInputSequence(this.modelAccess, this.commandListFactory, this.searchArea, this.env, this.classElement, this.vehicle, this.selectByUID, this.minInitialResults, this.detailsScreen);
         this.currentInputSequence = poiResultsGeneralInputSequence;
@@ -61,10 +66,9 @@ extends AbstractWrapperSequence {
         commandList.execute("PoiResultsFromSpellerStateWrapperSequence#start");
     }
 
-    @Override
     protected CommandList restoreCurrent() {
         if (this.initialSpellerState == null) {
-            this.env.getLogChannel().log(-1601830656, "[PoiInput] PoiClassResultsFromSpellerStateWrapperSequence#Invalid sequence state - spellerState is null.");
+            this.env.getLogChannel().log(100000, "[PoiInput] PoiClassResultsFromSpellerStateWrapperSequence#Invalid sequence state - spellerState is null.");
             return null;
         }
         CommandList commandList = this.commandListFactory.createCommandList();

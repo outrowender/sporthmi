@@ -3,6 +3,7 @@
  */
 package de.audi.tuner.app.amfm;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.MemoryListHandler;
@@ -19,9 +20,6 @@ import de.audi.tuner.app.amfm.AbstractAmFmSpellerHandler;
 import de.audi.tuner.app.amfm.AmSpellerHandler;
 import de.audi.tuner.app.amfm.FmSpellerHandler;
 import de.audi.tuner.app.amfm.FunctionWheelHandler;
-import de.audi.tuner.app.amfm.GUIHandlerAMFM$ChoiceListener;
-import de.audi.tuner.app.amfm.GUIHandlerAMFM$DsiDownListener;
-import de.audi.tuner.app.amfm.GUIHandlerAMFM$PowerEventListener;
 import de.audi.tuner.app.amfm.dsi.AMFMDsiDownInfo;
 import de.audi.tuner.app.amfm.dsi.RadioInfo;
 import de.audi.tuner.app.amfm.stationlist.AmStationList;
@@ -46,7 +44,7 @@ import java.util.ArrayList;
 
 public class GUIHandlerAMFM
 implements ITunerAMFMGUIHandler {
-    final AMFMDsiDownInfo dsiDownInfo = new GUIHandlerAMFM$DsiDownListener(this, null);
+    final AMFMDsiDownInfo dsiDownInfo = new DsiDownListener();
     private final FunctionWheelHandler fmWheel;
     private final FunctionWheelHandler amWheel;
     private boolean blockDuringManualTune = false;
@@ -60,7 +58,7 @@ implements ITunerAMFMGUIHandler {
     private final TunerStatus status;
     private final MemoryListHandler memory;
     private final AMFMSetupHandler setupHandler;
-    private final GUIHandlerAMFM$ChoiceListener choiceListener = new GUIHandlerAMFM$ChoiceListener(this, null);
+    private final ChoiceListener choiceListener = new ChoiceListener();
     private long afOffFrequency;
     private final AbstractAmFmSpellerHandler fmSpellerHandler;
     private final AbstractAmFmSpellerHandler amSpellerHandler;
@@ -82,8 +80,8 @@ implements ITunerAMFMGUIHandler {
         this.amStationList.init(tunerStorage);
         this.tiStationList = new TiStationList(tunerBasics, this.recordSets, abstractListRowFactory, aMFMTuner, languageManager, iScanHandler, tunerStorage, memoryListHandler.storeHandler);
         this.tiStationList.init(tunerStorage);
-        this.fmWheel = new FunctionWheelHandler(tunerBasics, aMFMTuner, this.models.getRangeModel(1032323328), 1, iScanHandler, this.models.getLabelModel(-527957760));
-        this.amWheel = new FunctionWheelHandler(tunerBasics, aMFMTuner, this.models.getRangeModel(881328384), 3, iScanHandler, this.models.getLabelModel(1619591424));
+        this.fmWheel = new FunctionWheelHandler(tunerBasics, aMFMTuner, this.models.getRangeModel(100413), 1, iScanHandler, this.models.getLabelModel(100576));
+        this.amWheel = new FunctionWheelHandler(tunerBasics, aMFMTuner, this.models.getRangeModel(100404), 3, iScanHandler, this.models.getLabelModel(100704));
         if (Utilities.isPGen1OrBentley() && Utilities.isNARBuild()) {
             FmSpellerHandler fmSpellerHandler = new FmSpellerHandler(tunerBasics, aMFMTuner, iScanHandler);
             aMFMTuner.registerDsiUpDownListener(fmSpellerHandler.fmUpListener);
@@ -100,56 +98,54 @@ implements ITunerAMFMGUIHandler {
     }
 
     private void initModels() {
-        this.models.getChoiceModel(-1417215744).setValue(Utilities.isPiIgnore() ? 1 : 0);
+        this.models.getChoiceModel(100267).setValue(Utilities.isPiIgnore() ? 1 : 0);
         if (Utilities.isPiIgnore()) {
-            this.models.getChoiceModel(780665088).setStatus(0);
-            this.models.getChoiceModel(797442304).setStatus(0);
-            this.models.getChoiceModel(763887872).setStatus(0);
+            this.models.getChoiceModel(100398).setStatus(0);
+            this.models.getChoiceModel(100399).setStatus(0);
+            this.models.getChoiceModel(100397).setStatus(0);
         } else {
-            this.models.getChoiceModel(780665088).setStatus(1);
-            this.models.getChoiceModel(797442304).setStatus(1);
-            this.models.getChoiceModel(763887872).setStatus(1);
+            this.models.getChoiceModel(100398).setStatus(1);
+            this.models.getChoiceModel(100399).setStatus(1);
+            this.models.getChoiceModel(100397).setStatus(1);
         }
         if (Utilities.isNARBuild() && Utilities.isNARBandCoded()) {
-            this.models.getChoiceModel(227082496).setStatus(1);
+            this.models.getChoiceModel(100621).setStatus(1);
         }
-        this.models.setChoiceDataUpdateMediator(646447360, 3);
-        this.models.getChoiceModel(780665088).setChoiceListener(this.choiceListener);
+        this.models.setChoiceDataUpdateMediator(100390, 3);
+        this.models.getChoiceModel(100398).setChoiceListener(this.choiceListener);
         if (Utilities.isJapan() && Utilities.isHigh()) {
-            this.models.getChoiceModel(713556224).setStatus(0);
-            this.models.getChoiceModel(747110656).setStatus(0);
+            this.models.getChoiceModel(100394).setStatus(0);
+            this.models.getChoiceModel(100396).setStatus(0);
         } else {
-            this.models.getChoiceModel(747110656).setStatus(0);
+            this.models.getChoiceModel(100396).setStatus(0);
         }
         if (!Utilities.isPiIgnore() || Utilities.isJapan()) {
-            this.models.getChoiceModel(730333440).setStatus(0);
+            this.models.getChoiceModel(100395).setStatus(0);
         } else {
-            this.models.getChoiceModel(730333440).setStatus(1);
-            this.models.getChoiceModel(713556224).setStatus(0);
+            this.models.getChoiceModel(100395).setStatus(1);
+            this.models.getChoiceModel(100394).setStatus(0);
         }
-        this.models.getChoiceModel(713556224).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(763887872).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(-1400372992).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(797442304).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(747110656).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(730333440).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(-561512192).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(-544734976).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(-1987575552).setButtonListener(this.choiceListener);
-        this.models.getButtonModel(-74972928).setButtonListener(this.choiceListener);
-        this.models.getButtonModel(528941312).setButtonListener(this.choiceListener);
-        this.models.getButtonModel(830931200).setButtonListener(this.choiceListener);
+        this.models.getChoiceModel(100394).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100397).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100524).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100399).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100396).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100395).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100574).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100575).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100489).setButtonListener(this.choiceListener);
+        this.models.getButtonModel(100603).setButtonListener(this.choiceListener);
+        this.models.getButtonModel(100127).setButtonListener(this.choiceListener);
+        this.models.getButtonModel(100145).setButtonListener(this.choiceListener);
     }
 
-    @Override
     public void register(IStoreStationHandler iStoreStationHandler) {
         this.fmStationList.register(iStoreStationHandler);
         this.amStationList.register(iStoreStationHandler);
     }
 
-    @Override
     public IPowerEvent getPoPowerStateListener() {
-        return new GUIHandlerAMFM$PowerEventListener(this, null);
+        return new PowerEventListener();
     }
 
     void initSetup() {
@@ -159,25 +155,23 @@ implements ITunerAMFMGUIHandler {
 
     void processSetup(int[] nArray) {
         if (nArray != null) {
-            this.choiceListener.itemSelected(780665088, nArray[1], 0, 0);
-            this.choiceListener.itemSelected(797442304, nArray[2], 0, 0);
-            this.choiceListener.itemSelected(730333440, nArray[5], 0, 0);
-            this.choiceListener.itemSelected(747110656, nArray[6], 0, 0);
-            this.choiceListener.itemSelected(763887872, nArray[7], 0, 0);
-            this.choiceListener.itemSelected(-1400372992, nArray[0], 0, 0);
-            this.models.getChoiceModel(-561512192).setValue(nArray[9]);
-            this.choiceListener.itemSelected(-544734976, nArray[8], 0, 0);
+            this.choiceListener.itemSelected(100398, nArray[1], 0, 0);
+            this.choiceListener.itemSelected(100399, nArray[2], 0, 0);
+            this.choiceListener.itemSelected(100395, nArray[5], 0, 0);
+            this.choiceListener.itemSelected(100396, nArray[6], 0, 0);
+            this.choiceListener.itemSelected(100397, nArray[7], 0, 0);
+            this.choiceListener.itemSelected(100524, nArray[0], 0, 0);
+            this.models.getChoiceModel(100574).setValue(nArray[9]);
+            this.choiceListener.itemSelected(100575, nArray[8], 0, 0);
         }
     }
 
-    @Override
     public IStationListHandler getStationListHandler() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public void setSelectedStation(AMFMStation aMFMStation) {
-        this.logger.amfmDSI.log(-2137614336, "[GUIHandlerAMFM.setSelectedStation] %1", (Object)aMFMStation);
+        this.logger.amfmDSI.log(10000000, "[GUIHandlerAMFM.setSelectedStation] %1", (Object)aMFMStation);
         switch (aMFMStation.waveband) {
             case 1: {
                 if (this.blockDuringManualTune && aMFMStation.frequency != this.fmWheel.getPosition()) {
@@ -213,12 +207,11 @@ implements ITunerAMFMGUIHandler {
         if (historyTuner != null) {
             historyTuner.setNamesOnOff(bl);
         }
-        this.models.getChoiceModel(747110656).setValue(n);
+        this.models.getChoiceModel(100396).setValue(n);
         this.amFmTuner.reNotification(2);
         this.amFmTuner.reNotification(3);
     }
 
-    @Override
     public boolean tuneById(long l, int n) {
         int n2 = this.models.getActiveTuner();
         switch (n2) {
@@ -235,12 +228,10 @@ implements ITunerAMFMGUIHandler {
         return false;
     }
 
-    @Override
     public TunerObjectContainer[] getStationList() {
         return this.getStationList(this.models.getActiveTuner());
     }
 
-    @Override
     public TunerObjectContainer[] getStationList(int n) {
         switch (n) {
             case 1: {
@@ -256,7 +247,6 @@ implements ITunerAMFMGUIHandler {
         return new TunerObjectContainer[0];
     }
 
-    @Override
     public TunerObjectContainer getCurrentStation() {
         IAmFmStationList iAmFmStationList = null;
         int n = this.models.getActiveTuner();
@@ -342,41 +332,147 @@ implements ITunerAMFMGUIHandler {
         return (RadioInfo[])arrayList.toArray(new RadioInfo[arrayList.size()]);
     }
 
-    static /* synthetic */ long access$300(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.afOffFrequency;
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            ((GUIHandlerAMFM)GUIHandlerAMFM.this).logger.hmi.log(100000000, "[GUIHandlerAMFM.itemSelected] model:%1 index:%2", (long)n, (long)n2);
+            switch (n) {
+                case 100397: {
+                    GUIHandlerAMFM.this.models.getChoiceModel(100397).setValue(n2);
+                    GUIHandlerAMFM.this.fmStationList.setSortAlgo(n2);
+                    GUIHandlerAMFM.this.setupHandler.valueUpdated(n2, 7);
+                    break;
+                }
+                case 100524: {
+                    GUIHandlerAMFM.this.models.getChoiceModel(100524).setValue(n2);
+                    GUIHandlerAMFM.this.amStationList.setSortAlgo(n2);
+                    GUIHandlerAMFM.this.setupHandler.valueUpdated(n2, 0);
+                    break;
+                }
+                case 100398: {
+                    GUIHandlerAMFM.this.models.getChoiceModel(100398).setValue(n2);
+                    GUIHandlerAMFM.this.amFmTuner.switchAF(n2 == 1);
+                    if (!Utilities.isAfAutoResetActivated()) break;
+                    GUIHandlerAMFM.this.afOffFrequency = (int)((GUIHandlerAMFM)GUIHandlerAMFM.this).amFmTuner.getActiveStationFM().frequency;
+                    break;
+                }
+                case 100399: {
+                    GUIHandlerAMFM.this.models.getChoiceModel(100399).setValue(n2);
+                    GUIHandlerAMFM.this.amFmTuner.switchReg(n2 == 1);
+                    break;
+                }
+                case 100574: {
+                    boolean bl = n2 == 1;
+                    boolean bl2 = GUIHandlerAMFM.this.models.getChoiceModel(100575).getValue() == 1;
+                    GUIHandlerAMFM.this.amFmTuner.switchHD(bl, bl2);
+                    break;
+                }
+                case 100575: {
+                    boolean bl = GUIHandlerAMFM.this.models.getChoiceModel(100574).getValue() == 1;
+                    boolean bl3 = n2 == 1;
+                    GUIHandlerAMFM.this.amFmTuner.switchHD(bl, bl3);
+                    break;
+                }
+                case 100396: {
+                    GUIHandlerAMFM.this.switchNamesOnOff(n2);
+                    GUIHandlerAMFM.this.models.getChoiceModel(100396).setValue(n2);
+                    GUIHandlerAMFM.this.setupHandler.valueUpdated(n2, 6);
+                    break;
+                }
+                case 100395: {
+                    GUIHandlerAMFM.this.amFmTuner.getStationNameHistory().setStationDisplayModeFixed(n2 == 1);
+                    GUIHandlerAMFM.this.models.getChoiceModel(100395).setValue(n2);
+                    GUIHandlerAMFM.this.setupHandler.valueUpdated(n2, 5);
+                    break;
+                }
+                default: {
+                    return;
+                }
+            }
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            ((GUIHandlerAMFM)GUIHandlerAMFM.this).logger.amfmGUI.log(100000000, "[GUIHAMFM.keyTyped] %1", (long)n);
+            switch (n) {
+                case 100489: {
+                    GUIHandlerAMFM.this.amFmTuner.forceStationListUpdate(true);
+                    GUIHandlerAMFM.this.models.getChoiceModel(n).setValue(1);
+                    GUIHandlerAMFM.this.models.getChoiceModel(n).fireEvent(n3);
+                    break;
+                }
+                case 100603: {
+                    GUIHandlerAMFM.this.amFmTuner.nextSubChannel(n3);
+                    break;
+                }
+                default: {
+                    return;
+                }
+            }
+        }
+
+        public void keyReleased(int n, int n2, int n3) {
+            ((GUIHandlerAMFM)GUIHandlerAMFM.this).logger.amfmGUI.log(100000000, "[GUIHAMFM.keyReleased] %1", (long)n);
+            switch (n) {
+                case 100127: {
+                    GUIHandlerAMFM.this.amFmTuner.seekStation(1, n3);
+                    break;
+                }
+                case 100145: {
+                    GUIHandlerAMFM.this.amFmTuner.seekStation(2, n3);
+                    break;
+                }
+            }
+        }
+
+        public void keyLongTyped(int n, int n2, int n3) {
+            ((GUIHandlerAMFM)GUIHandlerAMFM.this).logger.amfmGUI.log(100000000, "[GUIHAMFM.keyLongTyped] %1", (long)n);
+            switch (n) {
+                case 100127: {
+                    GUIHandlerAMFM.this.amFmTuner.seekStation(5, n3);
+                    break;
+                }
+                case 100145: {
+                    GUIHandlerAMFM.this.amFmTuner.seekStation(6, n3);
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TunerModels access$400(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.models;
+    private class DsiDownListener
+    extends AMFMDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        public void preTuneAction(AMFMStation aMFMStation, boolean bl) {
+            if (Utilities.isAfAutoResetActivated() && aMFMStation.waveband == 1 && GUIHandlerAMFM.this.afOffFrequency != aMFMStation.frequency && GUIHandlerAMFM.this.models.getChoiceModel(100398).getValue() == 0) {
+                ((GUIHandlerAMFM)GUIHandlerAMFM.this).logger.amfmDSI.log(1000000, "[GUIHandlerAMFM] auto enable AF");
+                GUIHandlerAMFM.this.choiceListener.itemSelected(100398, 1, 0, 0);
+            }
+        }
+
+        public void switchHdOn(AMFMStation aMFMStation) {
+            if (aMFMStation.waveband == 1 && GUIHandlerAMFM.this.models.getChoiceModel(100575).getValue() == 0) {
+                GUIHandlerAMFM.this.choiceListener.itemSelected(100575, 1, 0, 0);
+            } else if (aMFMStation.waveband == 3 && GUIHandlerAMFM.this.models.getChoiceModel(100574).getValue() == 0) {
+                GUIHandlerAMFM.this.choiceListener.itemSelected(100574, 1, 0, 0);
+            }
+        }
     }
 
-    static /* synthetic */ Logger access$500(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.logger;
-    }
+    private class PowerEventListener
+    implements IPowerEvent {
+        private PowerEventListener() {
+        }
 
-    static /* synthetic */ GUIHandlerAMFM$ChoiceListener access$600(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.choiceListener;
-    }
-
-    static /* synthetic */ IAmFmStationList access$700(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.fmStationList;
-    }
-
-    static /* synthetic */ AMFMSetupHandler access$800(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.setupHandler;
-    }
-
-    static /* synthetic */ AmStationList access$900(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.amStationList;
-    }
-
-    static /* synthetic */ AMFMTuner access$1000(GUIHandlerAMFM gUIHandlerAMFM) {
-        return gUIHandlerAMFM.amFmTuner;
-    }
-
-    static /* synthetic */ long access$302(GUIHandlerAMFM gUIHandlerAMFM, long l) {
-        gUIHandlerAMFM.afOffFrequency = l;
-        return gUIHandlerAMFM.afOffFrequency;
+        public void notifyPowerEvent(int n, int n2) {
+            if (n == 2 && GUIHandlerAMFM.this.models.getChoiceModel(100489).getValue() == 1) {
+                GUIHandlerAMFM.this.amFmTuner.forceStationListUpdate(false);
+            }
+        }
     }
 }
 

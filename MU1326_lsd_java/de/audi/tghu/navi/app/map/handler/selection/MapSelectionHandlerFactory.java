@@ -8,7 +8,6 @@ import de.audi.tghu.navi.app.map.INaviInterface;
 import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandler;
 
 public interface MapSelectionHandlerFactory {
-    default public MapSelectionHandler createSelectionHandler(AbstractMap abstractMap, INaviInterface iNaviInterface) {
-    }
+    public MapSelectionHandler createSelectionHandler(AbstractMap var1, INaviInterface var2);
 }
 

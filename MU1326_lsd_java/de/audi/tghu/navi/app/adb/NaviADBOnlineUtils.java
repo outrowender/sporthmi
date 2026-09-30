@@ -4,9 +4,10 @@
 package de.audi.tghu.navi.app.adb;
 
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.adb.NaviADBOnlineUtils$1;
 import de.audi.tghu.navi.app.call.CommandListCallManager;
+import de.audi.tghu.navi.app.call.NavSimpleCall;
 import de.audi.tghu.navi.app.dsi.DSINavigationManager;
+import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.organizer.AdbEntry;
@@ -23,17 +24,37 @@ public class NaviADBOnlineUtils {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public static synchronized NavLocation resolveGeoCoords(NavigationEnv navigationEnv, DSINavigationManager dSINavigationManager, int n, int n2, CommandListCallManager commandListCallManager) {
-        NavLocation navLocation = Util.getLocationFromGeoPos(n, n2);
+    public static synchronized NavLocation resolveGeoCoords(final NavigationEnv navigationEnv, final DSINavigationManager dSINavigationManager, int n, int n2, CommandListCallManager commandListCallManager) {
+        final NavLocation navLocation = Util.getLocationFromGeoPos(n, n2);
         NavLocation navLocation2 = null;
         if (navLocation != null) {
             Object object = resolveGeoCoordsMutex;
             synchronized (object) {
                 navigationEnv.getContainer().setTransformedLocation(null);
-                NaviADBOnlineUtils$1 naviADBOnlineUtils$1 = new NaviADBOnlineUtils$1(navigationEnv.getCommandLogChannel(), "ResolveGeoCoordsCall", navLocation, dSINavigationManager, navigationEnv);
-                commandListCallManager.executeCall(naviADBOnlineUtils$1, "NaviADBOnlineUtils.resolveGeoCoords", false);
+                NavSimpleCall navSimpleCall = new NavSimpleCall(navigationEnv.getCommandLogChannel(), "ResolveGeoCoordsCall"){
+
+                    public void execute() {
+                        this.logger.log(10000000, "NaviADBOnlineUtils#execute( ResolveGeoCoordsCall ) - calling liGetLocationDescriptionTransform( %1 ) ", (Object)LocationFormatter.formatLocationShort(navLocation));
+                        dSINavigationManager.getDSINavigation(0).liGetLocationDescriptionTransform(navLocation);
+                    }
+
+                    /*
+                     * WARNING - Removed try catching itself - possible behaviour change.
+                     */
+                    public void liGetLocationDescriptionTransformResult(NavLocation navLocation2) {
+                        Object object;
+                        this.logger.log(10000000, "NaviADBOnlineUtils#liGetLocationDescriptionTransformResult() ");
+                        Object object2 = object = resolveGeoCoordsMutex;
+                        synchronized (object2) {
+                            navigationEnv.getContainer().setTransformedLocation(navLocation2);
+                            object.notifyAll();
+                        }
+                        this.callFinished();
+                    }
+                };
+                commandListCallManager.executeCall(navSimpleCall, "NaviADBOnlineUtils.resolveGeoCoords", false);
                 try {
-                    resolveGeoCoordsMutex.wait(0);
+                    resolveGeoCoordsMutex.wait(5000L);
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();
@@ -42,10 +63,6 @@ public class NaviADBOnlineUtils {
             }
         }
         return navLocation2;
-    }
-
-    static /* synthetic */ Object access$000() {
-        return resolveGeoCoordsMutex;
     }
 }
 

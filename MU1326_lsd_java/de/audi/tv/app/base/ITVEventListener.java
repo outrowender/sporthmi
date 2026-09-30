@@ -14,43 +14,30 @@ extends IAudioListener,
 IChildLockListener,
 ITunerStatusListener,
 IListFocusListener {
-    default public void onSelectedServiceDebounced(ProgramInfo programInfo) {
-    }
+    public void onSelectedServiceDebounced(ProgramInfo var1);
 
-    default public void onPowerStateStandby() {
-    }
+    public void onPowerStateStandby();
 
-    default public void onPowerStateOn() {
-    }
+    public void onPowerStateOn();
 
-    default public void onAppActivated(int n) {
-    }
+    public void onAppActivated(int var1);
 
-    default public void onAppDeactivated(int n) {
-    }
+    public void onAppDeactivated(int var1);
 
-    default public void onDSILocked() {
-    }
+    public void onDSILocked();
 
-    default public void onDSIUnlocked() {
-    }
+    public void onDSIUnlocked();
 
-    default public void onFullscreenEntered(int n) {
-    }
+    public void onFullscreenEntered(int var1);
 
-    default public void onFullscreenLeft(int n) {
-    }
+    public void onFullscreenLeft(int var1);
 
-    default public void makeFactoryReset() {
-    }
+    public void makeFactoryReset();
 
-    default public void onEWSInfoVisibilityChange(boolean bl) {
-    }
+    public void onEWSInfoVisibilityChange(boolean var1);
 
-    default public void onMuGotTvAudioFocus() {
-    }
+    public void onMuGotTvAudioFocus();
 
-    default public void onTerminalModeInputModeChange(int n) {
-    }
+    public void onTerminalModeInputModeChange(int var1);
 }
 

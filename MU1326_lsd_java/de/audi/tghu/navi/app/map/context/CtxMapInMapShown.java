@@ -6,7 +6,7 @@ package de.audi.tghu.navi.app.map.context;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.GUIInterface;
-import de.audi.tghu.navi.app.map.context.CTags$HasZoomArea;
+import de.audi.tghu.navi.app.map.context.CTags;
 import de.audi.tghu.navi.app.map.context.CtxShown;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.dsi.MVResponseControl;
@@ -15,27 +15,24 @@ import org.dsi.ifc.map.Rect;
 
 public class CtxMapInMapShown
 extends CtxShown
-implements CTags$HasZoomArea {
-    private static final int MAP_IN_MAP_VIEWSIZE_WIDTH;
-    private static final int MAP_IN_MAP_VIEWSIZE_HEIGHT;
-    private static final MapFlag[] EMPTY_FLAGS;
+implements CTags.HasZoomArea {
+    private static final int MAP_IN_MAP_VIEWSIZE_WIDTH = 293;
+    private static final int MAP_IN_MAP_VIEWSIZE_HEIGHT = 323;
+    private static final MapFlag[] EMPTY_FLAGS = new MapFlag[0];
     private int mapMode = 0;
 
     public CtxMapInMapShown(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enterPrologue() {
     }
 
-    @Override
     public void enterEpilogue() {
     }
 
-    @Override
     public void enter() {
-        this.getLogChannel().log(-2137614336, "CtxMapInMapShown#enter() - enter");
+        this.getLogChannel().log(10000000, "CtxMapInMapShown#enter() - enter");
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         iMapRequest.viewFreeze(true);
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
@@ -66,18 +63,16 @@ implements CTags$HasZoomArea {
         iMapRequest.viewFreeze(false);
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         this.check();
     }
 
-    @Override
     public void updateViewVisible(boolean bl) {
         this.check();
     }
 
     private void check() {
-        this.getLogChannel().log(-2137614336, "CtxMapInMapShown#check()");
+        this.getLogChannel().log(10000000, "CtxMapInMapShown#check()");
         MVResponseControl mVResponseControl = this.getMap().getMVResponseControl();
         if (mVResponseControl.getViewVisible() && !mVResponseControl.getViewFreeze()) {
             this.getMap().getRouteInfoContextHandler().updateMapInMapViewVisibleAndUnfrozen(true, true);
@@ -89,20 +84,16 @@ implements CTags$HasZoomArea {
     }
 
     public void itemSelected(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "CtxMapInMapShown#itemSelected(%1, %2)", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxMapInMapShown#itemSelected(%1, %2)", (long)n, (long)n2);
         switch (n) {
             case 400786: {
                 this.naviMap.getMapManager().setMapColor(n2);
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "CtxMapInMapShown#itemSelected() - modelID = %1 is not supported.", (long)n);
+                this.getLogChannel().log(100000, "CtxMapInMapShown#itemSelected() - modelID = %1 is not supported.", (long)n);
             }
         }
-    }
-
-    static {
-        EMPTY_FLAGS = new MapFlag[0];
     }
 }
 

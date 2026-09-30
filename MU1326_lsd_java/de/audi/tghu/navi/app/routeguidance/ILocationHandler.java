@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.routeguidance;
 import org.dsi.ifc.global.NavLocation;
 
 public interface ILocationHandler {
-    default public NavLocation handleLocation(NavLocation navLocation) {
-    }
+    public NavLocation handleLocation(NavLocation var1);
 }
 

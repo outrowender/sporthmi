@@ -26,15 +26,14 @@ implements ICarKombiEventsProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
-        this.logChannel.log(1078071040, "NaviDSICarKombiListener#updateBCViewOptions( %1, %2 )", (Object)bCViewOptions, (long)n);
+        this.logChannel.log(1000000, "NaviDSICarKombiListener#updateBCViewOptions( %1, %2 )", (Object)bCViewOptions, (long)n);
         if (n != 1) {
-            this.logChannel.log(1078071040, "NaviDSICarKombiListener#updateBCViewOptions() - update is invalid");
+            this.logChannel.log(1000000, "NaviDSICarKombiListener#updateBCViewOptions() - update is invalid");
             return;
         }
         if (bCViewOptions == null) {
-            this.logChannel.log(1078071040, "NaviDSICarKombiListener#updateBCViewOptions() - options are null");
+            this.logChannel.log(1000000, "NaviDSICarKombiListener#updateBCViewOptions() - options are null");
             return;
         }
         ArrayList arrayList = this.observersList;
@@ -60,7 +59,6 @@ implements ICarKombiEventsProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void registerListener(ICarKombiObserver iCarKombiObserver) {
         ArrayList arrayList = this.observersList;
         synchronized (arrayList) {
@@ -79,7 +77,6 @@ implements ICarKombiEventsProvider {
         }
     }
 
-    @Override
     public void unregisterListener(ICarKombiObserver iCarKombiObserver) {
     }
 }

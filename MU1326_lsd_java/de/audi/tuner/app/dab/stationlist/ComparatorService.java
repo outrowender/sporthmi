@@ -16,7 +16,6 @@ implements Comparator {
         this.langMngr = languageManager;
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         ServiceInfo serviceInfo;
         ServiceInfo serviceInfo2;

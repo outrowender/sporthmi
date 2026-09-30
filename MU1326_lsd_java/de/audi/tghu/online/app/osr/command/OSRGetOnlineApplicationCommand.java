@@ -23,9 +23,8 @@ extends AbstractOSRCommand {
         this.callback = iOnlineServiceListener;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ORSGetOnlineApplicationCommand#execute: applicationId=%1", (Object)this.applicationId);
+        this.logger.log(10000000, "ORSGetOnlineApplicationCommand#execute: applicationId=%1", (Object)this.applicationId);
         if (this.getDSI() != null) {
             this.getDSI().getOnlineApplication(this.applicationId);
         } else {
@@ -34,9 +33,8 @@ extends AbstractOSRCommand {
         }
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
-        this.logger.log(-2137614336, "ORSGetOnlineApplicationCommand#getOnlineApplicationResponse: applicationId=%1", (Object)oSRApplication.getId());
+        this.logger.log(10000000, "ORSGetOnlineApplicationCommand#getOnlineApplicationResponse: applicationId=%1", (Object)oSRApplication.getId());
         if (this.callback != null) {
             this.callback.getOnlineApplicationResponse(oSRApplication);
         }

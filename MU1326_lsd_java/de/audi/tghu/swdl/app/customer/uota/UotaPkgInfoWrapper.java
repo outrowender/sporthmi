@@ -9,25 +9,25 @@ import java.util.StringTokenizer;
 import org.dsi.ifc.uota.PackageInfo;
 
 class UotaPkgInfoWrapper {
-    static final char SYMBOLIC_NAME_SEPARATOR;
-    static final int ISO_CODE_POSITION;
-    static final int ISO_CODE_LENGTH;
-    static final String PPOI_CATEGORY;
-    static final String SYSTEM_CATEGORY;
-    static final char NAME_VERSION_SEPARATOR;
-    static final String INVALID;
-    static final String LICENSE_AVAILABLE;
-    static final String LICENSE_NOT_AVAILABLE;
-    static final String KEY_LICENSE_VALID;
-    static final String KEY_VERSION;
-    static final String KEY_ADDITIONAL_INFOS;
-    static final String MAP_PREVIEWS_PATH;
-    static final String MAP_PREVIEWS_EXTENSION;
-    static final String PREVIEW_AVAILABLE_SUFFIX;
-    static final String EMPTY_STRING;
-    static final String UNDEFINED_RELEASE;
-    static final byte DISPLAY_STRING_TYPE_VERSION;
-    static final byte DISPLAY_STRING_TYPE_NAME;
+    static final char SYMBOLIC_NAME_SEPARATOR = '_';
+    static final int ISO_CODE_POSITION = 14;
+    static final int ISO_CODE_LENGTH = 2;
+    static final String PPOI_CATEGORY = "ppoi";
+    static final String SYSTEM_CATEGORY = "system";
+    static final char NAME_VERSION_SEPARATOR = '\n';
+    static final String INVALID = "INVALID";
+    static final String LICENSE_AVAILABLE = "1";
+    static final String LICENSE_NOT_AVAILABLE = "0";
+    static final String KEY_LICENSE_VALID = "licenseValid";
+    static final String KEY_VERSION = "pVersion";
+    static final String KEY_ADDITIONAL_INFOS = "additionalInfos";
+    static final String MAP_PREVIEWS_PATH = System.getProperty("UotaMapPreviewsDir", "/mnt/ota/system/mappreviews");
+    static final String MAP_PREVIEWS_EXTENSION = System.getProperty("UotaMapPreviewsExt", ".png");
+    static final String PREVIEW_AVAILABLE_SUFFIX = "NAV";
+    static final String EMPTY_STRING = "";
+    static final String UNDEFINED_RELEASE = "undef";
+    static final byte DISPLAY_STRING_TYPE_VERSION = 0;
+    static final byte DISPLAY_STRING_TYPE_NAME = 1;
     private String pkgCategory;
     private String pkgId;
     private String pkgVersion;
@@ -49,7 +49,7 @@ class UotaPkgInfoWrapper {
     private boolean displayAsSelected;
     private boolean hidePackageSize;
     private final LogChannel logUota;
-    private static volatile boolean isCancelled;
+    private static volatile boolean isCancelled = false;
 
     UotaPkgInfoWrapper(PackageInfo packageInfo, int n, LogChannel logChannel) {
         this.logUota = logChannel;
@@ -58,10 +58,10 @@ class UotaPkgInfoWrapper {
         this.displayAsSelected = false;
         this.hidePackageSize = false;
         if (null == packageInfo) {
-            this.pkgId = "INVALID";
-            this.pkgVersion = "INVALID";
+            this.pkgId = INVALID;
+            this.pkgVersion = INVALID;
             this.licenseAvailable = false;
-            this.pkgPriority = -129;
+            this.pkgPriority = Integer.MAX_VALUE;
             this.size = 0L;
             this.type = -1;
             this.displayVersions = new String[0];
@@ -76,13 +76,13 @@ class UotaPkgInfoWrapper {
                 this.isValid = false;
             }
             this.pkgCategory = packageInfo.getCategory();
-            if ("ppoi".equalsIgnoreCase(this.pkgCategory)) {
+            if (PPOI_CATEGORY.equalsIgnoreCase(this.pkgCategory)) {
                 this.isPPOI = true;
                 if (!this.parsePPOIHierarchyInfo(packageInfo.getHierarchyInfo())) {
                     this.getLogUota().log(10000, "[UotaPkgInfoWrapper].<init>: Failed to parse PPOI hierarchy info: %1", (Object)packageInfo);
                     this.isValid = false;
                 }
-            } else if ("system".equalsIgnoreCase(this.pkgCategory)) {
+            } else if (SYSTEM_CATEGORY.equalsIgnoreCase(this.pkgCategory)) {
                 if (!this.parseHierarchyInfo(packageInfo.getHierarchyInfo())) {
                     this.getLogUota().log(10000, "[UotaPkgInfoWrapper].<init>: Failed to parse hierarchy info of system category: %1", (Object)packageInfo);
                     this.isValid = false;
@@ -96,7 +96,7 @@ class UotaPkgInfoWrapper {
                 if (null != this.pkgId && this.pkgId.length() >= 16) {
                     try {
                         this.regionISOCode = Integer.parseInt(this.pkgId.substring(14, 16), 16);
-                        this.getLogUota().log(14808325, "[UotaPkgInfoWrapper].<init>: region ISO code of package %1 is %2", (Object)this.pkgId, (long)this.regionISOCode);
+                        this.getLogUota().log(100000000, "[UotaPkgInfoWrapper].<init>: region ISO code of package %1 is %2", (Object)this.pkgId, (long)this.regionISOCode);
                     }
                     catch (NumberFormatException numberFormatException) {
                         this.regionISOCode = -1;
@@ -107,45 +107,45 @@ class UotaPkgInfoWrapper {
             this.pkgVersion = packageInfo.getVersion();
             if (this.pkgVersion == null || this.pkgVersion.length() == 0) {
                 this.getLogUota().log(10000, "[UotaPkgInfoWrapper].<init>: Failed to parse package version: %1", (Object)packageInfo);
-                this.pkgVersion = "INVALID";
+                this.pkgVersion = INVALID;
                 this.isValid = false;
             }
             this.size = packageInfo.getSize();
             this.type = packageInfo.getType();
             this.isTechnicalPackage = this.type == 1;
             this.pkgPriority = packageInfo.getPriority();
-            this.getLogUota().log(-2137614336, "[UotaPkgInfoWrapper]: new package [%1] %2", (Object)new Integer(this.selectionStatus), (Object)this);
+            this.getLogUota().log(10000000, "[UotaPkgInfoWrapper]: new package [%1] %2", (Object)new Integer(this.selectionStatus), (Object)this);
         }
     }
 
     private boolean parseExtras(String[] stringArray) {
-        this.releaseVersion = "";
-        this.additionalInfos = "";
+        this.releaseVersion = EMPTY_STRING;
+        this.additionalInfos = EMPTY_STRING;
         if (null == stringArray || 0 == stringArray.length) {
             this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parseExtras(): Null or empty extras array!");
             return false;
         }
         boolean bl = false;
         for (int i2 = 0; i2 < stringArray.length - 1; i2 += 2) {
-            if ("licenseValid".equals(stringArray[i2])) {
-                this.getLogUota().log(14808325, "[UotaPkgInfoWrapper].parseExtras(): license info found");
+            if (KEY_LICENSE_VALID.equals(stringArray[i2])) {
+                this.getLogUota().log(100000000, "[UotaPkgInfoWrapper].parseExtras(): license info found");
                 bl = true;
-                this.licenseAvailable = "1".equals(stringArray[i2 + 1]);
+                this.licenseAvailable = LICENSE_AVAILABLE.equals(stringArray[i2 + 1]);
                 continue;
             }
-            if ("pVersion".equals(stringArray[i2])) {
+            if (KEY_VERSION.equals(stringArray[i2])) {
                 this.releaseVersion = stringArray[i2 + 1];
                 if (!"null".equalsIgnoreCase(this.releaseVersion)) continue;
-                this.releaseVersion = "undef";
+                this.releaseVersion = UNDEFINED_RELEASE;
                 continue;
             }
-            if (!"additionalInfos".equals(stringArray[i2]) || null == stringArray[i2 + 1] || "null".equalsIgnoreCase(stringArray[i2 + 1])) continue;
+            if (!KEY_ADDITIONAL_INFOS.equals(stringArray[i2]) || null == stringArray[i2 + 1] || "null".equalsIgnoreCase(stringArray[i2 + 1])) continue;
             this.additionalInfos = stringArray[i2 + 1];
         }
         if (!bl) {
             this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parseExtras(): Could not find license info!");
         }
-        if ("" == this.releaseVersion) {
+        if (EMPTY_STRING == this.releaseVersion) {
             this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parseExtras(): Could not find relase version (pVersion)!");
         }
         return bl;
@@ -160,18 +160,18 @@ class UotaPkgInfoWrapper {
         this.uniqueNames = new String[2];
         if (null == stringArray[0] || 0 == stringArray[0].length()) {
             this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parsePPOIHierarchyInfo(): Null or empty PPOI name element!");
-            this.uniqueNames[0] = "";
-            this.displayVersions[0] = "";
+            this.uniqueNames[0] = EMPTY_STRING;
+            this.displayVersions[0] = EMPTY_STRING;
             return false;
         }
         if (stringArray.length == 1) {
-            this.displayVersions[0] = "";
+            this.displayVersions[0] = EMPTY_STRING;
             this.uniqueNames[0] = stringArray[0];
         } else {
             if (null == stringArray[1] || 0 == stringArray[1].length()) {
                 this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parsePPOIHierarchyInfo(): Null or empty PPOI version element!");
-                this.uniqueNames[0] = "";
-                this.displayVersions[0] = "";
+                this.uniqueNames[0] = EMPTY_STRING;
+                this.displayVersions[0] = EMPTY_STRING;
                 return false;
             }
             int n = stringArray[1].lastIndexOf(32);
@@ -181,7 +181,7 @@ class UotaPkgInfoWrapper {
             this.displayVersions[0] = stringArray[1];
             this.uniqueNames[0] = new Buffer(stringArray[0]).append('#').append(this.displayVersions[0]).toString();
         }
-        this.getLogUota().log(-2137614336, "[UotaPkgInfoWrapper].parsePPOIHierarchyInfo(): PPOI: displayVersion=%1, uniqueName=%2", (Object)this.displayVersions[0], (Object)this.uniqueNames[0]);
+        this.getLogUota().log(10000000, "[UotaPkgInfoWrapper].parsePPOIHierarchyInfo(): PPOI: displayVersion=%1, uniqueName=%2", (Object)this.displayVersions[0], (Object)this.uniqueNames[0]);
         return true;
     }
 
@@ -197,14 +197,14 @@ class UotaPkgInfoWrapper {
             String string = stringArray[i2];
             if (null == string || 0 == string.length()) {
                 this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parseHierarchyInfo(): Null or empty hierarchy element at index=%1 !", (long)i2);
-                this.uniqueNames[i2] = "";
-                this.displayVersions[i2] = "";
+                this.uniqueNames[i2] = EMPTY_STRING;
+                this.displayVersions[i2] = EMPTY_STRING;
                 bl = false;
                 continue;
             }
             int n = string.indexOf("\\n");
             if (n < 0) {
-                this.displayVersions[i2] = "";
+                this.displayVersions[i2] = EMPTY_STRING;
                 this.uniqueNames[i2] = string;
                 if (0 != i2) continue;
                 this.getLogUota().log(10000, "[UotaPkgInfoWrapper].parseHierarchyInfo(): No version found at index 0!");
@@ -411,7 +411,7 @@ class UotaPkgInfoWrapper {
         if (null != this.uniqueNames) {
             for (int i2 = this.uniqueNames.length - 1; i2 >= 0; --i2) {
                 int n;
-                if (this.uniqueNames[i2] == null || "".equals(this.uniqueNames[i2])) continue;
+                if (this.uniqueNames[i2] == null || EMPTY_STRING.equals(this.uniqueNames[i2])) continue;
                 String string = this.uniqueNames[i2];
                 if (string != null && (n = string.indexOf(35)) > 0) {
                     string = string.substring(n + 1);
@@ -419,17 +419,17 @@ class UotaPkgInfoWrapper {
                 return string;
             }
         }
-        return "";
+        return EMPTY_STRING;
     }
 
     String getLastVersion() {
         if (null != this.displayVersions) {
             for (int i2 = this.displayVersions.length - 1; i2 >= 0; --i2) {
-                if (this.displayVersions[i2] == null || "".equals(this.displayVersions[i2])) continue;
+                if (this.displayVersions[i2] == null || EMPTY_STRING.equals(this.displayVersions[i2])) continue;
                 return this.displayVersions[i2];
             }
         }
-        return "";
+        return EMPTY_STRING;
     }
 
     String[] getDisplayVersions() {
@@ -441,7 +441,7 @@ class UotaPkgInfoWrapper {
     }
 
     String getNumericVersion() {
-        String string = "";
+        String string = EMPTY_STRING;
         if (null != this.displayVersions) {
             String string2 = null;
             for (int i2 = 0; i2 < this.displayVersions.length; ++i2) {
@@ -472,12 +472,6 @@ class UotaPkgInfoWrapper {
 
     private LogChannel getLogUota() {
         return this.logUota;
-    }
-
-    static {
-        MAP_PREVIEWS_PATH = System.getProperty("UotaMapPreviewsDir", "/mnt/ota/system/mappreviews");
-        MAP_PREVIEWS_EXTENSION = System.getProperty("UotaMapPreviewsExt", ".png");
-        isCancelled = false;
     }
 }
 

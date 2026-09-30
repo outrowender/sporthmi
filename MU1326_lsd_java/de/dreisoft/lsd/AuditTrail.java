@@ -3,15 +3,13 @@
  */
 package de.dreisoft.lsd;
 
-import de.dreisoft.lsd.AuditTrail$DummyEntry;
-import de.dreisoft.lsd.AuditTrail$Entry;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AuditTrail {
     static final AuditTrail INSTANCE = new AuditTrail();
-    static final AuditTrail$Entry DUMMY = new AuditTrail$DummyEntry();
+    static final Entry DUMMY = new DummyEntry();
     List data = new ArrayList(10);
     String lastAction = null;
 
@@ -22,8 +20,8 @@ public class AuditTrail {
         return INSTANCE;
     }
 
-    AuditTrail$Entry addEntry(String string, Object object) {
-        AuditTrail$Entry entry = DUMMY;
+    Entry addEntry(String string, Object object) {
+        Entry entry = DUMMY;
         return entry;
     }
 
@@ -46,6 +44,53 @@ public class AuditTrail {
             }
         }
         return stringBuffer.toString();
+    }
+
+    static class Entry {
+        long start = 0L;
+        long startProcessingQueued = 0L;
+        long finished = 0L;
+        String thread;
+        String action;
+        Object ref;
+
+        Entry() {
+        }
+
+        Entry(String string, Object object) {
+            this.start = System.currentTimeMillis();
+            this.thread = Thread.currentThread().getName();
+            this.action = string;
+            this.ref = object;
+        }
+
+        void setStartProcessingQueued() {
+            this.startProcessingQueued = System.currentTimeMillis();
+        }
+
+        void setFinished() {
+            this.finished = System.currentTimeMillis();
+        }
+
+        public String toString() {
+            return "start#" + this.start + "#queue#" + this.startProcessingQueued + "#done#" + this.finished + "#thread#" + this.thread + "#" + this.action + "#" + this.ref;
+        }
+    }
+
+    static class DummyEntry
+    extends Entry {
+        DummyEntry() {
+        }
+
+        void setStartProcessingQueued() {
+        }
+
+        void setFinished() {
+        }
+
+        public String toString() {
+            return null;
+        }
     }
 }
 

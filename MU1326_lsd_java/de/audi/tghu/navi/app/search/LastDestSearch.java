@@ -3,6 +3,7 @@
  */
 package de.audi.tghu.navi.app.search;
 
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviDestination;
@@ -10,14 +11,13 @@ import de.audi.atip.interapp.combi.bap.navi.data.FormattedDestination;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.search.AbstractSearch;
 import de.audi.atip.search.util.AbstractSearchResultFormatter;
+import de.audi.atip.search.util.SearchResultListRow;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.cluster.CombiBAPListener;
 import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.navlocationextractor.SearchResultNavLocationExtractor;
 import de.audi.tghu.navi.app.search.ILastDestHandler;
 import de.audi.tghu.navi.app.search.ILastDestUpdated;
-import de.audi.tghu.navi.app.search.LastDestSearch$1;
-import de.audi.tghu.navi.app.search.LastDestSearch$2;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.util.addressformatting.AddressFormatter;
 import de.audi.tghu.navi.app.util.addressformatting.LocationFormattingResponse;
@@ -35,9 +35,9 @@ implements ILastDestHandler {
     private List lastDestinationsBuffer = new ArrayList(0);
     private final CombiBAPListener combiListener;
     private final NaviServiceListener naviServiceListener;
-    private static final int LAST_DEST_NOT_AVAILABLE;
-    private static final int LAST_DEST_AVAILABLE;
-    private static final String LOGCLASS;
+    private static final int LAST_DEST_NOT_AVAILABLE = 0;
+    private static final int LAST_DEST_AVAILABLE = 1;
+    private static final String LOGCLASS = "LastDestSearch";
     private final NavigationEnv env;
     private final SearchResultNavLocationExtractor searchResultNavLocationExtractor;
     private ILastDestUpdated lastDestFive;
@@ -56,7 +56,6 @@ implements ILastDestHandler {
         this.searchResultNavLocationExtractor = searchResultNavLocationExtractor;
     }
 
-    @Override
     protected void initDSI() {
         super.initDSI();
         this.setActiveProfile(0);
@@ -69,42 +68,44 @@ implements ILastDestHandler {
         this.performQuery("");
     }
 
-    @Override
     public NavLocation getLastDestNavLocation(long l) {
         SearchResult searchResult = null;
         try {
             searchResult = (SearchResult)this.lastDestinations.get((int)l);
         }
         catch (Exception exception) {
-            this.logChannel.log(10000, "%1#getLastDestNavLocation %2", (Object)"LastDestSearch", (Throwable)exception);
+            this.logChannel.log(10000, "%1#getLastDestNavLocation %2", (Object)LOGCLASS, (Throwable)exception);
         }
         if (searchResult != null) {
-            LastDestSearch$1 lastDestSearch$1 = new LastDestSearch$1(this, searchResult, 0, 0L);
-            return this.searchResultNavLocationExtractor.extractNavLocationFromRow(lastDestSearch$1);
+            SearchResultListRow searchResultListRow = new SearchResultListRow(searchResult, 0, 0L){
+
+                public EvoListRow copy() {
+                    return null;
+                }
+            };
+            return this.searchResultNavLocationExtractor.extractNavLocationFromRow(searchResultListRow);
         }
         return null;
     }
 
-    @Override
     public byte[] getLastDestByteStream(int n) {
         byte[] byArray = null;
         try {
             byArray = ((SearchResult)this.lastDestinations.get((int)n)).applicationData;
         }
         catch (Exception exception) {
-            this.logChannel.log(10000, "%1#getLastDestByteStream %2", (Object)"LastDestSearch", (Throwable)exception);
+            this.logChannel.log(10000, "%1#getLastDestByteStream %2", (Object)LOGCLASS, (Throwable)exception);
         }
         return byArray;
     }
 
-    @Override
     public SearchResult getLastDest(long l) {
         SearchResult searchResult = null;
         try {
             searchResult = (SearchResult)this.lastDestinations.get((int)l);
         }
         catch (Exception exception) {
-            this.logChannel.log(-1601830656, "%1#getLastDestNavLocation %2", (Object)"LastDestSearch", (Throwable)exception);
+            this.logChannel.log(100000, "%1#getLastDestNavLocation %2", (Object)LOGCLASS, (Throwable)exception);
         }
         return searchResult;
     }
@@ -112,10 +113,9 @@ implements ILastDestHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void searchResult(int n, SearchResult searchResult) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#searchResult # success=%2", (Object)"LastDestSearch", (long)n);
+            this.logChannel.log(100000000, "%1#searchResult # success=%2", (Object)LOGCLASS, (long)n);
         }
         super.searchResult(n, searchResult);
         if (searchResult.getQueryId() == this.getLastQueryID()) {
@@ -128,7 +128,7 @@ implements ILastDestHandler {
 
     public void notifyObservers() {
         if (this.lastDestinations == null) {
-            this.logChannel.log(-1601830656, "%1#notifyObservers: lastDestinations is null", (Object)"LastDestSearch");
+            this.logChannel.log(100000, "%1#notifyObservers: lastDestinations is null", (Object)LOGCLASS);
             return;
         }
         this.notifyClusterService();
@@ -138,7 +138,7 @@ implements ILastDestHandler {
 
     protected void notifyLastFive() {
         if (this.lastDestinations == null || this.lastDestFive == null) {
-            this.logChannel.log(-1601830656, "%1#notifyClusterService: lastDestinations or lastDestFive is null", (Object)"LastDestSearch");
+            this.logChannel.log(100000, "%1#notifyClusterService: lastDestinations or lastDestFive is null", (Object)LOGCLASS);
             return;
         }
         ArrayList arrayList = new ArrayList(50);
@@ -149,13 +149,13 @@ implements ILastDestHandler {
     protected void notifyClusterService() {
         ArrayList arrayList = new ArrayList(50);
         if (this.lastDestinations == null) {
-            this.logChannel.log(-1601830656, "%1#notifyClusterService: lastDestinations is null", (Object)"LastDestSearch");
+            this.logChannel.log(100000, "%1#notifyClusterService: lastDestinations is null", (Object)LOGCLASS);
             return;
         }
         for (int i2 = 0; i2 < this.lastDestinations.size(); ++i2) {
             arrayList.add(this.lastDestinations.get(i2));
         }
-        this.logChannel.log(-2137614336, "%1#notifyClusterService - %2 last destinations", (Object)"LastDestSearch", (long)arrayList.size());
+        this.logChannel.log(10000000, "%1#notifyClusterService - %2 last destinations", (Object)LOGCLASS, (long)arrayList.size());
         CombiBAPNaviDestination[] combiBAPNaviDestinationArray = new CombiBAPNaviDestination[arrayList.size()];
         String[] stringArray = new String[this.lastDestinations.size()];
         FormattedDestination[] formattedDestinationArray = new FormattedDestination[this.lastDestinations.size()];
@@ -176,8 +176,8 @@ implements ILastDestHandler {
             Token token9 = AbstractSearchResultFormatter.getTokenForType(tokenArray, 17);
             Token token10 = AbstractSearchResultFormatter.getTokenForType(tokenArray, 5);
             if (Util.isHURegionAsia()) {
-                f2 = 49279;
-                f3 = 49279;
+                f2 = Float.NaN;
+                f3 = Float.NaN;
             }
             String string2 = string = token4 != null ? token4.getToken() : null;
             if (Util.isEmpty(string)) {
@@ -214,9 +214,8 @@ implements ILastDestHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public SDSListEntry[] getLastDestListForSDS() {
-        this.logChannel.log(-2137614336, "LastDestSearch#getLastDestListForSDS() - creating SDSList with Phonetic entrys");
+        this.logChannel.log(10000000, "LastDestSearch#getLastDestListForSDS() - creating SDSList with Phonetic entrys");
         SDSListEntry[] sDSListEntryArray = this.lock;
         synchronized (this.lock) {
             Object[] objectArray = this.lastDestinations.toArray();
@@ -225,7 +224,7 @@ implements ILastDestHandler {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 SearchResult searchResult = (SearchResult)objectArray[i2];
                 if (searchResult == null) {
-                    this.logChannel.log(-1601830656, "LastDestSearch#getLastDestListForSDS() - lastDestination at index = %1 is null. This shouldn't happen!", (long)i2);
+                    this.logChannel.log(100000, "LastDestSearch#getLastDestListForSDS() - lastDestination at index = %1 is null. This shouldn't happen!", (long)i2);
                     sDSListEntryArray[i2] = new SDSListEntry("", i2);
                     continue;
                 }
@@ -241,28 +240,32 @@ implements ILastDestHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void onSearchEnded() {
-        this.logChannel.log(-2137614336, new StringBuffer().append(super.getClass().getName()).append("#onSearchEnded() last destinations size was %1").toString(), (Object)(this.lastDestinations == null ? "null" : new StringBuffer().append("").append(this.lastDestinations.size()).toString()));
+        this.logChannel.log(10000000, this.getClass().getName() + "#onSearchEnded() last destinations size was %1", (Object)(this.lastDestinations == null ? "null" : "" + this.lastDestinations.size()));
         Object object = this.lock;
         synchronized (object) {
             this.lastDestinations = this.lastDestinationsBuffer;
             this.lastDestinationsBuffer = new ArrayList(0);
         }
-        this.logChannel.log(-2137614336, new StringBuffer().append(super.getClass().getName()).append("#onSearchEnded() last destinations size is now %1").toString(), (Object)(this.lastDestinations == null ? "null" : new StringBuffer().append("").append(this.lastDestinations.size()).toString()));
+        this.logChannel.log(10000000, this.getClass().getName() + "#onSearchEnded() last destinations size is now %1", (Object)(this.lastDestinations == null ? "null" : "" + this.lastDestinations.size()));
         if (this.lastDestinations.size() == 0) {
-            this.env.getChoiceModel(-501152256).setValue(0);
+            this.env.getChoiceModel(401890).setValue(0);
         } else {
-            this.env.getChoiceModel(-501152256).setValue(1);
+            this.env.getChoiceModel(401890).setValue(1);
         }
     }
 
-    @Override
     public void languageChanged() {
         this.notifyClusterService();
     }
 
-    @Override
     public NavCommand getLanguageChangedCommand() {
-        return new LastDestSearch$2(this);
+        return new NavCommand(){
+
+            public void execute() {
+                LastDestSearch.this.languageChanged();
+                this.getCommandList().commandFinished();
+            }
+        };
     }
 }
 

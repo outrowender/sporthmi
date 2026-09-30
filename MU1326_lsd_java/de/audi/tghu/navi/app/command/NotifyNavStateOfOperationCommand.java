@@ -15,24 +15,21 @@ extends NavCommand {
         this.waitForFullyOperable = bl;
     }
 
-    @Override
     public long getTimeout() {
         return this.waitForFullyOperable ? -1L : super.getTimeout();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "NotifyNavStateOfOperationCommand#execute() - command setNotification() for ATTR_NAVSTATEOFOPERATION ");
+        this.logger.log(10000000, "NotifyNavStateOfOperationCommand#execute() - command setNotification() for ATTR_NAVSTATEOFOPERATION ");
         this.getDSINavigation().setNotification(new int[]{52}, (DSIListener)this.getDispatcher());
     }
 
-    @Override
     public void updateNavstateOfOperation(int n) {
-        this.logger.log(-2137614336, "NotifyNavStateOfOperationCommand#updateNavstateOfOperation( %1 ) ", (long)n);
+        this.logger.log(10000000, "NotifyNavStateOfOperationCommand#updateNavstateOfOperation( %1 ) ", (long)n);
         super.updateNavstateOfOperation(n);
         if (this.waitForFullyOperable) {
             if (n == 5) {
-                this.logger.log(-2137614336, "NotifyNavStateOfOperationCommand#updateNavstateOfOperation() - navigation is fully operable ");
+                this.logger.log(10000000, "NotifyNavStateOfOperationCommand#updateNavstateOfOperation() - navigation is fully operable ");
                 Util.logStartupEvent(this.env.getFramework(), "[Startup] NotifyNavStateOfOperationCommand#updateNavstateOfOperation() - navigation is fully operable ");
                 this.navigation.getOperationManager().taskCompleted(2);
                 this.getCommandList().commandFinished();

@@ -7,22 +7,16 @@ import de.audi.atip.search.AbstractGuiSearchHandler;
 import de.audi.tv.app.truffles.ISearchGUI;
 
 public interface ITVSearch {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void setActiveGuiSearchHandler(AbstractGuiSearchHandler abstractGuiSearchHandler) {
-    }
+    public void setActiveGuiSearchHandler(AbstractGuiSearchHandler var1);
 
-    default public void setActiveGuiSearchHandler(ISearchGUI iSearchGUI) {
-    }
+    public void setActiveGuiSearchHandler(ISearchGUI var1);
 
-    default public void cancelQuerry() {
-    }
+    public void cancelQuerry();
 
-    default public void setIgnoreSearchIsActive(boolean bl) {
-    }
+    public void setIgnoreSearchIsActive(boolean var1);
 }
 

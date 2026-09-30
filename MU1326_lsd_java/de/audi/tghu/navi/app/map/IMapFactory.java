@@ -14,7 +14,6 @@ import de.audi.tghu.navi.app.map.handler.selection.MapSelectionHandlerFactory;
 import de.audi.tghu.navi.app.map.instances.MapMain;
 
 public interface IMapFactory {
-    default public MapMain createMapMain(NavigationEnv navigationEnv, MapManager mapManager, MapConfig mapConfig, IconHandler iconHandler, MapInterface mapInterface, INaviInterface iNaviInterface, LocationSerializer locationSerializer, MapSelectionHandlerFactory mapSelectionHandlerFactory) {
-    }
+    public MapMain createMapMain(NavigationEnv var1, MapManager var2, MapConfig var3, IconHandler var4, MapInterface var5, INaviInterface var6, LocationSerializer var7, MapSelectionHandlerFactory var8);
 }
 

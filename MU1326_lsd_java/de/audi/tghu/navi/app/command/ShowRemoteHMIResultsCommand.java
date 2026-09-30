@@ -14,9 +14,8 @@ extends NavCommand {
         this.resultList = onlinePOIResultList;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ShowRemoteHMIResultsCommand#execute() - length: %1", (long)this.resultList.length());
+        this.logger.log(10000000, "ShowRemoteHMIResultsCommand#execute() - length: %1", (long)this.resultList.length());
         this.navigation.getMapInterface().setRemoteHMIResultFlags(this.resultList);
         this.navigation.getMapInterface().enterRemoteHMIResultMap();
         this.getCommandList().commandFinished();

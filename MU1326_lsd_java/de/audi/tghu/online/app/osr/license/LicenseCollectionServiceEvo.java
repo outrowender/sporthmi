@@ -21,16 +21,14 @@ extends LicenseCollectionService {
     public LicenseCollectionServiceEvo(LogChannel logChannel, HMIService hMIService, RemoteHMIService remoteHMIService, ITextConstantsConverter iTextConstantsConverter, boolean bl) {
         super(logChannel, hMIService, remoteHMIService, bl);
         this.modelManager = new LicensingModelManagerEvo(hMIService, logChannel, remoteHMIService, this, iTextConstantsConverter);
-        logChannel.log(14808325, "LicenseCollectionServiceEvo#ctor: Called.");
+        logChannel.log(100000000, "LicenseCollectionServiceEvo#ctor: Called.");
         this.hmiListener = new LicenseHMIListenerEvo(logChannel, this, remoteHMIService);
         this.hmiListener.setModelManager(this.modelManager);
     }
 
-    @Override
     protected void indicateActiveLicense(OSRLicense oSRLicense) {
     }
 
-    @Override
     protected void setLicenseDetailScreenForLicenseInclude(String string, IRemoteHMILicense iRemoteHMILicense) {
         int n = 5;
         int n2 = 3;
@@ -38,14 +36,14 @@ extends LicenseCollectionService {
         switch (iRemoteHMILicense.getState()) {
             case 1: {
                 if (iRemoteHMILicense.expires.getTime() - l >= 0L) {
-                    this.log.log(-2137614336, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license activated for current status for symbolicName %1 ", (Object)string);
+                    this.log.log(10000000, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license activated for current status for symbolicName %1 ", (Object)string);
                 }
-                this.log.log(-2137614336, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license activated for symbolicName %1 ", (Object)string);
+                this.log.log(10000000, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license activated for symbolicName %1 ", (Object)string);
                 n2 = 0;
                 break;
             }
             case 4: {
-                this.log.log(-2137614336, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: got expired license for symbolicName %1", (Object)string);
+                this.log.log(10000000, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: got expired license for symbolicName %1", (Object)string);
                 n = this.remoteHMIService != null && !this.remoteHMIService.isTT() ? (iRemoteHMILicense.getType() == 0 || iRemoteHMILicense.getType() == 2 ? 0 : 1) : 0;
                 n2 = 1;
                 break;
@@ -72,9 +70,9 @@ extends LicenseCollectionService {
             }
             case 5: {
                 if (iRemoteHMILicense.expires.getTime() - l >= 0L) {
-                    this.log.log(-2137614336, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license offered for current status for symbolicName %1 ", (Object)string);
+                    this.log.log(10000000, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license offered for current status for symbolicName %1 ", (Object)string);
                 }
-                this.log.log(-2137614336, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license offered for symbolicName %1 ", (Object)string);
+                this.log.log(10000000, "LicenseCollectionService#setLicenseDetailScreenForLicenseInclude: license offered for symbolicName %1 ", (Object)string);
                 n2 = 0;
                 break;
             }
@@ -86,10 +84,9 @@ extends LicenseCollectionService {
         this.modelManager.setServiceListDownloaded(n2);
     }
 
-    @Override
     protected void addCGWLicenses() {
         if (this.services == null || this.services.length < 0) {
-            this.log.log(-2137614336, "LicenseCollectionServiceEvo#addCGWLicenses: no CGW services available, skipping.");
+            this.log.log(10000000, "LicenseCollectionServiceEvo#addCGWLicenses: no CGW services available, skipping.");
             return;
         }
         super.addCGWLicenses();
@@ -98,7 +95,7 @@ extends LicenseCollectionService {
             if (!OnlineEvoStandardModelHandler.isAlertService(service.getId())) continue;
             IRemoteHMILicense iRemoteHMILicense = this.convertCGWLicensetoRHMILicense(service);
             if (iRemoteHMILicense == null) {
-                this.log.log(-1601830656, "LicenseCollectionService#addCGWLicenses: given remoteHMILicense is null! Skipping Entry %1", (Object)service.getName());
+                this.log.log(100000, "LicenseCollectionService#addCGWLicenses: given remoteHMILicense is null! Skipping Entry %1", (Object)service.getName());
                 continue;
             }
             ArrayList arrayList = new ArrayList(1);

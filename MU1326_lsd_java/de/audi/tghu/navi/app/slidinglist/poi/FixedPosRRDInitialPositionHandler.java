@@ -14,7 +14,6 @@ implements RRDInitialPositionHandler {
         this.initialPosition = posPosition;
     }
 
-    @Override
     public PosPosition getInitialPosition() {
         return this.initialPosition;
     }

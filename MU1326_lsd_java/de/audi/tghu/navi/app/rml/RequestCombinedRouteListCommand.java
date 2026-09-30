@@ -32,7 +32,6 @@ extends NavCommand {
         this.repeatRequest = n3;
     }
 
-    @Override
     public long getTimeout() {
         if (this.anchorId.equals(RMLSequence.DEFAULT_ANCHOR_ID) && Util.isHURegionAsia()) {
             return -1L;
@@ -40,29 +39,27 @@ extends NavCommand {
         return super.getTimeout();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RequestCombinedRouteListCommand#execute() - calling requestCombinedRouteListWindow() anchorID = %1, openedListAnchorId = %2, offset = %3", (Object)this.anchorId, this.openedListAnchorId, (long)this.offset);
+        this.logger.log(10000000, "RequestCombinedRouteListCommand#execute() - calling requestCombinedRouteListWindow() anchorID = %1, openedListAnchorId = %2, offset = %3", (Object)this.anchorId, this.openedListAnchorId, (long)this.offset);
         this.getDSICombinedRouteList().requestCombinedRouteListWindow(this.windowSize, this.offset, this.anchorId, this.openedListAnchorId);
     }
 
-    @Override
     public void combinedRouteListResult(long l, CombinedRouteListElement[] combinedRouteListElementArray, int n) {
-        this.logger.log(1078071040, "RequestCombinedRouteListCommand#combinedRouteListResult() - usedAnchorId = %1, length=%2", l, combinedRouteListElementArray == null ? 0L : (long)combinedRouteListElementArray.length);
+        this.logger.log(1000000, "RequestCombinedRouteListCommand#combinedRouteListResult() - usedAnchorId = %1, length=%2", l, combinedRouteListElementArray == null ? 0L : (long)combinedRouteListElementArray.length);
         if (this.logger.isDebug2()) {
             StringBuffer stringBuffer = new StringBuffer();
             for (int i2 = 0; i2 < combinedRouteListElementArray.length; ++i2) {
                 stringBuffer.append(i2).append(": ").append(combinedRouteListElementArray[i2]).append("\n");
             }
-            this.logger.log(14808325, "RequestCombinedRouteListCommand#combinedRouteListResult() - CombinedRouteLustElement[] = %1", (Object)stringBuffer.toString());
+            this.logger.log(100000000, "RequestCombinedRouteListCommand#combinedRouteListResult() - CombinedRouteLustElement[] = %1", (Object)stringBuffer.toString());
         }
         this.dsiResponseContainer.setCombinedRouteListResult(l, combinedRouteListElementArray, n);
         if (combinedRouteListElementArray.length == 0) {
             if (this.repeatRequest > 0) {
-                this.logger.log(1078071040, "RequestCombinedRouteListCommand#combinedRouteListResult() - arrayLength is 0 (zero) repeat request (repeats left: %1)", (long)(this.repeatRequest - 1));
+                this.logger.log(1000000, "RequestCombinedRouteListCommand#combinedRouteListResult() - arrayLength is 0 (zero) repeat request (repeats left: %1)", (long)(this.repeatRequest - 1));
                 this.getCommandList().commandFinishedWithPostCommand(new RequestCombinedRouteListCommand(this.windowSize, this.offset, this.anchorId, this.openedListAnchorId, this.repeatRequest - 1));
             } else {
-                this.logger.log(-1601830656, "RequestCombinedRouteListCommand#combinedRouteListResult() - No valid Routelist has been delivered by DSICombinedRouteList");
+                this.logger.log(100000, "RequestCombinedRouteListCommand#combinedRouteListResult() - No valid Routelist has been delivered by DSICombinedRouteList");
                 this.getCommandList().commandFinished();
             }
         } else {

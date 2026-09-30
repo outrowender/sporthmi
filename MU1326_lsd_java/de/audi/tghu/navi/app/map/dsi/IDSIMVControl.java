@@ -13,274 +13,184 @@ import org.dsi.ifc.map.Point;
 import org.dsi.ifc.map.Rect;
 
 public interface IDSIMVControl {
-    default public boolean configureFlagsIsActive(boolean bl) {
-    }
+    public boolean configureFlagsIsActive(boolean var1);
 
-    default public Point getHotPointPosition() {
-    }
+    public Point getHotPointPosition();
 
-    default public boolean getInfoForPositionIsActive() {
-    }
+    public boolean getInfoForPositionIsActive();
 
-    default public boolean getQueueGetInfoForPosition() {
-    }
+    public boolean getQueueGetInfoForPosition();
 
-    default public Point getQueueGetInfoForScreenPositionPoint() {
-    }
+    public Point getQueueGetInfoForScreenPositionPoint();
 
-    default public Rect getPendingScreenViewport() {
-    }
+    public Rect getPendingScreenViewport();
 
-    default public void setPendingScreenViewport(Rect rect) {
-    }
+    public void setPendingScreenViewport(Rect var1);
 
-    default public Rect getQueuedScreenViewport() {
-    }
+    public Rect getQueuedScreenViewport();
 
-    default public void setQueuedScreenViewport(Rect rect) {
-    }
+    public void setQueuedScreenViewport(Rect var1);
 
-    default public void configureFlags(int n, MapFlag[] mapFlagArray) {
-    }
+    public void configureFlags(int var1, MapFlag[] var2);
 
-    default public void displayRemainingRangeOfVehicle(boolean bl) {
-    }
+    public void displayRemainingRangeOfVehicle(boolean var1);
 
-    default public void dragMap(short s, short s2) {
-    }
+    public void dragMap(short var1, short var2);
 
-    default public void dragRoute(short s, short s2) {
-    }
+    public void dragRoute(short var1, short var2);
 
-    default public void ensureTMCVisibility(long l) {
-    }
+    public void ensureTMCVisibility(long var1);
 
-    default public void ensureTrafficEventIconsVisibility(long[] lArray) {
-    }
+    public void ensureTrafficEventIconsVisibility(long[] var1);
 
-    default public void ensurePoiVisibility(NavLocation[] navLocationArray) {
-    }
+    public void ensurePoiVisibility(NavLocation[] var1);
 
-    default public void getInfoForPosition() {
-    }
+    public void getInfoForPosition();
 
-    default public void getInfoForScreenPosition(Point point) {
-    }
+    public void getInfoForScreenPosition(Point var1);
 
-    default public void goToTMCMessage(long l) {
-    }
+    public void goToTMCMessage(long var1);
 
-    default public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void isDetailedMapMaterialAvailable(NavLocationWgs84 var1);
 
-    default public void setViewPortBorder(int n) {
-    }
+    public void setViewPortBorder(int var1);
 
-    default public void rbGetIDOfSelectedSegment() {
-    }
+    public void rbGetIDOfSelectedSegment();
 
-    default public void rbGetRRDToSelectedSegment(long l) {
-    }
+    public void rbGetRRDToSelectedSegment(long var1);
 
-    default public void rbSelectAlternativeRoute(int n) {
-    }
+    public void rbSelectAlternativeRoute(int var1);
 
-    default public void rbSelectNextSegment() {
-    }
+    public void rbSelectNextSegment();
 
-    default public void rbSelectPreviousSegment() {
-    }
+    public void rbSelectPreviousSegment();
 
-    default public void rbSetPosition(int n) {
-    }
+    public void rbSetPosition(int var1);
 
-    default public void selectNextPOI() {
-    }
+    public void selectNextPOI();
 
-    default public void selectPrevPOI() {
-    }
+    public void selectPrevPOI();
 
-    default public void setBrandIconStyle(int[] nArray, int n) {
-    }
+    public void setBrandIconStyle(int[] var1, int var2);
 
-    default public void setCarPosition(Point point) {
-    }
+    public void setCarPosition(Point var1);
 
-    default public void setCityModelMode(int n) {
-    }
+    public void setCityModelMode(int var1);
 
-    default public void setCrossHairsColor(boolean bl) {
-    }
+    public void setCrossHairsColor(boolean var1);
 
-    default public void setDayView() {
-    }
+    public void setDayView();
 
-    default public void setEnableRouteCalcMode(boolean bl) {
-    }
+    public void setEnableRouteCalcMode(boolean var1);
 
-    default public void setEnableSoftJump(boolean bl) {
-    }
+    public void setEnableSoftJump(boolean var1);
 
-    default public void setEnableSoftRotation(boolean bl) {
-    }
+    public void setEnableSoftRotation(boolean var1);
 
-    default public void setEnableSoftTilt(boolean bl) {
-    }
+    public void setEnableSoftTilt(boolean var1);
 
-    default public void setEnableSoftZoom(boolean bl) {
-    }
+    public void setEnableSoftZoom(boolean var1);
 
-    default public void setEnableSoftZoomConditional(boolean bl) {
-    }
+    public void setEnableSoftZoomConditional(boolean var1);
 
-    default public void setGeneralPoiVisibility(boolean bl) {
-    }
+    public void setGeneralPoiVisibility(boolean var1);
 
-    default public void setHotPoint(Point point) {
-    }
+    public void setHotPoint(Point var1);
 
-    default public void setInfoForPositionIsActive(boolean bl) {
-    }
+    public void setInfoForPositionIsActive(boolean var1);
 
-    default public void setLandmarksVisible(boolean bl) {
-    }
+    public void setLandmarksVisible(boolean var1);
 
-    default public void setLocation(int n, int n2) {
-    }
+    public void setLocation(int var1, int var2);
 
-    default public void setLocationByLocation(NavLocation navLocation) {
-    }
+    public void setLocationByLocation(NavLocation var1);
 
-    default public void setMapPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void setMapPosition(NavLocationWgs84 var1);
 
-    default public void setMapViewportByLD(NavLocation navLocation, NavLocation navLocation2, int n) {
-    }
+    public void setMapViewportByLD(NavLocation var1, NavLocation var2, int var3);
 
-    default public void setMetricSystem(int n) {
-    }
+    public void setMetricSystem(int var1);
 
-    default public void setTemperatureScale(int n) {
-    }
+    public void setTemperatureScale(int var1);
 
-    default public void setMobilityHorizonVisibility(boolean bl) {
-    }
+    public void setMobilityHorizonVisibility(boolean var1);
 
-    default public void setMobilityHorizonZoomMode(int n) {
-    }
+    public void setMobilityHorizonZoomMode(int var1);
 
-    default public void setMode(int n) {
-    }
+    public void setMode(int var1);
 
-    default public void setNightView() {
-    }
+    public void setNightView();
 
-    default public void setOrientation(int n) {
-    }
+    public void setOrientation(int var1);
 
-    default public void setPictureNavigationIconVisibility(boolean bl, int n) {
-    }
+    public void setPictureNavigationIconVisibility(boolean var1, int var2);
 
-    default public void setRotation(short s) {
-    }
+    public void setRotation(short var1);
 
-    default public void setScrollByCrossHairs(boolean bl) {
-    }
+    public void setScrollByCrossHairs(boolean var1);
 
-    default public void setScrollByCrossHairsBoundingBox(Rect rect) {
-    }
+    public void setScrollByCrossHairsBoundingBox(Rect var1);
 
-    default public void setTrafficMapStyle(boolean bl) {
-    }
+    public void setTrafficMapStyle(boolean var1);
 
-    default public void setViewType(int n) {
-    }
+    public void setViewType(int var1);
 
-    default public void setZoomArea(Rect rect) {
-    }
+    public void setZoomArea(Rect var1);
 
-    default public void setZoomListIndex(int n) {
-    }
+    public void setZoomListIndex(int var1);
 
-    default public void showSpeedAndFlowCongestions(boolean bl) {
-    }
+    public void showSpeedAndFlowCongestions(boolean var1);
 
-    default public void showSpeedAndFlowFreeflow(boolean bl) {
-    }
+    public void showSpeedAndFlowFreeflow(boolean var1);
 
-    default public void showTMCMessages(boolean bl) {
-    }
+    public void showTMCMessages(boolean var1);
 
-    default public void startRouteDragging(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void startRouteDragging(NavLocationWgs84 var1);
 
-    default public void startScrollToDirection(int n) {
-    }
+    public void startScrollToDirection(int var1);
 
-    default public void stopScrollToDirection() {
-    }
+    public void stopScrollToDirection();
 
-    default public void suspendMapViewer() {
-    }
+    public void suspendMapViewer();
 
-    default public void viewFreeze(boolean bl) {
-    }
+    public void viewFreeze(boolean var1);
 
-    default public void viewSetScreenViewport(Rect rect) {
-    }
+    public void viewSetScreenViewport(Rect var1);
 
-    default public void viewSetScreenViewportMaximum(Rect rect) {
-    }
+    public void viewSetScreenViewportMaximum(Rect var1);
 
-    default public void viewSetVisible(boolean bl) {
-    }
+    public void viewSetVisible(boolean var1);
 
-    default public void wakeupMapViewer() {
-    }
+    public void wakeupMapViewer();
 
-    default public void setZoomLevel(float f2) {
-    }
+    public void setZoomLevel(float var1);
 
-    default public void setDragRouteMarker(int n) {
-    }
+    public void setDragRouteMarker(int var1);
 
-    default public void setMapViewPortByWGS84Rectangle(NavRectangle navRectangle, int n) {
-    }
+    public void setMapViewPortByWGS84Rectangle(NavRectangle var1, int var2);
 
-    default public void highlightRouteBasedOnLength(long l, long l2, int n) {
-    }
+    public void highlightRouteBasedOnLength(long var1, long var3, int var5);
 
-    default public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetCategoryVisibility(int var1, int[] var2, boolean[] var3);
 
-    default public void ehSetCategoryVisibilityToDefault(int n) {
-    }
+    public void ehSetCategoryVisibilityToDefault(int var1);
 
-    default public void setWeatherVisualization(boolean bl) {
-    }
+    public void setWeatherVisualization(boolean var1);
 
-    default public void setHorizonMarkerVisibility(boolean bl) {
-    }
+    public void setHorizonMarkerVisibility(boolean var1);
 
-    default public void setRouteColoringPolicy(int n) {
-    }
+    public void setRouteColoringPolicy(int var1);
 
-    default public void setFrameRateMode(int n) {
-    }
+    public void setFrameRateMode(int var1);
 
-    default public void setSpeedAndFlowRoadClass(int n) {
-    }
+    public void setSpeedAndFlowRoadClass(int var1);
 
-    default public void setMapOverlays(int n, MapOverlay[] mapOverlayArray, int n2, int n3) {
-    }
+    public void setMapOverlays(int var1, MapOverlay[] var2, int var3, int var4);
 
-    default public void setRouteVisibility(boolean bl) {
-    }
+    public void setRouteVisibility(boolean var1);
 
-    default public void setVisibleRoutes(NavSegmentID[] navSegmentIDArray) {
-    }
+    public void setVisibleRoutes(NavSegmentID[] var1);
 
-    default public float getRequestedZoomLevel() {
-    }
+    public float getRequestedZoomLevel();
 }
 

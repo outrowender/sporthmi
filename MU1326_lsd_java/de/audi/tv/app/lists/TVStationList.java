@@ -5,8 +5,11 @@ package de.audi.tv.app.lists;
 
 import de.audi.atip.hmi.model.PropertyListCell;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
+import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DSITV;
 import de.audi.tv.app.dsi.DefaultTVListener;
@@ -17,10 +20,6 @@ import de.audi.tv.app.lists.IListContentSupplier;
 import de.audi.tv.app.lists.IStationList;
 import de.audi.tv.app.lists.ITVListsListener;
 import de.audi.tv.app.lists.StationMapper;
-import de.audi.tv.app.lists.TVStationList$ListListener;
-import de.audi.tv.app.lists.TVStationList$SettingListener;
-import de.audi.tv.app.lists.TVStationList$TVListenerImpl;
-import de.audi.tv.app.lists.TVStationList$TmpStationRemover;
 import de.audi.tv.app.lists.favorites.IFavoritesList;
 import de.audi.tv.app.settings.ISettingListener;
 import de.audi.tv.app.storage.TVStorage;
@@ -34,10 +33,10 @@ public class TVStationList
 extends AbstractStationList
 implements IStationList,
 IListContentSupplier {
-    private static final int REMOVE_TIMER_DELAY;
-    public final DefaultTVListener tvListener = new TVStationList$TVListenerImpl(this, null);
-    public final ISettingListener settingListener = new TVStationList$SettingListener(this, null);
-    private TVStationList$TmpStationRemover tmpStationRemover = null;
+    private static final int REMOVE_TIMER_DELAY = 30000;
+    public final DefaultTVListener tvListener = new TVListenerImpl();
+    public final ISettingListener settingListener = new SettingListener();
+    private TmpStationRemover tmpStationRemover = null;
     private Object removeMutex = new Object();
     private List stationListeners = new ArrayList(2);
     private final StationMapper mapper;
@@ -48,9 +47,9 @@ IListContentSupplier {
     static /* synthetic */ Class class$de$audi$tv$app$lists$TVStationList;
 
     public TVStationList(TVEnv tVEnv, TVStorage tVStorage, DSITV dSITV, StationMapper stationMapper) {
-        super(tVEnv, tVStorage, dSITV, 1085024000, (class$de$audi$tv$app$lists$TVStationList == null ? (class$de$audi$tv$app$lists$TVStationList = TVStationList.class$("de.audi.tv.app.lists.TVStationList")) : class$de$audi$tv$app$lists$TVStationList).getName());
+        super(tVEnv, tVStorage, dSITV, 2600000, (class$de$audi$tv$app$lists$TVStationList == null ? (class$de$audi$tv$app$lists$TVStationList = TVStationList.class$("de.audi.tv.app.lists.TVStationList")) : class$de$audi$tv$app$lists$TVStationList).getName());
         this.mapper = stationMapper;
-        this.stationList.setListener(new TVStationList$ListListener(this, null));
+        this.stationList.setListener(new ListListener());
     }
 
     public void resetToDefault() {
@@ -111,7 +110,7 @@ IListContentSupplier {
         AbstractTVStationRow abstractTVStationRow;
         if (serviceInfo == null) {
             baseListModelApp.setSelectedIndex(-1);
-            this.env.lcMain.log(-1601830656, "[TVStationList.updateSelection] service is null!");
+            this.env.lcMain.log(100000, "[TVStationList.updateSelection] service is null!");
             return;
         }
         SelectedItem selectedItem = baseListModelApp.getSelected();
@@ -138,16 +137,16 @@ IListContentSupplier {
             abstractTVStationRow = (AbstractTVStationRow)baseListModelApp.getRowByUniqueID(l);
         }
         if ((object = abstractTVStationRow.getProperties()) != null) {
-            this.env.getPropertyModel(-1247009024).setProperties(((PropertyListCell)object).getCategory(), ((PropertyListCell)object).getProperties());
+            this.env.getPropertyModel(2600117).setProperties(((PropertyListCell)object).getCategory(), ((PropertyListCell)object).getProperties());
         }
         baseListModelApp.setSelectedUniqueID(abstractTVStationRow.getUniqueID());
-        this.env.getChoiceModel(1571563264).setValue(baseListModelApp.getSelected().getIndex());
-        this.env.getChoiceModel(-1213454592).setValue(bl ? 1 : 0);
+        this.env.getChoiceModel(2600029).setValue(baseListModelApp.getSelected().getIndex());
+        this.env.getChoiceModel(2600119).setValue(bl ? 1 : 0);
         Object object2 = this.removeMutex;
         synchronized (object2) {
             abstractTVStationRow4 = (AbstractTVStationRow)baseListModelApp.getRow(0);
             if (this.tmpStationRemover == null && abstractTVStationRow4 != null && abstractTVStationRow.getUniqueID() != abstractTVStationRow4.getUniqueID()) {
-                this.tmpStationRemover = new TVStationList$TmpStationRemover(this, null);
+                this.tmpStationRemover = new TmpStationRemover();
                 this.tmpStationRemover.activate();
             }
         }
@@ -178,17 +177,14 @@ IListContentSupplier {
         }
     }
 
-    @Override
     public SelectedItem getSelected() {
         return this.stationList.getSelected();
     }
 
-    @Override
     public void markFavorites(long[] lArray) {
         this.changeFavoriteState(lArray, true);
     }
 
-    @Override
     public void unmarkFavorites(long[] lArray) {
         this.changeFavoriteState(lArray, false);
     }
@@ -208,31 +204,27 @@ IListContentSupplier {
                 if (n2 != n) continue;
                 PropertyListCell propertyListCell = abstractTVStationRow.getProperties();
                 if (propertyListCell != null) {
-                    this.env.getPropertyModel(-1247009024).setProperties(propertyListCell.getCategory(), propertyListCell.getProperties());
+                    this.env.getPropertyModel(2600117).setProperties(propertyListCell.getCategory(), propertyListCell.getProperties());
                 }
                 int n3 = bl ? 1 : 0;
-                this.env.getChoiceModel(-1213454592).setValue(n3);
+                this.env.getChoiceModel(2600119).setValue(n3);
             }
         }
         this.stationList.update(baseListModelApp);
     }
 
-    @Override
     public AbstractTVStationRow getRowByIndex(int n) {
         return (AbstractTVStationRow)this.stationList.getRow(n);
     }
 
-    @Override
     public BaseListModelApp getEmptyTmpList() {
         return this.stationList.getEmptyCopy();
     }
 
-    @Override
     public AbstractTVStationRow getTmpStation() {
         return this.getTemporaryService();
     }
 
-    @Override
     public void setStationList(List list, IFavoritesList iFavoritesList) {
         BaseListModelApp baseListModelApp = this.stationList.getEmptyCopy();
         baseListModelApp.append((EvoListRow[])list.toArray(new EvoListRow[list.size()]));
@@ -246,14 +238,12 @@ IListContentSupplier {
         return this.stationList.getID();
     }
 
-    @Override
     public void updateSelectionInList(BaseListModelApp baseListModelApp, IFavoritesList iFavoritesList) {
         ServiceInfo serviceInfo = this.storage.getTunedService();
         boolean bl = iFavoritesList.getFavoriteID(serviceInfo) != 0L;
         this.updateSelection(baseListModelApp, this.storage.getTunedService(), this.activeProgram, bl);
     }
 
-    @Override
     public void updateSelectedProgram(ProgramInfo programInfo, boolean bl) {
         this.activeProgram = programInfo;
         this.updateSelection(this.stationList, programInfo.serviceInfo, programInfo, bl);
@@ -261,24 +251,20 @@ IListContentSupplier {
         this.notifyUpdateSelectedStation((AbstractTVStationRow)this.stationList.getRow(this.stationList.getSelected().getIndex()));
     }
 
-    @Override
     public void updateSelectedService(ServiceInfo serviceInfo, boolean bl) {
         this.updateSelection(this.stationList, serviceInfo, null, bl);
         this.setMuteStatus(0);
         this.setCASstatus(0);
     }
 
-    @Override
     public int getIndexForUniqueID(long l) {
         return this.stationList.getIndexForUniqueID(l);
     }
 
-    @Override
     public BaseListModelApp getTmpList() {
         return this.stationList.getCopy();
     }
 
-    @Override
     public ServiceInfo getServiceForUniqueID(long l) {
         AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)this.stationList.getRowByUniqueID(l);
         if (abstractTVStationRow != null) {
@@ -287,7 +273,6 @@ IListContentSupplier {
         return null;
     }
 
-    @Override
     public ServiceInfo[] getServices() {
         BaseListModelApp baseListModelApp = this.getTmpList();
         ServiceInfo[] serviceInfoArray = new ServiceInfo[baseListModelApp.getLength()];
@@ -297,7 +282,6 @@ IListContentSupplier {
         return serviceInfoArray;
     }
 
-    @Override
     public ServiceInfo[] getScanList() {
         int n;
         BaseListModelApp baseListModelApp = this.getTmpList();
@@ -316,7 +300,6 @@ IListContentSupplier {
         return serviceInfoArray;
     }
 
-    @Override
     public void updateStationLogos(LogoInfo[] logoInfoArray) {
         BaseListModelApp baseListModelApp = this.getTmpList();
         block0: for (int i2 = 0; i2 < baseListModelApp.getLength(); ++i2) {
@@ -331,7 +314,6 @@ IListContentSupplier {
         this.stationList.update(baseListModelApp);
     }
 
-    @Override
     public void updateServiceLinking(boolean bl) {
         this.isServiceLinkingActive = bl;
     }
@@ -345,34 +327,95 @@ IListContentSupplier {
         }
     }
 
-    static /* synthetic */ Object access$400(TVStationList tVStationList) {
-        return tVStationList.removeMutex;
+    private class ListListener
+    extends DefaultBaseListModelListener {
+        private ListListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            TVStationList.this.env.lcHMI.log(10000000, "[TVStationList.itemSelected] [%2] %1", (Object)evoListRow, (long)n2);
+            if (TVStationList.this.addToFavoriteOracle.isAddToFavorites(evoListRow, n, n2, n3)) {
+                TVStationList.this.notifyAddFavoriteRequested(((AbstractTVStationRow)evoListRow).service);
+            } else {
+                TVStationList.this.dsi.changeService(((AbstractTVStationRow)evoListRow).service, true);
+                TVStationList.this.stationList.fireEvent(n4);
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (TVStationList.this.addToFavoriteOracle.isTuneBeforeAddingToFavoritesRequired()) {
+                TVStationList.this.dsi.changeService(((AbstractTVStationRow)evoListRow).service, true);
+            }
+            TVStationList.this.notifyAddFavoriteRequested(((AbstractTVStationRow)evoListRow).service);
+        }
     }
 
-    static /* synthetic */ AbstractTVStationRow access$500(TVStationList tVStationList) {
-        return tVStationList.getTemporaryService();
+    private class TVListenerImpl
+    extends DefaultTVListener {
+        private TVListenerImpl() {
+        }
+
+        public void updateMuteState(int n) {
+            TVStationList.this.setMuteStatus(n);
+        }
     }
 
-    static /* synthetic */ void access$600(TVStationList tVStationList) {
-        tVStationList.notifyUpdateList();
+    private class SettingListener
+    extends ISettingListener.Stub {
+        private SettingListener() {
+        }
+
+        public void updateStationListSorting(int n) {
+            TVStationList.this.stationListSorting = n;
+        }
     }
 
-    static /* synthetic */ TVStationList$TmpStationRemover access$702(TVStationList tVStationList, TVStationList$TmpStationRemover tmpStationRemover) {
-        tVStationList.tmpStationRemover = tmpStationRemover;
-        return tVStationList.tmpStationRemover;
-    }
+    private class TmpStationRemover
+    implements TimerListener {
+        private final Timer timer = new Timer("tmpStationRemoveDelay", 30000L, true, this);
+        private boolean canceled = false;
 
-    static /* synthetic */ IAddToFavoriteOracle access$800(TVStationList tVStationList) {
-        return tVStationList.addToFavoriteOracle;
-    }
+        private TmpStationRemover() {
+        }
 
-    static /* synthetic */ void access$900(TVStationList tVStationList, ServiceInfo serviceInfo) {
-        tVStationList.notifyAddFavoriteRequested(serviceInfo);
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            Object object = TVStationList.this.removeMutex;
+            synchronized (object) {
+                if (!this.canceled) {
+                    AbstractTVStationRow abstractTVStationRow = TVStationList.this.getTemporaryService();
+                    if (abstractTVStationRow != null) {
+                        SelectedItem selectedItem = TVStationList.this.stationList.getSelected();
+                        TVStationList.this.stationList.remove(abstractTVStationRow);
+                        if (selectedItem != null) {
+                            TVStationList.this.stationList.setSelectedUniqueID(selectedItem.getUniqueID());
+                        }
+                        TVStationList.this.notifyUpdateList();
+                    }
+                    TVStationList.this.tmpStationRemover = null;
+                }
+            }
+        }
 
-    static /* synthetic */ int access$1002(TVStationList tVStationList, int n) {
-        tVStationList.stationListSorting = n;
-        return tVStationList.stationListSorting;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void cancelTimer(Timer timer) {
+            Object object = TVStationList.this.removeMutex;
+            synchronized (object) {
+                this.canceled = true;
+            }
+        }
+
+        public void activate() {
+            this.timer.start();
+        }
+
+        public void cancel() {
+            this.timer.cancel();
+        }
     }
 }
 

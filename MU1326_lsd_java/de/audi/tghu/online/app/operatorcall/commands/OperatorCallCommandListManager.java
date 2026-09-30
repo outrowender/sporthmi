@@ -28,7 +28,7 @@ extends CommandListManager {
     }
 
     public void startFullSequence(OperatorCallData operatorCallData, AbstractOperatorCall abstractOperatorCall) {
-        this.getLogChannel().log(1078071040, "OperatorCallCommandListManager#startFullSequence called");
+        this.getLogChannel().log(1000000, "OperatorCallCommandListManager#startFullSequence called");
         this.cmdList = new OperatorCallCommandList(this, this.dsiHandler, this.telHandler, abstractOperatorCall);
         this.cmdList.startFullSequence(operatorCallData);
     }
@@ -38,13 +38,13 @@ extends CommandListManager {
     }
 
     public void startDownloadPoi(AbstractOperatorCall abstractOperatorCall) {
-        this.getLogChannel().log(1078071040, "OperatorCallCommandListManager#startDownloadPoi called");
+        this.getLogChannel().log(1000000, "OperatorCallCommandListManager#startDownloadPoi called");
         this.cmdList = new OperatorCallCommandList(this, this.dsiHandler, abstractOperatorCall);
         this.cmdList.downloadOldResults();
     }
 
     public void startNewCall(OperatorCallData operatorCallData, AbstractOperatorCall abstractOperatorCall) {
-        this.getLogChannel().log(1078071040, "OperatorCallCommandListManager#startNewCall called");
+        this.getLogChannel().log(1000000, "OperatorCallCommandListManager#startNewCall called");
         this.cmdList = new OperatorCallCommandList(this, this.dsiHandler, this.telHandler, abstractOperatorCall);
         this.cmdList.startNewCall(operatorCallData);
     }
@@ -58,13 +58,13 @@ extends CommandListManager {
     }
 
     public void abortCall(AbstractOperatorCall abstractOperatorCall) {
-        this.getLogChannel().log(1078071040, "OperatorCallCommandListManager#abortCall called");
+        this.getLogChannel().log(1000000, "OperatorCallCommandListManager#abortCall called");
         this.cmdList = new OperatorCallCommandList(this, this.dsiHandler, this.telHandler, abstractOperatorCall);
         this.cmdList.abortCall();
     }
 
     public void hangupAndDownloadPoi(AbstractOperatorCall abstractOperatorCall) {
-        this.getLogChannel().log(1078071040, "OperatorCallCommandListManager#hangupAndDownloadPoi called");
+        this.getLogChannel().log(1000000, "OperatorCallCommandListManager#hangupAndDownloadPoi called");
         this.cmdList = new OperatorCallCommandList(this, this.dsiHandler, this.telHandler, abstractOperatorCall);
         this.cmdList.hangupAndDownloadPoi();
     }

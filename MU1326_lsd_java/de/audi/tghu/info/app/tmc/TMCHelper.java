@@ -14,9 +14,9 @@ import org.dsi.ifc.tmc.TmcListElement;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public class TMCHelper {
-    public static final int TYPE_DIRECTION_ROW;
-    public static final int TYPE_DETAIL_ROW;
-    public static final String ROUTEINFO_APPENDSTRING_HOVLANE;
+    public static final int TYPE_DIRECTION_ROW = 0;
+    public static final int TYPE_DETAIL_ROW = 1;
+    public static final String ROUTEINFO_APPENDSTRING_HOVLANE = "\u25ca ";
     private InfoEnv env;
     private Calendar cal = Calendar.getInstance();
     private DateMetric dm = new DateMetric(this.cal.getTime(), 1);
@@ -27,74 +27,74 @@ public class TMCHelper {
         this.env = infoEnv;
         region = infoEnv.getFramework().getSysConst(442);
         this.log = this.env.getLogChannel("App.TMC.Helper");
-        this.log.log(-2137614336, "X-Clacks-Overhead: GNU Terry Pratchett");
+        this.log.log(10000000, "X-Clacks-Overhead: GNU Terry Pratchett");
     }
 
     void checkActivateShowInMap(TmcListElement tmcListElement, EvoListRow evoListRow, int n) {
         if (tmcListElement == null) {
-            this.log.log(-1601830656, "[TMCHelper#checkActivateSkInMap] List element is null, disable SK.");
-            this.env.getChoiceModel(-1247738112).setValue(1);
+            this.log.log(100000, "[TMCHelper#checkActivateSkInMap] List element is null, disable SK.");
+            this.env.getChoiceModel(500149).setValue(1);
             return;
         }
         TmcMessage tmcMessage = tmcListElement.getMessage();
         if (tmcMessage == null) {
-            this.log.log(1078071040, "[TMCHelper#checkActivateSkInMap] Message is null, disable ShowInMap.");
-            this.env.getChoiceModel(-1247738112).setValue(1);
+            this.log.log(1000000, "[TMCHelper#checkActivateSkInMap] Message is null, disable ShowInMap.");
+            this.env.getChoiceModel(500149).setValue(1);
             return;
         }
         if (!tmcMessage.isHasGeoPos()) {
-            this.log.log(-2137614336, "[TMCHelper#checkActivateSkInMap] Message #%2 with ID %1 has no geo position, disable ShowInMap.", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
-            this.env.getChoiceModel(-1247738112).setValue(1);
+            this.log.log(10000000, "[TMCHelper#checkActivateSkInMap] Message #%2 with ID %1 has no geo position, disable ShowInMap.", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
+            this.env.getChoiceModel(500149).setValue(1);
             return;
         }
         if (!this.containsValidEventIconRenderInfos(evoListRow, n)) {
-            this.log.log(-2137614336, "[TMCHelper#checkActivateSkInMap] No event icons available for message #%2 with ID %1, disable ShowInMap.", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
-            this.env.getChoiceModel(-1247738112).setValue(1);
+            this.log.log(10000000, "[TMCHelper#checkActivateSkInMap] No event icons available for message #%2 with ID %1, disable ShowInMap.", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
+            this.env.getChoiceModel(500149).setValue(1);
             return;
         }
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "[TMCHelper#checkActivateSkInMap] Enable ShowInMap for message #%2 with ID %1.", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
+            this.log.log(100000000, "[TMCHelper#checkActivateSkInMap] Enable ShowInMap for message #%2 with ID %1.", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
         }
-        this.env.getChoiceModel(-1247738112).setValue(0);
+        this.env.getChoiceModel(500149).setValue(0);
     }
 
     void checkActivateSkReadOut(TmcListElement tmcListElement) {
         if (tmcListElement == null) {
-            this.log.log(-1601830656, "[TMCHelper#checkActivateSkReadOut] List element is null, disable SK.");
-            this.env.getChoiceModel(-543095040).setValue(1);
+            this.log.log(100000, "[TMCHelper#checkActivateSkReadOut] List element is null, disable SK.");
+            this.env.getChoiceModel(500191).setValue(1);
             return;
         }
         TmcMessage tmcMessage = tmcListElement.getMessage();
         if (tmcMessage == null) {
             if (this.log.isDebug2()) {
-                this.log.log(14808325, "[TMCHelper#checkActivateSkReadOut] Message is null, disable SK.");
+                this.log.log(100000000, "[TMCHelper#checkActivateSkReadOut] Message is null, disable SK.");
             }
-            this.env.getChoiceModel(-543095040).setValue(1);
+            this.env.getChoiceModel(500191).setValue(1);
             return;
         }
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "[TMCHelper#checkActivateSkReadOut] Enable SK for Msg #%2 with ID %1. ", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
+            this.log.log(100000000, "[TMCHelper#checkActivateSkReadOut] Enable SK for Msg #%2 with ID %1. ", tmcMessage.getMessageID(), tmcMessage.getMessageCount());
         }
-        this.env.getChoiceModel(-543095040).setValue(0);
+        this.env.getChoiceModel(500191).setValue(0);
     }
 
     void checkShowNextReturnButtonInDetailView(TmcMessage tmcMessage) {
         if (tmcMessage == null) {
-            this.env.getChoiceModel(-643758336).setValue(1);
+            this.env.getChoiceModel(500185).setValue(1);
             if (this.log.isDebug2()) {
-                this.log.log(14808325, "[TMCHelper#checkShowNextReturnButtonInDetailView] Show back button.");
+                this.log.log(100000000, "[TMCHelper#checkShowNextReturnButtonInDetailView] Show back button.");
             }
         } else {
-            this.env.getChoiceModel(-643758336).setValue(0);
+            this.env.getChoiceModel(500185).setValue(0);
             if (this.log.isDebug2()) {
-                this.log.log(14808325, "[TMCHelper#checkShowNextReturnButtonInDetailView] Show next button");
+                this.log.log(100000000, "[TMCHelper#checkShowNextReturnButtonInDetailView] Show next button");
             }
         }
     }
 
     boolean containsValidEventIconRenderInfos(EvoListRow evoListRow, int n) {
         if (evoListRow == null) {
-            this.log.log(-2137614336, "[TMCHelper#containsInvalidEventIconIds] Contains no valid data, row is null. ");
+            this.log.log(10000000, "[TMCHelper#containsInvalidEventIconIds] Contains no valid data, row is null. ");
             return false;
         }
         Object var3_3 = null;
@@ -118,7 +118,7 @@ public class TMCHelper {
         }
         if (var3_3 == null || (var3_3).length == 0) {
             if (this.log.isDebug2()) {
-                this.log.log(14808325, "[TMCHelper#containsInvalidEventIconIds] Contains no valid data, renderInfo is null or empty. ");
+                this.log.log(100000000, "[TMCHelper#containsInvalidEventIconIds] Contains no valid data, renderInfo is null or empty. ");
             }
             return false;
         }
@@ -130,12 +130,12 @@ public class TMCHelper {
         }
         if (bl) {
             if (this.log.isDebug2()) {
-                this.log.log(14808325, "[TMCHelper#containsInvalidEventIconIds] All icon rendering infos are invalid or null (%1 entries). ", (long)(var3_3).length);
+                this.log.log(100000000, "[TMCHelper#containsInvalidEventIconIds] All icon rendering infos are invalid or null (%1 entries). ", (long)(var3_3).length);
             }
             return false;
         }
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "[TMCHelper#containsInvalidEventIconIds] TMC message contains valid event icon rendering infos. ");
+            this.log.log(100000000, "[TMCHelper#containsInvalidEventIconIds] TMC message contains valid event icon rendering infos. ");
         }
         return true;
     }
@@ -154,35 +154,35 @@ public class TMCHelper {
 
     public static String determineHovLaneAppendString(TmcMessage tmcMessage) {
         if (TMCHelper.isHURegionNAR() && tmcMessage != null && tmcMessage.isAffectsHOVLane()) {
-            return "\u25ca ";
+            return ROUTEINFO_APPENDSTRING_HOVLANE;
         }
         return "";
     }
 
     void callCombiForTmcReadOutStarted() {
-        this.log.log(-2137614336, "[TMCHelper#callCombiForTmcReadOutStarted] Called, COMBI_T_M_C_ACTIVE_CHOICE set to value: %1", 1L);
+        this.log.log(10000000, "[TMCHelper#callCombiForTmcReadOutStarted] Called, COMBI_T_M_C_ACTIVE_CHOICE set to value: %1", 1L);
         this.env.getChoiceModel(85).setValue(1);
     }
 
     void callCombiForTmcReadOutFinished() {
-        this.log.log(-2137614336, "[TMCHelper#callCombiForTmcReadOutFinished] Called, COMBI_T_M_C_ACTIVE_CHOICE set to value: %1", 0L);
+        this.log.log(10000000, "[TMCHelper#callCombiForTmcReadOutFinished] Called, COMBI_T_M_C_ACTIVE_CHOICE set to value: %1", 0L);
         this.env.getChoiceModel(85).setValue(0);
     }
 
     void setTmcReadOutDataAtCombi(TmcMessage tmcMessage) {
         if (tmcMessage == null) {
-            this.log.log(-2137614336, "[TMCHelper#setTmcReadOutDataAtCombi] Message is null, do nothing.");
+            this.log.log(10000000, "[TMCHelper#setTmcReadOutDataAtCombi] Message is null, do nothing.");
             return;
         }
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "[TMCHelper#setTmcReadOutDataAtCombi] Called, msg: %1", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessage));
+            this.log.log(100000000, "[TMCHelper#setTmcReadOutDataAtCombi] Called, msg: %1", (Object)TMCHelper.formatTmcMessageForDebugging(tmcMessage));
         }
-        this.cal.setTime(new Date(tmcMessage.getTimeStamp() * 0));
+        this.cal.setTime(new Date(tmcMessage.getTimeStamp() * 1000L));
         this.dm.setDate(this.cal.getTime());
         String string = tmcMessage.getProviderName();
         String string2 = this.dm.format();
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "[TMCHelper#setTmcReadOutDataAtCombi] Set provider '%1' and time '%2'", (Object)string, (Object)string2);
+            this.log.log(100000000, "[TMCHelper#setTmcReadOutDataAtCombi] Set provider '%1' and time '%2'", (Object)string, (Object)string2);
         }
         this.env.getLabelModel(86).setText(string);
         this.env.getLabelModel(87).setText(string2);

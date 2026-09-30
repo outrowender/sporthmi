@@ -6,10 +6,8 @@ package de.audi.tghu.navi.app.addressinput.poi.preferredstations;
 import org.dsi.ifc.navigation.Brand;
 
 public interface IPreferredStationsModelAccess {
-    default public void preferrBrand(long l, boolean bl) {
-    }
+    public void preferrBrand(long var1, boolean var3);
 
-    default public void brandsUpdated(Brand[] brandArray) {
-    }
+    public void brandsUpdated(Brand[] var1);
 }
 

@@ -3,17 +3,17 @@
  */
 package de.audi.tv.app.settings;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tv.app.base.TVEnv;
 import de.audi.tv.app.dsi.DSITV;
-import de.audi.tv.app.settings.AVNorm$ChoiceListener;
 import de.audi.tv.app.settings.SettingsStorage;
 
 public class AVNorm {
-    private static final int ITEM_AUTO;
-    private static final int ITEM_PAL;
-    private static final int ITEM_NTSC;
-    static final int DEFAULT;
+    private static final int ITEM_AUTO = 0;
+    private static final int ITEM_PAL = 1;
+    private static final int ITEM_NTSC = 2;
+    static final int DEFAULT = 0;
     private final TVEnv env;
     private final SettingsStorage storage;
     private final DSITV dsi;
@@ -22,14 +22,14 @@ public class AVNorm {
         this.env = tVEnv;
         this.storage = settingsStorage;
         this.dsi = dSITV;
-        ChoiceModelApp choiceModelApp = tVEnv.getChoiceModel(-1548998912);
-        choiceModelApp.setChoiceListener(new AVNorm$ChoiceListener(this, null));
+        ChoiceModelApp choiceModelApp = tVEnv.getChoiceModel(2600099);
+        choiceModelApp.setChoiceListener(new ChoiceListener());
         choiceModelApp.setValue(0);
     }
 
     private void choiceItemSelected(int n) {
         int n2;
-        this.env.lcHMI.log(-2137614336, "[AVNorm.choiceItemSelected] item:%1", (long)n);
+        this.env.lcHMI.log(10000000, "[AVNorm.choiceItemSelected] item:%1", (long)n);
         switch (n) {
             case 0: {
                 n2 = 0;
@@ -48,7 +48,7 @@ public class AVNorm {
             }
         }
         this.dsi.setAVNorm(n2);
-        this.env.getChoiceModel(-1548998912).setValue(n);
+        this.env.getChoiceModel(2600099).setValue(n);
         this.storage.saveAVNorm(n);
     }
 
@@ -76,8 +76,14 @@ public class AVNorm {
         return Integer.toString(n);
     }
 
-    static /* synthetic */ void access$100(AVNorm aVNorm, int n) {
-        aVNorm.choiceItemSelected(n);
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            AVNorm.this.choiceItemSelected(n2);
+        }
     }
 }
 

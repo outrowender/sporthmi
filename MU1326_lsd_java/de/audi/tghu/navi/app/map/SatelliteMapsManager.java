@@ -29,24 +29,20 @@ implements ISatelliteMapsManager {
         this.logger = abstractMap.getMapLogChannel();
     }
 
-    @Override
     public void setCopyrightPosition(NavRectangle navRectangle, int n, int n2) {
-        this.logger.log(1078071040, "SatelliteMapsManager#setCopyrightPosition()");
+        this.logger.log(1000000, "SatelliteMapsManager#setCopyrightPosition()");
         this.abstractMap.getMVRequest().getMVRequestStd().setCopyrightPosition(navRectangle, n, n2);
     }
 
-    @Override
     public void changeMapStyle(int n) {
-        this.logger.log(1078071040, "SatelliteMapsManager#changeMapStyle() - requestedMapStyle: %1", (long)n);
+        this.logger.log(1000000, "SatelliteMapsManager#changeMapStyle() - requestedMapStyle: %1", (long)n);
         this.abstractMap.getMVRequest().getMVRequestStd().setMapStyle(n);
     }
 
-    @Override
     public boolean isSatelliteMapSupported() {
         return Util.isGoogleEarthPresent(this.env.getFramework()) && this.abstractMap.getMapConfig().hasGoogleEarth();
     }
 
-    @Override
     public boolean isSatelliteMapActive() {
         if (this.abstractMap.isMapMain()) {
             return this.sattelliteMapMediator.getMmuSatellitemapsmanagerFSM().isSatelliteMapsActive();
@@ -54,12 +50,10 @@ implements ISatelliteMapsManager {
         return this.sattelliteMapMediator.getKombiSatellitemapsmanagerFSM().isSatelliteMapsActive();
     }
 
-    @Override
     public void setMediator(SatelliteMapsMediator satelliteMapsMediator) {
         this.sattelliteMapMediator = satelliteMapsMediator;
     }
 
-    @Override
     public void setSatelliteMapIconsAccordingToSetup() {
         this.getMediatorFSMForActiveMap().setLogosAccordingToSetup();
     }
@@ -71,12 +65,10 @@ implements ISatelliteMapsManager {
         return this.sattelliteMapMediator.getKombiSatellitemapsmanagerFSM();
     }
 
-    @Override
     public AbstractMap getMap() {
         return this.abstractMap;
     }
 
-    @Override
     public int getActiveRendererID() {
         return this.abstractMap.getMainRequestCtl().getID();
     }

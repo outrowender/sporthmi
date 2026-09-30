@@ -9,8 +9,7 @@ import de.audi.atip.interapp.navigation.previewmap.gui.GuiTooltipInformationCont
 import de.audi.tghu.navi.app.map.AbstractMap;
 
 public abstract class MapItemSelectionAction {
-    public abstract void setPreviewMap(int n, AbstractMap abstractMap, IPreviewMap iPreviewMap, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public abstract void setPreviewMap(int var1, AbstractMap var2, IPreviewMap var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
     public boolean isShow() {
         return false;

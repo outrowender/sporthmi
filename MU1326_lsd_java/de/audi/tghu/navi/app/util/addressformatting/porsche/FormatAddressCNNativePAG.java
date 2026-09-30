@@ -16,7 +16,6 @@ extends FormatAddressAsiaNativePAG {
         super(navigationEnv);
     }
 
-    @Override
     protected void formatAddressWhenStreetExists(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.junction.isEmpty()) {
             if (locationFormattingRequest.houseNumber.isEmpty()) {
@@ -36,7 +35,6 @@ extends FormatAddressAsiaNativePAG {
         }
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         this.appendToFirstLineContactFavOrPOIName(locationFormattingRequest, locationFormattingResponse);
@@ -49,7 +47,6 @@ extends FormatAddressAsiaNativePAG {
         return locationFormattingResponse;
     }
 
-    @Override
     protected void formatDefaultTwoLines(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.district.isEmpty()) {
             if (!locationFormattingRequest.city.isEmpty()) {
@@ -63,7 +60,7 @@ extends FormatAddressAsiaNativePAG {
                 locationFormattingResponse.appendToFirstLine(locationFormattingRequest.state);
                 locationFormattingResponse.appendToSecondLine(locationFormattingRequest.state);
             } else {
-                this.logChannel.log(-2137614336, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information, show Offroad as default text", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information, show Offroad as default text", (Object)this.CLASS_NAME);
                 if (locationFormattingRequest.areaInfo.isEmpty()) {
                     locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(this.env.getTranslatedText(13)));
                 } else {
@@ -83,7 +80,6 @@ extends FormatAddressAsiaNativePAG {
         }
     }
 
-    @Override
     protected void formatFullAddressInformationForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         this.formatThreeLevelCityForSecondLine(locationFormattingRequest, locationFormattingResponse);
         if (!locationFormattingRequest.street.isEmpty() || !locationFormattingRequest.houseNumber.isEmpty()) {
@@ -103,7 +99,6 @@ extends FormatAddressAsiaNativePAG {
         }
     }
 
-    @Override
     protected void formatThreeLevelCityForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.state.isEmpty()) {
             if (!locationFormattingRequest.city.isEmpty() && !locationFormattingRequest.state.equals(locationFormattingRequest.city)) {

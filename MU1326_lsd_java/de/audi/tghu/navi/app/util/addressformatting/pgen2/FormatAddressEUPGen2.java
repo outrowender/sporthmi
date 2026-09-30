@@ -16,7 +16,6 @@ extends FormatAddressEUPAG {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         if (!locationFormattingRequest.poiName.isEmpty()) {
             return this.formatPoi(locationFormattingRequest);
@@ -26,7 +25,7 @@ extends FormatAddressEUPAG {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.contactOrFavoriteName);
             this.formatSecondlinefortwoLines(locationFormattingRequest, locationFormattingResponse);
             if (locationFormattingResponse.getSecondLineForTruffles().getText().length() == 0) {
-                locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(new StringBuffer().append("(").append(this.env.getTranslatedText(13)).append(")").toString()));
+                locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText("(" + this.env.getTranslatedText(13) + ")"));
             }
             return locationFormattingResponse;
         }
@@ -97,7 +96,6 @@ extends FormatAddressEUPAG {
         }
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         if (!locationFormattingRequest.contactOrFavoriteName.isEmpty()) {

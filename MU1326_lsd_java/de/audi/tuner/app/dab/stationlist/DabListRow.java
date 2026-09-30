@@ -20,15 +20,15 @@ import org.dsi.ifc.radio.ServiceInfo;
 public class DabListRow
 extends AbstractRadioListRow
 implements IContainsDabStation {
-    public static final int NUM_OF_COLS;
-    private static final int INDEX_SERVICE_NAME;
-    public static final int INDEX_ENSEMBLE_NAME;
-    private static final int INDEX_PTY;
-    private static final int INDEX_RECEPTION;
-    private static final int INDEX_RECORD_SET;
-    private static final int INDEX_DISPLAYED_IMAGE;
-    public static final int INDEX_IS_FAVORITE;
-    private static final String CLOSED_ENSEMBLE_SEPARATOR;
+    public static final int NUM_OF_COLS = 9;
+    private static final int INDEX_SERVICE_NAME = 0;
+    public static final int INDEX_ENSEMBLE_NAME = 1;
+    private static final int INDEX_PTY = 2;
+    private static final int INDEX_RECEPTION = 3;
+    private static final int INDEX_RECORD_SET = 4;
+    private static final int INDEX_DISPLAYED_IMAGE = 5;
+    public static final int INDEX_IS_FAVORITE = 6;
+    private static final String CLOSED_ENSEMBLE_SEPARATOR = ": ";
     private final RecordSets recordSets;
     protected final DabStation station;
     private int reception = 0;
@@ -70,7 +70,6 @@ implements IContainsDabStation {
         this.station = dabListRow.station;
     }
 
-    @Override
     public EvoListRow copy() {
         return new DabListRow(this);
     }
@@ -86,7 +85,7 @@ implements IContainsDabStation {
         String string2;
         if (this.isClosed()) {
             Buffer buffer = new Buffer(this.station.ensemble.getShortName());
-            buffer.append(": ");
+            buffer.append(CLOSED_ENSEMBLE_SEPARATOR);
             buffer.append(string);
             string2 = buffer.toString();
         } else {
@@ -120,14 +119,12 @@ implements IContainsDabStation {
         return this.tmpStation;
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         TunerObjectContainer tunerObjectContainer = new TunerObjectContainer(new DabStation(this.station));
         tunerObjectContainer.setReceptionStatus(this.getInteger(3));
         return tunerObjectContainer;
     }
 
-    @Override
     public DabStation getDabStation() {
         return this.station;
     }

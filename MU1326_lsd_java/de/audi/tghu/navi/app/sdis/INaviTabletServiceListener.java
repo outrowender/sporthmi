@@ -10,16 +10,12 @@ import org.dsi.ifc.navigation.PosPosition;
 import org.dsi.ifc.navigation.RgInfoForNextDestination;
 
 public interface INaviTabletServiceListener {
-    default public void updateCarPosition(PosPosition posPosition) {
-    }
+    public void updateCarPosition(PosPosition var1);
 
-    default public void updateRouteGuidanceActive(boolean bl) {
-    }
+    public void updateRouteGuidanceActive(boolean var1);
 
-    default public void updateNextDestinationInfo(RgInfoForNextDestination rgInfoForNextDestination) {
-    }
+    public void updateNextDestinationInfo(RgInfoForNextDestination var1);
 
-    default public void updateDestinationInfo(NavRouteListData[] navRouteListDataArray, NavLocation[] navLocationArray, NavigationEnv navigationEnv) {
-    }
+    public void updateDestinationInfo(NavRouteListData[] var1, NavLocation[] var2, NavigationEnv var3);
 }
 

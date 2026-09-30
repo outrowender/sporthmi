@@ -19,7 +19,7 @@ public class DBIncompleteController {
     }
 
     public void updateNavDbRegionsState(int n, String[] stringArray, int n2) {
-        this.logChannel.log(-2137614336, "DBIncompleteController#updateNavDbRegionsState(%1,%2,%3)", (Object)stringArray, (long)n, (long)n2);
+        this.logChannel.log(10000000, "DBIncompleteController#updateNavDbRegionsState(%1,%2,%3)", (Object)stringArray, (long)n, (long)n2);
         if (n2 != 1) {
             return;
         }
@@ -27,7 +27,7 @@ public class DBIncompleteController {
             return;
         }
         if (n == 1 && this.env.getChoiceModel(392).getValue() == 0) {
-            this.logChannel.log(-2137614336, "DBIncompleteController#updateNavDbRegionsState(%1,%2,%3) - update was not OK.", (Object)stringArray, (long)n, (long)n2);
+            this.logChannel.log(10000000, "DBIncompleteController#updateNavDbRegionsState(%1,%2,%3) - update was not OK.", (Object)stringArray, (long)n, (long)n2);
             this.dbIncompleteModelAccess.onUpdateNavDbRegionsState(n, stringArray);
         }
     }

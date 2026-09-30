@@ -14,11 +14,10 @@ extends TranslateLocationCommand {
         super((NavLocation)null);
     }
 
-    @Override
     public void execute() {
         NavLocation navLocation = this.navigation.getVehicle().getVehicleCountryLocation();
         if (navLocation == null) {
-            this.logger.log(1078071040, "TranslateVehicleCountryLocationCommand#execute() - vehicle country location not set, translation not needed");
+            this.logger.log(1000000, "TranslateVehicleCountryLocationCommand#execute() - vehicle country location not set, translation not needed");
             this.getCommandList().commandFinished();
         } else {
             this.setRouteToTranslate(TranslateVehicleCountryLocationCommand.constructRouteToTranslate(navLocation));
@@ -26,9 +25,8 @@ extends TranslateLocationCommand {
         }
     }
 
-    @Override
     public CommandList handleTranslatedLocation(NavLocation navLocation) {
-        this.logger.log(-2137614336, "TranslateVehicleCountryLocationCommand#handleTranslatedLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logger.log(10000000, "TranslateVehicleCountryLocationCommand#handleTranslatedLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
         this.navigation.getVehicle().setVehicleCountryLocation(navLocation);
         return null;
     }

@@ -4,8 +4,6 @@
 package de.audi.tghu.navi.app.map.utils;
 
 import de.audi.atip.hmi.intercommunication.MixedListConstants;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneGuidance;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollGateInfo;
 import de.audi.atip.hmi.model.BaseListRow;
 import de.audi.atip.hmi.model.HMIResourceLocator;
 import de.audi.atip.hmi.model.IconCell;
@@ -20,9 +18,10 @@ import de.audi.atip.interapp.locationaccessor.IMyLocationAccessor;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.DateMetric;
 import de.audi.atip.util.StringUtilities;
+import de.audi.tghu.navi.app.IconHandler;
+import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.routeinfo.LaneGuidanceWrapper;
 import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHelper;
-import de.audi.tghu.navi.app.map.utils.MixedListRow$IRouteInfoEnv;
 import de.audi.tghu.navi.app.util.IconUtil;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
@@ -41,12 +40,12 @@ public class MixedListRow
 extends BaseListRow
 implements MixedListConstants,
 Comparable {
-    private static final int TRAFFIC_LIGHT_ICON_VISIBLE;
-    private static final int TRAFFIC_LIGHT_ICON_INVISIBLE;
-    public static final int REAL_TURN_FALSE;
-    public static final int REAL_TURN_TRUE;
-    public static final String DEFAULT_EMPTY_STRING;
-    protected MixedListRow$IRouteInfoEnv env;
+    private static final int TRAFFIC_LIGHT_ICON_VISIBLE = 0;
+    private static final int TRAFFIC_LIGHT_ICON_INVISIBLE = 1;
+    public static final int REAL_TURN_FALSE = 0;
+    public static final int REAL_TURN_TRUE = 1;
+    public static final String DEFAULT_EMPTY_STRING = "---";
+    protected IRouteInfoEnv env;
     private LogChannel logger;
     public int content = -1;
     public String name = "";
@@ -54,14 +53,14 @@ Comparable {
     public int destinationIndex;
     private LaneGuidanceWrapper lastLaneGuidanceWrapper = null;
 
-    public MixedListRow(MixedListRow$IRouteInfoEnv iRouteInfoEnv, LogChannel logChannel) {
+    public MixedListRow(IRouteInfoEnv iRouteInfoEnv, LogChannel logChannel) {
         this(new ListCell[69], iRouteInfoEnv, logChannel);
     }
 
-    private MixedListRow(ListCell[] listCellArray, MixedListRow$IRouteInfoEnv mixedListRow$IRouteInfoEnv, LogChannel logChannel) {
+    private MixedListRow(ListCell[] listCellArray, IRouteInfoEnv iRouteInfoEnv, LogChannel logChannel) {
         super(new ListCell[69]);
         boolean bl;
-        this.env = mixedListRow$IRouteInfoEnv;
+        this.env = iRouteInfoEnv;
         this.logger = logChannel;
         listCellArray[0] = IntegerListCell.create(3);
         listCellArray[1] = this.env.getHelper().createEmptyIconCell();
@@ -117,8 +116,8 @@ Comparable {
         listCellArray[51] = new TextListCell(this.env.formatDistStr(0L));
         listCellArray[52] = new TextListCell(this.env.getHelper().formatMillisecond(0L));
         listCellArray[49] = this.env.getHelper().createEmptyTextListCell();
-        listCellArray[60] = new ObjectListCell(new MixedListConstants$TollGateInfo());
-        listCellArray[61] = new ObjectListCell(new MixedListConstants$LaneGuidance());
+        listCellArray[60] = new ObjectListCell(new MixedListConstants.TollGateInfo());
+        listCellArray[61] = new ObjectListCell(new MixedListConstants.LaneGuidance());
         listCellArray[62] = this.env.getHelper().createZeroLongListCell();
         listCellArray[63] = this.env.getHelper().createZeroLongListCell();
         if (Util.isPorsche(this.env.getNavigationEnv().getFramework())) {
@@ -305,7 +304,7 @@ Comparable {
     }
 
     private void setCellTMCEventDelay(long l) {
-        this.setCell(65, new LongListCell(l * 0));
+        this.setCell(65, new LongListCell(l * 1000L));
     }
 
     public void setCellCalculating(String string) {
@@ -316,15 +315,14 @@ Comparable {
         this.setText(49, string);
     }
 
-    private void setCellTollgateInfo(MixedListConstants$TollGateInfo mixedListConstants$TollGateInfo) {
-        this.getCells()[60] = new ObjectListCell(mixedListConstants$TollGateInfo);
+    private void setCellTollgateInfo(MixedListConstants.TollGateInfo tollGateInfo) {
+        this.getCells()[60] = new ObjectListCell(tollGateInfo);
     }
 
-    private void setCellLaneGuidance(MixedListConstants$LaneGuidance mixedListConstants$LaneGuidance) {
-        this.getCells()[61] = new ObjectListCell(mixedListConstants$LaneGuidance);
+    private void setCellLaneGuidance(MixedListConstants.LaneGuidance laneGuidance) {
+        this.getCells()[61] = new ObjectListCell(laneGuidance);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         for (int i2 = 0; i2 < this.getCells().length; ++i2) {
@@ -355,15 +353,15 @@ Comparable {
 
     public void updateValuesForTurns(TurnListElement turnListElement) {
         if (null == turnListElement) {
-            this.getLogger().log(1078071040, "MixedListRow#updateValuesForTurns() - turnListElement is null");
+            this.getLogger().log(1000000, "MixedListRow#updateValuesForTurns() - turnListElement is null");
             return;
         }
         if (null == turnListElement.getManeuver()) {
-            this.getLogger().log(1078071040, "MixedListRow#updateValuesForTurns() - turnListElement-maneuver is null");
+            this.getLogger().log(1000000, "MixedListRow#updateValuesForTurns() - turnListElement-maneuver is null");
             return;
         }
         if (turnListElement.getManeuver().length < 1) {
-            this.getLogger().log(1078071040, "MixedListRow#updateValuesForTurns() - turnListElement-maneuver-lenth: %1", (long)turnListElement.getManeuver().length);
+            this.getLogger().log(1000000, "MixedListRow#updateValuesForTurns() - turnListElement-maneuver-lenth: %1", (long)turnListElement.getManeuver().length);
             return;
         }
         ManeuverElement maneuverElement = turnListElement.getManeuver()[0];
@@ -381,7 +379,7 @@ Comparable {
         this.setInteger(46, this.env.getHelper().isRealTurnElement(maneuverElement) ? 1 : 0);
         this.setCellFormat(this.content);
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updateValuesForTurns(): (%1)", (Object)StringUtilities.formatMessage("content finally is: (%1), name finally is: (%2), turn arrow is: (%3), distance is: (%4), sign post: (%5), exit number: (%6)", new String[]{String.valueOf(this.content), this.name, String.valueOf(this.getInteger(20)), String.valueOf(turnListElement.distance), turnListElement.getSignPostInfo(), turnListElement.getExitNumber()}));
+            this.getLogger().log(100000000, "MixedListRow#updateValuesForTurns(): (%1)", (Object)StringUtilities.formatMessage("content finally is: (%1), name finally is: (%2), turn arrow is: (%3), distance is: (%4), sign post: (%5), exit number: (%6)", new String[]{String.valueOf(this.content), this.name, String.valueOf(this.getInteger(20)), String.valueOf(turnListElement.distance), turnListElement.getSignPostInfo(), turnListElement.getExitNumber()}));
         }
     }
 
@@ -403,7 +401,7 @@ Comparable {
             }
         }
         this.setCell(21, this.env.getHelper().createTurnRoadIcon(turnListElement.streetIconId, turnListElement.streetIconText));
-        this.getLogger().log(14808325, "MixedListRow#updateTurnDefault(): TurnName = %1, turnListLine.mDistance = %2", (Object)this.name, this.mDistance);
+        this.getLogger().log(100000000, "MixedListRow#updateTurnDefault(): TurnName = %1, turnListLine.mDistance = %2", (Object)this.name, this.mDistance);
         this.validateDisplayName();
         this.setCellTurnRoadNameOr2ndLine(this.name);
         this.setCellTurnDistance(this.env.formatDistStr(this.mDistance));
@@ -424,11 +422,11 @@ Comparable {
         int n = turnListElement.getType();
         int n2 = this.env.getHelper().getDefaultFormat(turnListElement, this.env.getNavigationEnv());
         if (this.getLogger().isDebug()) {
-            this.getLogger().log(-2137614336, "MixedListRow#updateTurnDefaultAsia(): turnListElementType: (%1), calculatedTurnFormat: (%2)", (long)n, (long)n2);
+            this.getLogger().log(10000000, "MixedListRow#updateTurnDefaultAsia(): turnListElementType: (%1), calculatedTurnFormat: (%2)", (long)n, (long)n2);
         }
         if (n != 7) {
             if (89 == n2) {
-                this.getLogger().log(14808325, "MixedListRow#updateTurnDefaultAsia(): FORMAT_ASIA_OFFROAD_WARNING");
+                this.getLogger().log(100000000, "MixedListRow#updateTurnDefaultAsia(): FORMAT_ASIA_OFFROAD_WARNING");
                 this.content = 89;
                 this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, this.env.getTranslatedText(13));
                 this.setCellTurnRoadNameOr2ndLine(this.name);
@@ -437,7 +435,7 @@ Comparable {
                     this.content = 90 == n2 || 80 == n2 ? 88 : n2;
                     this.setCellLinesFill1stAnd2ndLinePorsche(turnListElement);
                 } else {
-                    this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, "---");
+                    this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, DEFAULT_EMPTY_STRING);
                     this.setCellTurnRoadNameOr2ndLine(this.name);
                     this.content = 91;
                 }
@@ -452,48 +450,48 @@ Comparable {
                 this.setCellPoiIconAdditionalIcon(turnListElement, n2);
             } else if (94 == n2 || 95 == n2 || 96 == n2 || 93 == n2) {
                 if (this.getLogger().isDebug2()) {
-                    this.getLogger().log(14808325, "MixedListRow#updateTurnDefaultAsia(): IC_SAPA_JCT calculatedTurnFormat : (%1)", (long)n2);
+                    this.getLogger().log(100000000, "MixedListRow#updateTurnDefaultAsia(): IC_SAPA_JCT calculatedTurnFormat : (%1)", (long)n2);
                 }
                 this.content = n2;
                 this.setCellPoiIconExitIcon(turnListElement);
                 if (Util.isPorsche(this.env.getNavigationEnv().getFramework())) {
                     this.setCellLinesFill1stAnd2ndLinePorsche(turnListElement);
                 } else {
-                    this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, "---");
+                    this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, DEFAULT_EMPTY_STRING);
                     this.setCellTurnRoadNameOr2ndLine(this.name);
                     this.setCellPoiNameOr1stLine(Util.getFirstNotEmpty(turnListElement.exitNumber, turnListElement.signPostInfo));
                 }
             } else if (92 == n2) {
                 if (turnListElement.getLaneGuidance() != null && turnListElement.getLaneGuidance().length > 0) {
                     this.content = n2;
-                    this.name = Util.getFirstNotEmpty(turnListElement.exitNumber, "---");
+                    this.name = Util.getFirstNotEmpty(turnListElement.exitNumber, DEFAULT_EMPTY_STRING);
                     int n3 = Util.isPorsche(this.env.getNavigationEnv().getFramework()) ? 5 : 12;
-                    MixedListConstants$TollGateInfo mixedListConstants$TollGateInfo = this.env.getHelper().getTollGateInfo(turnListElement.getLaneGuidance(), n3);
-                    this.setCellTollgateInfo(mixedListConstants$TollGateInfo);
+                    MixedListConstants.TollGateInfo tollGateInfo = this.env.getHelper().getTollGateInfo(turnListElement.getLaneGuidance(), n3);
+                    this.setCellTollgateInfo(tollGateInfo);
                 } else {
                     this.content = 97;
-                    this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, "---");
+                    this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, DEFAULT_EMPTY_STRING);
                     this.setCellPoiNameOr1stLine(this.name);
                     int n4 = this.env.getIconHandler().resolveAdditionalInfoIconResourceID(turnListElement.additionalIcons[0].getIconId(), turnListElement.additionalIcons[0].getVariant());
                     this.setCellPoiIcon(0, n4);
                 }
-                this.getLogger().log(14808325, "MixedListRow#updateTurnDefaultAsia(): FORMAT_ASIA_TOLLGATE");
+                this.getLogger().log(100000000, "MixedListRow#updateTurnDefaultAsia(): FORMAT_ASIA_TOLLGATE");
             } else if (70 == n2 || 71 == n2) {
                 this.content = n2;
                 LaneGuidanceWrapper laneGuidanceWrapper = new LaneGuidanceWrapper(this.getLogger(), turnListElement.getLaneGuidance());
-                MixedListConstants$LaneGuidance mixedListConstants$LaneGuidance = null;
+                MixedListConstants.LaneGuidance laneGuidance = null;
                 if (this.lastLaneGuidanceWrapper != null && this.lastLaneGuidanceWrapper.equals(laneGuidanceWrapper)) {
-                    mixedListConstants$LaneGuidance = this.lastLaneGuidanceWrapper.toLaneGuidance();
+                    laneGuidance = this.lastLaneGuidanceWrapper.toLaneGuidance();
                 } else {
-                    mixedListConstants$LaneGuidance = laneGuidanceWrapper.toLaneGuidance();
+                    laneGuidance = laneGuidanceWrapper.toLaneGuidance();
                     this.lastLaneGuidanceWrapper = laneGuidanceWrapper;
                 }
-                this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, "---");
+                this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, DEFAULT_EMPTY_STRING);
                 this.setCellTurnRoadNameOr2ndLine(this.name);
-                if (mixedListConstants$LaneGuidance != null) {
-                    this.setCellLaneGuidance(mixedListConstants$LaneGuidance);
+                if (laneGuidance != null) {
+                    this.setCellLaneGuidance(laneGuidance);
                 } else {
-                    this.getLogger().log(-1601830656, "MixedListRow#updateTurnDefaultAsia(): laneGuidance is null!");
+                    this.getLogger().log(100000, "MixedListRow#updateTurnDefaultAsia(): laneGuidance is null!");
                 }
             }
         } else {
@@ -510,7 +508,7 @@ Comparable {
                     this.setCellPoiNameOr1stLine(string);
                     this.setCellTurnRoadNameOr2ndLine(LocationFormatter.formatPOIName(navLocation));
                 }
-                this.getLogger().log(-2137614336, "MixedListRow#updateTurnDefaultAsia(): LOCATIONTYPE_POI destType(%1), poiDestinationIcon(%2), destinationIndex(%3)", (long)n5, (long)n6, (long)turnListElement.getDestinationIndex());
+                this.getLogger().log(10000000, "MixedListRow#updateTurnDefaultAsia(): LOCATIONTYPE_POI destType(%1), poiDestinationIcon(%2), destinationIndex(%3)", (long)n5, (long)n6, (long)turnListElement.getDestinationIndex());
             } else {
                 String string = RouteInfoHelper.getFormattedCityDistrict(navLocation, this.env.getNavigationEnv());
                 this.setCellPoiNameOr1stLine(string);
@@ -521,11 +519,11 @@ Comparable {
                 } else {
                     this.content = 82;
                 }
-                this.getLogger().log(-2137614336, "MixedListRow#updateTurnDefaultAsia(): LOCATIONTYPE_DEFAULT destType is (%1)", (long)n5);
+                this.getLogger().log(10000000, "MixedListRow#updateTurnDefaultAsia(): LOCATIONTYPE_DEFAULT destType is (%1)", (long)n5);
             }
         }
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updateTurnDefaultAsia(): (%1)", (Object)StringUtilities.formatMessage("content finally is: (%1), name finally is: (%2), turn arrow is: (%3), distance is: (%4), sign post: (%5), exit number: (%6)", new String[]{String.valueOf(this.content), this.name, String.valueOf(this.getInteger(20)), String.valueOf(turnListElement.distance), turnListElement.getSignPostInfo(), turnListElement.getExitNumber()}));
+            this.getLogger().log(100000000, "MixedListRow#updateTurnDefaultAsia(): (%1)", (Object)StringUtilities.formatMessage("content finally is: (%1), name finally is: (%2), turn arrow is: (%3), distance is: (%4), sign post: (%5), exit number: (%6)", new String[]{String.valueOf(this.content), this.name, String.valueOf(this.getInteger(20)), String.valueOf(turnListElement.distance), turnListElement.getSignPostInfo(), turnListElement.getExitNumber()}));
         }
     }
 
@@ -542,19 +540,19 @@ Comparable {
                 this.name = turnListElement.exitNumber;
                 this.setCellTurnRoadNameOr2ndLine(turnListElement.signPostInfo);
             } else if (Util.isEmpty(turnListElement.exitNumber)) {
-                this.name = Util.getFirstNotEmpty(turnListElement.signPostInfo, "---");
+                this.name = Util.getFirstNotEmpty(turnListElement.signPostInfo, DEFAULT_EMPTY_STRING);
                 this.setCellTurnRoadNameOr2ndLine("");
             } else {
-                this.name = Util.getFirstNotEmpty(turnListElement.exitNumber, "---");
+                this.name = Util.getFirstNotEmpty(turnListElement.exitNumber, DEFAULT_EMPTY_STRING);
                 this.setCellTurnRoadNameOr2ndLine("");
             }
             this.setCellPoiNameOr1stLine(this.name);
         } else if (Util.isEmpty(turnListElement.exitNumber) && Util.isEmpty(turnListElement.signPostInfo)) {
-            this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, "---");
+            this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, DEFAULT_EMPTY_STRING);
             this.setCellPoiNameOr1stLine(this.name);
             this.setCellTurnRoadNameOr2ndLine("");
         } else {
-            this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, "---");
+            this.name = Util.getFirstNotEmpty(turnListElement.turnToStreet, DEFAULT_EMPTY_STRING);
             this.setCellPoiNameOr1stLine(this.name);
             this.setCellTurnRoadNameOr2ndLine(Util.getFirstNotEmpty(turnListElement.exitNumber, turnListElement.signPostInfo));
         }
@@ -565,7 +563,7 @@ Comparable {
             int n2 = this.env.getIconHandler().resolveAdditionalInfoIconResourceID(turnListElement.additionalIcons[0].getIconId(), turnListElement.additionalIcons[0].getVariant());
             this.setCellPoiIcon(0, n2);
             if (this.getLogger().isDebug2()) {
-                this.getLogger().log(14808325, "MixedListRow#updateTurnDefaultAsia(): FORMAT_ASIA_(%1), name: (%2), IconLength: (%3), Icon0: (%4)", (Object)String.valueOf(n), (Object)this.name, (Object)String.valueOf(turnListElement.additionalIcons.length), (Object)String.valueOf(turnListElement.additionalIcons[0].getIconId()));
+                this.getLogger().log(100000000, "MixedListRow#updateTurnDefaultAsia(): FORMAT_ASIA_(%1), name: (%2), IconLength: (%3), Icon0: (%4)", (Object)String.valueOf(n), (Object)this.name, (Object)String.valueOf(turnListElement.additionalIcons.length), (Object)String.valueOf(turnListElement.additionalIcons[0].getIconId()));
             }
         }
     }
@@ -588,18 +586,18 @@ Comparable {
     }
 
     private void updateRoadDirectionForNAR(String string) {
-        this.getLogger().log(14808325, "MixedListRow#updateRoadDirectionForNAR(): roadDirection: %1", (Object)string);
+        this.getLogger().log(100000000, "MixedListRow#updateRoadDirectionForNAR(): roadDirection: %1", (Object)string);
         this.setCellRoadDirection(string);
     }
 
     private void updateExitSignForNAR(String string, int n) {
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updateExitSignForNAR(): exitNumber = %1, exitSignID = %2", (Object)string, (long)n);
+            this.getLogger().log(100000000, "MixedListRow#updateExitSignForNAR(): exitNumber = %1, exitSignID = %2", (Object)string, (long)n);
         }
         if (!Util.isEmpty(string)) {
             ExtRenderingInfo extRenderingInfo = this.env.getIconHandler().resolveExitIconResourceID(n, string.length());
             if (extRenderingInfo != null && extRenderingInfo.isValid()) {
-                this.getLogger().log(14808325, "MixedListRow#updateExitSignForNAR(): exitSignInfo = %1", (Object)extRenderingInfo);
+                this.getLogger().log(100000000, "MixedListRow#updateExitSignForNAR(): exitSignInfo = %1", (Object)extRenderingInfo);
                 this.setCellExitSign(extRenderingInfo.getResourceId(), string, extRenderingInfo.getFontSize(), extRenderingInfo.getFontSize(), extRenderingInfo.getFontColor(), extRenderingInfo.getDeltaX(), extRenderingInfo.getDeltaY());
             } else {
                 this.setCellExitSign(-1);
@@ -617,10 +615,10 @@ Comparable {
         this.setCellBorderCrossingCountryFlag(n);
         Buffer buffer = new Buffer(this.env.getTranslatedText(6));
         if (n == -1 && !Util.isEmpty(this.name)) {
-            this.getLogger().log(-1601830656, "MixedListRow#updateTurnForBorderCrossing(): no flag icon available, adding name instead: %1", (Object)this.name);
+            this.getLogger().log(100000, "MixedListRow#updateTurnForBorderCrossing(): no flag icon available, adding name instead: %1", (Object)this.name);
             buffer.append(": ").append(this.name);
         } else if (n == -1 && !Util.isEmpty(string)) {
-            this.getLogger().log(-1601830656, "MixedListRow#updateTurnForBorderCrossing(): no flag icon available, adding country abbreviation instead: %1", (Object)string);
+            this.getLogger().log(100000, "MixedListRow#updateTurnForBorderCrossing(): no flag icon available, adding country abbreviation instead: %1", (Object)string);
             buffer.append(": ").append(string);
         }
         this.setCellBorderCrossingTextPassing(buffer.toString());
@@ -635,7 +633,7 @@ Comparable {
             this.setCellBorderCrossingTextAllowedVelocity1(this.env.getTranslatedText(0));
             this.setCellBorderCrossingTextAllowedVelocity2(this.env.getTranslatedText(3));
         }
-        this.getLogger().log(14808325, "MixedListRow#updateTurnForBorderCrossing(): Border crossing, name: %1, countryAbbreviation: %2, turnListLine.mDistance = %3", (Object)this.name, (Object)string, this.mDistance);
+        this.getLogger().log(100000000, "MixedListRow#updateTurnForBorderCrossing(): Border crossing, name: %1, countryAbbreviation: %2, turnListLine.mDistance = %3", (Object)this.name, (Object)string, this.mDistance);
         this.setCellBorderCrossingDistance(this.env.formatDistStr(this.mDistance));
         switch (this.env.getSpeedUnitForCountry(string)) {
             case 1: {
@@ -660,17 +658,17 @@ Comparable {
                 int n4 = this.env.getIconHandler().resolveRoadClassIconResourceID(roadClassSpeedInfo.getRoadClassIconReference(), n3);
                 int n5 = this.env.getIconHandler().resolveTrafficRegulationIconResourceID(roadClassSpeedInfo.getRoadSignIconReference(), n3);
                 if (this.getLogger().isDebug2()) {
-                    this.getLogger().log(14808325, "MixedListRow#updateTurnForBorderCrossing() - found matching type and abbreviation at index %1, roadClassIconResourceID: %2, roadSignIconResourceID: %3", (long)i3, (long)n4, (long)n5);
+                    this.getLogger().log(100000000, "MixedListRow#updateTurnForBorderCrossing() - found matching type and abbreviation at index %1, roadClassIconResourceID: %2, roadSignIconResourceID: %3", (long)i3, (long)n4, (long)n5);
                 }
                 if (n4 == -1 || n5 == -1) continue;
                 this.setCellBorderCrossingRoadclassIcon(n2, n4);
                 this.setCellBorderCrossingSpeedIcon(n2, n5);
                 ++n2;
             }
-            this.getLogger().log(-2137614336, "MixedListRow#updateTurnForBorderCrossing() - found %1 pair(s) of road class/sign icons to display", (long)n2);
+            this.getLogger().log(10000000, "MixedListRow#updateTurnForBorderCrossing() - found %1 pair(s) of road class/sign icons to display", (long)n2);
         } else {
             int n6 = roadClassSpeedInfoArray == null ? 0 : roadClassSpeedInfoArray.length;
-            this.getLogger().log(-1601830656, "MixedListRow#updateTurnForBorderCrossing() - no country abbreviation or no speed info available - countryAbbreviation: %1, ", (Object)string, (long)n6);
+            this.getLogger().log(100000, "MixedListRow#updateTurnForBorderCrossing() - no country abbreviation or no speed info available - countryAbbreviation: %1, ", (Object)string, (long)n6);
         }
     }
 
@@ -681,23 +679,23 @@ Comparable {
         this.destinationIndex = navPoiInfo.destinationIndex;
         int n = navPoiInfo.getPoiLocations().length;
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updateValuesForPOI(): POIDistance = %1, poiArrayLen = %2", this.mDistance, (long)n);
+            this.getLogger().log(100000000, "MixedListRow#updateValuesForPOI(): POIDistance = %1, poiArrayLen = %2", this.mDistance, (long)n);
         }
         if (Util.isHURegionNAR()) {
             this.name = navPoiInfo.getSignpostInfo();
-            this.getLogger().log(14808325, "MixedListRow#updateValuesForPOI(): SignpostInfo = %1", (Object)this.name);
+            this.getLogger().log(100000000, "MixedListRow#updateValuesForPOI(): SignpostInfo = %1", (Object)this.name);
             if (Util.isEmpty(this.name)) {
                 this.name = this.env.getTranslatedText(9);
             }
         } else if (n > 0) {
             this.name = LocationFormatter.formatPOIName(navPoiInfo.getPoiLocations()[0]);
         } else {
-            this.getLogger().log(1078071040, "MixedListRow#updateValuesForPOI(): navPoiInfo.getPoiLocations() is empty");
+            this.getLogger().log(1000000, "MixedListRow#updateValuesForPOI(): navPoiInfo.getPoiLocations() is empty");
         }
         this.content = 1;
         this.updatePoiIconsNavLocation(navPoiInfo.getPoiLocations(), 0, 5);
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updateValuesForPOI(): POI info: (%1)", (Object)StringUtilities.formatMessage("POI type:(%1), POI name:(%2), POI distance:(%3) ", new String[]{String.valueOf(navPoiInfo.getType()), this.name, String.valueOf(this.mDistance)}));
+            this.getLogger().log(100000000, "MixedListRow#updateValuesForPOI(): POI info: (%1)", (Object)StringUtilities.formatMessage("POI type:(%1), POI name:(%2), POI distance:(%3) ", new String[]{String.valueOf(navPoiInfo.getType()), this.name, String.valueOf(this.mDistance)}));
         }
         this.validateDisplayName();
         this.setCellPoiNameOr1stLine(this.name);
@@ -717,7 +715,7 @@ Comparable {
     }
 
     private void updatePoiForAsia(NavPoiInfo navPoiInfo) {
-        this.getLogger().log(-2137614336, "MixedListRow#updatePoiForAisa(), navPoiInfo type: (%1)", (long)navPoiInfo.type);
+        this.getLogger().log(10000000, "MixedListRow#updatePoiForAisa(), navPoiInfo type: (%1)", (long)navPoiInfo.type);
         switch (navPoiInfo.type) {
             case 1: {
                 if (navPoiInfo.exitPoiLocation != null) {
@@ -728,7 +726,7 @@ Comparable {
                     this.setCellExitSign(LocationFormatter.getIconResourceID(this.env.getIconHandler(), navPoiInfo.exitPoiLocation));
                     break;
                 }
-                this.getLogger().log(-1601830656, "MixedListRow#updatePoiForAisa() - exitPoiLocation is null");
+                this.getLogger().log(100000, "MixedListRow#updatePoiForAisa() - exitPoiLocation is null");
                 break;
             }
             case 2: {
@@ -742,17 +740,17 @@ Comparable {
                     this.updatePoiIconsNavRouteListDataIcon(navPoiInfo.getPoiIcons(), n, 5);
                     break;
                 }
-                this.getLogger().log(-2137614336, "MixedListRow#updatePoiForAisa() - poiLocations is empty");
+                this.getLogger().log(10000000, "MixedListRow#updatePoiForAisa() - poiLocations is empty");
                 break;
             }
             default: {
-                this.getLogger().log(-1601830656, "MixedListRow#updatePoiForAisa() - unknown type : %1", (long)navPoiInfo.type);
+                this.getLogger().log(100000, "MixedListRow#updatePoiForAisa() - unknown type : %1", (long)navPoiInfo.type);
             }
         }
     }
 
     private void updatePoiForNAR(NavPoiInfo navPoiInfo) {
-        this.getLogger().log(14808325, "MixedListRow#updatePoiForNAR()");
+        this.getLogger().log(100000000, "MixedListRow#updatePoiForNAR()");
         this.updateExitSignForNAR(navPoiInfo.getExitNumber(), navPoiInfo.getExitIconId());
     }
 
@@ -762,7 +760,7 @@ Comparable {
             return;
         }
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updatePoiIconsNavLocation() - poiData.length: %1, offset: %2, maxLength: %3 ", (long)navLocationArray.length, (long)n, (long)n2);
+            this.getLogger().log(100000000, "MixedListRow#updatePoiIconsNavLocation() - poiData.length: %1, offset: %2, maxLength: %3 ", (long)navLocationArray.length, (long)n, (long)n2);
         }
         int n3 = Math.min(navLocationArray.length, n2);
         int[][] nArrayArray = new int[n3][];
@@ -780,7 +778,7 @@ Comparable {
             return;
         }
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updatePoiIconsNavRouteListDataIcon() - poiData.length: %1, offset: %2, maxLength: %3 ", (long)navRouteListDataIconArray.length, (long)n, (long)n2);
+            this.getLogger().log(100000000, "MixedListRow#updatePoiIconsNavRouteListDataIcon() - poiData.length: %1, offset: %2, maxLength: %3 ", (long)navRouteListDataIconArray.length, (long)n, (long)n2);
         }
         int n3 = Math.min(navRouteListDataIconArray.length, n2);
         int[][] nArrayArray = new int[n3][];
@@ -799,11 +797,11 @@ Comparable {
         }
         if (n + n2 > 6) {
             n2 = 6 - n;
-            this.getLogger().log(-1601830656, "MixedListRow#updatePoiIcons() - adjusted maxLength to %1, offset: %2 ", (long)n2, (long)n);
+            this.getLogger().log(100000, "MixedListRow#updatePoiIcons() - adjusted maxLength to %1, offset: %2 ", (long)n2, (long)n);
         }
         int n4 = nArray.length;
         if (this.getLogger().isDebug2()) {
-            this.getLogger().log(14808325, "MixedListRow#updatePoiIcons() - poiArrayLen: %1, offset: %2, maxLength: %3 ", (long)n4, (long)n, (long)n2);
+            this.getLogger().log(100000000, "MixedListRow#updatePoiIcons() - poiArrayLen: %1, offset: %2, maxLength: %3 ", (long)n4, (long)n, (long)n2);
         }
         int[] nArray2 = new int[n2];
         int n5 = 0;
@@ -812,7 +810,7 @@ Comparable {
             int n6 = LocationFormatter.getIconResourceID(this.env.getIconHandler(), nArray[n3][0], nArray[n3][1]);
             for (int i2 = 0; i2 < n5; ++i2) {
                 if (nArray2[i2] != n6) continue;
-                this.getLogger().log(14808325, "MixedListRow#updatePoiIcons(): iconId %1 already found", (long)n6);
+                this.getLogger().log(100000000, "MixedListRow#updatePoiIcons(): iconId %1 already found", (long)n6);
                 n6 = -1;
                 break;
             }
@@ -846,15 +844,15 @@ Comparable {
             renderingInfo = this.env.getIconHandler().resolveStreetIconResourceID(tmcMessage.getStreetSignId(), tmcMessage.getRoadNumber().length());
         }
         if (renderingInfo != null && renderingInfo.isValid()) {
-            this.getLogger().log(14808325, "   Msg #%1: has valid icon data", (long)n);
+            this.getLogger().log(100000000, "   Msg #%1: has valid icon data", (long)n);
             this.getCellTMCRoadIcon().initializeIconTextLocator(new HMIResourceLocator(renderingInfo.getResourceId()), tmcMessage.getRoadNumber(), ((ExtRenderingInfo)renderingInfo).getFontReference(), ((ExtRenderingInfo)renderingInfo).getFontSize(), ((ExtRenderingInfo)renderingInfo).getFontColor(), ((ExtRenderingInfo)renderingInfo).getDeltaX(), ((ExtRenderingInfo)renderingInfo).getDeltaY());
         } else {
-            this.getLogger().log(14808325, "   Msg #%1: has invalid icon data", (long)n);
+            this.getLogger().log(100000000, "   Msg #%1: has invalid icon data", (long)n);
             this.getCellTMCRoadIcon().initializeIconSimpleLocator(new HMIResourceLocator(-1));
         }
         int[] nArray2 = tmcMessage.getIconListId();
         if (nArray2 != null) {
-            this.getLogger().log(14808325, "   Msg #%1: has %2 TMC icon(s) (showing only the first)", (long)n, (long)nArray2.length);
+            this.getLogger().log(100000000, "   Msg #%1: has %2 TMC icon(s) (showing only the first)", (long)n, (long)nArray2.length);
             nArray = new int[nArray2.length];
             for (int i2 = 0; i2 < nArray2.length; ++i2) {
                 nArray[i2] = this.env.getIconHandler().resolveTMCIconResourceID(nArray2[i2], 0);
@@ -961,7 +959,6 @@ Comparable {
         this.setCellFormat(-1);
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object instanceof MixedListRow) {
             MixedListRow mixedListRow = (MixedListRow)object;
@@ -1078,7 +1075,7 @@ Comparable {
 
     private void validateDisplayName() {
         if (Util.isEmpty(this.name)) {
-            this.name = "---";
+            this.name = DEFAULT_EMPTY_STRING;
         }
     }
 
@@ -1086,7 +1083,41 @@ Comparable {
         int n = this.env.getRouteLength() - this.destinationIndex - 1;
         int n2 = IconUtil.getManeuverIconID(this.getLogger(), maneuverElement, 0, n);
         this.setCellTurnArrow(n2);
-        this.getLogger().log(14808325, "MixedListRow#setDirectionArrowByManeuver(): offset is: (%1) turnArrowIcon is: (%2)", (long)n, (long)n2);
+        this.getLogger().log(100000000, "MixedListRow#setDirectionArrowByManeuver(): offset is: (%1) turnArrowIcon is: (%2)", (long)n, (long)n2);
+    }
+
+    public static interface IRouteInfoEnv {
+        public static final int POI_ICON_MAX_CELLS = 6;
+        public static final int POI_ICON_MAX_COMMON = 5;
+        public static final int POI_ICON_MAX_ASIA = 5;
+        public static final int TRAFFIC_DELAY_MINIMUM = 0;
+        public static final int DEST_TYPE_NONE = -1;
+        public static final int DEST_TYPE_DESTINATION = 0;
+        public static final int DEST_TYPE_STOPOVER = 1;
+
+        public RoadClassSpeedInfo[] getSpeedInfo();
+
+        public int getSpeedUnitForCountry(String var1);
+
+        public IconHandler getIconHandler();
+
+        public int getRouteLength();
+
+        public NavLocation getCurrentDestination();
+
+        public String getTranslatedText(int var1);
+
+        public String formatDistStr(long var1);
+
+        public String getDestName(int var1);
+
+        public DateMetric getRTTMetric();
+
+        public NavigationEnv getNavigationEnv();
+
+        public NavLocation getLocationOfDestination(int var1);
+
+        public RouteInfoHelper getHelper();
     }
 }
 

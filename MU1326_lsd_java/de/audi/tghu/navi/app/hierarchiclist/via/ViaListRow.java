@@ -21,18 +21,18 @@ import org.dsi.ifc.navigation.ViaPointListElement;
 
 public class ViaListRow
 extends AbstractHierarchyListRow {
-    protected static final int ROW_LLD;
-    protected static final int ROW_ELEMENT;
-    protected static final int ROW_FOLDER_STATE;
-    protected static final int ROW_ENTRY_TEXT;
-    protected static final int ROW_ENTRY_ICON;
-    protected static final int ENTRY_ENABLED;
-    protected static final int ROW_LENGTH;
-    protected static final int LLD_DEFAULT;
-    public static final int FOLDER_NONE;
-    public static final int FOLDER_CLOSED;
-    public static final int FOLDER_OPENED;
-    public static final int FOLDER_CHILD;
+    protected static final int ROW_LLD = 0;
+    protected static final int ROW_ELEMENT = 1;
+    protected static final int ROW_FOLDER_STATE = 2;
+    protected static final int ROW_ENTRY_TEXT = 3;
+    protected static final int ROW_ENTRY_ICON = 4;
+    protected static final int ENTRY_ENABLED = 5;
+    protected static final int ROW_LENGTH = 6;
+    protected static final int LLD_DEFAULT = 0;
+    public static final int FOLDER_NONE = 0;
+    public static final int FOLDER_CLOSED = 1;
+    public static final int FOLDER_OPENED = 2;
+    public static final int FOLDER_CHILD = 3;
     private final ICommandListFactory commandListFactory;
 
     public ViaListRow(IconHandler iconHandler, ViaPointListElement viaPointListElement, int n, ICommandListFactory iCommandListFactory) {
@@ -56,22 +56,18 @@ extends AbstractHierarchyListRow {
         return (ViaPointListElement)((ObjectListCell)this.getCell(1)).getValue();
     }
 
-    @Override
     public final long getUid() {
         return this.getElement().getId();
     }
 
-    @Override
     public boolean isHasChildren() {
         return this.getElement().isHasChildren();
     }
 
-    @Override
     public boolean isHasDetails() {
         return true;
     }
 
-    @Override
     public void queryDetails() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiSelectViaPointCommand(this.getElement().getId()));
@@ -94,7 +90,6 @@ extends AbstractHierarchyListRow {
         ((IntegerListCell)this.getCell(5)).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         switch (this.getFolderState()) {

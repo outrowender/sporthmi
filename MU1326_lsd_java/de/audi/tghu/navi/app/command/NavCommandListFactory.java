@@ -24,12 +24,10 @@ implements ICommandListFactory {
         this.navigation = navigation;
     }
 
-    @Override
     public CommandList createCommandList() {
         return new NavCommandList(this.commandListManager, this.dsiNavigationManager, this.env, this.navigation);
     }
 
-    @Override
     public CommandList createCommandList(int n) {
         return new NavCommandList(this.commandListManager, this.dsiNavigationManager, this.env, this.navigation, n);
     }

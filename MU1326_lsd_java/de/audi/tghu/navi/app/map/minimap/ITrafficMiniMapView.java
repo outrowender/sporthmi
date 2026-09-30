@@ -3,34 +3,55 @@
  */
 package de.audi.tghu.navi.app.map.minimap;
 
-import de.audi.tghu.navi.app.map.minimap.ITrafficMiniMapView$NullMiniMapView;
 import org.dsi.ifc.asiatrafficinfomenu.ResourceInformation;
 
 public interface ITrafficMiniMapView {
-    public static final ITrafficMiniMapView NULL_TMM_VIEW = new ITrafficMiniMapView$NullMiniMapView();
+    public static final ITrafficMiniMapView NULL_TMM_VIEW = new NullMiniMapView();
 
-    default public boolean displayMiniMap(ResourceInformation resourceInformation) {
-    }
+    public boolean displayMiniMap(ResourceInformation var1);
 
-    default public void hideMiniMap() {
-    }
+    public void hideMiniMap();
 
-    default public void activateAndPersist() {
-    }
+    public void activateAndPersist();
 
-    default public void deactivateAndPersist() {
-    }
+    public void deactivateAndPersist();
 
-    default public boolean isActivated() {
-    }
+    public boolean isActivated();
 
-    default public void initModels() {
-    }
+    public void initModels();
 
-    default public void setActive(boolean bl) {
-    }
+    public void setActive(boolean var1);
 
-    default public boolean isVisible() {
+    public boolean isVisible();
+
+    public static final class NullMiniMapView
+    implements ITrafficMiniMapView {
+        public void setActive(boolean bl) {
+        }
+
+        public boolean isVisible() {
+            return false;
+        }
+
+        public boolean isActivated() {
+            return false;
+        }
+
+        public void initModels() {
+        }
+
+        public void hideMiniMap() {
+        }
+
+        public boolean displayMiniMap(ResourceInformation resourceInformation) {
+            return false;
+        }
+
+        public void deactivateAndPersist() {
+        }
+
+        public void activateAndPersist() {
+        }
     }
 }
 

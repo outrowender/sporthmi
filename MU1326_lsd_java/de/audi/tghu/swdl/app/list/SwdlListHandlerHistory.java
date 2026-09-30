@@ -26,7 +26,6 @@ extends AbstractSwdlListHandlerText {
         return this.loggingManager;
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = new ListCell[this.getNrCol()];
         listCellArray[0] = new IntegerListCell(-1, 99);

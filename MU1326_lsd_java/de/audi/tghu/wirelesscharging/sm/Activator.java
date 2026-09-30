@@ -9,7 +9,6 @@ import de.audi.tghu.wirelesscharging.sm.WirelessChargingSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new WirelessChargingSMM[8];
         if (this.framework.isFrontMU()) {

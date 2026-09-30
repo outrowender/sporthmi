@@ -4,7 +4,6 @@
 package de.audi.tuner.app.amfm;
 
 public interface IDoTagging {
-    default public void doTagging(int n, int n2) {
-    }
+    public void doTagging(int var1, int var2);
 }
 

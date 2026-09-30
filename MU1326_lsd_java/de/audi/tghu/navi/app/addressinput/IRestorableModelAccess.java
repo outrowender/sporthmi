@@ -4,7 +4,6 @@
 package de.audi.tghu.navi.app.addressinput;
 
 public interface IRestorableModelAccess {
-    default public void onRestore() {
-    }
+    public void onRestore();
 }
 

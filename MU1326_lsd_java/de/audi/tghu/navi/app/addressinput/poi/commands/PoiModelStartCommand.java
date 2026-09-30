@@ -14,7 +14,6 @@ extends NavCommand {
         this.modelAccess = iPoiScreenOnStart;
     }
 
-    @Override
     public void execute() {
         this.modelAccess.onStart();
         this.getCommandList().commandFinished();

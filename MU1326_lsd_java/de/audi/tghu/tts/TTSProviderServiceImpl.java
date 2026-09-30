@@ -56,7 +56,7 @@ implements I18NTarget {
         this.frameworkAccess = iFrameworkAccess;
         this.observer = tTSOperable;
         this.logCh = iFrameworkAccess.getLogChannel("Fw.TTS");
-        this.logCh.log(-2137614336, "[TTSProviderServiceImpl#ctor] Called.");
+        this.logCh.log(10000000, "[TTSProviderServiceImpl#ctor] Called.");
         this.dsiTTSCallerInst0 = new DSITTSCaller(iFrameworkAccess, tTSOperable);
         this.dsiTTSCallerInst0.setInstance(0);
         boolean bl = iFrameworkAccess.getSysConst(4263) == 1;
@@ -93,7 +93,7 @@ implements I18NTarget {
     }
 
     public HMIAudioService addAudioService(HMIAudioService hMIAudioService, Integer n) {
-        this.logCh.log(1078071040, "[TTSProviderServiceImpl#setAudioDSI] client:%2 %1", (Object)hMIAudioService, (Object)n);
+        this.logCh.log(1000000, "[TTSProviderServiceImpl#setAudioDSI] client:%2 %1", (Object)hMIAudioService, (Object)n);
         TTSInitialization tTSInitialization = null;
         if (HMIAudioService.CLIENT_TTS_TOUCHPAD.equals(n)) {
             tTSInitialization = this.getTTSSessionBasedInitializationObject(0);
@@ -146,9 +146,8 @@ implements I18NTarget {
         return hMIAudioService;
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.logCh.log(-2137614336, "[TTSProviderServiceImpl#setLanguage] Called, name: %1", (Object)language);
+        this.logCh.log(10000000, "[TTSProviderServiceImpl#setLanguage] Called, name: %1", (Object)language);
         this.observer.stopTTSServices();
         this.dsiTTSCallerInst0.setLanguage(language, null);
         if (this.dsiTTSCallerInst1 != null) {
@@ -157,16 +156,16 @@ implements I18NTarget {
     }
 
     public void setTTSInstance0(DSITTS dSITTS) {
-        this.logCh.log(-2137614336, "[TTSProviderServiceImpl#setTTSInstance0] %1", (Object)dSITTS);
+        this.logCh.log(10000000, "[TTSProviderServiceImpl#setTTSInstance0] %1", (Object)dSITTS);
         this.dsiTTSCallerInst0.setTTSDSI(dSITTS);
-        this.logCh.log(-2137614336, "[TTSProviderServiceImpl#setTTSInstance0] Initialize TTS INSTANCE 0.");
+        this.logCh.log(10000000, "[TTSProviderServiceImpl#setTTSInstance0] Initialize TTS INSTANCE 0.");
         this.getSDSTTSServiceImpl().init();
     }
 
     public void setTTSInstance1(DSITTS dSITTS) {
-        this.logCh.log(-2137614336, "[TTSProviderServiceImpl#setTTSInstance1] %1", (Object)dSITTS);
+        this.logCh.log(10000000, "[TTSProviderServiceImpl#setTTSInstance1] %1", (Object)dSITTS);
         this.dsiTTSCallerInst1.setTTSDSI(dSITTS);
-        this.logCh.log(-2137614336, "[TTSProviderServiceImpl#setTTSInstance1] Initialize TTS INSTANCE 1");
+        this.logCh.log(10000000, "[TTSProviderServiceImpl#setTTSInstance1] Initialize TTS INSTANCE 1");
         this.getTTSSingleSpeakInitializationObject(4).init();
     }
 
@@ -218,7 +217,7 @@ implements I18NTarget {
                 break;
             }
             default: {
-                this.logCh.log(-1601830656, "TTSProviderServiceImpl#getTTSSingleSpeakService: no TTS-Service found for clientID %1", (long)n);
+                this.logCh.log(100000, "TTSProviderServiceImpl#getTTSSingleSpeakService: no TTS-Service found for clientID %1", (long)n);
                 tTSSingleSpeakService = null;
             }
         }
@@ -265,7 +264,7 @@ implements I18NTarget {
                 break;
             }
             default: {
-                this.logCh.log(-1601830656, "TTSProviderServiceImpl#getTTSSessionBasedService: no TTS-Service found for clientID %1", (long)n);
+                this.logCh.log(100000, "TTSProviderServiceImpl#getTTSSessionBasedService: no TTS-Service found for clientID %1", (long)n);
                 tTSSessionBasedService = null;
             }
         }
@@ -360,7 +359,7 @@ implements I18NTarget {
                 break;
             }
             default: {
-                this.logCh.log(-1601830656, "[TTSProviderServiceImpl#getTTSService] unknown clientID : %1 ", (long)n);
+                this.logCh.log(100000, "[TTSProviderServiceImpl#getTTSService] unknown clientID : %1 ", (long)n);
             }
         }
         return tTSService;
@@ -369,7 +368,7 @@ implements I18NTarget {
     public void registerListener(TTSListener tTSListener, int n) {
         AbstractSpeaker abstractSpeaker = (AbstractSpeaker)((Object)this.getTTSService(n));
         if (abstractSpeaker != null) {
-            this.logCh.log(1078071040, "[TTSProviderServiceImpl#registerListener] clientID : %2 %1", (Object)tTSListener, (long)n);
+            this.logCh.log(1000000, "[TTSProviderServiceImpl#registerListener] clientID : %2 %1", (Object)tTSListener, (long)n);
             abstractSpeaker.setTTSListener(tTSListener);
         }
     }

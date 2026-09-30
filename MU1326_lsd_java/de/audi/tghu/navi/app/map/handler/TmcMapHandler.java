@@ -25,31 +25,26 @@ implements MapTmcService {
         this.env = navigationEnv;
     }
 
-    @Override
     public void mapEntered() {
-        this.logger.log(-2137614336, "TmcMapHandler#mapEntered()");
+        this.logger.log(10000000, "TmcMapHandler#mapEntered()");
         this.naviMap.show(6);
     }
 
-    @Override
     public void mapLeft() {
-        this.logger.log(-2137614336, "TmcMapHandler#mapLeft()");
+        this.logger.log(10000000, "TmcMapHandler#mapLeft()");
     }
 
-    @Override
     public void showTmcMessage(MapTmcMessage mapTmcMessage) {
-        this.logger.log(-1601830656, "MapInterface#showTmcMessage() - unexpected call");
+        this.logger.log(100000, "MapInterface#showTmcMessage() - unexpected call");
     }
 
-    @Override
     public void enableAutomaticRouteDiversion(boolean bl) {
-        this.logger.log(-2137614336, "TmcMapHandler#enableAutomaticRouteDiversion( %1 )", bl);
+        this.logger.log(10000000, "TmcMapHandler#enableAutomaticRouteDiversion( %1 )", bl);
     }
 
-    @Override
     public void showInMap(long[] lArray, NavRectangle navRectangle, TmcListElement tmcListElement) {
-        this.logger.log(-2137614336, "TmcMapHandler#showTmcMessage() - Ids = {%1}, NavRec = %2", (Object)MapUtils.toString(lArray), (Object)navRectangle);
-        this.logger.log(-2137614336, "TmcMapHandler#showTmcMessage() - TmcMessage = %1", (Object)tmcListElement);
+        this.logger.log(10000000, "TmcMapHandler#showTmcMessage() - Ids = {%1}, NavRec = %2", (Object)MapUtils.toString(lArray), (Object)navRectangle);
+        this.logger.log(10000000, "TmcMapHandler#showTmcMessage() - TmcMessage = %1", (Object)tmcListElement);
         this.naviMap.getMapDataContainer().sTmcMessageIds = lArray;
         this.naviMap.getMapDataContainer().sTmcNavRectangle = navRectangle;
         this.naviMap.getMapDataContainer().sTmcListElement = tmcListElement;
@@ -58,9 +53,8 @@ implements MapTmcService {
         this.naviMap.switchToContext(18);
     }
 
-    @Override
     public void showInMap(TmcMessage tmcMessage, NavRectangle navRectangle) {
-        this.logger.log(-2137614336, "TmcMapHandler#showTmcMessage() - tmcMessage: %1", (Object)tmcMessage);
+        this.logger.log(10000000, "TmcMapHandler#showTmcMessage() - tmcMessage: %1", (Object)tmcMessage);
         if (tmcMessage == null) {
             this.logger.log(10000, "TmcMapHandler#showTmcMessage() - tmcMessage is null");
             return;
@@ -73,9 +67,8 @@ implements MapTmcService {
         this.naviMap.switchToContext(18);
     }
 
-    @Override
     public void updateMapTooltipInformation(TmcMessage tmcMessage) {
-        this.logger.log(-2137614336, "TmcMapHandler#updateMapTooltipInformation() - tmcMessage: %1", (Object)tmcMessage);
+        this.logger.log(10000000, "TmcMapHandler#updateMapTooltipInformation() - tmcMessage: %1", (Object)tmcMessage);
         if (tmcMessage == null) {
             this.logger.log(10000, "TmcMapHandler#updateMapTooltipInformation() - tmcMessage is null");
             return;
@@ -83,17 +76,14 @@ implements MapTmcService {
         this.naviMap.getGuiInterface().checkToShowToolTipForTmc(tmcMessage);
     }
 
-    @Override
     public boolean isInMapApplicationContext() {
         return this.naviMap.getMapDataContainer().activeNaviOrMapContext == 1;
     }
 
-    @Override
     public boolean isTabMapNavActive() {
         return this.naviMap.getMapDataContainer().currentNavTab == 0;
     }
 
-    @Override
     public boolean isTabRouteActive() {
         return this.naviMap.getMapDataContainer().currentNavTab == 2;
     }

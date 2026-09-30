@@ -6,40 +6,28 @@ package de.audi.tghu.navi.app.poi.poiwarning;
 import org.dsi.ifc.navigation.Category;
 
 public interface IPoiWarningModelAccess {
-    default public void updatePois(Category[] categoryArray, boolean bl) {
-    }
+    public void updatePois(Category[] var1, boolean var2);
 
-    default public void setPoiSelection(int n, boolean bl) {
-    }
+    public void setPoiSelection(int var1, boolean var2);
 
-    default public void setSettings(int n, int n2) {
-    }
+    public void setSettings(int var1, int var2);
 
-    default public void toggleApproachHint() {
-    }
+    public void toggleApproachHint();
 
-    default public void toggleSpeachHint() {
-    }
+    public void toggleSpeachHint();
 
-    default public void showPoiWarningMaxPopUp() {
-    }
+    public void showPoiWarningMaxPopUp();
 
-    default public void showPpoiWarningMaxPopUp() {
-    }
+    public void showPpoiWarningMaxPopUp();
 
-    default public void showPoiApproachPopUp() {
-    }
+    public void showPoiApproachPopUp();
 
-    default public void setMaxSelectableCategories(int n) {
-    }
+    public void setMaxSelectableCategories(int var1);
 
-    default public void setPersonalCategoriesVisible(boolean bl) {
-    }
+    public void setPersonalCategoriesVisible(boolean var1);
 
-    default public void setPoiApproachValues(String string, float f2, int n, int n2) {
-    }
+    public void setPoiApproachValues(String var1, float var2, int var3, int var4);
 
-    default public void hideWarningPopUp() {
-    }
+    public void hideWarningPopUp();
 }
 

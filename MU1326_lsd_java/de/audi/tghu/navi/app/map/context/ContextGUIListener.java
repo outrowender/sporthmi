@@ -4,52 +4,36 @@
 package de.audi.tghu.navi.app.map.context;
 
 public interface ContextGUIListener {
-    default public void increment(int n, int n2) {
-    }
+    public void increment(int var1, int var2);
 
-    default public void itemFocused(int n, int n2) {
-    }
+    public void itemFocused(int var1, int var2);
 
-    default public void itemReleased(int n, int n2) {
-    }
+    public void itemReleased(int var1, int var2);
 
-    default public void itemSelected(int n, int n2, int n3, int n4) {
-    }
+    public void itemSelected(int var1, int var2, int var3, int var4);
 
-    default public void joystick(int n, int n2) {
-    }
+    public void joystick(int var1, int var2);
 
-    default public void keyPressed(int n, int n2) {
-    }
+    public void keyPressed(int var1, int var2);
 
-    default public void keyReleased(int n, int n2) {
-    }
+    public void keyReleased(int var1, int var2);
 
-    default public void keyTyped(int n, int n2) {
-    }
+    public void keyTyped(int var1, int var2);
 
-    default public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void touchPadPositionMoved(int var1, int var2, int var3, int var4, int var5);
 
-    default public void touchScreenMoved(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void touchScreenMoved(int var1, int var2, int var3, int var4, int var5);
 
-    default public void touchScreenPressed(int n, int n2, int n3) {
-    }
+    public void touchScreenPressed(int var1, int var2, int var3);
 
-    default public void touchScreenLongPressed(int n, int n2, int n3) {
-    }
+    public void touchScreenLongPressed(int var1, int var2, int var3);
 
-    default public void touchScreenReleased(int n, int n2, int n3) {
-    }
+    public void touchScreenReleased(int var1, int var2, int var3);
 
-    default public void touchScreenDoubleClick(int n, int n2, int n3) {
-    }
+    public void touchScreenDoubleClick(int var1, int var2, int var3);
 
-    default public void touchScreenPinch(int n, float f2, int n2, int n3) {
-    }
+    public void touchScreenPinch(int var1, float var2, int var3, int var4);
 
-    default public void touchScreenRotate(int n, short s) {
-    }
+    public void touchScreenRotate(int var1, short var2);
 }
 

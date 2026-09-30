@@ -14,32 +14,26 @@ implements DSISDARSTuner {
         super(logChannel, "DSISDARSTuner");
     }
 
-    @Override
     public void reset(int n) {
         this.log();
     }
 
-    @Override
     public void selectStation(int n, int n2) {
         this.log();
     }
 
-    @Override
     public void getTime() {
         this.log();
     }
 
-    @Override
     public void setRadioText2Config(int n, int n2) {
         this.log();
     }
 
-    @Override
     public void getEPG24Hour(int n) {
         this.log();
     }
 
-    @Override
     public void getEPGDescription(int n, int n2) {
         this.log();
     }
@@ -48,27 +42,22 @@ implements DSISDARSTuner {
         this.log();
     }
 
-    @Override
     public void notifyHMIReady(int n) {
         this.log();
     }
 
-    @Override
     public void profileChange(int n) {
         this.log();
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         this.log();
     }
 
-    @Override
     public void profileReset(int n) {
         this.log();
     }
 
-    @Override
     public void profileResetAll() {
         this.log();
     }

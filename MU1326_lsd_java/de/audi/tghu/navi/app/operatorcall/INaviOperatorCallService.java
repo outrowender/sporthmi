@@ -7,13 +7,10 @@ import de.audi.atip.interapp.online.IOperatorCallNaviService;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public interface INaviOperatorCallService {
-    default public void setContext(int n) {
-    }
+    public void setContext(int var1);
 
-    default public void receiveEvent(OperatorCallResult operatorCallResult, int n) {
-    }
+    public void receiveEvent(OperatorCallResult var1, int var2);
 
-    default public void setOnlineOperatorCallService(IOperatorCallNaviService iOperatorCallNaviService) {
-    }
+    public void setOnlineOperatorCallService(IOperatorCallNaviService var1);
 }
 

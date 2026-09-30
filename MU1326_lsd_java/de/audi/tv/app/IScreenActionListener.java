@@ -4,22 +4,16 @@
 package de.audi.tv.app;
 
 public interface IScreenActionListener {
-    default public void popupVisible(int n, int n2) {
-    }
+    public void popupVisible(int var1, int var2);
 
-    default public void popupHidden(int n, int n2) {
-    }
+    public void popupHidden(int var1, int var2);
 
-    default public void popupRemoved(int n, int n2) {
-    }
+    public void popupRemoved(int var1, int var2);
 
-    default public void screenVisible(int n, int n2) {
-    }
+    public void screenVisible(int var1, int var2);
 
-    default public void screenHidden(int n, int n2) {
-    }
+    public void screenHidden(int var1, int var2);
 
-    default public void screenFadedOut(int n, int n2) {
-    }
+    public void screenFadedOut(int var1, int var2);
 }
 

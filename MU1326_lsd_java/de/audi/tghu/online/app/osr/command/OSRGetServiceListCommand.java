@@ -9,7 +9,7 @@ import org.dsi.ifc.online.OSRServiceState;
 public class OSRGetServiceListCommand
 extends AbstractOSRCommand {
     private final boolean force;
-    protected static final long ORS_COMMAND_TIMEOUT_HIGH;
+    protected static final long ORS_COMMAND_TIMEOUT_HIGH = 90000L;
 
     public OSRGetServiceListCommand() {
         this.force = false;
@@ -19,25 +19,22 @@ extends AbstractOSRCommand {
         this.force = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ORSGetServiceListCommand#execute() DSI getServiceList()");
+        this.logger.log(10000000, "ORSGetServiceListCommand#execute() DSI getServiceList()");
         if (this.getDSI() == null) {
             this.logger.log(10000, "ORSGetServiceListCommand#execute(): DSI not available");
             this.getServiceListResponse(4);
         }
     }
 
-    @Override
     public void getServiceListResponse(int n) {
-        this.logger.log(-2137614336, "ORSGetServiceListCommand#getServiceListResponse() result:%1", (long)n);
+        this.logger.log(10000000, "ORSGetServiceListCommand#getServiceListResponse() result:%1", (long)n);
         super.getServiceListResponse(n);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 90000L;
     }
 
     public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {

@@ -8,12 +8,12 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.PosPosition;
 
 public class PoiSearchArea {
-    public static final int SEARCH_CONTEXT_LOCATION_VICINITY;
-    public static final int SEARCH_CONTEXT_ALONG_ROUTE;
-    public static final int SEARCH_CONTEXT_DESTINATION_VICINITY;
-    public static final int SEARCH_CONTEXT_STOPOVER_VICINITY;
-    public static final int SEARCH_CONTEXT_CITY;
-    public static final int SEARCH_CONTEXT_COUNTRY;
+    public static final int SEARCH_CONTEXT_LOCATION_VICINITY = 0;
+    public static final int SEARCH_CONTEXT_ALONG_ROUTE = 1;
+    public static final int SEARCH_CONTEXT_DESTINATION_VICINITY = 2;
+    public static final int SEARCH_CONTEXT_STOPOVER_VICINITY = 3;
+    public static final int SEARCH_CONTEXT_CITY = 4;
+    public static final int SEARCH_CONTEXT_COUNTRY = 5;
     private volatile int searchContext = 0;
     private volatile NavLocation location = null;
     private final LogChannel logChannel;
@@ -40,7 +40,7 @@ public class PoiSearchArea {
 
     public PosPosition getLocationAsPosPosition() {
         if (this.location == null) {
-            this.logChannel.log(-1601830656, "PoiSearchArea#getLocationAsPosPosition call but location is null");
+            this.logChannel.log(100000, "PoiSearchArea#getLocationAsPosPosition call but location is null");
             return null;
         }
         PosPosition posPosition = new PosPosition();

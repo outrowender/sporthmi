@@ -4,10 +4,8 @@
 package de.audi.tghu.hmi.evo;
 
 public interface IMultilineWidget {
-    default public void setMultilineMinVisLines(int n) {
-    }
+    public void setMultilineMinVisLines(int var1);
 
-    default public void setMultilineMaxVisLines(int n) {
-    }
+    public void setMultilineMaxVisLines(int var1);
 }
 

@@ -25,12 +25,12 @@ public class TrafficSignService {
     }
 
     public void stop() {
-        this.logChannel.log(-2137614336, "TrafficSignService#stop()");
+        this.logChannel.log(10000000, "TrafficSignService#stop()");
         this.runner.stop();
     }
 
     public void updateCurrentTrafficSign(TrafficSignInformation trafficSignInformation) {
-        this.logChannel.log(-2137614336, "TrafficSignService#updateCurrentTrafficSign( %1 )", (Object)trafficSignInformation);
+        this.logChannel.log(10000000, "TrafficSignService#updateCurrentTrafficSign( %1 )", (Object)trafficSignInformation);
         this.queue.postTrafficSign(trafficSignInformation);
     }
 }

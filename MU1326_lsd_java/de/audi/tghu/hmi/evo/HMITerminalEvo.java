@@ -15,43 +15,31 @@ import de.audi.tghu.hmi.evo.PreloadManager;
 
 public interface HMITerminalEvo
 extends HMITerminal {
-    public static final int SKIN_STANDARD;
-    public static final int SKIN_SPORT;
+    public static final int SKIN_STANDARD = 0;
+    public static final int SKIN_SPORT = 1;
 
-    default public IKanziResourceLoader getKanziResourceLoader() {
-    }
+    public IKanziResourceLoader getKanziResourceLoader();
 
-    default public IDrawerFocusManagerEvo getDrawerFocusManager() {
-    }
+    public IDrawerFocusManagerEvo getDrawerFocusManager();
 
-    default public IDrawerConditionEngine getDrawerConditionEngine() {
-    }
+    public IDrawerConditionEngine getDrawerConditionEngine();
 
-    default public IPresetInputHandler getPresetPopupHandler() {
-    }
+    public IPresetInputHandler getPresetPopupHandler();
 
-    default public IVisualFeedback getVisualFeedback() {
-    }
+    public IVisualFeedback getVisualFeedback();
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1);
 
-    default public int getSkin() {
-    }
+    public int getSkin();
 
-    default public void initializeViewSize(int n) {
-    }
+    public void initializeViewSize(int var1);
 
-    default public void initializeDrawerViewSize() {
-    }
+    public void initializeDrawerViewSize();
 
-    default public IWidgetRegistry getWidgetRegistryIf() {
-    }
+    public IWidgetRegistry getWidgetRegistryIf();
 
-    default public PreloadManager getPreloadManager() {
-    }
+    public PreloadManager getPreloadManager();
 
-    default public ILockingManager getLockingManager() {
-    }
+    public ILockingManager getLockingManager();
 }
 

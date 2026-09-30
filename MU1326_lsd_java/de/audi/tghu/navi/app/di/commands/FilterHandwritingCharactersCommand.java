@@ -16,15 +16,13 @@ extends NavCommand {
         this.matchSpellerModelApp = matchspellerModelApp;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "FilterHandwritingCharactersCommand#execute - call lispGetMatchingNVC( charactersToFilter=%1 )", (Object)this.charactersToFilter);
+        this.logger.log(1000000, "FilterHandwritingCharactersCommand#execute - call lispGetMatchingNVC( charactersToFilter=%1 )", (Object)this.charactersToFilter);
         this.getDSINavigation().lispGetMatchingNVC(this.charactersToFilter);
     }
 
-    @Override
     public void lispGetMatchingNVCResult(String string) {
-        this.logger.log(1078071040, "FilterHandwritingCharactersCommand#lispGetMatchingNVCResult - result=%1", (Object)string);
+        this.logger.log(1000000, "FilterHandwritingCharactersCommand#lispGetMatchingNVCResult - result=%1", (Object)string);
         this.matchSpellerModelApp.setValidNonAlphaNumTPCharacters(string);
         this.getCommandList().commandFinished();
     }

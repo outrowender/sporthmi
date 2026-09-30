@@ -5,19 +5,17 @@ package de.audi.tghu.swdl.app.hmiswitcher.manager.engineering;
 
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.model.SpellerListener;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.swdl.app.AbstractSwdlJoinedDownloadState;
 import de.audi.tghu.swdl.app.PropertiesAccessor;
 import de.audi.tghu.swdl.app.SwdlEnv;
-import de.audi.tghu.swdl.app.SwdlModels;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerDeviceInfo;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerProgress;
 import de.audi.tghu.swdl.app.dsi.SwdlDSIHandlerSelection;
 import de.audi.tghu.swdl.app.hmiswitcher.manager.AbstractPopupManager;
 import de.audi.tghu.swdl.app.hmiswitcher.manager.AbstractSelectionManager;
 import de.audi.tghu.swdl.app.hmiswitcher.manager.engineering.AbstractEngineeringDeviceInfoManager;
-import de.audi.tghu.swdl.app.hmiswitcher.manager.engineering.AbstractEngineeringSelectionManager$1;
 import de.audi.tghu.swdl.app.list.SwdlListHandlerMedium;
 import de.audi.tghu.swdl.app.list.SwdlListHandlerRelease;
 import de.audi.tghu.swdl.app.list.SwdlListItemMedium;
@@ -33,8 +31,8 @@ extends AbstractSelectionManager
 implements ButtonListener,
 SpellerListener {
     private static final String[] EMPTYSTRINGARRAY = new String[0];
-    private static final int MAX_NETWORK_PATH_LENGTH;
-    private static final long VERSION_UPLOAD_AUTO_RESTART_TIMEOUT;
+    private static final int MAX_NETWORK_PATH_LENGTH = 127;
+    private static final long VERSION_UPLOAD_AUTO_RESTART_TIMEOUT = 3000L;
     SwdlListHandlerMedium swdlMediumList;
     SwdlListHandlerRelease swdlReleaseList;
     SwdlListItemMedium currentMedium = null;
@@ -47,7 +45,7 @@ SpellerListener {
         super(swdlEnv, abstractPopupManager, abstractEngineeringDeviceInfoManager, swdlDSIHandlerSelection, swdlDSIHandlerDeviceInfo);
         this.swdlJoinedDownloadState = abstractSwdlJoinedDownloadState;
         this.progressDSIHandler = swdlDSIHandlerProgress;
-        this.getLogHMI().log(-2137614336, "new EngineeringSelectionManager()");
+        this.getLogHMI().log(10000000, "new EngineeringSelectionManager()");
         this.swdlMediumList = new SwdlListHandlerMedium(this.getSwdlEnv(), this, this.getSwdlModels().getMediaList());
         this.swdlReleaseList = new SwdlListHandlerRelease(this.getSwdlEnv(), this, this.getSwdlModels().getReleaseList());
         this.getSwdlModels().getIgnoreBusyDeviceButton().setButtonListener(this);
@@ -75,9 +73,8 @@ SpellerListener {
         return this.progressDSIHandler;
     }
 
-    @Override
     public void updateSourceMediaList(int[] nArray) {
-        this.getLogHMI().log(1078071040, "<- updateMediaList(%1)", (Object)nArray);
+        this.getLogHMI().log(1000000, "<- updateMediaList(%1)", (Object)nArray);
         if (this.containsNetworkMedium(nArray)) {
             this.getSwdlModels().getNetworkMediumAvailableChoice().setValue(1);
         } else {
@@ -87,9 +84,8 @@ SpellerListener {
         this.selectDefaultMedium();
     }
 
-    @Override
     public void updateAvailableMedia(byte by) {
-        this.getLogHMI().log(1078071040, "<- updateAvailableMedia( %1 ) ", (long)by);
+        this.getLogHMI().log(1000000, "<- updateAvailableMedia( %1 ) ", (long)by);
         this.swdlMediumList.updateAvailableMedia(by);
     }
 
@@ -109,27 +105,25 @@ SpellerListener {
                 SwdlListItemMedium[] swdlListItemMediumArray = (SwdlListItemMedium[])this.swdlMediumList.getEntries();
                 for (int i2 = 0; i2 < swdlListItemMediumArray.length; ++i2) {
                     if (swdlListItemMediumArray[i2] == null || swdlListItemMediumArray[i2].getId() != this.defaultmedium) continue;
-                    this.getLogHMI().log(1078071040, "setDefaultMedium(%1), select line %2", (long)this.defaultmedium, (long)i2);
+                    this.getLogHMI().log(1000000, "setDefaultMedium(%1), select line %2", (long)this.defaultmedium, (long)i2);
                     this.swdlMediumList.getList().setSelected(i2);
                     return;
                 }
-                this.getLogHMI().log(-2137614336, "setDefaultMedium(%1), not found in media list", (long)this.defaultmedium);
+                this.getLogHMI().log(10000000, "setDefaultMedium(%1), not found in media list", (long)this.defaultmedium);
             }
             catch (Exception exception) {
-                this.getLogHMI().log(-1601830656, "setDefaultMedium(%1), failed", (long)this.defaultmedium, (Throwable)exception);
+                this.getLogHMI().log(100000, "setDefaultMedium(%1), failed", (long)this.defaultmedium, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void setDefaultMedium(int n) {
         this.defaultmedium = n;
         this.selectDefaultMedium();
     }
 
-    @Override
     public void doSelectSourceMedium(int n) {
-        this.getLogHMI().log(1078071040, "-> doSelectMedium(%1)", (long)n);
+        this.getLogHMI().log(1000000, "-> doSelectMedium(%1)", (long)n);
         this.currentMedium = (SwdlListItemMedium)this.swdlMediumList.getEntry(n);
         this.getSwdlModels().getMediumChoice().setValue(this.currentMedium.getId());
         this.swdlReleaseList.setBase(this.currentMedium);
@@ -158,18 +152,16 @@ SpellerListener {
         }
     }
 
-    @Override
     public void updateReleaseList(String[] stringArray, String string, int n) {
-        this.getLogHMI().log(1078071040, "updateReleaseList(%1, %2, %3)", (Object)stringArray, (Object)string, (long)n);
+        this.getLogHMI().log(1000000, "updateReleaseList(%1, %2, %3)", (Object)stringArray, (Object)string, (long)n);
         if (n == 1) {
             this.swdlReleaseList.updateList(stringArray);
         }
         this.updateMediumResult(string, n);
     }
 
-    @Override
     public void doSelectRelease(int n) {
-        this.getLogHMI().log(1078071040, "-> doSelectRelease(%1)", (long)n);
+        this.getLogHMI().log(1000000, "-> doSelectRelease(%1)", (long)n);
         this.currentRelease = (SwdlListItemRelease)this.swdlReleaseList.getEntry(n);
         this.getSwdlModels().getReleaseLabel().setText(this.currentRelease.getName());
         this.updateReleaseResult(null, 0);
@@ -177,9 +169,8 @@ SpellerListener {
         this.getProgressDSIHandler().startReadMetadataProgressUpdate();
     }
 
-    @Override
     public void updateReleaseResult(String string, int n) {
-        this.getLogHMI().log(1078071040, "<- updateReleaseResult(%1, %2)", (Object)string, (long)n);
+        this.getLogHMI().log(1000000, "<- updateReleaseResult(%1, %2)", (Object)string, (long)n);
         if (n == 0) {
             this.getSwdlModels().getMessageLabel().setText(this.getTextFactory().getTextConstantWaiting());
             this.getSwdlModels().getSelectReleaseStateChoice().setValue(0);
@@ -199,10 +190,9 @@ SpellerListener {
         }
     }
 
-    @Override
     public void updateConsistency(int n, boolean bl, String string, int n2) {
         if (this.getSwdlEnv().getLogDSI().isDebug()) {
-            this.getSwdlEnv().getLogDSI().log(-2137614336, "updateConsistency(%1, %2, %3)", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)new StringBuffer().append(string).append(" ").append(n2).toString());
+            this.getSwdlEnv().getLogDSI().log(10000000, "updateConsistency(%1, %2, %3)", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)new StringBuffer().append(string).append(" ").append(n2).toString());
         }
         if (bl) {
             this.getSwdlModels().getIncompatibleUpdatesChoice().setValue(0);
@@ -210,19 +200,18 @@ SpellerListener {
         } else {
             String string2 = this.getSelectionDSIHandler().getConsistencyMessage(n, string, n2);
             if (string2 != null) {
-                this.getSwdlEnv().getLogMain().log(-2137614336, "set consistency error text %1", (Object)string2);
+                this.getSwdlEnv().getLogMain().log(10000000, "set consistency error text %1", (Object)string2);
                 this.getSwdlModels().getInconsistentUpdateErrorLabel().setText(string2);
             } else {
                 this.getSwdlModels().getInconsistentUpdateErrorLabel().setText(this.getTextFactory().getTextConstantUnexpectedResultFromConsistencyCheck());
-                this.getSwdlEnv().getLogMain().log(-1601830656, "checkConsistency returned an unexpected value %1", (long)n);
+                this.getSwdlEnv().getLogMain().log(100000, "checkConsistency returned an unexpected value %1", (long)n);
             }
             this.getSwdlModels().getIncompatibleUpdatesChoice().setValue(2);
-            this.getSwdlEnv().getLogMain().log(1078071040, "doCheckStartDownload.fireEvent()");
+            this.getSwdlEnv().getLogMain().log(1000000, "doCheckStartDownload.fireEvent()");
             this.getSwdlModels().getCheckStartDownloadButton().setStatus(1);
         }
     }
 
-    @Override
     public void updateIncompatibleDevices(String[] stringArray, String[] stringArray2) {
         if (stringArray == null || stringArray.length == 0 || stringArray2 == null || stringArray2.length == 0) {
             this.getSwdlModels().getIncompatibleUpdatesChoice().setValue(0);
@@ -233,7 +222,7 @@ SpellerListener {
             int n = stringArray.length;
             if (stringArray2.length < n) {
                 n = stringArray2.length;
-                this.getSwdlEnv().getLogMain().log(-1601830656, "Incompatible device lists are inkonsistent %1 %2", (Object)stringArray, (Object)stringArray2);
+                this.getSwdlEnv().getLogMain().log(100000, "Incompatible device lists are inkonsistent %1 %2", (Object)stringArray, (Object)stringArray2);
             }
             for (int i2 = 0; i2 < n; ++i2) {
                 buffer.append(stringArray[i2]);
@@ -245,40 +234,52 @@ SpellerListener {
             }
             this.getSwdlModels().getIncompDevLabel().setText(buffer.toString());
         }
-        this.getLogHMI().log(1078071040, "doStartDownload.fireEvent()");
+        this.getLogHMI().log(1000000, "doStartDownload.fireEvent()");
         this.getSwdlModels().getCheckStartDownloadButton().setStatus(1);
     }
 
-    @Override
     public void doStartVersionUpload() {
-        this.getLogHMI().log(1078071040, "doStartVersionUpload()");
+        this.getLogHMI().log(1000000, "doStartVersionUpload()");
         this.getSwdlModels().getVersionUploadResultLabel().setText(this.getTextFactory().getTextConstantEngSelectManagerAbort());
         this.getSelectionDSIHandler().doStartVersionUpload();
     }
 
-    @Override
     public void versionUploadDone(boolean bl) {
-        this.getLogHMI().log(1078071040, "<- versionUploadDone(%1)", bl);
+        this.getLogHMI().log(1000000, "<- versionUploadDone(%1)", bl);
         if (bl) {
             this.getSwdlModels().getVersionUploadResultLabel().setText(this.getTextFactory().getTextConstantEngSelectManagerConfirmed());
         } else {
             this.getSwdlModels().getVersionUploadResultLabel().setText(this.getTextFactory().getTextConstantEngSelectManagerFailed());
         }
         this.getSwdlModels().getAbortVersionComparisonButton().fireEvent(this.getSwdlEnv().getTerminalId());
-        this.getLogHMI().log(-2137614336, "[AbstractEngineeringSelectionManager]versionUploadDone: start reset timer %1 sec", (long)0);
-        new Timer("Version upload restart timer", 0, true, new AbstractEngineeringSelectionManager$1(this)).start();
+        this.getLogHMI().log(10000000, "[AbstractEngineeringSelectionManager]versionUploadDone: start reset timer %1 sec", 3L);
+        new Timer("Version upload restart timer", 3000L, true, new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                try {
+                    AbstractEngineeringSelectionManager.this.getSwdlModels().getRestartVersionComparisonButton().fireEvent(AbstractEngineeringSelectionManager.this.getSwdlEnv().getTerminalId());
+                    AbstractEngineeringSelectionManager.this.rebootAfterUpload();
+                    AbstractEngineeringSelectionManager.this.removeSwdlDataDir();
+                }
+                catch (Exception exception) {
+                    AbstractEngineeringSelectionManager.this.getLogHMI().log(10000, "[AbstractEngineeringSelectionManager]versionUploadDone: unexpected timer exception", (Throwable)exception);
+                }
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        }).start();
     }
 
     void rebootAfterUpload() {
-        this.getLogHMI().log(1078071040, "rebootAfterUpload()");
+        this.getLogHMI().log(1000000, "rebootAfterUpload()");
         this.getSelectionDSIHandler().endVersionUpload();
         this.getProgressDSIHandler().updateTriggerPanel(1, 1);
     }
 
-    @Override
     public void enterComponentUpdateConfirmation() {
         if (this.getSwdlEnv().isSwdlSummaryEntered()) {
-            this.getLogHMI().log(1078071040, "AbstractEngineeringSelectionManager <- enterComponentUpdateConfirmation()");
+            this.getLogHMI().log(1000000, "AbstractEngineeringSelectionManager <- enterComponentUpdateConfirmation()");
             this.getSwdlModels().getSummaryContinueButton().fireEvent(0);
             this.getSelectionDSIHandler().enterComponentUpdateConfirmation(true);
             this.doStartVersionUpload();
@@ -288,11 +289,9 @@ SpellerListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
@@ -309,12 +308,11 @@ SpellerListener {
                 printStream.close();
             }
             catch (IOException iOException) {
-                this.getLogHMI().log(1078071040, "IOException while creating download flag file!", (Throwable)iOException);
+                this.getLogHMI().log(1000000, "IOException while creating download flag file!", (Throwable)iOException);
             }
         }
     }
 
-    @Override
     public void removeSwdlDataDir() {
         String string = PropertiesAccessor.getSwdlDataDir();
         if (string != null) {
@@ -323,9 +321,8 @@ SpellerListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogHMI().log(1078071040, "KeyTyped(modelID=%1,terminalID=%2)", (long)n, (long)n3);
+        this.getLogHMI().log(1000000, "KeyTyped(modelID=%1,terminalID=%2)", (long)n, (long)n3);
         switch (n) {
             case 1700067: {
                 this.getSwdlModels().getIgnoreBusyDeviceButton().fireEvent(n3);
@@ -426,36 +423,20 @@ SpellerListener {
                 break;
             }
             default: {
-                this.getLogHMI().log(-2137614336, "ignore keyTyped( %1 ) Event!", (long)n);
+                this.getLogHMI().log(10000000, "ignore keyTyped( %1 ) Event!", (long)n);
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    protected abstract void fireSMEventTriggerDownloadAborting(int n) {
-    }
-
-    static /* synthetic */ SwdlEnv access$000(AbstractEngineeringSelectionManager abstractEngineeringSelectionManager) {
-        return abstractEngineeringSelectionManager.getSwdlEnv();
-    }
-
-    static /* synthetic */ SwdlModels access$100(AbstractEngineeringSelectionManager abstractEngineeringSelectionManager) {
-        return abstractEngineeringSelectionManager.getSwdlModels();
-    }
-
-    static /* synthetic */ LogChannel access$200(AbstractEngineeringSelectionManager abstractEngineeringSelectionManager) {
-        return abstractEngineeringSelectionManager.getLogHMI();
-    }
+    protected abstract void fireSMEventTriggerDownloadAborting(int var1);
 }
 

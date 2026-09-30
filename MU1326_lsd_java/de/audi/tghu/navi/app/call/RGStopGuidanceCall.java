@@ -18,13 +18,12 @@ extends NavSimpleCall {
         this.dsiNavigationManager = dSINavigationManager;
     }
 
-    @Override
     public void execute() {
         if (this.env.getContainer().isRgActive()) {
-            this.logger.log(-2137614336, "RGStopGuidanceCall#execute() - calling rgStopGuidance()");
+            this.logger.log(10000000, "RGStopGuidanceCall#execute() - calling rgStopGuidance()");
             this.dsiNavigationManager.getDSINavigation(0).rgStopGuidance();
         } else {
-            this.logger.log(-2137614336, "RGStopGuidanceCall#execute() - guidance is not active!");
+            this.logger.log(10000000, "RGStopGuidanceCall#execute() - guidance is not active!");
         }
     }
 }

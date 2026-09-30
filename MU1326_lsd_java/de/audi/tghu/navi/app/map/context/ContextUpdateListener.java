@@ -16,142 +16,96 @@ import org.dsi.ifc.navigation.RgRouteCostChangeInformation;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface ContextUpdateListener {
-    default public void updateAvailableLanguages(String[] stringArray) {
-    }
+    public void updateAvailableLanguages(String[] var1);
 
-    default public void updateAvailableLayers(LayerProperty[] layerPropertyArray) {
-    }
+    public void updateAvailableLayers(LayerProperty[] var1);
 
-    default public void updateAvailableRoutes(AvailableRoute[] availableRouteArray) {
-    }
+    public void updateAvailableRoutes(AvailableRoute[] var1);
 
-    default public void updateCarPosition(Point point) {
-    }
+    public void updateCarPosition(Point var1);
 
-    default public void updateCurrentLanguage(String string) {
-    }
+    public void updateCurrentLanguage(String var1);
 
-    default public void updateCurrentViewType(int n) {
-    }
+    public void updateCurrentViewType(int var1);
 
-    default public void updateDayNightView(boolean bl) {
-    }
+    public void updateDayNightView(boolean var1);
 
-    default public void updateDestDistance(int n) {
-    }
+    public void updateDestDistance(int var1);
 
-    default public void updateDistanceToNextManeuver(int n) {
-    }
+    public void updateDistanceToNextManeuver(int var1);
 
-    default public void updateGoogleDataStatus(int n) {
-    }
+    public void updateGoogleDataStatus(int var1);
 
-    default public void updateLoadKml(boolean[] blArray) {
-    }
+    public void updateLoadKml(boolean[] var1);
 
-    default public void updateManoeuvreViewActive(int n) {
-    }
+    public void updateManoeuvreViewActive(int var1);
 
-    default public void updateManoeuvreViewsAvailable(short[] sArray) {
-    }
+    public void updateManoeuvreViewsAvailable(short[] var1);
 
-    default public void updateMapMode(int n) {
-    }
+    public void updateMapMode(int var1);
 
-    default public void updateMapOrientation(int n) {
-    }
+    public void updateMapOrientation(int var1);
 
-    default public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void updateMapPosition(NavLocationWgs84 var1);
 
-    default public void updateMapRotation(short s) {
-    }
+    public void updateMapRotation(short var1);
 
-    default public void updateOnlineResultFlagDetails(int n) {
-    }
+    public void updateOnlineResultFlagDetails(int var1);
 
-    default public void updatePicNavLocation(NavLocation navLocation, ResourceLocator resourceLocator) {
-    }
+    public void updatePicNavLocation(NavLocation var1, ResourceLocator var2);
 
-    default public void updateReady(boolean bl, int n) {
-    }
+    public void updateReady(boolean var1, int var2);
 
-    default public void updateRecommendedZoom(float f2) {
-    }
+    public void updateRecommendedZoom(float var1);
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 
-    default public void updateRgRouteCalculationState(int n) {
-    }
+    public void updateRgRouteCalculationState(int var1);
 
-    default public void updateRouteCalcModeEnabled(boolean bl) {
-    }
+    public void updateRouteCalcModeEnabled(boolean var1);
 
-    default public void updateSoftJumpEnabled(boolean bl) {
-    }
+    public void updateSoftJumpEnabled(boolean var1);
 
-    default public void updateSoftRotationEnabled(boolean bl) {
-    }
+    public void updateSoftRotationEnabled(boolean var1);
 
-    default public void updateSoftTiltEnabled(boolean bl) {
-    }
+    public void updateSoftTiltEnabled(boolean var1);
 
-    default public void updateSoftTiltRunning(boolean bl) {
-    }
+    public void updateSoftTiltRunning(boolean var1);
 
-    default public void updateTmcMessage(TmcMessage tmcMessage) {
-    }
+    public void updateTmcMessage(TmcMessage var1);
 
-    default public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray) {
-    }
+    public void updateTmcMessagesAhead(TmcMessage[] var1);
 
-    default public void updateTmcVisible(boolean bl) {
-    }
+    public void updateTmcVisible(boolean var1);
 
-    default public void updateViewFreeze(boolean bl) {
-    }
+    public void updateViewFreeze(boolean var1);
 
-    default public void updateViewPort(ViewPort viewPort) {
-    }
+    public void updateViewPort(ViewPort var1);
 
-    default public void updateViewScreenViewPort(Rect rect) {
-    }
+    public void updateViewScreenViewPort(Rect var1);
 
-    default public void updateViewVisible(boolean bl) {
-    }
+    public void updateViewVisible(boolean var1);
 
-    default public void updateVisibleLayers(int[] nArray) {
-    }
+    public void updateVisibleLayers(int[] var1);
 
-    default public void updateXTRepresentation(NavLocation navLocation, String string) {
-    }
+    public void updateXTRepresentation(NavLocation var1, String var2);
 
-    default public void updateZoomEngineState(int n) {
-    }
+    public void updateZoomEngineState(int var1);
 
-    default public void updateZoomList(float[] fArray, int n, float[] fArray2) {
-    }
+    public void updateZoomList(float[] var1, int var2, float[] var3);
 
-    default public void updateZoomListIndex(int n) {
-    }
+    public void updateZoomListIndex(int var1);
 
-    default public void updateSatelliteDataVisible(boolean bl) {
-    }
+    public void updateSatelliteDataVisible(boolean var1);
 
-    default public void updateDragRoutePosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void updateDragRoutePosition(NavLocationWgs84 var1);
 
-    default public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
-    }
+    public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation var1);
 
-    default public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray) {
-    }
+    public void updateRgCalculatedRoutes(CalculatedRouteListElement[] var1);
 
-    default public void updateBapManeuverState(int n) {
-    }
+    public void updateBapManeuverState(int var1);
 
-    default public void updateMobilityHorizonStatus(int n) {
-    }
+    public void updateMobilityHorizonStatus(int var1);
 }
 

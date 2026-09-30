@@ -4,16 +4,16 @@
 package de.audi.tghu.online.app.operatorcall.miniapps;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.interapp.online.TransitionCallback;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.atip.util.StringUtilities;
 import de.audi.remotehmi.RemoteHMILocation;
 import de.audi.tghu.online.app.Online;
 import de.audi.tghu.online.app.OnlineEnv;
 import de.audi.tghu.online.app.operatorcall.abstractclasses.AbstractBaseModelHandler;
 import de.audi.tghu.online.app.operatorcall.abstractclasses.AbstractOperatorCall;
-import de.audi.tghu.online.app.operatorcall.miniapps.AbstractMiniAppHandler$1;
-import de.audi.tghu.online.app.operatorcall.miniapps.AbstractMiniAppHandler$2;
 import de.audi.tghu.online.app.operatorcall.miniapps.MiniApp;
 import de.audi.tghu.online.app.remotehmi.AbstractExternalServiceProvider;
 import de.esolutions.fw.util.commons.Buffer;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractMiniAppHandler {
-    private static final long MINIAPP_TIMEOUT;
+    private static final long MINIAPP_TIMEOUT = 10000L;
     protected int option01;
     protected int option02;
     protected int option03;
@@ -48,14 +48,11 @@ public abstract class AbstractMiniAppHandler {
     protected AbstractOperatorCall listener;
     protected AbstractExternalServiceProvider osp = null;
 
-    protected abstract void initializeOptionModels() {
-    }
+    protected abstract void initializeOptionModels();
 
-    protected abstract void initializeTargetListModels() {
-    }
+    protected abstract void initializeTargetListModels();
 
-    protected abstract AbstractBaseModelHandler createModelHandler() {
-    }
+    protected abstract AbstractBaseModelHandler createModelHandler();
 
     public AbstractMiniAppHandler(OnlineEnv onlineEnv, AbstractOperatorCall abstractOperatorCall) {
         this.env = onlineEnv;
@@ -92,7 +89,7 @@ public abstract class AbstractMiniAppHandler {
             this.optionArray[this.arrayFilled] = n;
             ++this.arrayFilled;
         } else {
-            this.logChannel.log(-1601830656, "AbstractMiniAppHandler#addInitMiniAppToMap: number of mini apps exceeded! optionId = %1 will not be added to the mini app list", (long)n);
+            this.logChannel.log(100000, "AbstractMiniAppHandler#addInitMiniAppToMap: number of mini apps exceeded! optionId = %1 will not be added to the mini app list", (long)n);
         }
     }
 
@@ -112,22 +109,34 @@ public abstract class AbstractMiniAppHandler {
     }
 
     public synchronized void configureModelsMiniApps(int n, int n2) {
-        this.logChannel.log(1078071040, "AbstractModelHandler#configureModelsMiniApps: Called with status '%1' and label '%2'", (long)n, (long)n2);
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1847403264);
+        this.logChannel.log(1000000, "AbstractModelHandler#configureModelsMiniApps: Called with status '%1' and label '%2'", (long)n, (long)n2);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(2301294);
         int n3 = choiceModelApp.getStatus();
         if (n3 != 0 && n == 2) {
-            this.logChannel.log(1078071040, "AbstractModelHandler#configureModelsMiniApps: current status is %1 and new status is %2 so doing nothing", (long)n3, (long)n);
+            this.logChannel.log(1000000, "AbstractModelHandler#configureModelsMiniApps: current status is %1 and new status is %2 so doing nothing", (long)n3, (long)n);
             return;
         }
-        this.modelHandler.setChoiceStatus(1847403264, "NUMBER_OF_REMOTE_HMI_APPS_IN_OPERATORCALL_CHOICE", n);
+        this.modelHandler.setChoiceStatus(2301294, "NUMBER_OF_REMOTE_HMI_APPS_IN_OPERATORCALL_CHOICE", n);
         String string = this.env.getTranslatedText(n2, "");
-        this.modelHandler.setLabelText(-1541594368, "OPERATOR_CALL_RIGHT_DRAWER_AUDI_CONNECT_LABEL", string);
+        this.modelHandler.setLabelText(2301348, "OPERATOR_CALL_RIGHT_DRAWER_AUDI_CONNECT_LABEL", string);
     }
 
     public void errorOccured() {
-        this.logChannel.log(1078071040, "AbstractModelHandler#errorOccured: Called");
+        this.logChannel.log(1000000, "AbstractModelHandler#errorOccured: Called");
         this.configureModelsMiniApps(2, 2);
-        Timer timer = new Timer("RemoteHMIAppsBaseListener_Label", 0, true, new AbstractMiniAppHandler$1(this));
+        Timer timer = new Timer("RemoteHMIAppsBaseListener_Label", 10000L, true, new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                AbstractMiniAppHandler.this.logChannel.log(10000000, "RemoteHMIAppsBaseListener#errorOccured#Timer#fireTimer: Called");
+                ChoiceModelApp choiceModelApp = AbstractMiniAppHandler.this.env.getChoiceModel(2301294);
+                if (choiceModelApp.getStatus() == 2) {
+                    AbstractMiniAppHandler.this.configureModelsMiniApps(3, 0);
+                }
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        });
         timer.restart();
     }
 
@@ -145,17 +154,22 @@ public abstract class AbstractMiniAppHandler {
     }
 
     public void triggerMiniApp(RemoteHMILocation remoteHMILocation, int n) {
-        this.logChannel.log(1078071040, "AbstractMiniAppHandler#triggerMiniApp called");
+        this.logChannel.log(1000000, "AbstractMiniAppHandler#triggerMiniApp called");
         if (this.osp == null) {
-            this.logChannel.log(-1601830656, "AbstractMiniAppHandler#triggerMiniApp: onlineServiceProvider is null!");
+            this.logChannel.log(100000, "AbstractMiniAppHandler#triggerMiniApp: onlineServiceProvider is null!");
             this.listener.getModelHandler().setCurrentState(13);
             this.listener.getModelHandler().showDefaultError(true, 2);
             return;
         }
         MiniApp miniApp = this.getMiniApp(n);
-        this.logChannel.log(-2137614336, "AbstractMiniAppHandler#triggerMiniApp triggering to start the mini app (modelID = %1, name = %2, location = %3)", (Object)new Integer(n), (Object)miniApp.getName(), (Object)this.getLocationAsString(remoteHMILocation));
+        this.logChannel.log(10000000, "AbstractMiniAppHandler#triggerMiniApp triggering to start the mini app (modelID = %1, name = %2, location = %3)", (Object)new Integer(n), (Object)miniApp.getName(), (Object)this.getLocationAsString(remoteHMILocation));
         String string = miniApp.getAppContext();
-        this.osp.startOperatorApp(remoteHMILocation, string, new AbstractMiniAppHandler$2(this));
+        this.osp.startOperatorApp(remoteHMILocation, string, new TransitionCallback(){
+
+            public void triggerTransition() {
+                AbstractMiniAppHandler.this.modelHandler.fireOptionEvent();
+            }
+        });
     }
 
     private String getLocationAsString(RemoteHMILocation remoteHMILocation) {
@@ -177,10 +191,10 @@ public abstract class AbstractMiniAppHandler {
     }
 
     public void triggerAppListDownload() {
-        this.logChannel.log(-2137614336, "AbstractMiniApphandler#triggerAppListDownload: triggering download");
+        this.logChannel.log(10000000, "AbstractMiniApphandler#triggerAppListDownload: triggering download");
         this.configureModelsMiniApps(0, 1);
         if (this.osp == null) {
-            this.logChannel.log(-2137614336, "AbstractMiniApphandler#triggerAppListDownload: OnlineServiceProvider currently not available");
+            this.logChannel.log(10000000, "AbstractMiniApphandler#triggerAppListDownload: OnlineServiceProvider currently not available");
             this.errorOccured();
             return;
         }

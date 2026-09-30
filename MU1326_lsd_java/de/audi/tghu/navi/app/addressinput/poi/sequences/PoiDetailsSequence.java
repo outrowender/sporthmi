@@ -6,14 +6,15 @@ package de.audi.tghu.navi.app.addressinput.poi.sequences;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
+import de.audi.tghu.navi.app.addressinput.poi.commands.LIRestoreStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LiGetStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.ModelUpdatePoiLocationCommand;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.IPoiDetailsSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailsSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailsSequence$2;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiDetailsSequence$3;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.GuiModelAccessDetailsNavi;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.navigation.LISpellerData;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiDetailsSequence
@@ -30,20 +31,37 @@ implements IPoiDetailsSequence {
         this.detailsScreen = iDetailsScreen;
     }
 
-    @Override
     public void start() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetStateCommand());
         commandList.add(new LISPSelectListItemCommand(this.selectedElement.getListIndex()));
-        commandList.add(new PoiDetailsSequence$1(this));
-        commandList.add(new ModelUpdatePoiLocationCommand(this.poiDetailsModelAccess));
-        commandList.add(new PoiDetailsSequence$2(this, "call enter details screen again"));
-        commandList.add(new PoiDetailsSequence$3(this));
-        commandList.execute("PoiDetailsSequence#start");
-    }
+        commandList.add(new NavCommand(){
 
-    static /* synthetic */ IDetailsScreen access$000(PoiDetailsSequence poiDetailsSequence) {
-        return poiDetailsSequence.detailsScreen;
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.getCommandList().commandAborted("Position for element is not valid");
+                }
+            }
+        });
+        commandList.add(new ModelUpdatePoiLocationCommand(this.poiDetailsModelAccess));
+        commandList.add(new NavCommand("call enter details screen again"){
+
+            public void execute() {
+                PoiDetailsSequence.this.detailsScreen.enterDetailsScreen(this.dsiResponseContainer.getLiCurrentLD());
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                LISpellerData lISpellerData = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinishedWithPostCommand(new LIRestoreStateCommand(lISpellerData));
+            }
+        });
+        commandList.execute("PoiDetailsSequence#start");
     }
 }
 

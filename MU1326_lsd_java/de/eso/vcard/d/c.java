@@ -5,7 +5,7 @@ package de.eso.vcard.d;
 
 public class c
 extends Exception {
-    private static final long a;
+    private static final long a = 3204260167996015803L;
 
     public c(String string) {
         super(string);

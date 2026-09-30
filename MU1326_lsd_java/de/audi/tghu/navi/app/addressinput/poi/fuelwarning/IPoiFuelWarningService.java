@@ -4,16 +4,12 @@
 package de.audi.tghu.navi.app.addressinput.poi.fuelwarning;
 
 public interface IPoiFuelWarningService {
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public boolean isFuelWarningActive() {
-    }
+    public boolean isFuelWarningActive();
 
-    default public void setFuelWarningActive(boolean bl) {
-    }
+    public void setFuelWarningActive(boolean var1);
 
-    default public void checkPendingEvents() {
-    }
+    public void checkPendingEvents();
 }
 

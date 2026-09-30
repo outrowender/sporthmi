@@ -28,12 +28,11 @@ implements de.eso.a.c.b {
         this.b = -1;
     }
 
-    @Override
     public boolean a(File file) {
         Object object;
         de.eso.a.d.b.c("\n\n");
         de.eso.a.d.b.c("-------------------------------------------------------");
-        de.eso.a.d.b.c(new StringBuffer().append("-- testrunner parsing ").append(file.getAbsolutePath()).toString());
+        de.eso.a.d.b.c("-- testrunner parsing " + file.getAbsolutePath());
         de.eso.a.d.b.c("-------------------------------------------------------");
         AdbEntry adbEntry = new AdbEntry();
         a a2 = null;
@@ -55,11 +54,10 @@ implements de.eso.a.c.b {
         }
     }
 
-    @Override
     public boolean a(InputStream inputStream) {
         de.eso.a.d.b.c("\n\n");
         de.eso.a.d.b.c("-------------------------------------------------------");
-        de.eso.a.d.b.c(new StringBuffer().append("-- testrunner parsing ").append(inputStream.toString()).toString());
+        de.eso.a.d.b.c("-- testrunner parsing " + inputStream.toString());
         de.eso.a.d.b.c("-------------------------------------------------------");
         c c2 = new c(this.b, this.a);
         a a2 = new a(c2, false);

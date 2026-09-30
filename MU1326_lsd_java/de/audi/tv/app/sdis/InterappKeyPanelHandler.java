@@ -157,7 +157,7 @@ public class InterappKeyPanelHandler {
                 return 49;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Unknown SDIS keypanel ID: ").append(by).toString());
+        throw new IllegalArgumentException("Unknown SDIS keypanel ID: " + by);
     }
 
     static byte mapToSDIS(short s) {

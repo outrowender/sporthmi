@@ -22,7 +22,6 @@ extends NavCommand {
         this.cityHistory = cityHistory;
     }
 
-    @Override
     public void execute() {
         if (this.navLocation == null) {
             if (this.dsiResponseContainer.getLiCurrentLD().isPositionValid()) {

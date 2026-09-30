@@ -18,9 +18,8 @@ extends NavCommand {
         this.ident = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LispSelectListItemByIdent#execute() - calling lispSelectListItemByIdent( %1 ) ", (Object)this.ident);
+        this.logger.log(10000000, "LispSelectListItemByIdent#execute() - calling lispSelectListItemByIdent( %1 ) ", (Object)this.ident);
         this.getDSINavigation().lispSelectListItemByIdent(this.ident);
     }
 
@@ -30,9 +29,8 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(-2137614336, "LispSelectListItemByIdent#liResult( %1 ) ", l);
+        this.logger.log(10000000, "LispSelectListItemByIdent#liResult( %1 ) ", l);
         if (l == 0L) {
             this.liResultResponded = true;
             this.checkFinished();
@@ -41,9 +39,8 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2, long l) {
-        this.logger.log(-2137614336, "LispSelectListItemByIdent#liCurrentState - liCurrentLD=%1; availableSelectionCriteria=%2; usefulRefinementCriteria=%3", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Selcrit.asString(nArray), (Object)Selcrit.asString(nArray2));
+        this.logger.log(10000000, "LispSelectListItemByIdent#liCurrentState - liCurrentLD=%1; availableSelectionCriteria=%2; usefulRefinementCriteria=%3", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Selcrit.asString(nArray), (Object)Selcrit.asString(nArray2));
         this.dsiResponseContainer.setLiCurrentState(navLocation, nArray, nArray2);
         this.liCurrentStateResponded = true;
         this.checkFinished();

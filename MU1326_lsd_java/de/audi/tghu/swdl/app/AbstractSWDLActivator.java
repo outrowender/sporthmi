@@ -68,7 +68,6 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSystem;
     static /* synthetic */ Class class$org$dsi$ifc$navigation$DSINavigation;
 
-    @Override
     public void stop(BundleContext bundleContext) {
         super.stop(bundleContext);
         if (null != this.tracker) {
@@ -77,7 +76,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public final Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
         if (object instanceof DSISwdlDeviceInfo) {
@@ -107,11 +105,10 @@ implements ServiceTrackerCustomizer {
             this.swdlEnv.getLogDSI().log(10000, "[SwdlActivator] adding unwanted service!");
             return null;
         }
-        this.swdlEnv.getLogDSI().log(-2137614336, "[SwdlActivator] added service = %1", object);
+        this.swdlEnv.getLogDSI().log(10000000, "[SwdlActivator] added service = %1", object);
         return object;
     }
 
-    @Override
     public final void removedService(ServiceReference serviceReference, Object object) {
         if (this.swdlDSIManager.getDeviceInfoDSIHandler().equalsDSI(object)) {
             this.swdlDSIManager.setSwdlDeviceInfoDSI(null);
@@ -168,12 +165,10 @@ implements ServiceTrackerCustomizer {
         this.tracker.open();
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    protected abstract AbstractSwdlDiagnosisGateway getDiagnosisGateway() {
-    }
+    protected abstract AbstractSwdlDiagnosisGateway getDiagnosisGateway();
 
     static /* synthetic */ Class class$(String string) {
         try {

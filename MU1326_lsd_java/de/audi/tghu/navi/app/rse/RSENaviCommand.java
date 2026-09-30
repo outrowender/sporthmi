@@ -7,9 +7,9 @@ import de.audi.atip.rse.AbstractRSECommand;
 
 public abstract class RSENaviCommand
 extends AbstractRSECommand {
-    private static final short RSE_MODULE_NAVI;
-    public static final short NAVI_TRANSFER_LOCATION;
-    public static final short NAVI_SYNC_CRITERIA;
+    private static final short RSE_MODULE_NAVI = 1280;
+    public static final short NAVI_TRANSFER_LOCATION = 1281;
+    public static final short NAVI_SYNC_CRITERIA = 1282;
 
     protected RSENaviCommand(int n) {
         super(n);

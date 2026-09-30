@@ -19,17 +19,16 @@ implements IWaitForBlockingAvailableListener {
         simpleDetourHandler.registerAsListener(this);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "WaitForBlockingAvailableCommand#execute()");
+        this.logger.log(10000000, "WaitForBlockingAvailableCommand#execute()");
         if (this.forceNoWait && !this.dsiResponseContainer.isRgActive()) {
-            this.logger.log(-2137614336, "WaitForBlockingAvailableCommand#execute() - route guidance not active, ignore current navigation status");
+            this.logger.log(10000000, "WaitForBlockingAvailableCommand#execute() - route guidance not active, ignore current navigation status");
             this.finishCommand();
         } else if (this.simpleDetourHandler.isBlockingPossible()) {
-            this.logger.log(-2137614336, "WaitForBlockingAvailableCommand#execute() - blocking enabled");
+            this.logger.log(10000000, "WaitForBlockingAvailableCommand#execute() - blocking enabled");
             this.finishCommand();
         } else {
-            this.logger.log(-2137614336, "WaitForBlockingAvailableCommand#execute() - blocking disabled, wait for re-enable");
+            this.logger.log(10000000, "WaitForBlockingAvailableCommand#execute() - blocking disabled, wait for re-enable");
         }
     }
 
@@ -38,11 +37,10 @@ implements IWaitForBlockingAvailableListener {
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void updateBlockingAvailable(boolean bl) {
-        this.logger.log(-2137614336, "WaitForBlockingAvailableCommand#updateBlockingAvailable( %1 )", bl);
+        this.logger.log(10000000, "WaitForBlockingAvailableCommand#updateBlockingAvailable( %1 )", bl);
         if (this.simpleDetourHandler.isBlockingPossible()) {
-            this.logger.log(-2137614336, "WaitForBlockingAvailableCommand#updateBlockingAvailable() - blocking re-enabled");
+            this.logger.log(10000000, "WaitForBlockingAvailableCommand#updateBlockingAvailable() - blocking re-enabled");
             this.finishCommand();
         }
     }

@@ -27,14 +27,14 @@ public class RouteCriteriaSequence {
     }
 
     public void resetSettings() {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaSequence#resetSettings()");
+        this.env.getLogChannel().log(10000000, "RouteCriteriaSequence#resetSettings()");
         this.manager.resetSettings();
         this.routeCriteria = null;
         this.startSequence();
     }
 
     public void startSequence() {
-        this.env.getLogChannel().log(-2137614336, "[RouteGuidance] RouteCriteriaSequence#startSequence");
+        this.env.getLogChannel().log(10000000, "[RouteGuidance] RouteCriteriaSequence#startSequence");
         this.routeCriteria = new RouteCriteria(this.manager.getRouteCriteria(), this.env);
         if (this.modelAccess != null) {
             this.modelAccess.onStart(this.routeCriteria);
@@ -42,7 +42,7 @@ public class RouteCriteriaSequence {
     }
 
     public void finishSequence() {
-        this.env.getLogChannel().log(-2137614336, "[RouteGuidance] RouteCriteriaSequence#finishSequence()");
+        this.env.getLogChannel().log(10000000, "[RouteGuidance] RouteCriteriaSequence#finishSequence()");
         if (this.routeCriteria == null) {
             this.env.getLogChannel().log(10000, "[RouteGuidance] RouteCriteriaSequence#finishSequence() - routeCriteria is null.");
             return;
@@ -104,7 +104,7 @@ public class RouteCriteriaSequence {
         if (this.routeCriteria != null) {
             this.routeCriteria.setRouteOption(n);
         } else {
-            this.env.getLogChannel().log(-2137614336, "[RouteGuidance] RouteCriteriaSequence#setRouteOption() - routeCriteria is null.");
+            this.env.getLogChannel().log(10000000, "[RouteGuidance] RouteCriteriaSequence#setRouteOption() - routeCriteria is null.");
         }
     }
 

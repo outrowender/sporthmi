@@ -22,15 +22,14 @@ extends AbstractADBCommand {
         this.navCommand = navCommand;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "AbstractSaveEntryCommand#execute() entry : %1", (Object)this.entry);
+        this.logger.log(10000000, "AbstractSaveEntryCommand#execute() entry : %1", (Object)this.entry);
         boolean bl = false;
         if (this.entry.entryId == 0L) {
-            this.logger.log(1078071040, "AbstractSaveEntryCommand#execute() insert entry : %1 , profileNum : %2", (Object)this.entry, (long)this.profileNum);
+            this.logger.log(1000000, "AbstractSaveEntryCommand#execute() insert entry : %1 , profileNum : %2", (Object)this.entry, (long)this.profileNum);
             bl = this.adbDSIAccess.insertEntry(this.entry, this.profileNum);
         } else {
-            this.logger.log(1078071040, "AbstractSaveEntryCommand#execute() change entry : %1, profileNum : %2", (Object)this.entry, (long)this.profileNum);
+            this.logger.log(1000000, "AbstractSaveEntryCommand#execute() change entry : %1, profileNum : %2", (Object)this.entry, (long)this.profileNum);
             bl = this.adbDSIAccess.changeEntry(this.entry, this.profileNum);
         }
         if (!bl) {
@@ -42,14 +41,12 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public final void insertEntryResult(int n, AdbEntry adbEntry) {
         if (n != 0) {
             this.logger.log(10000, "AbstractSaveEntryCommand#insertEntryResult(): insert entry not successful, success: %1", (long)n);
         }
     }
 
-    @Override
     public final void changeEntryResult(int n, AdbEntry adbEntry) {
         if (n != 0) {
             this.logger.log(10000, "AbstractSaveEntryCommand#changeEntryResult(): change entry not successful, success: %1", (long)n);

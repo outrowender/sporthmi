@@ -41,9 +41,8 @@ implements IHMITerminalRegistry {
         this.terminalContexts = new ITerminalContext[8];
     }
 
-    @Override
     public void registerTerminal(int n, String string, HMITerminal hMITerminal) {
-        this.log.log(1078071040, "HMITerminalRegistry#registerTerminal %2 %1", (Object)string, (long)n);
+        this.log.log(1000000, "HMITerminalRegistry#registerTerminal %2 %1", (Object)string, (long)n);
         HMITerminal[] hMITerminalArray = (HMITerminal[])this.allTerminals.get(string);
         if (hMITerminalArray == null) {
             hMITerminalArray = new HMITerminal[8];
@@ -52,7 +51,6 @@ implements IHMITerminalRegistry {
         hMITerminalArray[n] = hMITerminal;
     }
 
-    @Override
     public HMITerminal getTerminal(int n) {
         HMITerminal[] hMITerminalArray;
         if (this.framework.isFrontMU()) {
@@ -61,16 +59,16 @@ implements IHMITerminalRegistry {
                     this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on frontunit, return terminal: %2", (long)n, 0L);
                     n = 0;
                 } else {
-                    this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on frontunit, return terminal: %2", (long)n, (long)0);
+                    this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on frontunit, return terminal: %2", (long)n, 2L);
                     n = 2;
                 }
             }
         } else if (n == 0 || n == 2) {
             if (n == 0) {
-                this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on rearseatunit, return terminal: %2", (long)n, (long)0);
+                this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on rearseatunit, return terminal: %2", (long)n, 3L);
                 n = 3;
             } else {
-                this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on rearseatunit, return terminal: %2", (long)n, (long)0);
+                this.log.log(1000, "HMITerminalRegistry#getTerminal requesting terminal: %1 on rearseatunit, return terminal: %2", (long)n, 4L);
                 n = 4;
             }
         }
@@ -115,7 +113,7 @@ implements IHMITerminalRegistry {
     }
 
     protected void setUnsupportedDevelopmentBuild(boolean bl) {
-        this.log.log(1078071040, "HMITerminalRegistry#setUnsupportedDevelopmentBuild unsupported: %1", bl);
+        this.log.log(1000000, "HMITerminalRegistry#setUnsupportedDevelopmentBuild unsupported: %1", bl);
         this.unsupported = bl;
         HMITerminal[] hMITerminalArray = (HMITerminal[])this.allTerminals.get(this.currentSkin);
         if (hMITerminalArray != null) {
@@ -127,7 +125,6 @@ implements IHMITerminalRegistry {
         }
     }
 
-    @Override
     public void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
         this.ttsService = tTSSessionBasedService;
         this.propagateTTSServiceChange();
@@ -145,21 +142,18 @@ implements IHMITerminalRegistry {
         }
     }
 
-    @Override
     public void registerRootWindow(int n, IRootWindow iRootWindow) {
         if (n >= 0 && n < 8) {
             this.rootWindows[n] = iRootWindow;
         }
     }
 
-    @Override
     public void registerKeyEventDistributor(int n, IKeyEventDistributor iKeyEventDistributor) {
         if (n >= 0 && n < 8) {
             this.keyEventDistributors[n] = iKeyEventDistributor;
         }
     }
 
-    @Override
     public IRootWindow getRootWindow(int n) {
         if (n >= 0 && n < 8) {
             return this.rootWindows[n];
@@ -167,7 +161,6 @@ implements IHMITerminalRegistry {
         return null;
     }
 
-    @Override
     public IKeyEventDistributor getKeyEventDistributor(int n) {
         if (n >= 0 && n < 8) {
             return this.keyEventDistributors[n];
@@ -175,7 +168,6 @@ implements IHMITerminalRegistry {
         return null;
     }
 
-    @Override
     public ITerminalContext getTerminalContext(int n) {
         if (n >= 0 && n < 8) {
             return this.terminalContexts[n];
@@ -183,19 +175,16 @@ implements IHMITerminalRegistry {
         return null;
     }
 
-    @Override
     public void registerTerminalContext(int n, ITerminalContext iTerminalContext) {
         if (n >= 0 && n < 8) {
             this.terminalContexts[n] = iTerminalContext;
         }
     }
 
-    @Override
     public IDisplayManager getDisplayManager() {
         return this.displayManager;
     }
 
-    @Override
     public void registerDisplayManager(IDisplayManager iDisplayManager) {
         this.displayManager = iDisplayManager;
     }

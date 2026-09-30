@@ -18,7 +18,6 @@ extends MapCommand {
         this.mapflags = null;
     }
 
-    @Override
     public void execute() {
         try {
             if (this.mapflags == null || this.mapflags.length == 0) {
@@ -28,12 +27,11 @@ extends MapCommand {
             }
         }
         catch (Exception exception) {
-            this.logger.log(-1601830656, "ClearMapFlagCmd#execute() - %1", (Throwable)exception);
+            this.logger.log(100000, "ClearMapFlagCmd#execute() - %1", (Throwable)exception);
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void configureFlags(long[] lArray) {
         this.getCommandList().commandFinished();
     }

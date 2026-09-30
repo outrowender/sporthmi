@@ -15,7 +15,6 @@ extends NavCommand {
         this.modelAccess = iPoiScreenUpdateResultList;
     }
 
-    @Override
     public void execute() {
         String string = this.dsiResponseContainer.getLispCurrentInput();
         boolean bl = this.dsiResponseContainer.isLispIsFullMatch();

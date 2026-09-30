@@ -9,7 +9,6 @@ import de.audi.tghu.testsupport.sm.TestSupportSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new TestSupportSMM[8];
         if (this.framework.isFrontMU()) {

@@ -8,7 +8,6 @@ import de.audi.tghu.exlap.impl.container.ContextStatesContainer;
 
 public class ExlapExlapEmptyListener
 implements ExlapExlapListener {
-    @Override
     public void updateContextStates(ContextStatesContainer contextStatesContainer) {
     }
 }

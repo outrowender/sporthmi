@@ -22,18 +22,16 @@ implements IConnectivityRHMIService {
         return this.remoteHmiService.getAction(n);
     }
 
-    @Override
     public void activateSource(String string) {
-        this.logger.log(-2137614336, "RemoteHMIConnectivityService#activateSource: device with address %1 activated.", (Object)string);
-        RemoteHMIAction remoteHMIAction = this.getAction(145397760);
+        this.logger.log(10000000, "RemoteHMIConnectivityService#activateSource: device with address %1 activated.", (Object)string);
+        RemoteHMIAction remoteHMIAction = this.getAction(10005000);
         remoteHMIAction.getParameters().putString("activatedMacAddress", string);
         this.remoteHmiService.invokeAction(remoteHMIAction);
     }
 
-    @Override
     public void deactivateSource(String string) {
-        this.logger.log(-2137614336, "RemoteHMIConnectivityService#deactivateSource: device with address %1 deactivated.", (Object)string);
-        RemoteHMIAction remoteHMIAction = this.getAction(-257058816);
+        this.logger.log(10000000, "RemoteHMIConnectivityService#deactivateSource: device with address %1 deactivated.", (Object)string);
+        RemoteHMIAction remoteHMIAction = this.getAction(10006000);
         remoteHMIAction.getParameters().putString("activatedMacAddress", string);
         this.remoteHmiService.invokeAction(remoteHMIAction);
     }

@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class SystemSMMInitTransitions
 implements SMModuleConstants {
@@ -1232,7 +1233,7 @@ implements SMModuleConstants {
         nArray[341] = nArray[289];
         nArray[342] = nArray[78];
         nArray[344] = nArray[267];
-        nArray[347] = new int[]{-1475542272, 1376584448};
+        nArray[347] = new int[]{200104, 200018};
         nArray[348] = new int[]{147};
         nArray[350] = new int[]{161};
         nArray[357] = new int[]{89};
@@ -1550,7 +1551,7 @@ implements SMModuleConstants {
         nArray[750] = nArray[734];
         nArray[751] = nArray[739];
         nArray[753] = nArray[533];
-        nArray[754] = new int[]{1622018560};
+        nArray[754] = new int[]{700000};
         nArray[755] = nArray[754];
         nArray[756] = nArray[520];
         nArray[757] = nArray[357];
@@ -1648,52 +1649,52 @@ implements SMModuleConstants {
 
     private void initTransIncludeJumpList() {
         HashMap hashMap = new HashMap();
-        hashMap.put(new Integer(331), new Integer(-208592640));
-        hashMap.put(new Integer(338), new Integer(982655232));
-        hashMap.put(new Integer(340), new Integer(317790464));
+        hashMap.put(new Integer(331), new Integer(2200051));
+        hashMap.put(new Integer(338), new Integer(2200122));
+        hashMap.put(new Integer(340), new Integer(1700114));
         hashMap.put(new Integer(344), new Integer(1680));
-        hashMap.put(new Integer(360), new Integer(-1843722752));
+        hashMap.put(new Integer(360), new Integer(400274));
         hashMap.put(new Integer(361), new Integer(1681));
         hashMap.put(new Integer(362), new Integer(1680));
         hashMap.put(new Integer(371), new Integer(1680));
         hashMap.put(new Integer(375), new Integer(1850));
-        hashMap.put(new Integer(376), new Integer(-862714880));
-        hashMap.put(new Integer(377), new Integer(1016209664));
-        hashMap.put(new Integer(402), new Integer(-2078792960));
-        hashMap.put(new Integer(403), new Integer(-2078792960));
-        hashMap.put(new Integer(411), new Integer(999432448));
+        hashMap.put(new Integer(376), new Integer(300236));
+        hashMap.put(new Integer(377), new Integer(2200124));
+        hashMap.put(new Integer(402), new Integer(2300036));
+        hashMap.put(new Integer(403), new Integer(2300036));
+        hashMap.put(new Integer(411), new Integer(2200123));
         hashMap.put(new Integer(420), new Integer(1680));
-        hashMap.put(new Integer(436), new Integer(-1206188544));
-        hashMap.put(new Integer(512), new Integer(1771008));
-        hashMap.put(new Integer(517), new Integer(-752540160));
-        hashMap.put(new Integer(559), new Integer(-1423628800));
-        hashMap.put(new Integer(613), new Integer(-1423628800));
-        hashMap.put(new Integer(615), new Integer(-752540160));
-        hashMap.put(new Integer(628), new Integer(-1692727808));
-        hashMap.put(new Integer(652), new Integer(370935296));
-        hashMap.put(new Integer(660), new Integer(-1047453440));
-        hashMap.put(new Integer(700), new Integer(-1223154944));
-        hashMap.put(new Integer(701), new Integer(-2137717760));
-        hashMap.put(new Integer(702), new Integer(-2137717760));
-        hashMap.put(new Integer(711), new Integer(-1038350848));
+        hashMap.put(new Integer(436), new Integer(400312));
+        hashMap.put(new Integer(512), new Integer(400128));
+        hashMap.put(new Integer(517), new Integer(2500051));
+        hashMap.put(new Integer(559), new Integer(2500011));
+        hashMap.put(new Integer(613), new Integer(2500011));
+        hashMap.put(new Integer(615), new Integer(2500051));
+        hashMap.put(new Integer(628), new Integer(400283));
+        hashMap.put(new Integer(652), new Integer(400406));
+        hashMap.put(new Integer(660), new Integer(2200001));
+        hashMap.put(new Integer(700), new Integer(2300087));
+        hashMap.put(new Integer(701), new Integer(300416));
+        hashMap.put(new Integer(702), new Integer(300416));
+        hashMap.put(new Integer(711), new Integer(400578));
         hashMap.put(new Integer(712), new Integer(2348));
-        hashMap.put(new Integer(727), new Integer(-988019200));
+        hashMap.put(new Integer(727), new Integer(400581));
         hashMap.put(new Integer(734), new Integer(2277));
         hashMap.put(new Integer(735), new Integer(2278));
-        hashMap.put(new Integer(750), new Integer(-1902836736));
+        hashMap.put(new Integer(750), new Integer(300430));
         hashMap.put(new Integer(756), new Integer(1976));
         hashMap.put(new Integer(760), new Integer(2348));
-        hashMap.put(new Integer(765), new Integer(-921165056));
-        hashMap.put(new Integer(788), new Integer(-1802173440));
-        hashMap.put(new Integer(789), new Integer(-1802173440));
-        hashMap.put(new Integer(793), new Integer(-1768619008));
-        hashMap.put(new Integer(817), new Integer(-233044480));
-        hashMap.put(new Integer(841), new Integer(372575232));
-        hashMap.put(new Integer(842), new Integer(355798016));
+        hashMap.put(new Integer(765), new Integer(2300105));
+        hashMap.put(new Integer(788), new Integer(300436));
+        hashMap.put(new Integer(789), new Integer(300436));
+        hashMap.put(new Integer(793), new Integer(300438));
+        hashMap.put(new Integer(817), new Integer(400626));
+        hashMap.put(new Integer(841), new Integer(800022));
+        hashMap.put(new Integer(842), new Integer(800021));
         this.smm.setTransIncludeJumpTransition(hashMap);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

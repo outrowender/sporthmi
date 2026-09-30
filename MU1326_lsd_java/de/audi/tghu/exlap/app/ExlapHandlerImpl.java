@@ -16,7 +16,6 @@ import de.audi.tghu.exlap.app.ActionRequest;
 import de.audi.tghu.exlap.app.ExlapDispatcher;
 import de.audi.tghu.exlap.app.ExlapExlapServiceImpl;
 import de.audi.tghu.exlap.app.ExlapHandler;
-import de.audi.tghu.exlap.app.ExlapHandlerImpl$1;
 import de.audi.tghu.exlap.ifc.enumeration.ContextStateEnumeration;
 import de.audi.tghu.exlap.impl.worker.HasHelper;
 import java.util.Dictionary;
@@ -68,7 +67,7 @@ ExlapStatusHandler {
     static /* synthetic */ Class class$de$audi$tghu$exlap$ExlapService;
 
     public ExlapHandlerImpl(BundleContext bundleContext, IFrameworkAccess iFrameworkAccess) {
-        this.ACTION_REQUEST_TIMEOUT = 0;
+        this.ACTION_REQUEST_TIMEOUT = 16000L;
         this.context = bundleContext;
         this.framework = iFrameworkAccess;
         this.log = iFrameworkAccess.getLogChannel("App.Exlap.Handler");
@@ -77,7 +76,6 @@ ExlapStatusHandler {
         bundleContext.registerService((class$de$audi$tghu$exlap$ExlapStatusHandler == null ? (class$de$audi$tghu$exlap$ExlapStatusHandler = ExlapHandlerImpl.class$("de.audi.tghu.exlap.ExlapStatusHandler")) : class$de$audi$tghu$exlap$ExlapStatusHandler).getName(), (Object)this, (Dictionary)new Hashtable());
     }
 
-    @Override
     public void init(DSIHAS dSIHAS, DSIExlap dSIExlap, ExlapExlapServiceImpl exlapExlapServiceImpl) {
         this.dsiHas = dSIHAS;
         this.dsiExlap = dSIExlap;
@@ -99,10 +97,9 @@ ExlapStatusHandler {
         dSIHAS.hmiReady();
     }
 
-    @Override
     public void deinit() {
         if (this.log != null) {
-            this.log.log(1078071040, "[ExlapHandlerImpl.deinit()] stopping ExlapHandlerImpl");
+            this.log.log(1000000, "[ExlapHandlerImpl.deinit()] stopping ExlapHandlerImpl");
         }
         if (this.dsiHas != null) {
             this.dsiHas.clearNotification(this);
@@ -126,16 +123,15 @@ ExlapStatusHandler {
         String[] stringArray = new String[]{(class$de$audi$tghu$exlap$ExlapService == null ? (class$de$audi$tghu$exlap$ExlapService = ExlapHandlerImpl.class$("de.audi.tghu.exlap.ExlapService")) : class$de$audi$tghu$exlap$ExlapService).getName()};
         this.tracker = new ServiceTracker(this.context, stringArray, (ServiceTrackerCustomizer)this);
         this.tracker.open();
-        this.log.log(1078071040, "[ExlapHandlerImpl#initTracker()] Exlap tracker opened");
+        this.log.log(1000000, "[ExlapHandlerImpl#initTracker()] Exlap tracker opened");
     }
 
-    @Override
     public synchronized void actionRequest(int n, int n2, HASDataContainer[] hASDataContainerArray) {
-        this.log.log(1078071040, "[ExlapHandlerImpl#actionRequest()] calling actionId: %1: ", (long)n2);
+        this.log.log(1000000, "[ExlapHandlerImpl#actionRequest()] calling actionId: %1: ", (long)n2);
         String string = this.hasHelper.getClassForActionId(n2);
         ExlapService exlapService = (ExlapService)this.availableServices.get(string);
         if (exlapService == null) {
-            this.log.log(-1601830656, "[ExlapHandlerImpl#actionRequest()] actionRequest failed, service not available: %1", (Object)string);
+            this.log.log(100000, "[ExlapHandlerImpl#actionRequest()] actionRequest failed, service not available: %1", (Object)string);
             this.dsiHas.actionResult(n, n2, null, 16);
             return;
         }
@@ -152,7 +148,7 @@ ExlapStatusHandler {
             if (bl) {
                 this.dsiHas.actionResult(n, n2, null, 0);
             }
-            this.log.log(-2137614336, "[ExlapHandlerImpl#actionRequest()] actionRequest success", (Object)string);
+            this.log.log(10000000, "[ExlapHandlerImpl#actionRequest()] actionRequest success", (Object)string);
         }
         catch (Exception exception) {
             this.log.log(10000, "[ExlapHandlerImpl#actionRequest()] actionRequest failed for reason: %1", (Throwable)exception);
@@ -160,7 +156,6 @@ ExlapStatusHandler {
         }
     }
 
-    @Override
     public void actionResult(int n, int n2, Container container) {
         this.actionResult(n, n2, container, 0);
     }
@@ -168,7 +163,7 @@ ExlapStatusHandler {
     public void actionResult(int n, int n2, Container container, int n3) {
         ActionRequest actionRequest = this.popActionRequest(n, n2);
         if (actionRequest == null) {
-            this.log.log(-1601830656, "[ExlapHandlerImpl#actionResult()] invalid action request, ignoring. requestId=%1 actionId=%2", (long)n, (long)n2);
+            this.log.log(100000, "[ExlapHandlerImpl#actionResult()] invalid action request, ignoring. requestId=%1 actionId=%2", (long)n, (long)n2);
             return;
         }
         HASDataContainer[] hASDataContainerArray = null;
@@ -176,7 +171,7 @@ ExlapStatusHandler {
             hASDataContainerArray = container.createContainer();
         }
         this.dsiHas.actionResult(n, n2, hASDataContainerArray, n3);
-        this.log.log(-2137614336, "[ExlapHandlerImpl#actionResult()] actionResult sent: %1", (Object)hASDataContainerArray);
+        this.log.log(10000000, "[ExlapHandlerImpl#actionResult()] actionResult sent: %1", (Object)hASDataContainerArray);
         this.exlapServiceImpl.setContextState(this.hasHelper.getClassForActionId(actionRequest.getActionId()), ContextStateEnumeration.READY);
     }
 
@@ -184,7 +179,7 @@ ExlapStatusHandler {
         ActionRequest actionRequest = new ActionRequest(this.framework.getMonotonicTime(), n, n2);
         this.actionRequests.add(actionRequest);
         if (this.actionRequestTimer == null || !this.actionRequestTimer.isRunning()) {
-            this.actionRequestTimer = new Timer("actionRequestTimer", 0, true, this);
+            this.actionRequestTimer = new Timer("actionRequestTimer", 16000L, true, this);
             this.actionRequestTimer.start();
         }
     }
@@ -200,41 +195,35 @@ ExlapStatusHandler {
         return null;
     }
 
-    @Override
     public synchronized void subscribeRequest(int n, int n2) {
-        this.log.log(1078071040, "[ExlapHandlerImpl#subscribeRequest()] subscribeRequest id: %1, interval: %2", (long)n, (long)n2);
+        this.log.log(1000000, "[ExlapHandlerImpl#subscribeRequest()] subscribeRequest id: %1, interval: %2", (long)n, (long)n2);
         boolean bl = this.hasHelper.subscribe(n, n2);
         if (bl) {
             this.dsiHas.subscribeResult(n, 0);
-            this.log.log(-2137614336, "[ExlapHandlerImpl#subscribeRequest()] subscribeResult: success");
+            this.log.log(10000000, "[ExlapHandlerImpl#subscribeRequest()] subscribeResult: success");
         } else {
             this.dsiHas.subscribeResult(n, 1);
-            this.log.log(-2137614336, "[ExlapHandlerImpl#subscribeRequest()] subscribeResult: error");
+            this.log.log(10000000, "[ExlapHandlerImpl#subscribeRequest()] subscribeResult: error");
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(1078071040, "[ExlapHandlerImpl#asyncException()] asynchronous exception for %1: [%2] %3", (Object)new Integer(n2), (Object)new Integer(n), (Object)string);
+        this.log.log(1000000, "[ExlapHandlerImpl#asyncException()] asynchronous exception for %1: [%2] %3", (Object)new Integer(n2), (Object)new Integer(n), (Object)string);
     }
 
-    @Override
     public void unsubscribeRequest(int n) {
-        this.log.log(1078071040, "[ExlapHandlerImpl#unsubscribeRequest()] unsubscribeRequest id: %1", (long)n);
+        this.log.log(1000000, "[ExlapHandlerImpl#unsubscribeRequest()] unsubscribeRequest id: %1", (long)n);
         this.hasHelper.unsubscribe(n);
     }
 
-    @Override
     public void unsubscribeAllRequest() {
-        this.log.log(1078071040, "[ExlapHandlerImpl#unsubscribeAllRequest()] unsubscribeAllRequest");
+        this.log.log(1000000, "[ExlapHandlerImpl#unsubscribeAllRequest()] unsubscribeAllRequest");
         this.hasHelper.unsubscribeAll();
     }
 
-    @Override
     public void getPropertyRequest(int n) {
     }
 
-    @Override
     public synchronized Object addingService(ServiceReference serviceReference) {
         String string = (String)serviceReference.getProperty("service_name");
         Object object = this.context.getService(serviceReference);
@@ -266,7 +255,7 @@ ExlapStatusHandler {
 
     private void addService(String string, ExlapService exlapService) {
         this.exlapServiceImpl.setContextState(string, ContextStateEnumeration.INITIALIZING);
-        this.log.log(1078071040, "[ExlapHandlerImpl#addingService()] new service installed: %1", (Object)string);
+        this.log.log(1000000, "[ExlapHandlerImpl#addingService()] new service installed: %1", (Object)string);
         exlapService.setResultReceiver(this);
         this.availableServices.put(string, exlapService);
         this.hasHelper.createWorkers(string, exlapService, this.dispatcher, this.dsiHas);
@@ -275,18 +264,20 @@ ExlapStatusHandler {
         this.exlapServiceImpl.setContextState(string, ContextStateEnumeration.READY);
     }
 
-    @Override
     public synchronized void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public synchronized void removedService(ServiceReference serviceReference, Object object) {
         if (object == null) {
             return;
         }
         ExlapService exlapService = (ExlapService)object;
         String string = (String)serviceReference.getProperty("service_name");
-        exlapService.setResultReceiver(new ExlapHandlerImpl$1(this));
+        exlapService.setResultReceiver(new ResultReceiver(){
+
+            public void actionResult(int n, int n2, Container container) {
+            }
+        });
         this.exlapServiceImpl.setContextState(string, ContextStateEnumeration.UNAVAILABLE);
         this.hasHelper.stopWorkers(string);
         this.availableServices.remove(string);
@@ -296,12 +287,11 @@ ExlapStatusHandler {
 
     private void triggerSubscribeRequests() {
         if (this.serverStarted) {
-            this.log.log(1078071040, "[ExlapHandlerImpl#triggerSubscribeRequests()] triggering new subscribe requests through calling start()");
+            this.log.log(1000000, "[ExlapHandlerImpl#triggerSubscribeRequests()] triggering new subscribe requests through calling start()");
             this.dsiExlap.start();
         }
     }
 
-    @Override
     public void startResult(int n) {
         if (n == 0) {
             this.serverStarted = true;
@@ -310,7 +300,6 @@ ExlapStatusHandler {
         }
     }
 
-    @Override
     public void stopResult(int n) {
         if (n == 0) {
             this.serverStarted = false;
@@ -319,11 +308,10 @@ ExlapStatusHandler {
         }
     }
 
-    @Override
     public void updateAvailableServices(Service[] serviceArray, int n) {
         if (n == 1) {
             if (this.atLeastOneAvailable(serviceArray)) {
-                this.log.log(1078071040, "[ExlapHandlerImpl#updateAvailableServices()] at least one service was available. Starting server. Services = %1", (Object)serviceArray);
+                this.log.log(1000000, "[ExlapHandlerImpl#updateAvailableServices()] at least one service was available. Starting server. Services = %1", (Object)serviceArray);
                 this.servicesAvailable = true;
                 this.start();
             } else {
@@ -344,14 +332,13 @@ ExlapStatusHandler {
         return false;
     }
 
-    @Override
     public synchronized void fireTimer(Timer timer) {
         ActionRequest actionRequest = null;
         long l = this.framework.getMonotonicTime();
         Iterator iterator = this.actionRequests.iterator();
         while (iterator.hasNext()) {
             ActionRequest actionRequest2 = (ActionRequest)iterator.next();
-            if (l >= actionRequest2.getTime() + 0) {
+            if (l >= actionRequest2.getTime() + 16000L) {
                 iterator.remove();
                 this.log.log(10000, "[ExlapHandlerImpl#fireTimer()] action request failed, HMI did not answer, sending fail. requestId=%1 actionId=%2", (long)actionRequest2.getRequestId(), (long)actionRequest2.getActionId());
                 this.dsiHas.actionResult(actionRequest2.getRequestId(), actionRequest2.getActionId(), null, 16);
@@ -362,17 +349,15 @@ ExlapStatusHandler {
             actionRequest = actionRequest2;
         }
         if (actionRequest != null) {
-            this.log.log(-2137614336, "[ExlapHandlerImpl#fireTimer()] restarting action request timer. requestId=%1 actionId=%2", (long)actionRequest.getRequestId(), (long)actionRequest.getActionId());
-            this.actionRequestTimer = new Timer("actionRequestTimer", actionRequest.getTime() + 0 - l, true, this);
+            this.log.log(10000000, "[ExlapHandlerImpl#fireTimer()] restarting action request timer. requestId=%1 actionId=%2", (long)actionRequest.getRequestId(), (long)actionRequest.getActionId());
+            this.actionRequestTimer = new Timer("actionRequestTimer", actionRequest.getTime() + 16000L - l, true, this);
             this.actionRequestTimer.start();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void setExlapStatus(boolean bl) {
         ExlapUtil.persistExlapStatus(this.framework, ExlapUtil.convertExlapStatus(bl));
         this.exlapEnabled = bl;
@@ -383,34 +368,33 @@ ExlapStatusHandler {
         }
     }
 
-    @Override
     public boolean getExlapStatus() {
         return this.exlapEnabled;
     }
 
     private void start() {
         if (this.serverStarted) {
-            this.log.log(1078071040, "[ExlapHandlerImpl#start()] Exlap start requested but exlap is already started!");
+            this.log.log(1000000, "[ExlapHandlerImpl#start()] Exlap start requested but exlap is already started!");
             return;
         }
         if (!this.exlapEnabled) {
-            this.log.log(1078071040, "[ExlapHandlerImpl#start()] Exlap start requested but exlap is not enabled!");
+            this.log.log(1000000, "[ExlapHandlerImpl#start()] Exlap start requested but exlap is not enabled!");
             return;
         }
         if (!this.servicesAvailable) {
-            this.log.log(1078071040, "[ExlapHandlerImpl#start()] Exlap start requested but services are not available!");
+            this.log.log(1000000, "[ExlapHandlerImpl#start()] Exlap start requested but services are not available!");
             return;
         }
-        this.log.log(-2137614336, "[ExlapHandlerImpl#start()] requesting exlap server start!");
+        this.log.log(10000000, "[ExlapHandlerImpl#start()] requesting exlap server start!");
         this.dsiExlap.start();
     }
 
     private void stop() {
         if (!this.serverStarted) {
-            this.log.log(1078071040, "[ExlapHandlerImpl#stop()] Exlap stop requested but exlap is already stopped!");
+            this.log.log(1000000, "[ExlapHandlerImpl#stop()] Exlap stop requested but exlap is already stopped!");
             return;
         }
-        this.log.log(-2137614336, "[ExlapHandlerImpl#stop()] requesting exlap server stop!");
+        this.log.log(10000000, "[ExlapHandlerImpl#stop()] requesting exlap server stop!");
         this.dsiExlap.stop();
     }
 

@@ -8,7 +8,6 @@ import de.audi.tghu.smi.IStateMachinePresetAccess;
 
 public class NullSMPresetHandler
 implements ISMPresetHandler {
-    @Override
     public void setStateMachine(IStateMachinePresetAccess iStateMachinePresetAccess) {
     }
 }

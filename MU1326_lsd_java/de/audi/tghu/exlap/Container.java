@@ -8,13 +8,10 @@ import java.util.List;
 import org.dsi.ifc.has.HASDataContainer;
 
 public interface Container {
-    default public HASDataContainer[] createContainer() {
-    }
+    public HASDataContainer[] createContainer();
 
-    default public List createContainer(int n, int n2, int n3) {
-    }
+    public List createContainer(int var1, int var2, int var3);
 
-    default public void toString(StringWriter stringWriter) {
-    }
+    public void toString(StringWriter var1);
 }
 

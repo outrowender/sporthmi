@@ -26,21 +26,19 @@ implements DSIRadioDataListener {
         this.internalDatabase = logoDatabase;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.lc.log(10000, "[RadioDataListenerImpl.asyncException]", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void responseRadioStationData(RadioStationDataResponse[] radioStationDataResponseArray, int n) {
         try {
-            this.lc.log(1078071040, "[RadioDataListenerImpl.responseRadioStationData] #list:%1 session:%2", (long)this.size(radioStationDataResponseArray), (long)n);
+            this.lc.log(1000000, "[RadioDataListenerImpl.responseRadioStationData] #list:%1 session:%2", (long)this.size(radioStationDataResponseArray), (long)n);
             if (this.lc.isDebug2()) {
                 Buffer buffer = new Buffer(100 * radioStationDataResponseArray.length);
                 for (int i2 = 0; i2 < radioStationDataResponseArray.length; ++i2) {
                     buffer.append(Utilities.toString(radioStationDataResponseArray[i2])).append('\n');
                 }
-                this.lc.log(14808325, "%1", (Object)buffer);
+                this.lc.log(100000000, "%1", (Object)buffer);
             }
             this.internalDatabase.respStationData(radioStationDataResponseArray, n);
         }
@@ -49,16 +47,15 @@ implements DSIRadioDataListener {
         }
     }
 
-    @Override
     public void responseRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
         try {
-            this.lc.log(1078071040, "[RadioDataListenerImpl.responseRadioStationLogos] #list:%1 session:%2", (long)this.size(radioStationLogoResponseArray), (long)n);
+            this.lc.log(1000000, "[RadioDataListenerImpl.responseRadioStationLogos] #list:%1 session:%2", (long)this.size(radioStationLogoResponseArray), (long)n);
             if (this.lc.isDebug2()) {
                 Buffer buffer = new Buffer(100 * radioStationLogoResponseArray.length);
                 for (int i2 = 0; i2 < radioStationLogoResponseArray.length; ++i2) {
                     buffer.append(Utilities.toString(radioStationLogoResponseArray[i2])).append('\n');
                 }
-                this.lc.log(14808325, "%1", (Object)buffer);
+                this.lc.log(100000000, "%1", (Object)buffer);
             }
             this.internalDatabase.respStationLogos(radioStationLogoResponseArray, n);
         }
@@ -67,21 +64,19 @@ implements DSIRadioDataListener {
         }
     }
 
-    @Override
     public void responseDynamicDatabaseAlteration(int n, int n2) {
-        this.lc.log(1078071040, "[RadioDataListenerImpl.responseDynamicDatabaseAlteration] success:%1 session:%2", (long)n, (long)n2);
+        this.lc.log(1000000, "[RadioDataListenerImpl.responseDynamicDatabaseAlteration] success:%1 session:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void responseCountryList(int[] nArray, int n) {
         try {
-            this.lc.log(1078071040, "[RadioDataListenerImpl.responseCountryList] #list:%1 session:%2", (long)this.size(nArray), (long)n);
+            this.lc.log(1000000, "[RadioDataListenerImpl.responseCountryList] #list:%1 session:%2", (long)this.size(nArray), (long)n);
             if (this.lc.isDebug2()) {
                 Buffer buffer = new Buffer(5 * nArray.length);
                 for (int i2 = 0; i2 < nArray.length; ++i2) {
                     buffer.append(nArray[i2]).append(' ');
                 }
-                this.lc.log(14808325, "%1", (Object)buffer);
+                this.lc.log(100000000, "%1", (Object)buffer);
             }
         }
         catch (Exception exception) {
@@ -89,7 +84,6 @@ implements DSIRadioDataListener {
         }
     }
 
-    @Override
     public void responseDatabaseVersionInfo(int n, int n2, int n3, String string, int n4, int n5, int n6) {
         try {
             if (this.lc.isInfo()) {
@@ -101,7 +95,7 @@ implements DSIRadioDataListener {
                 buffer.append(" Region").append(n4);
                 buffer.append(" success").append(n5);
                 buffer.append(" session").append(n6);
-                this.lc.log(1078071040, "[RadioDataListenerImpl.responseDatabaseVersionInfo] %1", (Object)buffer);
+                this.lc.log(1000000, "[RadioDataListenerImpl.responseDatabaseVersionInfo] %1", (Object)buffer);
             }
         }
         catch (Exception exception) {
@@ -109,10 +103,9 @@ implements DSIRadioDataListener {
         }
     }
 
-    @Override
     public void updateDatabaseState(int n, int n2) {
         try {
-            this.lc.log(1078071040, "[RadioDataListenerImpl.updateDatabaseState] state:%1 valid:%2", (long)n, (long)n2);
+            this.lc.log(1000000, "[RadioDataListenerImpl.updateDatabaseState] state:%1 valid:%2", (long)n, (long)n2);
             this.internalDatabase.setStatus(n);
         }
         catch (Exception exception) {
@@ -120,26 +113,23 @@ implements DSIRadioDataListener {
         }
     }
 
-    @Override
     public void responsePersistStationLogos(int n, int n2) {
-        this.lc.log(1078071040, "[RadioDataListenerImpl.responsePersistStationLogos] success:%1 session:%2", (long)n, (long)n2);
+        this.lc.log(1000000, "[RadioDataListenerImpl.responsePersistStationLogos] success:%1 session:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void updateRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
-        this.lc.log(1078071040, "[RadioDataListenerImpl.updateRadioStationLogos] #list:%1 valid:%2", (long)this.size(radioStationLogoResponseArray), (long)n);
+        this.lc.log(1000000, "[RadioDataListenerImpl.updateRadioStationLogos] #list:%1 valid:%2", (long)this.size(radioStationLogoResponseArray), (long)n);
     }
 
-    @Override
     public void responseCountryRegionData(CountryRegionData[] countryRegionDataArray, int n) {
         try {
-            this.lc.log(1078071040, "[RadioDataListenerImpl.responseCountryRegionData] #list:%1 session:%2", (long)this.size(countryRegionDataArray), (long)n);
+            this.lc.log(1000000, "[RadioDataListenerImpl.responseCountryRegionData] #list:%1 session:%2", (long)this.size(countryRegionDataArray), (long)n);
             if (this.lc.isDebug2()) {
                 Buffer buffer = new Buffer(600 * countryRegionDataArray.length);
                 for (int i2 = 0; i2 < countryRegionDataArray.length; ++i2) {
                     buffer.append(countryRegionDataArray[i2]).append('\n');
                 }
-                this.lc.log(14808325, "%1", (Object)buffer);
+                this.lc.log(100000000, "%1", (Object)buffer);
             }
             this.internalDatabase.setCountyRegionData(countryRegionDataArray);
         }
@@ -148,16 +138,15 @@ implements DSIRadioDataListener {
         }
     }
 
-    @Override
     public void responseCountryRegionTranslationData(CountryRegionTranslationData[] countryRegionTranslationDataArray, int n) {
         try {
-            this.lc.log(1078071040, "[RadioDataListenerImpl.responseCountryRegionTranslationData] #list:%1 session:%2", (long)this.size(countryRegionTranslationDataArray), (long)n);
+            this.lc.log(1000000, "[RadioDataListenerImpl.responseCountryRegionTranslationData] #list:%1 session:%2", (long)this.size(countryRegionTranslationDataArray), (long)n);
             if (this.lc.isDebug2()) {
                 Buffer buffer = new Buffer(100 * countryRegionTranslationDataArray.length);
                 for (int i2 = 0; i2 < countryRegionTranslationDataArray.length; ++i2) {
                     buffer.append(countryRegionTranslationDataArray[i2]).append('\n');
                 }
-                this.lc.log(14808325, "%1", (Object)buffer);
+                this.lc.log(100000000, "%1", (Object)buffer);
             }
             this.internalDatabase.setCountryRegionTranslationData(countryRegionTranslationDataArray);
         }
@@ -174,31 +163,24 @@ implements DSIRadioDataListener {
         return nArray != null ? nArray.length : -1;
     }
 
-    @Override
     public void responsePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
     }
 
-    @Override
     public void updatePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
     }
 
-    @Override
     public void updateProfileState(int n, int n2, int n3) {
     }
 
-    @Override
     public void profileChanged(int n, int n2) {
     }
 
-    @Override
     public void profileCopied(int n, int n2, int n3) {
     }
 
-    @Override
     public void profileReset(int n, int n2) {
     }
 
-    @Override
     public void profileResetAll(int n) {
     }
 }

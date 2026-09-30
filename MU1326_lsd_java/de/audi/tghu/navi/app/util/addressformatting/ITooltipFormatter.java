@@ -3,6 +3,7 @@
  */
 package de.audi.tghu.navi.app.util.addressformatting;
 
+import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.favorite.IFavorite;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
@@ -11,43 +12,40 @@ import org.dsi.ifc.tmc.TmcListElement;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface ITooltipFormatter {
-    default public String formatPOI(NavLocation navLocation) {
-    }
+    public String formatPOI(NavLocation var1);
 
-    default public String formatPOIStack(NavLocation navLocation, int n) {
-    }
+    public String formatPOIStack(NavLocation var1, int var2);
 
-    default public String formatPOI3D(NavLocation navLocation) {
-    }
+    public String formatPOI3D(NavLocation var1);
 
-    default public String formatOnlinePOI(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, NavLocation navLocation) {
-    }
+    public String formatOnlinePOI(PoiOnlineSearchValuelistElement var1, NavLocation var2);
 
-    default public String formatPicNavLocation(NavLocation navLocation) {
-    }
+    public String formatPicNavLocation(NavLocation var1);
 
-    default public String formatFavorite(IFavorite iFavorite) {
-    }
+    public String formatFavorite(IFavorite var1);
 
-    default public String formatAdbEntry(AdbEntry adbEntry, int n) {
-    }
+    public String formatAdbEntry(AdbEntry var1, int var2);
 
-    default public String formatLocation(NavLocation navLocation) {
-    }
+    public String formatLocation(NavLocation var1);
 
-    default public String formatHomeLocation(NavLocation navLocation) {
-    }
+    public String formatHomeLocation(NavLocation var1);
 
-    default public String formatBuilding(NavLocation navLocation) {
-    }
+    public String formatBuilding(NavLocation var1);
 
-    default public String formatTMC(TmcMessage tmcMessage) {
-    }
+    public String formatTMC(TmcMessage var1);
 
-    default public String formatTMC(TmcListElement tmcListElement) {
-    }
+    public String formatTMC(TmcListElement var1);
 
-    default public String formatFallback(NavLocation navLocation) {
+    public String formatFallback(NavLocation var1);
+
+    public static interface TooltipFormatterEnvironment {
+        public LogChannel getLogChannel();
+
+        public NavLocation getNavLocation(byte[] var1);
+
+        public boolean hasIcon(NavLocation var1);
+
+        public float getZoomLevel();
     }
 }
 

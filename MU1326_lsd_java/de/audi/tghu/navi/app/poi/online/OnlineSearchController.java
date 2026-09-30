@@ -33,9 +33,9 @@ public abstract class OnlineSearchController {
     }
 
     public void setDSIOnline(DSIPoiOnlineSearch dSIPoiOnlineSearch) {
-        this.logger.log(-2137614336, "PoiOnlineSearchController#setDSIOnline()");
+        this.logger.log(10000000, "PoiOnlineSearchController#setDSIOnline()");
         if (Boolean.getBoolean("POIOnlineSim")) {
-            this.logger.log(1078071040, "OnlineSearchControllerEvo#setDSIOnline: Using simulation");
+            this.logger.log(1000000, "OnlineSearchControllerEvo#setDSIOnline: Using simulation");
             dSIPoiOnlineSearch = new OnlineSDSSearchSim(this.logger, this, false);
         }
         this.sequence.getCommandListFactory().setDsiOnline(dSIPoiOnlineSearch);
@@ -46,7 +46,7 @@ public abstract class OnlineSearchController {
     }
 
     public DSIPoiOnlineSearchListener getDSIOnlineSearchListener() {
-        this.logger.log(1078071040, "PoiOnlineSearchController#getDSIOnlineSearchListener()");
+        this.logger.log(1000000, "PoiOnlineSearchController#getDSIOnlineSearchListener()");
         return this.sequence.getPoiListener();
     }
 
@@ -64,19 +64,17 @@ public abstract class OnlineSearchController {
         return this.sequence;
     }
 
-    public abstract void init(IPreviewMap iPreviewMap, IVehicle iVehicle, ITelServiceController iTelServiceController, IRouteManager iRouteManager, IRRDListener iRRDListener, NaviFavoriteHandler naviFavoriteHandler, IPoiService iPoiService, HomeAddressHandler homeAddressHandler) {
-    }
+    public abstract void init(IPreviewMap var1, IVehicle var2, ITelServiceController var3, IRouteManager var4, IRRDListener var5, NaviFavoriteHandler var6, IPoiService var7, HomeAddressHandler var8);
 
     public void loadState() {
     }
 
     public void onlineSearchExit() {
-        this.logger.log(1078071040, "OnlineSearchController#onlineSearchExit()");
+        this.logger.log(1000000, "OnlineSearchController#onlineSearchExit()");
         this.sequence.onlineSearchExit();
     }
 
-    public abstract OnlineSDSSearchSequence getSDS() {
-    }
+    public abstract OnlineSDSSearchSequence getSDS();
 
     public void updateRgActive(boolean bl) {
     }

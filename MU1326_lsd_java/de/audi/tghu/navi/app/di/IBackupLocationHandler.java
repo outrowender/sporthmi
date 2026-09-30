@@ -6,19 +6,14 @@ package de.audi.tghu.navi.app.di;
 import org.dsi.ifc.global.NavLocation;
 
 public interface IBackupLocationHandler {
-    default public NavLocation getBackupLocation() {
-    }
+    public NavLocation getBackupLocation();
 
-    default public NavLocation getPersistedBackupLocation() {
-    }
+    public NavLocation getPersistedBackupLocation();
 
-    default public void invalidateBackupLocation() {
-    }
+    public void invalidateBackupLocation();
 
-    default public void persistBackupLocation(NavLocation navLocation) {
-    }
+    public void persistBackupLocation(NavLocation var1);
 
-    default public void setBackupLocation(NavLocation navLocation) {
-    }
+    public void setBackupLocation(NavLocation var1);
 }
 

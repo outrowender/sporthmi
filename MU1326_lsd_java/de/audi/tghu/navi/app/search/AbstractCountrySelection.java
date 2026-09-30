@@ -25,24 +25,21 @@ implements ICountrySelection {
         this.commandListFactory = iCommandListFactory;
     }
 
-    @Override
     public void updateCountriesList(Country[] countryArray) {
         this.countrySelectionView.updateCountriesList(countryArray);
         this.loadPersistentState();
     }
 
-    @Override
     public void loadPersistentState() {
-        this.logChannel.log(-2137614336, "AbstractCountrySelection#loadPersistentState()");
+        this.logChannel.log(10000000, "AbstractCountrySelection#loadPersistentState()");
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         CountrySelectionState countrySelectionState = new CountrySelectionState(iStorageAccess, this.logChannel);
         countrySelectionState.readAndDeserialize();
         this.countrySelectionView.restorePersistedSelection(countrySelectionState.getCountryCode(), countrySelectionState.getCountryIconId());
     }
 
-    @Override
     public void savePersistentState() {
-        this.logChannel.log(-2137614336, "AbstractCountrySelection#savePersistentState()");
+        this.logChannel.log(10000000, "AbstractCountrySelection#savePersistentState()");
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
         CountrySelectionState countrySelectionState = new CountrySelectionState(iStorageAccess, this.logChannel);
         countrySelectionState.setCountryCode(this.countrySelectionView.getSelectedRowCode());
@@ -50,7 +47,6 @@ implements ICountrySelection {
         countrySelectionState.serializeAndWrite();
     }
 
-    @Override
     public String[] getActiveCountries() {
         if (this.countrySelectionView.getSelectedRowCode() == "XX") {
             return this.countrySelectionView.getAllCountryCodes();
@@ -58,14 +54,12 @@ implements ICountrySelection {
         return new String[]{this.countrySelectionView.getSelectedRowCode()};
     }
 
-    @Override
     public String[] getAllCountries() {
         return this.countrySelectionView.getAllCountryCodes();
     }
 
-    @Override
     public void resetSettings() {
-        this.logChannel.log(-2137614336, "AbstractCountrySelection#resetSettings()");
+        this.logChannel.log(10000000, "AbstractCountrySelection#resetSettings()");
         this.countrySelectionView.restoreDefaultSelection();
         this.savePersistentState();
     }

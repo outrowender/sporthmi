@@ -12,6 +12,7 @@ import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
@@ -21,10 +22,10 @@ import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenM
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.addressinput.country.UpdateDestinationCountryCodeCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.LISetCountryForCityAndStreetHistoryCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCountrySequence$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCountrySequence$2;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
@@ -36,7 +37,6 @@ extends AbstractAddressInputMatchSpellerSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
@@ -44,12 +44,22 @@ extends AbstractAddressInputMatchSpellerSequence {
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessorFactory().createLocationAccessorFromGeoPos(0, 0);
         NavLocation navLocation = Util.getLocationAccessorFactory().toLocation(iMyLocationAccessor);
         commandList.add(new LISetCurrentLDCommand(navLocation));
-        commandList.add(new AddressInputCountrySequence$1(this, "Decide to start Country+State or just Country Speller"));
+        commandList.add(new NavCommand("Decide to start Country+State or just Country Speller"){
+
+            public void execute() {
+                if (Util.isHURegionNAR()) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(139, true, true, true));
+                } else if (this.dsiResponseContainer.selectionCriterionAvailable(1)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(1, true, true, true));
+                } else {
+                    this.getCommandList().commandAborted("SELCRITDES_COUNTRY_STATE is not available as selection criteria");
+                }
+            }
+        });
         commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess));
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
@@ -64,16 +74,19 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
-        commandList.add(new AddressInputCountrySequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                this.getCommandList().commandFinishedWithPostCommand(new LISetCountryForCityAndStreetHistoryCommand(this.dsiResponseContainer.getLiCurrentLD().getCountryAbbreviation()));
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         return commandList;
     }
 
-    @Override
     public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
     }
 }

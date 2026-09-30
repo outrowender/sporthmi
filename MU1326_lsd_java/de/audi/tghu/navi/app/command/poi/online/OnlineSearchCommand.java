@@ -17,7 +17,7 @@ extends AbstractOnlineSearchCommand {
 
     public OnlineSearchCommand(LogChannel logChannel, String string, int n, int n2, boolean bl, IOnlineSearchForm iOnlineSearchForm, OnlineSearchContext onlineSearchContext) {
         super(logChannel, iOnlineSearchForm, onlineSearchContext);
-        logChannel.log(1078071040, "OnlineSearchCommand#OnlineSearchCommand()");
+        logChannel.log(1000000, "OnlineSearchCommand#OnlineSearchCommand()");
         this.logger = logChannel;
         this.longitude = n;
         this.latitude = n2;
@@ -25,9 +25,8 @@ extends AbstractOnlineSearchCommand {
         this.spellingSuggestion = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "OnlineSearchCommand#execute searchString %1 longitude %2 latitude %3", (Object)this.searchString, (long)this.longitude, (long)this.latitude);
+        this.logger.log(10000000, "OnlineSearchCommand#execute searchString %1 longitude %2 latitude %3", (Object)this.searchString, (long)this.longitude, (long)this.latitude);
         this.dsiOnlineSearch.poiStartSelection(this.searchString, this.longitude, this.latitude, 500, 10);
     }
 }

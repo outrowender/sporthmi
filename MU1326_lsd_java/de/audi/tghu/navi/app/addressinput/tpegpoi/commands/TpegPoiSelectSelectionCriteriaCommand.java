@@ -17,23 +17,20 @@ extends NavCommand {
         this.index = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "%1#execute() - selectionCriteriaIndex: %2", (Object)this.CLASS_NAME, (long)this.index);
+        this.logger.log(1000000, "%1#execute() - selectionCriteriaIndex: %2", (Object)this.CLASS_NAME, (long)this.index);
         this.getDSINavigation().poiSelectSelectionCriteria(this.index);
     }
 
-    @Override
     public void liValueList(LIValueList lIValueList, long l) {
-        this.logger.log(1078071040, "%1#liValueList - lispValueListCount: %2", (Object)this.CLASS_NAME, l);
+        this.logger.log(1000000, "%1#liValueList - lispValueListCount: %2", (Object)this.CLASS_NAME, l);
         this.dsiResponseContainer.setLiValueList(lIValueList, l);
         this.liValueListResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
-        this.logger.log(1078071040, "%1#lispUpdateSpellerResult - resultCode: %2", (Object)this.CLASS_NAME, l);
+        this.logger.log(1000000, "%1#lispUpdateSpellerResult - resultCode: %2", (Object)this.CLASS_NAME, l);
         if (l == 0L) {
             this.dsiResponseContainer.setLispUpdateSpellerResult(string, n, bl, bl2, string2, n2, n3, bl3, bl4, n4);
             this.lispUpdateSpellerResponded = true;
@@ -43,9 +40,8 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(-2137614336, "%1#liResult( %2 )", (Object)this.CLASS_NAME, l);
+        this.logger.log(10000000, "%1#liResult( %2 )", (Object)this.CLASS_NAME, l);
         if (l == 0L) {
             this.liResultResponded = true;
             this.checkFinished();

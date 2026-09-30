@@ -17,11 +17,9 @@ import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.SetInputCommand;
 import de.audi.tghu.navi.app.addressinput.housenumber.HousenumberMatchspellerInputSequence;
 import de.audi.tghu.navi.app.addressinput.sds.AddressInputSDSSequence;
-import de.audi.tghu.navi.app.addressinput.sds.AddressInputSDSSequenceCN$1;
-import de.audi.tghu.navi.app.addressinput.sds.AddressInputSDSSequenceCN$2;
-import de.audi.tghu.navi.app.addressinput.sds.AddressInputSDSSequenceCN$3;
-import de.audi.tghu.navi.app.addressinput.sds.AddressInputSDSSequenceCN$4;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import de.audi.tghu.navi.app.sds.NotifyNaviServiceListenerCommand;
 import de.audi.tghu.navi.app.sds.SDSNaviPicklistRowCreator;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.navigation.LIValueList;
@@ -33,14 +31,12 @@ extends AddressInputSDSSequence {
         super(spellerStack, iCommandListFactory, cityHistory, logChannel, iPreviewMap, iAddressInputForm, navigationEnv);
     }
 
-    @Override
     public void setHouseNumber(IMatchspellerModelAccess iMatchspellerModelAccess, String string, String string2, NaviServiceListener naviServiceListener) {
         HousenumberMatchspellerInputSequence housenumberMatchspellerInputSequence = new HousenumberMatchspellerInputSequence(iMatchspellerModelAccess, this.spellerStack, this.commandListFactory, this.previewMap, this.addressInputService);
         CommandList commandList = this.getSetSDSHousenumberInputCommandList(housenumberMatchspellerInputSequence, string, string2, naviServiceListener);
         commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#setHouseNumber").toString());
     }
 
-    @Override
     public void setHouseNumberByIndex(IMatchspellerModelAccess iMatchspellerModelAccess, int n, NaviServiceListener naviServiceListener) {
         HousenumberMatchspellerInputSequence housenumberMatchspellerInputSequence = new HousenumberMatchspellerInputSequence(iMatchspellerModelAccess, this.spellerStack, this.commandListFactory, this.previewMap, this.addressInputService);
         CommandList commandList = this.getSetHouseNumberByIdCommandList(housenumberMatchspellerInputSequence, Integer.toString(n), naviServiceListener);
@@ -52,11 +48,27 @@ extends AddressInputSDSSequence {
         commandList.add(iMatchspellerInputSequenceExt.createStartCommandList(true));
         if (Util.isEmpty(string2)) {
             commandList.add(new SetInputCommand(string));
-            commandList.add(new AddressInputSDSSequenceCN$1(this, "Update SDS Pick List"));
+            commandList.add(new NavCommand("Update SDS Pick List"){
+
+                public void execute() {
+                    if (this.dsiResponseContainer.getLispValueListCount() >= 1L && this.dsiResponseContainer.getLispValueList() != null) {
+                        AddressInputSDSSequenceCN.this.updateSDSPickList(this.dsiResponseContainer.getLispValueList());
+                        this.getCommandList().commandFinished();
+                    } else {
+                        this.logger.log(10000, "%1#execute#liValueList() - no results found for input ( %2 )!", (Object)this.CLASS_NAME, (Object)this.name);
+                        this.getCommandList().commandAborted("no results found");
+                    }
+                }
+            });
         } else {
             commandList.add(iMatchspellerInputSequenceExt.getSelectElementByIdentifierCommandList(string2));
         }
-        commandList.add(new AddressInputSDSSequenceCN$2(this, naviServiceListener));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetLocationPart((byte)0);
+            }
+        });
         this.setErrorCommand(naviServiceListener, commandList);
         return commandList;
     }
@@ -80,7 +92,7 @@ extends AddressInputSDSSequence {
             this.env.getLabelModel(520).setText(lIValueListElementArray[0].getData());
         }
         baseListModelApp.update(baseListModelApp2);
-        this.logChannel.log(-2137614336, "%1#updateSDSPickList - Pick List Length is %2", (Object)this.CLASS_NAME, (long)baseListModelApp.getLength());
+        this.logChannel.log(10000000, "%1#updateSDSPickList - Pick List Length is %2", (Object)this.CLASS_NAME, (long)baseListModelApp.getLength());
     }
 
     private CommandList getSetHouseNumberByIdCommandList(HousenumberMatchspellerInputSequence housenumberMatchspellerInputSequence, String string, NaviServiceListener naviServiceListener) {
@@ -93,17 +105,23 @@ extends AddressInputSDSSequence {
             bl = false;
             this.logChannel.log(10000, "%1#getSetHouseNumberByIdCommandList receive an empty ID", (Object)this.CLASS_NAME);
         }
-        commandList.add(new AddressInputSDSSequenceCN$3(this, naviServiceListener, bl));
+        commandList.add(new NotifyNaviServiceListenerCommand(naviServiceListener){
+
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetLocationPart(bl ? (byte)0 : 1);
+            }
+        });
         this.setErrorCommand(naviServiceListener, commandList);
         return commandList;
     }
 
     private void setErrorCommand(NaviServiceListener naviServiceListener, CommandList commandList) {
-        commandList.setErrorCommand(new AddressInputSDSSequenceCN$4(this, naviServiceListener));
-    }
+        commandList.setErrorCommand(new NotifyNaviServiceListenerCommand(naviServiceListener){
 
-    static /* synthetic */ void access$000(AddressInputSDSSequenceCN addressInputSDSSequenceCN, LIValueList lIValueList) {
-        addressInputSDSSequenceCN.updateSDSPickList(lIValueList);
+            protected void call(NaviServiceListener naviServiceListener) {
+                naviServiceListener.responseSetLocationPart((byte)1);
+            }
+        });
     }
 }
 

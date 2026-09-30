@@ -6,7 +6,10 @@ package de.audi.tghu.navi.app.poi.poiwarning;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.IStorageAccess;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.poi.poiwarning.PoiWarningPersistenceHelper$Items;
+import de.audi.tghu.navi.app.PersistentState;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -22,15 +25,15 @@ public class PoiWarningPersistenceHelper {
     }
 
     public void saveItems(int[] nArray) {
-        this.logChannel.log(-2137614336, "PoiWarningPersistenceHelper#saveItems(int[]) - for key: %1", (long)this.key);
+        this.logChannel.log(10000000, "PoiWarningPersistenceHelper#saveItems(int[]) - for key: %1", (long)this.key);
         IStorageAccess iStorageAccess = this.env.getFramework().getStorageMgr();
-        PoiWarningPersistenceHelper$Items poiWarningPersistenceHelper$Items = new PoiWarningPersistenceHelper$Items(iStorageAccess, this.logChannel, this.key);
-        poiWarningPersistenceHelper$Items.setSelectedPoiCategories(nArray);
-        poiWarningPersistenceHelper$Items.serializeAndWrite();
+        Items items = new Items(iStorageAccess, this.logChannel, this.key);
+        items.setSelectedPoiCategories(nArray);
+        items.serializeAndWrite();
     }
 
     public void saveItems(LinkedList linkedList) {
-        this.logChannel.log(-2137614336, "PoiWarningPersistenceHelper#saveItems(LinkedList) - for key: %1", (long)this.key);
+        this.logChannel.log(10000000, "PoiWarningPersistenceHelper#saveItems(LinkedList) - for key: %1", (long)this.key);
         this.saveItems(this.convertLinkedListToArray(linkedList));
     }
 
@@ -48,17 +51,63 @@ public class PoiWarningPersistenceHelper {
     public int[] loadItems() {
         IStorageAccess iStorageAccess;
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiWarningPersistenceHelper#loadItems() - for key: %1", (long)this.key);
+            this.logChannel.log(100000000, "PoiWarningPersistenceHelper#loadItems() - for key: %1", (long)this.key);
         }
         if ((iStorageAccess = this.env.getFramework().getStorageMgr()) == null) {
             return new int[]{-1};
         }
-        PoiWarningPersistenceHelper$Items poiWarningPersistenceHelper$Items = new PoiWarningPersistenceHelper$Items(iStorageAccess, this.logChannel, this.key);
-        poiWarningPersistenceHelper$Items.readAndDeserialize();
-        if (poiWarningPersistenceHelper$Items.getSelectedPoiCategories() != null) {
-            return poiWarningPersistenceHelper$Items.getSelectedPoiCategories();
+        Items items = new Items(iStorageAccess, this.logChannel, this.key);
+        items.readAndDeserialize();
+        if (items.getSelectedPoiCategories() != null) {
+            return items.getSelectedPoiCategories();
         }
         return new int[]{-1};
+    }
+
+    public static class Items
+    extends PersistentState {
+        public static final int VERSION = 1;
+        private int[] serializedItems = new int[]{-1};
+
+        public Items(IStorageAccess iStorageAccess, LogChannel logChannel, int n) {
+            super(iStorageAccess, 1, 1004, n, logChannel);
+        }
+
+        protected void initWithDefaultValues() {
+            this.serializedItems = new int[1];
+            this.serializedItems[0] = -1;
+        }
+
+        protected void initFromOldKeys(IStorageAccess iStorageAccess) {
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            this.initWithDefaultValues();
+            try {
+                if (n > 0) {
+                    this.serializedItems = this.deserializeIntArray(dataInputStream);
+                }
+            }
+            catch (IOException iOException) {
+                this.getLogChannel().log(10000, "PoiWarningPersistenceHelper.Items#convertContainer - error on converting the persistent state format", (Throwable)iOException);
+            }
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            this.serializeIntArray(this.serializedItems, dataOutputStream);
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            this.serializedItems = this.deserializeIntArray(dataInputStream);
+        }
+
+        public void setSelectedPoiCategories(int[] nArray) {
+            this.serializedItems = nArray;
+        }
+
+        public int[] getSelectedPoiCategories() {
+            return this.serializedItems;
+        }
     }
 }
 

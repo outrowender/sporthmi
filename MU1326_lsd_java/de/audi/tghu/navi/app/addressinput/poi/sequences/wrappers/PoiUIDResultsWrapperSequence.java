@@ -12,11 +12,10 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.LiGetStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.PoiGetCategoryTypesFromUIdCommand;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiCategoryByUIDSequence;
+import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultsGeneralInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.TopPoiInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.AbstractWrapperSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiUIDResultsWrapperSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiUIDResultsWrapperSequence$2;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiUIDResultsWrapperSequence$3;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import org.dsi.ifc.navigation.LISpellerData;
@@ -49,30 +48,73 @@ extends AbstractWrapperSequence {
         this(iPoiSpellerModelAccess, iCommandListFactory, navigationEnv, poiSearchArea, iVehicle, lIValueListElement, 1, iDetailsScreen);
     }
 
-    @Override
     public void start() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiUIDResultsWrapperSequence#start()");
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiUIDResultsWrapperSequence#start()");
         CommandList commandList = this.getStartSequence();
         commandList.execute("PoiUIDResultsWrapperSequence#start");
     }
 
     public CommandList getStartSequence() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiUIDResultsWrapperSequence#getStartSequence()");
-        PoiCategoryByUIDSequence poiCategoryByUIDSequence = new PoiCategoryByUIDSequence(this.startSepellerModelAccess, this.commandListFactory, this.searchArea, this.env, this.vehicle, this.detailsScreen);
-        TopPoiInputSequence topPoiInputSequence = new TopPoiInputSequence(this.resultsModelAccess, this.commandListFactory, this.searchArea, this.env, this.vehicle, this.detailsScreen);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiUIDResultsWrapperSequence#getStartSequence()");
+        final PoiCategoryByUIDSequence poiCategoryByUIDSequence = new PoiCategoryByUIDSequence(this.startSepellerModelAccess, this.commandListFactory, this.searchArea, this.env, this.vehicle, this.detailsScreen);
+        final TopPoiInputSequence topPoiInputSequence = new TopPoiInputSequence(this.resultsModelAccess, this.commandListFactory, this.searchArea, this.env, this.vehicle, this.detailsScreen);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetStateCommand());
-        commandList.add(new PoiUIDResultsWrapperSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiUIDResultsWrapperSequence.this.initialSpellerState = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new PoiGetCategoryTypesFromUIdCommand(this.categoryListElement.poiUniqueId));
-        commandList.add(new PoiUIDResultsWrapperSequence$2(this, poiCategoryByUIDSequence, topPoiInputSequence));
-        commandList.add(new PoiUIDResultsWrapperSequence$3(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (this.isGenericPoi()) {
+                    PoiUIDResultsWrapperSequence.this.currentInputSequence = poiCategoryByUIDSequence;
+                    this.getCommandList().commandFinishedWithPostSequence(poiCategoryByUIDSequence.createStartSequence());
+                } else if (this.isTopPoi()) {
+                    PoiUIDResultsWrapperSequence.this.currentInputSequence = topPoiInputSequence;
+                    this.getCommandList().commandFinishedWithPostSequence(topPoiInputSequence.createStartSequence());
+                } else {
+                    this.getCommandList().commandAborted(2L);
+                }
+            }
+
+            private boolean isTopPoi() {
+                int[] nArray = this.dsiResponseContainer.getPoiGetCategoryTypesFromUId();
+                for (int i2 = 0; i2 < nArray.length; ++i2) {
+                    if (nArray[i2] != 1) continue;
+                    return true;
+                }
+                return false;
+            }
+
+            private boolean isGenericPoi() {
+                int[] nArray = this.dsiResponseContainer.getPoiGetCategoryTypesFromUId();
+                for (int i2 = 0; i2 < nArray.length; ++i2) {
+                    if (nArray[i2] != 2) continue;
+                    return true;
+                }
+                return false;
+            }
+        });
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiResultsGeneralInputSequence poiResultsGeneralInputSequence = new PoiResultsGeneralInputSequence(PoiUIDResultsWrapperSequence.this.resultsModelAccess, PoiUIDResultsWrapperSequence.this.commandListFactory, PoiUIDResultsWrapperSequence.this.searchArea, this.env, PoiUIDResultsWrapperSequence.this.categoryListElement, PoiUIDResultsWrapperSequence.this.vehicle, true, PoiUIDResultsWrapperSequence.this.minInitialResults, PoiUIDResultsWrapperSequence.this.detailsScreen);
+                PoiUIDResultsWrapperSequence.this.currentInputSequence = poiResultsGeneralInputSequence;
+                this.logger.log(10000000, "[PoiInput] PoiUIDResultsWrapperSequence#navCommand#execute() - continue directly to results screen");
+                this.getCommandList().commandFinishedWithPostSequence(poiResultsGeneralInputSequence.createStartSequence());
+            }
+        });
         return commandList;
     }
 
-    @Override
     protected CommandList restoreCurrent() {
         if (this.initialSpellerState == null) {
-            this.env.getLogChannel().log(-1601830656, "[PoiInput] PoiUIDResultsWrapperSequence#Invalid sequence state - spellerState is null.");
+            this.env.getLogChannel().log(100000, "[PoiInput] PoiUIDResultsWrapperSequence#Invalid sequence state - spellerState is null.");
             return null;
         }
         CommandList commandList = this.commandListFactory.createCommandList();

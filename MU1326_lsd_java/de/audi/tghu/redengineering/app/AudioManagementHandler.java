@@ -35,24 +35,20 @@ implements HMIAudioServiceListener {
         return this.getEngineeringEnv().getLogDSI();
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
     }
 
-    @Override
     public void startConnection(int n, int n2) {
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
     }
 
     void requestAudio(int n, int n2) {
-        this.getLogDSI().log(-2137614336, "[AudioMgmtDSIHandler] requestAudio for connection: %1 %2", (long)n, (long)n2);
+        this.getLogDSI().log(10000000, "[AudioMgmtDSIHandler] requestAudio for connection: %1 %2", (long)n, (long)n2);
         if (this.hmiAudioService != null) {
             if (n2 == -1) {
                 if (this.getEngineeringEnv().isFrontMU()) {
@@ -65,12 +61,12 @@ implements HMIAudioServiceListener {
                 this.hmiAudioService.requestConnection(n, n2);
             }
         } else {
-            this.getLogDSI().log(-1601830656, "[AudioMgmtDSIHandler] ignore requestRequestAudio for connection: %1. No audio DSI! ", (long)n);
+            this.getLogDSI().log(100000, "[AudioMgmtDSIHandler] ignore requestRequestAudio for connection: %1. No audio DSI! ", (long)n);
         }
     }
 
     void returnAudio(int n, int n2) {
-        this.getLogDSI().log(-2137614336, "[AudioMgmtDSIHandler] releaseAudio for connection: %1", (long)n);
+        this.getLogDSI().log(10000000, "[AudioMgmtDSIHandler] releaseAudio for connection: %1", (long)n);
         if (this.hmiAudioService != null) {
             if (n2 == -1) {
                 if (this.getEngineeringEnv().isFrontMU()) {
@@ -83,15 +79,13 @@ implements HMIAudioServiceListener {
                 this.hmiAudioService.releaseConnection(n, n2);
             }
         } else {
-            this.getLogDSI().log(-1601830656, "[AudioMgmtDSIHandler] ignore releaseAudio for connection: %1. No audio DSI! ", (long)n);
+            this.getLogDSI().log(100000, "[AudioMgmtDSIHandler] ignore releaseAudio for connection: %1. No audio DSI! ", (long)n);
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
         if (this.getEngineeringEnv().isREMHMIactive() && bl && !this.getEngineeringEnv().isRebootToDownload()) {
             this.muteAudio("AudioMgmtDSIHandler.updateAMAvailable", -1);
@@ -99,26 +93,25 @@ implements HMIAudioServiceListener {
     }
 
     public void muteAudio(String string, int n) {
-        this.getLogDSI().log(-2137614336, "[AudioMgmtDSIHandler] %1: mute audio", (Object)string);
+        this.getLogDSI().log(10000000, "[AudioMgmtDSIHandler] %1: mute audio", (Object)string);
         try {
             this.requestAudio(7, n);
         }
         catch (Exception exception) {
-            this.getLogDSI().log(-1601830656, "[AudioMgmtDSIHandler] %1: mute audio failed!", (Object)string, (Throwable)exception);
+            this.getLogDSI().log(100000, "[AudioMgmtDSIHandler] %1: mute audio failed!", (Object)string, (Throwable)exception);
         }
     }
 
     public final void unmuteAudio(String string, int n) {
-        this.getLogDSI().log(-2137614336, "[AudioMgmtDSIHandler] %1: unmute audio", (Object)string);
+        this.getLogDSI().log(10000000, "[AudioMgmtDSIHandler] %1: unmute audio", (Object)string);
         try {
             this.returnAudio(7, n);
         }
         catch (Exception exception) {
-            this.getLogDSI().log(-1601830656, "[AudioMgmtDSIHandler] %1: unmute audio failed!", (Object)string, (Throwable)exception);
+            this.getLogDSI().log(100000, "[AudioMgmtDSIHandler] %1: unmute audio failed!", (Object)string, (Throwable)exception);
         }
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 }

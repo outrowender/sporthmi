@@ -36,7 +36,7 @@ import java.util.NoSuchElementException;
 public class EngineeringScreenFactory
 extends AbstractScreenFactory {
     private static HMIService hmiService;
-    private static final int MODULE_ID;
+    private static final int MODULE_ID = 13;
     private int[][] errorColors;
     public AbstractWidgetController[][] refWidgets = new AbstractWidgetController[8][3];
 
@@ -47,12 +47,11 @@ extends AbstractScreenFactory {
 
     private int[][] getErrorColors() {
         if (this.errorColors == null) {
-            this.errorColors = new int[][]{{255, -2004317953}, {255, -2004317953}, {255, -2004317953}, {255, -2004317953}, {255, -2004317953}};
+            this.errorColors = new int[][]{{-16777216, -7829368}, {-16777216, -7829368}, {-16777216, -7829368}, {-16777216, -7829368}, {-16777216, -7829368}};
         }
         return this.errorColors;
     }
 
-    @Override
     public String getName() {
         return "HMIEngineeringEvoHighScale";
     }
@@ -61,25 +60,22 @@ extends AbstractScreenFactory {
         return FontFactory.getFonts(n, n2, this.getFramework());
     }
 
-    public static HMIModel getModel(int n, int n2) {
+    public static HMIModel getModel(int n, int n2) throws NoSuchElementException {
         HMIModel hMIModel = hmiService.getModel(n2, n);
         if (hMIModel == null) {
-            throw new NoSuchElementException(new StringBuffer().append("Model (MODELID#").append(n).append(") for terminal ").append(n2).append(" not available.").toString());
+            throw new NoSuchElementException("Model (MODELID#" + n + ") for terminal " + n2 + " not available.");
         }
         return hMIModel;
     }
 
-    @Override
     public Screen getScreenWithMainArea(int n, int n2) {
         return this.createScreen(n, n2);
     }
 
-    @Override
     public HMIView getWidgetTemplate(int n, int n2) {
         return this.getRefWidget(n, n2, this);
     }
 
-    @Override
     public void clearRefWidgets(int n) {
         int n2 = this.refWidgets[n].length;
         for (int i2 = 0; i2 < n2; ++i2) {
@@ -87,7 +83,6 @@ extends AbstractScreenFactory {
         }
     }
 
-    @Override
     protected Screen createDefaultScreen(int n, int n2) {
         this.getFramework().getLogChannel("Ext.Diashow").log(10000, "SystemScreenFactory#createDefaultScreen(): There's no screen with id: %1", (long)n);
         ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(0);
@@ -100,13 +95,12 @@ extends AbstractScreenFactory {
         labelController.setRenderer(new LabelRendererHigh(labelController));
         labelController.setBounds(0, 150, 800, 30);
         LabelModel labelModel = new LabelModel(0);
-        labelModel.setText(new StringBuffer().append("There's no screen with id: ").append(n).toString());
+        labelModel.setText("There's no screen with id: " + n);
         labelController.setModel(labelModel);
         screenWidgetEVO.add(labelController);
         return screenWidgetEVO;
     }
 
-    @Override
     protected Screen createScreen(int n, int n2) {
         switch (n) {
             case 1300000: {
@@ -228,15 +222,15 @@ extends AbstractScreenFactory {
                 ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
                 containerController.setRenderer(containerRendererHigh);
                 containerController.setBounds(0, 0, 0, 0);
-                containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-                containerController.setSelectionMenuTransformation(12589380, 35906, -1701242561, -1701242561, 0.0f);
+                containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+                containerController.setSelectionMenuTransformation(615.0f, 70.0f, 0.6f, 0.6f, 0.0f);
                 containerController.add(smallStageApplicationIconController);
                 containerController.add(smallStageApplicationIconController2);
                 abstractWidgetController = containerController;
                 break;
             }
             default: {
-                this.getFramework().getLogChannel("ScreenFactory").log(10000, new StringBuffer().append("Invalid reference widget id ").append(n2).append(".").toString());
+                this.getFramework().getLogChannel("ScreenFactory").log(10000, "Invalid reference widget id " + n2 + ".");
             }
         }
         this.refWidgets[n][n2] = abstractWidgetController;
@@ -248,14 +242,13 @@ extends AbstractScreenFactory {
     }
 
     protected static final boolean evalCond1300028(int n) {
-        return ((BufferedListModel)EngineeringScreenFactory.getModel(1020662528, n)).getLength() == 0;
+        return ((BufferedListModel)EngineeringScreenFactory.getModel(1300028, n)).getLength() == 0;
     }
 
     protected static final boolean evalCond1300030(int n) {
         return ((SysConstModel)EngineeringScreenFactory.getModel(523, n)).getValue() == 0;
     }
 
-    @Override
     public void executeCondition(int n, int n2, HMIView[] hMIViewArray, int n3) {
         switch (n2) {
             case 1300009: {
@@ -301,10 +294,10 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300024: {
                 if (hMIViewArray[0] != null) {
-                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 0));
+                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 1));
+                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 1));
                 break;
             }
         }
@@ -314,10 +307,10 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300024: {
                 if (hMIViewArray[0] != null) {
-                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 0));
+                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 1));
+                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 1));
                 break;
             }
         }
@@ -327,10 +320,10 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300024: {
                 if (hMIViewArray[0] != null) {
-                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 0));
+                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 1));
+                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 1));
                 break;
             }
         }
@@ -340,10 +333,10 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300024: {
                 if (hMIViewArray[0] != null) {
-                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 0));
+                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(953553664, n2, 1));
+                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n2, 1));
                 break;
             }
         }
@@ -353,7 +346,7 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300028: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setVisible(hmiService.getComponentConditionManager().isTrue(1020662528, n2));
+                ((MenuItemController)hMIViewArray[0]).setVisible(hmiService.getComponentConditionManager().isTrue(1300028, n2));
                 break;
             }
         }
@@ -363,32 +356,32 @@ extends AbstractScreenFactory {
         switch (n) {
             case 375: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(701895424, n2));
+                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(1300009, n2));
                 break;
             }
             case 392: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(701895424, n2));
+                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(1300009, n2));
                 break;
             }
             case 523: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setVisible(!hmiService.getComponentConditionManager().isTrue(1054216960, n2));
+                ((MenuItemController)hMIViewArray[0]).setVisible(!hmiService.getComponentConditionManager().isTrue(1300030, n2));
                 break;
             }
             case 543: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(701895424, n2));
+                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(1300009, n2));
                 break;
             }
             case 3849: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(701895424, n2));
+                ((MenuItemController)hMIViewArray[0]).setEnabled(hmiService.getComponentConditionManager().isTrue(1300009, n2));
                 break;
             }
             case 3300026: {
                 if (hMIViewArray[0] == null) break;
-                ((MenuItemController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(-1168494080, n2, 1));
+                ((MenuItemController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(3300026, n2, 1));
                 break;
             }
         }
@@ -398,24 +391,24 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300061: {
                 if (hMIViewArray[0] != null) {
-                    ((MenuItemController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1574310656, n2, 0));
+                    ((MenuItemController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n2, 0));
                 }
                 if (hMIViewArray[1] != null) {
-                    ((MenuItemController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1574310656, n2, 1));
+                    ((MenuItemController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n2, 1));
                 }
                 if (hMIViewArray[2] != null) {
-                    ((MenuItemController)hMIViewArray[2]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1574310656, n2, 2));
+                    ((MenuItemController)hMIViewArray[2]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n2, 2));
                 }
                 if (hMIViewArray[3] == null) break;
-                ((MenuItemController)hMIViewArray[3]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1574310656, n2, 3));
+                ((MenuItemController)hMIViewArray[3]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n2, 3));
                 break;
             }
             case 1300063: {
                 if (hMIViewArray[0] != null) {
-                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1607865088, n2, 0));
+                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1607865088, n2, 1));
+                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n2, 1));
                 break;
             }
         }
@@ -425,10 +418,10 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1700148: {
                 if (hMIViewArray[0] != null) {
-                    ((MenuItemController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(888215808, n2, 0));
+                    ((MenuItemController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1700148, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((MenuItemController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(888215808, n2, 1));
+                ((MenuItemController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1700148, n2, 1));
                 break;
             }
         }
@@ -438,16 +431,15 @@ extends AbstractScreenFactory {
         switch (n) {
             case 1300063: {
                 if (hMIViewArray[0] != null) {
-                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1607865088, n2, 0));
+                    ((LabelController)hMIViewArray[0]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n2, 0));
                 }
                 if (hMIViewArray[1] == null) break;
-                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1607865088, n2, 1));
+                ((LabelController)hMIViewArray[1]).setVisible(this.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n2, 1));
                 break;
             }
         }
     }
 
-    @Override
     public IDrawerController[] getSelectionDrawers(int n) {
         return new IDrawerController[]{(IDrawerController)EngineeringScreenBag2.eNGSEL(this, n)};
     }

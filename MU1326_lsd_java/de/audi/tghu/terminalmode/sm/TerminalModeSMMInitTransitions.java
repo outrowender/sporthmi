@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class TerminalModeSMMInitTransitions
 implements SMModuleConstants {
@@ -84,23 +85,23 @@ implements SMModuleConstants {
     }
 
     private void initTransitionTargetStateList0(int[][] nArray) {
-        nArray[0] = new int[]{181678080, 215232512};
-        nArray[2] = new int[]{64237568};
-        nArray[3] = new int[]{81014784};
-        nArray[4] = new int[]{114569216, 232009728, 248786944, 13905920};
-        nArray[5] = new int[]{47460352, 64237568};
+        nArray[0] = new int[]{3200010, 3200012};
+        nArray[2] = new int[]{3200003};
+        nArray[3] = new int[]{3200004};
+        nArray[4] = new int[]{3200006, 3200013, 3200014, 3200000};
+        nArray[5] = new int[]{3200002, 3200003};
         nArray[7] = nArray[4];
-        nArray[9] = new int[]{148123648};
+        nArray[9] = new int[]{3200008};
         nArray[10] = new int[]{-3};
-        nArray[11] = new int[]{131346432};
-        nArray[12] = new int[]{181678080};
+        nArray[11] = new int[]{3200007};
+        nArray[12] = new int[]{3200010};
         nArray[13] = nArray[11];
-        nArray[14] = new int[]{97792000, 81014784};
+        nArray[14] = new int[]{3200005, 3200004};
         nArray[15] = nArray[11];
         nArray[16] = new int[]{-4};
         nArray[17] = nArray[12];
         nArray[18] = nArray[0];
-        nArray[19] = new int[]{198455296, 164900864};
+        nArray[19] = new int[]{3200011, 3200009};
         nArray[20] = nArray[16];
         nArray[21] = nArray[0];
         nArray[22] = nArray[16];
@@ -108,11 +109,11 @@ implements SMModuleConstants {
 
     private void initTransIncludeJumpList() {
         HashMap hashMap = new HashMap();
-        hashMap.put(new Integer(9), new Integer(-1507514880));
+        hashMap.put(new Integer(9), new Integer(2500006));
         this.smm.setTransIncludeJumpTransition(hashMap);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

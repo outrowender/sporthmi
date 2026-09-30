@@ -13,8 +13,8 @@ import org.osgi.framework.ServiceRegistration;
 public final class ServiceDelegator
 implements IServiceDelegator {
     private BundleInfo mBundleInfo;
-    public static final String PROP_KEY_DELEGATE_CONFIGURATOR;
-    private static final String DEFAULT_CONFIGURATOR_CLASS;
+    public static final String PROP_KEY_DELEGATE_CONFIGURATOR = "de.audi.tghu.serviceDelegateConfigurator";
+    private static final String DEFAULT_CONFIGURATOR_CLASS = "de.audi.tghu.dsitrace.TraceConfigurator";
     private static IServiceDelegateConfigurator configurator;
     static /* synthetic */ Class class$de$dreisoft$lsd$IServiceDelegateConfigurator;
 
@@ -34,12 +34,10 @@ implements IServiceDelegator {
         this.mBundleInfo = bundleInfo;
     }
 
-    @Override
     public ServiceRegistration createServiceRegistration(String string, Object object, Dictionary dictionary) {
         return new ServiceInfo(this.mBundleInfo, string, object, dictionary);
     }
 
-    @Override
     public ServiceRegistration createServiceRegistration(String[] stringArray, Object object, Dictionary dictionary) {
         return new ServiceInfo(this.mBundleInfo, stringArray, object, dictionary);
     }

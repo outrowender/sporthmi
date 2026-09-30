@@ -8,9 +8,8 @@ import org.dsi.ifc.online.DSIDestinationImport;
 
 public class AbortDownloadCommand
 extends AbstractOnlineDestinationCommand {
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "AbortDownloadCommand#execute: try execute()");
+        this.logger.log(1000000, "AbortDownloadCommand#execute: try execute()");
         DSIDestinationImport dSIDestinationImport = this.getDSI();
         if (dSIDestinationImport == null) {
             this.logger.log(10000, "AbortDownloadCommand#execute: no DSI!");
@@ -19,7 +18,6 @@ extends AbstractOnlineDestinationCommand {
         dSIDestinationImport.stopAction();
     }
 
-    @Override
     public void stopActionResult(int n) {
         this.getCommandList().commandFinished();
     }

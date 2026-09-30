@@ -3,16 +3,15 @@
  */
 package de.eso.IconExtractor;
 
-import de.eso.IconExtractor.IconExtractor$Bitmap;
 import java.nio.ByteBuffer;
 
 public class IconExtractor {
-    private static final int NO_ERROR;
-    private static final int NATIVE_ICONEXTRACTOR_NOT_FOUND;
-    private static final int FUNCTION_RESOLUTION_FAILED;
-    private static final int FRAMEWORK_INIT_FAILED;
-    private static final int IMAGE_NOT_FOUND;
-    private static final int JNI_ERROR;
+    private static final int NO_ERROR = 0;
+    private static final int NATIVE_ICONEXTRACTOR_NOT_FOUND = -1;
+    private static final int FUNCTION_RESOLUTION_FAILED = -2;
+    private static final int FRAMEWORK_INIT_FAILED = -3;
+    private static final int IMAGE_NOT_FOUND = -4;
+    private static final int JNI_ERROR = -5;
 
     private static void explainError(int n) {
         switch (n) {
@@ -35,7 +34,7 @@ public class IconExtractor {
                 throw new RuntimeException("Well, something went terribly wrong in internal JNI communication. This is either an out-of-memory situation or a mismatch between java and native parts of iconextractor.");
             }
             default: {
-                throw new RuntimeException(new StringBuffer().append("WTF: unhandled exception id ").append(n).toString());
+                throw new RuntimeException("WTF: unhandled exception id " + n);
             }
         }
     }
@@ -50,7 +49,7 @@ public class IconExtractor {
         IconExtractor.shutdownIE();
     }
 
-    public static IconExtractor$Bitmap getImage(long l, long l2) {
+    public static Bitmap getImage(long l, long l2) {
         int[] nArray = new int[2];
         int n = IconExtractor.getSize(l, nArray);
         IconExtractor.explainError(n);
@@ -60,15 +59,15 @@ public class IconExtractor {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(nArray[0] * nArray[1] * 4);
         n = IconExtractor.getData(l, byteBuffer, l2);
         IconExtractor.explainError(n);
-        IconExtractor$Bitmap iconExtractor$Bitmap = new IconExtractor$Bitmap(nArray[0], nArray[1], byteBuffer);
-        return iconExtractor$Bitmap;
+        Bitmap bitmap = new Bitmap(nArray[0], nArray[1], byteBuffer);
+        return bitmap;
     }
 
-    public static IconExtractor$Bitmap getImage(long l) {
-        return IconExtractor.getImage(l, (long)0);
+    public static Bitmap getImage(long l) {
+        return IconExtractor.getImage(l, 1000L);
     }
 
-    public static IconExtractor$Bitmap getImage(String string, long l) {
+    public static Bitmap getImage(String string, long l) {
         if (string == null) {
             throw new RuntimeException("String id is null!");
         }
@@ -81,42 +80,66 @@ public class IconExtractor {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(nArray[0] * nArray[1] * 4);
         n = IconExtractor.getDataStr(string, byteBuffer, l);
         IconExtractor.explainError(n);
-        IconExtractor$Bitmap iconExtractor$Bitmap = new IconExtractor$Bitmap(nArray[0], nArray[1], byteBuffer);
-        return iconExtractor$Bitmap;
+        Bitmap bitmap = new Bitmap(nArray[0], nArray[1], byteBuffer);
+        return bitmap;
     }
 
-    public static IconExtractor$Bitmap getImage(String string) {
-        return IconExtractor.getImage(string, (long)0);
+    public static Bitmap getImage(String string) {
+        return IconExtractor.getImage(string, 1000L);
     }
 
-    private static native int initializeIE() {
-    }
+    private static native int initializeIE();
 
-    private static native void shutdownIE() {
-    }
+    private static native void shutdownIE();
 
-    private static native int getSize(long l, int[] nArray) {
-    }
+    private static native int getSize(long var0, int[] var2);
 
-    private static native int getData(long l, ByteBuffer byteBuffer, long l2) {
-    }
+    private static native int getData(long var0, ByteBuffer var2, long var3);
 
-    private static native int getSizeStr(String string, int[] nArray) {
-    }
+    private static native int getSizeStr(String var0, int[] var1);
 
-    private static native int getDataStr(String string, ByteBuffer byteBuffer, long l) {
-    }
+    private static native int getDataStr(String var0, ByteBuffer var1, long var2);
 
     public static void main(String[] stringArray) {
         System.out.println("This is a iconextractor standalone test");
         IconExtractor.initialize();
-        IconExtractor$Bitmap iconExtractor$Bitmap = IconExtractor.getImage(1L, (long)0);
-        if (iconExtractor$Bitmap == null) {
+        Bitmap bitmap = IconExtractor.getImage(1L, 1000L);
+        if (bitmap == null) {
             System.out.println("No bitmap found");
         } else {
-            System.out.println(new StringBuffer().append("IconExtractor got bitmap of size ").append(iconExtractor$Bitmap.getWidth()).append("x").append(iconExtractor$Bitmap.getHeight()).toString());
+            System.out.println("IconExtractor got bitmap of size " + bitmap.getWidth() + "x" + bitmap.getHeight());
         }
         IconExtractor.shutdown();
+    }
+
+    public static class Bitmap {
+        public static final int FORMAT_GRAYSCALE = 1;
+        public static final int FORMAT_RGBA = 4;
+        int mWidth;
+        int mHeight;
+        ByteBuffer mData;
+
+        public Bitmap(int n, int n2, ByteBuffer byteBuffer) {
+            this.mWidth = n;
+            this.mHeight = n2;
+            this.mData = byteBuffer;
+        }
+
+        public ByteBuffer getData() {
+            return this.mData;
+        }
+
+        public int getWidth() {
+            return this.mWidth;
+        }
+
+        public int getHeight() {
+            return this.mHeight;
+        }
+
+        public int getFormat() {
+            return 4;
+        }
     }
 }
 

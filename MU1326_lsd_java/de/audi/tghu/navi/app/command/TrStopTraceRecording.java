@@ -7,14 +7,12 @@ import de.audi.tghu.navi.app.command.NavCommand;
 
 public class TrStopTraceRecording
 extends NavCommand {
-    @Override
     public void execute() {
         this.getDSINavigation().trStopTraceRecording();
     }
 
-    @Override
     public void trStopTraceRecordingResult(int n, long l, int n2) {
-        this.logger.log(-2137614336, "TrStopTraceRecording#trStopTraceRecordingResultCode( trStopTraceRecordingResultCode: %1, timestamp: %2, errorCode: %3 )", (long)n, l, (long)n2);
+        this.logger.log(10000000, "TrStopTraceRecording#trStopTraceRecordingResultCode( trStopTraceRecordingResultCode: %1, timestamp: %2, errorCode: %3 )", (long)n, l, (long)n2);
         if (n != 0) {
             this.getCommandList().commandAborted(n2);
         }

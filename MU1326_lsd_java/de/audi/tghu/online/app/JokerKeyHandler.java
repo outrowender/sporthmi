@@ -22,12 +22,11 @@ implements ButtonListener {
     }
 
     private void registerButtons() {
-        this.framework.getHMIService().getButtonModel(1209869056).setButtonListener(this);
+        this.framework.getHMIService().getButtonModel(2301256).setButtonListener(this);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        if (n == 1209869056) {
+        if (n == 2301256) {
             int n4 = this.framework.getHMIService().getChoiceModel(395).getValue();
             if (n4 == 11 && this.online.isPoiCallCoded()) {
                 this.online.startOperatorCallByJokerKey(2, n, n2, n3);
@@ -42,15 +41,12 @@ implements ButtonListener {
     protected void removePopup() {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 

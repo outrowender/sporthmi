@@ -26,15 +26,13 @@ extends NavCommand {
         this.location2Transform = Util.wgs84ToNavLocation(navLocationWgs84);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LIGetLocationDescriptionTransformCommand#execute() - calling liGetLocationDescriptionTransform( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location2Transform));
+        this.logger.log(10000000, "LIGetLocationDescriptionTransformCommand#execute() - calling liGetLocationDescriptionTransform( %1 ) ", (Object)LocationFormatter.formatLocationShort(this.location2Transform));
         this.getDSINavigation().liGetLocationDescriptionTransform(this.location2Transform);
     }
 
-    @Override
     public void liGetLocationDescriptionTransformResult(NavLocation navLocation) {
-        this.logger.log(-2137614336, "LIGetLocationDescriptionTransformCommand#liGetLocationDescriptionTransformResult() - new location: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logger.log(10000000, "LIGetLocationDescriptionTransformCommand#liGetLocationDescriptionTransformResult() - new location: %1", (Object)LocationFormatter.formatLocationShort(navLocation));
         this.dsiResponseContainer.setTransformedLocation(navLocation);
         this.getCommandList().commandFinished();
     }

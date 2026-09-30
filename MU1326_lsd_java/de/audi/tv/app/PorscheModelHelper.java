@@ -12,11 +12,11 @@ public class PorscheModelHelper {
     }
 
     public static void fireEpgDetailsButtonEvent(TVEnv tVEnv) {
-        tVEnv.getButtonModel(-1062459648).fireEvent(0);
+        tVEnv.getButtonModel(2600128).fireEvent(0);
     }
 
     public static void showVisualAudioButton(TVEnv tVEnv, boolean bl, ISettingHandler iSettingHandler) {
-        tVEnv.getButtonModel(-324262144).setStatus(bl ? 1 : 0);
+        tVEnv.getButtonModel(2600172).setStatus(bl ? 1 : 0);
         iSettingHandler.setAudioToggleButtonAvailability(!bl);
     }
 }

@@ -15,26 +15,24 @@ extends CtxRouteBase {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
         if (bl) {
             if (!this.naviMap.getMapDataContainer().isInMap && !this.naviMap.getMapDataContainer().isInPreviewMap) {
-                this.getLogChannel().log(1078071040, "CtxMultiRouteBase#updateRgActive(): not in map, switching to hidden context");
+                this.getLogChannel().log(1000000, "CtxMultiRouteBase#updateRgActive(): not in map, switching to hidden context");
                 this.naviMap.switchToContext(3);
             } else if (!this.naviMap.getRouteCalculationHandler().isSingleRoute()) {
-                this.getLogChannel().log(1078071040, "CtxMultiRouteBase#updateRgActive(): switching to alt route context");
+                this.getLogChannel().log(1000000, "CtxMultiRouteBase#updateRgActive(): switching to alt route context");
                 this.naviMap.switchToContext(5);
             } else {
-                this.getLogChannel().log(1078071040, "CtxMultiRouteBase#updateRgActive(): switching to shown context");
+                this.getLogChannel().log(1000000, "CtxMultiRouteBase#updateRgActive(): switching to shown context");
                 this.naviMap.switchToAShownContext();
             }
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        if (n == 1125910016) {
+        if (n == 400451) {
             try {
                 boolean bl;
                 if (this.getMap().getActiveContextIndex() == 20) {
@@ -49,17 +47,15 @@ extends CtxRouteBase {
                 }
             }
             catch (Exception exception) {
-                this.getLogChannel().log(-1601830656, "CtxMultiRouteBase#itemSelected() - invalid route index, %1", (Throwable)exception);
+                this.getLogChannel().log(100000, "CtxMultiRouteBase#itemSelected() - invalid route index, %1", (Throwable)exception);
             }
         } else {
             super.itemSelected(n, n2, n3, n4);
         }
     }
 
-    protected abstract void onRouteSelected(int n) {
-    }
+    protected abstract void onRouteSelected(int var1);
 
-    @Override
     public void itemFocused(int n, int n2) {
         super.itemFocused(n, n2);
         this.getMap().getRouteCalculationHandler().restartTimerIfCalculationStateIsReady();
@@ -67,7 +63,7 @@ extends CtxRouteBase {
     }
 
     protected void focusRoute(int n) {
-        this.getLogChannel().log(-2137614336, "CtxMultiRouteBase#focusRoute( %1 )", (long)n);
+        this.getLogChannel().log(10000000, "CtxMultiRouteBase#focusRoute( %1 )", (long)n);
         this.getMap().getRouteCalculationHandler().setSelectedRouteIndex(n);
         this.displayCurrentRoute();
         this.refreshRouteOptions();

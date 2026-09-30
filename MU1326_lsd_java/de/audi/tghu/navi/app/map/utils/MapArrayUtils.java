@@ -86,7 +86,7 @@ public class MapArrayUtils {
             return mapUserFlagArray;
         }
         if (n != 0 && n != 1) {
-            MapArrayUtils.getLogChannel().log(-1601830656, "MapArrayUtils#clearFlagsOfType() - invalid flag type: %1", (long)n);
+            MapArrayUtils.getLogChannel().log(100000, "MapArrayUtils#clearFlagsOfType() - invalid flag type: %1", (long)n);
             return mapUserFlagArray;
         }
         int n2 = 0;
@@ -147,7 +147,7 @@ public class MapArrayUtils {
         int n;
         int n2 = (mapPin == null ? 0 : 1) + (MapArrayUtils.isEmpty(mapPinArray) ? 0 : mapPinArray.length) + (MapArrayUtils.isEmpty(mapPinArray2) ? 0 : mapPinArray2.length);
         MapPin[] mapPinArray3 = new MapPin[n2];
-        MapArrayUtils.getLogChannel().log(14808325, "MapArrayUtils#concatenate() - result length: %1", (long)mapPinArray3.length);
+        MapArrayUtils.getLogChannel().log(100000000, "MapArrayUtils#concatenate() - result length: %1", (long)mapPinArray3.length);
         int n3 = 0;
         if (mapPin != null) {
             mapPinArray3[n3++] = mapPin;

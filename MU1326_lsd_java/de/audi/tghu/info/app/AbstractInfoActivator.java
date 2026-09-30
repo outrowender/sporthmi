@@ -67,12 +67,10 @@ IGUIVariantProvider {
     static /* synthetic */ Class class$de$audi$atip$interapp$icon$RenderingInfoProvider;
     static /* synthetic */ Class class$org$dsi$ifc$tmc$DSITmcOnRoute;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.tracker = this.closeTracker(this.tracker);
         this.tmcApp.stop();
@@ -142,14 +140,13 @@ IGUIVariantProvider {
         this.tracker.open();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (this.tmcApp == null) {
-            this.lc.log(-2137614336, "[InfoActivator#addingService] tmcApp is null, abort adding ServiceReference=%1", (Object)serviceReference);
+            this.lc.log(10000000, "[InfoActivator#addingService] tmcApp is null, abort adding ServiceReference=%1", (Object)serviceReference);
             return null;
         }
         if (this.appTmcReadOut == null) {
-            this.lc.log(-2137614336, "[InfoActivator#addingService] appTmcReadOut is null, abort adding ServiceReference=%1", (Object)serviceReference);
+            this.lc.log(10000000, "[InfoActivator#addingService] appTmcReadOut is null, abort adding ServiceReference=%1", (Object)serviceReference);
             return null;
         }
         String string = (String)serviceReference.getProperty("DEVICE_NAME");
@@ -176,19 +173,19 @@ IGUIVariantProvider {
                     case 3: 
                     case 4: 
                     case 9: {
-                        this.lc.log(-2137614336, "[InfoActivator#addingService] assigning TTSService client id : %1", (Object)n);
+                        this.lc.log(10000000, "[InfoActivator#addingService] assigning TTSService client id : %1", (Object)n);
                         this.tmcApp.setTTSService((TTSService)object, n);
                         return object;
                     }
                 }
-                this.lc.log(-2137614336, "[InfoActivator#addingService] unwanted TTSService client id : %1", (Object)n);
+                this.lc.log(10000000, "[InfoActivator#addingService] unwanted TTSService client id : %1", (Object)n);
                 this.bundleContext.ungetService(serviceReference);
                 return null;
             }
             if (object instanceof SwDiagnosisManager) {
                 ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)new AppInfoDiag(this.tmcApp, this.appTmcReadOut));
             } else {
-                this.lc.log(-1601830656, "unhandled service: %1", (Object)string);
+                this.lc.log(100000, "unhandled service: %1", (Object)string);
                 this.bundleContext.ungetService(serviceReference);
                 return null;
             }
@@ -196,22 +193,20 @@ IGUIVariantProvider {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.lc.log(-2137614336, "InfoActivator#removedService(): reference %1, object %2", (Object)serviceReference, object);
+        this.lc.log(10000000, "InfoActivator#removedService(): reference %1, object %2", (Object)serviceReference, object);
         if (this.tmcApp == null) {
-            this.lc.log(-2137614336, "[InfoActivator#removedService] tmcApp is null, abort removedService ServiceReference=%1, object %2", (Object)serviceReference, object);
+            this.lc.log(10000000, "[InfoActivator#removedService] tmcApp is null, abort removedService ServiceReference=%1, object %2", (Object)serviceReference, object);
             return;
         }
         if (this.appTmcReadOut == null) {
-            this.lc.log(-2137614336, "[InfoActivator#removedService] appTmcReadOut is null, abort removedService ServiceReference=%1, object %2", (Object)serviceReference, object);
+            this.lc.log(10000000, "[InfoActivator#removedService] appTmcReadOut is null, abort removedService ServiceReference=%1, object %2", (Object)serviceReference, object);
             return;
         }
         try {
@@ -241,19 +236,19 @@ IGUIVariantProvider {
                         case 3: 
                         case 4: 
                         case 9: {
-                            this.lc.log(-2137614336, "[InfoActivator#removedService] removing TTSService client id : %1", (Object)n);
+                            this.lc.log(10000000, "[InfoActivator#removedService] removing TTSService client id : %1", (Object)n);
                             this.tmcApp.setTTSService(null, n);
                             break;
                         }
                         default: {
-                            this.lc.log(-2137614336, "[InfoActivator#removedService] unwanted TTSService client id : %1", (Object)n);
+                            this.lc.log(10000000, "[InfoActivator#removedService] unwanted TTSService client id : %1", (Object)n);
                             break;
                         }
                     }
                 } else if (object2 instanceof SwDiagnosisManager) {
                     ((SwDiagnosisManager)object2).removeDiagGateway((AbstractSwDiagnosis)new AppInfoDiag(null, null));
                 } else {
-                    this.lc.log(-1601830656, "unhandled service: %1", (Object)string);
+                    this.lc.log(100000, "unhandled service: %1", (Object)string);
                 }
             }
         }
@@ -262,11 +257,9 @@ IGUIVariantProvider {
         }
     }
 
-    protected abstract InfoAPImpl createActionProxy(InfoEnv infoEnv, AppTMC appTMC, LogChannel logChannel) {
-    }
+    protected abstract InfoAPImpl createActionProxy(InfoEnv var1, AppTMC var2, LogChannel var3);
 
-    protected abstract void registerActionProxy(Hashtable hashtable, InfoAPImpl infoAPImpl) {
-    }
+    protected abstract void registerActionProxy(Hashtable var1, InfoAPImpl var2);
 
     static /* synthetic */ Class class$(String string) {
         try {

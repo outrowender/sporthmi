@@ -12,8 +12,8 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class NaviOperatorCallListener
 implements ButtonListener {
-    private static final int OPERATOR_CALL_BUTTON_ID;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private static final int OPERATOR_CALL_BUTTON_ID = 402031;
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final LogChannel logChannel;
     private final NavigationEnv env;
     private final INaviOperatorCallService naviOperatorCallService;
@@ -28,34 +28,30 @@ implements ButtonListener {
     }
 
     private void registerListeners() {
-        this.env.getButtonModel(1864500736).setButtonListener(this);
+        this.env.getButtonModel(402031).setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyPressed - modelID=%2", (Object)this.CLASS_NAME, (long)n);
-        if (n == 1864500736) {
+        this.logChannel.log(10000000, "%1#keyPressed - modelID=%2", (Object)this.CLASS_NAME, (long)n);
+        if (n == 402031) {
             int n4 = this.inputModeManager.getInputMode();
             if (n4 == 2) {
                 this.naviOperatorCallService.setContext(3);
             } else if (n4 == 1) {
                 this.naviOperatorCallService.setContext(4);
             } else {
-                this.logChannel.log(-1601830656, "%1#keyPressed - no match found", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000, "%1#keyPressed - no match found", (Object)this.CLASS_NAME);
             }
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

@@ -73,7 +73,7 @@ public class TestHandler {
     }
 
     public static int getTimer() {
-        return -527236096;
+        return 300000;
     }
 
     public static int getTimerMod() {
@@ -96,7 +96,7 @@ public class TestHandler {
     public static OperatorCallResult testGetPoiOfIndexForSDS() {
         if (sdsPoiCount == 1) {
             ++sdsPoiCount;
-            return new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", new OperatorCallAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+            return new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", new OperatorCallAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
         }
         --sdsPoiCount;
         return new OperatorCallResult("12345", 0, "Beijing Nanheyan Address", new OperatorCallAddressEntry(), new NavLocationWgs84(TestHandler.getIntGeocoordinate(116.400501), TestHandler.getIntGeocoordinate(39.908857)));
@@ -131,12 +131,12 @@ public class TestHandler {
                 }
                 case 2: {
                     operatorCallResultArray[0] = new OperatorCallResult("12345", 2, "Beijing Nanheyan Address", TestHandler.getAddressEntry(), new NavLocationWgs84(TestHandler.getIntGeocoordinate(116.400501), TestHandler.getIntGeocoordinate(39.908857)));
-                    operatorCallResultArray[1] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[1] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                     break;
                 }
                 default: {
                     operatorCallResultArray[0] = new OperatorCallResult("12345", 0, "Beijing Nanheyan Address", TestHandler.getAddressEntry(), new NavLocationWgs84(TestHandler.getIntGeocoordinate(116.400501), TestHandler.getIntGeocoordinate(39.908857)));
-                    operatorCallResultArray[1] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[1] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                     break;
                 }
             }
@@ -149,11 +149,11 @@ public class TestHandler {
                     break;
                 }
                 case 2: {
-                    operatorCallResultArray[0] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[0] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                     break;
                 }
                 default: {
-                    operatorCallResultArray[0] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[0] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                 }
             }
         }
@@ -166,7 +166,7 @@ public class TestHandler {
             poiNames = new String[maxCalls];
             for (int i2 = 1; i2 <= maxCalls; ++i2) {
                 String string = i2 < 10 ? "Test0" : "Test";
-                TestHandler.poiNames[i2 - 1] = string = new StringBuffer().append(string).append(i2).toString();
+                TestHandler.poiNames[i2 - 1] = string = string + i2;
             }
         }
     }
@@ -195,12 +195,12 @@ public class TestHandler {
                 }
                 case 2: {
                     operatorCallResultArray[0] = new OperatorCallResult("12345", 2, "Beijing Nanheyan Address", TestHandler.getAddressEntry(), new NavLocationWgs84(TestHandler.getIntGeocoordinate(116.400501), TestHandler.getIntGeocoordinate(39.908857)));
-                    operatorCallResultArray[1] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[1] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                     break;
                 }
                 default: {
                     operatorCallResultArray[0] = new OperatorCallResult("12345", 0, "Beijing Nanheyan Address", TestHandler.getAddressEntry(), new NavLocationWgs84(TestHandler.getIntGeocoordinate(116.400501), TestHandler.getIntGeocoordinate(39.908857)));
-                    operatorCallResultArray[1] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[1] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                     break;
                 }
             }
@@ -213,11 +213,11 @@ public class TestHandler {
                     break;
                 }
                 case 2: {
-                    operatorCallResultArray[0] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[0] = new OperatorCallResult("12345", 2, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                     break;
                 }
                 default: {
-                    operatorCallResultArray[0] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                    operatorCallResultArray[0] = new OperatorCallResult("12345", 0, "Beijing Dongdan 3rd Alley Address", TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
                 }
             }
         }
@@ -240,7 +240,7 @@ public class TestHandler {
             }
             default: {
                 operatorCallResultArray[0] = new OperatorCallResult("12345", 2, poiNames[TestHandler.getNextPoiIndex()], TestHandler.getAddressEntry(), new NavLocationWgs84(TestHandler.getIntGeocoordinate(116.400501), TestHandler.getIntGeocoordinate(39.908857)));
-                operatorCallResultArray[1] = new OperatorCallResult("12345", 1, poiNames[TestHandler.getNextPoiIndex()], TestHandler.getAddressEntry(), new NavLocationWgs84(1455999058, 226517276));
+                operatorCallResultArray[1] = new OperatorCallResult("12345", 1, poiNames[TestHandler.getNextPoiIndex()], TestHandler.getAddressEntry(), new NavLocationWgs84(1388890198, 476151821));
             }
         }
         poiCount = poiCount < poiNames.length - 1 ? ++poiCount : 0;

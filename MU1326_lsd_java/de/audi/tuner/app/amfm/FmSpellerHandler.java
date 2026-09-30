@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tuner.app.amfm;
 
@@ -10,20 +7,19 @@ import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.AMFMTuner;
 import de.audi.tuner.app.amfm.AbstractAmFmSpellerHandler;
-import de.audi.tuner.app.amfm.FmSpellerHandler$FmUpListener;
+import de.audi.tuner.app.amfm.dsi.AMFMDsiUpInfo;
 import de.audi.tuner.ifc.IScanHandler;
 import org.dsi.ifc.radio.WavebandInfo;
 
 public class FmSpellerHandler
 extends AbstractAmFmSpellerHandler {
-    public FmSpellerHandler$FmUpListener fmUpListener = new FmSpellerHandler$FmUpListener(this, null);
+    public FmUpListener fmUpListener = new FmUpListener();
     private int lowerLimitMhz;
 
     public FmSpellerHandler(TunerBasics tunerBasics, AMFMTuner aMFMTuner, IScanHandler iScanHandler) {
-        super(tunerBasics.getModels().getMatchspellerModel(210305280), tunerBasics.getModels().getChoiceModel(243859712), aMFMTuner, iScanHandler);
+        super(tunerBasics.getModels().getMatchspellerModel(100620), tunerBasics.getModels().getChoiceModel(100622), aMFMTuner, iScanHandler);
     }
 
-    @Override
     public String appendComma(String string) {
         int n;
         int n2 = n = string.length() > 0 ? Integer.parseInt(string) : 0;
@@ -39,7 +35,7 @@ extends AbstractAmFmSpellerHandler {
                 bl = false;
             }
             if (bl) {
-                String string2 = new StringBuffer().append(string).append('.').toString();
+                String string2 = string + '.';
                 this.spellerModel.setText(string2);
                 this.kommaPos = string.length();
                 return string2;
@@ -48,22 +44,18 @@ extends AbstractAmFmSpellerHandler {
         return string;
     }
 
-    @Override
     protected void processWavebandInfo(WavebandInfo wavebandInfo) {
         this.lowerLimitMhz = this.cutOffTrailingDigits((int)wavebandInfo.lowerLimit) / 10;
     }
 
-    @Override
     protected int cutOffTrailingDigits(int n) {
         return n / 100;
     }
 
-    @Override
     public int getWaveband() {
         return 1;
     }
 
-    @Override
     protected void setStationFromFrequency(String string) {
         if (this.kommaPos != -1 && string.length() > this.kommaPos + 1) {
             this.station = new AMFMStation();
@@ -71,16 +63,26 @@ extends AbstractAmFmSpellerHandler {
             this.station.waveband = 1;
             if (this.hdPos != -1) {
                 int n = this.hdPos + " HD".length() < string.length() ? Integer.parseInt(string.substring(this.hdPos + " HD".length())) : 1;
-                double d2 = Double.parseDouble((String)string.substring(0, this.hdPos));
+                double d2 = Double.parseDouble(string.substring(0, this.hdPos));
                 this.station.frequency = (int)(d2 * 1000.0);
                 this.station.serviceId = 1 << n - 1;
                 this.station.hd = true;
             } else {
-                double d3 = Double.parseDouble((String)string);
+                double d3 = Double.parseDouble(string);
                 this.station.frequency = (int)(d3 * 1000.0);
             }
         } else {
             this.station = null;
+        }
+    }
+
+    private class FmUpListener
+    extends AMFMDsiUpInfo {
+        private FmUpListener() {
+        }
+
+        public void updateStationListFM(AMFMStation[] aMFMStationArray) {
+            FmSpellerHandler.this.buildHdPostfixMap(aMFMStationArray);
         }
     }
 }

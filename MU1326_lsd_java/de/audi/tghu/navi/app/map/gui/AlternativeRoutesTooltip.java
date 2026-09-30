@@ -22,7 +22,7 @@ public class AlternativeRoutesTooltip {
         if (calculatedRouteListElementArray == null || navigationEnv == null || mapManager == null) {
             return;
         }
-        navigationEnv.getLogChannel().log(-2137614336, "GUIMain#setAltRouteParameters() - length : %1", calculatedRouteListElementArray != null ? (long)calculatedRouteListElementArray.length : -1L);
+        navigationEnv.getLogChannel().log(10000000, "GUIMain#setAltRouteParameters() - length : %1", calculatedRouteListElementArray != null ? (long)calculatedRouteListElementArray.length : -1L);
         Distance distance = new Distance(0.0f, 5);
         DateMetric dateMetric = new DateMetric(new Date(), 1);
         DateMetric dateMetric2 = new DateMetric(new Date(), 3);

@@ -9,7 +9,6 @@ import org.dsi.ifc.global.NavLocation;
 
 public class LiSetCurrentLDFromStrippedLocation
 extends NavCommand {
-    @Override
     public void execute() {
         this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand((NavLocation)this.getCommandList().get("STRIPPED_LOCATION")));
     }

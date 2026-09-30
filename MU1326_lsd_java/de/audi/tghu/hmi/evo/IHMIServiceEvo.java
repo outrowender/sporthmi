@@ -10,47 +10,28 @@ import de.audi.tghu.hmi.evo.IDrawerControllerEvo;
 
 public interface IHMIServiceEvo
 extends HMIService {
-    @Override
-    default public IComponentConditionManager getComponentConditionManager() {
-    }
+    public IComponentConditionManager getComponentConditionManager();
 
-    default public Object getKanziResource(String string, Object object, int n, int n2, int n3) {
-    }
+    public Object getKanziResource(String var1, Object var2, int var3, int var4, int var5);
 
-    default public IDrawerControllerEvo[] getSelectionDrawers(int n, int n2) {
-    }
+    public IDrawerControllerEvo[] getSelectionDrawers(int var1, int var2);
 
-    default public IDrawerControllerEvo[] getOptionDrawers(int n, int n2) {
-    }
+    public IDrawerControllerEvo[] getOptionDrawers(int var1, int var2);
 
-    @Override
-    default public boolean isPartialPopupVisibleInSlot(int n, int n2) {
-    }
+    public boolean isPartialPopupVisibleInSlot(int var1, int var2);
 
-    @Override
-    default public void setPartialPopupsEnabled(int n, boolean bl) {
-    }
+    public void setPartialPopupsEnabled(int var1, boolean var2);
 
-    @Override
-    default public void showPartialPopup(int n, int n2) {
-    }
+    public void showPartialPopup(int var1, int var2);
 
-    @Override
-    default public void removePartialPopup(int n, int n2) {
-    }
+    public void removePartialPopup(int var1, int var2);
 
-    @Override
-    default public void replacePartialPopup(int n, int n2, int n3) {
-    }
+    public void replacePartialPopup(int var1, int var2, int var3);
 
-    @Override
-    default public void removeAllPartialPopupsForSlots(int n, int[] nArray) {
-    }
+    public void removeAllPartialPopupsForSlots(int var1, int[] var2);
 
-    default public void switchToDisplayContext(int n, int n2, int n3, int n4) {
-    }
+    public void switchToDisplayContext(int var1, int var2, int var3, int var4);
 
-    default public Screen getPartialPopup(int n, int n2) {
-    }
+    public Screen getPartialPopup(int var1, int var2);
 }
 

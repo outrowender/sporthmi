@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class TestSupportSMMInitTransitions
 implements SMModuleConstants {
@@ -60,14 +61,14 @@ implements SMModuleConstants {
     }
 
     private void initTransitionTargetStateList0(int[][] nArray) {
-        nArray[0] = new int[]{27206656};
-        nArray[1] = new int[]{60761088};
+        nArray[0] = new int[]{2400001};
+        nArray[1] = new int[]{2400003};
         nArray[2] = nArray[1];
-        nArray[3] = new int[]{43983872};
+        nArray[3] = new int[]{2400002};
         nArray[4] = nArray[0];
-        nArray[5] = new int[]{77538304};
+        nArray[5] = new int[]{2400004};
         nArray[6] = nArray[0];
-        nArray[7] = new int[]{94315520};
+        nArray[7] = new int[]{2400005};
         nArray[8] = nArray[5];
     }
 
@@ -76,7 +77,7 @@ implements SMModuleConstants {
         this.smm.setTransIncludeJumpTransition(hashMap);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

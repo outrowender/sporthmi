@@ -22,17 +22,16 @@ implements ButtonListener {
         this.handler = onlineDestinationController;
         this.modelUpdater = onlineDestinationModelHandler;
         this.initializeListeners();
-        logChannel.log(1078071040, "OnlineDestinationHMIListener#OnlineDestinationHMIListener()");
+        logChannel.log(1000000, "OnlineDestinationHMIListener#OnlineDestinationHMIListener()");
     }
 
     private void initializeListeners() {
-        this.log.log(1078071040, "OnlineDestinationHMIListener#initializeListeners()");
-        this.hmiService.getButtonModel(-484760832).setButtonListener(this);
+        this.log.log(1000000, "OnlineDestinationHMIListener#initializeListeners()");
+        this.hmiService.getButtonModel(2300899).setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.log.log(-2137614336, "OnlineDestinationHMIListener#keyPressed() model %1, key %2", (long)n, (long)n2);
+        this.log.log(10000000, "OnlineDestinationHMIListener#keyPressed() model %1, key %2", (long)n, (long)n2);
         switch (n) {
             case 2300899: {
                 this.modelUpdater.setImportMode(0);
@@ -61,15 +60,12 @@ implements ButtonListener {
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

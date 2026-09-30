@@ -14,14 +14,12 @@ extends DefaultTVListsListener {
         this.env = tVEnv;
     }
 
-    @Override
     public void favoriteAdded() {
-        this.env.framework.getHmiServiceApp().showPartialPopup(0, 1856775936);
+        this.env.framework.getHmiServiceApp().showPartialPopup(0, 2600046);
     }
 
-    @Override
     public void favoritesCleared() {
-        this.env.framework.getHmiServiceApp().showPartialPopup(0, 1772889856);
+        this.env.framework.getHmiServiceApp().showPartialPopup(0, 2600041);
     }
 }
 

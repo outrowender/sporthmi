@@ -14,31 +14,22 @@ import de.audi.tghu.exlap.impl.container.StartGuidanceResultContainer;
 public interface ExlapNavigationService
 extends ExlapService,
 ExlapNavigationListener {
-    default public void startGuidance(int n, AddressContainer addressContainer) {
-    }
+    public void startGuidance(int var1, AddressContainer var2);
 
-    default public void resultStartGuidance(int n, StartGuidanceResultContainer startGuidanceResultContainer) {
-    }
+    public void resultStartGuidance(int var1, StartGuidanceResultContainer var2);
 
-    default public void resolveAddress(int n, AddressContainer addressContainer) {
-    }
+    public void resolveAddress(int var1, AddressContainer var2);
 
-    default public void resultResolveAddress(int n, AddressContainer addressContainer) {
-    }
+    public void resultResolveAddress(int var1, AddressContainer var2);
 
-    default public void stopGuidance(int n) {
-    }
+    public void stopGuidance(int var1);
 
-    default public void resolveLastDestination(int n, LastDestinationContainer lastDestinationContainer) {
-    }
+    public void resolveLastDestination(int var1, LastDestinationContainer var2);
 
-    default public void resultResolveLastDestination(int n, AddressContainer addressContainer) {
-    }
+    public void resultResolveLastDestination(int var1, AddressContainer var2);
 
-    default public void importGPX(int n, ImportGPXDataContainer importGPXDataContainer) {
-    }
+    public void importGPX(int var1, ImportGPXDataContainer var2);
 
-    default public void resultImportGPX(int n, ImportGPXResultContainer importGPXResultContainer) {
-    }
+    public void resultImportGPX(int var1, ImportGPXResultContainer var2);
 }
 

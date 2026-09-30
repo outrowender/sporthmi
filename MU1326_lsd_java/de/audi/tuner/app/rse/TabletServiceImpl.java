@@ -8,11 +8,11 @@ import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerProxyManager;
 import de.audi.tuner.app.rse.TabletServiceHandler;
-import de.audi.tuner.app.rse.TabletServiceImpl$TabletRequest;
+import de.audi.tuner.ifc.IRadioInterappService;
 import de.audi.tuner.ifc.ITunerGUIHandler;
 
 public class TabletServiceImpl {
-    public final TabletServiceImpl$TabletRequest tabletRequest = new TabletServiceImpl$TabletRequest(this, null);
+    public final TabletRequest tabletRequest = new TabletRequest();
     private final Logger logger;
     private final TabletServiceHandler handler;
     private final AudioFocusClient audioFocusClient;
@@ -24,18 +24,18 @@ public class TabletServiceImpl {
     }
 
     private void selectListEntry(long l) {
-        this.logger.rse.log(-2137614336, "[TabletServiceImpl#selectListEntry], radioId: %1", l);
+        this.logger.rse.log(10000000, "[TabletServiceImpl#selectListEntry], radioId: %1", l);
         ITunerGUIHandler iTunerGUIHandler = TunerProxyManager.getInstance().getActiveTunerGuiHandler();
         if (iTunerGUIHandler != null) {
             boolean bl = iTunerGUIHandler.tuneById(l, 2);
-            this.logger.rse.log(-2137614336, "[TabletServiceImpl#selectListEntry], result %1", bl);
+            this.logger.rse.log(10000000, "[TabletServiceImpl#selectListEntry], result %1", bl);
         } else {
             this.logger.rse.log(10000, "[TabletServiceImpl#selectListEntry], guiHandler == null!");
         }
     }
 
     private void switchSource(int n) {
-        this.logger.rse.log(-2137614336, "[TabletServiceImpl#switchSource] : %1", (long)n);
+        this.logger.rse.log(10000000, "[TabletServiceImpl#switchSource] : %1", (long)n);
         switch (n) {
             case 1: 
             case 4: 
@@ -45,10 +45,10 @@ public class TabletServiceImpl {
             case 11: {
                 int n2 = this.handler.getCurrentWaveBand();
                 if (n2 != n) {
-                    this.logger.rse.log(1078071040, "[TabletServiceImpl#switchSource] switch band from: %1 to %2", (long)n2, (long)n);
+                    this.logger.rse.log(1000000, "[TabletServiceImpl#switchSource] switch band from: %1 to %2", (long)n2, (long)n);
                     this.audioFocusClient.switchSource(2, n, null);
                 } else {
-                    this.logger.rse.log(1078071040, "[TabletServiceImpl#switchSource] no audio switch needed - old band(%1) equals new band(%2)", (long)n2, (long)n);
+                    this.logger.rse.log(1000000, "[TabletServiceImpl#switchSource] no audio switch needed - old band(%1) equals new band(%2)", (long)n2, (long)n);
                 }
                 this.handler.updatedWaveband(n);
                 break;
@@ -60,16 +60,28 @@ public class TabletServiceImpl {
         }
     }
 
-    static /* synthetic */ void access$100(TabletServiceImpl tabletServiceImpl, long l) {
-        tabletServiceImpl.selectListEntry(l);
-    }
+    private class TabletRequest
+    implements IRadioInterappService {
+        private TabletRequest() {
+        }
 
-    static /* synthetic */ Logger access$200(TabletServiceImpl tabletServiceImpl) {
-        return tabletServiceImpl.logger;
-    }
+        public void tuneStation(long l) {
+            try {
+                TabletServiceImpl.this.selectListEntry(l);
+            }
+            catch (Exception exception) {
+                ((TabletServiceImpl)TabletServiceImpl.this).logger.rse.log(10000, "%1", (Throwable)exception);
+            }
+        }
 
-    static /* synthetic */ void access$300(TabletServiceImpl tabletServiceImpl, int n) {
-        tabletServiceImpl.switchSource(n);
+        public void selectBand(int n) {
+            try {
+                TabletServiceImpl.this.switchSource(n);
+            }
+            catch (Exception exception) {
+                ((TabletServiceImpl)TabletServiceImpl.this).logger.rse.log(10000, "%1", (Throwable)exception);
+            }
+        }
     }
 }
 

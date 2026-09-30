@@ -13,7 +13,6 @@ import de.audi.tuner.app.memory.AbstractMemoryRow;
 import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.storage.AllTunerLSMStorrage;
 import de.audi.tuner.app.storage.IMemListStorage;
-import de.audi.tuner.app.storage.TunerStorage$UniUpListener;
 import de.audi.tuner.app.uni.UniDsiUpInfo;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.ifc.ILogoDatabase;
@@ -21,7 +20,7 @@ import de.audi.tuner.ifc.ITunerVariantExt;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public class TunerStorage {
-    public final UniDsiUpInfo dsiUpListener = new TunerStorage$UniUpListener(this, null);
+    public final UniDsiUpInfo dsiUpListener = new UniUpListener();
     private final Logger logger;
     private final IMemListStorage memoryListStorage;
     private final AllTunerLSMStorrage allLsmStorrage;
@@ -42,11 +41,11 @@ public class TunerStorage {
     }
 
     public void storeLastMode(int n, int n2) {
-        this.logger.main.log(-2137614336, "[TunerStorage#storeLastMode] list:%1 band:%2", (long)n, (long)n2);
+        this.logger.main.log(10000000, "[TunerStorage#storeLastMode] list:%1 band:%2", (long)n, (long)n2);
         if (this.audio.isAMAvailable()) {
             this.allLsmStorrage.storeLastMode(n, n2);
         } else {
-            this.logger.main.log(-1601830656, "[TunerStorage#storeLastMode] AMAvailable=false: -> not storing the last mode (list:%1 band:%2)", (long)n, (long)n2);
+            this.logger.main.log(100000, "[TunerStorage#storeLastMode] AMAvailable=false: -> not storing the last mode (list:%1 band:%2)", (long)n, (long)n2);
         }
     }
 
@@ -70,7 +69,7 @@ public class TunerStorage {
                 return this.loadLastAMFMStations()[2];
             }
         }
-        this.logger.main.log(10000, "[TunerStorage.getAMFMLSM]", (Throwable)new IllegalArgumentException(new StringBuffer().append("Invalid band ").append(n).toString()));
+        this.logger.main.log(10000, "[TunerStorage.getAMFMLSM]", (Throwable)new IllegalArgumentException("Invalid band " + n));
         return new AMFMStation();
     }
 
@@ -78,7 +77,7 @@ public class TunerStorage {
         if (this.audio.isAMAvailable()) {
             this.allLsmStorrage.storeAmFmLsm(aMFMStation, n);
         } else {
-            this.logger.main.log(-1601830656, "[TunerStorage#storeLastStation] AMAvailable=false: -> not storing the last mode (station:%1 band:%2) ", aMFMStation.frequency, (long)n);
+            this.logger.main.log(100000, "[TunerStorage#storeLastStation] AMAvailable=false: -> not storing the last mode (station:%1 band:%2) ", aMFMStation.frequency, (long)n);
         }
     }
 
@@ -92,16 +91,16 @@ public class TunerStorage {
 
     public void storeLastDABService(DabStation dabStation) {
         if (this.audio.isAMAvailable()) {
-            this.logger.main.log(1078071040, "[TunerStorage#storeLastDABService], Ensemble: %1", (Object)dabStation.ensemble);
-            this.logger.main.log(1078071040, "[TunerStorage#storeLastDABService], Service: %1", (Object)dabStation.service);
-            this.logger.main.log(1078071040, "[TunerStorage#storeLastDABService], Component: %1", (Object)dabStation.component);
+            this.logger.main.log(1000000, "[TunerStorage#storeLastDABService], Ensemble: %1", (Object)dabStation.ensemble);
+            this.logger.main.log(1000000, "[TunerStorage#storeLastDABService], Service: %1", (Object)dabStation.service);
+            this.logger.main.log(1000000, "[TunerStorage#storeLastDABService], Component: %1", (Object)dabStation.component);
             if (dabStation.ensemble.ensID == 0) {
-                this.logger.dabDSI.log(-2137614336, "[TunerStorage..storeLastDABService] ignore to save ensId=0");
+                this.logger.dabDSI.log(10000000, "[TunerStorage..storeLastDABService] ignore to save ensId=0");
                 return;
             }
             this.allLsmStorrage.storeDabLsm(dabStation);
         } else {
-            this.logger.main.log(-1601830656, "[TunerStorage#storeLastDABService] AMAvailable=false: -> not storing the last mode (station:%1 band:DAB)", (Object)dabStation.service.fullName);
+            this.logger.main.log(100000, "[TunerStorage#storeLastDABService] AMAvailable=false: -> not storing the last mode (station:%1 band:DAB)", (Object)dabStation.service.fullName);
         }
     }
 
@@ -109,7 +108,7 @@ public class TunerStorage {
         if (this.audio.isAMAvailable()) {
             this.allLsmStorrage.storeUniLsm(unifiedStationExt);
         } else {
-            this.logger.main.log(-1601830656, "[TunerStorage#storeLastUniStation] AMAvailable=false: -> not storing the last mode (station:%1 band:FM/DAB)", (Object)unifiedStationExt.shortName);
+            this.logger.main.log(100000, "[TunerStorage#storeLastUniStation] AMAvailable=false: -> not storing the last mode (station:%1 band:FM/DAB)", (Object)unifiedStationExt.shortName);
         }
     }
 
@@ -121,7 +120,7 @@ public class TunerStorage {
         if (this.audio.isAMAvailable()) {
             this.allLsmStorrage.storeSdarsLsm(stationInfoExt);
         } else {
-            this.logger.main.log(-1601830656, "[TunerStorage#storeLastSDARSService] AMAvailable=false: -> not storing the last mode (station:%1 band:SDARS)", (Object)stationInfoExt.shortLabel);
+            this.logger.main.log(100000, "[TunerStorage#storeLastSDARSService] AMAvailable=false: -> not storing the last mode (station:%1 band:SDARS)", (Object)stationInfoExt.shortLabel);
         }
     }
 
@@ -133,7 +132,7 @@ public class TunerStorage {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void storeMemoryList(int n, AbstractMemoryRow[] abstractMemoryRowArray) {
-        this.logger.main.log(-2137614336, "[TunerStorage.storeMemoryList]");
+        this.logger.main.log(10000000, "[TunerStorage.storeMemoryList]");
         TunerStorage tunerStorage = this;
         synchronized (tunerStorage) {
             this.memoryListStorage.writeList(n, abstractMemoryRowArray);
@@ -284,22 +283,32 @@ public class TunerStorage {
 
     public void storePsFreezeDB(byte[] byArray) {
         Utilities.getStorageManager().setByteArray(1001, 310, byArray);
-        this.logger.main.log(-2137614336, "[TunerStorage.storePsFreezeDB length %1", (long)byArray.length);
+        this.logger.main.log(10000000, "[TunerStorage.storePsFreezeDB length %1", (long)byArray.length);
     }
 
     public byte[] loadPsFreezeDB() {
         byte[] byArray = Utilities.getStorageManager().getByteArray(1001, 310, new byte[0]);
-        this.logger.main.log(-2137614336, "[TunerStorage#loadPsFreeze] length %1", (long)byArray.length);
+        this.logger.main.log(10000000, "[TunerStorage#loadPsFreeze] length %1", (long)byArray.length);
         return byArray;
     }
 
     public void storeHistoryList(AbstractMemoryRow[] abstractMemoryRowArray) {
-        this.logger.main.log(-2137614336, "[TunerStorage.storeHistoryList]");
+        this.logger.main.log(10000000, "[TunerStorage.storeHistoryList]");
         this.memoryListStorage.writeList(13, abstractMemoryRowArray);
     }
 
     public AbstractMemoryRow[] loadHistoryList(ILogoDatabase iLogoDatabase) {
         return this.memoryListStorage.readList(13, iLogoDatabase);
+    }
+
+    private class UniUpListener
+    extends UniDsiUpInfo {
+        private UniUpListener() {
+        }
+
+        public void updateSelectedStation(UnifiedStationExt unifiedStationExt) {
+            TunerStorage.this.storeLastUniStation(unifiedStationExt);
+        }
     }
 }
 

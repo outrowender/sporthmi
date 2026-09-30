@@ -20,25 +20,23 @@ extends AbstractRequest {
 
     public SetLanguageRequest(LogChannel logChannel, TTSListener tTSListener, TTSOperable tTSOperable, DSITTSCaller dSITTSCaller, RequestQueue requestQueue, Language language) {
         super(logChannel, tTSListener, dSITTSCaller, requestQueue, (short)-1, 4);
-        this.logCh.log(-2137614336, "[SetLanguageRequest#ctor] Called.");
+        this.logCh.log(10000000, "[SetLanguageRequest#ctor] Called.");
         this.language = language;
         this.ttsOperable = tTSOperable;
     }
 
-    @Override
     public void execute() {
-        this.logCh.log(-2137614336, "[SetLanguageRequest#execute] Called, language: %1", (Object)this.language);
+        this.logCh.log(10000000, "[SetLanguageRequest#execute] Called, language: %1", (Object)this.language);
         this.dsiCaller.dsiSetLanguage(this.sourceId, this.language);
     }
 
-    @Override
     public void process() {
-        this.logCh.log(-2137614336, "[SetLanguageRequest#process] Called.");
+        this.logCh.log(10000000, "[SetLanguageRequest#process] Called.");
         AbstractRequest abstractRequest = this.requestProcessor.getRunningRequest();
         if (abstractRequest == null) {
-            this.logCh.log(-2137614336, "[SetLanguageRequest#process] No running request.");
+            this.logCh.log(10000000, "[SetLanguageRequest#process] No running request.");
             if (this.requestProcessor.isEmpty()) {
-                this.logCh.log(-2137614336, "[SetLanguageRequest#process] Empty request queue, set request to running.");
+                this.logCh.log(10000000, "[SetLanguageRequest#process] Empty request queue, set request to running.");
                 this.execute();
                 this.requestProcessor.setRunningRequest(this);
             }
@@ -52,9 +50,8 @@ extends AbstractRequest {
         }
     }
 
-    @Override
     public TTSResult responseSetLanguage(int n) {
-        this.logCh.log(-2137614336, "[SetLanguageRequest#responseSetLanguage] Called, result: %1", (long)n);
+        this.logCh.log(10000000, "[SetLanguageRequest#responseSetLanguage] Called, result: %1", (long)n);
         if (n == 0) {
             this.ttsOperable.responseSetLanguageComplete();
         } else {
@@ -64,7 +61,6 @@ extends AbstractRequest {
         return new TTSResult(null, 1);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("SetLanguageRequest{");

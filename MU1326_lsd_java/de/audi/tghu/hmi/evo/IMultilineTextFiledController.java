@@ -7,27 +7,21 @@ import de.audi.tghu.hmi.evo.IMultilineWidget;
 
 public interface IMultilineTextFiledController
 extends IMultilineWidget {
-    public static final int CURSOR_DIR_LEFT;
-    public static final int CURSOR_DIR_RIGHT;
-    public static final int CURSOR_MODE_WORD;
-    public static final int CURSOR_MODE_CHAR;
+    public static final int CURSOR_DIR_LEFT = 0;
+    public static final int CURSOR_DIR_RIGHT = 1;
+    public static final int CURSOR_MODE_WORD = 0;
+    public static final int CURSOR_MODE_CHAR = 1;
 
-    default public void moveCursor(int n) {
-    }
+    public void moveCursor(int var1);
 
-    default public void setCursorMode(int n) {
-    }
+    public void setCursorMode(int var1);
 
-    default public void delete() {
-    }
+    public void delete();
 
-    default public void insertChar(char c2) {
-    }
+    public void insertChar(char var1);
 
-    default public void insertStr(String string) {
-    }
+    public void insertStr(String var1);
 
-    default public void replaceStr(String string) {
-    }
+    public void replaceStr(String var1);
 }
 

@@ -12,36 +12,20 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IAddressInputService
 extends IAddressInputForm {
-    @Override
-    default public CommandList acceptGivenInput(AddressInputHandler addressInputHandler, NavLocation navLocation) {
-    }
+    public CommandList acceptGivenInput(AddressInputHandler var1, NavLocation var2);
 
-    @Override
-    default public void destAddressInputHKReturn(int n, int n2, Command command, Command command2) {
-    }
+    public void destAddressInputHKReturn(int var1, int var2, Command var3, Command var4);
 
-    @Override
-    default public NavLocation getInitialLocation() {
-    }
+    public NavLocation getInitialLocation();
 
-    @Override
-    default public CommandList getStartAddressInputCommandList(NavLocation navLocation) {
-    }
+    public CommandList getStartAddressInputCommandList(NavLocation var1);
 
-    @Override
-    default public CommandList getStartAddressInputCommandList(NavLocation navLocation, int n) {
-    }
+    public CommandList getStartAddressInputCommandList(NavLocation var1, int var2);
 
-    @Override
-    default public void onNewNaviServiceListener() {
-    }
+    public void onNewNaviServiceListener();
 
-    @Override
-    default public void resetMemorySettings() {
-    }
+    public void resetMemorySettings();
 
-    @Override
-    default public void setPoiService(IPoiService iPoiService) {
-    }
+    public void setPoiService(IPoiService var1);
 }
 

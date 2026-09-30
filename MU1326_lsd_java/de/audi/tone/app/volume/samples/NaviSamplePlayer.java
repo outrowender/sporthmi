@@ -19,38 +19,34 @@ implements ISamplePlayer {
         this.naviService = new NullNaviService(logChannel);
     }
 
-    @Override
     public void registerService(Object object) {
         if (object instanceof NaviService) {
-            this.lc.log(-2137614336, "[NaviSamplePlayer.registerService] service: %1", object);
+            this.lc.log(10000000, "[NaviSamplePlayer.registerService] service: %1", object);
             this.naviService = (NaviService)object;
         } else {
-            this.lc.log(-2137614336, "[NaviSamplePlayer.registerService] service: %1 is not instanceof NaviService", object);
+            this.lc.log(10000000, "[NaviSamplePlayer.registerService] service: %1 is not instanceof NaviService", object);
         }
     }
 
-    @Override
     public void deregisterService(Object object) {
         if (object instanceof NaviService) {
-            this.lc.log(1078071040, "[NaviSamplePlayer.deregisterService]", object);
+            this.lc.log(1000000, "[NaviSamplePlayer.deregisterService]", object);
             this.naviService = new NullNaviService(this.lc);
         }
     }
 
-    @Override
     public void play() {
         if (!this.playing) {
-            this.lc.log(-2137614336, "[NaviSamplePlayer.play]");
+            this.lc.log(10000000, "[NaviSamplePlayer.play]");
             this.naviService.setAnnouncementRepeatMode(true);
             this.playing = true;
         } else {
-            this.lc.log(-2137614336, "[NaviSamplePlayer.play] ignored (already playing)");
+            this.lc.log(10000000, "[NaviSamplePlayer.play] ignored (already playing)");
         }
     }
 
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "[NaviSamplePlayer.stop]");
+        this.lc.log(10000000, "[NaviSamplePlayer.stop]");
         this.naviService.setAnnouncementRepeatMode(false);
         this.playing = false;
     }

@@ -28,21 +28,19 @@ extends NavCommand {
         this.name = string;
     }
 
-    @Override
     public void execute() {
         if (this.isLastCity) {
-            this.logger.log(-2137614336, "LiLastCityOrStreetHistoryAddCommand#execute() - calling liLastCityHistoryAdd(%1) ", (Object)LocationFormatter.formatLocationShort(this.location));
+            this.logger.log(10000000, "LiLastCityOrStreetHistoryAddCommand#execute() - calling liLastCityHistoryAdd(%1) ", (Object)LocationFormatter.formatLocationShort(this.location));
             this.getDSINavigation().liLastCityHistoryAdd(this.location, this.hasStreets, this.name);
         } else {
-            this.logger.log(-2137614336, "LiLastCityOrStreetHistoryAddCommand#execute() - calling liLastStreetHistoryAdd(%1) ", (Object)LocationFormatter.formatLocationShort(this.location));
+            this.logger.log(10000000, "LiLastCityOrStreetHistoryAddCommand#execute() - calling liLastStreetHistoryAdd(%1) ", (Object)LocationFormatter.formatLocationShort(this.location));
             this.getDSINavigation().liLastStreetHistoryAdd(this.location, this.name);
         }
     }
 
-    @Override
     public void liLastCityAndStreetHistoryResult(long l) {
         if (l == 0L) {
-            this.logger.log(-2137614336, "LiLastCityOrStreetHistoryAddCommand#liLastCityAndStreetHistoryResult()");
+            this.logger.log(10000000, "LiLastCityOrStreetHistoryAddCommand#liLastCityAndStreetHistoryResult()");
             this.getCommandList().commandFinished();
         } else {
             this.logger.log(10000, "LiLastCityOrStreetHistoryAddCommand#liLastCityAndStreetHistoryResult() - commandAborted");

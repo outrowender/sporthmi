@@ -11,7 +11,7 @@ import org.dsi.ifc.swdlprogress.DeviceOverviewProgress;
 
 public class SwdlListItemProgress
 extends AbstractSwdlListItem {
-    private static final String SWDL_CLASS_NAME;
+    private static final String SWDL_CLASS_NAME = "[SwdlListItemProgress]";
     private int type;
     private int value;
     private IProgressManager progressManager;
@@ -23,7 +23,6 @@ extends AbstractSwdlListItem {
         this.progressManager = iProgressManager;
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         baseListRow.setInteger(0, this.getId());
         baseListRow.setText(1, this.getName());
@@ -44,13 +43,12 @@ extends AbstractSwdlListItem {
         }
     }
 
-    @Override
     public void select(int n) {
         this.progressManager.selectForDetails(this.getName());
     }
 
     public String getSwdlClassName() {
-        return "[SwdlListItemProgress]";
+        return SWDL_CLASS_NAME;
     }
 }
 

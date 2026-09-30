@@ -12,23 +12,19 @@ extends PreviewMapStateRoute {
         super(previewMapHandlerAbstract, bl, previewMapHandlerAbstract.getMapForPreview().getNavigationEnv().getContainer().isRgActive());
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.rgActive = this.getMapForPreview().getNavigationEnv().getContainer().isRgActive();
         super.applyToScreenDetail();
     }
 
-    @Override
     public void applyToScreenFullMap() {
         super.applyToScreenFullMap();
     }
 
-    @Override
     public String toString() {
         return "PreviewMapStateRouteRgActive()";
     }
 
-    @Override
     public boolean isRefreshRequiredOnUpdateRgActive() {
         return true;
     }

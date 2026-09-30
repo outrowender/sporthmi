@@ -5,7 +5,6 @@ package de.audi.tv.app.base;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.tv.app.base.INotificationHandler;
-import de.audi.tv.app.base.NotificationHandler$TVListener;
 import de.audi.tv.app.dsi.DSIHandler;
 import de.audi.tv.app.dsi.DSITVTunerListenerImpl;
 import de.audi.tv.app.dsi.DefaultTVListener;
@@ -19,7 +18,7 @@ implements INotificationHandler {
     private final LogChannel lc;
     private final DSIHandler dsiHandler;
     private final DSITVTunerListenerImpl listener;
-    final DefaultTVListener tvListener = new NotificationHandler$TVListener(this, null);
+    final DefaultTVListener tvListener = new TVListener();
     private boolean dsiRegistered = false;
 
     NotificationHandler(LogChannel logChannel, DSIHandler dSIHandler, DSITVTunerListenerImpl dSITVTunerListenerImpl) {
@@ -32,32 +31,29 @@ implements INotificationHandler {
         boolean bl = this.dsiRegistered = !(dSITVTuner instanceof NullDSITVTuner);
         if (this.dsiRegistered) {
             int[] nArray = new int[]{1, 16, 17};
-            this.lc.log(1078071040, "[NotificationHandler.setNotifications] set base notifications: %1", (Object)nArray);
+            this.lc.log(1000000, "[NotificationHandler.setNotifications] set base notifications: %1", (Object)nArray);
             this.dsiHandler.setNotification(nArray, this.listener);
         }
     }
 
-    @Override
     public void setNotification(int n) {
         this.setNotification(n, false);
     }
 
-    @Override
     public void setNotification(int n, boolean bl) {
         if (!this.dsiRegistered) {
-            this.lc.log(-1601830656, "[NotificationHandler.setNotification] No DSI registered! ");
+            this.lc.log(100000, "[NotificationHandler.setNotification] No DSI registered! ");
         } else if (bl && this.dsiHandler.isBlocked()) {
-            this.lc.log(-1601830656, "[NotificationHandler.setNotification] Ignore notification for attr %1, DSI is blocked!", (long)n);
+            this.lc.log(100000, "[NotificationHandler.setNotification] Ignore notification for attr %1, DSI is blocked!", (long)n);
         } else {
-            this.lc.log(1078071040, "[NotificationHandler.setNotification] set notification for attribute: %1", (long)n);
+            this.lc.log(1000000, "[NotificationHandler.setNotification] set notification for attribute: %1", (long)n);
             this.dsiHandler.setNotification(new int[]{n}, this.listener);
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         if (this.dsiRegistered) {
-            this.lc.log(1078071040, "[NotificationHandler.clearNotification] set notification for attribute: %1", (long)n);
+            this.lc.log(1000000, "[NotificationHandler.clearNotification] set notification for attribute: %1", (long)n);
             this.dsiHandler.clearNotification(new int[]{n}, this.listener);
         }
     }
@@ -101,24 +97,18 @@ implements INotificationHandler {
         return intList.toArray();
     }
 
-    static /* synthetic */ boolean access$100(NotificationHandler notificationHandler) {
-        return notificationHandler.dsiRegistered;
-    }
+    private class TVListener
+    extends DefaultTVListener {
+        private TVListener() {
+        }
 
-    static /* synthetic */ int[] access$200(NotificationHandler notificationHandler, StartUpConfig startUpConfig) {
-        return notificationHandler.getFullNotifications(startUpConfig);
-    }
-
-    static /* synthetic */ LogChannel access$300(NotificationHandler notificationHandler) {
-        return notificationHandler.lc;
-    }
-
-    static /* synthetic */ DSITVTunerListenerImpl access$400(NotificationHandler notificationHandler) {
-        return notificationHandler.listener;
-    }
-
-    static /* synthetic */ DSIHandler access$500(NotificationHandler notificationHandler) {
-        return notificationHandler.dsiHandler;
+        public void updateStartUpMUConfig(StartUpConfig startUpConfig) {
+            if (NotificationHandler.this.dsiRegistered) {
+                int[] nArray = NotificationHandler.this.getFullNotifications(startUpConfig);
+                NotificationHandler.this.lc.log(1000000, "[NotificationHandler.updateStartUpMUConfig] set full notifications: %1", (Object)nArray);
+                NotificationHandler.this.dsiHandler.setNotification(nArray, NotificationHandler.this.listener);
+            }
+        }
     }
 }
 

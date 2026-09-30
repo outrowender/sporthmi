@@ -4,10 +4,8 @@
 package de.audi.tghu.navi.app.map;
 
 public interface IGoogleMapLicenseService {
-    default public boolean isGoogleMapActive() {
-    }
+    public boolean isGoogleMapActive();
 
-    default public void disableGoogleMap() {
-    }
+    public void disableGoogleMap();
 }
 

@@ -29,18 +29,17 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         File file = null;
         boolean bl = true;
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append("CopyTask").toString());
+        Thread.currentThread().setName(Thread.currentThread().getName() + "CopyTask");
         BufferedInputStream bufferedInputStream = null;
         FilterOutputStream filterOutputStream = null;
         try {
             file = new File(this.targetDir, this.srcFile.getName());
-            this.lc.log(-2137614336, "[CopyTask] src:%1 target:%2", (Object)this.srcFile, (Object)file);
+            this.lc.log(10000000, "[CopyTask] src:%1 target:%2", (Object)this.srcFile, (Object)file);
             if (file.exists()) {
-                this.lc.log(-2137614336, "[CopyTask] Delete already existing target file '%1' ", (Object)file);
+                this.lc.log(10000000, "[CopyTask] Delete already existing target file '%1' ", (Object)file);
                 boolean bl2 = file.delete();
                 if (!bl2) {
                     this.lc.log(10000, "[CopyTask] Delete of target file '%1' failed! ", (Object)file);

@@ -3,18 +3,14 @@
  */
 package de.audi.tv.app.util;
 
+import de.audi.atip.hmi.event.EventDispatcher;
+import de.audi.atip.hmi.event.RunnableEvent;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
-import de.audi.tv.app.util.Handler$1;
-import de.audi.tv.app.util.Handler$DefaulftConverter;
-import de.audi.tv.app.util.Handler$DefaultHandlingStrategy;
-import de.audi.tv.app.util.Handler$DelayedMessageTimerListener;
-import de.audi.tv.app.util.Handler$DispatcherBaseDispatcher;
-import de.audi.tv.app.util.Handler$IHandlingStrategy;
-import de.audi.tv.app.util.Handler$IMessageCodeToStringConverter;
-import de.audi.tv.app.util.Handler$MsgJob;
 import de.audi.tv.app.util.IDispatcher;
 import de.audi.tv.app.util.Message;
-import de.audi.tv.app.util.Predicates$Predicate;
+import de.audi.tv.app.util.Predicates;
+import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import java.security.InvalidParameterException;
 import java.util.Iterator;
@@ -23,11 +19,11 @@ import java.util.List;
 
 public final class Handler {
     private final IDispatcher dispatcherBase;
-    private final Handler$IHandlingStrategy handlingStrategy;
+    private final IHandlingStrategy handlingStrategy;
     private final List messageList;
-    private final Handler$IMessageCodeToStringConverter mConverter;
+    private final IMessageCodeToStringConverter mConverter;
 
-    private Handler(IDispatcher iDispatcher, Handler$IHandlingStrategy iHandlingStrategy, Handler$IMessageCodeToStringConverter iMessageCodeToStringConverter) {
+    private Handler(IDispatcher iDispatcher, IHandlingStrategy iHandlingStrategy, IMessageCodeToStringConverter iMessageCodeToStringConverter) {
         if (iDispatcher == null || iHandlingStrategy == null || iMessageCodeToStringConverter == null) {
             throw new InvalidParameterException("should not be null!");
         }
@@ -37,28 +33,28 @@ public final class Handler {
         this.messageList = new LinkedList();
     }
 
-    public Handler(DispatcherBase dispatcherBase, Handler$IHandlingStrategy iHandlingStrategy, Handler$IMessageCodeToStringConverter iMessageCodeToStringConverter) {
+    public Handler(DispatcherBase dispatcherBase, IHandlingStrategy iHandlingStrategy, IMessageCodeToStringConverter iMessageCodeToStringConverter) {
         if (dispatcherBase == null || iHandlingStrategy == null || iMessageCodeToStringConverter == null) {
             throw new InvalidParameterException("should not be null!");
         }
-        this.dispatcherBase = new Handler$DispatcherBaseDispatcher(dispatcherBase);
+        this.dispatcherBase = new DispatcherBaseDispatcher(dispatcherBase);
         this.handlingStrategy = iHandlingStrategy;
         this.mConverter = iMessageCodeToStringConverter;
         this.messageList = new LinkedList();
     }
 
-    public Handler(DispatcherBase dispatcherBase, Handler$IMessageCodeToStringConverter iMessageCodeToStringConverter) {
+    public Handler(DispatcherBase dispatcherBase, IMessageCodeToStringConverter iMessageCodeToStringConverter) {
         if (dispatcherBase == null || iMessageCodeToStringConverter == null) {
             throw new InvalidParameterException("should not be null!");
         }
-        this.dispatcherBase = new Handler$DispatcherBaseDispatcher(dispatcherBase);
-        this.handlingStrategy = new Handler$DefaultHandlingStrategy(null);
+        this.dispatcherBase = new DispatcherBaseDispatcher(dispatcherBase);
+        this.handlingStrategy = new DefaultHandlingStrategy();
         this.mConverter = iMessageCodeToStringConverter;
         this.messageList = new LinkedList();
     }
 
-    public Handler(DispatcherBase dispatcherBase, Handler$IHandlingStrategy handler$IHandlingStrategy) {
-        this(dispatcherBase, handler$IHandlingStrategy, (Handler$IMessageCodeToStringConverter)new Handler$DefaulftConverter(null));
+    public Handler(DispatcherBase dispatcherBase, IHandlingStrategy iHandlingStrategy) {
+        this(dispatcherBase, iHandlingStrategy, (IMessageCodeToStringConverter)new DefaulftConverter());
     }
 
     /*
@@ -74,7 +70,7 @@ public final class Handler {
     }
 
     public void sendMessage(Message message) {
-        this.dispatcherBase.execute(new Handler$MsgJob(this, message));
+        this.dispatcherBase.execute(new MsgJob(message));
     }
 
     public void sendEmptyMessage(int n) {
@@ -120,8 +116,8 @@ public final class Handler {
         if (l <= 0L) {
             this.sendMessage(message);
         } else {
-            Handler$DelayedMessageTimerListener handler$DelayedMessageTimerListener = new Handler$DelayedMessageTimerListener(this, message);
-            Timer timer = new Timer("delayedMsg", l, true, handler$DelayedMessageTimerListener);
+            DelayedMessageTimerListener delayedMessageTimerListener = new DelayedMessageTimerListener(message);
+            Timer timer = new Timer("delayedMsg", l, true, delayedMessageTimerListener);
             timer.start();
         }
     }
@@ -163,21 +159,26 @@ public final class Handler {
         return false;
     }
 
-    public boolean removeMessages(int n) {
-        return this.removeMessages(new Handler$1(this, n));
+    public boolean removeMessages(final int n) {
+        return this.removeMessages(new Predicates.Predicate(){
+
+            public boolean apply(Object object) {
+                return ((Message)object).getCode() == n;
+            }
+        });
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public boolean removeMessages(Predicates$Predicate predicates$Predicate) {
+    public boolean removeMessages(Predicates.Predicate predicate) {
         boolean bl = false;
         List list = this.messageList;
         synchronized (list) {
             Iterator iterator = this.messageList.iterator();
             while (iterator.hasNext()) {
                 Message message = (Message)iterator.next();
-                if (!predicates$Predicate.apply(message)) continue;
+                if (!predicate.apply(message)) continue;
                 message.removed = true;
                 iterator.remove();
             }
@@ -193,20 +194,141 @@ public final class Handler {
         }
     }
 
-    static /* synthetic */ List access$000(Handler handler) {
-        return handler.messageList;
+    private class MsgJob
+    implements Runnable {
+        private final Message msg;
+
+        MsgJob(Message message) {
+            this.msg = message;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            List list = Handler.this.messageList;
+            synchronized (list) {
+                Handler.this.messageList.remove(this.msg);
+            }
+            if (!this.msg.removed) {
+                Handler.this.handleMessage(this.msg);
+            }
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("MsgJob: '").append(this.msg.toString()).append("'");
+            return buffer.toString();
+        }
     }
 
-    static /* synthetic */ void access$100(Handler handler, Message message) {
-        handler.handleMessage(message);
+    public static class Builder {
+        private IDispatcher dispatcher = new SyncronousDispatcher();
+        private IHandlingStrategy handlingStrategy = new DefaultHandlingStrategy();
+        private IMessageCodeToStringConverter messageCodeToStringConverter = new DefaulftConverter();
+
+        public Builder setDispatcher(IDispatcher iDispatcher) {
+            this.dispatcher = iDispatcher;
+            return this;
+        }
+
+        public Builder setDispatcher(DispatcherBase dispatcherBase) {
+            this.dispatcher = new DispatcherBaseDispatcher(dispatcherBase);
+            return this;
+        }
+
+        public Builder setDispatcher(EventDispatcher eventDispatcher) {
+            this.dispatcher = new EventDispatcherDispatcher(eventDispatcher);
+            return this;
+        }
+
+        public Builder setHandlingStrategy(IHandlingStrategy iHandlingStrategy) {
+            this.handlingStrategy = iHandlingStrategy;
+            return this;
+        }
+
+        public Builder setMessageCodeToStringConverter(IMessageCodeToStringConverter iMessageCodeToStringConverter) {
+            this.messageCodeToStringConverter = iMessageCodeToStringConverter;
+            return this;
+        }
+
+        public Handler getHandler() {
+            return new Handler(this.dispatcher, this.handlingStrategy, this.messageCodeToStringConverter);
+        }
     }
 
-    /* synthetic */ Handler(IDispatcher iDispatcher, Handler$IHandlingStrategy iHandlingStrategy, Handler$IMessageCodeToStringConverter iMessageCodeToStringConverter, Handler$1 var4_4) {
-        this(iDispatcher, iHandlingStrategy, iMessageCodeToStringConverter);
+    private static class DefaulftConverter
+    implements IMessageCodeToStringConverter {
+        private DefaulftConverter() {
+        }
+
+        public String messageCodeToString(int n) {
+            return Integer.toString(n);
+        }
     }
 
-    static /* synthetic */ IDispatcher access$500(Handler handler) {
-        return handler.dispatcherBase;
+    public static interface IHandlingStrategy {
+        public void handleMessage(Message var1);
+    }
+
+    public static class SyncronousDispatcher
+    implements IDispatcher {
+        public void execute(Runnable runnable) {
+            runnable.run();
+        }
+    }
+
+    private static class DefaultHandlingStrategy
+    implements IHandlingStrategy {
+        private DefaultHandlingStrategy() {
+        }
+
+        public void handleMessage(Message message) {
+        }
+    }
+
+    public static class DispatcherBaseDispatcher
+    implements IDispatcher {
+        private final DispatcherBase dispatcherBase;
+
+        public DispatcherBaseDispatcher(DispatcherBase dispatcherBase) {
+            this.dispatcherBase = dispatcherBase;
+        }
+
+        public void execute(Runnable runnable) {
+            this.dispatcherBase.execute(runnable);
+            this.dispatcherBase.start();
+        }
+    }
+
+    public static class EventDispatcherDispatcher
+    implements IDispatcher {
+        private final EventDispatcher dispatcher;
+
+        public EventDispatcherDispatcher(EventDispatcher eventDispatcher) {
+            this.dispatcher = eventDispatcher;
+        }
+
+        public void execute(Runnable runnable) {
+            this.dispatcher.postEvent(new RunnableEvent(false, runnable));
+        }
+    }
+
+    private final class DelayedMessageTimerListener
+    extends DefaultTimerListener {
+        private final Message msg;
+
+        public DelayedMessageTimerListener(Message message) {
+            this.msg = message;
+        }
+
+        public void fireTimer(Timer timer) {
+            Handler.this.dispatcherBase.execute(new MsgJob(this.msg));
+        }
+    }
+
+    public static interface IMessageCodeToStringConverter {
+        public String messageCodeToString(int var1);
     }
 }
 

@@ -7,13 +7,10 @@ import de.audi.tghu.command.CommandList;
 import org.dsi.ifc.global.NavLocation;
 
 public interface AddSelectedDestinationAtIndexCommandListCreator {
-    default public CommandList createAddSelectedDestinationAtIndexCommandList(int n, boolean bl) {
-    }
+    public CommandList createAddSelectedDestinationAtIndexCommandList(int var1, boolean var2);
 
-    default public void addAsStopOver(NavLocation navLocation, int n, boolean bl, CommandList commandList) {
-    }
+    public void addAsStopOver(NavLocation var1, int var2, boolean var3, CommandList var4);
 
-    default public void addAsStopOver(NavLocation navLocation, int n, boolean bl, boolean bl2, CommandList commandList) {
-    }
+    public void addAsStopOver(NavLocation var1, int var2, boolean var3, boolean var4, CommandList var5);
 }
 

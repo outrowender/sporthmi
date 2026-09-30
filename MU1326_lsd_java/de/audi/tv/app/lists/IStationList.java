@@ -13,52 +13,36 @@ import org.dsi.ifc.tvtuner.ProgramInfo;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface IStationList {
-    default public SelectedItem getSelected() {
-    }
+    public SelectedItem getSelected();
 
-    default public void markFavorites(long[] lArray) {
-    }
+    public void markFavorites(long[] var1);
 
-    default public void unmarkFavorites(long[] lArray) {
-    }
+    public void unmarkFavorites(long[] var1);
 
-    default public AbstractTVStationRow getRowByIndex(int n) {
-    }
+    public AbstractTVStationRow getRowByIndex(int var1);
 
-    default public BaseListModelApp getEmptyTmpList() {
-    }
+    public BaseListModelApp getEmptyTmpList();
 
-    default public BaseListModelApp getTmpList() {
-    }
+    public BaseListModelApp getTmpList();
 
-    default public AbstractTVStationRow getTmpStation() {
-    }
+    public AbstractTVStationRow getTmpStation();
 
-    default public ServiceInfo[] getServices() {
-    }
+    public ServiceInfo[] getServices();
 
-    default public ServiceInfo[] getScanList() {
-    }
+    public ServiceInfo[] getScanList();
 
-    default public void updateSelectionInList(BaseListModelApp baseListModelApp, IFavoritesList iFavoritesList) {
-    }
+    public void updateSelectionInList(BaseListModelApp var1, IFavoritesList var2);
 
-    default public void setStationList(List list, IFavoritesList iFavoritesList) {
-    }
+    public void setStationList(List var1, IFavoritesList var2);
 
-    default public void updateSelectedProgram(ProgramInfo programInfo, boolean bl) {
-    }
+    public void updateSelectedProgram(ProgramInfo var1, boolean var2);
 
-    default public void updateSelectedService(ServiceInfo serviceInfo, boolean bl) {
-    }
+    public void updateSelectedService(ServiceInfo var1, boolean var2);
 
-    default public ServiceInfo getServiceForUniqueID(long l) {
-    }
+    public ServiceInfo getServiceForUniqueID(long var1);
 
-    default public void updateStationLogos(LogoInfo[] logoInfoArray) {
-    }
+    public void updateStationLogos(LogoInfo[] var1);
 
-    default public void updateServiceLinking(boolean bl) {
-    }
+    public void updateServiceLinking(boolean var1);
 }
 

@@ -11,7 +11,7 @@ import org.dsi.ifc.sdars.SeekEntry;
 
 public class SeekListSizeRestrictionHandlerSimple
 extends AbstractSeekListSizeRistrictionHandler {
-    private static final int DEFAULT_MAX_ALLOWED_SEEK_LIST_SIZE;
+    private static final int DEFAULT_MAX_ALLOWED_SEEK_LIST_SIZE = 50;
     private final int maxAllowedSeekListSize;
     private final ChoiceModelApp seekListFullChoice;
     private int lastSeekListSize = 0;
@@ -23,10 +23,9 @@ extends AbstractSeekListSizeRistrictionHandler {
     public SeekListSizeRestrictionHandlerSimple(TunerBasics tunerBasics, SDARSDSISeekDownManager sDARSDSISeekDownManager, int n) {
         super(sDARSDSISeekDownManager);
         this.maxAllowedSeekListSize = n;
-        this.seekListFullChoice = tunerBasics.getModels().getChoiceModel(1871249664);
+        this.seekListFullChoice = tunerBasics.getModels().getChoiceModel(100719);
     }
 
-    @Override
     protected void onDSIUpdateSeekList(SeekEntry[] seekEntryArray) {
         boolean bl = this.seekListFullChoice != null && this.seekListFullChoice.getValue() == 1;
         boolean bl2 = seekEntryArray.length >= this.maxAllowedSeekListSize;
@@ -39,12 +38,10 @@ extends AbstractSeekListSizeRistrictionHandler {
         }
     }
 
-    @Override
     public boolean isSeekListFull(int n) {
         return this.getRemainingSpace(n) == 0;
     }
 
-    @Override
     public int getRemainingSpace(int n) {
         return this.maxAllowedSeekListSize - this.lastSeekListSize;
     }

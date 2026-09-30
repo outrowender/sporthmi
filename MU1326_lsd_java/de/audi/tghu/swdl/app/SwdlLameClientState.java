@@ -67,10 +67,10 @@ public class SwdlLameClientState {
     public void updateLameClients(LameClient[] lameClientArray) {
         if (this.lameClientNotification) {
             if (null == lameClientArray || 0 == lameClientArray.length) {
-                this.getLogDSI().log(1078071040, "[SwdlLameClientState] <- updateLameClients: no lame clients present! ");
+                this.getLogDSI().log(1000000, "[SwdlLameClientState] <- updateLameClients: no lame clients present! ");
                 this.setLameClientList(null);
             } else {
-                this.getLogDSI().log(1078071040, "[SwdlLameClientState] <- updateLameClients: still waiting for %1 clients ", (long)lameClientArray.length);
+                this.getLogDSI().log(1000000, "[SwdlLameClientState] <- updateLameClients: still waiting for %1 clients ", (long)lameClientArray.length);
                 Buffer buffer = new Buffer();
                 for (int i2 = 0; i2 < lameClientArray.length; ++i2) {
                     if (i2 > 0) {
@@ -87,7 +87,7 @@ public class SwdlLameClientState {
     }
 
     public void initWaitForLameClients() {
-        this.getLogHMI().log(-2137614336, "[SwdlLameClientState] initWaitForLameClients()");
+        this.getLogHMI().log(10000000, "[SwdlLameClientState] initWaitForLameClients()");
         String string = this.getLameClientList();
         if (string == null) {
             this.updateLameClients(false, "-");
@@ -101,7 +101,7 @@ public class SwdlLameClientState {
     }
 
     public void updateLameClients(boolean bl, String string) {
-        this.getLogHMI().log(-2137614336, "[SwdlLameClientState] updateLameClients(%1)", bl);
+        this.getLogHMI().log(10000000, "[SwdlLameClientState] updateLameClients(%1)", bl);
         this.lameClients = bl;
         this.getSwdlModels().getLameClientsLabel().setText(string);
         this.getSwdlModels().getDevicesReadyChoice().setValue(bl ? 0 : 1);

@@ -16,7 +16,6 @@ extends EvoListRow {
         super(bandListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new BandListRow(this);
     }

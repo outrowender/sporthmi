@@ -5,8 +5,6 @@ package de.audi.tuner.app;
 
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
-import de.audi.tuner.app.BandListHandler$BandListComparator;
-import de.audi.tuner.app.BandListHandler$UpdateListener;
 import de.audi.tuner.app.BandListRow;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.MemoryListHandler;
@@ -23,15 +21,18 @@ import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.ifc.listener.IUpdateListener;
+import de.audi.tuner.sds.DefaultUpdateListener;
 import de.audi.tuner.sds.UpdateListenerHandler;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.dsi.ifc.radio.WavebandInfo;
 
 public class BandListHandler
 extends UpdateListenerHandler {
-    public final IUpdateListener updateListener = new BandListHandler$UpdateListener(this, null);
+    public final IUpdateListener updateListener = new UpdateListener();
     private WavebandInfo[] wavebandInfos = new WavebandInfo[0];
     private List bandArrayList = new ArrayList(10);
     private final Logger logger;
@@ -51,14 +52,14 @@ extends UpdateListenerHandler {
         this.memory = memoryListHandler;
         this.audio = tunerAudioMgmt;
         this.announce = announcementHandler;
-        this.bandList = this.models.getBaseListModel(-2004352768);
+        this.bandList = this.models.getBaseListModel(100488);
         if (Utilities.isJapan()) {
-            this.models.getChoiceModel(1720123648).setValue(1);
+            this.models.getChoiceModel(100198).setValue(1);
         }
     }
 
     public void setAvailableWaveBands(WavebandInfo[] wavebandInfoArray) {
-        this.logger.main.log(-2137614336, " [BandListHandler.setAvailableWaveBands] Updating available wavebands");
+        this.logger.main.log(10000000, " [BandListHandler.setAvailableWaveBands] Updating available wavebands");
         this.wavebandInfos = wavebandInfoArray;
         this.removeFromBandList(4);
         this.removeFromBandList(10);
@@ -89,7 +90,7 @@ extends UpdateListenerHandler {
         if (this.wavebandInfos.length != 0) {
             for (int i2 = 0; i2 < this.wavebandInfos.length; ++i2) {
                 boolean bl;
-                this.logger.dd.log(14808325, "[BandListHandler.getBandByFrequency] waveband: %2, freq: %1", (Object)this.wavebandInfos[i2], (long)n);
+                this.logger.dd.log(100000000, "[BandListHandler.getBandByFrequency] waveband: %2, freq: %1", (Object)this.wavebandInfos[i2], (long)n);
                 boolean bl2 = bl = (long)n >= this.wavebandInfos[i2].lowerLimit && (long)n <= this.wavebandInfos[i2].upperLimit && this.wavebandInfos[i2].stepWidth != 0L && ((long)n - this.wavebandInfos[i2].lowerLimit) % this.wavebandInfos[i2].stepWidth == 0L;
                 if (!bl) continue;
                 switch (this.wavebandInfos[i2].waveband) {
@@ -104,7 +105,7 @@ extends UpdateListenerHandler {
             }
             return -1;
         }
-        if (n > 1625948160) {
+        if (n > 60000) {
             return 1;
         }
         return 4;
@@ -112,7 +113,7 @@ extends UpdateListenerHandler {
 
     public int getWavebandByFrequency(long l) {
         for (int i2 = 0; i2 < this.wavebandInfos.length; ++i2) {
-            this.logger.dd.log(14808325, "[BandListHandler.getWavebandByFrequency] waveband: %2, freq: %1", (Object)this.wavebandInfos[i2], l);
+            this.logger.dd.log(100000000, "[BandListHandler.getWavebandByFrequency] waveband: %2, freq: %1", (Object)this.wavebandInfos[i2], l);
             if (l < this.wavebandInfos[i2].lowerLimit || l > this.wavebandInfos[i2].upperLimit) continue;
             return this.wavebandInfos[i2].waveband;
         }
@@ -120,7 +121,7 @@ extends UpdateListenerHandler {
     }
 
     public synchronized void switchBand(int n) {
-        ChoiceModelApp choiceModelApp = this.models.getChoiceModel(-595132160);
+        ChoiceModelApp choiceModelApp = this.models.getChoiceModel(100316);
         choiceModelApp.setValue(n);
         switch (n) {
             case 8: 
@@ -144,14 +145,14 @@ extends UpdateListenerHandler {
         this.memory.cancelActions();
         int n3 = this.models.getActiveTuner();
         int n4 = this.models.getActiveList();
-        this.logger.main.log(-2137614336, "[BandListHandler.switchBand] switchBand called! target: %1, source: %2 ", (long)n, (long)n3);
+        this.logger.main.log(10000000, "[BandListHandler.switchBand] switchBand called! target: %1, source: %2 ", (long)n, (long)n3);
         tunerProxyManager.stopActiveActions();
         if (n != n3) {
             this.announce.abortAnnouncement();
             this.announce.resetVolumeAdjustment();
             this.models.setActiveTuner(n);
             if (n4 == n3) {
-                this.models.getChoiceModel(-595132160).setValue(n);
+                this.models.getChoiceModel(100316).setValue(n);
                 bl = true;
             }
             this.models.getChoiceModel(422).setValue(n);
@@ -204,23 +205,23 @@ extends UpdateListenerHandler {
             this.announce.resetVolumeAdjustment();
         }
         if (bl) {
-            this.models.getChoiceModel(-595132160).fireEvent(0);
+            this.models.getChoiceModel(100316).fireEvent(0);
         }
     }
 
     public void addToBandList(int n) {
-        this.logger.hmi.log(-2137614336, "[BandListHandler.addToBandList] adding band %1 to list", (long)n);
+        this.logger.hmi.log(10000000, "[BandListHandler.addToBandList] adding band %1 to list", (long)n);
         switch (n) {
             case 1: {
-                this.models.getChoiceModel(596115712).setValue(1);
+                this.models.getChoiceModel(100387).setValue(1);
                 break;
             }
             case 4: {
-                this.models.getChoiceModel(-544800512).setValue(1);
+                this.models.getChoiceModel(100319).setValue(1);
                 break;
             }
             case 10: {
-                this.models.getChoiceModel(1720123648).setValue(1);
+                this.models.getChoiceModel(100198).setValue(1);
                 break;
             }
         }
@@ -239,7 +240,7 @@ extends UpdateListenerHandler {
             if (bl) {
                 if (!this.bandArrayList.contains(n2)) {
                     this.bandArrayList.add(n2);
-                    Collections.sort(this.bandArrayList, new BandListHandler$BandListComparator(null));
+                    Collections.sort(this.bandArrayList, new BandListComparator());
                     bl2 = true;
                 }
             } else {
@@ -258,15 +259,15 @@ extends UpdateListenerHandler {
     public void removeFromBandList(int n) {
         switch (n) {
             case 4: {
-                this.models.getChoiceModel(-544800512).setValue(0);
+                this.models.getChoiceModel(100319).setValue(0);
                 break;
             }
             case 1: {
-                this.models.getChoiceModel(596115712).setValue(0);
+                this.models.getChoiceModel(100387).setValue(0);
                 break;
             }
             case 10: {
-                this.models.getChoiceModel(1720123648).setValue(0);
+                this.models.getChoiceModel(100198).setValue(0);
                 break;
             }
         }
@@ -277,7 +278,6 @@ extends UpdateListenerHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public synchronized int[] getWavebands() {
         List list = this.bandArrayList;
         synchronized (list) {
@@ -289,8 +289,44 @@ extends UpdateListenerHandler {
         }
     }
 
-    static /* synthetic */ TunerModels access$200(BandListHandler bandListHandler) {
-        return bandListHandler.models;
+    private class UpdateListener
+    extends DefaultUpdateListener
+    implements IUpdateListener {
+        private UpdateListener() {
+        }
+
+        public void updatedMemoryList() {
+            int n = BandListHandler.this.models.getBaseListModel(100467).getLength();
+            if (n > 0) {
+                BandListHandler.this.addToBandList(12);
+            } else {
+                BandListHandler.this.removeFromBandList(12);
+            }
+        }
+    }
+
+    private static class BandListComparator
+    implements Comparator,
+    Serializable {
+        private static final long serialVersionUID = -910149324650164695L;
+        private static final int[] order = new int[]{12, 13, 11, 5, 1, 4, 7};
+
+        private BandListComparator() {
+        }
+
+        public int compare(Object object, Object object2) {
+            int n = this.getIndex(object);
+            int n2 = this.getIndex(object2);
+            return n - n2;
+        }
+
+        private int getIndex(Object object) {
+            for (int i2 = 0; i2 < order.length; ++i2) {
+                if (order[i2] != (Integer)object) continue;
+                return i2;
+            }
+            return -1;
+        }
     }
 }
 

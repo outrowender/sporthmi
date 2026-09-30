@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.eso.remotehmi.xpath;
 
@@ -18,22 +15,20 @@ extends AbstractPathEntry {
         super(string, null);
     }
 
-    @Override
     public void match(Map map, Node node, List list) {
     }
 
-    @Override
     public List matchList(Map map, List list) {
         int n = -1;
         try {
-            double d2 = Double.parseDouble((String)this.name);
+            double d2 = Double.parseDouble(this.name);
             n = (int)d2;
         }
         catch (Exception exception) {
             // empty catch block
         }
         if (n == -1) {
-            throw new RuntimeException(new StringBuffer().append("Invalid index ").append(this.name).append(".").toString());
+            throw new RuntimeException("Invalid index " + this.name + ".");
         }
         if (--n < 0 || n >= list.size()) {
             return null;

@@ -4,10 +4,9 @@
 package de.audi.tghu.navi.app.sds;
 
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.interapp.NaviService$NaviSUIDetails;
+import de.audi.atip.interapp.NaviService;
 
 public interface ISUIListRowBuilder {
-    default public EvoListRow buildEvoListRow(NaviService$NaviSUIDetails naviService$NaviSUIDetails, int n) {
-    }
+    public EvoListRow buildEvoListRow(NaviService.NaviSUIDetails var1, int var2);
 }
 

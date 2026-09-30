@@ -20,9 +20,8 @@ extends AbstractOSRCommand {
         this.licenseCollectionService = licenseCollectionService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "OSRPreCheckOnlineServiceSymbolicName#execute(): Called.");
+        this.logger.log(10000000, "OSRPreCheckOnlineServiceSymbolicName#execute(): Called.");
         if (this.getDSI() != null) {
             this.getDSI().precheckOnlineServiceSymbolicName(this.appID, this.symbolicName);
         } else {
@@ -31,19 +30,18 @@ extends AbstractOSRCommand {
         }
     }
 
-    @Override
     public void precheckOnlineServiceSymbolicNameResponse(String string, OSRServiceState oSRServiceState) {
-        this.logger.log(-2137614336, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() appID:%1, state %2", (Object)string, (Object)oSRServiceState);
+        this.logger.log(10000000, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() appID:%1, state %2", (Object)string, (Object)oSRServiceState);
         if (string == null || this.appID == null) {
-            this.logger.log(-1601830656, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() appID is null! Call ignored. (%1, %2)", (Object)this.appID, (Object)string);
+            this.logger.log(100000, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() appID is null! Call ignored. (%1, %2)", (Object)this.appID, (Object)string);
             return;
         }
         if (!this.appID.equals(string)) {
-            this.logger.log(-1601830656, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() appID:%1, call with wrong appID=%2 ignored!", (Object)this.appID, (Object)string);
+            this.logger.log(100000, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() appID:%1, call with wrong appID=%2 ignored!", (Object)this.appID, (Object)string);
             return;
         }
         if (oSRServiceState != null && this.symbolicName != null && !this.symbolicName.equals(oSRServiceState.getSymbolicName())) {
-            this.logger.log(-1601830656, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() symbolicName:%1, call with wrong symbolicName=%2 ignored!", (Object)this.symbolicName, (Object)oSRServiceState.getSymbolicName());
+            this.logger.log(100000, "OSRPreCheckOnlineServiceSymbolicName#precheckOnlineServiceSymbolicNameResponse() symbolicName:%1, call with wrong symbolicName=%2 ignored!", (Object)this.symbolicName, (Object)oSRServiceState.getSymbolicName());
             return;
         }
         if (this.licenseCollectionService != null) {
@@ -55,12 +53,10 @@ extends AbstractOSRCommand {
     public void updateServiceList(OSRServiceState[] oSRServiceStateArray, int n) {
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 65000L;
     }
 
-    @Override
     protected Command canceled() {
         this.logger.log(10000, "OSRPreCheckOnlineServiceSymbolicName#execute(): Command was canceled!");
         this.precheckOnlineServiceSymbolicNameResponse(this.appID, null);

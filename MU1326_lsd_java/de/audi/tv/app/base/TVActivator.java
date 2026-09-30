@@ -3,19 +3,24 @@
  */
 package de.audi.tv.app.base;
 
+import de.audi.atip.interapp.def.DefaultServiceTrackerCustomizer;
+import de.audi.atip.interapp.media.IMediaService;
+import de.audi.atip.interapp.tv.ITVStateListener;
 import de.audi.tv.app.base.AbstractTVActivator;
 import de.audi.tv.app.base.EvoConfiguration;
-import de.audi.tv.app.base.TVActivator$MediaServiceTracker;
-import de.audi.tv.app.base.TVActivator$MediaTVStateTracker;
-import de.audi.tv.app.base.TVActivator$SearchDSITracker;
 import de.audi.tv.app.base.TVAppCommon;
 import de.audi.tv.app.base.TVAppEvo;
 import de.audi.tv.app.base.TVEnv;
+import de.audi.tv.app.interapp.MediaSourceActivatorWrapper;
 import de.audi.tv.app.lists.TVEvoRowFactory;
+import de.audi.tv.app.truffles.NullDSISearchDataProvider;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import org.dsi.ifc.base.DSIBase;
 import org.dsi.ifc.base.DSIListener;
+import org.dsi.ifc.search.DSISearchDataProvider;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -34,19 +39,16 @@ extends AbstractTVActivator {
     static /* synthetic */ Class class$org$dsi$ifc$search$DSISearchDataProviderListener;
     static /* synthetic */ Class class$org$dsi$ifc$base$DSIListener;
 
-    @Override
     protected void init(TVEnv tVEnv) {
         tVEnv.setRowFactory(new TVEvoRowFactory());
         tVEnv.setConfiguration(new EvoConfiguration());
         this.app = new TVAppEvo(tVEnv, this.bundleContext);
     }
 
-    @Override
     protected TVAppCommon getApp() {
         return this.app;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.registerActionProxy(18, this.app.actionProxy);
@@ -54,15 +56,14 @@ extends AbstractTVActivator {
         this.registerService((class$de$audi$atip$preset$IAppPresetDefinitionHandler == null ? (class$de$audi$atip$preset$IAppPresetDefinitionHandler = TVActivator.class$("de.audi.atip.preset.IAppPresetDefinitionHandler")) : class$de$audi$atip$preset$IAppPresetDefinitionHandler).getName(), (Object)this.app.presetHandler.definitionHandler, null);
         this.registerService((class$de$audi$atip$preset$IAppPresetExecutionHandler == null ? (class$de$audi$atip$preset$IAppPresetExecutionHandler = TVActivator.class$("de.audi.atip.preset.IAppPresetExecutionHandler")) : class$de$audi$atip$preset$IAppPresetExecutionHandler).getName(), (Object)this.app.presetHandler.executionHandler, null);
         this.registerSearchListener();
-        this.trackerMediaTVState = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$tv$ITVStateListener == null ? (class$de$audi$atip$interapp$tv$ITVStateListener = TVActivator.class$("de.audi.atip.interapp.tv.ITVStateListener")) : class$de$audi$atip$interapp$tv$ITVStateListener).getName(), (ServiceTrackerCustomizer)new TVActivator$MediaTVStateTracker(this, null));
+        this.trackerMediaTVState = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$tv$ITVStateListener == null ? (class$de$audi$atip$interapp$tv$ITVStateListener = TVActivator.class$("de.audi.atip.interapp.tv.ITVStateListener")) : class$de$audi$atip$interapp$tv$ITVStateListener).getName(), (ServiceTrackerCustomizer)new MediaTVStateTracker());
         this.trackerMediaTVState.open();
-        this.trackerSearchDSI = new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$search$DSISearchDataProvider == null ? (class$org$dsi$ifc$search$DSISearchDataProvider = TVActivator.class$("org.dsi.ifc.search.DSISearchDataProvider")) : class$org$dsi$ifc$search$DSISearchDataProvider).getName(), (ServiceTrackerCustomizer)new TVActivator$SearchDSITracker(this, null));
+        this.trackerSearchDSI = new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$search$DSISearchDataProvider == null ? (class$org$dsi$ifc$search$DSISearchDataProvider = TVActivator.class$("org.dsi.ifc.search.DSISearchDataProvider")) : class$org$dsi$ifc$search$DSISearchDataProvider).getName(), (ServiceTrackerCustomizer)new SearchDSITracker());
         this.trackerSearchDSI.open();
-        this.trackerMediaService = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$media$IMediaService == null ? (class$de$audi$atip$interapp$media$IMediaService = TVActivator.class$("de.audi.atip.interapp.media.IMediaService")) : class$de$audi$atip$interapp$media$IMediaService).getName(), (ServiceTrackerCustomizer)new TVActivator$MediaServiceTracker(this, null));
+        this.trackerMediaService = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$media$IMediaService == null ? (class$de$audi$atip$interapp$media$IMediaService = TVActivator.class$("de.audi.atip.interapp.media.IMediaService")) : class$de$audi$atip$interapp$media$IMediaService).getName(), (ServiceTrackerCustomizer)new MediaServiceTracker());
         this.trackerMediaService.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.trackerMediaTVState = this.closeTracker(this.trackerMediaTVState);
         this.trackerSearchDSI = this.closeTracker(this.trackerSearchDSI);
@@ -96,44 +97,74 @@ extends AbstractTVActivator {
         }
     }
 
-    static /* synthetic */ BundleContext access$300(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
+    private class SearchDSITracker
+    extends DefaultServiceTrackerCustomizer {
+        private SearchDSITracker() {
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            Object object = serviceReference.getProperty("DEVICE_INSTANCE");
+            Object object2 = TVActivator.this.bundleContext.getService(serviceReference);
+            if (object2 instanceof DSISearchDataProvider && object != null && ((Integer)object).intValue() == ((TVActivator)TVActivator.this).app.searchHandler.getSearchId()) {
+                TVActivator.this.env.lcMain.log(1000000, "[Activator.SearchDSITracker.addingService] %1", object2);
+                ((TVActivator)TVActivator.this).app.searchHandler.getSearchDataProvider().setDeviceService((DSIBase)object2);
+                return object2;
+            }
+            TVActivator.this.bundleContext.ungetService(serviceReference);
+            return null;
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
+            TVActivator.this.env.lcMain.log(1000000, "[Activator.SearchDSITracker.removedService] %1", object);
+            ((TVActivator)TVActivator.this).app.searchHandler.getSearchDataProvider().setDeviceService(new NullDSISearchDataProvider(TVActivator.this.env.lcTruffles));
+            TVActivator.this.bundleContext.ungetService(serviceReference);
+        }
     }
 
-    static /* synthetic */ TVAppEvo access$400(TVActivator tVActivator) {
-        return tVActivator.app;
+    private class MediaServiceTracker
+    extends DefaultServiceTrackerCustomizer {
+        private MediaServiceTracker() {
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            Object object = TVActivator.this.bundleContext.getService(serviceReference);
+            if (object instanceof IMediaService) {
+                TVActivator.this.env.lcMain.log(1000000, "[Activator.MediaServiceTracker.addingService] %1", object);
+                ((TVActivator)TVActivator.this).app.sourceActivatorAdapter.addSerivce(new MediaSourceActivatorWrapper((IMediaService)object));
+                return object;
+            }
+            TVActivator.this.bundleContext.ungetService(serviceReference);
+            return null;
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
+            TVActivator.this.env.lcMain.log(1000000, "[Activator.MediaServiceTracker.removedService] %1", object);
+            ((TVActivator)TVActivator.this).app.sourceActivatorAdapter.removeService();
+            TVActivator.this.bundleContext.ungetService(serviceReference);
+        }
     }
 
-    static /* synthetic */ BundleContext access$500(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
+    private class MediaTVStateTracker
+    extends DefaultServiceTrackerCustomizer {
+        private MediaTVStateTracker() {
+        }
 
-    static /* synthetic */ BundleContext access$600(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
+        public Object addingService(ServiceReference serviceReference) {
+            Object object = TVActivator.this.bundleContext.getService(serviceReference);
+            if (object instanceof ITVStateListener) {
+                TVActivator.this.env.lcMain.log(1000000, "[Activator.MediaTVStateTracker.addingService] %1", object);
+                ((TVActivator)TVActivator.this).app.tvStateProvider.addListener((ITVStateListener)object);
+                return object;
+            }
+            TVActivator.this.bundleContext.ungetService(serviceReference);
+            return null;
+        }
 
-    static /* synthetic */ BundleContext access$700(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$800(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$900(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$1000(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$1100(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$1200(TVActivator tVActivator) {
-        return tVActivator.bundleContext;
+        public void removedService(ServiceReference serviceReference, Object object) {
+            TVActivator.this.env.lcMain.log(1000000, "[Activator.MediaTVStateTracker.removedService] %1", object);
+            ((TVActivator)TVActivator.this).app.tvStateProvider.removeListener((ITVStateListener)object);
+            TVActivator.this.bundleContext.ungetService(serviceReference);
+        }
     }
 }
 

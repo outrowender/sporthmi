@@ -12,18 +12,18 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class FmListRow
 extends AbstractAmFmRow {
-    public static final int NUM_OF_COLS;
-    protected static final int INDEX_IMAGE;
-    private static final int INDEX_RECORD_SET;
-    private static final int INDEX_NAME_FREQ;
-    private static final int INDEX_NAME_RDS;
-    private static final int INDEX_PTY;
-    protected static final int INDEX_HD_NAME;
-    protected static final int INDEX_HD_EXTENSION;
-    private static final int INDEX_HD_ICON;
-    public static final int INDEX_IS_FAVORITE;
-    private static final int INDEX_PSFREEZE_STATUS;
-    private static final int INDEX_SEPARATOR_LINE;
+    public static final int NUM_OF_COLS = 11;
+    protected static final int INDEX_IMAGE = 0;
+    private static final int INDEX_RECORD_SET = 1;
+    private static final int INDEX_NAME_FREQ = 2;
+    private static final int INDEX_NAME_RDS = 3;
+    private static final int INDEX_PTY = 4;
+    protected static final int INDEX_HD_NAME = 5;
+    protected static final int INDEX_HD_EXTENSION = 6;
+    private static final int INDEX_HD_ICON = 7;
+    public static final int INDEX_IS_FAVORITE = 8;
+    private static final int INDEX_PSFREEZE_STATUS = 9;
+    private static final int INDEX_SEPARATOR_LINE = 10;
     protected final RecordSets recordSets;
 
     public FmListRow(int n, AMFMStation aMFMStation, RecordSets recordSets) {
@@ -45,12 +45,10 @@ extends AbstractAmFmRow {
         this.recordSets = fmListRow.recordSets;
     }
 
-    @Override
     public EvoListRow copy() {
         return new FmListRow(this);
     }
 
-    @Override
     public String getFastScrollTxt() {
         Buffer buffer = new Buffer("");
         if (Utilities.isNARBuild()) {
@@ -75,12 +73,10 @@ extends AbstractAmFmRow {
         }
     }
 
-    @Override
     public int getSeparatorLine() {
         return this.getInteger(10);
     }
 
-    @Override
     public void setSeparatorLine(int n) {
         this.setInteger(10, n);
     }
@@ -90,7 +86,6 @@ extends AbstractAmFmRow {
         this.station.ptyCode = n;
     }
 
-    @Override
     public final void setHdStatus(int n) {
         if (this.station.hd) {
             switch (n) {
@@ -112,19 +107,16 @@ extends AbstractAmFmRow {
         }
     }
 
-    @Override
     public void resetHdStatus() {
         this.station.setAudioStatus(0);
         this.setInteger(7, this.station.hd ? 1 : 0);
     }
 
-    @Override
     void psUnfreeze() {
         this.station.unfreezePs();
         this.setInteger(9, 0);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(300);
         buffer.append("{FM} ");
@@ -132,7 +124,6 @@ extends AbstractAmFmRow {
         return buffer.toString();
     }
 
-    @Override
     public void setStationActive(boolean bl) {
     }
 }

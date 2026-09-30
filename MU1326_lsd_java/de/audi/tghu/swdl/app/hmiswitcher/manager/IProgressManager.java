@@ -7,100 +7,68 @@ import org.dsi.ifc.swdlprogress.DeviceOverviewProgress;
 import org.dsi.ifc.swdlprogress.GeneralProgress;
 
 public interface IProgressManager {
-    default public void init() {
-    }
+    public void init();
 
-    default public void updateLostDevices(String[] stringArray) {
-    }
+    public void updateLostDevices(String[] var1);
 
-    default public void updateActiveDevices(String[] stringArray) {
-    }
+    public void updateActiveDevices(String[] var1);
 
-    default public void updateOverviewStatus(int n) {
-    }
+    public void updateOverviewStatus(int var1);
 
-    default public void updateGeneralProgress(GeneralProgress generalProgress) {
-    }
+    public void updateGeneralProgress(GeneralProgress var1);
 
-    default public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray) {
-    }
+    public void updateDevicesOverviewProgress(DeviceOverviewProgress[] var1);
 
-    default public void selectForDetails(String string) {
-    }
+    public void selectForDetails(String var1);
 
-    default public void updateStaticProgressDetails(int n, int n2, short s, String string) {
-    }
+    public void updateStaticProgressDetails(int var1, int var2, short var3, String var4);
 
-    default public void updateDynamicProgressDetails(String string, byte by) {
-    }
+    public void updateDynamicProgressDetails(String var1, byte var2);
 
-    default public void triggerLatestPanel() {
-    }
+    public void triggerLatestPanel();
 
-    default public void triggerPanel(int n) {
-    }
+    public void triggerPanel(int var1);
 
-    default public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) {
-    }
+    public void indicatePopUp(int var1, String var2, byte var3, int var4, int var5, String var6);
 
-    default public void indicateDismissPopUp(int n, String string) {
-    }
+    public void indicateDismissPopUp(int var1, String var2);
 
-    default public String getSelectedDevice() {
-    }
+    public String getSelectedDevice();
 
-    default public boolean swdlProgressEntered() {
-    }
+    public boolean swdlProgressEntered();
 
-    default public void swdlProgressExit() {
-    }
+    public void swdlProgressExit();
 
-    default public void swdlProgressDetailEntered() {
-    }
+    public void swdlProgressDetailEntered();
 
-    default public void swdlProgressDetailExit() {
-    }
+    public void swdlProgressDetailExit();
 
-    default public void swdlStartWaitLostDevices() {
-    }
+    public void swdlStartWaitLostDevices();
 
-    default public void swdlStopWaitLostDevices() {
-    }
+    public void swdlStopWaitLostDevices();
 
-    default public void swdlSummaryEntered() {
-    }
+    public void swdlSummaryEntered();
 
-    default public void swdlSummaryExit() {
-    }
+    public void swdlSummaryExit();
 
-    default public void abortProgress(int n) {
-    }
+    public void abortProgress(int var1);
 
-    default public void abortProgressError(int n) {
-    }
+    public void abortProgressError(int var1);
 
-    default public void abortProgressInterrupt(int n) {
-    }
+    public void abortProgressInterrupt(int var1);
 
-    default public void continueProgressInterrupt() {
-    }
+    public void continueProgressInterrupt();
 
-    default public void showPopupMainSKSetupUpdateSummaryInterruptRestart() {
-    }
+    public void showPopupMainSKSetupUpdateSummaryInterruptRestart();
 
-    default public void custDownloadLeaveProgress(int n) {
-    }
+    public void custDownloadLeaveProgress(int var1);
 
-    default public void showSummaryUota(boolean bl) {
-    }
+    public void showSummaryUota(boolean var1);
 
-    default public void switchUotaProgressState(boolean bl) {
-    }
+    public void switchUotaProgressState(boolean var1);
 
-    default public void showPopupUpdateSuccessful() {
-    }
+    public void showPopupUpdateSuccessful();
 
-    default public void versionUploadDone(boolean bl) {
-    }
+    public void versionUploadDone(boolean var1);
 }
 

@@ -22,14 +22,13 @@ extends DefaultOptionListener {
         this.models = tunerBasics.getModels();
         this.hdTagging = iDoTagging;
         this.sdarsTagging = iDoTagging2;
-        this.models.getOptionModel(8978688).setListener(this, 1753743616);
-        this.models.getOptionModel(8978688).setListener(this, 1770520832);
-        this.models.getOptionModel(8978688).setListener(this, 2005401856);
-        this.models.getOptionModel(8978688).setListener(this, 1938292992);
-        this.models.getOptionModel(8978688).setListener(this, 1921515776);
+        this.models.getOptionModel(100608).setListener(this, 100456);
+        this.models.getOptionModel(100608).setListener(this, 100457);
+        this.models.getOptionModel(100608).setListener(this, 100471);
+        this.models.getOptionModel(100608).setListener(this, 100467);
+        this.models.getOptionModel(100608).setListener(this, 100466);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
         switch (n2) {
             case 100456: 

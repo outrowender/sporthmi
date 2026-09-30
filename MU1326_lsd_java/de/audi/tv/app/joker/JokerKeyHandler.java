@@ -3,11 +3,11 @@
  */
 package de.audi.tv.app.joker;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tv.app.HardKeyListener;
 import de.audi.tv.app.audio.AudioFocusClient;
 import de.audi.tv.app.base.TVEnv;
-import de.audi.tv.app.joker.JokerKeyHandler$ButtonListener;
 
 public class JokerKeyHandler {
     private final HardKeyListener hardKeyListener;
@@ -18,19 +18,25 @@ public class JokerKeyHandler {
         this.hardKeyListener = hardKeyListener;
         this.audioFocusClient = audioFocusClient;
         this.jokerMeaning = tVEnv.getChoiceModel(395);
-        tVEnv.getButtonModel(229451520).setButtonListener(new JokerKeyHandler$ButtonListener(this, null));
+        tVEnv.getButtonModel(2600205).setButtonListener(new ButtonListener());
     }
 
-    static /* synthetic */ ChoiceModelApp access$100(JokerKeyHandler jokerKeyHandler) {
-        return jokerKeyHandler.jokerMeaning;
-    }
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
 
-    static /* synthetic */ AudioFocusClient access$200(JokerKeyHandler jokerKeyHandler) {
-        return jokerKeyHandler.audioFocusClient;
-    }
-
-    static /* synthetic */ HardKeyListener access$300(JokerKeyHandler jokerKeyHandler) {
-        return jokerKeyHandler.hardKeyListener;
+        public void keyPressed(int n, int n2, int n3) {
+            int n4 = JokerKeyHandler.this.jokerMeaning.getValue();
+            boolean bl = JokerKeyHandler.this.audioFocusClient.hasAudioFocus(0);
+            if (bl) {
+                if (n4 == 9) {
+                    JokerKeyHandler.this.hardKeyListener.simulateHkNext(n3);
+                } else if (n4 == 14) {
+                    JokerKeyHandler.this.hardKeyListener.simualteHkPrev(n3);
+                }
+            }
+        }
     }
 }
 

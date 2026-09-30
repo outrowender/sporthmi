@@ -7,6 +7,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.online.app.Online;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -26,11 +27,11 @@ public class OperatorCallHistoryStorage {
         this.writeFlag = bl;
     }
 
-    public void serialize(DataOutputStream dataOutputStream) {
+    public void serialize(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeUTF(this.name);
         dataOutputStream.writeLong(this.dateTime);
         dataOutputStream.writeInt(this.poiStorageIndex);
-        this.logChannel.log(14808325, "OperatorCallHistoryStorage#serialize: name = %1, poiStorageIndex = %2", (Object)this.name, (long)this.poiStorageIndex);
+        this.logChannel.log(100000000, "OperatorCallHistoryStorage#serialize: name = %1, poiStorageIndex = %2", (Object)this.name, (long)this.poiStorageIndex);
     }
 
     public boolean writePoisToPersistence() {

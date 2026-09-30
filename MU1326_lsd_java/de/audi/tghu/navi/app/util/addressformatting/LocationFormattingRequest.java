@@ -4,7 +4,7 @@
 package de.audi.tghu.navi.app.util.addressformatting;
 
 import de.audi.atip.interapp.IFormattingRequest;
-import de.audi.atip.interapp.NaviService$NaviDetails;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.locationaccessor.IMyLocationAccessor;
 import de.audi.atip.search.util.AbstractSearchResultFormatter;
 import de.audi.tghu.navi.app.addressinput.poi.PoiUtil;
@@ -21,16 +21,16 @@ import org.dsi.ifc.search.Token;
 
 public class LocationFormattingRequest
 implements IFormattingRequest {
-    public static final int LOCATIONTYPE_NOT_VALID;
-    public static final int LOCATIONTYPE_GEOGRAPHICAL_POSITION;
-    public static final int LOCATIONTYPE_DEFAULT;
-    public static final int LOCATIONTYPE_POI;
-    public static final int LOCATIONTYPE_WAYPOINT;
-    public static final int LOCATIONTYPE_CITY_CENTER;
-    public static final int LOCATIONTYPE_CITY_PART;
-    public static final int LOCATIONTYPE_INTERSECTION;
-    public static final int LOCATIONTYPE_POI_CALL;
-    public static final int LOCATIONTYPE_PRESSROUTE;
+    public static final int LOCATIONTYPE_NOT_VALID = -1;
+    public static final int LOCATIONTYPE_GEOGRAPHICAL_POSITION = 0;
+    public static final int LOCATIONTYPE_DEFAULT = 1;
+    public static final int LOCATIONTYPE_POI = 2;
+    public static final int LOCATIONTYPE_WAYPOINT = 3;
+    public static final int LOCATIONTYPE_CITY_CENTER = 4;
+    public static final int LOCATIONTYPE_CITY_PART = 5;
+    public static final int LOCATIONTYPE_INTERSECTION = 6;
+    public static final int LOCATIONTYPE_POI_CALL = 7;
+    public static final int LOCATIONTYPE_PRESSROUTE = 8;
     public FormattedHighlightedText country;
     public FormattedHighlightedText street;
     public FormattedHighlightedText state;
@@ -167,18 +167,18 @@ implements IFormattingRequest {
         this.poiIs24hOpen = false;
     }
 
-    public LocationFormattingRequest(NaviService$NaviDetails naviService$NaviDetails) {
-        if (naviService$NaviDetails == null) {
+    public LocationFormattingRequest(NaviService.NaviDetails naviDetails) {
+        if (naviDetails == null) {
             throw new IllegalArgumentException("NaviDetails are null!");
         }
-        this.country = new FormattedHighlightedText(naviService$NaviDetails.country);
-        this.street = new FormattedHighlightedText(naviService$NaviDetails.street);
-        this.city = new FormattedHighlightedText(naviService$NaviDetails.city);
-        this.countryAbbreviation = new FormattedHighlightedText(naviService$NaviDetails.countryAbbreviation);
-        this.state = new FormattedHighlightedText(this.getStateNameFromNaviDetails(naviService$NaviDetails));
-        this.stateAbbreviation = new FormattedHighlightedText(naviService$NaviDetails.stateAbbreviation);
-        this.cityPart = new FormattedHighlightedText(this.getCityPart(naviService$NaviDetails));
-        this.houseNumber = new FormattedHighlightedText(naviService$NaviDetails.houseNumber);
+        this.country = new FormattedHighlightedText(naviDetails.country);
+        this.street = new FormattedHighlightedText(naviDetails.street);
+        this.city = new FormattedHighlightedText(naviDetails.city);
+        this.countryAbbreviation = new FormattedHighlightedText(naviDetails.countryAbbreviation);
+        this.state = new FormattedHighlightedText(this.getStateNameFromNaviDetails(naviDetails));
+        this.stateAbbreviation = new FormattedHighlightedText(naviDetails.stateAbbreviation);
+        this.cityPart = new FormattedHighlightedText(this.getCityPart(naviDetails));
+        this.houseNumber = new FormattedHighlightedText(naviDetails.houseNumber);
         this.areaInfo = new FormattedHighlightedText();
         this.ward = new FormattedHighlightedText();
         this.district = new FormattedHighlightedText();
@@ -269,19 +269,19 @@ implements IFormattingRequest {
         return LocationFormatter.formatStreetRefinement(navLocation);
     }
 
-    private String getStateNameFromNaviDetails(NaviService$NaviDetails naviService$NaviDetails) {
+    private String getStateNameFromNaviDetails(NaviService.NaviDetails naviDetails) {
         if (Util.isHURegionJP() || Util.isHURegionKR()) {
-            return naviService$NaviDetails.provinceOrPrefecture;
+            return naviDetails.provinceOrPrefecture;
         }
-        return naviService$NaviDetails.state;
+        return naviDetails.state;
     }
 
-    private String getCityPart(NaviService$NaviDetails naviService$NaviDetails) {
+    private String getCityPart(NaviService.NaviDetails naviDetails) {
         if (Util.isHURegionJP()) {
-            return naviService$NaviDetails.placeName;
+            return naviDetails.placeName;
         }
         if (Util.isHURegionKR()) {
-            return naviService$NaviDetails.placeName;
+            return naviDetails.placeName;
         }
         return "";
     }
@@ -365,7 +365,6 @@ implements IFormattingRequest {
         return -1;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         this.appendIfNotEmpty(buffer, this.country, "country");
@@ -421,62 +420,50 @@ implements IFormattingRequest {
         this.locationType = 1;
     }
 
-    @Override
     public void setCountry(String string) {
         this.country = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setStreet(String string) {
         this.street = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setState(String string) {
         this.state = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setStateAbbreviation(String string) {
         this.stateAbbreviation = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setCity(String string) {
         this.city = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setCityPart(String string) {
         this.cityPart = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setDistrict(String string) {
         this.district = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setWard(String string) {
         this.ward = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setZip(String string) {
         this.zip = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setHouseNumber(String string) {
         this.houseNumber = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setPoiName(String string) {
         this.poiName = new FormattedHighlightedText(string);
     }
 
-    @Override
     public void setContactOrFavoriteName(String string) {
         this.contactOrFavoriteName = new FormattedHighlightedText(string);
     }

@@ -4,13 +4,12 @@
 package de.audi.tuner.app.sdars;
 
 import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerObjectContainer;
 import de.audi.tuner.app.epg.sdars.SDARSEPGHandler;
-import de.audi.tuner.app.sdars.GUIHandlerSDARS$1;
-import de.audi.tuner.app.sdars.GUIHandlerSDARS$ChoiceListener;
 import de.audi.tuner.app.sdars.SDARSSetupHandler;
 import de.audi.tuner.app.sdars.SDARSStationListHandler;
 import de.audi.tuner.app.sdars.SDARSTuner;
@@ -36,7 +35,7 @@ implements ITunerGUIHandler {
     private final SDARSSetupHandler setupHandler;
     private final SDARSStationListHandler stationListHandler;
     private final SDARSEPGHandler epgHandler;
-    private final GUIHandlerSDARS$ChoiceListener choiceListener;
+    private final ChoiceListener choiceListener;
 
     GUIHandlerSDARS(SDARSTuner sDARSTuner, TunerBasics tunerBasics, TunerStorage tunerStorage, SDARSStationListHandler sDARSStationListHandler, SDARSEPGHandler sDARSEPGHandler) {
         this.logger = tunerBasics.getLogger();
@@ -44,7 +43,7 @@ implements ITunerGUIHandler {
         tunerBasics.getStatus();
         this.sdarsTuner = sDARSTuner;
         this.epgHandler = sDARSEPGHandler;
-        this.choiceListener = new GUIHandlerSDARS$ChoiceListener(this, null);
+        this.choiceListener = new ChoiceListener();
         this.setupHandler = new SDARSSetupHandler(this.logger, tunerStorage);
         this.setupHandler.init();
         this.stationListHandler = sDARSStationListHandler;
@@ -52,28 +51,29 @@ implements ITunerGUIHandler {
     }
 
     private void initModels() {
-        this.models.getChoiceModel(981926144).setValue(0);
-        this.models.getButtonModel(1032257792).setStatus(0);
-        this.models.getChoiceModel(-410517248).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(1149763840).setChoiceListener(this.choiceListener);
-        this.models.getChoiceModel(763953408).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100154).setValue(0);
+        this.models.getButtonModel(100157).setStatus(0);
+        this.models.getChoiceModel(100583).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100420).setChoiceListener(this.choiceListener);
+        this.models.getChoiceModel(100653).setChoiceListener(this.choiceListener);
     }
 
-    @Override
     public void register(IStoreStationHandler iStoreStationHandler) {
         this.stationListHandler.register(iStoreStationHandler);
     }
 
-    @Override
     public IPowerEvent getPoPowerStateListener() {
-        return new GUIHandlerSDARS$1(this);
+        return new IPowerEvent(){
+
+            public void notifyPowerEvent(int n, int n2) {
+            }
+        };
     }
 
     public SDARSStationListHandler getSdarsListHandler() {
         return this.stationListHandler;
     }
 
-    @Override
     public IStationListHandler getStationListHandler() {
         return this.stationListHandler;
     }
@@ -82,13 +82,13 @@ implements ITunerGUIHandler {
     }
 
     public int getDisplayedStationNumber() {
-        this.logger.sdarsRadioText.log(-2137614336, "getDisplayedStationNumber activeChannelIndex: %1", (long)this.getActiveChannelIndex());
+        this.logger.sdarsRadioText.log(10000000, "getDisplayedStationNumber activeChannelIndex: %1", (long)this.getActiveChannelIndex());
         if (this.getActiveChannelIndex() >= 0 && this.getActiveChannelIndex() < this.channelNumbers.length) {
             int n = this.channelNumbers[this.activeChannelIndex];
-            this.logger.sdarsRadioText.log(-2137614336, "getDisplayedStationNumber chNumber: %1", (long)n);
+            this.logger.sdarsRadioText.log(10000000, "getDisplayedStationNumber chNumber: %1", (long)n);
             return n;
         }
-        this.logger.sdarsRadioText.log(-2137614336, "getDisplayedStationNumber index out of range");
+        this.logger.sdarsRadioText.log(10000000, "getDisplayedStationNumber index out of range");
         return -1;
     }
 
@@ -96,22 +96,18 @@ implements ITunerGUIHandler {
         return this.activeChannelIndex;
     }
 
-    @Override
     public boolean tuneById(long l, int n) {
         return this.stationListHandler.tuneById(l, n);
     }
 
-    @Override
     public TunerObjectContainer[] getStationList() {
         return this.stationListHandler.getStationList();
     }
 
-    @Override
     public TunerObjectContainer[] getStationList(int n) {
         return this.stationListHandler.getStationList();
     }
 
-    @Override
     public TunerObjectContainer getCurrentStation() {
         return this.sdarsTuner.getLabels().getActiveStation();
     }
@@ -119,9 +115,9 @@ implements ITunerGUIHandler {
     void initSetup() {
         int[] nArray = this.setupHandler.getCurrentSetup();
         if (nArray != null) {
-            this.choiceListener.itemSelected(-410517248, nArray[2], 0, 0);
-            this.models.getChoiceModel(1149763840).setValue(nArray[4]);
-            this.models.getChoiceModel(763953408).setValue(nArray[3]);
+            this.choiceListener.itemSelected(100583, nArray[2], 0, 0);
+            this.models.getChoiceModel(100420).setValue(nArray[4]);
+            this.models.getChoiceModel(100653).setValue(nArray[3]);
         }
     }
 
@@ -133,8 +129,8 @@ implements ITunerGUIHandler {
         this.chNumNameMap = new SimpleIntObjectMap(stationInfoExtArray.length);
         for (int i2 = 0; i2 < stationInfoExtArray.length; ++i2) {
             if (stationInfoExtArray[i2].stationNumber == 0) {
-                this.models.getLabelModel(965148928).setText(stationInfoExtArray[i2].fullLabel);
-                this.models.getResourceLocatorModel(1753809152).setResourceLocator(stationInfoExtArray[i2].getStationArt());
+                this.models.getLabelModel(100153).setText(stationInfoExtArray[i2].fullLabel);
+                this.models.getResourceLocatorModel(100712).setResourceLocator(stationInfoExtArray[i2].getStationArt());
                 continue;
             }
             this.chNumNameMap.add(stationInfoExtArray[i2].stationNumber, stationInfoExtArray[i2]);
@@ -157,24 +153,36 @@ implements ITunerGUIHandler {
     }
 
     public void resetToDefaultSettings() {
-        this.choiceListener.itemSelected(-410517248, 0, 0, 0);
+        this.choiceListener.itemSelected(100583, 0, 0, 0);
         this.stationListHandler.resetToDefaultSettings();
     }
 
-    static /* synthetic */ TunerModels access$100(GUIHandlerSDARS gUIHandlerSDARS) {
-        return gUIHandlerSDARS.models;
-    }
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
 
-    static /* synthetic */ SDARSStationListHandler access$200(GUIHandlerSDARS gUIHandlerSDARS) {
-        return gUIHandlerSDARS.stationListHandler;
-    }
-
-    static /* synthetic */ SDARSEPGHandler access$300(GUIHandlerSDARS gUIHandlerSDARS) {
-        return gUIHandlerSDARS.epgHandler;
-    }
-
-    static /* synthetic */ SDARSSetupHandler access$400(GUIHandlerSDARS gUIHandlerSDARS) {
-        return gUIHandlerSDARS.setupHandler;
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 100583: {
+                    GUIHandlerSDARS.this.models.getChoiceModel(n).setValue(n2);
+                    GUIHandlerSDARS.this.stationListHandler.setSortAlgo(n2);
+                    GUIHandlerSDARS.this.epgHandler.setSortAlgo(n2);
+                    GUIHandlerSDARS.this.setupHandler.valueUpdated(n2, 2);
+                    break;
+                }
+                case 100420: {
+                    GUIHandlerSDARS.this.models.getChoiceModel(n4, n).setValue(n2);
+                    GUIHandlerSDARS.this.setupHandler.valueUpdated(n2, 4);
+                    break;
+                }
+                case 100653: {
+                    GUIHandlerSDARS.this.models.getChoiceModel(n4, n).setValue(n2);
+                    GUIHandlerSDARS.this.setupHandler.valueUpdated(n2, 3);
+                    break;
+                }
+            }
+        }
     }
 }
 

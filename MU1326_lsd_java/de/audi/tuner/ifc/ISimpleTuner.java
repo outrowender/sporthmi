@@ -20,114 +20,78 @@ import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.HdStationInfo;
 
 public interface ISimpleTuner {
-    public static final int TUNER_TYPE_AMFM;
-    public static final int TUNER_TYPE_DAB;
-    public static final String STRING_EMPTY;
-    public static final String STRING_EMPTY_SPACE;
-    public static final String STRING_KHZ;
-    public static final String STRING_KHZ_LS;
-    public static final String STRING_MHZ;
-    public static final String STRING_MHZ_LS;
-    public static final String STRING_DSI_EXCEPTION;
-    public static final String STRING_STATION;
-    public static final String STRING_NO_SIGNAL;
-    public static final ResourceLocator EMPTY_DSI_RL;
-    public static final HMIResourceLocator EMPTY_RL;
-    public static final RadioHMIResourceLocator EMPTY_RADIO_RL;
-    public static final HdStationInfoExt EMPTY_HDSTATIONINFO;
+    public static final int TUNER_TYPE_AMFM = 1;
+    public static final int TUNER_TYPE_DAB = 2;
+    public static final String STRING_EMPTY = "";
+    public static final String STRING_EMPTY_SPACE = " ";
+    public static final String STRING_KHZ = "kHz";
+    public static final String STRING_KHZ_LS = " kHz";
+    public static final String STRING_MHZ = "MHz";
+    public static final String STRING_MHZ_LS = " MHz";
+    public static final String STRING_DSI_EXCEPTION = "DSIException occured!";
+    public static final String STRING_STATION = "Station";
+    public static final String STRING_NO_SIGNAL = "NoSignal";
+    public static final ResourceLocator EMPTY_DSI_RL = new ResourceLocator("");
+    public static final HMIResourceLocator EMPTY_RL = new HMIResourceLocator("");
+    public static final RadioHMIResourceLocator EMPTY_RADIO_RL = new RadioHMIResourceLocator(EMPTY_RL, 3);
+    public static final HdStationInfoExt EMPTY_HDSTATIONINFO = new HdStationInfoExt(new HdStationInfo());
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1);
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1);
 
-    default public int init() {
-    }
+    public int init();
 
-    default public void initSetup() {
-    }
+    public void initSetup();
 
-    default public void setInitDone() {
-    }
+    public void setInitDone();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void executeInitialCommands() {
-    }
+    public void executeInitialCommands();
 
-    default public boolean isDsiFound() {
-    }
+    public boolean isDsiFound();
 
-    default public ITunerGUIHandler getGUIHandler() {
-    }
+    public ITunerGUIHandler getGUIHandler();
 
-    default public void setDeviceService(DSIBase dSIBase) {
-    }
+    public void setDeviceService(DSIBase var1);
 
-    default public void seekStation(int n, int n2) {
-    }
+    public void seekStation(int var1, int var2);
 
-    default public void resetToDefaultSettings() {
-    }
+    public void resetToDefaultSettings();
 
-    default public boolean isDeviceInUse() {
-    }
+    public boolean isDeviceInUse();
 
-    default public void setComponentUsage(boolean bl) {
-    }
+    public void setComponentUsage(boolean var1);
 
-    default public void setComponentUnused() {
-    }
+    public void setComponentUnused();
 
-    default public boolean forceStationListUpdate(boolean bl) {
-    }
+    public boolean forceStationListUpdate(boolean var1);
 
-    default public void register(DSIListener dSIListener) {
-    }
+    public void register(DSIListener var1);
 
-    default public void register(ITaggingManager iTaggingManager) {
-    }
+    public void register(ITaggingManager var1);
 
-    default public void register(IGracenoteRequest iGracenoteRequest) {
-    }
+    public void register(IGracenoteRequest var1);
 
-    default public void setCmdManager(IRadioCmdManager iRadioCmdManager) {
-    }
+    public void setCmdManager(IRadioCmdManager var1);
 
-    default public IRadioCmdManager getCmdManager() {
-    }
+    public IRadioCmdManager getCmdManager();
 
-    default public void audioManagementJustBecameAvailable() {
-    }
+    public void audioManagementJustBecameAvailable();
 
-    default public void registerDsiUpDownListener(RadioInfo radioInfo) {
-    }
+    public void registerDsiUpDownListener(RadioInfo var1);
 
-    default public CmdDefaultListener getDSIUpManager() {
-    }
+    public CmdDefaultListener getDSIUpManager();
 
-    default public TunerObjectContainer[] startScan() {
-    }
+    public TunerObjectContainer[] startScan();
 
-    default public void stopScan() {
-    }
+    public void stopScan();
 
-    default public void performLanguageChange() {
-    }
+    public void performLanguageChange();
 
-    default public void reRequestCoverArt() {
-    }
+    public void reRequestCoverArt();
 
-    default public IRadioDatabaseListener getDatabaseListener() {
-    }
-
-    static {
-        EMPTY_DSI_RL = new ResourceLocator("");
-        EMPTY_RL = new HMIResourceLocator("");
-        EMPTY_RADIO_RL = new RadioHMIResourceLocator(EMPTY_RL, 3);
-        EMPTY_HDSTATIONINFO = new HdStationInfoExt(new HdStationInfo());
-    }
+    public IRadioDatabaseListener getDatabaseListener();
 }
 

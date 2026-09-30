@@ -15,18 +15,16 @@ extends MapCommand {
         this.mapFlags = mapFlagArray;
     }
 
-    @Override
     public void execute() {
         try {
             this.getMap().getMVRequest().configureFlags(0, this.mapFlags);
         }
         catch (Exception exception) {
-            this.logger.log(-1601830656, "AddMapFlagCmd#execute() - %1", (Throwable)exception);
+            this.logger.log(100000, "AddMapFlagCmd#execute() - %1", (Throwable)exception);
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void configureFlags(long[] lArray) {
         try {
             if (lArray == null || lArray.length != this.mapFlags.length) {

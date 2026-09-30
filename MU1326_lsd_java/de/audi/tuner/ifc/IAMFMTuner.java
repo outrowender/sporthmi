@@ -14,49 +14,34 @@ import de.audi.tuner.ifc.listener.IUpdateListener;
 
 public interface IAMFMTuner
 extends ISimpleTuner {
-    default public void changeWaveband(int n, TunerObjectContainer tunerObjectContainer, int n2) {
-    }
+    public void changeWaveband(int var1, TunerObjectContainer var2, int var3);
 
-    default public void tuneStation(AMFMStation aMFMStation, boolean bl, boolean bl2, int n) {
-    }
+    public void tuneStation(AMFMStation var1, boolean var2, boolean var3, int var4);
 
-    default public AMFMStation getActiveStation() {
-    }
+    public AMFMStation getActiveStation();
 
-    default public AMFMStation getStationWanted() {
-    }
+    public AMFMStation getStationWanted();
 
-    default public AMFMStation getActiveStation(int n) {
-    }
+    public AMFMStation getActiveStation(int var1);
 
-    default public void switchAF(boolean bl) {
-    }
+    public void switchAF(boolean var1);
 
-    default public void switchReg(boolean bl) {
-    }
+    public void switchReg(boolean var1);
 
-    default public void abortSeek() {
-    }
+    public void abortSeek();
 
-    default public boolean isSeekActive() {
-    }
+    public boolean isSeekActive();
 
-    default public IUpdateListener[] getUpdateListeners(IMemoryList iMemoryList) {
-    }
+    public IUpdateListener[] getUpdateListeners(IMemoryList var1);
 
-    default public void reNotification(int n) {
-    }
+    public void reNotification(int var1);
 
-    default public TunerActionProxyListener[] getActionProxyListeners() {
-    }
+    public TunerActionProxyListener[] getActionProxyListeners();
 
-    default public IDoTagging getTagging() {
-    }
+    public IDoTagging getTagging();
 
-    default public IAmFmDsiDownManager getDsiDownManager() {
-    }
+    public IAmFmDsiDownManager getDsiDownManager();
 
-    default public void switchHD(boolean bl, boolean bl2) {
-    }
+    public void switchHD(boolean var1, boolean var2);
 }
 

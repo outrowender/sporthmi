@@ -14,7 +14,6 @@ extends AbstractDabStationComparatorAndIndexer {
         super(languageManager, true);
     }
 
-    @Override
     protected String getStringUsedForIndexing(DabStation dabStation) {
         if (dabStation.isService()) {
             return dabStation.service.fullName;
@@ -22,7 +21,6 @@ extends AbstractDabStationComparatorAndIndexer {
         return null;
     }
 
-    @Override
     protected int compare(DabStation dabStation, DabStation dabStation2, Collator collator) {
         if (dabStation.service.sID == dabStation2.service.sID) {
             if (dabStation.isComponent() && dabStation2.isComponent()) {

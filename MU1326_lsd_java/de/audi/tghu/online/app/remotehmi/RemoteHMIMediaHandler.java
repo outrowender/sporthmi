@@ -13,11 +13,10 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 
 public class RemoteHMIMediaHandler
 extends AbstractRemoteHMIComponent {
-    public static final String MEDIA_TYPE_AUDIO;
-    public static final String MEDIA_TYPE_VIDEO;
+    public static final String MEDIA_TYPE_AUDIO = "audio";
+    public static final String MEDIA_TYPE_VIDEO = "video";
     private IMediaService mediaService;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
     }
@@ -45,19 +44,19 @@ extends AbstractRemoteHMIComponent {
     }
 
     public void abort() {
-        this.logChannel.log(-2137614336, "RemoteHMIMediaHandler#abort");
+        this.logChannel.log(10000000, "RemoteHMIMediaHandler#abort");
     }
 
     public void pause() {
-        this.logChannel.log(-2137614336, "RemoteHMIMediaHandler#pause");
+        this.logChannel.log(10000000, "RemoteHMIMediaHandler#pause");
     }
 
     public void resume() {
-        this.logChannel.log(-2137614336, "RemoteHMIMediaHandler#resume");
+        this.logChannel.log(10000000, "RemoteHMIMediaHandler#resume");
     }
 
     public void activateBluetooth() {
-        this.logChannel.log(-1601830656, "RemoteHMIMediaHandler#activateBluetooth: called");
+        this.logChannel.log(100000, "RemoteHMIMediaHandler#activateBluetooth: called");
         IMediaService iMediaService = this.getMediaService();
         if (iMediaService != null) {
             iMediaService.activateSource(11, 0);
@@ -68,7 +67,6 @@ extends AbstractRemoteHMIComponent {
         this.mediaService = iMediaService;
     }
 
-    @Override
     public void onExit() {
         this.abort();
     }

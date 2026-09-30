@@ -23,38 +23,33 @@ SystemTonePlayer {
         this.sessionID = n;
     }
 
-    @Override
     public void playDefault(int n) {
         this.callPlay(n, 1, "playDefault", 0);
     }
 
-    @Override
     public void abort() {
-        this.waveplayer.lc.log(-2137614336, "WavePlayerClient[%1].abort() ", (long)this.sessionID);
+        this.waveplayer.lc.log(10000000, "WavePlayerClient[%1].abort() ", (long)this.sessionID);
         this.request = 2;
         this.lastToneId = 0;
         this.waveplayer.abort(this);
     }
 
-    @Override
     public void setListener(WavePlayerListener wavePlayerListener) {
-        this.waveplayer.lc.log(-2137614336, "WavePlayerClient[%2].setListener( %1 )", (Object)wavePlayerListener, (long)this.sessionID);
+        this.waveplayer.lc.log(10000000, "WavePlayerClient[%2].setListener( %1 )", (Object)wavePlayerListener, (long)this.sessionID);
         if (wavePlayerListener != null) {
             this.listener = wavePlayerListener;
             this.waveplayer.addListener(wavePlayerListener);
         }
     }
 
-    @Override
     public void removeListener(WavePlayerListener wavePlayerListener) {
-        this.waveplayer.lc.log(-2137614336, "WavePlayerClient[%2].removeListener( %1 )", (Object)wavePlayerListener, (long)this.sessionID);
+        this.waveplayer.lc.log(10000000, "WavePlayerClient[%2].removeListener( %1 )", (Object)wavePlayerListener, (long)this.sessionID);
         if (wavePlayerListener != null) {
             this.listener = null;
             this.waveplayer.removeListener(wavePlayerListener);
         }
     }
 
-    @Override
     public void playTone(int n, int n2) {
         this.callPlay(n, 0, "play", n2);
     }
@@ -72,11 +67,11 @@ SystemTonePlayer {
     }
 
     public String toString() {
-        return new StringBuffer().append("WavePlayerClient-").append(this.sessionID).toString();
+        return "WavePlayerClient-" + this.sessionID;
     }
 
     private void callPlay(int n, int n2, String string, int n3) {
-        this.waveplayer.lc.log(-2137614336, "WavePlayerClient[%2].%1( %3 ) ", (Object)string, (long)this.sessionID, (long)n);
+        this.waveplayer.lc.log(10000000, "WavePlayerClient[%2].%1( %3 ) ", (Object)string, (long)this.sessionID, (long)n);
         this.requestedTone = n2;
         this.lastToneId = n3;
         switch (n) {

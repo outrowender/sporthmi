@@ -15,19 +15,16 @@ implements IStoreStationHandler {
         super(logChannel, "IStoreStationHandler");
     }
 
-    @Override
     public boolean prepareStore(int n, TunerObjectContainer tunerObjectContainer) {
         this.log("prepareStore");
         return false;
     }
 
-    @Override
     public int toggleStore(TunerObjectContainer tunerObjectContainer) {
         this.log("toggleStore");
         return 0;
     }
 
-    @Override
     public boolean isStored(TunerObjectContainer tunerObjectContainer) {
         this.log("isStored");
         return false;

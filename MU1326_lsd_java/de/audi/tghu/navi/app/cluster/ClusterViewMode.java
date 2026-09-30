@@ -12,10 +12,10 @@ import de.audi.tghu.navi.app.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class ClusterViewMode {
-    public static final int VIEWMODE_COMPASS;
-    public static final int VIEWMODE_RGI;
-    public static final int VIEWMODE_KDK;
-    public static final int VIEWMODE_MAP;
+    public static final int VIEWMODE_COMPASS = 0;
+    public static final int VIEWMODE_RGI = 1;
+    public static final int VIEWMODE_KDK = 2;
+    public static final int VIEWMODE_MAP = 3;
     private final NavigationEnv env;
     private LogChannel logChannel;
     private ClusterService clusterService;
@@ -52,7 +52,7 @@ public class ClusterViewMode {
     }
 
     public void setCombiService(CombiService combiService) {
-        this.logChannel.log(-2137614336, "ClusterViewMode#setCombiService( %1 )", (Object)combiService);
+        this.logChannel.log(10000000, "ClusterViewMode#setCombiService( %1 )", (Object)combiService);
         this.combiService = combiService;
         this.refreshRGState();
     }
@@ -64,11 +64,11 @@ public class ClusterViewMode {
         ClusterViewMode clusterViewMode = this;
         synchronized (clusterViewMode) {
             if (this.combiService != null) {
-                this.logChannel.log(-2137614336, "ClusterViewMode#refreshRGState()");
+                this.logChannel.log(10000000, "ClusterViewMode#refreshRGState()");
                 boolean bl = this.env.getContainer().isRgActive();
                 this.combiService.updateRGState(bl ? 6 : 1);
             } else {
-                this.logChannel.log(-1601830656, "ClusterViewMode#refreshRGState() - combiService not available!");
+                this.logChannel.log(100000, "ClusterViewMode#refreshRGState() - combiService not available!");
             }
             this.refreshViewMode();
         }
@@ -82,7 +82,7 @@ public class ClusterViewMode {
         synchronized (clusterViewMode) {
             this.favoredViewModeReceived = true;
             if (this.favoredViewMode != n) {
-                this.logChannel.log(-2137614336, "ClusterViewMode#setFavoredViewMode( %1 )", (Object)ClusterViewMode.viewModeToString(n));
+                this.logChannel.log(10000000, "ClusterViewMode#setFavoredViewMode( %1 )", (Object)ClusterViewMode.viewModeToString(n));
                 this.favoredViewMode = n;
             }
             this.refreshViewMode();
@@ -177,149 +177,149 @@ public class ClusterViewMode {
             return;
         }
         int n = this.viewMode.getValue();
-        this.logChannel.log(-2137614336, "ClusterViewMode#refreshViewMode() - current: %1, favored: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(this.favoredViewMode));
+        this.logChannel.log(10000000, "ClusterViewMode#refreshViewMode() - current: %1, favored: %2", (Object)ClusterViewMode.viewModeToString(n), (Object)ClusterViewMode.viewModeToString(this.favoredViewMode));
         if (this.favoredViewMode == 0) {
-            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to COMPASS");
+            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to COMPASS");
             this.viewMode.setValue(0);
         } else {
             switch (n) {
                 case 1: {
                     if (this.favoredViewMode == 1) {
                         if (!this.rgiValid) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - RGI not longer valid!");
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - RGI not longer valid!");
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - stay in RGI");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - stay in RGI");
                         break;
                     }
                     if (this.favoredViewMode == 2) {
                         if (this.isKDKReady()) {
-                            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to KDK");
+                            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to KDK");
                             this.viewMode.setValue(2);
                             break;
                         }
                         if (!this.rgiValid) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - RGI not longer valid!");
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - RGI not longer valid!");
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - KDK not ready, stay in RGI");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - KDK not ready, stay in RGI");
                         break;
                     }
                     if (this.favoredViewMode == 3) {
                         if (this.isMapReady()) {
-                            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to MAP");
+                            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to MAP");
                             this.viewMode.setValue(3);
                             break;
                         }
                         if (!this.rgiValid) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - RGI not longer valid!");
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - RGI not longer valid!");
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - MAP not ready, stay in RGI");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - MAP not ready, stay in RGI");
                         break;
                     }
-                    this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - favoredViewMode: %1 not valid!", (long)this.favoredViewMode);
+                    this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - favoredViewMode: %1 not valid!", (long)this.favoredViewMode);
                     break;
                 }
                 case 2: {
                     if (this.favoredViewMode == 0) {
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to COMPASS");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to COMPASS");
                         this.viewMode.setValue(0);
                         break;
                     }
                     if (this.favoredViewMode == 1) {
                         if (this.rgiValid) {
-                            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to RGI");
+                            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to RGI");
                             this.viewMode.setValue(1);
                             break;
                         }
                         if (!this.isKDKReady()) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - RGI not ready, stay in MOST_KDK");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - RGI not ready, stay in MOST_KDK");
                         break;
                     }
                     if (this.favoredViewMode == 2) {
                         if (!this.isKDKReady()) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - stay in KDK");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - stay in KDK");
                         break;
                     }
                     if (this.favoredViewMode == 3) {
                         if (this.isMapReady()) {
-                            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to MAP");
+                            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to MAP");
                             this.viewMode.setValue(3);
                             break;
                         }
-                        this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - MAP not longer valid!");
+                        this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - MAP not longer valid!");
                         this.viewMode.setValue(0);
                         break;
                     }
-                    this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - favoredViewMode: %1 not valid!", (long)this.favoredViewMode);
+                    this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - favoredViewMode: %1 not valid!", (long)this.favoredViewMode);
                     break;
                 }
                 case 3: {
                     if (this.favoredViewMode == 1) {
                         if (this.rgiValid) {
-                            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to RGI");
+                            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to RGI");
                             this.viewMode.setValue(1);
                             break;
                         }
                         if (!this.isKDKReady()) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - RGI not ready, stay in MAP");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - RGI not ready, stay in MAP");
                         break;
                     }
                     if (this.favoredViewMode == 2) {
                         if (this.isKDKReady()) {
-                            this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to KDK");
+                            this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to KDK");
                             this.viewMode.setValue(2);
                             break;
                         }
-                        this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
+                        this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - KDK not longer valid!");
                         this.viewMode.setValue(0);
                         break;
                     }
                     if (this.favoredViewMode == 3) {
                         if (!this.isMapReady()) {
-                            this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - MOST not longer valid or map not ready! - gfxAvailable: %1, mapReady: %2, komoViewEnabled: %3", this.gfxAvailable, this.mapReady, this.komoViewEnabled);
+                            this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - MOST not longer valid or map not ready! - gfxAvailable: %1, mapReady: %2, komoViewEnabled: %3", this.gfxAvailable, this.mapReady, this.komoViewEnabled);
                             this.viewMode.setValue(0);
                             break;
                         }
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - stay in MAP");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - stay in MAP");
                         break;
                     }
-                    this.logChannel.log(-1601830656, "ClusterViewMode#refreshViewMode() - favoredViewMode: %1 not valid!", (long)this.favoredViewMode);
+                    this.logChannel.log(100000, "ClusterViewMode#refreshViewMode() - favoredViewMode: %1 not valid!", (long)this.favoredViewMode);
                     break;
                 }
                 default: {
                     if (this.favoredViewMode == 1 && this.rgiValid) {
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to RGI");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to RGI");
                         this.viewMode.setValue(1);
                         break;
                     }
                     if (this.favoredViewMode == 2 && this.isKDKReady()) {
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to KDK");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to KDK");
                         this.viewMode.setValue(2);
                         break;
                     }
                     if (this.favoredViewMode == 3 && this.isMapReady()) {
-                        this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - switch to MAP");
+                        this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - switch to MAP");
                         this.viewMode.setValue(3);
                         break;
                     }
-                    this.logChannel.log(1078071040, "ClusterViewMode#refreshViewMode() - stay in COMPASS!");
+                    this.logChannel.log(1000000, "ClusterViewMode#refreshViewMode() - stay in COMPASS!");
                     this.viewMode.setValue(0);
                 }
             }
@@ -343,7 +343,7 @@ public class ClusterViewMode {
     }
 
     protected void fadeOutFinished() {
-        this.logChannel.log(1078071040, "ClusterViewMode#fadeOutFinished()");
+        this.logChannel.log(1000000, "ClusterViewMode#fadeOutFinished()");
     }
 
     private void refreshDisplayContext() {
@@ -433,7 +433,7 @@ public class ClusterViewMode {
             buffer.append(this.komoViewVisible ? "" : "komoViewVisible ");
             buffer.append(this.env.getContainer().isRgActive() ? "" : "isRgActive ");
             buffer.append(!Util.isClusterMapMOST(this.env.getFramework()) || this.gfxAvailable ? "" : "gfxAvailable");
-            this.logChannel.log(1078071040, "ClusterViewMode#isKDKReady() - KDK is not ready because of: %1", (Object)buffer);
+            this.logChannel.log(1000000, "ClusterViewMode#isKDKReady() - KDK is not ready because of: %1", (Object)buffer);
         }
         return bl;
     }
@@ -447,7 +447,7 @@ public class ClusterViewMode {
             Buffer buffer = new Buffer(30);
             buffer.append(this.mapReady ? "" : "mapReady ");
             buffer.append(!Util.isClusterMapMOST(this.env.getFramework()) || this.gfxAvailable ? "" : "gfxAvailable");
-            this.logChannel.log(1078071040, "ClusterViewMode#isMapReady() - Map is not ready because of: %1", (Object)buffer);
+            this.logChannel.log(1000000, "ClusterViewMode#isMapReady() - Map is not ready because of: %1", (Object)buffer);
         }
         return bl;
     }

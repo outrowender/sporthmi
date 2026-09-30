@@ -20,47 +20,38 @@ extends NullGUI {
         this.layoutProvider = new LayoutProviderG22Kombi(navigationEnv, n);
     }
 
-    @Override
     public AbstractLayoutProvider getLayout() {
         return this.layoutProvider;
     }
 
-    @Override
     public void setMagnification(int n) {
         this.naviMap.getNaviInterface().getClusterService().onMagnificationChanged(n);
     }
 
-    @Override
     public void setSideBarRotaryIcon(int n) {
         this.naviMap.getNaviInterface().getClusterService().onAutoZoomStateChanged(n == 3);
     }
 
-    @Override
     public boolean setPinchZoomLimits(int n, int n2) {
         return false;
     }
 
-    @Override
     public void setMagnificationLimits(int n, int n2, int n3) {
         this.naviMap.getNaviInterface().getClusterService().onMagnificationChanged(n3);
     }
 
-    @Override
     public int getScreenWidth() {
         return this.layoutProvider.getScreenWidth();
     }
 
-    @Override
     public int getScreenHeight() {
         return this.layoutProvider.getScreenHeight();
     }
 
-    @Override
     public int getMapWidth() {
         return this.layoutProvider.getMapWidth();
     }
 
-    @Override
     public int getMapHeight() {
         return this.layoutProvider.getMapHeight();
     }

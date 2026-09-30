@@ -9,22 +9,16 @@ import de.audi.tghu.navi.app.addressinput.poi.IPoiSpellerModelAccess;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceToDestinationSequence;
 
 public interface IPoiExtendedInputSequence {
-    default public CommandList createStartCategoriesOrResultsSequence(IPoiCategoriesOrResultsModelAccess iPoiCategoriesOrResultsModelAccess) {
-    }
+    public CommandList createStartCategoriesOrResultsSequence(IPoiCategoriesOrResultsModelAccess var1);
 
-    default public CommandList createStartResultsSequence(IPoiSpellerModelAccess iPoiSpellerModelAccess, int n) {
-    }
+    public CommandList createStartResultsSequence(IPoiSpellerModelAccess var1, int var2);
 
-    default public CommandList createStartSubstringSearch(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public CommandList createStartSubstringSearch(IPoiSpellerModelAccess var1);
 
-    default public CommandList createStartBrands(IPoiSpellerModelAccess iPoiSpellerModelAccess) {
-    }
+    public CommandList createStartBrands(IPoiSpellerModelAccess var1);
 
-    default public CommandList createStartGuidance(IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
-    }
+    public CommandList createStartGuidance(IStartGuidanceToDestinationSequence var1);
 
-    default public CommandList createStartParentChild(IPoiSpellerModelAccess iPoiSpellerModelAccess, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence) {
-    }
+    public CommandList createStartParentChild(IPoiSpellerModelAccess var1, IStartGuidanceToDestinationSequence var2);
 }
 

@@ -10,10 +10,8 @@ import de.audi.tghu.navi.app.map.MapManager;
 import de.audi.tghu.navi.app.map.gui.GUIEventDispatcher;
 
 public interface IGUIFactory {
-    default public GUIEventDispatcher createGUIEventDispatcher(NavigationEnv navigationEnv, MapManager mapManager) {
-    }
+    public GUIEventDispatcher createGUIEventDispatcher(NavigationEnv var1, MapManager var2);
 
-    default public GUIInterface createGUIMain(NavigationEnv navigationEnv, AbstractMap abstractMap) {
-    }
+    public GUIInterface createGUIMain(NavigationEnv var1, AbstractMap var2);
 }
 

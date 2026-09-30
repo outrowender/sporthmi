@@ -14,10 +14,9 @@ extends DefaultGreyOutAndPopupHandler {
         super(choiceModelApp, nArray, logChannel, string);
     }
 
-    @Override
     protected void updateGreyOutState() {
         int n = this.getpopupTriggerModelValueForAnnouncement(this.activeConnection);
-        this.log.log(-2137614336, "[VolumeRangeManagerGreyOutHandler.updateGreyOutState]popupModelValue: %1 ", (long)n);
+        this.log.log(10000000, "[VolumeRangeManagerGreyOutHandler.updateGreyOutState]popupModelValue: %1 ", (long)n);
         this.popupTriggerModel.setValue(n);
     }
 

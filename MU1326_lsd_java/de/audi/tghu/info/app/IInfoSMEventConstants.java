@@ -7,6 +7,6 @@ import de.audi.atip.variant.IIDMapper;
 
 public interface IInfoSMEventConstants
 extends IIDMapper {
-    public static final int INFO_READ_OUT_FINISHED;
+    public static final int INFO_READ_OUT_FINISHED = 1;
 }
 

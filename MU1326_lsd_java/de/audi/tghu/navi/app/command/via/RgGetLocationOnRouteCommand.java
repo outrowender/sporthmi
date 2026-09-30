@@ -15,15 +15,13 @@ extends NavCommand {
         this.lDistance = l;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RgGetLocationOnRouteCommand#execute() - calling rgGetLocationOnRoute( %1 ) ", this.lDistance);
+        this.logger.log(10000000, "RgGetLocationOnRouteCommand#execute() - calling rgGetLocationOnRoute( %1 ) ", this.lDistance);
         this.getDSINavigation().rgGetLocationOnRoute(this.lDistance);
     }
 
-    @Override
     public void rgGetLocationOnRouteResult(NavLocation navLocation) {
-        this.logger.log(-2137614336, "RgGetLocationOnRouteCommand#rgGetLocationOnRouteResult() - %1 ", (Object)navLocation);
+        this.logger.log(10000000, "RgGetLocationOnRouteCommand#rgGetLocationOnRouteResult() - %1 ", (Object)navLocation);
         this.getCommandList().commandFinished();
     }
 }

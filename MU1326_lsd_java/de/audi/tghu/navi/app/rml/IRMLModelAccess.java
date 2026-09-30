@@ -10,41 +10,30 @@ import org.dsi.ifc.navigation.RgInfoForNextDestination;
 import org.dsi.ifc.navigation.Route;
 
 public interface IRMLModelAccess {
-    public static final int SCROLL_DIRECTION_UP;
-    public static final int SCROLL_DIRECTION_DOWN;
-    public static final int SCROLL_DIRECTION_NO_DIRECTION;
+    public static final int SCROLL_DIRECTION_UP = 0;
+    public static final int SCROLL_DIRECTION_DOWN = 1;
+    public static final int SCROLL_DIRECTION_NO_DIRECTION = 2;
 
-    default public void onUpdateList(long l, CombinedRouteListElement[] combinedRouteListElementArray, int n, long l2, Route route) {
-    }
+    public void onUpdateList(long var1, CombinedRouteListElement[] var3, int var4, long var5, Route var7);
 
-    default public void onStart() {
-    }
+    public void onStart();
 
-    default public void updateInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
-    }
+    public void updateInfoForNextDestination(RgInfoForNextDestination var1);
 
-    default public void onUpdateListLength(long l) {
-    }
+    public void onUpdateListLength(long var1);
 
-    default public void onStop() {
-    }
+    public void onStop();
 
-    default public void onDetailsSelected() {
-    }
+    public void onDetailsSelected();
 
-    default public void onCountryInfoSelected() {
-    }
+    public void onCountryInfoSelected();
 
-    default public void onTrafficInfoSelected() {
-    }
+    public void onTrafficInfoSelected();
 
-    default public void onNoDetailsSelected() {
-    }
+    public void onNoDetailsSelected();
 
-    default public void onElementFocused(NavRectangle navRectangle, CombinedRouteListElement combinedRouteListElement) {
-    }
+    public void onElementFocused(NavRectangle var1, CombinedRouteListElement var2);
 
-    default public void onPoiFocused(NavLocation navLocation, CombinedRouteListElement combinedRouteListElement) {
-    }
+    public void onPoiFocused(NavLocation var1, CombinedRouteListElement var2);
 }
 

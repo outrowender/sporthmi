@@ -8,13 +8,9 @@ import de.audi.atip.interapp.tts.TTSSessionBasedService;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.tghu.online.app.Online;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
-import de.audi.tghu.online.app.remotehmi.sds.HMISpeechTTSListener$1;
-import de.audi.tghu.online.app.remotehmi.sds.HMISpeechTTSListener$2;
-import de.audi.tghu.online.app.remotehmi.sds.HMISpeechTTSListener$3;
-import de.audi.tghu.online.app.remotehmi.sds.HMISpeechTTSListener$4;
-import de.audi.tghu.online.app.remotehmi.sds.HMISpeechTTSListener$ISpeechCallbackListener;
 import de.audi.tghu.tts.TTSStringUtil;
 
 public class HMISpeechTTSListener
@@ -23,19 +19,43 @@ implements TTSListener {
     private TTSSessionBasedService ttsService = null;
     private String lastTtsString = null;
     private boolean sessionRunning = false;
-    private HMISpeechTTSListener$ISpeechCallbackListener listener;
+    private ISpeechCallbackListener listener;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
         this.logChannel = Online.getInstance().getLogChannelRemoteHMISpeech();
-        remoteHMIService.addCommandHandler(802, new HMISpeechTTSListener$1(this, "trigger-tts-start"));
-        remoteHMIService.addCommandHandler(801, new HMISpeechTTSListener$2(this, "trigger-tts-stop"));
-        remoteHMIService.addCommandHandler(803, new HMISpeechTTSListener$3(this, "trigger-tts-pause"));
-        remoteHMIService.addCommandHandler(804, new HMISpeechTTSListener$4(this, "trigger-tts-resume"));
+        remoteHMIService.addCommandHandler(802, new AbstractCommandHandler("trigger-tts-start"){
+
+            public void indicateCommand(int n, Object object) {
+                boolean bl = false;
+                if (object == null || object.equals("")) {
+                    bl = true;
+                }
+                String string = object.toString();
+                HMISpeechTTSListener.this.startTts(string, bl, true);
+            }
+        });
+        remoteHMIService.addCommandHandler(801, new AbstractCommandHandler("trigger-tts-stop"){
+
+            public void indicateCommand(int n, Object object) {
+                HMISpeechTTSListener.this.abort();
+            }
+        });
+        remoteHMIService.addCommandHandler(803, new AbstractCommandHandler("trigger-tts-pause"){
+
+            public void indicateCommand(int n, Object object) {
+                HMISpeechTTSListener.this.pause();
+            }
+        });
+        remoteHMIService.addCommandHandler(804, new AbstractCommandHandler("trigger-tts-resume"){
+
+            public void indicateCommand(int n, Object object) {
+                HMISpeechTTSListener.this.resume();
+            }
+        });
     }
 
-    public void setHmiCallbackListener(HMISpeechTTSListener$ISpeechCallbackListener iSpeechCallbackListener) {
+    public void setHmiCallbackListener(ISpeechCallbackListener iSpeechCallbackListener) {
         this.listener = iSpeechCallbackListener;
     }
 
@@ -44,32 +64,32 @@ implements TTSListener {
     }
 
     public void startTts(String string, boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#startTtS string.length %1 stop:%2", (Object)(string != null ? new Integer(string.length()) : new Integer(0)), (Object)Boolean.toString(bl));
+        this.logChannel.log(1000000, "HMISpeechTTSListener#startTtS string.length %1 stop:%2", (Object)(string != null ? new Integer(string.length()) : new Integer(0)), (Object)Boolean.toString(bl));
         if (this.getFrameworkAccess().isSimulator()) {
-            System.err.println(new StringBuffer().append("HMISpeechTTSListener#startTtS: ").append(string).toString());
+            System.err.println("HMISpeechTTSListener#startTtS: " + string);
         }
         if (this.ttsService == null) {
             this.logChannel.log(10000, "HMISpeechTTSListener#startTts: TTS service is null!");
             return;
         }
         if (!bl2 && this.lastTtsString != null && string != null && string.equals(this.lastTtsString) && !bl) {
-            this.logChannel.log(-2137614336, "HMISpeechTTSListener#startTts: not resetting, because strings are equal and not reinit");
+            this.logChannel.log(10000000, "HMISpeechTTSListener#startTts: not resetting, because strings are equal and not reinit");
             return;
         }
         if (bl) {
-            this.logChannel.log(1078071040, "HMISpeechTTSListener#startTts: abort speaking");
+            this.logChannel.log(1000000, "HMISpeechTTSListener#startTts: abort speaking");
             this.abort();
             this.lastTtsString = null;
         } else if (string != null && string.length() > 0) {
             String string2 = this.prepareString(string);
-            this.logChannel.log(1078071040, "HMISpeechTTSListener#startTts: starting phrase \"%1\"", (Object)string2);
+            this.logChannel.log(1000000, "HMISpeechTTSListener#startTts: starting phrase \"%1\"", (Object)string2);
             this.lastTtsString = string2;
             if (this.sessionRunning) {
-                this.logChannel.log(1078071040, "HMISpeechTTSListener#startTts: session running, starting phrase \"%1\"", (Object)string2);
+                this.logChannel.log(1000000, "HMISpeechTTSListener#startTts: session running, starting phrase \"%1\"", (Object)string2);
                 this.ttsService.abortSpeaking();
                 this.ttsService.speak(string2);
             } else {
-                this.logChannel.log(1078071040, "HMISpeechTTSListener#startTts: session closed, starting phrase \"%1\"", (Object)string2);
+                this.logChannel.log(1000000, "HMISpeechTTSListener#startTts: session closed, starting phrase \"%1\"", (Object)string2);
                 this.ttsService.startSession();
             }
         }
@@ -108,34 +128,31 @@ implements TTSListener {
 
     public void abort() {
         if (this.ttsService != null) {
-            this.logChannel.log(1078071040, "HMISpeechTTSListener#abort: aborting TTS");
+            this.logChannel.log(1000000, "HMISpeechTTSListener#abort: aborting TTS");
             try {
                 this.ttsService.stopSession();
             }
             catch (Exception exception) {
-                this.logChannel.log(-1601830656, "HMISpeechTTSListener#abort: error during abort %1", (Throwable)exception);
+                this.logChannel.log(100000, "HMISpeechTTSListener#abort: error during abort %1", (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void sessionStarted() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#sessionStarted");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#sessionStarted");
         this.sessionRunning = true;
         this.ttsService.speak(this.lastTtsString);
         this.informListenerSessionStarted();
     }
 
-    @Override
     public void sessionStopped() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#sessionStopped");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#sessionStopped");
         this.sessionRunning = false;
         this.informListenerSessionStopped();
     }
 
-    @Override
     public void speakingFinished() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#speakingFinished");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#speakingFinished");
         this.lastTtsString = null;
         this.ttsService.stopSession();
         this.informListenerSessionFinished();
@@ -143,33 +160,29 @@ implements TTSListener {
         this.remoteHmiService.invokeAction(remoteHMIAction);
     }
 
-    @Override
     public void speakingAborted() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#speakingAborted");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#speakingAborted");
         this.informListenerSessionStopped();
         RemoteHMIAction remoteHMIAction = this.getAction(911);
         this.remoteHmiService.invokeAction(remoteHMIAction);
     }
 
-    @Override
     public void sessionPaused() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#sessionPaused");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#sessionPaused");
         this.ttsService.abortSpeaking();
         this.informListenerSessionStopped();
     }
 
-    @Override
     public void sessionResumed() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#sessionResumed");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#sessionResumed");
         if (this.lastTtsString != null && this.ttsService != null) {
-            this.logChannel.log(1078071040, "HMISpeechTTSListener#resumeSpeakingPossible re-starting phrase \"%1\"", (Object)this.lastTtsString);
+            this.logChannel.log(1000000, "HMISpeechTTSListener#resumeSpeakingPossible re-starting phrase \"%1\"", (Object)this.lastTtsString);
             this.ttsService.speak(this.lastTtsString);
         }
     }
 
-    @Override
     public void speakingFailed() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#speakingFailed");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#speakingFailed");
         this.lastTtsString = null;
         this.abort();
     }
@@ -192,27 +205,31 @@ implements TTSListener {
         }
     }
 
-    @Override
     public void speakingPaused() {
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#audioAvailable %1", bl);
+        this.logChannel.log(1000000, "HMISpeechTTSListener#audioAvailable %1", bl);
     }
 
-    @Override
     public void speakingStarted() {
-        this.logChannel.log(1078071040, "HMISpeechTTSListener#speakingStarted");
+        this.logChannel.log(1000000, "HMISpeechTTSListener#speakingStarted");
     }
 
     protected RemoteHMIAction getAction(int n) {
         return this.remoteHmiService.getAction(n);
     }
 
-    @Override
     public void onExit() {
         this.abort();
+    }
+
+    public static interface ISpeechCallbackListener {
+        public void stopped();
+
+        public void finished();
+
+        public void started();
     }
 }
 

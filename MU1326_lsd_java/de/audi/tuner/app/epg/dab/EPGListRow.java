@@ -12,13 +12,13 @@ import de.audi.tuner.app.epg.dab.EPGShortInfoExt;
 public class EPGListRow
 extends EvoListRow
 implements IContainsDabStation {
-    protected static final int INDEX_RS;
-    protected static final int INDEX_SERVICE_NAME;
-    protected static final int INDEX_START_TIME;
-    protected static final int INDEX_PROGRAM_INFO;
-    public static final int NUM_COLUMNS;
-    protected static final int LLD_STATIONNAME;
-    static final int LLD_NOW_NEXT_INFO;
+    protected static final int INDEX_RS = 0;
+    protected static final int INDEX_SERVICE_NAME = 1;
+    protected static final int INDEX_START_TIME = 2;
+    protected static final int INDEX_PROGRAM_INFO = 3;
+    public static final int NUM_COLUMNS = 4;
+    protected static final int LLD_STATIONNAME = 0;
+    static final int LLD_NOW_NEXT_INFO = 1;
     protected final EPGShortInfoExt shortInfo;
 
     protected EPGListRow(EPGShortInfoExt ePGShortInfoExt, long l, int n) {
@@ -38,7 +38,6 @@ implements IContainsDabStation {
         return this.shortInfo.getDabStation().getFullName();
     }
 
-    @Override
     public DabStation getDabStation() {
         return this.shortInfo.getDabStation();
     }

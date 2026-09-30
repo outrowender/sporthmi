@@ -15,14 +15,12 @@ extends NavCommand {
         this.lastState = lIStateHistoryEntry;
     }
 
-    @Override
     public void execute() {
         this.getDSINavigation().liGetLastStateHistoryEntry(this.lastState.getId());
     }
 
-    @Override
     public void liGetLastStateHistoryEntryResult(NavLocation navLocation, boolean bl) {
-        this.logger.log(-2137614336, "GetLastStateHistoryEntryCommand#liGetLastStateHistoryEntryResult(%1, %2)", (Object)navLocation, (Object)Boolean.toString(bl));
+        this.logger.log(10000000, "GetLastStateHistoryEntryCommand#liGetLastStateHistoryEntryResult(%1, %2)", (Object)navLocation, (Object)Boolean.toString(bl));
         if (navLocation != null) {
             this.getCommandList().put("NavLocation from History", navLocation);
         }

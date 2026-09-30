@@ -4,7 +4,6 @@
 package de.audi.tghu.exlap;
 
 import de.audi.tghu.exlap.Container;
-import de.audi.tghu.exlap.ExlapAbstractService$1;
 import de.audi.tghu.exlap.ExlapListener;
 import de.audi.tghu.exlap.ExlapService;
 import de.audi.tghu.exlap.ListenerIterator;
@@ -18,9 +17,12 @@ import java.util.Map;
 public abstract class ExlapAbstractService
 implements ExlapService {
     private final Map attributetoListMap = new HashMap();
-    private ResultReceiver resultReceiver = new ExlapAbstractService$1(this);
+    private ResultReceiver resultReceiver = new ResultReceiver(){
 
-    @Override
+        public void actionResult(int n, int n2, Container container) {
+        }
+    };
+
     public void addListener(int n, ExlapListener exlapListener) {
         List list = this.getListForAttribute(n);
         if (!list.contains(exlapListener)) {
@@ -28,14 +30,12 @@ implements ExlapService {
         }
     }
 
-    @Override
     public void addListener(int[] nArray, ExlapListener exlapListener) {
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             this.addListener(nArray[i2], exlapListener);
         }
     }
 
-    @Override
     public void removeListener(int[] nArray, ExlapListener exlapListener) {
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             this.removeListener(nArray[i2], exlapListener);
@@ -52,7 +52,6 @@ implements ExlapService {
         return list;
     }
 
-    @Override
     public void removeListener(int n, ExlapListener exlapListener) {
         List list = this.getListForAttribute(n);
         if (list.contains(exlapListener)) {
@@ -72,12 +71,10 @@ implements ExlapService {
         this.resultReceiver.actionResult(n, n2, container);
     }
 
-    @Override
     public void setResultReceiver(ResultReceiver resultReceiver) {
         this.resultReceiver = resultReceiver;
     }
 
-    @Override
     public void init() {
     }
 }

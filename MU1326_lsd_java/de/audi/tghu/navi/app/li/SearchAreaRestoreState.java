@@ -27,22 +27,19 @@ implements IAdditionalStateInfo {
         this.poiManager = iShowHideResetSearchArea;
     }
 
-    @Override
     public void gatherInfo() {
         NavLocation navLocation = this.searchArea.getLocation();
         int n = this.searchArea.getSearchContext();
-        this.logChannel.log(-2137614336, "SearchAreaRestoreState#gatherInfo - storing current search area; value=%1, location = %2", (Object)new StringBuffer().append(n).append("").toString(), (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "SearchAreaRestoreState#gatherInfo - storing current search area; value=%1, location = %2", (Object)(n + ""), (Object)LocationFormatter.formatLocationShort(navLocation));
         this.previousSearchArea = n;
         this.previousSearchLocation = navLocation;
     }
 
-    @Override
     public void restoreBefore() {
     }
 
-    @Override
     public void restoreAfter() {
-        this.logChannel.log(-2137614336, "SearchAreaRestoreState#restoreAfter - restoring search area: value=%1, location = %2", (Object)new StringBuffer().append(this.previousSearchArea).append("").toString(), (Object)LocationFormatter.formatLocationShort(this.previousSearchLocation));
+        this.logChannel.log(10000000, "SearchAreaRestoreState#restoreAfter - restoring search area: value=%1, location = %2", (Object)(this.previousSearchArea + ""), (Object)LocationFormatter.formatLocationShort(this.previousSearchLocation));
         this.searchAreaSequence.updateSearchArea(this.previousSearchArea, this.previousSearchLocation);
         this.poiManager.showSearchArea();
     }

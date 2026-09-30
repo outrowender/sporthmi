@@ -9,22 +9,21 @@ import org.dsi.ifc.displaymanagement.DisplayContext;
 
 public class DisplayManagerMIB2Standard
 extends DisplayManager {
-    private static final int STANDARD_CONTEXT_HMI;
-    private static final int STANDARD_CONTEXT_HMI_REARVIEW_CAMERA;
-    private static final int STANDARD_CONTEXT_HMI_AUX_AV;
-    private static final int STANDARD_CONTEXT_HMI_MAP_VIEWER;
-    private static final int STANDARD_CONTEXT_HMI_MAP_VIEWER_INTERSECTION;
-    private static final int STANDARD_CONTEXT_HMI_MAP_VIEWER_JUNCTION;
-    private static final int STANDARD_CONTEXT_AUX_AV_ONLY;
-    private static final int STANDARD_NUM_CONTEXTS;
-    static int[] mapToInternalContexts;
-    static int[] mapToExternalContexts;
+    private static final int STANDARD_CONTEXT_HMI = 0;
+    private static final int STANDARD_CONTEXT_HMI_REARVIEW_CAMERA = 1;
+    private static final int STANDARD_CONTEXT_HMI_AUX_AV = 2;
+    private static final int STANDARD_CONTEXT_HMI_MAP_VIEWER = 3;
+    private static final int STANDARD_CONTEXT_HMI_MAP_VIEWER_INTERSECTION = 4;
+    private static final int STANDARD_CONTEXT_HMI_MAP_VIEWER_JUNCTION = 5;
+    private static final int STANDARD_CONTEXT_AUX_AV_ONLY = 6;
+    private static final int STANDARD_NUM_CONTEXTS = 7;
+    static int[] mapToInternalContexts = new int[79];
+    static int[] mapToExternalContexts = new int[7];
 
     public DisplayManagerMIB2Standard(IFrameworkAccess iFrameworkAccess) {
         super(iFrameworkAccess);
     }
 
-    @Override
     protected int getMappedInternalContext(int n) {
         if (n < 0) {
             return n;
@@ -32,7 +31,6 @@ extends DisplayManager {
         return mapToInternalContexts[n];
     }
 
-    @Override
     protected int getMappedExternalContext(int n) {
         if (n < 0 || n >= mapToExternalContexts.length) {
             return n;
@@ -40,7 +38,6 @@ extends DisplayManager {
         return mapToExternalContexts[n];
     }
 
-    @Override
     protected void defineContexts() {
         this.dc = new DisplayContext[7];
         this.dc[0] = new DisplayContext(0, new int[]{16});
@@ -52,13 +49,10 @@ extends DisplayManager {
         this.dc[6] = new DisplayContext(6, new int[]{27});
     }
 
-    @Override
     protected void configureDM() {
     }
 
     static {
-        mapToInternalContexts = new int[79];
-        mapToExternalContexts = new int[7];
         DisplayManagerMIB2Standard.mapToInternalContexts[0] = 0;
         DisplayManagerMIB2Standard.mapToInternalContexts[3] = 1;
         DisplayManagerMIB2Standard.mapToInternalContexts[6] = 2;

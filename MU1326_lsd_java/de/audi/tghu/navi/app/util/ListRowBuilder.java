@@ -7,13 +7,10 @@ import de.audi.atip.hmi.model.ListCell;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface ListRowBuilder {
-    default public ListCell[] buildListRow(LIValueListElement lIValueListElement, int n) {
-    }
+    public ListCell[] buildListRow(LIValueListElement var1, int var2);
 
-    default public int getMaxColumns() {
-    }
+    public int getMaxColumns();
 
-    default public int getElementIndex() {
-    }
+    public int getElementIndex();
 }
 

@@ -11,23 +11,21 @@ import de.audi.tghu.smi.AbstractStateMachine;
 
 public class SDSUIService
 extends AbstractSDSUIService {
-    @Override
     public void setStateMachine(AbstractStateMachine abstractStateMachine) {
         super.setStateMachine(abstractStateMachine);
         this.getUIHandler().setLogger(this.logger.sm[this.data.terminalID][this.data.subterminalID]);
         this.getUIHandler().setSDSUIService(this);
     }
 
-    @Override
     public void activateUI(State[] stateArray, int n, AdditionalScreenData additionalScreenData) {
-        this.logger.smi.log(1078071040, "[SDSUIService#activateUI] [%1] entered.", (Object)this.data.terminal.getTerminalName());
+        this.logger.smi.log(1000000, "[SDSUIService#activateUI] [%1] entered.", (Object)this.data.terminal.getTerminalName());
         if (this.stateMachine.getSDSService() == null) {
             this.logger.smi.log(1000, "[SDSUIService#activateUI] [%1] no SDS-SMIConnector for SD-Components available (null).", (Object)this.data.terminal.getTerminalName());
             return;
         }
         this.getUIHandler().updateMainStateStack(stateArray, n);
         if (this.stateMachine.getTerminal().isPopupActive()) {
-            this.logger.smi.log(1078071040, "[SDSUIService#activateUI] [%1] Popup is active. A synchronization must have triggered the state-change. The send grammars may be inconsistent now. Triggering activateUI at SDSPopup-UI.", (Object)this.data.terminal.getTerminalName());
+            this.logger.smi.log(1000000, "[SDSUIService#activateUI] [%1] Popup is active. A synchronization must have triggered the state-change. The send grammars may be inconsistent now. Triggering activateUI at SDSPopup-UI.", (Object)this.data.terminal.getTerminalName());
             this.getUIHandler().retriggerActivateSDSPopupUIService();
             return;
         }
@@ -37,7 +35,7 @@ extends AbstractSDSUIService {
     }
 
     protected void activateUISDS(State[] stateArray, int n) {
-        this.logger.smi.log(1078071040, "[SDSUIService#activateUISDS] entered.");
+        this.logger.smi.log(1000000, "[SDSUIService#activateUISDS] entered.");
         if (this.stateMachine.getSDSService() == null) {
             this.logger.smi.log(1000, "[SDSUIService#activateUI] [%1] no SDS-SMIConnector for SD-Components available (null).", (Object)this.data.terminal.getTerminalName());
             return;
@@ -47,26 +45,23 @@ extends AbstractSDSUIService {
             this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000, "[SDSUIService#activateUISDS] [%1] WARNING! States in normal SDS-Statemachine are not allowed to have prompts! State with prompt is (STATEID#%2).", (Object)this.data.terminal.getTerminalName(), (long)state.getStateID());
             return;
         }
-        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1078071040, "[SDSUIService#activateUISDS] [%1] checking, if state (STATEID#%2) in active state stack has commands as SD components...", (Object)this.data.terminal.getTerminalName(), (long)state.getStateID());
+        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000000, "[SDSUIService#activateUISDS] [%1] checking, if state (STATEID#%2) in active state stack has commands as SD components...", (Object)this.data.terminal.getTerminalName(), (long)state.getStateID());
         this.stateMachine.getErrorLog().startExecutingSDForState(state.getStateID());
         ITTSASRContext iTTSASRContext = this.stateMachine.getSDSService().createGrammarContext();
         this.executeSDComponents(iTTSASRContext, stateArray, n, false);
         this.stateMachine.getSDSService().setGrammarContext(iTTSASRContext);
         this.stateMachine.getErrorLog().finishedExecutingSDForState();
-        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1078071040, "[SDSUIService#activateUISDS] [%1] checking finished.", (Object)this.data.terminal.getTerminalName());
+        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000000, "[SDSUIService#activateUISDS] [%1] checking finished.", (Object)this.data.terminal.getTerminalName());
     }
 
-    @Override
     public void reactivateUI(State[] stateArray, int n, AdditionalScreenData additionalScreenData) {
         this.activateUI(stateArray, n, additionalScreenData);
     }
 
-    @Override
     protected void lockScreen(boolean bl) {
-        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1078071040, "[SDSUIService#lockScreen] [%1] lock = '%2'. ignoring for SDS!", (Object)this.data.terminal.getTerminalName(), (Object)Boolean.toString(bl));
+        this.logger.sm[this.data.terminalID][this.data.subterminalID].log(1000000, "[SDSUIService#lockScreen] [%1] lock = '%2'. ignoring for SDS!", (Object)this.data.terminal.getTerminalName(), (Object)Boolean.toString(bl));
     }
 
-    @Override
     protected void stopUI() {
     }
 }

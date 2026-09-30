@@ -15,17 +15,14 @@ implements DSIRadioTagging {
         super(logChannel, "DSIRadioTagging");
     }
 
-    @Override
     public void tagSong(TagInformation tagInformation) {
         this.log();
     }
 
-    @Override
     public void tagAmbiguousSong(TagInformation tagInformation, TagInformation tagInformation2) {
         this.log();
     }
 
-    @Override
     public void groupTags(int n) {
         this.log();
     }

@@ -30,38 +30,37 @@ extends NavCommand {
         this.guiTooltipInformation = guiTooltipInformationContainer;
     }
 
-    @Override
     public void execute() {
         if (this.previewMap != null) {
             NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "CmdNaviPreviewMapUpdate#execute() - navLocation = %1", (Object)LocationFormatter.formatState(navLocation));
+                this.logger.log(100000000, "CmdNaviPreviewMapUpdate#execute() - navLocation = %1", (Object)LocationFormatter.formatState(navLocation));
             }
             if (navLocation != null && navLocation.isPositionValid()) {
                 if (this.logger.isDebug2()) {
-                    this.logger.log(14808325, "CmdNaviPreviewMapUpdate#execute() - navLocation.getLongitude() = %1, navLocation.getLatitude() = %2", (long)navLocation.getLongitude(), (long)navLocation.getLatitude());
+                    this.logger.log(100000000, "CmdNaviPreviewMapUpdate#execute() - navLocation.getLongitude() = %1, navLocation.getLatitude() = %2", (long)navLocation.getLongitude(), (long)navLocation.getLatitude());
                 }
                 this.env.getContainer().setPreviewLocation(navLocation);
                 this.previewMap.setStoreFocusForEnterOnce(true);
                 if (this.city) {
                     if (this.logger.isDebug2()) {
-                        this.logger.log(14808325, "CmdNaviPreviewMapUpdate#execute() - previewLocationCity(position) is called!");
+                        this.logger.log(100000000, "CmdNaviPreviewMapUpdate#execute() - previewLocationCity(position) is called!");
                     }
                     this.previewMap.setPreviewLocationCity(navLocation, this.previewMapClientId, this.guiModelUpdating, this.guiTooltipInformation);
                 } else {
                     if (this.logger.isDebug2()) {
-                        this.logger.log(14808325, "CmdNaviPreviewMapUpdate#execute() - previewLocationAroundReferencePoint(position, null) is called!");
+                        this.logger.log(100000000, "CmdNaviPreviewMapUpdate#execute() - previewLocationAroundReferencePoint(position, null) is called!");
                     }
                     this.previewMap.setPreviewLocationAroundReferencePoint(navLocation, null, this.previewMapClientId, this.guiModelUpdating, this.guiTooltipInformation);
                 }
-                this.env.getChoiceModel(-1591867904).setValue(1);
+                this.env.getChoiceModel(401057).setValue(1);
             } else {
                 this.env.getContainer().setPreviewLocation(null);
                 this.previewMap.setStoreFocusForEnterOnce(false);
                 if (this.logger.isDebug2()) {
-                    this.logger.log(14808325, "CmdNaviPreviewMapUpdate#execute() - location invalid");
+                    this.logger.log(100000000, "CmdNaviPreviewMapUpdate#execute() - location invalid");
                 }
-                this.env.getChoiceModel(-1591867904).setValue(0);
+                this.env.getChoiceModel(401057).setValue(0);
             }
             this.getCommandList().commandFinished();
         } else {

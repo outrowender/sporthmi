@@ -16,6 +16,7 @@ import de.audi.tuner.ifc.ISimpleTuner;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
 import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -25,10 +26,10 @@ import org.dsi.ifc.radio.UnifiedStation;
 public class UnifiedStationExt
 extends UnifiedStation
 implements Serializable {
-    private static final long serialVersionUID;
-    public static final int UNI_FALLBACK_VERSION;
-    public static final int UNI_VERSION;
-    private static final RadioTextPlus EMPTY_RADIOTEXTPLUS;
+    private static final long serialVersionUID = -2043280983901947269L;
+    public static final int UNI_FALLBACK_VERSION = 1;
+    public static final int UNI_VERSION = 2;
+    private static final RadioTextPlus EMPTY_RADIOTEXTPLUS = new RadioTextPlus(new SimpleIntObjectMap(0), NullLogChannel.getInstance());
     private int audioStatus;
     private RadioTextPlus rTextPlus = EMPTY_RADIOTEXTPLUS;
     private RadioHMIResourceLocator slsImage = ISimpleTuner.EMPTY_RADIO_RL;
@@ -101,7 +102,7 @@ implements Serializable {
         if (!Utilities.isEmpty(this.shortName)) {
             return this.shortName;
         }
-        return new StringBuffer().append(Utilities.kHzToMHz(this.frequency)).append(" MHz").toString();
+        return Utilities.kHzToMHz(this.frequency) + " MHz";
     }
 
     public void setRadioTextPlus(RadioTextPlus radioTextPlus) {
@@ -138,7 +139,7 @@ implements Serializable {
         return Utilities.getPreferredImage(n, this.slsImage, this.coverArt, radioHMIResourceLocator);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeUTF(this.longName);
         objectOutputStream.writeUTF(this.shortName);
         objectOutputStream.writeLong(this.frequency);
@@ -168,19 +169,19 @@ implements Serializable {
         }
     }
 
-    private int readVersionFromInputStream(ObjectInputStream objectInputStream) {
+    private int readVersionFromInputStream(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         Integer n = null;
         try {
             n = new Integer(objectInputStream.readInt());
         }
         catch (EOFException eOFException) {
             Logger logger = new Logger(Utilities.getFramework());
-            logger.uniDSI.log(-1601830656, "[UnifiedStationExt.readVersionFromInputStream] old serialized data of station %1", (Object)this.toString());
+            logger.uniDSI.log(100000, "[UnifiedStationExt.readVersionFromInputStream] old serialized data of station %1", (Object)this.toString());
         }
         return n != null ? n : 1;
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         boolean bl;
         this.longName = objectInputStream.readUTF();
         this.shortName = objectInputStream.readUTF();
@@ -265,7 +266,6 @@ implements Serializable {
         return this.ensId == 0;
     }
 
-    @Override
     public String toString() {
         int n;
         Buffer buffer = new Buffer(1900);
@@ -342,10 +342,6 @@ implements Serializable {
             return unifiedStationExt.piSId == unifiedStationExt2.piSId && unifiedStationExt.sCIDI == unifiedStationExt2.sCIDI;
         }
         return unifiedStationExt.frequency == unifiedStationExt2.frequency;
-    }
-
-    static {
-        EMPTY_RADIOTEXTPLUS = new RadioTextPlus(new SimpleIntObjectMap(0), NullLogChannel.getInstance());
     }
 }
 

@@ -9,19 +9,14 @@ import de.audi.tghu.navi.app.sds.ISDSStateEventsProvider;
 public interface ISDSController
 extends ISDSStateEventsProvider,
 INaviComponent {
-    default public void abortSDSSession(boolean bl) {
-    }
+    public void abortSDSSession(boolean var1);
 
-    default public void notifyAbort() {
-    }
+    public void notifyAbort();
 
-    default public boolean isSDSActive() {
-    }
+    public boolean isSDSActive();
 
-    default public void itemSelected(int n, int n2) {
-    }
+    public void itemSelected(int var1, int var2);
 
-    default public void keyTyped(int n) {
-    }
+    public void keyTyped(int var1);
 }
 

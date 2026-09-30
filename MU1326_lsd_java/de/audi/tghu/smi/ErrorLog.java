@@ -5,16 +5,15 @@ package de.audi.tghu.smi;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.tghu.smi.AbstractStateMachine;
-import de.audi.tghu.smi.ErrorLog$HistoryRingBuffer;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 import java.io.PrintStream;
 
 class ErrorLog
 implements DumpInfoProvider {
-    private static final int MAX_HISTORY_SIZE;
+    private static final int MAX_HISTORY_SIZE = 100;
     private final String name;
-    private ErrorLog$HistoryRingBuffer stateHistory = new ErrorLog$HistoryRingBuffer(this, 100);
-    private ErrorLog$HistoryRingBuffer eventHistory = new ErrorLog$HistoryRingBuffer(this, 100);
+    private HistoryRingBuffer stateHistory = new HistoryRingBuffer(100);
+    private HistoryRingBuffer eventHistory = new HistoryRingBuffer(100);
     private boolean processingEvent = false;
     private int executingEnterAction = -1;
     private int executingEnteredAction = -1;
@@ -35,7 +34,6 @@ implements DumpInfoProvider {
         this.fw = abstractStateMachine.getFramework();
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
@@ -44,7 +42,6 @@ implements DumpInfoProvider {
         return this.sdsTerminal;
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         int n;
         printStream.println("+++ State Machine state +++");
@@ -177,8 +174,59 @@ implements DumpInfoProvider {
         this.executingSDForState = -1;
     }
 
-    static /* synthetic */ IFrameworkAccess access$000(ErrorLog errorLog) {
-        return errorLog.fw;
+    public class HistoryRingBuffer {
+        private int[] buffer;
+        private long[] timestamps;
+        private int size = 0;
+        private int startIdx = 0;
+        private int endIdx = 0;
+
+        public HistoryRingBuffer(int n) {
+            this.buffer = new int[n];
+            this.timestamps = new long[n];
+        }
+
+        public int getCapacity() {
+            return this.buffer.length;
+        }
+
+        public int size() {
+            return this.size;
+        }
+
+        public boolean isEmpty() {
+            return this.size == 0;
+        }
+
+        public void put(int n) {
+            this.buffer[this.endIdx] = n;
+            this.timestamps[this.endIdx] = ErrorLog.this.fw.getMonotonicTime();
+            if (this.size == this.getCapacity()) {
+                ++this.startIdx;
+                ++this.endIdx;
+            } else {
+                ++this.endIdx;
+                ++this.size;
+            }
+            this.startIdx %= this.getCapacity();
+            this.endIdx %= this.getCapacity();
+        }
+
+        public int get(int n) {
+            if (n < this.size) {
+                int n2 = (this.startIdx + n) % this.getCapacity();
+                return this.buffer[n2];
+            }
+            throw new IndexOutOfBoundsException(new StringBuffer().append("Index out of bounds (size=").append(this.size).append(", index=").append(n).append(")").toString());
+        }
+
+        public long getTimestamp(int n) {
+            if (n < this.size) {
+                int n2 = (this.startIdx + n) % this.getCapacity();
+                return this.timestamps[n2];
+            }
+            throw new IndexOutOfBoundsException(new StringBuffer().append("Index out of bounds (size=").append(this.size).append(", index=").append(n).append(")").toString());
+        }
     }
 }
 

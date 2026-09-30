@@ -27,7 +27,6 @@ extends Context {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         Util.logStartupEvent(this.env.getFramework(), "CtxInit#enter() - start map initialization (set notification for MapReady)");
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("CtxInit#enter() - Traffic map enabled in setup: ").append(this.getMapRepresentation() == 2));
@@ -35,7 +34,7 @@ extends Context {
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
         int n = gUIInterface.getMapWidth();
         int n2 = gUIInterface.getMapHeight();
-        this.getLogChannel().log(-2137614336, "CtxInit#enter() - Set max resolution %1x%2", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "CtxInit#enter() - Set max resolution %1x%2", (long)n, (long)n2);
         mVRequestControl.viewSetScreenViewportMaximum(new Rect(0, 0, n, n2));
         mVRequestControl.setNotification(new int[]{1}, (DSIListener)mVRequestControl.getMVResponseControl());
         if (!this.container.sInitalization) {
@@ -47,7 +46,6 @@ extends Context {
         this.naviMap.getMainRequestCtl().setNotification(new int[]{7, 8, 10, 11, 14}, (DSIListener)this.naviMap.getMainRequestCtl().getMVResponseControl());
     }
 
-    @Override
     public void updateReady(boolean bl, int n) {
         if (n != this.naviMap.getMapConfig().getMapInstanceId()) {
             return;
@@ -55,7 +53,7 @@ extends Context {
         if (n == 0) {
             this.naviMap.getNaviInterface().mapReady(bl);
         }
-        this.getLogChannel().log(-2137614336, "CtxInit#updateReady( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxInit#updateReady( %1 )", bl);
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("[Startup] CtxInit#updateReady( ").append(bl).append(" )"));
         if (bl) {
             this.naviMap.getMainRequestCtl().setMetricSystem(Util.getCurrentMetricsSystem(true));
@@ -75,14 +73,12 @@ extends Context {
         }
     }
 
-    @Override
     public void updateMapOrientation(int n) {
         super.updateMapOrientation(n);
         this.mMapOrientationResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void updateZoomList(float[] fArray, int n, float[] fArray2) {
         super.updateZoomList(fArray, n, fArray2);
         if (fArray == null) {
@@ -92,14 +88,12 @@ extends Context {
         this.checkFinished();
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
         super.updateZoomListIndex(n);
         this.mZoomListIndexResponded = true;
         this.checkFinished();
     }
 
-    @Override
     public void updateViewVisible(boolean bl) {
         super.updateViewVisible(bl);
         this.setRequestedVisibility(bl);
@@ -107,7 +101,6 @@ extends Context {
         this.checkFinished();
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
         this.setRequestedFreeze(bl);
@@ -117,9 +110,9 @@ extends Context {
     }
 
     private void checkFinished() {
-        this.getLogChannel().log(-2137614336, new Buffer().append("CtxInit#checkFinished() - ").append(this.mZoomListResponded).append(" ").append(this.mViewVisibleResponded).append(" ").append(this.mViewFreezeResponded).append(" ").append(this.mMapOrientationResponded).append(" ").append(this.mZoomListIndexResponded).append(" ").toString());
+        this.getLogChannel().log(10000000, new Buffer().append("CtxInit#checkFinished() - ").append(this.mZoomListResponded).append(" ").append(this.mViewVisibleResponded).append(" ").append(this.mViewFreezeResponded).append(" ").append(this.mMapOrientationResponded).append(" ").append(this.mZoomListIndexResponded).append(" ").toString());
         if (this.mZoomListResponded && this.mViewVisibleResponded && this.mViewFreezeResponded && this.mMapOrientationResponded && this.mZoomListIndexResponded) {
-            this.getLogChannel().log(-2137614336, "CtxInit#checkFinished()");
+            this.getLogChannel().log(10000000, "CtxInit#checkFinished()");
             this.registerForMapAttributeUpdates();
             this.naviMap.getMainRequestCtl().setOperable(true);
             IMapRequest iMapRequest = this.naviMap.getMVRequest();
@@ -140,9 +133,8 @@ extends Context {
         }
     }
 
-    @Override
     public void exitMapScreen() {
-        this.getLogChannel().log(-2137614336, "CtxInit#exitMapScreen(): ignoring");
+        this.getLogChannel().log(10000000, "CtxInit#exitMapScreen(): ignoring");
     }
 }
 

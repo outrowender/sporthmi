@@ -4,20 +4,20 @@
 package de.audi.tghu.navi.app.map;
 
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
-import de.audi.atip.interapp.NaviOnlineService$NaviOnlineMapOverlay;
+import de.audi.atip.interapp.NaviOnlineService;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.AbstractMapContext;
-import de.audi.tghu.navi.app.map.Context$GridMaskDelayTimer;
-import de.audi.tghu.navi.app.map.Context$GridMaskWatchdogTimer;
 import de.audi.tghu.navi.app.map.GUIInterface;
 import de.audi.tghu.navi.app.map.MapConsts;
 import de.audi.tghu.navi.app.map.MapDataContainer;
 import de.audi.tghu.navi.app.map.constants.PropertyEnum;
-import de.audi.tghu.navi.app.map.context.State$StateData;
+import de.audi.tghu.navi.app.map.context.State;
 import de.audi.tghu.navi.app.map.dsi.IMapRequest;
 import de.audi.tghu.navi.app.map.dsi.MVRequestControl;
 import de.audi.tghu.navi.app.map.handler.IDrawerStateHandler;
@@ -59,10 +59,10 @@ implements MapConsts {
         this.sLogChannelGuidance = abstractMap.getMapGuidanceLogChannel();
         if (abstractMap instanceof MapMain) {
             if (this.container.gridMaskDelayTimer == null) {
-                this.container.gridMaskDelayTimer = new Context$GridMaskDelayTimer(this);
+                this.container.gridMaskDelayTimer = new GridMaskDelayTimer();
             }
             if (this.container.gridMaskWatchdogTimer == null) {
-                this.container.gridMaskWatchdogTimer = new Context$GridMaskWatchdogTimer(this);
+                this.container.gridMaskWatchdogTimer = new GridMaskWatchdogTimer();
             }
         }
     }
@@ -74,15 +74,14 @@ implements MapConsts {
         return 0;
     }
 
-    @Override
     public void cleanup() {
-        Context$GridMaskWatchdogTimer context$GridMaskWatchdogTimer;
-        Context$GridMaskDelayTimer context$GridMaskDelayTimer = this.getGridMaskDelayTimer();
-        if (context$GridMaskDelayTimer != null) {
-            Context$GridMaskDelayTimer.access$300(context$GridMaskDelayTimer);
+        GridMaskWatchdogTimer gridMaskWatchdogTimer;
+        GridMaskDelayTimer gridMaskDelayTimer = this.getGridMaskDelayTimer();
+        if (gridMaskDelayTimer != null) {
+            gridMaskDelayTimer.cancel();
         }
-        if ((context$GridMaskWatchdogTimer = this.getGridMaskWatchdogTimer()) != null) {
-            Context$GridMaskWatchdogTimer.access$100(context$GridMaskWatchdogTimer);
+        if ((gridMaskWatchdogTimer = this.getGridMaskWatchdogTimer()) != null) {
+            gridMaskWatchdogTimer.cancel();
         }
         try {
             this.getGUI().setGridMaskVisible(false);
@@ -100,33 +99,29 @@ implements MapConsts {
         return this.sLogChannelGuidance;
     }
 
-    @Override
     public void enterPrologue() {
     }
 
-    @Override
     public void enterEpilogue() {
     }
 
-    @Override
     public void exit() {
     }
 
-    @Override
     public void navigationEntered() {
         if (this.getMap().getRouteCalculationHandler().isRouteCalculationActive()) {
-            this.getLogChannel().log(-2137614336, "Context#navigationEntered(): Route calculation was active");
+            this.getLogChannel().log(10000000, "Context#navigationEntered(): Route calculation was active");
             if (this.naviMap.getRouteCalculationHandler().isMatchingRoutesFound()) {
-                this.getLogChannel().log(-2137614336, "Context#navigationEntered(): ...and match already found");
+                this.getLogChannel().log(10000000, "Context#navigationEntered(): ...and match already found");
                 if (this.naviMap.getRouteCalculationHandler().isCalculatingAltRoutes()) {
-                    this.getLogChannel().log(-2137614336, "Context#navigationEntered(): ...and alt. routes active; switching to cAltRoutesSelection");
+                    this.getLogChannel().log(10000000, "Context#navigationEntered(): ...and alt. routes active; switching to cAltRoutesSelection");
                     this.naviMap.switchToContext(5);
                 } else {
-                    this.getLogChannel().log(-2137614336, "Context#navigationEntered(): ...no alt. routes active, switching to normal map");
+                    this.getLogChannel().log(10000000, "Context#navigationEntered(): ...no alt. routes active, switching to normal map");
                     this.naviMap.switchToAShownContext();
                 }
             } else {
-                this.getLogChannel().log(-2137614336, "Context#navigationEntered(): ...and no match found");
+                this.getLogChannel().log(10000000, "Context#navigationEntered(): ...and no match found");
                 if (this.naviMap.getRouteCalculationHandler().isCalculatingAltRoutes()) {
                     this.naviMap.switchToContext(5);
                 } else {
@@ -136,33 +131,27 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void enterNavSetup() {
     }
 
-    @Override
     public void exitNavSetup() {
     }
 
-    @Override
     public void exitMapContentList() {
         this.container.sMapContentList.setPOIVisibility(true);
     }
 
-    @Override
     public void enterMapScreen(int n) {
     }
 
-    @Override
     public void exitMapScreen() {
     }
 
     protected void exitMapBlockInRoute(int n) {
     }
 
-    @Override
     public void storeKeptContextIndex(int n) {
-        this.getLogChannel().log(-2137614336, "Context#storeKeptContextIndex() - new context: %1", (long)n);
+        this.getLogChannel().log(10000000, "Context#storeKeptContextIndex() - new context: %1", (long)n);
         this.container.sKeptContext = n;
     }
 
@@ -173,17 +162,14 @@ implements MapConsts {
     void startCalculatedRoute() {
     }
 
-    @Override
     public void screenHidden() {
-        this.getLogChannel().log(-2137614336, "Context[%1]#screenHidden()", (long)this.getCID());
+        this.getLogChannel().log(10000000, "Context[%1]#screenHidden()", (long)this.getCID());
     }
 
-    @Override
     public void screenVisible() {
-        this.getLogChannel().log(-2137614336, "Context[%1]#screenVisible()", (long)this.getCID());
+        this.getLogChannel().log(10000000, "Context[%1]#screenVisible()", (long)this.getCID());
     }
 
-    @Override
     public void requestPreferredViewType() {
     }
 
@@ -191,7 +177,6 @@ implements MapConsts {
         return this.naviMap.getDayNightView();
     }
 
-    @Override
     public void setRequestedVisibility(boolean bl) {
         this.container.sRequestedVisibility = bl;
     }
@@ -218,7 +203,7 @@ implements MapConsts {
                 buffer.append(", frameRateMode: ").append(n);
                 buffer.append(", requestedVisibility: ").append(bl2);
                 buffer.append(", isSdsDialogActive: ").append(this.getSDSDialogActive());
-                this.getLogChannel().log(-2137614336, "Context#showMap() - %1 ", (Object)buffer);
+                this.getLogChannel().log(10000000, "Context#showMap() - %1 ", (Object)buffer);
             }
             if (bl) {
                 this.naviMap.getMVRequest().setFrameRateMode(n2);
@@ -227,11 +212,9 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
     }
 
-    @Override
     public void setRequestedFreeze(boolean bl) {
         this.container.sRequestedFreeze = bl;
         if (bl && this.naviMap.isMapMain()) {
@@ -255,9 +238,8 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void freezeMap() {
-        this.getLogChannel().log(14808325, "Context#freezeMap()");
+        this.getLogChannel().log(100000000, "Context#freezeMap()");
         this.freezeMap(true);
     }
 
@@ -265,25 +247,22 @@ implements MapConsts {
         if (this.container.sFrozenLevel <= 0) {
             this.freezeMap(false);
         } else {
-            this.getLogChannel().log(-2137614336, "Context#unfreezeMap() - sFrozenLevel: %1", (long)this.container.sFrozenLevel);
+            this.getLogChannel().log(10000000, "Context#unfreezeMap() - sFrozenLevel: %1", (long)this.container.sFrozenLevel);
         }
     }
 
-    @Override
     public void freezeMapLevel1() {
-        this.getLogChannel().log(-2137614336, "Context#freezeMapLevel1()");
+        this.getLogChannel().log(10000000, "Context#freezeMapLevel1()");
         this.freezeMap(true);
         this.container.sFrozenLevel = 1;
     }
 
-    @Override
     public void unfreezeMapLevel1() {
-        this.getLogChannel().log(-2137614336, "Context#unfreezeMapLevel1()");
+        this.getLogChannel().log(10000000, "Context#unfreezeMapLevel1()");
         this.container.sFrozenLevel = 0;
         this.freezeMap(false);
     }
 
-    @Override
     public void setSDSDialogActive(boolean bl) {
         this.container.sSDSDialogActive = bl;
     }
@@ -299,12 +278,10 @@ implements MapConsts {
         return false;
     }
 
-    @Override
     public boolean getSDSDialogActive() {
         return this.container.sSDSDialogActive;
     }
 
-    @Override
     public void sdsSetZoomLevel(int n) {
         this.getZoomHandler().setUserRequestedZoomIndex(n);
         this.sdsChangedZoom();
@@ -313,17 +290,14 @@ implements MapConsts {
     protected void sdsChangedZoom() {
     }
 
-    @Override
     public void sdsChangedMapType() {
     }
 
-    @Override
     public void displayCurrentRoute() {
     }
 
-    @Override
     public void setEnterInMapLocation(NavLocation navLocation, boolean bl, boolean bl2, IFavorite iFavorite, boolean bl3) {
-        this.getLogChannel().log(-2137614336, "Context#setEnterInMapLocation() - loc: %2, restoreZoom: %1 ", bl, (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.getLogChannel().log(10000000, "Context#setEnterInMapLocation() - loc: %2, restoreZoom: %1 ", bl, (Object)LocationFormatter.formatLocationShort(navLocation));
         this.container.sEnterInMapLocation = navLocation;
         this.container.sForceUseEnterInMapLocation = true;
         this.container.sForceUseEnterInMapRestoreZoom = bl;
@@ -332,12 +306,10 @@ implements MapConsts {
         this.container.sEnterInMapHidePois = bl3;
     }
 
-    @Override
     public NavLocation getEnterInMapLocation() {
         return this.container.sEnterInMapLocation;
     }
 
-    @Override
     public void setPicNavMapLocation(NavLocation navLocation, boolean bl, int n, ResourceLocator resourceLocator) {
         this.container.sPicNavMapLocation = navLocation;
         this.container.sPicNavMapFilterId = n;
@@ -349,15 +321,13 @@ implements MapConsts {
         this.container.sPicNavMapTooltipLocator = resourceLocator;
     }
 
-    @Override
     public boolean getManoeuvreZoomDisabledWithReturn() {
-        this.getLogChannel().log(14808325, "Context#getManoeuvreZoomDisabledWithReturn( %1 )", this.container.sManoeuvreZoomDisabledWithReturn);
+        this.getLogChannel().log(100000000, "Context#getManoeuvreZoomDisabledWithReturn( %1 )", this.container.sManoeuvreZoomDisabledWithReturn);
         return this.container.sManoeuvreZoomDisabledWithReturn;
     }
 
-    @Override
     public void updateManoeuvreViewsAvailable(short[] sArray) {
-        this.getLogChannel().log(1078071040, "Context#updateManoeuvreViewsAvailable()");
+        this.getLogChannel().log(1000000, "Context#updateManoeuvreViewsAvailable()");
         this.naviMap.getRouteInfoContextHandler().updateManoeuvreViewsAvailable(sArray);
     }
 
@@ -365,7 +335,7 @@ implements MapConsts {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setVisibleDisplayContextID(int n) {
-        this.getLogChannel().log(-2137614336, "Context#setVisibleDisplayContextID( %1 )", (Object)MapUtils.contextToString(n));
+        this.getLogChannel().log(10000000, "Context#setVisibleDisplayContextID( %1 )", (Object)MapUtils.contextToString(n));
         IRouteInfo iRouteInfo = this.getMapMain().getRouteInfo();
         synchronized (iRouteInfo) {
             this.container.sDisplayContextAnimationRunning = false;
@@ -377,15 +347,13 @@ implements MapConsts {
         return this.container.sVisibleDisplayContextID;
     }
 
-    @Override
     public void updateDistanceToNextManeuver(int n) {
         this.container.sDistanceToNextManeuver = n;
         this.refreshDistanceToNextManeuver();
     }
 
-    @Override
     public int getDistanceToNextManeuver() {
-        this.getLogChannelGuidance().log(14808325, "Context#getDistanceToNextManeuver( %1 )", (long)this.container.sDistanceToNextManeuver);
+        this.getLogChannelGuidance().log(100000000, "Context#getDistanceToNextManeuver( %1 )", (long)this.container.sDistanceToNextManeuver);
         return this.container.sDistanceToNextManeuver;
     }
 
@@ -393,12 +361,10 @@ implements MapConsts {
         this.container.sDistString = string;
     }
 
-    @Override
     public String getDistString() {
         return this.container.sDistString;
     }
 
-    @Override
     public void refreshDistanceToNextManeuver() {
         int n = this.getDistanceToNextManeuver();
         Buffer buffer = new Buffer();
@@ -408,17 +374,15 @@ implements MapConsts {
             buffer.append(Util.formatDistance(n, 5, 2));
         }
         String string = buffer.toString();
-        this.getLogChannelGuidance().log(14808325, "Context#refreshDistanceToNextManeuver() - distStr = %1", (Object)string);
+        this.getLogChannelGuidance().log(100000000, "Context#refreshDistanceToNextManeuver() - distStr = %1", (Object)string);
         this.setCurrentDistToNextManeuver(string);
         this.naviMap.getRouteInfoContextHandler().updateDistanceToNextManeuver(string);
         this.naviMap.getRouteInfoContextHandler().updateDistanceToNextManeuver(n, 5);
     }
 
-    @Override
     public void initAdditionalInfos() {
     }
 
-    @Override
     public boolean supportsAdditionalInfo() {
         return false;
     }
@@ -427,7 +391,6 @@ implements MapConsts {
         return this.container.sTmcMessage;
     }
 
-    @Override
     public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray) {
         this.container.sTMCMessageAhead = tmcMessageArray;
     }
@@ -436,42 +399,34 @@ implements MapConsts {
         return this.container.sTMCMessageAhead;
     }
 
-    @Override
     public void rbGetIDOfSelectedSegmentResult(long l) {
     }
 
-    @Override
     public void rbGetRRDToSelectedSegmentResult(long l, int n) {
     }
 
-    @Override
     public void setOnlineResultFlags(OnlinePOIResultList onlinePOIResultList) {
         this.container.sOnlinePOIResultList = onlinePOIResultList;
     }
 
-    @Override
     public void setWeatherOverlaysData(int n, NaviOnlineService.NaviOnlineMapOverlay[] naviOnlineMapOverlayArray, int n2) {
         this.container.weatherSetId = n;
         this.container.weatherData = naviOnlineMapOverlayArray;
         this.container.weatherDelayInMillisBetweenImages = n2;
     }
 
-    @Override
     public void setRemoteHMIResultFlags(OnlinePOIResultList onlinePOIResultList) {
         this.container.sRemoteHMIResultList = onlinePOIResultList;
     }
 
-    @Override
     public OnlinePOIResultList getOnlinePOIResultList() {
         return null;
     }
 
-    @Override
     public void updateAvailableLayers(LayerProperty[] layerPropertyArray) {
         this.container.sMapContentList.updateAvailableLayers(layerPropertyArray);
     }
 
-    @Override
     public void updateGoogleDataStatus(int n) {
         boolean bl = n == 3;
         boolean bl2 = bl || n == 2;
@@ -479,20 +434,16 @@ implements MapConsts {
         Util.logStartupEvent(this.env.getFramework(), new Buffer().append("[Startup] Context#updateGoogleDataStatus() - googleDataStatus: ").append(n).append(" (renderer recommended: ").append(bl).append(", map: ").append(this.naviMap.getName()).append(')'));
     }
 
-    @Override
     public void updateVisibleLayers(int[] nArray) {
         this.container.sMapContentList.updateVisibleLayers(nArray);
     }
 
-    @Override
     public void refreshRoutes() {
     }
 
-    @Override
     public void switchToMap() {
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         this.container.sRGActive = bl;
         if (this.naviMap.getActiveContextIndex() == 17 && !bl) {
@@ -508,21 +459,17 @@ implements MapConsts {
         this.refreshPositionOfLeftDrawerButton();
     }
 
-    @Override
     public boolean getRGActive() {
         return this.container.sRGActive;
     }
 
-    @Override
     public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID navSegmentID, int n) {
     }
 
-    @Override
     public boolean getRouteActiveOrRangeMapReady() {
         return this.getRGActive() || this.getMap().getRouteCalculationHandler().isRouteCalculationNotIdle() || this.isRangeMapReadyToShow();
     }
 
-    @Override
     public void stopoverHasBeenPassed() {
     }
 
@@ -534,111 +481,86 @@ implements MapConsts {
         return this.container.sRCCIEnabled;
     }
 
-    @Override
     public void showTMC(boolean bl) {
     }
 
-    @Override
     public void showSpeedAndFlowFreeflow(boolean bl) {
     }
 
-    @Override
     public void showSpeedAndFlowFreeflow(boolean bl, boolean bl2) {
     }
 
-    @Override
     public void showSpeedAndFlowCongestions(boolean bl) {
     }
 
-    @Override
     public void showSpeedAndFlowCongestions(boolean bl, boolean bl2) {
     }
 
-    @Override
     public void setSpeedAndFlowRoadClass(int n) {
     }
 
-    @Override
     public void setLandmarksVisible(boolean bl) {
     }
 
-    @Override
     public void setCityModelMode(int n) {
     }
 
-    @Override
     public void showBrandIcons(int n) {
     }
 
-    @Override
     public void showPictureNavigationIcons(boolean bl) {
     }
 
-    @Override
     public void showWeatherIcons(boolean bl) {
     }
 
-    @Override
     public void setNightDesign(int n) {
         this.container.sDisplayNightDesign = n;
     }
 
-    @Override
     public int getNightDesign() {
         return this.container.sDisplayNightDesign;
     }
 
-    @Override
     public void joystick(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Context#joystick(): modelID: %1, direction: %2", (long)n, (long)n2);
-        if (n == 404817408 && n2 == 0) {
+        this.getLogChannel().log(10000000, "Context#joystick(): modelID: %1, direction: %2", (long)n, (long)n2);
+        if (n == 401688 && n2 == 0) {
             this.env.fireModelEvent(n, 0);
         }
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void touchScreenMoved(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void touchScreenPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenLongPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenDoubleClick(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenPinch(int n, float f2, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenRotate(int n, short s) {
     }
 
-    @Override
     public void itemReleased(int n, int n2) {
     }
 
-    @Override
     public void itemFocused(int n, int n2) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.getLogChannel().log(-2137614336, "Context[%1]#itemSelected( %2, %3 )", (long)this.naviMap.getActiveContextIndex(), (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "Context[%1]#itemSelected( %2, %3 )", (long)this.naviMap.getActiveContextIndex(), (long)n, (long)n2);
         switch (n) {
             case 400478: {
                 if (n2 == 1) {
@@ -653,14 +575,14 @@ implements MapConsts {
             case 168: {
                 int n5 = MapUtils.hmiServiceIDToContext(n2, n4, this.env);
                 if (n4 == 0) {
-                    this.getLogChannel().log(1078071040, "Context#itemSelected() - NAV_MAP_DISPLAY_CONTROLLER_CHOICE: contextID: %1, terminal: MAIN", (long)n5);
+                    this.getLogChannel().log(1000000, "Context#itemSelected() - NAV_MAP_DISPLAY_CONTROLLER_CHOICE: contextID: %1, terminal: MAIN", (long)n5);
                     this.setVisibleDisplayContextID(n5);
                 } else {
                     if (n4 == 1) {
-                        this.getLogChannel().log(1078071040, "Context#itemSelected() - NAV_MAP_DISPLAY_CONTROLLER_CHOICE: contextID: %1, terminal: CLUSTER", (long)n5);
+                        this.getLogChannel().log(1000000, "Context#itemSelected() - NAV_MAP_DISPLAY_CONTROLLER_CHOICE: contextID: %1, terminal: CLUSTER", (long)n5);
                         return;
                     }
-                    this.getLogChannel().log(1078071040, "Context#itemSelected() - NAV_MAP_DISPLAY_CONTROLLER_CHOICE: contextID: %1, terminal: %2", (long)n5, (long)n4);
+                    this.getLogChannel().log(1000000, "Context#itemSelected() - NAV_MAP_DISPLAY_CONTROLLER_CHOICE: contextID: %1, terminal: %2", (long)n5, (long)n4);
                     this.setVisibleDisplayContextID(n5);
                 }
                 this.naviMap.getRouteInfoContextHandler().updateDisplayContext(n5);
@@ -670,9 +592,8 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "Context[%1]#keyPressed( %2, %3)", (long)this.getCID(), (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "Context[%1]#keyPressed( %2, %3)", (long)this.getCID(), (long)n, (long)n2);
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
         CommandList commandList = null;
         switch (n) {
@@ -691,21 +612,17 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
-        this.getLogChannel().log(14808325, "Context[%1]#keyReleased( %2, %3 )", (long)this.getCID(), (long)n, (long)n2);
+        this.getLogChannel().log(100000000, "Context[%1]#keyReleased( %2, %3 )", (long)this.getCID(), (long)n, (long)n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
-        this.getLogChannel().log(14808325, "Context[%1]#keyTyped( %2, %3 )", (long)this.getCID(), (long)n, (long)n2);
+        this.getLogChannel().log(100000000, "Context[%1]#keyTyped( %2, %3 )", (long)this.getCID(), (long)n, (long)n2);
     }
 
-    @Override
     public void increment(int n, int n2) {
     }
 
-    @Override
     public void incrementGesture(int n) {
     }
 
@@ -727,12 +644,11 @@ implements MapConsts {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void switchDisplayContext(int n) {
-        this.getLogChannel().log(1078071040, "Context#switchDisplayContext() - context: %1 ", (long)n);
+        this.getLogChannel().log(1000000, "Context#switchDisplayContext() - context: %1 ", (long)n);
         this.container.sRequestedDisplayContextID = n;
         if (!this.container.sSwitchDisplayContextImmediately && this.getRequestedFreeze()) {
-            this.getLogChannel().log(1078071040, "Context#switchDisplayContext(): map is still frozen, NOT switching Display context");
+            this.getLogChannel().log(1000000, "Context#switchDisplayContext(): map is still frozen, NOT switching Display context");
             return;
         }
         int n2 = MapUtils.contextToHMIServiceID(n, this.naviMap.getSatellitemapsManager().getActiveRendererID(), 0, this.env);
@@ -743,8 +659,8 @@ implements MapConsts {
             if (n2 != n3) {
                 if (this.getLogChannel().isInfo()) {
                     String string = MapUtils.contextToString(n);
-                    this.getLogChannel().log(1078071040, "Context#switchDisplayContext(): switching to %1 display context", (Object)string);
-                    this.getLogChannel().log(1078071040, "Context#switchDisplayContext(): %1 -> %2", (long)n3, (long)n2);
+                    this.getLogChannel().log(1000000, "Context#switchDisplayContext(): switching to %1 display context", (Object)string);
+                    this.getLogChannel().log(1000000, "Context#switchDisplayContext(): %1 -> %2", (long)n3, (long)n2);
                 }
                 this.container.sDisplayContextAnimationRunning = true;
                 choiceModelApp.setValue(n2);
@@ -752,12 +668,12 @@ implements MapConsts {
         }
     }
 
-    private Context$GridMaskDelayTimer getGridMaskDelayTimer() {
-        return (Context$GridMaskDelayTimer)this.container.gridMaskDelayTimer;
+    private GridMaskDelayTimer getGridMaskDelayTimer() {
+        return (GridMaskDelayTimer)this.container.gridMaskDelayTimer;
     }
 
-    private Context$GridMaskWatchdogTimer getGridMaskWatchdogTimer() {
-        return (Context$GridMaskWatchdogTimer)this.container.gridMaskWatchdogTimer;
+    private GridMaskWatchdogTimer getGridMaskWatchdogTimer() {
+        return (GridMaskWatchdogTimer)this.container.gridMaskWatchdogTimer;
     }
 
     public void setGridMaskVisible(boolean bl) {
@@ -771,25 +687,25 @@ implements MapConsts {
         if (!this.naviMap.isMapMain()) {
             return;
         }
-        this.getLogChannel().log(-1601830656, "Context#setGridMaskVisible(%1) - useWatchdogTimer: %2, longDelay: %3 ", bl, bl2, bl3);
+        this.getLogChannel().log(100000, "Context#setGridMaskVisible(%1) - useWatchdogTimer: %2, longDelay: %3 ", bl, bl2, bl3);
         MVRequestControl mVRequestControl = this.naviMap.getMVRequest().getMVRequestControlActive();
         synchronized (mVRequestControl) {
-            Context$GridMaskDelayTimer context$GridMaskDelayTimer = this.getGridMaskDelayTimer();
-            Context$GridMaskWatchdogTimer context$GridMaskWatchdogTimer = this.getGridMaskWatchdogTimer();
-            if (context$GridMaskDelayTimer != null && context$GridMaskWatchdogTimer != null) {
+            GridMaskDelayTimer gridMaskDelayTimer = this.getGridMaskDelayTimer();
+            GridMaskWatchdogTimer gridMaskWatchdogTimer = this.getGridMaskWatchdogTimer();
+            if (gridMaskDelayTimer != null && gridMaskWatchdogTimer != null) {
                 if (bl) {
-                    Context$GridMaskDelayTimer.access$300(context$GridMaskDelayTimer);
+                    gridMaskDelayTimer.cancel();
                     this.getGUI().setGridMaskVisible(true);
-                    Context$GridMaskWatchdogTimer.access$400(context$GridMaskWatchdogTimer, bl3);
+                    gridMaskWatchdogTimer.restart(bl3);
                 } else if (bl2) {
-                    Context$GridMaskDelayTimer.access$300(context$GridMaskDelayTimer);
-                    Context$GridMaskWatchdogTimer.access$400(context$GridMaskWatchdogTimer, bl3);
+                    gridMaskDelayTimer.cancel();
+                    gridMaskWatchdogTimer.restart(bl3);
                 } else {
-                    Context$GridMaskWatchdogTimer.access$100(context$GridMaskWatchdogTimer);
-                    Context$GridMaskDelayTimer.access$500(context$GridMaskDelayTimer);
+                    gridMaskWatchdogTimer.cancel();
+                    gridMaskDelayTimer.restart();
                 }
             } else {
-                this.getLogChannel().log(10000, "Context#setGridMaskVisible() - grid mask timer not initialized - gridMaskDelayTimer: %1, gridMaskWatchdogTimer: %2", (Object)context$GridMaskDelayTimer, (Object)context$GridMaskWatchdogTimer);
+                this.getLogChannel().log(10000, "Context#setGridMaskVisible() - grid mask timer not initialized - gridMaskDelayTimer: %1, gridMaskWatchdogTimer: %2", (Object)gridMaskDelayTimer, (Object)gridMaskWatchdogTimer);
             }
         }
     }
@@ -797,9 +713,8 @@ implements MapConsts {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void switchDisplayContextKombi(int n) {
-        this.getLogChannel().log(1078071040, "Context#switchDisplayContextKombi() - context: %1 ", (long)n);
+        this.getLogChannel().log(1000000, "Context#switchDisplayContextKombi() - context: %1 ", (long)n);
         int n2 = MapUtils.contextToHMIServiceID(n, this.naviMap.getSatellitemapsManager().getActiveRendererID(), 1, this.env);
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1, 168);
         IRouteInfo iRouteInfo = this.getMapMain().getRouteInfo();
@@ -808,8 +723,8 @@ implements MapConsts {
             if (n2 != n3) {
                 if (this.getLogChannel().isInfo()) {
                     String string = MapUtils.contextToString(n);
-                    this.getLogChannel().log(1078071040, "Context#switchDisplayContextKombi(): switching to %1 display context", (Object)string);
-                    this.getLogChannel().log(1078071040, "Context#switchDisplayContextKombi(): %1 -> %2", (long)n3, (long)n2);
+                    this.getLogChannel().log(1000000, "Context#switchDisplayContextKombi(): switching to %1 display context", (Object)string);
+                    this.getLogChannel().log(1000000, "Context#switchDisplayContextKombi(): %1 -> %2", (long)n3, (long)n2);
                 }
                 choiceModelApp.setValue(n2);
             }
@@ -819,18 +734,17 @@ implements MapConsts {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void adaptDisplayContext(int n) {
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(n, 168);
         int n2 = choiceModelApp.getValue();
         int n3 = MapUtils.hmiServiceIDToContext(n2, n, this.env);
         int n4 = MapUtils.contextToHMIServiceID(n3, this.naviMap.getSatellitemapsManager().getActiveRendererID(), n, this.env);
-        this.getLogChannel().log(-2137614336, "Context#adaptDisplayContext( %1 ), adaptedHMIServiceID: %2, currentHMIServiceID: %3", (long)n, (long)n4, (long)n2);
+        this.getLogChannel().log(10000000, "Context#adaptDisplayContext( %1 ), adaptedHMIServiceID: %2, currentHMIServiceID: %3", (long)n, (long)n4, (long)n2);
         IRouteInfo iRouteInfo = this.getMapMain().getRouteInfo();
         synchronized (iRouteInfo) {
             if (n4 != n2) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "Context#adaptDisplayContext(): switching from %2 -> %3 (%1)", (Object)MapUtils.contextToString(n3), (long)n2, (long)n4);
+                    this.getLogChannel().log(1000000, "Context#adaptDisplayContext(): switching from %2 -> %3 (%1)", (Object)MapUtils.contextToString(n3), (long)n2, (long)n4);
                 }
                 this.container.sDisplayContextAnimationRunning = true;
                 choiceModelApp.setValue(n4);
@@ -841,22 +755,19 @@ implements MapConsts {
     protected void setVisibleArea() {
     }
 
-    @Override
     public void onChangedDayNightView(int n) {
         if (this.getMap().isMapKombi()) {
             this.getMap().getNaviInterface().getClusterService().applySetupHandlerSettings();
         }
     }
 
-    @Override
     public void onChangedOrientation(int n) {
-        this.getLogChannel().log(1078071040, "Context[%1]#onChangedOrientation: setupOrientation = %2", (long)this.getMap().getActiveContextIndex(), (long)n);
+        this.getLogChannel().log(1000000, "Context[%1]#onChangedOrientation: setupOrientation = %2", (long)this.getMap().getActiveContextIndex(), (long)n);
         if (this.getSetup().getMapType() == 1) {
             this.naviMap.getGuiInterface().refreshMapType(MapUtils.convertMapTypeIndex(1, n, this.env));
         }
     }
 
-    @Override
     public void onChangedPanorama(boolean bl) {
     }
 
@@ -866,17 +777,16 @@ implements MapConsts {
         if (n == 2 || n == 0 || n == 3) {
             bl = false;
         }
-        this.getLogChannel().log(-2137614336, "Context#enableDisableOrientation() - orientation = %1", bl);
+        this.getLogChannel().log(10000000, "Context#enableDisableOrientation() - orientation = %1", bl);
         this.naviMap.getGuiInterface().enableOrientation(bl);
         return bl;
     }
 
-    @Override
     public void activateOrientationAccordingToSetup() {
         boolean bl = this.enableDisableOrientation();
         if (bl) {
             int n = this.getSetupOrientation();
-            if (n != 0 && this.naviMap.getMVResponseControl().getZoomListIndex() >= this.retrieveZoomListIndex(5292871)) {
+            if (n != 0 && this.naviMap.getMVResponseControl().getZoomListIndex() >= this.retrieveZoomListIndex(100000.0f)) {
                 n = 0;
             }
             switch (n) {
@@ -906,16 +816,16 @@ implements MapConsts {
             return;
         }
         if (this.naviMap.getNaviInterface().getNaviOnlineService() == null || this.naviMap.getNaviInterface().getNaviOnlineService().getMapStateService() == null) {
-            this.getLogChannel().log(-1601830656, "Context#setNaviOnlineServiceDayNightView( %1 ) - Unable to inform NaviOnlineService about day/night view change!", bl);
+            this.getLogChannel().log(100000, "Context#setNaviOnlineServiceDayNightView( %1 ) - Unable to inform NaviOnlineService about day/night view change!", bl);
             return;
         }
-        this.getLogChannel().log(14808325, "Context#setNaviOnlineServiceDayNightView( %1 )", bl);
+        this.getLogChannel().log(100000000, "Context#setNaviOnlineServiceDayNightView( %1 )", bl);
         this.naviMap.getNaviInterface().getNaviOnlineService().getMapStateService().onDayNightViewChanged(bl);
     }
 
     protected boolean calculateMapColorAccordingToSetup() {
         int n = this.getSetupDayNightView();
-        this.getLogChannel().log(-2137614336, "Context#calculateMapColorAccordingToSetup() - mapColor: %1", (long)n);
+        this.getLogChannel().log(10000000, "Context#calculateMapColorAccordingToSetup() - mapColor: %1", (long)n);
         if (n == 0) {
             return true;
         }
@@ -931,17 +841,16 @@ implements MapConsts {
                 return false;
             }
             boolean bl = this.getDayNightView();
-            this.getLogChannel().log(-1601830656, "Context#calculateMapColorAccordingToSetup() - unknown night design mode: %2, keep current mode (true=day/night=false): %1", bl, (long)n2);
+            this.getLogChannel().log(100000, "Context#calculateMapColorAccordingToSetup() - unknown night design mode: %2, keep current mode (true=day/night=false): %1", bl, (long)n2);
             return bl;
         }
-        this.getLogChannel().log(-1601830656, "Context#calculateMapColorAccordingToSetup() - unknown day/night mode type: %1", (long)n);
+        this.getLogChannel().log(100000, "Context#calculateMapColorAccordingToSetup() - unknown day/night mode type: %1", (long)n);
         return true;
     }
 
-    @Override
     public void switchDayNight() {
         int n = this.getSetupDayNightView();
-        this.getLogChannel().log(-2137614336, "Context#switchDayNight() - mapColor: %1", (long)n);
+        this.getLogChannel().log(10000000, "Context#switchDayNight() - mapColor: %1", (long)n);
         switch (n) {
             case 0: {
                 this.switchDayColors(true);
@@ -963,7 +872,7 @@ implements MapConsts {
 
     protected void switchMapRepresentation() {
         int n = this.getMapRepresentation();
-        this.getLogChannel().log(-2137614336, "Context#switchMapRepresentation() - mapRepresentation: %1", (long)n);
+        this.getLogChannel().log(10000000, "Context#switchMapRepresentation() - mapRepresentation: %1", (long)n);
         boolean bl = this.getSetupSpeedAndFlowCongestions();
         boolean bl2 = this.getSetupSpeedAndFlowFreeflow();
         this.naviMap.getMVRequest().showSpeedAndFlowCongestions(bl);
@@ -1013,7 +922,7 @@ implements MapConsts {
                     break;
                 }
                 default: {
-                    this.getLogChannel().log(-1601830656, "Context#switchMapAccordingToNightDesign() - unknown night design mode: %1 - use day mode as default", (long)n);
+                    this.getLogChannel().log(100000, "Context#switchMapAccordingToNightDesign() - unknown night design mode: %1 - use day mode as default", (long)n);
                     this.switchDayColors(true);
                 }
             }
@@ -1023,20 +932,18 @@ implements MapConsts {
     protected void switchMobilityHorizonAccordingToSetup() {
         if (Util.isRangeMapDisplayPresent(this.env.getFramework())) {
             boolean bl = this.isRangeMapReadyToShow();
-            this.getLogChannel().log(-2137614336, "Context#switchMobilityHorizonAccordingToSetup() - enable = %1", bl);
+            this.getLogChannel().log(10000000, "Context#switchMobilityHorizonAccordingToSetup() - enable = %1", bl);
             IMapRequest iMapRequest = this.naviMap.getMVRequest();
             iMapRequest.setMobilityHorizonVisibility(bl);
         }
     }
 
-    @Override
     public void onChangedSetup(int n, int n2) {
     }
 
-    @Override
     public void onChangedMapType(int n, int n2) {
         boolean bl;
-        this.getLogChannel().log(1078071040, "Context[%1]#onChangedMapType: setupMapType = %2", (long)this.getMap().getActiveContextIndex(), (long)n);
+        this.getLogChannel().log(1000000, "Context[%1]#onChangedMapType: setupMapType = %2", (long)this.getMap().getActiveContextIndex(), (long)n);
         this.naviMap.getGuiInterface().refreshMapType(MapUtils.convertMapTypeIndex(n, this.getSetupOrientation(), this.env));
         if (this.naviMap.getActiveContextIndex() == 2) {
             return;
@@ -1050,10 +957,9 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void onChangedAutoZoom(int n) {
         if (!this.getMap().getMapConfig().hasZoomEngine()) {
-            this.getLogChannel().log(-1601830656, "Context[%2]#onChangedAutoZoom() - %1 has no ZoomEngine.", (Object)this.getMap().getName(), (long)this.getMap().getActiveContextIndex());
+            this.getLogChannel().log(100000, "Context[%2]#onChangedAutoZoom() - %1 has no ZoomEngine.", (Object)this.getMap().getName(), (long)this.getMap().getActiveContextIndex());
             return;
         }
         boolean bl = this.naviMap.getSetup().isManeuverZoomDependendOnAutoZoom();
@@ -1065,16 +971,14 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void onChangedIntersectionZoom(int n, boolean bl) {
         if (!this.getMap().getMapConfig().hasZoomEngine()) {
-            this.getLogChannel().log(-1601830656, "Context[%2]#onChangedIntersectionZoom() - %1 has no ZoomEngine.", (Object)this.getMap().getName(), (long)this.getMap().getActiveContextIndex());
+            this.getLogChannel().log(100000, "Context[%2]#onChangedIntersectionZoom() - %1 has no ZoomEngine.", (Object)this.getMap().getName(), (long)this.getMap().getActiveContextIndex());
             return;
         }
         this.handleManeuverZoomEngineOnOff();
     }
 
-    @Override
     public void onChangedAdditionalInfos(int n) {
         if (this.naviMap.isMapMain()) {
             this.naviMap.getMapInterface().enableRouteInfoComplete(MapUtils.isRouteInfoComplete(n, Util.isClusterMMI(this.env.getFramework()), Util.isHURegionNAR()));
@@ -1087,9 +991,8 @@ implements MapConsts {
         this.naviMap.getMVRequest().setGeneralPoiVisibility(false);
     }
 
-    @Override
     public void onChangedMapRepresentation(int n, int n2) {
-        this.getLogChannel().log(1078071040, "Context#onChangedMapRepresentation(): mapRepresentation: %1, active context: %2", (long)n, (long)this.naviMap.getActiveContextIndex());
+        this.getLogChannel().log(1000000, "Context#onChangedMapRepresentation(): mapRepresentation: %1, active context: %2", (long)n, (long)this.naviMap.getActiveContextIndex());
         if (this.naviMap.getActiveContextIndex() == 2) {
             this.naviMap.getGuiInterface().refreshMapRepresentation();
             return;
@@ -1115,28 +1018,25 @@ implements MapConsts {
     }
 
     public String toString() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
     public void automaticOrientateMap() {
     }
 
-    @Override
     public void adjustCarPosition() {
     }
 
     protected void handleAutoZoomEngineOnOff() {
         if (!this.getMapConfig().hasZoomEngine()) {
-            this.getLogChannel().log(-1601830656, "Context#handleAutoZoomEngineOnOff() - %1 has no ZoomEngine", (Object)this.getMap().getName());
+            this.getLogChannel().log(100000, "Context#handleAutoZoomEngineOnOff() - %1 has no ZoomEngine", (Object)this.getMap().getName());
             return;
         }
-        this.getLogChannel().log(-2137614336, "Context#handleAutoZoomEngineOnOff()");
+        this.getLogChannel().log(10000000, "Context#handleAutoZoomEngineOnOff()");
         int n = this.getSetupAutoZoom();
         this.switchAutoZoomOnOff(n);
     }
 
-    @Override
     public void switchAutoZoomOnOff(int n) {
         int n2 = this.env.getFramework().getSysConstManager().getSysConst(4445);
         if (n2 == 1) {
@@ -1161,7 +1061,7 @@ implements MapConsts {
 
     protected void handleManeuverZoomEngineOnOff() {
         if (!this.getMapConfig().hasZoomEngine()) {
-            this.getLogChannel().log(-1601830656, "Context#handleManeuverZoomEngineOnOff() - %1 has no ZoomEngine", (Object)this.getMap().getName());
+            this.getLogChannel().log(100000, "Context#handleManeuverZoomEngineOnOff() - %1 has no ZoomEngine", (Object)this.getMap().getName());
             return;
         }
         int n = this.getSetupAutoZoom();
@@ -1190,17 +1090,15 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void signalNaviNotOperable() {
-        this.getLogChannel().log(1078071040, "Context#signalNaviNotOperable()");
+        this.getLogChannel().log(1000000, "Context#signalNaviNotOperable()");
         this.naviMap.forceContext(-1);
         this.naviMap.switchToHiddenContext();
         this.storeKeptContextIndex(0);
     }
 
-    @Override
     public void setIsInVia(boolean bl) {
-        this.getLogChannel().log(-2137614336, "Context#setIsInVia( %1 )", bl);
+        this.getLogChannel().log(10000000, "Context#setIsInVia( %1 )", bl);
         this.container.isInVia = bl;
     }
 
@@ -1208,16 +1106,14 @@ implements MapConsts {
         if (this.naviMap instanceof MapMain) {
             return (MapMain)this.naviMap;
         }
-        this.getLogChannel().log(-1601830656, "Context#getMapMain() - should not be used by a context, which belongs to MapInMap.");
+        this.getLogChannel().log(100000, "Context#getMapMain() - should not be used by a context, which belongs to MapInMap.");
         return this.naviMap.getMapManager().getMapMain();
     }
 
-    @Override
     protected AbstractMap getMap() {
         return this.naviMap;
     }
 
-    @Override
     public boolean isUserZoomEnabled() {
         return false;
     }
@@ -1225,9 +1121,8 @@ implements MapConsts {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateViewScreenViewPort(Rect rect) {
-        this.getLogChannel().log(-2137614336, "Context[%2]#updateViewScreenViewPort() - viewScreenViewPort: %1", (Object)rect, (long)this.getCID());
+        this.getLogChannel().log(10000000, "Context[%2]#updateViewScreenViewPort() - viewScreenViewPort: %1", (Object)rect, (long)this.getCID());
         MVRequestControl mVRequestControl = this.naviMap.getMVRequest().getMVRequestControlActive();
         synchronized (mVRequestControl) {
             if (this.naviMap.isMapMain()) {
@@ -1237,7 +1132,6 @@ implements MapConsts {
         }
     }
 
-    @Override
     public MapPin[] getDynamicPins() {
         return new MapPin[0];
     }
@@ -1250,47 +1144,41 @@ implements MapConsts {
         }
     }
 
-    @Override
     public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
     }
 
-    @Override
     public void updateDestDistance(int n) {
         this.container.distToNextDest = n;
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         if (n == this.getData().viewSize) {
-            this.getLogChannel().log(-2137614336, "Context[%1]#viewSizeChanged( %2 ) - no change needed", (long)this.getCID(), (long)n);
+            this.getLogChannel().log(10000000, "Context[%1]#viewSizeChanged( %2 ) - no change needed", (long)this.getCID(), (long)n);
             return;
         }
         if (n == 1) {
-            this.getLogChannel().log(1078071040, "Context[%1]#viewSizeChanged( %2 ) - change to small size", (long)this.getCID(), (long)n);
+            this.getLogChannel().log(1000000, "Context[%1]#viewSizeChanged( %2 ) - change to small size", (long)this.getCID(), (long)n);
         } else if (n == 2) {
-            this.getLogChannel().log(1078071040, "Context[%1]#viewSizeChanged( %2 ) - change to large size", (long)this.getCID(), (long)n);
+            this.getLogChannel().log(1000000, "Context[%1]#viewSizeChanged( %2 ) - change to large size", (long)this.getCID(), (long)n);
         } else {
-            this.getLogChannel().log(-1601830656, "Context[%1]#viewSizeChanged( %2 ) - invalid value", (long)this.getCID(), (long)n);
+            this.getLogChannel().log(100000, "Context[%1]#viewSizeChanged( %2 ) - invalid value", (long)this.getCID(), (long)n);
             return;
         }
         this.getData().viewSize = n;
     }
 
-    @Override
     public void setBackgroundRenderingMode(boolean bl) {
     }
 
-    @Override
     public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
-        this.getLogChannel().log(-2137614336, "Context#indicateTrafficEventNoticeMap() - message is(%1), NavRectangle is(%2), soundID is(%3)", (Object)tmcMessage, (Object)navRectangle, (long)n);
+        this.getLogChannel().log(10000000, "Context#indicateTrafficEventNoticeMap() - message is(%1), NavRectangle is(%2), soundID is(%3)", (Object)tmcMessage, (Object)navRectangle, (long)n);
         this.container.trafficNoticeMessage = tmcMessage;
         this.container.trafficNoticeRectangle = navRectangle;
         this.container.trafficNoticeSoundID = n;
     }
 
-    @Override
     public void updateBapManeuverState(int n) {
-        this.getLogChannel().log(-2137614336, "Context#updateBapManeuverState(%1)", (long)n);
+        this.getLogChannel().log(10000000, "Context#updateBapManeuverState(%1)", (long)n);
         this.container.oldBapManoeuvreState = this.container.actualBapManoeuvreState;
         this.container.actualBapManoeuvreState = n;
         if (this.maneuverPassed()) {
@@ -1299,40 +1187,33 @@ implements MapConsts {
     }
 
     protected boolean maneuverPassed() {
-        this.getLogChannel().log(14808325, "Context#maneuverPassed()");
+        this.getLogChannel().log(100000000, "Context#maneuverPassed()");
         return this.container.oldBapManoeuvreState >= this.container.actualBapManoeuvreState;
     }
 
-    @Override
     public void updateBapManeuverDescriptor(BapManeuverDescriptor[] bapManeuverDescriptorArray) {
     }
 
-    @Override
     public void hkBackPressed() {
     }
 
-    @Override
     public void onFiredRGAutoStartTimer() {
-        this.getLogChannel().log(-2137614336, "Context[%1]#onFiredRGAutoStartTimer()", (long)this.getCID());
+        this.getLogChannel().log(10000000, "Context[%1]#onFiredRGAutoStartTimer()", (long)this.getCID());
         this.getRouteCalcHandler().startRG(0);
     }
 
-    @Override
     public void resolvedSelectedValue(MapItemSelectionInfo mapItemSelectionInfo) {
     }
 
-    @Override
     public final void onEvent(int n) {
-        this.getLogChannel().log(14808325, "Context[%1]#onEvent( %2 )", (long)this.getCID(), (long)n);
+        this.getLogChannel().log(100000000, "Context[%1]#onEvent( %2 )", (long)this.getCID(), (long)n);
         this.onEvent(n, null);
     }
 
-    @Override
     public void onEvent(int n, Object object) {
-        this.getLogChannel().log(-2137614336, "Context[%2]#onEvent( %3 ) - %1, dropped", object, (long)this.getCID(), (long)n);
+        this.getLogChannel().log(10000000, "Context[%2]#onEvent( %3 ) - %1, dropped", object, (long)this.getCID(), (long)n);
     }
 
-    @Override
     public void updateMobilityHorizonStatus(int n) {
         this.container.mobilityHorizonStatus = n;
         switch (n) {
@@ -1349,32 +1230,30 @@ implements MapConsts {
                 break;
             }
             case 6: {
-                this.getLogChannel().log(-1601830656, "Context#updateMobilityHorizonStatus( %1 ) - Not enough energy for showing range map!", (long)n);
+                this.getLogChannel().log(100000, "Context#updateMobilityHorizonStatus( %1 ) - Not enough energy for showing range map!", (long)n);
                 break;
             }
             case 0: {
-                this.getLogChannel().log(-1601830656, "Context#updateMobilityHorizonStatus( %1 ) - Range map not (yet) ready!", (long)n);
+                this.getLogChannel().log(100000, "Context#updateMobilityHorizonStatus( %1 ) - Range map not (yet) ready!", (long)n);
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "Context#updateMobilityHorizonStatus( unknown status )");
+                this.getLogChannel().log(100000, "Context#updateMobilityHorizonStatus( unknown status )");
             }
         }
     }
 
-    @Override
     public boolean isRangeMapReadyToShow() {
         return Util.isRangeMapDisplayPresent(this.env.getFramework()) && this.naviMap.isMapMain() && this.naviMap.getSetup().getMapRepresentation() == 3 && MapUtils.isRangeMapStatusOk(this.container.mobilityHorizonStatus);
     }
 
-    @Override
     public void setRangeMapDefaultZoomLevel() {
         if (Util.isRangeMapDisplayPresent(this.env.getFramework()) && this.naviMap.isMapMain() && this.naviMap.getSetup().getMapRepresentation() == 3) {
-            this.getLogChannel().log(14808325, "Context#setRangeMapDefaultZoomLevel()");
+            this.getLogChannel().log(100000000, "Context#setRangeMapDefaultZoomLevel()");
             IZoomHandler iZoomHandler = this.naviMap.getZoomHandler();
-            int n = iZoomHandler.getZoomListIndex(6318662);
-            this.naviMap.getMapDataContainer().fUserZoomLevel = iZoomHandler.getZoomLevel(n) / 51266;
-            this.getSetup().setSavedZoomListIndex(iZoomHandler.getZoomListIndex(6318662), false);
+            int n = iZoomHandler.getZoomListIndex(15000.0f);
+            this.naviMap.getMapDataContainer().fUserZoomLevel = iZoomHandler.getZoomLevel(n) / 100.0f;
+            this.getSetup().setSavedZoomListIndex(iZoomHandler.getZoomListIndex(15000.0f), false);
         }
     }
 
@@ -1382,16 +1261,15 @@ implements MapConsts {
         return Util.isWeatherOnMapPresent(this.env.getFramework()) ? this.getSetup().isWeatherIconVisible(0) : false;
     }
 
-    @Override
     public void setOperatorCallResultLocation(NavLocationWgs84 navLocationWgs84) {
-        this.getLogChannel().log(-2137614336, "Context#setLocationInMapForOperatorCall() - location: %1", (Object)navLocationWgs84);
+        this.getLogChannel().log(10000000, "Context#setLocationInMapForOperatorCall() - location: %1", (Object)navLocationWgs84);
         this.container.operatorCallResultLocation = navLocationWgs84;
     }
 
     private boolean isInitializationContextActive(AbstractMap abstractMap) {
-        int n = 14808325;
+        int n = 100000000;
         if (Util.isPorsche(this.env.getFramework())) {
-            n = -1601830656;
+            n = 100000;
         }
         if (abstractMap == null) {
             this.getLogChannel().log(n, "Context#isInitializationContextActive() - map is null");
@@ -1404,12 +1282,12 @@ implements MapConsts {
     }
 
     protected int getSetupDayNightView() {
-        int n = -2137614336;
+        int n = 10000000;
         if (Util.isPorsche(this.env.getFramework())) {
             n = 10000;
         }
         int n2 = this.getMapMain().getSetup().getDayNightView();
-        int n3 = State$StateData.getDefaultDayNightView();
+        int n3 = State.StateData.getDefaultDayNightView();
         AbstractMap abstractMap = this.getMap().getMapManager().getMapKombi();
         if (abstractMap == null) {
             this.getLogChannel().log(n, "Context#getSetupDayNightView() - getMapKombi() is NULL, therfore no SETUP of the Kombi! setUpMapMainDN: %1", (long)n2);
@@ -1424,38 +1302,34 @@ implements MapConsts {
         return this.getMap().isMapKombi() ? n3 : n2;
     }
 
-    @Override
     public void informTENMPopupPosition(int n, int n2, int n3, int n4) {
-        this.getLogChannel().log(14808325, "Context#informTENMPopupPosition() - TENM popup info: [%1]", (Object)new Rect(n, n2, n3, n4));
+        this.getLogChannel().log(100000000, "Context#informTENMPopupPosition() - TENM popup info: [%1]", (Object)new Rect(n, n2, n3, n4));
     }
 
     public boolean inIntersectionZoomState() {
         if ((this.container.actualBapManoeuvreState == 2 || this.container.actualBapManoeuvreState == 3 || this.container.actualBapManoeuvreState == 4) && this.getRGActive()) {
-            this.getLogChannel().log(14808325, "Context#inIntersectionZoomState() -- TRUE");
+            this.getLogChannel().log(100000000, "Context#inIntersectionZoomState() -- TRUE");
             return true;
         }
-        this.getLogChannel().log(14808325, "Context#inIntersectionZoomState() -- FALSE");
+        this.getLogChannel().log(100000000, "Context#inIntersectionZoomState() -- FALSE");
         return false;
     }
 
-    @Override
     public void updateCurrentViewType(int n) {
-        this.getLogChannel().log(-2137614336, "Context#updateCurrentViewType( %1 )", (long)n);
+        this.getLogChannel().log(10000000, "Context#updateCurrentViewType( %1 )", (long)n);
         if (this.getGUI() != null) {
             this.getGUI().updateStateIndicator(PropertyEnum.MapViewType, n);
         }
     }
 
-    @Override
     public void recalculateVisibleArea() {
     }
 
-    @Override
     public void updateLockingState(boolean bl) {
         if (bl) {
             if (Util.isLockFeatureNavMapAdvancedMapEnabled(this.env)) {
                 if (this.getSetup().getMapRepresentation() == 1) {
-                    this.getLogChannel().log(-2137614336, "Context#updateLockingState -> SatMap change to Standard");
+                    this.getLogChannel().log(10000000, "Context#updateLockingState -> SatMap change to Standard");
                     this.naviMap.getMapInterface().setGoogleTempDisabled(true);
                     this.naviMap.getMapManager().setMapRepresentation(0, false, false);
                 }
@@ -1464,7 +1338,7 @@ implements MapConsts {
             }
         } else if (Util.isLockFeatureNavMapAdvancedMapEnabled(this.env)) {
             if (this.naviMap.getMapInterface().isGoogleTempDisabled()) {
-                this.getLogChannel().log(-2137614336, "Context#updateLockingState -> Change back to SatMap");
+                this.getLogChannel().log(10000000, "Context#updateLockingState -> Change back to SatMap");
                 this.naviMap.getMapInterface().setGoogleTempDisabled(false);
                 this.naviMap.getMapManager().setMapRepresentation(1, false, false);
             }
@@ -1474,12 +1348,89 @@ implements MapConsts {
         super.updateLockingState(bl);
     }
 
-    static /* synthetic */ Context$GridMaskWatchdogTimer access$000(Context context) {
-        return context.getGridMaskWatchdogTimer();
+    private final class GridMaskDelayTimer
+    implements TimerListener {
+        private final Timer mTimer = new Timer("GridMaskDelayTimer", 200L, true, this);
+
+        GridMaskDelayTimer() {
+        }
+
+        private void restart() {
+            Context.this.getLogChannel().log(1000000, "Context#GridMaskDelayTimer#restart(): timer restarted");
+            this.mTimer.restart();
+        }
+
+        private void cancel() {
+            Context.this.getLogChannel().log(1000000, "Context#GridMaskDelayTimer#cancel(): timer cancelled");
+            this.mTimer.cancel();
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            Context.this.getLogChannel().log(1000000, "Context#GridMaskDelayTimer#fireTimer(): timer fired");
+            MVRequestControl mVRequestControl = Context.this.naviMap.getMVRequest().getMVRequestControlActive();
+            synchronized (mVRequestControl) {
+                GridMaskWatchdogTimer gridMaskWatchdogTimer = Context.this.getGridMaskWatchdogTimer();
+                if (gridMaskWatchdogTimer != null) {
+                    gridMaskWatchdogTimer.cancel();
+                }
+                Context.this.getGUI().setGridMaskVisible(false);
+            }
+        }
+
+        public void cancelTimer(Timer timer) {
+        }
     }
 
-    static /* synthetic */ Context$GridMaskDelayTimer access$200(Context context) {
-        return context.getGridMaskDelayTimer();
+    private final class GridMaskWatchdogTimer
+    implements TimerListener {
+        public static final long DEFAULT_DELAY = 3000L;
+        public static final long LONG_DELAY = 10000L;
+        private final Timer mTimer = new Timer("GridMaskWatchdogTimer", 3000L, true, this);
+
+        GridMaskWatchdogTimer() {
+        }
+
+        private void restart(boolean bl) {
+            Context.this.getLogChannel().log(1000000, "Context#GridMaskWatchdogTimer#restart(): timer restarted,  longDelay: %1 ", bl);
+            if (!bl && this.mTimer.isRunning() && this.mTimer.getDelay() == 10000L) {
+                Context.this.getLogChannel().log(1000000, "Context#GridMaskWatchdogTimer#restart(): timer still running with long delay - restart with long delay ");
+                bl = true;
+            }
+            long l = bl ? 10000L : 3000L;
+            this.mTimer.setDelay(l);
+            this.mTimer.restart();
+        }
+
+        private void cancel() {
+            Context.this.getLogChannel().log(1000000, "Context#GridMaskWatchdogTimer#cancel(): timer cancelled");
+            this.mTimer.cancel();
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            Context.this.getLogChannel().log(100000, "Context#GridMaskWatchdogTimer#fireTimer() - delay: %1 s -> Hide grid mask!", timer.getDelay() / 1000L);
+            MVRequestControl mVRequestControl = Context.this.naviMap.getMVRequest().getMVRequestControlActive();
+            synchronized (mVRequestControl) {
+                GridMaskDelayTimer gridMaskDelayTimer = Context.this.getGridMaskDelayTimer();
+                if (gridMaskDelayTimer != null) {
+                    gridMaskDelayTimer.cancel();
+                }
+                Context.this.getGUI().setGridMaskVisible(false);
+                Rect rect = Context.this.naviMap.getMVRequest().getPendingScreenViewport();
+                if (rect != null) {
+                    Context.this.getLogChannel().log(100000, "Context#GridMaskWatchdogTimer#fireTimer() - fake updateViewScreenViewPort for pendingViewPort: %1", (Object)rect);
+                    Context.this.naviMap.getMVResponseControl().updateViewScreenViewPort(rect, 1);
+                }
+            }
+        }
+
+        public void cancelTimer(Timer timer) {
+        }
     }
 }
 

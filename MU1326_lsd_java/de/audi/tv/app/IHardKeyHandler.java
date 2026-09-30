@@ -4,10 +4,8 @@
 package de.audi.tv.app;
 
 public interface IHardKeyHandler {
-    default public boolean nextKeyPressed() {
-    }
+    public boolean nextKeyPressed();
 
-    default public boolean prevKeyPressed() {
-    }
+    public boolean prevKeyPressed();
 }
 

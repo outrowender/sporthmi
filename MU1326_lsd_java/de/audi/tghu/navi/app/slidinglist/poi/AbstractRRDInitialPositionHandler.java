@@ -15,7 +15,7 @@ import org.dsi.ifc.navigation.PosPosition;
 
 public abstract class AbstractRRDInitialPositionHandler
 implements RRDInitialPositionHandler {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final LogChannel logChannel;
     protected final IRouteManager routeManager;
     protected final NavigationEnv env;
@@ -28,18 +28,17 @@ implements RRDInitialPositionHandler {
         this.logChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     public PosPosition getInitialPosition() {
         if ((this.isStopOverVicinity() || this.isDestinationVicinity()) && this.routeManager != null && this.routeManager.getRoute() != null) {
             NavLocation navLocation;
             if (this.isDestinationVicinity()) {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "%1#getInitialPosition - calculating for destination vicinity", (Object)this.CLASS_NAME);
+                    this.logChannel.log(100000000, "%1#getInitialPosition - calculating for destination vicinity", (Object)this.CLASS_NAME);
                 }
                 navLocation = RouteUtil.getFinalDestination(this.routeManager.getRoute());
             } else {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "%1#getInitialPosition - calculating for stop over vicinity", (Object)this.CLASS_NAME);
+                    this.logChannel.log(100000000, "%1#getInitialPosition - calculating for stop over vicinity", (Object)this.CLASS_NAME);
                 }
                 navLocation = RouteUtil.getFirstDestination(this.routeManager.getRoute());
             }
@@ -50,7 +49,7 @@ implements RRDInitialPositionHandler {
         }
         if (this.isInNewCity()) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#getInitialPosition - calculation for new city", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000000, "%1#getInitialPosition - calculation for new city", (Object)this.CLASS_NAME);
             }
             PosPosition posPosition = this.env.getPoiSearchArea().getLocationAsPosPosition();
             if (this.env.getPoiSearchArea().getSearchContext() == 5) {
@@ -62,22 +61,19 @@ implements RRDInitialPositionHandler {
             return this.vehicle.getPosition();
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#getInitialPosition getting vehicle position", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "%1#getInitialPosition getting vehicle position", (Object)this.CLASS_NAME);
         }
         if (this.vehicle == null) {
-            this.logChannel.log(-1601830656, "%1#getInitialPosition vehicle is null, no position available, returning null", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "%1#getInitialPosition vehicle is null, no position available, returning null", (Object)this.CLASS_NAME);
             return null;
         }
         return this.vehicle.getPosition();
     }
 
-    protected abstract boolean isStopOverVicinity() {
-    }
+    protected abstract boolean isStopOverVicinity();
 
-    protected abstract boolean isDestinationVicinity() {
-    }
+    protected abstract boolean isDestinationVicinity();
 
-    protected abstract boolean isInNewCity() {
-    }
+    protected abstract boolean isInNewCity();
 }
 

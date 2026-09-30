@@ -19,42 +19,31 @@ import de.audi.tv.app.lists.StationMapper;
 import org.dsi.ifc.tvtuner.LogoInfo;
 
 public interface ITVCmdManager {
-    public static final String KEY_TYPE;
-    public static final int CL_TYPE_STATIONS;
-    public static final int CL_TYPE_AUDIO;
-    public static final int CL_TYPE_DSI;
+    public static final String KEY_TYPE = "CL_TYPE";
+    public static final int CL_TYPE_STATIONS = 0;
+    public static final int CL_TYPE_AUDIO = 1;
+    public static final int CL_TYPE_DSI = 2;
 
-    default public TVCommandList createCmdList(int n) {
-    }
+    public TVCommandList createCmdList(int var1);
 
-    default public CommandListManager getCommandListManager() {
-    }
+    public CommandListManager getCommandListManager();
 
-    default public void enqueue(CommandList commandList) {
-    }
+    public void enqueue(CommandList var1);
 
-    default public AddFavoriteCmd createAddFavoriteCmd(IServiceListsResource iServiceListsResource, StationMapper stationMapper) {
-    }
+    public AddFavoriteCmd createAddFavoriteCmd(IServiceListsResource var1, StationMapper var2);
 
-    default public SetFavoritesCmd createSetFavoritesCmd(IServiceListsResource iServiceListsResource, StationMapper stationMapper) {
-    }
+    public SetFavoritesCmd createSetFavoritesCmd(IServiceListsResource var1, StationMapper var2);
 
-    default public RemoveFavoriteCmd createRemoveFavoriteCmd(IServiceListsResource iServiceListsResource, StationMapper stationMapper) {
-    }
+    public RemoveFavoriteCmd createRemoveFavoriteCmd(IServiceListsResource var1, StationMapper var2);
 
-    default public ClearFavoritesCmd createClearFavoritesCmd(IServiceListsResource iServiceListsResource, StationMapper stationMapper) {
-    }
+    public ClearFavoritesCmd createClearFavoritesCmd(IServiceListsResource var1, StationMapper var2);
 
-    default public UpdateStationListCmd createUpdateStationListCmd(IServiceListsResource iServiceListsResource, StationMapper stationMapper) {
-    }
+    public UpdateStationListCmd createUpdateStationListCmd(IServiceListsResource var1, StationMapper var2);
 
-    default public LoadFavoritesCmd createLoadFavoritesCmd(IServiceListsResource iServiceListsResource) {
-    }
+    public LoadFavoritesCmd createLoadFavoritesCmd(IServiceListsResource var1);
 
-    default public UpdateSelectedStationCmd createUpdateSelectedStationCmd(IServiceListsResource iServiceListsResource, boolean bl) {
-    }
+    public UpdateSelectedStationCmd createUpdateSelectedStationCmd(IServiceListsResource var1, boolean var2);
 
-    default public UpdateLogosCmd createUpdateLogosCmd(IServiceListsResource iServiceListsResource, LogoInfo[] logoInfoArray) {
-    }
+    public UpdateLogosCmd createUpdateLogosCmd(IServiceListsResource var1, LogoInfo[] var2);
 }
 

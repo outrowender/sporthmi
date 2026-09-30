@@ -41,34 +41,27 @@ TimerListener {
         this.audioFocusClient = keyHandlerBasics.getAudioFocusClient();
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
     }
 
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 

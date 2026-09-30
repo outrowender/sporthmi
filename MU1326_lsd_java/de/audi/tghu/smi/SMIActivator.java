@@ -12,9 +12,9 @@ import de.audi.atip.diag.sw.AbstractSwDiagnosis;
 import de.audi.atip.diag.sw.SwDiagnosisManager;
 import de.audi.atip.hmi.KbdService;
 import de.audi.atip.statemachine.SMModule;
+import de.audi.atip.statemachine.sds.TTSASR;
+import de.audi.atip.testsupport.ITestSupportService;
 import de.audi.tghu.smi.SMI;
-import de.audi.tghu.smi.SMIActivator$BEMTrackerDispatcher;
-import de.audi.tghu.smi.SMIActivator$SDSTrackerDispatcher;
 import de.mib.swdiagnosis.SMIDiagnosis;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -26,8 +26,8 @@ public class SMIActivator
 extends AbstractFrameworkActivator
 implements ServiceTrackerCustomizer {
     private ServiceTracker sdsTracker;
-    private ServiceTrackerCustomizer sdsTrackerDispatcher = new SMIActivator$SDSTrackerDispatcher(this, null);
-    private ServiceTrackerCustomizer bemTrackerDispatcher = new SMIActivator$BEMTrackerDispatcher(this, null);
+    private ServiceTrackerCustomizer sdsTrackerDispatcher = new SDSTrackerDispatcher();
+    private ServiceTrackerCustomizer bemTrackerDispatcher = new BEMTrackerDispatcher();
     private ServiceTracker smmTracker;
     private ServiceTracker bemTracker;
     private SMI smi;
@@ -47,7 +47,6 @@ implements ServiceTrackerCustomizer {
         return this.smi;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         KbdService kbdService = null;
         ServiceReference serviceReference = this.getFramework().getBundleCxt().getServiceReference((class$de$audi$atip$hmi$KbdService == null ? (class$de$audi$atip$hmi$KbdService = SMIActivator.class$("de.audi.atip.hmi.KbdService")) : class$de$audi$atip$hmi$KbdService).getName());
@@ -67,7 +66,6 @@ implements ServiceTrackerCustomizer {
         this.smiSvcReg = bundleContext.registerService((class$de$audi$atip$statemachine$SMInterpreter == null ? (class$de$audi$atip$statemachine$SMInterpreter = SMIActivator.class$("de.audi.atip.statemachine.SMInterpreter")) : class$de$audi$atip$statemachine$SMInterpreter).getName(), (Object)this.smi, null);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.smiSvcReg != null) {
             this.smiSvcReg.unregister();
@@ -85,7 +83,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
         if (object instanceof SwDiagnosisManager) {
@@ -101,11 +98,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         SMModule sMModule = (SMModule)object;
         this.smi.triggerSMModuleRemoval(sMModule);
@@ -121,24 +116,54 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ BundleContext access$200(SMIActivator sMIActivator) {
-        return sMIActivator.getBundleContext();
+    private class BEMTrackerDispatcher
+    implements ServiceTrackerCustomizer {
+        private BEMTrackerDispatcher() {
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            ITestSupportService iTestSupportService = (ITestSupportService)SMIActivator.this.getBundleContext().getService(serviceReference);
+            if (iTestSupportService != null) {
+                SMIActivator.this.smi.getSOSHandler().setTestSupportService(iTestSupportService);
+                return iTestSupportService;
+            }
+            return null;
+        }
+
+        public void modifiedService(ServiceReference serviceReference, Object object) {
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
+            SMIActivator.this.getBundleContext().ungetService(serviceReference);
+            SMIActivator.this.smi.getSOSHandler().setTestSupportService(null);
+        }
     }
 
-    static /* synthetic */ SMI access$300(SMIActivator sMIActivator) {
-        return sMIActivator.smi;
-    }
+    private class SDSTrackerDispatcher
+    implements ServiceTrackerCustomizer {
+        private SDSTrackerDispatcher() {
+        }
 
-    static /* synthetic */ BundleContext access$400(SMIActivator sMIActivator) {
-        return sMIActivator.getBundleContext();
-    }
+        public Object addingService(ServiceReference serviceReference) {
+            TTSASR tTSASR = (TTSASR)SMIActivator.this.getBundleContext().getService(serviceReference);
+            if (tTSASR != null) {
+                ((SMIActivator)SMIActivator.this).smi.getLogger().smi.log(1000000, "[SMIActivator-SDSTrackerDispatcher#addingService] adding SDS Service...");
+                SMIActivator.this.smi.setSDSService(tTSASR);
+                ((SMIActivator)SMIActivator.this).smi.getLogger().smi.log(1000000, "[SMIActivator-SDSTrackerDispatcher#addingService] triggering the SDSApp to fire initialize-event");
+                tTSASR.initializeStateMachine();
+                return tTSASR;
+            }
+            return null;
+        }
 
-    static /* synthetic */ BundleContext access$500(SMIActivator sMIActivator) {
-        return sMIActivator.getBundleContext();
-    }
+        public void modifiedService(ServiceReference serviceReference, Object object) {
+        }
 
-    static /* synthetic */ BundleContext access$600(SMIActivator sMIActivator) {
-        return sMIActivator.getBundleContext();
+        public void removedService(ServiceReference serviceReference, Object object) {
+            ((SMIActivator)SMIActivator.this).smi.getLogger().smi.log(1000, "[SDSTrackerDispatcher#removedService] removed SDS Service...");
+            SMIActivator.this.getBundleContext().ungetService(serviceReference);
+            SMIActivator.this.smi.setSDSService(null);
+        }
     }
 }
 

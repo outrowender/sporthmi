@@ -21,7 +21,6 @@ ServiceTrackerCustomizer {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.context = bundleContext;
         this.tracker = new ServiceTracker(bundleContext, this.getTrackedService(), (ServiceTrackerCustomizer)this);
@@ -29,7 +28,6 @@ ServiceTrackerCustomizer {
         this.onStart();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.tracker != null) {
             this.tracker.close();
@@ -39,22 +37,19 @@ ServiceTrackerCustomizer {
         this.context = null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = null;
         if (this.context != null && !this.trackedServiceAdded(object = this.context.getService(serviceReference))) {
             this.context.ungetService(serviceReference);
-            this.logChannel.log(-1601830656, "[AbstractNaviServiceComponent] not adding unwanted service!");
+            this.logChannel.log(100000, "[AbstractNaviServiceComponent] not adding unwanted service!");
             object = null;
         }
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (this.context != null) {
             this.context.ungetService(serviceReference);
@@ -62,19 +57,14 @@ ServiceTrackerCustomizer {
         this.trackedServiceRemoved(object);
     }
 
-    protected abstract String[] getTrackedService() {
-    }
+    protected abstract String[] getTrackedService();
 
-    protected abstract boolean trackedServiceAdded(Object object) {
-    }
+    protected abstract boolean trackedServiceAdded(Object var1);
 
-    protected abstract boolean trackedServiceRemoved(Object object) {
-    }
+    protected abstract boolean trackedServiceRemoved(Object var1);
 
-    protected abstract void onStart() {
-    }
+    protected abstract void onStart();
 
-    protected abstract void onStop() {
-    }
+    protected abstract void onStop();
 }
 

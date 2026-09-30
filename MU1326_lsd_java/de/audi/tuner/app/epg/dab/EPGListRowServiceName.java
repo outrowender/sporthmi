@@ -19,7 +19,6 @@ extends EPGListRow {
         super(ePGListRowServiceName);
     }
 
-    @Override
     public EvoListRow copy() {
         return new EPGListRowServiceName(this);
     }

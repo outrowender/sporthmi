@@ -27,7 +27,6 @@ implements AllBandCmdListener {
         return this.tuner.equals(iSimpleTuner);
     }
 
-    @Override
     public void dsiRegistered(DSIBase dSIBase) {
     }
 }

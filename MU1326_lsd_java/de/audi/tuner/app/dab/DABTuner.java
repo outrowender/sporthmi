@@ -25,10 +25,6 @@ import de.audi.tuner.app.dab.DABDSIUpManager;
 import de.audi.tuner.app.dab.DABDsiDownInfo;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
 import de.audi.tuner.app.dab.DABSetupHandler;
-import de.audi.tuner.app.dab.DABTuner$DsiDownListener;
-import de.audi.tuner.app.dab.DABTuner$DsiUpListener;
-import de.audi.tuner.app.dab.DABTuner$RsdbStatusListener;
-import de.audi.tuner.app.dab.DABTuner$TunerActionProxyListenerExt;
 import de.audi.tuner.app.dab.DABVolumeLockHandler;
 import de.audi.tuner.app.dab.DabRadioTextHistory;
 import de.audi.tuner.app.dab.DabReceptionStatus;
@@ -41,6 +37,7 @@ import de.audi.tuner.app.rthyperlinking.RadiotextHyperlinkProcessor;
 import de.audi.tuner.app.storage.TunerStorage;
 import de.audi.tuner.ifc.CmdDefaultListener;
 import de.audi.tuner.ifc.IDABTuner;
+import de.audi.tuner.ifc.ILogoDatabase;
 import de.audi.tuner.ifc.IMemoryList;
 import de.audi.tuner.ifc.IPrevNext;
 import de.audi.tuner.ifc.IScanHandler;
@@ -50,18 +47,20 @@ import de.audi.tuner.ifc.listener.IUpdateListener;
 import de.audi.tuner.itunes.ITaggingManager;
 import de.audi.tuner.sds.UpdateListenerHandler;
 import de.audi.tuner.util.NullDSIDABTunerListener;
+import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.base.DSIBase;
 import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.radio.ComponentInfo;
 import org.dsi.ifc.radio.DSIDABTuner;
 import org.dsi.ifc.radio.DSIDABTunerListener;
 import org.dsi.ifc.radio.EnsembleInfo;
+import org.dsi.ifc.radio.FrequencyInfo;
 import org.dsi.ifc.radio.ServiceInfo;
 
 public class DABTuner
 extends UpdateListenerHandler
 implements IDABTuner {
-    private final DABDsiUpInfo dsiUpListener = new DABTuner$DsiUpListener(this, null);
+    private final DABDsiUpInfo dsiUpListener = new DsiUpListener();
     private DabStation activeStation = new DabStation(new EnsembleInfo());
     private final GUIHandlerDAB guiHandler;
     private final DABDSIUpManager dsiUpManager;
@@ -120,7 +119,7 @@ implements IDABTuner {
         for (int i3 = 0; i3 < dABDsiDownInfoArray.length; ++i3) {
             this.dsiDownManager.register(dABDsiDownInfoArray[i3]);
         }
-        this.dsiDownManager.register(new DABTuner$DsiDownListener(this, null));
+        this.dsiDownManager.register(new DsiDownListener());
         this.dsiDownManager.register(this.dsiUpManager.dsiDownListener);
         this.dsiUpManager.register(memoryListHandler.highlightListener);
         this.dsiDownManager.register(memoryListHandler.highlightListener);
@@ -130,36 +129,30 @@ implements IDABTuner {
         this.dsiDownManager.register(this.radioTextHistory.dsiDownListener);
     }
 
-    @Override
     public void setDeviceService(DSIBase dSIBase) {
-        this.logger.startup.log(-2137614336, "[DABTuner#setDeviceService]");
+        this.logger.startup.log(10000000, "[DABTuner#setDeviceService]");
         this.dsiDownManager.setDeviceService((DSIDABTuner)dSIBase);
         if (this.isDsiFound()) {
             this.cmdManager.getActiveAllBandCmd(this).dsiRegistered(dSIBase);
         }
     }
 
-    @Override
     public void setCmdManager(IRadioCmdManager iRadioCmdManager) {
         this.cmdManager = iRadioCmdManager;
     }
 
-    @Override
     public IRadioCmdManager getCmdManager() {
         return this.cmdManager;
     }
 
-    @Override
     public void register(DSIListener dSIListener) {
         this.dsiDabTunerListener = (DSIDABTunerListener)dSIListener;
     }
 
-    @Override
     public void register(ITaggingManager iTaggingManager) {
         throw new IllegalArgumentException();
     }
 
-    @Override
     public void registerDsiUpDownListener(RadioInfo radioInfo) {
         if (radioInfo instanceof DABDsiUpInfo) {
             this.dsiUpManager.register(radioInfo);
@@ -171,50 +164,42 @@ implements IDABTuner {
         }
     }
 
-    @Override
     public void register(IGracenoteRequest iGracenoteRequest) {
         this.dsiUpManager.register(iGracenoteRequest);
     }
 
-    @Override
     public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
         return this.dsiUpManager.getUpdateListener(iMemoryList);
     }
 
-    @Override
     public IRadioDatabaseListener getDatabaseListener() {
-        return new DABTuner$RsdbStatusListener(this, null);
+        return new RsdbStatusListener();
     }
 
     public MemoryListHandler getMemoryList() {
         return this.memory;
     }
 
-    @Override
     public void audioManagementJustBecameAvailable() {
         this.volumeLockHandler.audioManagementJustBecameAvailable();
     }
 
-    @Override
     public void setSoftlinking(int n) {
-        this.models.getChoiceModel(-1333264128).setValue(n);
-        if (this.models.getChoiceModel(378011904).getValue() == 1) {
+        this.models.getChoiceModel(100528).setValue(n);
+        if (this.models.getChoiceModel(100374).getValue() == 1) {
             this.switchLinking(n == 1 ? 7 : 3);
         }
         this.guiHandler.setupValueUpdated(n, 3);
     }
 
-    @Override
     public void reRequestCoverArt() {
         this.dsiDownManager.reNotification(33);
     }
 
-    @Override
     public ITunerGUIHandler getGUIHandler() {
         return this.guiHandler;
     }
 
-    @Override
     public void dabSelected(DabStation dabStation, int n) {
         String string = this.activeStation.getFullName();
         String string2 = this.activeStation.getShortName();
@@ -224,7 +209,7 @@ implements IDABTuner {
         if (string2 == null) {
             string2 = "";
         }
-        this.logger.dabDSI.log(1078071040, "[DABTuner.dabSelected] full:%1 short:%2", (Object)string, (Object)string2);
+        this.logger.dabDSI.log(1000000, "[DABTuner.dabSelected] full:%1 short:%2", (Object)string, (Object)string2);
         this.guiHandler.labels.updateServiceFullName(string);
         RadioCommandList radioCommandList = this.cmdManager.clSwitchToDAB(n);
         if (dabStation == null) {
@@ -243,7 +228,7 @@ implements IDABTuner {
 
     private void reTuneActiveServOrComp() {
         ServiceInfo serviceInfo = this.getActiveService();
-        this.logger.main.log(1078071040, "[DABTuner.reTuneActiveServOrComp] %1", (Object)serviceInfo);
+        this.logger.main.log(1000000, "[DABTuner.reTuneActiveServOrComp] %1", (Object)serviceInfo);
         RadioCommandList radioCommandList = new RadioCommandList(this.cmdManager, "DONT_ABORT");
         radioCommandList.add(this.cmdManager.cmdSelectDABServiceDontBlock(2, this.activeStation, 0));
         this.cmdManager.enqueue(radioCommandList);
@@ -252,9 +237,8 @@ implements IDABTuner {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logger.hmi.log(-2137614336, "[DABTuner#deinit]");
+        this.logger.hmi.log(10000000, "[DABTuner#deinit]");
         this.dsiDownManager.clearNotification(this.attributes, this.dsiDabTunerListener);
         Object object = this.mutexInit;
         synchronized (object) {
@@ -263,9 +247,8 @@ implements IDABTuner {
         }
     }
 
-    @Override
     public void setInitDone() {
-        this.logger.main.log(-2137614336, "[DABTuner.setInitDone]");
+        this.logger.main.log(10000000, "[DABTuner.setInitDone]");
         this.initDone = true;
     }
 
@@ -276,17 +259,16 @@ implements IDABTuner {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int init() {
-        this.logger.main.log(1078071040, "[DABTuner.init]");
+        this.logger.main.log(1000000, "[DABTuner.init]");
         Object object = this.mutexInit;
         synchronized (object) {
             if (this.initAlreadyTriggered) {
-                this.logger.main.log(1078071040, "[DABTuner.init] Already triggered!");
+                this.logger.main.log(1000000, "[DABTuner.init] Already triggered!");
                 return 0;
             }
             if (!this.isDsiFound()) {
-                this.logger.startup.log(1078071040, "[DABTuner.init] abort: No dsi available!");
+                this.logger.startup.log(1000000, "[DABTuner.init] abort: No dsi available!");
                 return 2;
             }
             this.updateCurrentService(this.activeStation);
@@ -299,7 +281,6 @@ implements IDABTuner {
         return 1;
     }
 
-    @Override
     public void initSetup() {
         this.guiHandler.initSetup();
         this.dsiDownManager.setNotification(this.attributes, this.dsiDabTunerListener);
@@ -307,18 +288,17 @@ implements IDABTuner {
             int[] nArray = new int[]{4, 8, 7, 1, 33, 36};
             this.dsiDownManager.enableRadioTextPlus(Utilities.combineArrays(nArray, RadiotextHyperlinkProcessor.HYPERLINK_TAGS));
         } else {
-            this.logger.dabDSI.log(-2137614336, "DABTuner#init: RT+ is disabled by coding");
+            this.logger.dabDSI.log(10000000, "DABTuner#init: RT+ is disabled by coding");
         }
         this.switchSlideShowMode(1);
         this.dsiDownManager.setEpgMode(4);
     }
 
-    @Override
     public void executeInitialCommands() {
         RadioCommandList radioCommandList;
         RadioCommandList radioCommandList2;
         boolean bl;
-        this.logger.main.log(1078071040, "[DABTuner.executeInitialCommands]");
+        this.logger.main.log(1000000, "[DABTuner.executeInitialCommands]");
         boolean bl2 = this.models.getActiveTuner() == 5;
         boolean bl3 = bl = this.status.hasAudioFocus(0) && bl2;
         if (bl) {
@@ -358,18 +338,16 @@ implements IDABTuner {
         this.dsiDownManager.setSlideShowMode(n);
     }
 
-    @Override
     public void seekStation(int n, int n2) {
-        this.logger.dabDSI.log(1078071040, "[DABTuner.seekStation] mode:%1", (long)n);
+        this.logger.dabDSI.log(1000000, "[DABTuner.seekStation] mode:%1", (long)n);
         this.dsiDownManager.seekService(n);
         if (n2 != -2) {
             this.audio.demute(n2);
         }
     }
 
-    @Override
     public void selectStation(DabStation dabStation, int n, int n2) {
-        this.logger.dabDSI.log(-2137614336, "[DABT.tune] Container %1", (Object)dabStation);
+        this.logger.dabDSI.log(10000000, "[DABT.tune] Container %1", (Object)dabStation);
         DabReceptionStatus dabReceptionStatus = this.prepareReceptionStatus(dabStation);
         this.dsiDownManager.selectStation(dabStation, n, dabReceptionStatus, n2);
     }
@@ -395,16 +373,15 @@ implements IDABTuner {
         }
         this.prepareReceptionStati(bl, bl2);
         if (!bl2 && !bl) {
-            this.logger.dabDSI.log(-2137614336, "[DABTuner.preTuneAction] Service to Tune allready Tuned. Dont discard Bufferd Service");
+            this.logger.dabDSI.log(10000000, "[DABTuner.preTuneAction] Service to Tune allready Tuned. Dont discard Bufferd Service");
             this.dsiUpManager.setServiceChangedAtTune(false);
         } else {
-            this.logger.dabDSI.log(-2137614336, "[DABTuner.preTuneAction] New Service to Tune. Discard Bufferd Service while Tune-running ");
+            this.logger.dabDSI.log(10000000, "[DABTuner.preTuneAction] New Service to Tune. Discard Bufferd Service while Tune-running ");
             this.dsiUpManager.setServiceChangedAtTune(true);
         }
         this.activeStation = dabStation;
     }
 
-    @Override
     public DabReceptionStatus prepareReceptionStatus(DabStation dabStation) {
         boolean bl;
         boolean bl2 = dabStation.ensemble.ensID != this.activeStation.ensemble.ensID;
@@ -435,7 +412,7 @@ implements IDABTuner {
     }
 
     private void handleLinkingAndSyncState(DabReceptionStatus dabReceptionStatus) {
-        this.logger.main.log(-2137614336, "[DABTuner.handleLinkingAndSyncState] linkingState:%1 syncState:%2", (long)dabReceptionStatus.linkStatus, (long)dabReceptionStatus.syncStatus);
+        this.logger.main.log(10000000, "[DABTuner.handleLinkingAndSyncState] linkingState:%1 syncState:%2", (long)dabReceptionStatus.linkStatus, (long)dabReceptionStatus.syncStatus);
         boolean bl = !this.reception.equals(dabReceptionStatus);
         this.reception = dabReceptionStatus;
         this.propagateUpdatedMuteStatus(5, dabReceptionStatus.syncStatus != 4);
@@ -448,7 +425,7 @@ implements IDABTuner {
 
     public void updateLinkingSwitchStatus(int n) {
         int n2 = 0;
-        int n3 = this.models.getChoiceModel(-1333264128).getValue();
+        int n3 = this.models.getChoiceModel(100528).getValue();
         switch (n) {
             case 7: {
                 n2 = 1;
@@ -461,8 +438,8 @@ implements IDABTuner {
                 break;
             }
         }
-        this.models.getChoiceModel(378011904).setValue(n2);
-        this.models.getChoiceModel(-1333264128).setValue(n3);
+        this.models.getChoiceModel(100374).setValue(n2);
+        this.models.getChoiceModel(100528).setValue(n3);
         this.guiHandler.setupValueUpdated(n2, 1);
         this.guiHandler.setupValueUpdated(n3, 3);
     }
@@ -472,34 +449,29 @@ implements IDABTuner {
         this.storage.storeLastDABService(dabStation);
     }
 
-    @Override
     public void switchLinking(int n) {
         this.dsiDownManager.switchLinking(n);
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         this.dsiDownManager.setNotification(nArray, this.dsiDabTunerListener);
     }
 
-    @Override
     public void reNotification(int n) {
         this.dsiDownManager.reNotification(n);
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         this.dsiDownManager.clearNotification(nArray, this.dsiDabTunerListener);
     }
 
     public void updateFrequencyTableSwitchStatus(int n) {
-        this.logger.dabDSI.log(1078071040, "active frequency table is %1 ", (long)n);
+        this.logger.dabDSI.log(1000000, "active frequency table is %1 ", (long)n);
         int n2 = n == 8 ? 0 : 1;
-        this.models.getChoiceModel(-2037972736).setValue(n2);
+        this.models.getChoiceModel(100230).setValue(n2);
         this.guiHandler.setupValueUpdated(n2, 0);
     }
 
-    @Override
     public boolean isDsiFound() {
         return this.dsiDownManager.isDsiFound();
     }
@@ -508,12 +480,10 @@ implements IDABTuner {
         return 2;
     }
 
-    @Override
     public void switchFrequencyTable(int n) {
         this.dsiDownManager.switchFrequencyTable(n);
     }
 
-    @Override
     public void resetToDefaultSettings() {
         int[] nArray = DABSetupHandler.getDefaultSetup();
         this.guiHandler.processSetup(nArray);
@@ -525,22 +495,21 @@ implements IDABTuner {
         switch (n) {
             case 3: {
                 if (this.dabDetected) break;
-                this.models.getChoiceModel(42467584).setValue(1);
-                this.models.getChoiceModel(42467584).setStatus(1);
+                this.models.getChoiceModel(100354).setValue(1);
+                this.models.getChoiceModel(100354).setStatus(1);
                 this.bandList.addToBandList(5);
                 this.dabDetected = true;
                 break;
             }
             default: {
-                this.models.getChoiceModel(42467584).setStatus(0);
-                this.models.getChoiceModel(42467584).setValue(0);
+                this.models.getChoiceModel(100354).setStatus(0);
+                this.models.getChoiceModel(100354).setValue(0);
                 this.bandList.removeFromBandList(5);
                 this.dabDetected = false;
             }
         }
     }
 
-    @Override
     public int getCurSyncState() {
         return this.reception.syncStatus;
     }
@@ -552,7 +521,6 @@ implements IDABTuner {
         return "Unknown service";
     }
 
-    @Override
     public boolean isDeviceInUse() {
         return this.deviceUsage.getStatus() == 2;
     }
@@ -560,9 +528,8 @@ implements IDABTuner {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setComponentUsage(boolean bl) {
-        this.logger.dabDSI.log(-2137614336, "[DABTuner.setComponentUsage] used: %1 ", bl);
+        this.logger.dabDSI.log(10000000, "[DABTuner.setComponentUsage] used: %1 ", bl);
         if (this.isDsiFound()) {
             int n = bl ? 2 : 1;
             boolean bl2 = false;
@@ -570,7 +537,7 @@ implements IDABTuner {
             synchronized (generalStatusHandler) {
                 if (n != this.deviceUsage.getStatus()) {
                     if (!bl && this.isForcedStationListUpdateRunning()) {
-                        this.logger.dabDSI.log(1078071040, "[DABTuner.setComponentUsage] faking south side answer for abort LMUpdateStatus : %1", this.isForcedStationListUpdateRunning());
+                        this.logger.dabDSI.log(1000000, "[DABTuner.setComponentUsage] faking south side answer for abort LMUpdateStatus : %1", this.isForcedStationListUpdateRunning());
                         RadioCommandList radioCommandList = this.cmdManager.createCmdList("DAB");
                         radioCommandList.add(this.cmdManager.cmdAbortDABForcedUpdateListAndSwitchLinkingDeviceUsage(this.dsiDownManager));
                         this.cmdManager.enqueue(radioCommandList);
@@ -582,58 +549,51 @@ implements IDABTuner {
                 }
             }
             if (bl2) {
-                this.logger.dabDSI.log(1078071040, "[DABTuner.setComponentUsage] switchLinkingDeviceUsage to state: %1", (long)n);
+                this.logger.dabDSI.log(1000000, "[DABTuner.setComponentUsage] switchLinkingDeviceUsage to state: %1", (long)n);
             }
         } else {
-            this.logger.dabDSI.log(1078071040, "[DABTuner.setComponentUsage] no DSI available", bl);
+            this.logger.dabDSI.log(1000000, "[DABTuner.setComponentUsage] no DSI available", bl);
         }
     }
 
-    @Override
     public void setComponentUnused() {
-        this.logger.dabDSI.log(1078071040, "[DABTuner.setComponentUnused]");
+        this.logger.dabDSI.log(1000000, "[DABTuner.setComponentUnused]");
         if (this.isForcedStationListUpdateRunning()) {
             this.dsiDownManager.forceLMUpdate(2);
         }
         this.setComponentUsage(false);
     }
 
-    @Override
     public int getCurLinkState() {
         return this.reception.linkStatus;
     }
 
-    @Override
     public ServiceInfo getActiveService() {
         return this.activeStation.service;
     }
 
     public final void setActiveStation(DabStation dabStation) {
-        this.logger.dabDeepDebug.log(-2137614336, "[DABT.setActiveStation]: %1", (Object)dabStation);
+        this.logger.dabDeepDebug.log(10000000, "[DABT.setActiveStation]: %1", (Object)dabStation);
         if (!dabStation.isEnsemble()) {
             this.activeStation = dabStation;
         }
     }
 
-    @Override
     public DabStation getActiveStation() {
         return this.activeStation;
     }
 
-    @Override
     public EnsembleInfo getActiveEnsemble() {
         return this.activeStation.ensemble;
     }
 
-    @Override
     public ComponentInfo getActiveComponent() {
         return this.activeStation.component;
     }
 
-    @Override
     public boolean forceStationListUpdate(boolean bl) {
         boolean bl2 = this.isForcedStationListUpdateRunning();
-        this.logger.dabDSI.log(1078071040, "[DABTuner.forceStationListUpdate] start:%1 already running:%2", bl, bl2);
+        this.logger.dabDSI.log(1000000, "[DABTuner.forceStationListUpdate] start:%1 already running:%2", bl, bl2);
         boolean bl3 = false;
         if (bl && !bl2) {
             this.dsiDownManager.forceLMUpdate(1);
@@ -642,7 +602,7 @@ implements IDABTuner {
             RadioCommandList radioCommandList = this.cmdManager.createCmdList("DONT_ABORT");
             radioCommandList.add(this.cmdManager.cmdAbortDABForcedStationListUpdate(this.dsiDownManager));
             this.cmdManager.enqueue(radioCommandList);
-            this.models.getChoiceModel(-1970798336).setValue(0);
+            this.models.getChoiceModel(100490).setValue(0);
             this.variantExt.hidePartialPopup(5);
             bl3 = true;
         }
@@ -656,62 +616,56 @@ implements IDABTuner {
         }
         this.forceUpdateStatus = n;
         if (n == 1) {
-            this.models.getChoiceModel(-1970798336).setValue(1);
+            this.models.getChoiceModel(100490).setValue(1);
             this.variantExt.showPartialPopup(5);
         } else {
-            this.models.getChoiceModel(-1970798336).setValue(0);
+            this.models.getChoiceModel(100490).setValue(0);
             this.variantExt.hidePartialPopup(5);
         }
         this.propagateUpdatedForceStationListUpdateStatus(5, n);
     }
 
-    @Override
     public void getEPGDetailData(DabStation dabStation) {
         this.dsiDownManager.getEPGDetailData(dabStation);
     }
 
-    @Override
     public void switchDebugInfos(boolean bl) {
         this.showDebugInfos = bl;
         if (bl) {
-            ((DABTuner$DsiUpListener)this.dsiUpListener).updateDebugInfos();
+            ((DsiUpListener)this.dsiUpListener).updateDebugInfos();
         } else {
             this.models.getLabelModel(416).setText("");
         }
     }
 
-    @Override
     public void abortSeek() {
         if (!this.seekRunning) {
-            this.logger.dabDSI.log(-2137614336, "[DABTuner.abortSeek] Seek is not active, ignoring");
+            this.logger.dabDSI.log(10000000, "[DABTuner.abortSeek] Seek is not active, ignoring");
             return;
         }
-        this.logger.dabDSI.log(1078071040, "[DABTuner.abortSeek] send STOP");
+        this.logger.dabDSI.log(1000000, "[DABTuner.abortSeek] send STOP");
         this.seekStation(4, -2);
         this.reTuneActiveServOrComp();
     }
 
     public void abortForceLMUpdate() {
         if (this.forceUpdateStatus != 2) {
-            this.logger.dabDSI.log(-2137614336, "[DABTuner.abortForceLMUpdate] ForceLMUpdate is not active, ignoring");
+            this.logger.dabDSI.log(10000000, "[DABTuner.abortForceLMUpdate] ForceLMUpdate is not active, ignoring");
             return;
         }
-        this.logger.dabDSI.log(1078071040, "[DABTuner.abortForceLMUpdate] send STOP");
+        this.logger.dabDSI.log(1000000, "[DABTuner.abortForceLMUpdate] send STOP");
         this.forceLMUpdateStatus(2);
         this.reTuneActiveServOrComp();
     }
 
-    @Override
     public TunerActionProxyListener getActionProxyListener() {
-        return new DABTuner$TunerActionProxyListenerExt(this, null);
+        return new TunerActionProxyListenerExt();
     }
 
-    @Override
     public CmdDefaultListener getDSIUpManager() {
         return this.dsiUpManager;
     }
 
-    @Override
     public IPrevNext getPrevNextHandler() {
         return this.guiHandler.prevNextHandler;
     }
@@ -723,7 +677,6 @@ implements IDABTuner {
         }
     }
 
-    @Override
     public TunerObjectContainer[] startScan() {
         int n;
         TunerObjectContainer[] tunerObjectContainerArray;
@@ -744,12 +697,10 @@ implements IDABTuner {
         return tunerObjectContainerArray2;
     }
 
-    @Override
     public void stopScan() {
         this.dsiDownManager.setNotification(new int[]{5, 6, 7}, this.dsiDabTunerListener);
     }
 
-    @Override
     public void performLanguageChange() {
         this.dsiUpManager.forceNextListUpdate();
         this.dsiDownManager.reNotification(5);
@@ -769,57 +720,129 @@ implements IDABTuner {
         return this.forceUpdateStatus == 1;
     }
 
-    static /* synthetic */ void access$400(DABTuner dABTuner, DabStation dabStation) {
-        dABTuner.preTuneAction(dabStation);
+    private class DsiUpListener
+    extends DABDsiUpInfo {
+        private short quality;
+        private FrequencyInfo frequency = new FrequencyInfo();
+
+        private DsiUpListener() {
+        }
+
+        public void updateCurrentStation(DabStation dabStation, DabReceptionStatus dabReceptionStatus) {
+            DABTuner.this.updateCurrentService(dabStation);
+        }
+
+        public void updateSelectedFrequency(FrequencyInfo frequencyInfo) {
+            this.frequency = frequencyInfo;
+            this.updateDebugInfos();
+        }
+
+        public void updateReceptionStatus(DabReceptionStatus dabReceptionStatus) {
+            DABTuner.this.handleLinkingAndSyncState(dabReceptionStatus);
+        }
+
+        public void updateQuality(short s) {
+            this.quality = s;
+            this.updateDebugInfos();
+        }
+
+        public void updateLinkingSwitchStatus(int n) {
+            DABTuner.this.updateLinkingSwitchStatus(n);
+        }
+
+        public void updateFrequencyTableSwitchStatus(int n) {
+            DABTuner.this.updateFrequencyTableSwitchStatus(n);
+        }
+
+        public void updateDetectedDevice(int n) {
+            DABTuner.this.updateDetectedDevice(n);
+        }
+
+        public void updateAvailability(int n) {
+            DABTuner.this.deviceUsage.setStatus(0);
+            if (DABTuner.this.initDone && n == 2 && DABTuner.this.status.hasAudioFocus(0) && DABTuner.this.models.getActiveTuner() == 5) {
+                DABTuner.this.dabSelected(null, 0);
+            }
+        }
+
+        public void seekServiceStatus(boolean bl) {
+            DABTuner.this.seekRunning = bl;
+            DABTuner.this.propagateupdatedSeekStatus(bl);
+        }
+
+        public void forceLMUpdateStatus(int n) {
+            DABTuner.this.forceLMUpdateStatus(n);
+        }
+
+        void updateDebugInfos() {
+            if (DABTuner.this.showDebugInfos) {
+                Buffer buffer = new Buffer();
+                buffer.append(this.frequency.label);
+                buffer.append(": ");
+                buffer.append(this.quality);
+                DABTuner.this.models.getLabelModel(416).setText(buffer.toString());
+            }
+        }
     }
 
-    static /* synthetic */ AnnouncementHandler access$500(DABTuner dABTuner) {
-        return dABTuner.announce;
+    private class DsiDownListener
+    extends DABDsiDownInfo {
+        private DsiDownListener() {
+        }
+
+        public void preTuneAction(DabStation dabStation, DabReceptionStatus dabReceptionStatus, int n) {
+            DABTuner.this.preTuneAction(dabStation);
+            if (n != 0) {
+                DABTuner.this.announce.abortAnnouncement();
+            }
+        }
+
+        public void postTuneAction(DabStation dabStation, int n) {
+        }
     }
 
-    static /* synthetic */ void access$600(DABTuner dABTuner, DabReceptionStatus dabReceptionStatus) {
-        dABTuner.handleLinkingAndSyncState(dabReceptionStatus);
+    private class RsdbStatusListener
+    implements IRadioDatabaseListener {
+        private RsdbStatusListener() {
+        }
+
+        public void databaseReady(ILogoDatabase iLogoDatabase) {
+            DABTuner.this.dsiUpManager.setDatabase(iLogoDatabase);
+            DABTuner.this.reNotification(5);
+            DABTuner.this.reNotification(6);
+            DABTuner.this.reNotification(7);
+            DABTuner.this.reNotification(1);
+            DABTuner.this.reNotification(2);
+            DABTuner.this.reNotification(3);
+        }
     }
 
-    static /* synthetic */ GeneralStatusHandler access$700(DABTuner dABTuner) {
-        return dABTuner.deviceUsage;
-    }
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
 
-    static /* synthetic */ boolean access$800(DABTuner dABTuner) {
-        return dABTuner.initDone;
-    }
+        public void stationSeekLeft() {
+            ((DABTuner)DABTuner.this).logger.dabDSI.log(1000000, "[DABTuner.TunerActionProxyListenerExt.stationSeekLeft] entered!");
+            if (DABTuner.this.seekRunning) {
+                DABTuner.this.abortSeek();
+            }
+        }
 
-    static /* synthetic */ TunerStatus access$900(DABTuner dABTuner) {
-        return dABTuner.status;
-    }
+        public void tunerAbortScan() {
+            ((DABTuner)DABTuner.this).logger.dabDSI.log(1000000, "[DABTuner.TunerActionProxyListenerExt.tunerAbortScan] entered!");
+            if (DABTuner.this.isForcedStationListUpdateRunning()) {
+                DABTuner.this.forceStationListUpdate(false);
+            }
+        }
 
-    static /* synthetic */ TunerModels access$1000(DABTuner dABTuner) {
-        return dABTuner.models;
-    }
+        public void hmiActivatedTuner() {
+            ((DABTuner)DABTuner.this).logger.dabDSI.log(1000000, "[DABTuner.TunerActionProxyListenerExt.hmiActivatedTuner] entered!");
+        }
 
-    static /* synthetic */ boolean access$1102(DABTuner dABTuner, boolean bl) {
-        dABTuner.seekRunning = bl;
-        return dABTuner.seekRunning;
-    }
-
-    static /* synthetic */ boolean access$1200(DABTuner dABTuner) {
-        return dABTuner.showDebugInfos;
-    }
-
-    static /* synthetic */ Logger access$1300(DABTuner dABTuner) {
-        return dABTuner.logger;
-    }
-
-    static /* synthetic */ boolean access$1100(DABTuner dABTuner) {
-        return dABTuner.seekRunning;
-    }
-
-    static /* synthetic */ boolean access$1400(DABTuner dABTuner) {
-        return dABTuner.isForcedStationListUpdateRunning();
-    }
-
-    static /* synthetic */ DABDSIUpManager access$1500(DABTuner dABTuner) {
-        return dABTuner.dsiUpManager;
+        public void hmiDeactivatedTuner() {
+            ((DABTuner)DABTuner.this).logger.dabDSI.log(1000000, "[DABTuner.TunerActionProxyListenerExt.hmiDeactivatedTuner] entered!");
+        }
     }
 }
 

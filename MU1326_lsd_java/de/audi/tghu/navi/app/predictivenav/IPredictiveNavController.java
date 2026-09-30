@@ -7,48 +7,35 @@ import org.dsi.ifc.predictivenavigation.LikelyDestination;
 import org.osgi.framework.BundleContext;
 
 public interface IPredictiveNavController {
-    public static final int ACTIVATIONMODE_DEACTIVATE;
-    public static final int ACTIVATIONMODE_FORCE_PASSIVE_IF_NOT_DEACTIVATED;
-    public static final int ACTIVATIONMODE_ACTIVATE;
-    public static final int ACTIVATIONMODE_UPDATE_OPERATIONMODE;
+    public static final int ACTIVATIONMODE_DEACTIVATE = 0;
+    public static final int ACTIVATIONMODE_FORCE_PASSIVE_IF_NOT_DEACTIVATED = 1;
+    public static final int ACTIVATIONMODE_ACTIVATE = 2;
+    public static final int ACTIVATIONMODE_UPDATE_OPERATIONMODE = 3;
 
-    default public void start(BundleContext bundleContext) {
-    }
+    public void start(BundleContext var1);
 
-    default public void stop(BundleContext bundleContext) {
-    }
+    public void stop(BundleContext var1);
 
-    default public void updateRgActive() {
-    }
+    public void updateRgActive();
 
-    default public void updateRgRouteCalculationState() {
-    }
+    public void updateRgRouteCalculationState();
 
-    default public void updateOperationMode() {
-    }
+    public void updateOperationMode();
 
-    default public void setActivationMode(int n) {
-    }
+    public void setActivationMode(int var1);
 
-    default public void updateLikelyDestinations(LikelyDestination[] likelyDestinationArray) {
-    }
+    public void updateLikelyDestinations(LikelyDestination[] var1);
 
-    default public void updateMaxPredictions(int n) {
-    }
+    public void updateMaxPredictions(int var1);
 
-    default public void clearCacheResult() {
-    }
+    public void clearCacheResult();
 
-    default public void resetMemorySettings() {
-    }
+    public void resetMemorySettings();
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public LikelyDestination[] getLikelyDestinations() {
-    }
+    public LikelyDestination[] getLikelyDestinations();
 
-    default public void focusSelenaRoutes(boolean bl) {
-    }
+    public void focusSelenaRoutes(boolean var1);
 }
 

@@ -16,7 +16,6 @@ extends FormatAddress {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
         if (!locationFormattingRequest.poiName.isEmpty() || !locationFormattingRequest.contactOrFavoriteName.isEmpty()) {
             return this.formatNamedAddress(locationFormattingRequest);
@@ -24,12 +23,10 @@ extends FormatAddress {
         return this.formatAddress(locationFormattingRequest);
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = this.asTwoLines(locationFormattingRequest);
         return locationFormattingResponse.createOneLineLocationFormattingResponse();
@@ -53,7 +50,7 @@ extends FormatAddress {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.street);
         } else {
             GeoMetric geoMetric = new GeoMetric(Integer.parseInt(locationFormattingRequest.latitude.formattedText), Integer.parseInt(locationFormattingRequest.longitude.formattedText));
-            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString()));
+            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude()));
         }
         if (!locationFormattingRequest.houseNumber.isEmpty()) {
             locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(" "));
@@ -64,7 +61,7 @@ extends FormatAddress {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.junction);
         }
         if (!locationFormattingRequest.countryAbbreviation.isEmpty()) {
-            locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(new StringBuffer().append("(").append(locationFormattingRequest.countryAbbreviation.formattedText).append(") ").toString()));
+            locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText("(" + locationFormattingRequest.countryAbbreviation.formattedText + ") "));
         }
         locationFormattingResponse.appendToSecondLine(locationFormattingRequest.city);
         if (!locationFormattingRequest.cityPart.isEmpty()) {
@@ -90,7 +87,7 @@ extends FormatAddress {
     private LocationFormattingResponse formatCityCenterAddress(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         if (!locationFormattingRequest.countryAbbreviation.isEmpty()) {
-            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(new StringBuffer().append("(").append(locationFormattingRequest.countryAbbreviation.formattedText).append(") ").toString()));
+            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText("(" + locationFormattingRequest.countryAbbreviation.formattedText + ") "));
         }
         if (!locationFormattingRequest.city.isEmpty()) {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.city);
@@ -114,10 +111,10 @@ extends FormatAddress {
     private LocationFormattingResponse formatGeoCoordinateAddress(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         if (!locationFormattingRequest.countryAbbreviation.isEmpty()) {
-            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(new StringBuffer().append("(").append(locationFormattingRequest.countryAbbreviation.formattedText).append(") ").toString()));
+            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText("(" + locationFormattingRequest.countryAbbreviation.formattedText + ") "));
         }
         GeoMetric geoMetric = new GeoMetric(Integer.parseInt(locationFormattingRequest.latitude.formattedText), Integer.parseInt(locationFormattingRequest.longitude.formattedText));
-        locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString()));
+        locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude()));
         return locationFormattingResponse;
     }
 
@@ -134,7 +131,7 @@ extends FormatAddress {
             }
         }
         if (!locationFormattingRequest.countryAbbreviation.isEmpty()) {
-            locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(new StringBuffer().append("(").append(locationFormattingRequest.countryAbbreviation.formattedText).append(") ").toString()));
+            locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText("(" + locationFormattingRequest.countryAbbreviation.formattedText + ") "));
         }
         if (!locationFormattingRequest.city.isEmpty()) {
             if (!locationFormattingRequest.street.isEmpty()) {
@@ -156,7 +153,7 @@ extends FormatAddress {
             }
         } else {
             GeoMetric geoMetric = new GeoMetric(Integer.parseInt(locationFormattingRequest.latitude.formattedText), Integer.parseInt(locationFormattingRequest.longitude.formattedText));
-            locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString()));
+            locationFormattingResponse.appendToSecondLine(new FormattedHighlightedText(geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude()));
         }
         return locationFormattingResponse;
     }

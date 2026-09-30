@@ -8,13 +8,10 @@ import de.audi.atip.hmi.event.KeyEvent;
 import de.audi.atip.hmi.event.TouchEvent;
 
 public interface IEventListenerEvo {
-    default public void processKeyEvent(KeyEvent keyEvent) {
-    }
+    public void processKeyEvent(KeyEvent var1);
 
-    default public void processTouchPadEvent(TouchEvent touchEvent) {
-    }
+    public void processTouchPadEvent(TouchEvent var1);
 
-    default public void processGestureEvent(GestureEvent gestureEvent) {
-    }
+    public void processGestureEvent(GestureEvent var1);
 }
 

@@ -27,9 +27,8 @@ extends RSENaviCommand {
         this.criteria = criteria;
     }
 
-    @Override
     public void decode(DataInputStream dataInputStream) {
-        log.log(-2137614336, "RSETransferLocation#decode - enter");
+        log.log(10000000, "RSETransferLocation#decode - enter");
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
             this.locationStream = (byte[])objectInputStream.readObject();
@@ -41,12 +40,11 @@ extends RSENaviCommand {
         catch (ClassNotFoundException classNotFoundException) {
             log.log(10000, "RSETransferLocation#decode", (Throwable)classNotFoundException);
         }
-        log.log(-2137614336, "RSETransferLocation#decode - exit");
+        log.log(10000000, "RSETransferLocation#decode - exit");
     }
 
-    @Override
     public void encode(DataOutputStream dataOutputStream) {
-        log.log(-2137614336, "RSETransferLocation#encode - enter");
+        log.log(10000000, "RSETransferLocation#encode - enter");
         try {
             this.encodeHeader(dataOutputStream);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
@@ -57,12 +55,11 @@ extends RSENaviCommand {
         catch (IOException iOException) {
             log.log(10000, "RSETransferLocation#encode", (Throwable)iOException);
         }
-        log.log(-2137614336, "RSETransferLocation#encode - exit");
+        log.log(10000000, "RSETransferLocation#encode - exit");
     }
 
-    @Override
     public void execute(AbstractRSEConnection abstractRSEConnection) {
-        log.log(-2137614336, "RSETransferLocation#execute()");
+        log.log(10000000, "RSETransferLocation#execute()");
     }
 }
 

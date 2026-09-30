@@ -14,14 +14,13 @@ extends AudioState {
         super(navigationEnv, audioStateMachine, speechManager);
     }
 
-    @Override
     public void updateAudioRequest(int n) {
-        this.logChannel.log(-2137614336, "ConnectionFadedIn#updateAudioRequest( %1 ) ", (long)n);
+        this.logChannel.log(10000000, "ConnectionFadedIn#updateAudioRequest( %1 ) ", (long)n);
         super.updateAudioRequest(n);
         if (n == 3) {
             this.stateMachine.audioTrigger(true);
         } else if (n == 1) {
-            this.logChannel.log(-2137614336, "ConnectionFadedIn#updateAudioRequest( %1 ) - audio active ", (long)n);
+            this.logChannel.log(10000000, "ConnectionFadedIn#updateAudioRequest( %1 ) - audio active ", (long)n);
         } else if (n == 2 && this.stateMachine.isAutoRepeatMode()) {
             this.stateMachine.getLastAnnouncementHandler().repeatLastAnnouncementSimple(0);
         } else {

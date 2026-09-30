@@ -33,24 +33,23 @@ extends NavCommand {
         return this.hidePreviewMap;
     }
 
-    @Override
     public void execute() {
         this.poiNavLocations = this.removeInvalidLocations(this.poiNavLocations);
         if (this.poiNavLocations.length == 0 || this.hidePreviewMap) {
-            this.logger.log(-2137614336, "%1#execute - previewMap.hidePreviewMap() - hidePreviewMap = %2", (Object)this.CLASS_NAME, (Object)String.valueOf(this.hidePreviewMap));
+            this.logger.log(10000000, "%1#execute - previewMap.hidePreviewMap() - hidePreviewMap = %2", (Object)this.CLASS_NAME, (Object)String.valueOf(this.hidePreviewMap));
             this.previewMap.hidePreviewMap();
             this.hidePreviewMap = true;
         } else if (this.currentSearchLocation == null || this.searchContext == 1) {
-            this.logger.log(-2137614336, "%1#execute - previewMap.previewPOIsAroundCCP(poiNavLocations)", (Object)this.CLASS_NAME);
+            this.logger.log(10000000, "%1#execute - previewMap.previewPOIsAroundCCP(poiNavLocations)", (Object)this.CLASS_NAME);
             this.previewMap.setPreviewPOIsOnboardAroundCCP(this.poiNavLocations, 1, null, null);
         } else if (this.searchContext == 4 || this.searchContext == 0) {
-            this.logger.log(-2137614336, "%1#execute - previewMap.previewPOIsAroundReferencePoint(poiNavLocations, currentSearchLocation)", (Object)this.CLASS_NAME);
+            this.logger.log(10000000, "%1#execute - previewMap.previewPOIsAroundReferencePoint(poiNavLocations, currentSearchLocation)", (Object)this.CLASS_NAME);
             this.previewMap.setPreviewPOIsOnboardAroundReferencePoint(this.poiNavLocations, this.currentSearchLocation, 1, null, null);
         } else if (this.searchContext == 2 || this.searchContext == 3) {
-            this.logger.log(-2137614336, "%1#execute - previewMap.previewPOIsAroundDestination(poiNavLocations, currentSearchLocation)", (Object)this.CLASS_NAME);
+            this.logger.log(10000000, "%1#execute - previewMap.previewPOIsAroundDestination(poiNavLocations, currentSearchLocation)", (Object)this.CLASS_NAME);
             this.previewMap.setPreviewPOIsOnboardAroundDestination(this.poiNavLocations, this.currentSearchLocation, 1, null, null);
         } else {
-            this.logger.log(-2137614336, "%1#execute - previewMap.previewPOIs(poiNavLocations);", (Object)this.CLASS_NAME);
+            this.logger.log(10000000, "%1#execute - previewMap.previewPOIs(poiNavLocations);", (Object)this.CLASS_NAME);
             this.previewMap.setPreviewPOIsOnboard(this.poiNavLocations, 1, null, null);
         }
         this.getCommandList().commandFinished();

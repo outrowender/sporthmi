@@ -31,30 +31,7 @@ import de.audi.atip.phone.ITelService;
 import de.audi.remotehmi.IRemoteHMI;
 import de.audi.tghu.online.app.AbstractOnlineActivator;
 import de.audi.tghu.online.app.Online;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$1;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$10;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$11;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$12;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$13;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$14;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$15;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$16;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$17;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$18;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$19;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$2;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$20;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$21;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$22;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$23;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$24;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$3;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$4;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$5;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$6;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$7;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$8;
-import de.audi.tghu.online.app.remotehmi.OnlineRemoteHMIActivator$9;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIConnectivityChangedService;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIConnectivityService;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIDataConnectionStateListener;
@@ -101,62 +78,62 @@ public class OnlineRemoteHMIActivator {
     }
 
     public void registerProvidedServices(AbstractOnlineActivator abstractOnlineActivator) {
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices - register remote HMI listener service");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices - register remote HMI listener service");
         abstractOnlineActivator.registerService((class$de$audi$remotehmi$IRemoteHMIListener == null ? (class$de$audi$remotehmi$IRemoteHMIListener = OnlineRemoteHMIActivator.class$("de.audi.remotehmi.IRemoteHMIListener")) : class$de$audi$remotehmi$IRemoteHMIListener).getName(), (Object)this.remoteHmiService, (Dictionary)new Hashtable());
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices - register I18N service");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices - register I18N service");
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = OnlineRemoteHMIActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName());
         hashtable.put("DEVICE_INSTANCE", new Integer(0));
         hashtable.put("LANG_COMPONENT_TYPE", "LANG_COMPONENT_HMI");
         hashtable.put("NOTIFY_BY_REGISTRATION_STRATEGY", "UPDATE_AFTER_REGISTRATION");
         abstractOnlineActivator.registerService((class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = OnlineRemoteHMIActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName(), (Object)this.remoteHmiService, (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices - register TTS listener service");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices - register TTS listener service");
         hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$de$audi$atip$interapp$tts$TTSListener == null ? (class$de$audi$atip$interapp$tts$TTSListener = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.tts.TTSListener")) : class$de$audi$atip$interapp$tts$TTSListener).getName());
         hashtable.put("TTS_CLIENT_ID", TTSService.CLIENT_ID_REMOTE_HMI);
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$tts$TTSListener == null ? (class$de$audi$atip$interapp$tts$TTSListener = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.tts.TTSListener")) : class$de$audi$atip$interapp$tts$TTSListener).getName(), (Object)this.remoteHmiService.getTTS(), (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: OnlineService");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: OnlineService");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$OnlineService == null ? (class$de$audi$atip$interapp$OnlineService = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.OnlineService")) : class$de$audi$atip$interapp$OnlineService).getName(), (Object)this.remoteHmiService.getOnlineService(), (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: MsgListener");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: MsgListener");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = OnlineRemoteHMIActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this.remoteHmiService, (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: DataConnectionStateListener");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: DataConnectionStateListener");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$DataConnectionStateListener == null ? (class$de$audi$atip$interapp$DataConnectionStateListener = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.DataConnectionStateListener")) : class$de$audi$atip$interapp$DataConnectionStateListener).getName(), (Object)this.remoteHmiDataConnectionListener, (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: IMediaServiceListener");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: IMediaServiceListener");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$media$IMediaServiceListener == null ? (class$de$audi$atip$interapp$media$IMediaServiceListener = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.media.IMediaServiceListener")) : class$de$audi$atip$interapp$media$IMediaServiceListener).getName(), (Object)this.remoteHmiService.getOnlineMediaComponent(), (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: IConnectivityRHMIService");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: IConnectivityRHMIService");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$IConnectivityRHMIService == null ? (class$de$audi$atip$interapp$IConnectivityRHMIService = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.IConnectivityRHMIService")) : class$de$audi$atip$interapp$IConnectivityRHMIService).getName(), (Object)this.remoteHMIConnectivityService, (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: IOnlineConnectivityStateListener");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: IOnlineConnectivityStateListener");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$IOnlineConnectivityStateListener == null ? (class$de$audi$atip$interapp$IOnlineConnectivityStateListener = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.IOnlineConnectivityStateListener")) : class$de$audi$atip$interapp$IOnlineConnectivityStateListener).getName(), (Object)this.remoteHMIConnectivityChangedService, (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: IPhoneStateService");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: IPhoneStateService");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$online$IPhoneStateService == null ? (class$de$audi$atip$interapp$online$IPhoneStateService = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.online.IPhoneStateService")) : class$de$audi$atip$interapp$online$IPhoneStateService).getName(), (Object)this.remoteHMIPhoneStatusService, (Dictionary)hashtable);
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: IFolderBrowsingServiceListener");
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: IFolderBrowsingServiceListener");
         hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppOnline");
         hashtable.put("moduleID", new Integer(23));
         abstractOnlineActivator.registerService((class$de$audi$atip$interapp$messaging$folderbrowsing$IFolderBrowsingServiceListener == null ? (class$de$audi$atip$interapp$messaging$folderbrowsing$IFolderBrowsingServiceListener = OnlineRemoteHMIActivator.class$("de.audi.atip.interapp.messaging.folderbrowsing.IFolderBrowsingServiceListener")) : class$de$audi$atip$interapp$messaging$folderbrowsing$IFolderBrowsingServiceListener).getName(), (Object)this.remotehmiIFolderBrowsingServiceListener, (Dictionary)hashtable);
         if (this.remoteHmiService.getVolumeListener() != null) {
-            this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#registerProvidedServices: VolumeOnOffPressListener");
+            this.logChannel.log(10000000, "OnlineRemoteHMIActivator#registerProvidedServices: VolumeOnOffPressListener");
             hashtable = new Hashtable();
             hashtable.put("ApplicationName", "AppOnline");
             hashtable.put("moduleID", new Integer(23));
@@ -164,113 +141,237 @@ public class OnlineRemoteHMIActivator {
         }
     }
 
-    public void setFolderBrowsingService(IFolderBrowsingService iFolderBrowsingService) {
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#addIFolderBrowsingService - Got registered reference of IFolderBrowsingService");
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$1(this, "activator-set-messaging-service", iFolderBrowsingService));
+    public void setFolderBrowsingService(final IFolderBrowsingService iFolderBrowsingService) {
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#addIFolderBrowsingService - Got registered reference of IFolderBrowsingService");
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-messaging-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setRemotehmiIFolderBrowsingService(iFolderBrowsingService);
+            }
+        });
     }
 
     public RemoteHMIService getRemoteHMIService() {
         return this.remoteHmiService;
     }
 
-    public void setOnlinePOICall(OnlinePOICall onlinePOICall) {
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#addOnlineOperatorCallService: called");
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$2(this, "activator-set-operatorcall-service", onlinePOICall));
+    public void setOnlinePOICall(final OnlinePOICall onlinePOICall) {
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#addOnlineOperatorCallService: called");
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-operatorcall-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setOnlineOperatorCallService(onlinePOICall);
+            }
+        });
     }
 
-    public void setRemoteHmi(IRemoteHMI iRemoteHMI) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$3(this, "activator-add-iremotehmi", iRemoteHMI));
+    public void setRemoteHmi(final IRemoteHMI iRemoteHMI) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-add-iremotehmi"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setIRemoteHMI(iRemoteHMI);
+            }
+        });
     }
 
-    public void setBrowserHandler(IBrowserHandler iBrowserHandler, Integer n) {
+    public void setBrowserHandler(final IBrowserHandler iBrowserHandler, Integer n) {
         if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_REMOTEHMI.equals(n)) {
-            this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#addBrowserHandler - receiving browser handler");
-            this.remoteHmiService.execute(new OnlineRemoteHMIActivator$4(this, "activator-add-browser-handler", iBrowserHandler));
+            this.logChannel.log(10000000, "OnlineRemoteHMIActivator#addBrowserHandler - receiving browser handler");
+            this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-add-browser-handler"){
+
+                public void run() {
+                    OnlineRemoteHMIActivator.this.remoteHmiService.getBrowserController().setBrowserHandler(iBrowserHandler);
+                }
+            });
         } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_REMOTEHMI_FULLSCREEN.equals(n)) {
-            this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#addBrowserHandler - receiving browser handler fullscreen; using BOS instance");
-            this.remoteHmiService.execute(new OnlineRemoteHMIActivator$5(this, "activator-add-fullscreen-browser-handler", iBrowserHandler));
+            this.logChannel.log(10000000, "OnlineRemoteHMIActivator#addBrowserHandler - receiving browser handler fullscreen; using BOS instance");
+            this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-add-fullscreen-browser-handler"){
+
+                public void run() {
+                    OnlineRemoteHMIActivator.this.remoteHmiService.getBrowserController().setBrowserFullscreenHandler(iBrowserHandler);
+                }
+            });
         }
     }
 
-    public void setTtsService(TTSSessionBasedService tTSSessionBasedService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$6(this, "activator-set-tts-service", tTSSessionBasedService));
+    public void setTtsService(final TTSSessionBasedService tTSSessionBasedService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-tts-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setTTSService(tTSSessionBasedService);
+            }
+        });
     }
 
-    public void setSDSOnlineServiceListener(OnlineServiceListener onlineServiceListener) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$7(this, "activator-set-sds-online-service-listener", onlineServiceListener));
+    public void setSDSOnlineServiceListener(final OnlineServiceListener onlineServiceListener) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-sds-online-service-listener"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setSDSOnlineServiceListener(onlineServiceListener);
+            }
+        });
     }
 
-    public void setConnectivityStateListener(IConnectivityRHMIStateListener iConnectivityRHMIStateListener) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$8(this, "activator-set-connectivity-state-listener", iConnectivityRHMIStateListener));
+    public void setConnectivityStateListener(final IConnectivityRHMIStateListener iConnectivityRHMIStateListener) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-connectivity-state-listener"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setConnectivtyStateListener(iConnectivityRHMIStateListener);
+            }
+        });
     }
 
-    public void setConnectivityOnlineStateListener(IConnectivityOnlineStateListener iConnectivityOnlineStateListener) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$9(this, "activator-set-online-connectivity-state-listener", iConnectivityOnlineStateListener));
+    public void setConnectivityOnlineStateListener(final IConnectivityOnlineStateListener iConnectivityOnlineStateListener) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-online-connectivity-state-listener"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getPhoneComponent().setConnectivityOnlineStateListener(iConnectivityOnlineStateListener);
+            }
+        });
     }
 
-    public void setNaviService(NaviService naviService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$10(this, "activator-set-navi-service", naviService));
+    public void setNaviService(final NaviService naviService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-navi-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getNaviComponent().setNaviService(naviService);
+            }
+        });
     }
 
-    public void setNaviFormattingService(INaviFormattingService iNaviFormattingService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$11(this, "activator-set-navi-formatting-service", iNaviFormattingService));
+    public void setNaviFormattingService(final INaviFormattingService iNaviFormattingService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-navi-formatting-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getNaviComponent().setNaviFormattingService(iNaviFormattingService);
+            }
+        });
     }
 
-    public void setNaviAdbService(NaviADBService naviADBService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$12(this, "activator-set-navi-adb-service", naviADBService));
+    public void setNaviAdbService(final NaviADBService naviADBService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-navi-adb-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getNaviComponent().setNaviADBService(naviADBService);
+            }
+        });
     }
 
-    public void setOnlineMediaService(IMediaOnlinePlayerService iMediaOnlinePlayerService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$13(this, "activator-set-online-media-service", iMediaOnlinePlayerService));
+    public void setOnlineMediaService(final IMediaOnlinePlayerService iMediaOnlinePlayerService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-online-media-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setOnlineMediaService(iMediaOnlinePlayerService);
+            }
+        });
     }
 
-    public void setMediaService(IMediaService iMediaService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$14(this, "activator-set-media-service", iMediaService));
+    public void setMediaService(final IMediaService iMediaService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-media-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setMediaService(iMediaService);
+            }
+        });
     }
 
-    public void setRemoteHMIMediaOnlineServiceListener(IRemoteHMIMediaOnlineServiceListener iRemoteHMIMediaOnlineServiceListener) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$15(this, "activator-set-media-online-service-listener", iRemoteHMIMediaOnlineServiceListener));
+    public void setRemoteHMIMediaOnlineServiceListener(final IRemoteHMIMediaOnlineServiceListener iRemoteHMIMediaOnlineServiceListener) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-media-online-service-listener"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setRemoteHMIMediaOnlineServiceListener(iRemoteHMIMediaOnlineServiceListener);
+            }
+        });
     }
 
-    public void setMediaDrawerContext(IMediaDrawerContext iMediaDrawerContext) {
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#addDrawerContextHandler - Got registered reference of IMediaDrawerContext");
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$16(this, "activator-set-media-drawer-context", iMediaDrawerContext));
+    public void setMediaDrawerContext(final IMediaDrawerContext iMediaDrawerContext) {
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#addDrawerContextHandler - Got registered reference of IMediaDrawerContext");
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-media-drawer-context"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setMediaDrawerContext(iMediaDrawerContext);
+            }
+        });
     }
 
-    public void setRemoteHMIEsimLicenseListener(IRemoteHMIEsimLicenseListener iRemoteHMIEsimLicenseListener) {
-        this.logChannel.log(-2137614336, "OnlineRemoteHMIActivator#addRemoteHMIESimLicense - Got registered reference of IRemoteHMILicenseEsim");
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$17(this, "activator-set-esim-license-listener", iRemoteHMIEsimLicenseListener));
+    public void setRemoteHMIEsimLicenseListener(final IRemoteHMIEsimLicenseListener iRemoteHMIEsimLicenseListener) {
+        this.logChannel.log(10000000, "OnlineRemoteHMIActivator#addRemoteHMIESimLicense - Got registered reference of IRemoteHMILicenseEsim");
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-esim-license-listener"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setRemoteHMIESimLicenseListener(iRemoteHMIEsimLicenseListener);
+                iRemoteHMIEsimLicenseListener.updateLicenseState(1);
+            }
+        });
     }
 
-    public void setOnlineHMIService(OnlineHMIService onlineHMIService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$18(this, "activator-set-online-hmi-service", onlineHMIService));
+    public void setOnlineHMIService(final OnlineHMIService onlineHMIService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-online-hmi-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setOnlineHmiService(onlineHMIService);
+            }
+        });
     }
 
-    public void setPortalAuthenticationService(PortalAuthenticationService portalAuthenticationService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$19(this, "activator-set-authentication-service", portalAuthenticationService));
+    public void setPortalAuthenticationService(final PortalAuthenticationService portalAuthenticationService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-authentication-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.setAuthenticationService(portalAuthenticationService);
+            }
+        });
     }
 
-    public void setPreviewMap(IPreviewMap iPreviewMap) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$20(this, "activator-set-navi-preview-map", iPreviewMap));
+    public void setPreviewMap(final IPreviewMap iPreviewMap) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-navi-preview-map"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getNaviComponent().setPreviewMap(iPreviewMap);
+            }
+        });
     }
 
-    public void setMapService(MapService mapService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$21(this, "activator-set-navi-map-service", mapService));
+    public void setMapService(final MapService mapService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-navi-map-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getNaviComponent().setMapService(mapService);
+            }
+        });
     }
 
-    public void setTelService(ITelService iTelService) {
-        this.remoteHmiService.execute(new OnlineRemoteHMIActivator$22(this, "activator-set-navi-itel-service", iTelService));
+    public void setTelService(final ITelService iTelService) {
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-navi-itel-service"){
+
+            public void run() {
+                OnlineRemoteHMIActivator.this.remoteHmiService.getPhoneComponent().setTelService(iTelService);
+            }
+        });
     }
 
-    public void setOnlineMessagingService(IMessagingOnlineService iMessagingOnlineService) {
+    public void setOnlineMessagingService(final IMessagingOnlineService iMessagingOnlineService) {
         if (this.remoteHmiService != null) {
-            this.remoteHmiService.execute(new OnlineRemoteHMIActivator$23(this, "activator-set-online-messaging-service", iMessagingOnlineService));
+            this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-online-messaging-service"){
+
+                public void run() {
+                    OnlineRemoteHMIActivator.this.remoteHmiService.getPhoneComponent().setOnlineMessagingService(iMessagingOnlineService);
+                }
+            });
         }
     }
 
-    public void setSdsService(SDSService sDSService) {
+    public void setSdsService(final SDSService sDSService) {
         if (this.remoteHmiService != null) {
-            this.remoteHmiService.execute(new OnlineRemoteHMIActivator$24(this, "activator-set-sds-service", sDSService));
+            this.remoteHmiService.execute(new AbstractRemoteHMITask("activator-set-sds-service"){
+
+                public void run() {
+                    OnlineRemoteHMIActivator.this.remoteHmiService.setSDSService(sDSService);
+                    if (sDSService != null) {
+                        sDSService.registerStatusListener(OnlineRemoteHMIActivator.this.remoteHMISDSStateListener);
+                    }
+                }
+            });
         }
     }
 
@@ -281,14 +382,6 @@ public class OnlineRemoteHMIActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ RemoteHMIService access$000(OnlineRemoteHMIActivator onlineRemoteHMIActivator) {
-        return onlineRemoteHMIActivator.remoteHmiService;
-    }
-
-    static /* synthetic */ RemoteHMISDSStateListener access$100(OnlineRemoteHMIActivator onlineRemoteHMIActivator) {
-        return onlineRemoteHMIActivator.remoteHMISDSStateListener;
     }
 }
 

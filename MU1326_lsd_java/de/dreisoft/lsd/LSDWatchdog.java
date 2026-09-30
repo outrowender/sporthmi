@@ -5,7 +5,7 @@ package de.dreisoft.lsd;
 
 public class LSDWatchdog
 implements Runnable {
-    private static final boolean DEBUG;
+    private static final boolean DEBUG = false;
     private final String name;
     private boolean active = true;
     private Object lock = new Object();
@@ -20,7 +20,6 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         long l;
         this.cancelAlarm();
@@ -39,7 +38,7 @@ implements Runnable {
                 }
                 l = this.alarmTimeout - System.currentTimeMillis();
                 if (this.alarmMsg != null && l <= 0L) {
-                    System.err.println(new StringBuffer().append(this.name).append(" WatchDog Alarm: ").append(this.alarmMsg).toString());
+                    System.err.println(this.name + " WatchDog Alarm: " + this.alarmMsg);
                     if (this.alarmHandler != null) {
                         this.alarmHandler.run();
                     }

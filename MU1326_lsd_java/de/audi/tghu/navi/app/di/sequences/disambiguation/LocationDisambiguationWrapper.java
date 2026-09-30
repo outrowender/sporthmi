@@ -4,8 +4,6 @@
 package de.audi.tghu.navi.app.di.sequences.disambiguation;
 
 import de.audi.tghu.navi.app.addressinput.asia.DisambiguatedNavLocation;
-import de.audi.tghu.navi.app.di.sequences.disambiguation.LocationDisambiguationWrapper$LocationDisambiguationWrapperFirstStep;
-import de.audi.tghu.navi.app.di.sequences.disambiguation.LocationDisambiguationWrapper$LocationDisambiguationWrapperSteps;
 
 public class LocationDisambiguationWrapper {
     private int action;
@@ -49,23 +47,85 @@ public class LocationDisambiguationWrapper {
     }
 
     public static LocationDisambiguationWrapperFirstStep newBuilder() {
-        return new LocationDisambiguationWrapper$LocationDisambiguationWrapperSteps();
+        return new LocationDisambiguationWrapperSteps();
     }
 
-    static /* synthetic */ void access$100(LocationDisambiguationWrapper locationDisambiguationWrapper, int n) {
-        locationDisambiguationWrapper.setAction(n);
+    public static class LocationDisambiguationWrapperSteps
+    implements LocationDisambiguationWrapperFirstStep,
+    LocationDisambiguationWrapperActionStep,
+    LocationDisambiguationWrapperModelIdStep,
+    LocationDisambiguationWrapperTerminalIdStep,
+    LocationDisambiguationWrapperBuildStep {
+        private int action;
+        private int modelId;
+        private int terminalId;
+        private DisambiguatedNavLocation[] locations;
+
+        public LocationDisambiguationWrapper build() {
+            LocationDisambiguationWrapper locationDisambiguationWrapper = new LocationDisambiguationWrapper();
+            locationDisambiguationWrapper.setAction(this.action);
+            locationDisambiguationWrapper.setModelId(this.modelId);
+            locationDisambiguationWrapper.setTerminalId(this.terminalId);
+            locationDisambiguationWrapper.setLocations(this.locations);
+            return locationDisambiguationWrapper;
+        }
+
+        public LocationDisambiguationWrapperBuildStep addTerminalId(int n) {
+            this.terminalId = n;
+            return this;
+        }
+
+        public LocationDisambiguationWrapperBuildStep useDefaultTerminal() {
+            this.terminalId = 0;
+            return this;
+        }
+
+        public LocationDisambiguationWrapperTerminalIdStep addModelId(int n) {
+            this.modelId = n;
+            return this;
+        }
+
+        public LocationDisambiguationWrapperTerminalIdStep skipModelId() {
+            this.modelId = -1;
+            return this;
+        }
+
+        public LocationDisambiguationWrapperModelIdStep addAction(int n) {
+            this.action = n;
+            return this;
+        }
+
+        public LocationDisambiguationWrapperActionStep addDisambiguatedLocations(DisambiguatedNavLocation[] disambiguatedNavLocationArray) {
+            if (disambiguatedNavLocationArray == null || disambiguatedNavLocationArray.length == 0) {
+                throw new IllegalArgumentException("DisambiguatedNavLocation array must not be null or empty!");
+            }
+            this.locations = disambiguatedNavLocationArray;
+            return this;
+        }
     }
 
-    static /* synthetic */ void access$200(LocationDisambiguationWrapper locationDisambiguationWrapper, int n) {
-        locationDisambiguationWrapper.setModelId(n);
+    public static interface LocationDisambiguationWrapperBuildStep {
+        public LocationDisambiguationWrapper build();
     }
 
-    static /* synthetic */ void access$300(LocationDisambiguationWrapper locationDisambiguationWrapper, int n) {
-        locationDisambiguationWrapper.setTerminalId(n);
+    public static interface LocationDisambiguationWrapperFirstStep {
+        public LocationDisambiguationWrapperActionStep addDisambiguatedLocations(DisambiguatedNavLocation[] var1);
     }
 
-    static /* synthetic */ void access$400(LocationDisambiguationWrapper locationDisambiguationWrapper, DisambiguatedNavLocation[] disambiguatedNavLocationArray) {
-        locationDisambiguationWrapper.setLocations(disambiguatedNavLocationArray);
+    public static interface LocationDisambiguationWrapperActionStep {
+        public LocationDisambiguationWrapperModelIdStep addAction(int var1);
+    }
+
+    public static interface LocationDisambiguationWrapperModelIdStep {
+        public LocationDisambiguationWrapperTerminalIdStep addModelId(int var1);
+
+        public LocationDisambiguationWrapperTerminalIdStep skipModelId();
+    }
+
+    public static interface LocationDisambiguationWrapperTerminalIdStep {
+        public LocationDisambiguationWrapperBuildStep addTerminalId(int var1);
+
+        public LocationDisambiguationWrapperBuildStep useDefaultTerminal();
     }
 }
 

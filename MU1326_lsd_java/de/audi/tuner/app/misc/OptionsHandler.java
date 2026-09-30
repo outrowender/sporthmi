@@ -3,11 +3,12 @@
  */
 package de.audi.tuner.app.misc;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
+import de.audi.tuner.app.TunerProxyManager;
 import de.audi.tuner.app.TunerStatus;
 import de.audi.tuner.app.misc.IOptionsListener;
-import de.audi.tuner.app.misc.OptionsHandler$ChoiceListener;
 import de.audi.tuner.app.storage.TunerStorage;
 import java.util.ArrayList;
 
@@ -23,12 +24,12 @@ public class OptionsHandler {
         this.storage = tunerStorage;
         this.status = tunerBasics.getStatus();
         this.mutex = new Object();
-        OptionsHandler$ChoiceListener optionsHandler$ChoiceListener = new OptionsHandler$ChoiceListener(this, null);
-        this.models.getChoiceModel(394920192).setChoiceListener(optionsHandler$ChoiceListener);
-        this.models.getChoiceModel(210370816).setChoiceListener(optionsHandler$ChoiceListener);
+        ChoiceListener choiceListener = new ChoiceListener();
+        this.models.getChoiceModel(100887).setChoiceListener(choiceListener);
+        this.models.getChoiceModel(100876).setChoiceListener(choiceListener);
         int n = tunerStorage.isShowRadioText() ? 1 : 0;
-        optionsHandler$ChoiceListener.itemSelected(394920192, n, 0, 0);
-        optionsHandler$ChoiceListener.itemSelected(210370816, tunerStorage.getAmfmView(), 0, 0);
+        choiceListener.itemSelected(100887, n, 0, 0);
+        choiceListener.itemSelected(100876, tunerStorage.getAmfmView(), 0, 0);
     }
 
     /*
@@ -56,20 +57,27 @@ public class OptionsHandler {
         }
     }
 
-    static /* synthetic */ TunerStorage access$100(OptionsHandler optionsHandler) {
-        return optionsHandler.storage;
-    }
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
 
-    static /* synthetic */ TunerStatus access$200(OptionsHandler optionsHandler) {
-        return optionsHandler.status;
-    }
-
-    static /* synthetic */ void access$300(OptionsHandler optionsHandler, int n) {
-        optionsHandler.notifyAmFmViewChanged(n);
-    }
-
-    static /* synthetic */ TunerModels access$400(OptionsHandler optionsHandler) {
-        return optionsHandler.models;
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 100887: {
+                    OptionsHandler.this.storage.storeShowRadioText(n2 == 1);
+                    break;
+                }
+                case 100876: {
+                    OptionsHandler.this.storage.storeAmfmView(n2);
+                    OptionsHandler.this.status.setPorscheNameMode(n2 == 0);
+                    TunerProxyManager.getInstance().getAmFmTuner().reNotification(2);
+                    OptionsHandler.this.notifyAmFmViewChanged(n2);
+                    break;
+                }
+            }
+            OptionsHandler.this.models.getChoiceModel(n).setValue(n2);
+        }
     }
 }
 

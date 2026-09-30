@@ -17,7 +17,6 @@ extends NavCommand {
         this.selectedElement = lIValueListElement;
     }
 
-    @Override
     public void execute() {
         this.modelAccess.onElementSelected(this.selectedElement);
         this.getCommandList().commandFinished();

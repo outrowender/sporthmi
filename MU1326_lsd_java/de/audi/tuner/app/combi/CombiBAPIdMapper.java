@@ -4,8 +4,8 @@
 package de.audi.tuner.app.combi;
 
 public class CombiBAPIdMapper {
-    private static final int INIT_SIZE;
-    private static final int OFFSET;
+    private static final int INIT_SIZE = 500;
+    private static final int OFFSET = 20;
     private long[] ids = new long[500];
 
     synchronized int getBapId(long l) {
@@ -33,10 +33,9 @@ public class CombiBAPIdMapper {
     synchronized long getRadioId(int n) {
         int n2 = n - 20;
         if (n2 < 0 || n2 >= this.ids.length) {
-            long l = 0L;
-            return;
+            return 0L;
         }
-        long l = this.ids[n2];
+        return this.ids[n2];
     }
 
     synchronized void reset() {

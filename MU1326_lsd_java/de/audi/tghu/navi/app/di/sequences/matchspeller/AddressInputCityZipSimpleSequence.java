@@ -12,26 +12,26 @@ import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IMatchspellerModelAccess;
 import de.audi.tghu.navi.app.addressinput.commands.AddCityToHistoryCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LispSelectListItemByIdent;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.SetCityAsLocationForPreviewMapCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSimpleSequence$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSimpleSequence$2;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSimpleSequence$3;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class AddressInputCityZipSimpleSequence
 extends AbstractAddressInputMatchSpellerSequence {
-    protected static final int CRITERIA_UNDEFINED;
-    public static final int CRITERIA_CITY_ONLY;
-    public static final int CRITERIA_ZIP_ONLY;
-    public static final int CRITERIA_CITY_ZIP;
-    public static final int CRITERIA_CITY_ZIP_LICENSEPLATE;
+    protected static final int CRITERIA_UNDEFINED = -1;
+    public static final int CRITERIA_CITY_ONLY = 1;
+    public static final int CRITERIA_ZIP_ONLY = 2;
+    public static final int CRITERIA_CITY_ZIP = 3;
+    public static final int CRITERIA_CITY_ZIP_LICENSEPLATE = 4;
     protected final CityHistory cityHistory;
     protected int inputCriteria = -1;
 
@@ -50,17 +50,41 @@ extends AbstractAddressInputMatchSpellerSequence {
         this.inputCriteria = n;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (this.env.getFramework().isPGen2()) {
-            commandList.add(new AddressInputCityZipSimpleSequence$1(this));
+            commandList.add(new NavCommand(){
+
+                public void execute() {
+                    this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand(this.env.getContainer().getLiCurrentLD()));
+                }
+            });
         }
-        commandList.add(new AddressInputCityZipSimpleSequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (AddressInputCityZipSimpleSequence.this.inputCriteria == 4 && (this.dsiResponseContainer.selectionCriterionAvailable(133) || this.dsiResponseContainer.selectionCriterionAvailable(6))) {
+                    if (this.dsiResponseContainer.selectionCriterionAvailable(133) && this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                        this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(133, 6, true, true, true));
+                    } else if (this.dsiResponseContainer.selectionCriterionAvailable(133)) {
+                        this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(133, true, true, true));
+                    } else if (this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                        this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(6, true, true, true));
+                    }
+                } else if ((AddressInputCityZipSimpleSequence.this.inputCriteria == -1 || AddressInputCityZipSimpleSequence.this.inputCriteria == 3) && this.dsiResponseContainer.selectionCriterionAvailable(133) && this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(2, 6, true, true, true));
+                } else if ((AddressInputCityZipSimpleSequence.this.inputCriteria == -1 || AddressInputCityZipSimpleSequence.this.inputCriteria == 1) && this.dsiResponseContainer.selectionCriterionAvailable(2)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(2, true, true, true));
+                } else if ((AddressInputCityZipSimpleSequence.this.inputCriteria == -1 || AddressInputCityZipSimpleSequence.this.inputCriteria == 2) && this.dsiResponseContainer.selectionCriterionAvailable(6)) {
+                    this.getCommandList().commandFinishedWithPostCommand(new LIStartSpellerCommand(6, true, true, true));
+                } else {
+                    this.getCommandList().commandAborted("Neither SELCRITDES_TOWN nor SELCRITDES_ZIP_CODE are available as selection criteria");
+                }
+            }
+        });
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.put("selectedElement", lIValueListElement);
@@ -73,11 +97,19 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LispSelectListItemByIdent(string));
-        commandList.add(new AddressInputCityZipSimpleSequence$3(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                if (this.dsiResponseContainer.getLispCurrentSelectionCriterion() == 2) {
+                    this.getCommandList().commandFinishedWithPostCommand(new AddCityToHistoryCommand(AddressInputCityZipSimpleSequence.this.cityHistory));
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -85,12 +117,11 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
     public void showLocationInPreviewMap(IPreviewMap iPreviewMap, LIValueListElement lIValueListElement) {
         if (iPreviewMap != null && lIValueListElement != null) {
             CommandList commandList = this.commandListFactory.createCommandList(1);
             commandList.add(new SetCityAsLocationForPreviewMapCommand(iPreviewMap, lIValueListElement));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showLocationInPreviewMap").toString());
+            commandList.execute(this.CLASS_NAME + "#showLocationInPreviewMap");
         }
     }
 }

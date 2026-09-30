@@ -25,97 +25,78 @@ implements SDARSTunerListener {
         super(logChannel, "SDARSTunerListener");
     }
 
-    @Override
     public void updateElectronicSerialCode(String string) {
         this.log();
     }
 
-    @Override
     public void updateServiceStatus3(ServiceStatus3 serviceStatus3) {
         this.log();
     }
 
-    @Override
     public void updateSignalQuality(SignalQuality signalQuality) {
         this.log();
     }
 
-    @Override
     public void updateSelectedStation(StationInfo stationInfo) {
         this.log();
     }
 
-    @Override
     public void updateStationList(StationInfo[] stationInfoArray) {
         this.log();
     }
 
-    @Override
     public void updateCategoryList(CategoryInfo[] categoryInfoArray) {
         this.log();
     }
 
-    @Override
     public void informationRadioText(RadioText radioText) {
         this.log();
     }
 
-    @Override
     public void informationRadioText2(RadioText[] radioTextArray) {
         this.log();
     }
 
-    @Override
     public void informationChannelArt(ImageInformation[] imageInformationArray) {
         this.log();
     }
 
-    @Override
     public void updateStaticTaggingInfo(String string, String string2) {
         this.log();
     }
 
-    @Override
     public void updateDetectedDevice(int n) {
         this.log();
     }
 
-    @Override
     public void selectStationStatus(int n) {
         this.log();
     }
 
-    @Override
     public void updateAvailability(int n) {
         this.log();
     }
 
-    @Override
     public void updateStationDescription(StationDescription[] stationDescriptionArray) {
         this.log();
     }
 
-    @Override
     public void responseTime(DateTime dateTime) {
         this.log();
     }
 
-    @Override
     public void updateSubscriptionStatus(SubscriptionStatus subscriptionStatus) {
         this.log();
     }
 
-    @Override
     public void informationEPGChannelList(EPGShortInfo[] ePGShortInfoArray) {
         this.log();
     }
 
-    @Override
     public void responseEPG24Hour(EPGShortInfo ePGShortInfo) {
         this.log();
     }
 
-    @Override
     public void responseEPGDescription(EPGDescription ePGDescription) {
         this.log();
     }

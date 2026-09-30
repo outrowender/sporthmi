@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.guidance;
 import org.dsi.ifc.navigation.Route;
 
 public interface ITravelGuideListener {
-    default public void setRoute(Route route) {
-    }
+    public void setRoute(Route var1);
 }
 

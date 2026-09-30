@@ -14,43 +14,30 @@ import de.audi.tghu.exlap.impl.container.TrafficAnnouncementContainer;
 
 public interface ExlapRadioListener
 extends ExlapListener {
-    default public void updateAvailableRadioBands(RadioBandsContainer radioBandsContainer) {
-    }
+    public void updateAvailableRadioBands(RadioBandsContainer var1);
 
-    default public void updateAvailableAMStations(RadioStationsContainer radioStationsContainer) {
-    }
+    public void updateAvailableAMStations(RadioStationsContainer var1);
 
-    default public void updateAvailableFMStations(RadioStationsContainer radioStationsContainer) {
-    }
+    public void updateAvailableFMStations(RadioStationsContainer var1);
 
-    default public void updateAvailableDABEnsembles(RadioStationsContainer radioStationsContainer) {
-    }
+    public void updateAvailableDABEnsembles(RadioStationsContainer var1);
 
-    default public void updateAvailableDABServices(RadioStationsContainer radioStationsContainer) {
-    }
+    public void updateAvailableDABServices(RadioStationsContainer var1);
 
-    default public void updateAvailableDABServiceComponents(RadioStationsContainer radioStationsContainer) {
-    }
+    public void updateAvailableDABServiceComponents(RadioStationsContainer var1);
 
-    default public void updateRadioAMPresets(RadioPresetsContainer radioPresetsContainer) {
-    }
+    public void updateRadioAMPresets(RadioPresetsContainer var1);
 
-    default public void updateRadioFMPresets(RadioPresetsContainer radioPresetsContainer) {
-    }
+    public void updateRadioFMPresets(RadioPresetsContainer var1);
 
-    default public void updateRadioDABPresets(RadioPresetsContainer radioPresetsContainer) {
-    }
+    public void updateRadioDABPresets(RadioPresetsContainer var1);
 
-    default public void updateRadioTuner(RadioStationInfoContainer radioStationInfoContainer) {
-    }
+    public void updateRadioTuner(RadioStationInfoContainer var1);
 
-    default public void updateRadioFrequencyRanges(RadioFrequencyRangesContainer radioFrequencyRangesContainer) {
-    }
+    public void updateRadioFrequencyRanges(RadioFrequencyRangesContainer var1);
 
-    default public void updateTrafficAnnouncement(TrafficAnnouncementContainer trafficAnnouncementContainer) {
-    }
+    public void updateTrafficAnnouncement(TrafficAnnouncementContainer var1);
 
-    default public void updateRadioText(RadioTextContainer radioTextContainer) {
-    }
+    public void updateRadioText(RadioTextContainer var1);
 }
 

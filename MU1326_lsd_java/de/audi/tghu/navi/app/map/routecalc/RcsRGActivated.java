@@ -22,15 +22,13 @@ extends RcsBase {
         super(routeCalcSM, string);
     }
 
-    @Override
     public void enter() {
         super.enter();
         this.reset();
     }
 
-    @Override
     public void reset() {
-        this.getLogger().log(-2137614336, "RcsRGActivated#cleanup()");
+        this.getLogger().log(10000000, "RcsRGActivated#cleanup()");
         this.getData().rgRCCI = null;
         this.getData().origialRoute = null;
         this.getData().betterRoute = null;
@@ -38,16 +36,15 @@ extends RcsBase {
         this.getStateMachine().naviMap.getMapDataContainer().enterAltRoutesFromRightDrawer = false;
     }
 
-    @Override
     public final void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
         block3: {
             try {
                 if (rgRouteCostChangeInformation == null || rgRouteCostChangeInformation.oldRoute == null) {
-                    this.getLogger().log(-1601830656, "RcsRGActived#updateRgRouteCostChangeInformation() - %1", (Object)rgRouteCostChangeInformation);
+                    this.getLogger().log(100000, "RcsRGActived#updateRgRouteCostChangeInformation() - %1", (Object)rgRouteCostChangeInformation);
                     return;
                 }
                 RcciEvent rcciEvent = RcciEvent.create(rgRouteCostChangeInformation, this.stateMachine.getThresholdDefinitiveBetter(rgRouteCostChangeInformation));
-                this.getLogger().log(-2137614336, "RcsRGActivated#updateRgRouteCostChangeInformation() - %1", (Object)rcciEvent);
+                this.getLogger().log(10000000, "RcsRGActivated#updateRgRouteCostChangeInformation() - %1", (Object)rcciEvent);
                 super.updateRgRouteCostChangeInformation(rgRouteCostChangeInformation);
                 this.getStateMachine().dispatchRcciEvent(rcciEvent);
                 this.postUpdateRCCI(rcciEvent);
@@ -60,17 +57,16 @@ extends RcsBase {
         }
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
-        this.getLogger().log(14808325, "RcsRGActivated#updateRgActive( %1 )", bl);
+        this.getLogger().log(100000000, "RcsRGActivated#updateRgActive( %1 )", bl);
         if (!bl) {
             this.goTo(0);
         }
     }
 
     protected void postUpdateRCCI(RcciEvent rcciEvent) {
-        this.getLogger().log(-2137614336, "RcsRGActivated#postUpdateRCCI( %1 )", (Object)IRouteCalculator.sBetterRoute[rcciEvent.type]);
+        this.getLogger().log(10000000, "RcsRGActivated#postUpdateRCCI( %1 )", (Object)IRouteCalculator.sBetterRoute[rcciEvent.type]);
         switch (rcciEvent.type) {
             case 1: {
                 break;
@@ -96,11 +92,10 @@ extends RcsBase {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgRouteCalculationState(int n) {
         super.updateRgRouteCalculationState(n);
         if (n == 0) {
-            this.getLogger().log(-1601830656, "RcsRGActivated#updateRgRouteCalculationState( 0:idle ) - cleanup CRLEs (workaround)");
+            this.getLogger().log(100000, "RcsRGActivated#updateRgRouteCalculationState( 0:idle ) - cleanup CRLEs (workaround)");
             Object object = this.getMutex();
             synchronized (object) {
                 CalculatedRouteListElement[] calculatedRouteListElementArray = this.getStateMachine().getCalculatedRouteListElement();
@@ -113,28 +108,25 @@ extends RcsBase {
                     if (calculatedRouteListElement != null) {
                         this.getStateMachine().mCalculatedRouteListElement = new CalculatedRouteListElement[]{calculatedRouteListElement};
                     } else {
-                        this.getLogger().log(-1601830656, "RcsRGActivated#updateRgRouteCalculationState( 0:idle ) - active route not found");
+                        this.getLogger().log(100000, "RcsRGActivated#updateRgRouteCalculationState( 0:idle ) - active route not found");
                     }
                 }
             }
         }
     }
 
-    @Override
     public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray) {
         super.updateRgDestinationInfo(navRouteListDataArray);
-        this.getLogger().log(-2137614336, "RcsRGActived#updateRgDestinationInfo()");
+        this.getLogger().log(10000000, "RcsRGActived#updateRgDestinationInfo()");
         this.reset();
     }
 
-    @Override
     public int getValue4Model() {
         return 6;
     }
 
-    @Override
     public void updateRGCurrentRouteOptions(RouteOptions routeOptions) {
-        this.getLogger().log(-2137614336, "RcsRGActivated#updateRGCurrentRouteOptions() - Route options changed for current route - reset Flags");
+        this.getLogger().log(10000000, "RcsRGActivated#updateRGCurrentRouteOptions() - Route options changed for current route - reset Flags");
         this.stateMachine.resetIgnoreBetterRouteFlags();
     }
 }

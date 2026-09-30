@@ -21,9 +21,8 @@ extends AbstractTVCommand {
         this.isNewProgram = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(14808325, "[UpdateSelectedStationCmd.execute] command started");
+        this.logger.log(100000000, "[UpdateSelectedStationCmd.execute] command started");
         if (this.isNewProgram) {
             ProgramInfo programInfo = this.serviceListsResource.getSelectedProgram();
             this.serviceListsResource.setSelectedProgram(programInfo);
@@ -31,7 +30,7 @@ extends AbstractTVCommand {
             ServiceInfo serviceInfo = this.serviceListsResource.getSelectedService();
             this.serviceListsResource.setSelectedService(serviceInfo);
         }
-        this.logger.log(14808325, "[UpdateSelectedStationCmd.execute] command finished");
+        this.logger.log(100000000, "[UpdateSelectedStationCmd.execute] command finished");
         this.commandFinished();
     }
 }

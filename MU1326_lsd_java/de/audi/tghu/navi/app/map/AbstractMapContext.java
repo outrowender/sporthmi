@@ -28,8 +28,7 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public abstract class AbstractMapContext
 implements IContext {
-    protected abstract AbstractMap getMap() {
-    }
+    protected abstract AbstractMap getMap();
 
     protected final GUIInterface getGUI() {
         return this.getMap().getGuiInterface();
@@ -218,215 +217,162 @@ implements IContext {
         return this.getMap().getMVResponseManeuverView().getManoeuvreViewsAvailable();
     }
 
-    @Override
     public void updateAvailableLanguages(String[] stringArray) {
     }
 
-    @Override
     public void updateAvailableLayers(LayerProperty[] layerPropertyArray) {
     }
 
-    @Override
     public void updateAvailableRoutes(AvailableRoute[] availableRouteArray) {
     }
 
-    @Override
     public void updateCarPosition(Point point) {
     }
 
-    @Override
     public void updateCurrentLanguage(String string) {
     }
 
-    @Override
     public void updateCurrentViewType(int n) {
     }
 
-    @Override
     public void updateDayNightView(boolean bl) {
     }
 
-    @Override
     public void updateDestDistance(int n) {
     }
 
-    @Override
     public void updateDistanceToNextManeuver(int n) {
     }
 
-    @Override
     public void updateGoogleDataStatus(int n) {
     }
 
-    @Override
     public void updateLoadKml(boolean[] blArray) {
     }
 
-    @Override
     public void updateManoeuvreViewActive(int n) {
     }
 
-    @Override
     public void updateManoeuvreViewsAvailable(short[] sArray) {
     }
 
-    @Override
     public void updateMapMode(int n) {
     }
 
-    @Override
     public void updateMapOrientation(int n) {
     }
 
-    @Override
     public void updateMapPosition(NavLocationWgs84 navLocationWgs84) {
     }
 
-    @Override
     public void updateMapRotation(short s) {
     }
 
-    @Override
     public void updateOnlineResultFlagDetails(int n) {
     }
 
-    @Override
     public void updatePicNavLocation(NavLocation navLocation, ResourceLocator resourceLocator) {
     }
 
-    @Override
     public void updateReady(boolean bl, int n) {
     }
 
-    @Override
     public void updateRecommendedZoom(float f2) {
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
     }
 
-    @Override
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
     }
 
-    @Override
     public void updateRgRouteCalculationState(int n) {
     }
 
-    @Override
     public void updateRouteCalcModeEnabled(boolean bl) {
     }
 
-    @Override
     public void updateSoftJumpEnabled(boolean bl) {
     }
 
-    @Override
     public void updateSoftRotationEnabled(boolean bl) {
     }
 
-    @Override
     public void updateSoftTiltEnabled(boolean bl) {
     }
 
-    @Override
     public void updateSoftTiltRunning(boolean bl) {
     }
 
-    @Override
     public void updateTmcMessage(TmcMessage tmcMessage) {
     }
 
-    @Override
     public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray) {
     }
 
-    @Override
     public void updateTmcVisible(boolean bl) {
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
     }
 
-    @Override
     public void updateViewPort(ViewPort viewPort) {
     }
 
-    @Override
     public void updateViewScreenViewPort(Rect rect) {
     }
 
-    @Override
     public void updateViewVisible(boolean bl) {
     }
 
-    @Override
     public void updateVisibleLayers(int[] nArray) {
     }
 
-    @Override
     public void updateBapManeuverState(int n) {
     }
 
-    @Override
     public void updateXTRepresentation(NavLocation navLocation, String string) {
     }
 
-    @Override
     public void updateZoomEngineState(int n) {
     }
 
-    @Override
     public void updateZoomList(float[] fArray, int n, float[] fArray2) {
     }
 
-    @Override
     public void updateZoomListIndex(int n) {
     }
 
-    @Override
     public void updateSatelliteDataVisible(boolean bl) {
     }
 
-    @Override
     public void updateDragRoutePosition(NavLocationWgs84 navLocationWgs84) {
     }
 
-    @Override
     public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray) {
     }
 
-    @Override
     public void initViewPort() {
     }
 
-    @Override
     public void updateMobilityHorizonStatus(int n) {
     }
 
-    @Override
     public void updateZoomLevel(float f2) {
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
     }
 
-    @Override
     public void updateLockingState(boolean bl) {
     }
 
-    @Override
     public void vehicleMoved() {
     }
 
-    @Override
     public void hideTENM() {
     }
 }

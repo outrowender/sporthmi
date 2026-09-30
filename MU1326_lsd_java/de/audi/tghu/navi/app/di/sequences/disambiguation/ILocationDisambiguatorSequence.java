@@ -10,40 +10,28 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface ILocationDisambiguatorSequence {
-    default public void startDisambiguationForNavLocation(NavLocation navLocation, ILocationDisambiguationCallback iLocationDisambiguationCallback, int n, int n2, int n3) {
-    }
+    public void startDisambiguationForNavLocation(NavLocation var1, ILocationDisambiguationCallback var2, int var3, int var4, int var5);
 
-    default public void startDisambiguationForLiValueListElement(LIValueListElement lIValueListElement, ILocationDisambiguationCallback iLocationDisambiguationCallback, int n, int n2, int n3) {
-    }
+    public void startDisambiguationForLiValueListElement(LIValueListElement var1, ILocationDisambiguationCallback var2, int var3, int var4, int var5);
 
-    default public void startDisambiguationForMapCode(ILocationDisambiguationCallback iLocationDisambiguationCallback, int n, int n2, int n3) {
-    }
+    public void startDisambiguationForMapCode(ILocationDisambiguationCallback var1, int var2, int var3, int var4);
 
-    default public void startDisambiguationForMapCodeBySds(ILocationDisambiguationCallback iLocationDisambiguationCallback, int n, NotifyNaviServiceListenerCommand notifyNaviServiceListenerCommand) {
-    }
+    public void startDisambiguationForMapCodeBySds(ILocationDisambiguationCallback var1, int var2, NotifyNaviServiceListenerCommand var3);
 
-    default public void startRouteGuidance(NavLocation navLocation) {
-    }
+    public void startRouteGuidance(NavLocation var1);
 
-    default public void setLocationAsCurrentLdForSds(int n, NotifyNaviServiceListenerCommand notifyNaviServiceListenerCommand, NotifyNaviServiceListenerCommand notifyNaviServiceListenerCommand2) {
-    }
+    public void setLocationAsCurrentLdForSds(int var1, NotifyNaviServiceListenerCommand var2, NotifyNaviServiceListenerCommand var3);
 
-    default public void setAsHomeAddress(NavLocation navLocation) {
-    }
+    public void setAsHomeAddress(NavLocation var1);
 
-    default public void setAsContact(NavLocation navLocation) {
-    }
+    public void setAsContact(NavLocation var1);
 
-    default public void setAsContactFromAdb(NavLocation navLocation) {
-    }
+    public void setAsContactFromAdb(NavLocation var1);
 
-    default public void setForPoiAtThisLocation(NavLocation navLocation) {
-    }
+    public void setForPoiAtThisLocation(NavLocation var1);
 
-    default public boolean setAsFavorite(NavLocation navLocation) {
-    }
+    public boolean setAsFavorite(NavLocation var1);
 
-    default public void setPoiService(IPoiService iPoiService) {
-    }
+    public void setPoiService(IPoiService var1);
 }
 

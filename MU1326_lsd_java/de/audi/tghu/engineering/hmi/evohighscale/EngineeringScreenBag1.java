@@ -3,23 +3,24 @@
  */
 package de.audi.tghu.engineering.hmi.evohighscale;
 
+import de.audi.atip.hmi.model.ListCell;
 import de.audi.atip.hmi.view.HMIView;
 import de.audi.atip.hmi.view.Screen;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenBag1$1;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenBag1$2;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenBag1$3;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenBag1$4;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenBag1$5;
 import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenFactory;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.ScreenWidgetEVO;
+import de.esolutions.hmi.widgets.audi.evo.gridlayout.AxisConstraints;
+import de.esolutions.hmi.widgets.audi.evo.gridlayout.GridLayout;
+import de.esolutions.hmi.widgets.audi.evo.gridlayout.GridLayoutHints;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.CompositeRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ContainerRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.FocusCursorRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.GlassplateRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.LabelRendererHigh;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.MenuItemRendererHigh;
+import de.esolutions.hmi.widgets.audi.evo.high.widgets.MultiLineLabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ScreenRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ScrollbarRendererKanziHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.TitleBarRendererHigh;
@@ -36,8 +37,10 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.TitleBarWidget;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.InfoLineRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.ListController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
+import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemColumnsConstraints;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.OldListModelAccess;
+import de.esolutions.hmi.widgets.audi.evo.widgets.menu.list.ListItemFactory;
 
 public class EngineeringScreenBag1 {
     public static Screen engRefTemplate(EngineeringScreenFactory engineeringScreenFactory, int n) {
@@ -78,13 +81,13 @@ public class EngineeringScreenBag1 {
         smallStageApplicationIconController.setCoordinateSets(new int[]{2, 646, 325, 100, 100, 666, 240, 100, 100});
         iconRendererHigh2.setScaleFactor(2.0f, 2.0f);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(550900480);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300000);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setDrawerVisibility(2);
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
@@ -116,24 +119,24 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setLabelId(-1093266688);
+        menuItemController.setLabelId(1300158);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(970330880);
+        menuItemController.setInternalID(1300025);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(1138103040);
-        menuItemController2.setLabelId(534188800);
+        menuItemController2.setModelID(1300035);
+        menuItemController2.setLabelId(1300255);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(987108096);
+        menuItemController2.setInternalID(1300026);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1361636608);
+        menuController.setDefaultDisabledInfolineTextId(1300398);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -153,10 +156,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 100, 100);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -167,7 +170,7 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-1059712256});
+        labelController.setTextIds(new int[]{1300160});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -184,30 +187,30 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(567677696);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300001);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 1138103040}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}});
+        screenWidgetEVO.setViews(new int[]{138, 1300035}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}});
         return screenWidgetEVO;
     }
 
@@ -233,58 +236,58 @@ public class EngineeringScreenBag1 {
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
         menuItemController.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController.setEvent(-1561323264);
-        menuItemController.setLabelId(-1042935040);
+        menuItemController.setEvent(1700002);
+        menuItemController.setLabelId(1300161);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(903222016);
+        menuItemController.setInternalID(1300021);
         menuItemController.setType(4);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController2.setEvent(550900480);
-        menuItemController2.setLabelId(-992603392);
+        menuItemController2.setEvent(1300000);
+        menuItemController2.setLabelId(1300164);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(919999232);
+        menuItemController2.setInternalID(1300022);
         menuItemController2.setType(4);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
         menuItemController3.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController3.setEvent(668340992);
-        menuItemController3.setLabelId(-975826176);
+        menuItemController3.setEvent(1300007);
+        menuItemController3.setLabelId(1300165);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(936776448);
+        menuItemController3.setInternalID(1300023);
         menuItemController3.setType(4);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
         menuItemController4.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController4.setEvent(1070994176);
-        menuItemController4.setLabelId(198644480);
+        menuItemController4.setEvent(1300031);
+        menuItemController4.setLabelId(1300235);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(953553664);
+        menuItemController4.setInternalID(1300024);
         menuItemController4.setType(4);
         MenuItemController menuItemController5 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh5 = new CompositeRendererHigh(menuItemController5);
         menuItemController5.setRenderer(compositeRendererHigh5);
         menuItemController5.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController5.setEvent(1087771392);
-        menuItemController5.setLabelId(-1210641664);
+        menuItemController5.setEvent(1300032);
+        menuItemController5.setLabelId(1300407);
         menuItemController5.setGlassplateInsetsBottom(6);
         menuItemController5.setGlassplateInsetsTop(7);
-        menuItemController5.setInternalID(1758860032);
+        menuItemController5.setInternalID(1300072);
         menuItemController5.setType(4);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1344859392);
+        menuController.setDefaultDisabledInfolineTextId(1300399);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -307,10 +310,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 100, 100);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -321,7 +324,7 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-959048960});
+        labelController.setTextIds(new int[]{1300166});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -338,23 +341,23 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(584454912);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300002);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
@@ -362,7 +365,7 @@ public class EngineeringScreenBag1 {
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
         screenWidgetEVO.setViews(new int[]{138}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}});
-        screenWidgetEVO.setConditionWidgets(new int[]{375, 392, 523, 543, 3849, -1168494080}, new AbstractWidget[][]{{menuItemController}, {menuItemController}, {menuItemController3}, {menuItemController}, {menuItemController}, {menuItemController5}});
+        screenWidgetEVO.setConditionWidgets(new int[]{375, 392, 523, 543, 3849, 3300026}, new AbstractWidget[][]{{menuItemController}, {menuItemController}, {menuItemController3}, {menuItemController}, {menuItemController}, {menuItemController5}});
         return screenWidgetEVO;
     }
 
@@ -387,28 +390,28 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setEvent(567677696);
-        menuItemController.setLabelId(-942271744);
+        menuItemController.setEvent(1300001);
+        menuItemController.setLabelId(1300167);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(836113152);
+        menuItemController.setInternalID(1300017);
         menuItemController.setType(2);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(1876300544);
-        menuItemController2.setEvent(584454912);
-        menuItemController2.setLabelId(-925494528);
+        menuItemController2.setModelID(1300079);
+        menuItemController2.setEvent(1300002);
+        menuItemController2.setLabelId(1300168);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(852890368);
+        menuItemController2.setInternalID(1300018);
         menuItemController2.setType(2);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1260973312);
+        menuController.setDefaultDisabledInfolineTextId(1300404);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -429,10 +432,10 @@ public class EngineeringScreenBag1 {
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
         containerController.setColorIndices(new int[]{0, 2, 5, 1});
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -443,13 +446,13 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-908717312});
+        labelController.setTextIds(new int[]{1300169});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{-120188160});
+        labelController2.setTextIds(new int[]{1300216});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -467,32 +470,32 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(601232128);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300003);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 1876300544}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}});
-        screenWidgetEVO.setModelIDs(new int[]{1876300544});
-        screenWidgetEVO.setEventIDs(new int[]{584454912});
+        screenWidgetEVO.setViews(new int[]{138, 1300079}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}});
+        screenWidgetEVO.setModelIDs(new int[]{1300079});
+        screenWidgetEVO.setEventIDs(new int[]{1300002});
         return screenWidgetEVO;
     }
 
@@ -515,8 +518,8 @@ public class EngineeringScreenBag1 {
         scrollbarController.setRenderer(scrollbarRendererKanziHigh);
         scrollbarController.setBounds(703, 11, 5, 302);
         ListController listController = new ListController();
-        listController.setModelID(903222016);
-        listController.setEvent(601232128);
+        listController.setModelID(1300021);
+        listController.setEvent(1300003);
         listController.setBounds(0, 0, 0, 0);
         listController.setEnabledColumn(1);
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -524,13 +527,55 @@ public class EngineeringScreenBag1 {
         listController.setIdColumn(0);
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
-        listController.setItemFactory(new EngineeringScreenBag1$1());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setTextIds(new int[]{1300307, 1300308, 1300309, 1300310, 1300311, 1300312, 1300313, 1300307, 1300314});
+                        labelController.setModelColumn(0);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1244196096);
+        menuController.setDefaultDisabledInfolineTextId(1300405);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -549,10 +594,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -562,21 +607,21 @@ public class EngineeringScreenBag1 {
         LabelController labelController = new LabelController();
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
-        labelController.setTextIds(new int[]{-103410944});
+        labelController.setTextIds(new int[]{1300217});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController2.setTextIds(new int[]{-891940096});
+        labelController2.setTextIds(new int[]{1300170});
         labelController2.setBounds(0, 0, 0, 40);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
         labelRendererHigh3.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController3.setTextIds(new int[]{-875162880});
+        labelController3.setTextIds(new int[]{1300171});
         labelController3.setBounds(0, 0, 0, 40);
         labelController3.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -595,33 +640,33 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(618009344);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300004);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 903222016}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {listController}});
-        screenWidgetEVO.setModelIDs(new int[]{903222016});
-        screenWidgetEVO.setEventIDs(new int[]{601232128});
-        screenWidgetEVO.setConditionWidgets(new int[]{953553664}, new AbstractWidget[][]{{labelController2, labelController3}});
+        screenWidgetEVO.setViews(new int[]{138, 1300021}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {listController}});
+        screenWidgetEVO.setModelIDs(new int[]{1300021});
+        screenWidgetEVO.setEventIDs(new int[]{1300003});
+        screenWidgetEVO.setConditionWidgets(new int[]{1300024}, new AbstractWidget[][]{{labelController2, labelController3}});
         return screenWidgetEVO;
     }
 
@@ -646,59 +691,114 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(852890368);
-        menuItemController.setEvent(634786560);
-        menuItemController.setLabelId(-86633728);
+        menuItemController.setModelID(1300018);
+        menuItemController.setEvent(1300005);
+        menuItemController.setLabelId(1300218);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(735449856);
+        menuItemController.setInternalID(1300011);
         menuItemController.setType(2);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(785781504);
-        menuItemController2.setEvent(651563776);
-        menuItemController2.setLabelId(-69856512);
+        menuItemController2.setModelID(1300014);
+        menuItemController2.setEvent(1300006);
+        menuItemController2.setLabelId(1300219);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(752227072);
+        menuItemController2.setInternalID(1300012);
         menuItemController2.setType(2);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(802558720);
-        menuItemController3.setEvent(685118208);
-        menuItemController3.setLabelId(-858385664);
+        menuItemController3.setModelID(1300015);
+        menuItemController3.setEvent(1300008);
+        menuItemController3.setLabelId(1300172);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(769004288);
+        menuItemController3.setInternalID(1300013);
         menuItemController3.setType(2);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
-        menuItemController4.setModelID(1825968896);
-        menuItemController4.setLabelId(1809257216);
+        menuItemController4.setModelID(1300076);
+        menuItemController4.setLabelId(1300331);
         menuItemController4.setFocusable(false);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(1624642304);
+        menuItemController4.setInternalID(1300064);
         menuItemController4.setKeyHandler(3);
         ListController listController = new ListController();
-        listController.setModelID(1020662528);
-        listController.setEvent(618009344);
+        listController.setModelID(1300028);
+        listController.setEvent(1300004);
         listController.setBounds(0, 0, 0, 0);
         listController.setGlassplateInsetsBottom(new int[0]);
         listController.setGlassplateInsetsTop(new int[0]);
         listController.setIdColumn(0);
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
-        listController.setItemFactory(new EngineeringScreenBag1$2());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.alignment = new int[]{1, 3};
+                        menuItemColumnsConstraints.gaps = new int[]{0, 14, 0};
+                        menuItemColumnsConstraints.grow = new float[]{1.0f, 1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        menuItemController.add(abstractWidgetController2);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setTextIds(new int[]{1300324, 1300325, 1300326, 1300327, 1300328, 1300329, 1300330});
+                        labelController.setModelColumn(2);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1361636608);
+        menuController.setDefaultDisabledInfolineTextId(1300398);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -721,10 +821,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -735,13 +835,13 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-53079296});
+        labelController.setTextIds(new int[]{1300220});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{299307776});
+        labelController2.setTextIds(new int[]{1300241});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -759,33 +859,33 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(634786560);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300005);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 785781504, 802558720, 852890368, 1020662528, 1825968896}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}, {menuItemController3}, {menuItemController}, {listController}, {menuItemController4}});
-        screenWidgetEVO.setModelIDs(new int[]{785781504, 802558720, 852890368, 1020662528});
-        screenWidgetEVO.setEventIDs(new int[]{651563776, 685118208, 634786560, 618009344});
-        screenWidgetEVO.setConditionWidgets(new int[]{1020662528}, new AbstractWidget[][]{{menuItemController4}});
+        screenWidgetEVO.setViews(new int[]{138, 1300014, 1300015, 1300018, 1300028, 1300076}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}, {menuItemController3}, {menuItemController}, {listController}, {menuItemController4}});
+        screenWidgetEVO.setModelIDs(new int[]{1300014, 1300015, 1300018, 1300028});
+        screenWidgetEVO.setEventIDs(new int[]{1300006, 1300008, 1300005, 1300004});
+        screenWidgetEVO.setConditionWidgets(new int[]{1300028}, new AbstractWidget[][]{{menuItemController4}});
         return screenWidgetEVO;
     }
 
@@ -810,46 +910,46 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setLabelId(-841608448);
+        menuItemController.setLabelId(1300173);
         menuItemController.setFocusable(false);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1054216960);
+        menuItemController.setInternalID(1300030);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setLabelId(-824831232);
+        menuItemController2.setLabelId(1300174);
         menuItemController2.setFocusable(false);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(1154880256);
+        menuItemController2.setInternalID(1300036);
         menuItemController2.setType(32);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
-        menuItemController3.setModelID(1557533440);
-        menuItemController3.setEvent(852890368);
-        menuItemController3.setLabelId(-808054016);
+        menuItemController3.setModelID(1300060);
+        menuItemController3.setEvent(1300018);
+        menuItemController3.setLabelId(1300175);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(869667584);
+        menuItemController3.setInternalID(1300019);
         menuItemController3.setType(2);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
-        menuItemController4.setModelID(1540756224);
-        menuItemController4.setEvent(869667584);
-        menuItemController4.setLabelId(-791276800);
+        menuItemController4.setModelID(1300059);
+        menuItemController4.setEvent(1300019);
+        menuItemController4.setLabelId(1300176);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(886444800);
+        menuItemController4.setInternalID(1300020);
         menuItemController4.setType(2);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1244196096);
+        menuController.setDefaultDisabledInfolineTextId(1300405);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -871,10 +971,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -885,7 +985,7 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-774499584});
+        labelController.setTextIds(new int[]{1300177});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -902,33 +1002,33 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(651563776);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300006);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 1540756224, 1557533440}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController4}, {menuItemController3}});
-        screenWidgetEVO.setModelIDs(new int[]{1540756224, 1557533440});
-        screenWidgetEVO.setEventIDs(new int[]{869667584, 852890368});
-        screenWidgetEVO.setConditionWidgets(new int[]{888215808}, new AbstractWidget[][]{{menuItemController, menuItemController2}});
+        screenWidgetEVO.setViews(new int[]{138, 1300059, 1300060}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController4}, {menuItemController3}});
+        screenWidgetEVO.setModelIDs(new int[]{1300059, 1300060});
+        screenWidgetEVO.setEventIDs(new int[]{1300019, 1300018});
+        screenWidgetEVO.setConditionWidgets(new int[]{1700148}, new AbstractWidget[][]{{menuItemController, menuItemController2}});
         return screenWidgetEVO;
     }
 
@@ -953,19 +1053,19 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(869667584);
-        menuItemController.setEvent(1070994176);
+        menuItemController.setModelID(1300019);
+        menuItemController.setEvent(1300031);
         menuItemController.setFocusable(false);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1742082816);
+        menuItemController.setInternalID(1300071);
         menuItemController.setType(32);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1260973312);
+        menuController.setDefaultDisabledInfolineTextId(1300404);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -984,10 +1084,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -998,13 +1098,13 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-740945152});
+        labelController.setTextIds(new int[]{1300179});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{399971072});
+        labelController2.setTextIds(new int[]{1300247});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1022,32 +1122,32 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(668340992);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300007);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 869667584}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController}});
-        screenWidgetEVO.setModelIDs(new int[]{869667584});
-        screenWidgetEVO.setEventIDs(new int[]{1070994176});
+        screenWidgetEVO.setViews(new int[]{138, 1300019}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController}});
+        screenWidgetEVO.setModelIDs(new int[]{1300019});
+        screenWidgetEVO.setEventIDs(new int[]{1300031});
         return screenWidgetEVO;
     }
 
@@ -1072,16 +1172,16 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setLabelId(-724167936);
+        menuItemController.setLabelId(1300180);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1003885312);
+        menuItemController.setInternalID(1300027);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1361636608);
+        menuController.setDefaultDisabledInfolineTextId(1300398);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1100,10 +1200,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -1113,21 +1213,21 @@ public class EngineeringScreenBag1 {
         LabelController labelController = new LabelController();
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
-        labelController.setTextIds(new int[]{-103410944});
+        labelController.setTextIds(new int[]{1300217});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController2.setTextIds(new int[]{-891940096});
+        labelController2.setTextIds(new int[]{1300170});
         labelController2.setBounds(0, 0, 0, 40);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
         labelRendererHigh3.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController3.setTextIds(new int[]{-875162880});
+        labelController3.setTextIds(new int[]{1300171});
         labelController3.setBounds(0, 0, 0, 40);
         labelController3.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1146,23 +1246,23 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(685118208);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300008);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
@@ -1170,7 +1270,7 @@ public class EngineeringScreenBag1 {
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
         screenWidgetEVO.setViews(new int[]{138}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}});
-        screenWidgetEVO.setConditionWidgets(new int[]{953553664}, new AbstractWidget[][]{{labelController2, labelController3}});
+        screenWidgetEVO.setConditionWidgets(new int[]{1300024}, new AbstractWidget[][]{{labelController2, labelController3}});
         return screenWidgetEVO;
     }
 
@@ -1195,26 +1295,26 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(886444800);
+        menuItemController.setModelID(1300020);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1171657472);
+        menuItemController.setInternalID(1300037);
         menuItemController.setType(32);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setEvent(769004288);
-        menuItemController2.setLabelId(-707390720);
+        menuItemController2.setEvent(1300013);
+        menuItemController2.setLabelId(1300181);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(685118208);
+        menuItemController2.setInternalID(1300008);
         menuItemController2.setType(2);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1361636608);
+        menuController.setDefaultDisabledInfolineTextId(1300398);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1234,10 +1334,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -1247,21 +1347,21 @@ public class EngineeringScreenBag1 {
         LabelController labelController = new LabelController();
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
-        labelController.setTextIds(new int[]{-103410944});
+        labelController.setTextIds(new int[]{1300217});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController2.setTextIds(new int[]{-891940096});
+        labelController2.setTextIds(new int[]{1300170});
         labelController2.setBounds(0, 0, 0, 40);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
         labelRendererHigh3.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController3.setTextIds(new int[]{-875162880});
+        labelController3.setTextIds(new int[]{1300171});
         labelController3.setBounds(0, 0, 0, 40);
         labelController3.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1280,31 +1380,31 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(701895424);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300009);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 886444800}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController}});
-        screenWidgetEVO.setConditionWidgets(new int[]{953553664}, new AbstractWidget[][]{{labelController2, labelController3}});
+        screenWidgetEVO.setViews(new int[]{138, 1300020}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController}});
+        screenWidgetEVO.setConditionWidgets(new int[]{1300024}, new AbstractWidget[][]{{labelController2, labelController3}});
         return screenWidgetEVO;
     }
 
@@ -1329,15 +1429,15 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setModelID(1792414464);
+        menuItemController.setModelID(1300074);
         menuItemController.setFocusable(false);
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1607865088);
+        menuItemController.setInternalID(1300063);
         menuItemController.setType(32);
         ListController listController = new ListController();
-        listController.setModelID(970330880);
-        listController.setEvent(785781504);
+        listController.setModelID(1300025);
+        listController.setEvent(1300014);
         listController.setBounds(0, 0, 0, 0);
         listController.setFocusableColumn(3);
         listController.setGlassplateInsetsBottom(new int[0]);
@@ -1345,23 +1445,78 @@ public class EngineeringScreenBag1 {
         listController.setIdColumn(0);
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
-        listController.setItemFactory(new EngineeringScreenBag1$3());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.alignment = new int[]{1, 3};
+                        menuItemColumnsConstraints.gaps = new int[]{0, 14, 0};
+                        menuItemColumnsConstraints.grow = new float[]{1.0f, 1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        menuItemController.add(abstractWidgetController2);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setTextIds(new int[]{1300324, 1300325, 1300326, 1300327, 1300328, 1300329, 1300330});
+                        labelController.setModelColumn(2);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
-        menuItemController2.setModelID(836113152);
-        menuItemController2.setEvent(769004288);
-        menuItemController2.setLabelId(-707390720);
+        menuItemController2.setModelID(1300017);
+        menuItemController2.setEvent(1300013);
+        menuItemController2.setLabelId(1300181);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(701895424);
+        menuItemController2.setInternalID(1300009);
         menuItemController2.setType(2);
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1361636608);
+        menuController.setDefaultDisabledInfolineTextId(1300398);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1382,10 +1537,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -1395,21 +1550,21 @@ public class EngineeringScreenBag1 {
         LabelController labelController = new LabelController();
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
-        labelController.setTextIds(new int[]{-103410944});
+        labelController.setTextIds(new int[]{1300217});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
         labelRendererHigh2.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController2.setTextIds(new int[]{-891940096});
+        labelController2.setTextIds(new int[]{1300170});
         labelController2.setBounds(0, 0, 0, 40);
         labelController2.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController3 = new LabelController();
         LabelRendererHigh labelRendererHigh3 = new LabelRendererHigh(labelController3);
         labelController3.setRenderer(labelRendererHigh3);
         labelRendererHigh3.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController3.setTextIds(new int[]{-875162880});
+        labelController3.setTextIds(new int[]{1300171});
         labelController3.setBounds(0, 0, 0, 40);
         labelController3.setColorIndices(new int[]{1, 2, 4, 0});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1428,33 +1583,33 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(718672640);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300010);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 836113152, 970330880, 1792414464}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}, {listController}, {menuItemController}});
-        screenWidgetEVO.setModelIDs(new int[]{836113152, 970330880});
-        screenWidgetEVO.setEventIDs(new int[]{769004288, 785781504});
-        screenWidgetEVO.setConditionWidgets(new int[]{953553664}, new AbstractWidget[][]{{labelController2, labelController3}});
+        screenWidgetEVO.setViews(new int[]{138, 1300017, 1300025, 1300074}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {menuItemController2}, {listController}, {menuItemController}});
+        screenWidgetEVO.setModelIDs(new int[]{1300017, 1300025});
+        screenWidgetEVO.setEventIDs(new int[]{1300013, 1300014});
+        screenWidgetEVO.setConditionWidgets(new int[]{1300024}, new AbstractWidget[][]{{labelController2, labelController3}});
         return screenWidgetEVO;
     }
 
@@ -1471,21 +1626,75 @@ public class EngineeringScreenBag1 {
         scrollbarController.setRenderer(scrollbarRendererKanziHigh);
         scrollbarController.setBounds(703, 11, 5, 302);
         ListController listController = new ListController();
-        listController.setModelID(1809191680);
-        listController.setEvent(769004288);
+        listController.setModelID(1300075);
+        listController.setEvent(1300013);
         listController.setBounds(0, 0, 0, 0);
         listController.setGlassplateInsetsBottom(new int[0]);
         listController.setGlassplateInsetsTop(new int[0]);
         listController.setIdColumn(0);
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
-        listController.setItemFactory(new EngineeringScreenBag1$4());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(2);
+                        menuItemColumnsConstraints.alignment = new int[]{1, 8};
+                        menuItemColumnsConstraints.grow = new float[]{0.0f, 1.0f};
+                        menuItemColumnsConstraints.shrink = new float[]{0.0f, 1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayoutHints.hidemode = 0;
+                        AbstractWidgetController abstractWidgetController2 = this.createCell(1);
+                        GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2}, new Object[]{abstractWidgetController, abstractWidgetController2});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        menuItemController.add(abstractWidgetController2);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setModelColumn(1);
+                        return labelController;
+                    }
+                    case 1: {
+                        LabelController labelController = new LabelController();
+                        LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
+                        labelController.setRenderer(labelRendererHigh);
+                        labelController.setModelColumn(2);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1361636608);
+        menuController.setDefaultDisabledInfolineTextId(1300398);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1503,10 +1712,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -1517,13 +1726,13 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-690613504});
+        labelController.setTextIds(new int[]{1300182});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{567743232});
+        labelController2.setTextIds(new int[]{1300257});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1541,32 +1750,32 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(735449856);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300011);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 1809191680}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {listController}});
-        screenWidgetEVO.setModelIDs(new int[]{1809191680});
-        screenWidgetEVO.setEventIDs(new int[]{769004288});
+        screenWidgetEVO.setViews(new int[]{138, 1300075}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {listController}});
+        screenWidgetEVO.setModelIDs(new int[]{1300075});
+        screenWidgetEVO.setEventIDs(new int[]{1300013});
         return screenWidgetEVO;
     }
 
@@ -1591,41 +1800,41 @@ public class EngineeringScreenBag1 {
         MenuItemController menuItemController = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(menuItemController);
         menuItemController.setRenderer(compositeRendererHigh);
-        menuItemController.setLabelId(1926697728);
-        menuItemController.setReplacementModelIds(new int[]{1691751168});
+        menuItemController.setLabelId(1300338);
+        menuItemController.setReplacementModelIds(new int[]{1300068});
         menuItemController.setGlassplateInsetsBottom(6);
         menuItemController.setGlassplateInsetsTop(7);
-        menuItemController.setInternalID(1188434688);
+        menuItemController.setInternalID(1300038);
         menuItemController.setType(32);
         MenuItemController menuItemController2 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh2 = new CompositeRendererHigh(menuItemController2);
         menuItemController2.setRenderer(compositeRendererHigh2);
         menuItemController2.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController2.setEvent(802558720);
-        menuItemController2.setLabelId(-657059072);
+        menuItemController2.setEvent(1300015);
+        menuItemController2.setLabelId(1300184);
         menuItemController2.setGlassplateInsetsBottom(6);
         menuItemController2.setGlassplateInsetsTop(7);
-        menuItemController2.setInternalID(785781504);
+        menuItemController2.setInternalID(1300014);
         menuItemController2.setType(4);
         MenuItemController menuItemController3 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh3 = new CompositeRendererHigh(menuItemController3);
         menuItemController3.setRenderer(compositeRendererHigh3);
         menuItemController3.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController3.setEvent(819335936);
-        menuItemController3.setLabelId(-640281856);
+        menuItemController3.setEvent(1300016);
+        menuItemController3.setLabelId(1300185);
         menuItemController3.setGlassplateInsetsBottom(6);
         menuItemController3.setGlassplateInsetsTop(7);
-        menuItemController3.setInternalID(802558720);
+        menuItemController3.setInternalID(1300015);
         menuItemController3.setType(4);
         MenuItemController menuItemController4 = new MenuItemController();
         CompositeRendererHigh compositeRendererHigh4 = new CompositeRendererHigh(menuItemController4);
         menuItemController4.setRenderer(compositeRendererHigh4);
         menuItemController4.setBitmaps(new int[]{39, 39, 39, 39});
-        menuItemController4.setEvent(970330880);
-        menuItemController4.setLabelId(-623504640);
+        menuItemController4.setEvent(1300025);
+        menuItemController4.setLabelId(1300186);
         menuItemController4.setGlassplateInsetsBottom(6);
         menuItemController4.setGlassplateInsetsTop(7);
-        menuItemController4.setInternalID(819335936);
+        menuItemController4.setInternalID(1300016);
         menuItemController4.setType(4);
         menuItemController4.setVisible(false);
         MenuController menuController = new MenuController();
@@ -1633,7 +1842,7 @@ public class EngineeringScreenBag1 {
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1244196096);
+        menuController.setDefaultDisabledInfolineTextId(1300405);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1655,10 +1864,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -1669,13 +1878,13 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-606727424});
+        labelController.setTextIds(new int[]{1300187});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{517411584});
+        labelController2.setTextIds(new int[]{1300254});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1693,23 +1902,23 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(752227072);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300012);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
@@ -1717,7 +1926,7 @@ public class EngineeringScreenBag1 {
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
         screenWidgetEVO.setViews(new int[]{138}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}});
-        screenWidgetEVO.setReplacementWidgets(new int[]{1691751168}, new HMIView[][]{{menuItemController}});
+        screenWidgetEVO.setReplacementWidgets(new int[]{1300068}, new HMIView[][]{{menuItemController}});
         return screenWidgetEVO;
     }
 
@@ -1740,7 +1949,7 @@ public class EngineeringScreenBag1 {
         scrollbarController.setRenderer(scrollbarRendererKanziHigh);
         scrollbarController.setBounds(703, 11, 5, 302);
         ListController listController = new ListController();
-        listController.setModelID(601232128);
+        listController.setModelID(1300003);
         listController.setBounds(0, 0, 0, 0);
         listController.setGlassplateInsetsBottom(new int[0]);
         listController.setGlassplateInsetsTop(new int[0]);
@@ -1748,13 +1957,55 @@ public class EngineeringScreenBag1 {
         listController.setNoFocusAreasBottom(new int[0]);
         listController.setNoFocusAreasTop(new int[0]);
         listController.setDataAccess(new OldListModelAccess());
-        listController.setItemFactory(new EngineeringScreenBag1$5());
+        listController.setItemFactory(new ListItemFactory(){
+
+            public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
+                switch (n) {
+                    case 0: {
+                        MenuItemController menuItemController = new MenuItemController();
+                        menuItemController.setType(16);
+                        menuItemController.setRenderer(new MenuItemRendererHigh(menuItemController));
+                        GridLayout gridLayout = new GridLayout();
+                        MenuItemColumnsConstraints menuItemColumnsConstraints = new MenuItemColumnsConstraints(1);
+                        menuItemColumnsConstraints.grow = new float[]{1.0f};
+                        gridLayout.setColumnConstraints(menuItemColumnsConstraints);
+                        AxisConstraints axisConstraints = new AxisConstraints(1);
+                        gridLayout.setRowConstraints(axisConstraints);
+                        AbstractWidgetController abstractWidgetController = this.createCell(0);
+                        GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
+                        gridLayout.setCellConstraints(new GridLayoutHints[]{gridLayoutHints}, new Object[]{abstractWidgetController});
+                        menuItemController.setLayoutChoices(new GridLayout[]{gridLayout});
+                        menuItemController.add(abstractWidgetController);
+                        return menuItemController;
+                    }
+                }
+                return null;
+            }
+
+            public AbstractWidgetController createListItemNoData() {
+                return null;
+            }
+
+            public AbstractWidgetController createCell(int n) {
+                switch (n) {
+                    case 0: {
+                        LabelController labelController = new LabelController();
+                        MultiLineLabelRendererHigh multiLineLabelRendererHigh = new MultiLineLabelRendererHigh(labelController);
+                        labelController.setRenderer(multiLineLabelRendererHigh);
+                        labelController.setModelColumn(0);
+                        multiLineLabelRendererHigh.setAutoWrap(0);
+                        return labelController;
+                    }
+                }
+                return null;
+            }
+        });
         MenuController menuController = new MenuController();
         MenuRendererHigh menuRendererHigh = new MenuRendererHigh(menuController);
         menuController.setRenderer(menuRendererHigh);
         menuController.createInfolineWidgets(new InfoLineRendererHigh());
         menuController.getInfoline().getInfolineRenderer().setFonts(engineeringScreenFactory.getFonts(2, n));
-        menuController.setDefaultDisabledInfolineTextId(-1244196096);
+        menuController.setDefaultDisabledInfolineTextId(1300405);
         menuController.getInfolineTimer().setIdleTime(800);
         menuController.getInfoline().setColorIndices(new int[]{2, 0, 4, 3});
         menuController.getLayout().setBackgroundInsetsVert(7);
@@ -1773,10 +2024,10 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh = new ContainerRendererHigh(containerController);
         containerController.setRenderer(containerRendererHigh);
         containerController.setBounds(0, 0, 0, 0);
-        containerController.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 63);
-        containerController.setOpacitySet(1.0f, -842216386);
-        containerController.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 63);
-        containerController.setSelectionMenuTransformation(40771, 57408, -512093121, -1701242561, 32830);
+        containerController.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.5f);
+        containerController.setOpacitySet(1.0f, 0.4f);
+        containerController.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.5f);
+        containerController.setSelectionMenuTransformation(318.0f, 7.0f, 0.58f, 0.6f, 0.25f);
         containerController.add(menuController);
         IconController iconController = new IconController();
         IconRendererHigh iconRendererHigh = new IconRendererHigh(iconController);
@@ -1787,13 +2038,13 @@ public class EngineeringScreenBag1 {
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);
         labelController.setRenderer(labelRendererHigh);
         labelRendererHigh.setFonts(engineeringScreenFactory.getFonts(1, n));
-        labelController.setTextIds(new int[]{-589950208});
+        labelController.setTextIds(new int[]{1300188});
         labelController.setBounds(0, 0, 0, 30);
         labelController.setColorIndices(new int[]{1, 2, 4, 0});
         LabelController labelController2 = new LabelController();
         LabelRendererHigh labelRendererHigh2 = new LabelRendererHigh(labelController2);
         labelController2.setRenderer(labelRendererHigh2);
-        labelController2.setTextIds(new int[]{349639424});
+        labelController2.setTextIds(new int[]{1300244});
         labelController2.setBounds(0, 0, 0, 30);
         labelController2.setCoordinateSets(new int[]{1, 0, 0, 0, 30, 0, 0, 0, 30});
         TitleBarWidget titleBarWidget = new TitleBarWidget();
@@ -1811,30 +2062,30 @@ public class EngineeringScreenBag1 {
         ContainerRendererHigh containerRendererHigh2 = new ContainerRendererHigh(containerController2);
         containerController2.setRenderer(containerRendererHigh2);
         containerController2.setBounds(0, 0, 800, 0);
-        containerController2.setEntertainmentMenuTransformation(16449, 16449, -1883081409, -1883081409, 0.0f);
-        containerController2.setOpacitySet(1.0f, -842216386);
-        containerController2.setOptionMenuTransformation(32960, 57408, -1701242561, -1701242561, 0.0f);
-        containerController2.setSelectionMenuTransformation(8438595, 57408, -1701242561, -1701242561, 0.0f);
+        containerController2.setEntertainmentMenuTransformation(12.0f, 12.0f, 0.96f, 0.96f, 0.0f);
+        containerController2.setOpacitySet(1.0f, 0.4f);
+        containerController2.setOptionMenuTransformation(-4.0f, 7.0f, 0.6f, 0.6f, 0.0f);
+        containerController2.setSelectionMenuTransformation(391.0f, 7.0f, 0.6f, 0.6f, 0.0f);
         containerController2.add(titleBarWidget);
         StatusBarStubController statusBarStubController = new StatusBarStubController();
         statusBarStubController.setModelID(138);
         statusBarStubController.setBounds(0, 0, 100, 100);
         statusBarStubController.setRenderStyle(2);
         AbstractWidgetController abstractWidgetController2 = engineeringScreenFactory.getRefWidget(n, 1, engineeringScreenFactory);
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(769004288);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(1300013);
         screenWidgetEVO.setScreenFactory(engineeringScreenFactory);
         ScreenRendererHigh screenRendererHigh = new ScreenRendererHigh(screenWidgetEVO);
         screenWidgetEVO.setRenderer(screenRendererHigh);
         screenRendererHigh.setFonts(engineeringScreenFactory.getFonts(0, n));
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         screenWidgetEVO.setSmallStageType(3);
         screenWidgetEVO.add(abstractWidgetController);
         screenWidgetEVO.add(containerController, 1);
         screenWidgetEVO.add(containerController2, 2);
         screenWidgetEVO.add(statusBarStubController);
         screenWidgetEVO.add(abstractWidgetController2, 15);
-        screenWidgetEVO.setViews(new int[]{138, 601232128}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {listController}});
+        screenWidgetEVO.setViews(new int[]{138, 1300003}, new HMIView[][]{{statusBarStubController, engineeringScreenFactory.refWidgets[n][2]}, {listController}});
         return screenWidgetEVO;
     }
 }

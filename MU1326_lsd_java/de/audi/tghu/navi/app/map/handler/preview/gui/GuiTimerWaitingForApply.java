@@ -11,7 +11,7 @@ import de.audi.tghu.navi.app.NavigationEnv;
 
 public class GuiTimerWaitingForApply
 implements TimerListener {
-    private static final int TIMEOUT_MSEC;
+    private static final int TIMEOUT_MSEC = 1000;
     protected NavigationEnv env;
     protected LogChannel logChannel;
     protected volatile Timer timerGuiWaitingForApply;
@@ -20,7 +20,7 @@ implements TimerListener {
     public GuiTimerWaitingForApply(NavigationEnv navigationEnv, LogChannel logChannel) {
         this.env = navigationEnv;
         this.logChannel = logChannel;
-        this.timerGuiWaitingForApply = new Timer("GuiTimerWaitingForApply", 0, true, this);
+        this.timerGuiWaitingForApply = new Timer("GuiTimerWaitingForApply", 1000L, true, this);
     }
 
     public void setPreviewMapWaitSyncModelId(int n) {
@@ -62,13 +62,11 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.logChannel.log(10000, "GuiTimerWaitingForApply#fireTimer()");
         this.setActive(false);
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

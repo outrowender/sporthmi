@@ -10,7 +10,6 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class RouteCriteriaEvoConfiguration
 implements IRouteCriteriaConfiguration {
-    @Override
     public void initRouteCriteria(IRouteCriteria iRouteCriteria) {
         if (Util.isHURegionNAR()) {
             this.setCriteriaForNAR(iRouteCriteria);
@@ -101,14 +100,12 @@ implements IRouteCriteriaConfiguration {
         iRouteCriteria.setIpd(2);
     }
 
-    @Override
     public void checkForEncodedTrailer(IRouteCriteria iRouteCriteria, NavigationEnv navigationEnv) {
         if (!Util.isTrailerModeAvailable(navigationEnv.getFramework())) {
             iRouteCriteria.setTrailer(6);
         }
     }
 
-    @Override
     public void checkForRegionConsistency(IRouteCriteria iRouteCriteria) {
         if (Util.isHURegionNAR()) {
             this.resetWrongCriteriaForNAR(iRouteCriteria);

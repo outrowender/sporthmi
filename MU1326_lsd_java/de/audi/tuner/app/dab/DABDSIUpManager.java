@@ -4,7 +4,10 @@
 package de.audi.tuner.app.dab;
 
 import de.audi.atip.hmi.model.HMIResourceLocator;
+import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
+import de.audi.tuner.app.AbstractSlsSpeedManagerBase;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.RadioComparators;
@@ -13,12 +16,6 @@ import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerObjectContainer;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.dsi.RadioInfo;
-import de.audi.tuner.app.dab.DABDSIUpManager$DabCoverArtHandler;
-import de.audi.tuner.app.dab.DABDSIUpManager$DsiDownInfo;
-import de.audi.tuner.app.dab.DABDSIUpManager$MemoryListener;
-import de.audi.tuner.app.dab.DABDSIUpManager$RsdbResultListener;
-import de.audi.tuner.app.dab.DABDSIUpManager$SlsSpeedManager;
-import de.audi.tuner.app.dab.DABDSIUpManager$TimerListener;
 import de.audi.tuner.app.dab.DABDsiDownInfo;
 import de.audi.tuner.app.dab.DABDsiUpInfo;
 import de.audi.tuner.app.dab.DABTuner;
@@ -32,16 +29,19 @@ import de.audi.tuner.app.dab.stationlist.DabDummyNames;
 import de.audi.tuner.app.epg.dab.EPGShortInfoExt;
 import de.audi.tuner.app.gracenote.CoverArtHandler;
 import de.audi.tuner.app.gracenote.IGracenoteRequest;
+import de.audi.tuner.app.rsdb.IRSDBResult;
 import de.audi.tuner.ifc.DABTunerListener;
 import de.audi.tuner.ifc.ILogoDatabase;
 import de.audi.tuner.ifc.IMemoryList;
 import de.audi.tuner.ifc.ISimpleTuner;
 import de.audi.tuner.ifc.NullLogoDatabase;
 import de.audi.tuner.ifc.listener.IUpdateListener;
+import de.audi.tuner.sds.DefaultUpdateListener;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.ComponentInfo;
 import org.dsi.ifc.radio.DABRadioText;
 import org.dsi.ifc.radio.DABRadioTextPlusInfo;
@@ -56,14 +56,14 @@ import org.dsi.ifc.radio.ServiceInfo;
 
 public class DABDSIUpManager
 implements DABTunerListener {
-    final DABDsiDownInfo dsiDownListener = new DABDSIUpManager$DsiDownInfo(this, null);
-    private final DABDSIUpManager$SlsSpeedManager slsManager;
-    private static final char LINE_BREAK_DELIMITER;
-    private static final char HEADER_DELIMITER;
-    private static final char SEPARATOR_DELIMITER;
-    private static final String REPLACE_LINE_BREAK;
-    private static final String REPLACE_HEADER;
-    private static final String REPLACE_WORD_SEPARATOR;
+    final DABDsiDownInfo dsiDownListener = new DsiDownInfo();
+    private final SlsSpeedManager slsManager;
+    private static final char LINE_BREAK_DELIMITER = '\n';
+    private static final char HEADER_DELIMITER = '\u000b';
+    private static final char SEPARATOR_DELIMITER = '\u001f';
+    private static final String REPLACE_LINE_BREAK = "\n";
+    private static final String REPLACE_HEADER = "\n";
+    private static final String REPLACE_WORD_SEPARATOR = "-";
     private EnsembleInfo[] ensList;
     private ServiceInfo[] serList;
     private ComponentInfo[] comList;
@@ -78,7 +78,7 @@ implements DABTunerListener {
     private DabStation selectedStation = new DabStation();
     private final RadioTextPlusStorage rtPlusStorage;
     private TunerObjectContainer[] presets = new TunerObjectContainer[0];
-    private final Timer listRequestTimer = new Timer("listRequestTimer", 0, true, new DABDSIUpManager$TimerListener(this, null));
+    private final Timer listRequestTimer = new Timer("listRequestTimer", 500L, true, new TimerListener());
     private int selectServiceStatus = 0;
     private boolean waitForSelectRunning;
     private int seekServiceStatus = 0;
@@ -113,8 +113,8 @@ implements DABTunerListener {
         this.langMngr = languageManager;
         this.dabTuner = dABTuner;
         this.logoDatabase = new NullLogoDatabase();
-        this.coverArt = new DABDSIUpManager$DabCoverArtHandler(this, tunerBasics);
-        this.slsManager = new DABDSIUpManager$SlsSpeedManager(this, this.logger.dabDSI);
+        this.coverArt = new DabCoverArtHandler(tunerBasics);
+        this.slsManager = new SlsSpeedManager(this.logger.dabDSI);
         this.ensList = new EnsembleInfo[0];
         this.serList = new ServiceInfo[0];
         this.comList = new ComponentInfo[0];
@@ -141,7 +141,7 @@ implements DABTunerListener {
     }
 
     public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
-        return new DABDSIUpManager$MemoryListener(this, iMemoryList);
+        return new MemoryListener(iMemoryList);
     }
 
     void register(IGracenoteRequest iGracenoteRequest) {
@@ -159,26 +159,22 @@ implements DABTunerListener {
         this.coverArt.requestCoverArt(string, string3, string2);
     }
 
-    @Override
     public void updateSelectedEnsemble(EnsembleInfo ensembleInfo) {
         this.adjustEnsembleNames(ensembleInfo, true);
         this.bufferedEnsemble = ensembleInfo;
     }
 
-    @Override
     public void updateSelectedService(ServiceInfo serviceInfo) {
         this.adjustServiceNames(serviceInfo, true);
         this.bufferedService = serviceInfo;
     }
 
-    @Override
     public void updateSelectedComponent(ComponentInfo componentInfo) {
         this.adjustComponentNames(componentInfo, true);
         this.bufferedComponent = componentInfo;
         this.doUpdateSelectedService();
     }
 
-    @Override
     public void updateSelectedFrequency(FrequencyInfo frequencyInfo) {
         int n;
         DABDsiUpInfo[] dABDsiUpInfoArray;
@@ -197,11 +193,10 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateEnsembleList(EnsembleInfo[] ensembleInfoArray) {
         if (this.logger.dabList.isDebug2()) {
             for (int i2 = 0; i2 < ensembleInfoArray.length; ++i2) {
-                this.logger.dabList.log(-2137614336, "updateEnsembleList: %2: %1 ", (Object)ensembleInfoArray[i2], (long)i2);
+                this.logger.dabList.log(10000000, "updateEnsembleList: %2: %1 ", (Object)ensembleInfoArray[i2], (long)i2);
             }
         } else if (this.logger.dabDSI.isDebug()) {
             Buffer buffer = new Buffer(5000);
@@ -218,17 +213,16 @@ implements DABTunerListener {
                 }
                 buffer.append(i3).append(": NULL\n");
             }
-            this.logger.dabDSI.log(-2137614336, "%1", (Object)buffer);
+            this.logger.dabDSI.log(10000000, "%1", (Object)buffer);
         }
         this.adjustEnsembleNames(ensembleInfoArray);
         this.setEnsembleList(ensembleInfoArray);
     }
 
-    @Override
     public void updateServiceList(ServiceInfo[] serviceInfoArray) {
         if (this.logger.dabList.isDebug2()) {
             for (int i2 = 0; i2 < serviceInfoArray.length; ++i2) {
-                this.logger.dabList.log(-2137614336, "updateServiceList: %2: %1 ", (Object)serviceInfoArray[i2], (long)i2);
+                this.logger.dabList.log(10000000, "updateServiceList: %2: %1 ", (Object)serviceInfoArray[i2], (long)i2);
             }
         } else if (this.logger.dabDSI.isDebug()) {
             Buffer buffer = new Buffer(5000);
@@ -246,17 +240,16 @@ implements DABTunerListener {
                 }
                 buffer.append(i3).append(": NULL\n");
             }
-            this.logger.dabDSI.log(-2137614336, "%1", (Object)buffer);
+            this.logger.dabDSI.log(10000000, "%1", (Object)buffer);
         }
         this.adjustServiceNames(serviceInfoArray);
         this.setServiceList(serviceInfoArray);
     }
 
-    @Override
     public void updateComponentList(ComponentInfo[] componentInfoArray) {
         if (this.logger.dabList.isDebug2()) {
             for (int i2 = 0; i2 < componentInfoArray.length; ++i2) {
-                this.logger.dabList.log(-2137614336, "updateComponentList: %2: %1 ", (Object)componentInfoArray[i2], (long)i2);
+                this.logger.dabList.log(10000000, "updateComponentList: %2: %1 ", (Object)componentInfoArray[i2], (long)i2);
             }
         } else if (this.logger.dabDSI.isDebug()) {
             Buffer buffer = new Buffer(5000);
@@ -275,23 +268,21 @@ implements DABTunerListener {
                 }
                 buffer.append(i3).append(": NULL\n");
             }
-            this.logger.dabDSI.log(-2137614336, "%1", (Object)buffer);
+            this.logger.dabDSI.log(10000000, "%1", (Object)buffer);
         }
         this.adjustComponentNames(componentInfoArray);
         this.setComponentList(componentInfoArray);
     }
 
-    @Override
     public void updateDataServiceList(DataServiceInfo[] dataServiceInfoArray) {
         if (this.logger.dabList.isDebug2()) {
             for (int i2 = 0; i2 < dataServiceInfoArray.length; ++i2) {
-                this.logger.dabList.log(14808325, "[DABT.updateDataServiceList] [%2] %1", (Object)dataServiceInfoArray[i2], (long)i2);
+                this.logger.dabList.log(100000000, "[DABT.updateDataServiceList] [%2] %1", (Object)dataServiceInfoArray[i2], (long)i2);
             }
         }
         this.setDataServiceList(dataServiceInfoArray);
     }
 
-    @Override
     public void updateFrequencyList(FrequencyInfo[] frequencyInfoArray) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
@@ -299,7 +290,6 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateRadioText(DABRadioText dABRadioText) {
         if (this.updateAllowed()) {
             this.doUpdateRadioText(dABRadioText);
@@ -313,7 +303,7 @@ implements DABTunerListener {
             String string = dABRadioText.text.trim();
             dABRadioText.text = Utilities.radioTextReplace(string).trim();
             if (dABRadioText.text.length() == 0) {
-                this.logger.dabDSI.log(-1601830656, "[DABDSIUpManager.doUpdateRadioText] received empty text -> ignore");
+                this.logger.dabDSI.log(100000, "[DABDSIUpManager.doUpdateRadioText] received empty text -> ignore");
                 return;
             }
             DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
@@ -322,11 +312,10 @@ implements DABTunerListener {
             }
             this.updateRadioTextPlusInfo(new DABRadioTextPlusInfo(dABRadioText.ensID, dABRadioText.ensECC, dABRadioText.sID, dABRadioText.sCIDI, new int[]{64}, new String[]{string}));
         } else {
-            this.logger.dabDSI.log(-1601830656, "[DABDSIUpManager.doUpdateRadioText] updateRadioText for other station: %1 ", (Object)dABRadioText);
+            this.logger.dabDSI.log(100000, "[DABDSIUpManager.doUpdateRadioText] updateRadioText for other station: %1 ", (Object)dABRadioText);
         }
     }
 
-    @Override
     public void updateSyncStatus(int n) {
         this.syncStatus = n;
         if (n == 4 && this.selectServiceStatus != 1) {
@@ -335,7 +324,6 @@ implements DABTunerListener {
         this.doUpdateSelectedService();
     }
 
-    @Override
     public void updateQuality(short s) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
@@ -343,7 +331,6 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateLinkingSwitchStatus(int n) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
@@ -351,7 +338,6 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateFrequencyTableSwitchStatus(int n) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
@@ -359,7 +345,6 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateLinkingStatus(int n) {
         this.linkinStatus = n;
         if (n == 2 && this.selectServiceStatus != 1) {
@@ -368,11 +353,9 @@ implements DABTunerListener {
         this.doUpdateSelectedService();
     }
 
-    @Override
     public void updateLinkingUsageStatus(int n) {
     }
 
-    @Override
     public void updateDetectedDevice(int n) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
@@ -380,20 +363,18 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateQualityInfo(String string) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void selectServiceStatus(int n) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.mutex;
         synchronized (this.mutex) {
             int n2;
             if (this.waitForSelectRunning && n != 1) {
-                this.logger.dabDSI.log(-2137614336, "[DABDSIUpManager.selectServiceStatus] ignore status because waiting for status RUNNING");
+                this.logger.dabDSI.log(10000000, "[DABDSIUpManager.selectServiceStatus] ignore status because waiting for status RUNNING");
                 // ** MonitorExit[var2_2] (shouldn't be in output)
                 return;
             }
@@ -401,12 +382,12 @@ implements DABTunerListener {
             if (n2 != 0) {
                 boolean bl;
                 if (this.isServiceChangedAtTune()) {
-                    this.logger.dabDSI.log(-2137614336, "[DABDSIUpManager.selectServiceStatus] Serviced Changed => Clean Buffer");
+                    this.logger.dabDSI.log(10000000, "[DABDSIUpManager.selectServiceStatus] Serviced Changed => Clean Buffer");
                     this.bufferedEnsemble = null;
                     this.bufferedService = null;
                     this.bufferedComponent = null;
                 } else {
-                    this.logger.dabDSI.log(-2137614336, "[DABDSIUpManager.selectServiceStatus] Serviced not Changed => keep Buffer");
+                    this.logger.dabDSI.log(10000000, "[DABDSIUpManager.selectServiceStatus] Serviced not Changed => keep Buffer");
                     this.setServiceChangedAtTune(true);
                     this.rtReceivedWhileTune = true;
                     this.slsRentotification = true;
@@ -454,7 +435,7 @@ implements DABTunerListener {
             this.selectedStation.setSlideshowSupported(this.getSLS(this.selectedStation));
             this.selectedStation.setSlsImage(this.slsManager.getSlsImage());
             this.selectedStation.setStationLogo(this.getEpgLogo(this.selectedStation));
-            this.logoDatabase.requestDabData(new DabStation[]{this.selectedStation}, new DABDSIUpManager$RsdbResultListener(this, 1));
+            this.logoDatabase.requestDabData(new DabStation[]{this.selectedStation}, new RsdbResultListener(1));
             this.selectedStation.setCoverArt(this.coverArt.getCoverArt());
             this.selectedStation.setRadioTextPlus(this.rtPlusStorage.getRadioTextPlus());
             this.selectedStation.setPresetPos(this.getPresetPos(this.selectedStation));
@@ -504,7 +485,6 @@ implements DABTunerListener {
         return bl3;
     }
 
-    @Override
     public void seekServiceStatus(int n) {
         boolean bl;
         this.seekServiceStatus = n;
@@ -524,24 +504,20 @@ implements DABTunerListener {
         this.doUpdateSelectedService();
     }
 
-    @Override
     public void tuneEnsembleStatus(int n) {
     }
 
-    @Override
     public void selectDataServiceStatus(int n) {
     }
 
-    @Override
     public void forceLMUpdateStatus(int n) {
-        this.logger.dabDSI.log(1078071040, "[DABDSIUpManager.forceLMUpdateStatus] status: %1", (long)n);
+        this.logger.dabDSI.log(1000000, "[DABDSIUpManager.forceLMUpdateStatus] status: %1", (long)n);
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
             dABDsiUpInfoArray[i2].forceLMUpdateStatus(n);
         }
     }
 
-    @Override
     public void updateEpgLogoList(EPGLogo[] ePGLogoArray) {
         this.epgLogoList = ePGLogoArray;
         this.updateEPGLogosInLists();
@@ -583,7 +559,6 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateAvailability(int n) {
         DABDsiUpInfo[] dABDsiUpInfoArray = this.listeners;
         for (int i2 = 0; i2 < dABDsiUpInfoArray.length; ++i2) {
@@ -591,17 +566,14 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateEPGMode(int n) {
     }
 
-    @Override
     public void updateEPGListData(EPGShortInfo[] ePGShortInfoArray) {
         this.epgListData = ePGShortInfoArray;
         this.updateEPGList();
     }
 
-    @Override
     public void updateEPGDetailData(EPGFullInfo ePGFullInfo) {
         ePGFullInfo.nowProgramInfo.detailProgramInfo = this.replaceTextEPG(ePGFullInfo.nowProgramInfo.detailProgramInfo);
         ePGFullInfo.nextProgramInfo.detailProgramInfo = this.replaceTextEPG(ePGFullInfo.nextProgramInfo.detailProgramInfo);
@@ -611,7 +583,6 @@ implements DABTunerListener {
         }
     }
 
-    @Override
     public void updateRadioTextPlusInfo(DABRadioTextPlusInfo dABRadioTextPlusInfo) {
         if (this.updateAllowed()) {
             ServiceInfo serviceInfo = this.selectedStation.service;
@@ -624,21 +595,20 @@ implements DABTunerListener {
                     dABDsiUpInfoArray[i2].updateRadioTextPlusInfo(this.rtPlusStorage);
                 }
             } else {
-                this.logger.dabDSI.log(-1601830656, "[DABDSIUpManager.updateRadioTextPlusInfo] activeStation and RT+ differ X1 - %2", (Object)this.selectedStation, (Object)dABRadioTextPlusInfo);
+                this.logger.dabDSI.log(100000, "[DABDSIUpManager.updateRadioTextPlusInfo] activeStation and RT+ differ X1 - %2", (Object)this.selectedStation, (Object)dABRadioTextPlusInfo);
             }
         } else {
             this.rtPlusReceivedWhileTune = true;
         }
     }
 
-    @Override
     public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo) {
         ServiceInfo serviceInfo = this.selectedStation.service;
         if (this.updateAllowed() && serviceInfo.sID == (long)dABSlideShowInfo.sID && serviceInfo.ensID == dABSlideShowInfo.ensID && serviceInfo.ensECC == dABSlideShowInfo.ensECC && (!this.selectedStation.isComponent() || this.selectedStation.component.sCIDI == dABSlideShowInfo.sCIDI)) {
             this.slsManager.setImage(dABSlideShowInfo.slideshowImage);
             this.doUpdateSelectedService();
         } else {
-            this.logger.dabDSI.log(-1601830656, "[DABDSIUpManager.updateSlideShowInfo] activeStation and RT+ differ X1 - %2", (Object)this.selectedStation, (Object)dABSlideShowInfo);
+            this.logger.dabDSI.log(100000, "[DABDSIUpManager.updateSlideShowInfo] activeStation and RT+ differ X1 - %2", (Object)this.selectedStation, (Object)dABSlideShowInfo);
         }
     }
 
@@ -646,7 +616,7 @@ implements DABTunerListener {
         String string2 = Utilities.replaceDelimiter(string, '\t', " ");
         string2 = Utilities.replaceDelimiter(string2, '\u000b', "\n");
         string2 = Utilities.replaceDelimiter(string2, '\n', "\n");
-        string2 = Utilities.replaceDelimiter(string2, '\u001f', "-");
+        string2 = Utilities.replaceDelimiter(string2, '\u001f', REPLACE_WORD_SEPARATOR);
         return string2;
     }
 
@@ -785,7 +755,7 @@ implements DABTunerListener {
             buffer.append(this.numData);
             buffer.append(" #usefull: ");
             buffer.append(this.usefull);
-            this.logger.dabDSI.log(-2137614336, "%1", (Object)buffer);
+            this.logger.dabDSI.log(10000000, "%1", (Object)buffer);
         }
         this.listUpdateRunning = false;
     }
@@ -798,7 +768,7 @@ implements DABTunerListener {
         for (int i2 = 0; i2 < this.ensList.length; ++i2) {
             List list = this.getServ(this.ensList[i2].ensID, this.ensList[i2].ensECC);
             if (list.isEmpty()) {
-                this.logger.dabDSI.log(-1601830656, "[DABDSIUpManager.updateAll] no service found for ensemble %1", (Object)this.ensList[i2]);
+                this.logger.dabDSI.log(100000, "[DABDSIUpManager.updateAll] no service found for ensemble %1", (Object)this.ensList[i2]);
                 continue;
             }
             arrayList.add(new DabStation(this.ensList[i2]));
@@ -836,8 +806,8 @@ implements DABTunerListener {
     }
 
     private void requestLogos() {
-        this.logoDatabase.requestDabData(this.serDabSList, new DABDSIUpManager$RsdbResultListener(this, 1));
-        this.logoDatabase.requestDabData(this.comDabSList, new DABDSIUpManager$RsdbResultListener(this, 1));
+        this.logoDatabase.requestDabData(this.serDabSList, new RsdbResultListener(1));
+        this.logoDatabase.requestDabData(this.comDabSList, new RsdbResultListener(1));
     }
 
     private List getComp(ServiceInfo serviceInfo) {
@@ -948,7 +918,7 @@ implements DABTunerListener {
             }
         }
         if (bl2) {
-            this.logger.dabDSI.log(-2137614336, "[DABDSIUpManager.adjustServiceNames] %1", (Object)ensembleInfo);
+            this.logger.dabDSI.log(10000000, "[DABDSIUpManager.adjustServiceNames] %1", (Object)ensembleInfo);
         }
     }
 
@@ -998,7 +968,7 @@ implements DABTunerListener {
             }
         }
         if (bl2) {
-            this.logger.dabDSI.log(-2137614336, "[DABDSIUpManager.adjustServiceNames] %1", (Object)serviceInfo);
+            this.logger.dabDSI.log(10000000, "[DABDSIUpManager.adjustServiceNames] %1", (Object)serviceInfo);
         }
     }
 
@@ -1044,21 +1014,21 @@ implements DABTunerListener {
             }
         }
         if (bl2) {
-            this.logger.dabDSI.log(-2137614336, "[DABDSIUpManager.adjustComponentName] %1", (Object)componentInfo);
+            this.logger.dabDSI.log(10000000, "[DABDSIUpManager.adjustComponentName] %1", (Object)componentInfo);
         }
     }
 
     private EnsembleInfo getEnsembleById(int n) {
         EnsembleInfo ensembleInfo = null;
         if (this.ensList != null) {
-            this.logger.dd.log(-2137614336, "getEnsembleById ensid: %1", (long)n);
+            this.logger.dd.log(10000000, "getEnsembleById ensid: %1", (long)n);
             for (int i2 = 0; i2 < this.ensList.length; ++i2) {
                 if (this.ensList[i2] == null || n != this.ensList[i2].ensID) continue;
                 ensembleInfo = this.ensList[i2];
                 break;
             }
         }
-        this.logger.dd.log(-2137614336, "getEnsembleById, found: %1", ensembleInfo);
+        this.logger.dd.log(10000000, "getEnsembleById, found: %1", ensembleInfo);
         return ensembleInfo;
     }
 
@@ -1094,57 +1064,121 @@ implements DABTunerListener {
         this.listContentChanged = true;
     }
 
-    static /* synthetic */ Object access$200(DABDSIUpManager dABDSIUpManager) {
-        return dABDSIUpManager.mutex;
-    }
-
-    static /* synthetic */ int access$302(DABDSIUpManager dABDSIUpManager, int n) {
-        dABDSIUpManager.selectServiceStatus = n;
-        return dABDSIUpManager.selectServiceStatus;
-    }
-
-    static /* synthetic */ DABDSIUpManager$SlsSpeedManager access$400(DABDSIUpManager dABDSIUpManager) {
-        return dABDSIUpManager.slsManager;
-    }
-
-    static /* synthetic */ CoverArtHandler access$500(DABDSIUpManager dABDSIUpManager) {
-        return dABDSIUpManager.coverArt;
-    }
-
-    static /* synthetic */ RadioTextPlusStorage access$600(DABDSIUpManager dABDSIUpManager) {
-        return dABDSIUpManager.rtPlusStorage;
-    }
-
-    static /* synthetic */ boolean access$702(DABDSIUpManager dABDSIUpManager, boolean bl) {
-        dABDSIUpManager.waitForSelectRunning = bl;
-        return dABDSIUpManager.waitForSelectRunning;
-    }
-
-    static /* synthetic */ int access$802(DABDSIUpManager dABDSIUpManager, int n) {
-        dABDSIUpManager.seekServiceStatus = n;
-        return dABDSIUpManager.seekServiceStatus;
-    }
-
-    static /* synthetic */ void access$900(DABDSIUpManager dABDSIUpManager) {
-        dABDSIUpManager.doUpdateSelectedService();
-    }
-
     static /* synthetic */ TunerObjectContainer[] access$1002(DABDSIUpManager dABDSIUpManager, TunerObjectContainer[] tunerObjectContainerArray) {
         dABDSIUpManager.presets = tunerObjectContainerArray;
         return tunerObjectContainerArray;
     }
 
-    static /* synthetic */ boolean access$1102(DABDSIUpManager dABDSIUpManager, boolean bl) {
-        dABDSIUpManager.listContentChanged = bl;
-        return dABDSIUpManager.listContentChanged;
+    private class DsiDownInfo
+    extends DABDsiDownInfo {
+        private DsiDownInfo() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void preTuneAction(DabStation dabStation, DabReceptionStatus dabReceptionStatus, int n) {
+            Object object = DABDSIUpManager.this.mutex;
+            synchronized (object) {
+                DABDSIUpManager.this.selectServiceStatus = 1;
+                DABDSIUpManager.this.slsManager.clear();
+                DABDSIUpManager.this.coverArt.clear();
+                DABDSIUpManager.this.rtPlusStorage.reset();
+                DABDSIUpManager.this.waitForSelectRunning = true;
+            }
+        }
+
+        public void seekStarted() {
+            DABDSIUpManager.this.seekServiceStatus = 1;
+            DABDSIUpManager.this.slsManager.clear();
+            DABDSIUpManager.this.coverArt.clear();
+            DABDSIUpManager.this.rtPlusStorage.reset();
+        }
     }
 
-    static /* synthetic */ DABTuner access$1200(DABDSIUpManager dABDSIUpManager) {
-        return dABDSIUpManager.dabTuner;
+    private class TimerListener
+    extends DefaultTimerListener {
+        private TimerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            Object object = DABDSIUpManager.this.mutex;
+            synchronized (object) {
+                DABDSIUpManager.this.listContentChanged = true;
+                DABDSIUpManager.this.dabTuner.reNotification(7);
+            }
+        }
     }
 
-    static /* synthetic */ Timer access$1300(DABDSIUpManager dABDSIUpManager) {
-        return dABDSIUpManager.listRequestTimer;
+    private class MemoryListener
+    extends DefaultUpdateListener
+    implements IUpdateListener {
+        private final IMemoryList memory;
+
+        public MemoryListener(IMemoryList iMemoryList) {
+            this.memory = iMemoryList;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updatedMemoryList() {
+            Object object = DABDSIUpManager.this.mutex;
+            synchronized (object) {
+                DABDSIUpManager.access$1002(DABDSIUpManager.this, this.memory.getList(new int[]{5}));
+                DABDSIUpManager.this.listContentChanged = true;
+                DABDSIUpManager.this.dabTuner.reNotification(1);
+                DABDSIUpManager.this.dabTuner.reNotification(2);
+                DABDSIUpManager.this.dabTuner.reNotification(3);
+                DABDSIUpManager.this.dabTuner.reNotification(5);
+                DABDSIUpManager.this.dabTuner.reNotification(6);
+                DABDSIUpManager.this.dabTuner.reNotification(7);
+            }
+        }
+    }
+
+    private class SlsSpeedManager
+    extends AbstractSlsSpeedManagerBase {
+        public SlsSpeedManager(LogChannel logChannel) {
+            super(logChannel);
+        }
+
+        protected void update() {
+            DABDSIUpManager.this.doUpdateSelectedService();
+        }
+    }
+
+    private class DabCoverArtHandler
+    extends CoverArtHandler {
+        public DabCoverArtHandler(TunerBasics tunerBasics) {
+            super(tunerBasics);
+        }
+
+        public boolean setCoverArt(int n, ResourceLocator resourceLocator) {
+            if (super.setCoverArt(n, resourceLocator)) {
+                DABDSIUpManager.this.doUpdateSelectedService();
+            }
+            return false;
+        }
+    }
+
+    private class RsdbResultListener
+    implements IRSDBResult {
+        private final int type;
+
+        public RsdbResultListener(int n) {
+            this.type = n;
+        }
+
+        public void resultAvailable() {
+            DABDSIUpManager.this.doUpdateSelectedService();
+            if (this.type == 2) {
+                DABDSIUpManager.this.listRequestTimer.start();
+            }
+        }
     }
 }
 

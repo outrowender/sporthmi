@@ -11,7 +11,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class IntelliDestCoreHMIListener
 extends DefaultButtonListener {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final NavigationEnv env;
     private final LogChannel lc;
     private IntelliDestAccess intelliDestAccess;
@@ -24,20 +24,19 @@ extends DefaultButtonListener {
     }
 
     public static int getDeleteCurrentModelId() {
-        return 656147968;
+        return 400423;
     }
 
     private final void initListener() {
-        this.env.getButtonModel(-2044852736).setButtonListener(this);
+        this.env.getButtonModel(401030).setButtonListener(this);
     }
 
     public void deinit() {
-        this.env.getButtonModel(-2044852736).resetListener();
+        this.env.getButtonModel(401030).resetListener();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.lc.log(1078071040, "%1#ButtonListener.keyPressed model = %2 key = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.lc.log(1000000, "%1#ButtonListener.keyPressed model = %2 key = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         switch (n) {
             case 401030: {
                 this.intelliDestAccess.getMainSearch().removeAllFromHistory();

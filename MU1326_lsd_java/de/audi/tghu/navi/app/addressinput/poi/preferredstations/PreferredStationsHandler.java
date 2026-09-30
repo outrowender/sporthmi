@@ -24,7 +24,6 @@ implements IPreferredStations {
         this.modelAccess = iPreferredStationsModelAccess;
     }
 
-    @Override
     public void onStart(int n, int n2, NavCommand navCommand) {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (this.brands == null) {
@@ -37,13 +36,11 @@ implements IPreferredStations {
         commandList.execute("PreferredStationsHandler#onStart");
     }
 
-    @Override
     public void brandsUpdated(int n, int n2, Brand[] brandArray) {
         this.brands = brandArray;
         this.modelAccess.brandsUpdated(brandArray);
     }
 
-    @Override
     public void toggleBrandPreferrence(int n) {
         for (int i2 = 0; i2 < this.brands.length; ++i2) {
             boolean bl;
@@ -59,7 +56,6 @@ implements IPreferredStations {
         }
     }
 
-    @Override
     public void onExit() {
         int[] nArray = new int[this.brands.length];
         boolean[] blArray = new boolean[this.brands.length];

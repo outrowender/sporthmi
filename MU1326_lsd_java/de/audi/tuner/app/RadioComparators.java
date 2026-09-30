@@ -74,8 +74,8 @@ public class RadioComparators {
     }
 
     static boolean checkRegionalisation(AMFMStation aMFMStation, AMFMStation aMFMStation2) {
-        int n = aMFMStation.pi & 0xFFF00000;
-        int n2 = aMFMStation2.pi & 0xFFF00000;
+        int n = aMFMStation.pi & 0xF0FF;
+        int n2 = aMFMStation2.pi & 0xF0FF;
         return n == n2 && aMFMStation.frequency == aMFMStation2.frequency;
     }
 

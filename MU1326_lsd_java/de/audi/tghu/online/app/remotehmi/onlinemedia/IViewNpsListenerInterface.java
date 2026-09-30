@@ -7,28 +7,20 @@ import de.audi.atip.interapp.media.MediaSlotInfo;
 import de.audi.remotehmi.media.IMediaValues;
 
 public interface IViewNpsListenerInterface {
-    default public void updateTimeValues() {
-    }
+    public void updateTimeValues();
 
-    default public void updateMetadataValues() {
-    }
+    public void updateMetadataValues();
 
-    default public void setRadioMode(boolean bl) {
-    }
+    public void setRadioMode(boolean var1);
 
-    default public void updateCover(String string) {
-    }
+    public void updateCover(String var1);
 
-    default public void updateBufferState(int n) {
-    }
+    public void updateBufferState(int var1);
 
-    default public void setBufferState(String string) {
-    }
+    public void setBufferState(String var1);
 
-    default public void updateActiveSource(MediaSlotInfo mediaSlotInfo) {
-    }
+    public void updateActiveSource(MediaSlotInfo var1);
 
-    default public IMediaValues getMediaValues() {
-    }
+    public IMediaValues getMediaValues();
 }
 

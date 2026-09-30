@@ -8,6 +8,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.AbstractSMM;
 import de.audi.atip.statemachine.SMModuleConstants;
 import de.audi.atip.statemachine.SMSyncTarget;
+import java.util.NoSuchElementException;
 
 public class InfoSMMInitStates
 implements SMModuleConstants {
@@ -37,12 +38,12 @@ implements SMModuleConstants {
     }
 
     private void initStateSuperstateList() {
-        int[] nArray = new int[]{731973376, -10, 564201216, 731973376, 715196160, 849413888, 832636672, 547424000, -10, 681641728, -10, 715196160, 731973376, 715196160, -1, 815859456, -1, 782305024, 782305024};
+        int[] nArray = new int[]{500011, -10, 500001, 500011, 500010, 500018, 500017, 500000, -10, 500008, -10, 500010, 500011, 500010, -1, 500016, -1, 500014, 500014};
         this.smm.setStateSuperstateList(nArray);
     }
 
     private void initStateDHSList() {
-        int[] nArray = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, 597755648, -1, -1, 614532864, 631310080, -1, 648087296, -1, 648087296, -1};
+        int[] nArray = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, 500003, -1, -1, 500004, 500005, -1, 500006, -1, 500006, -1};
         this.smm.setStateDHSList(nArray);
     }
 
@@ -56,46 +57,46 @@ implements SMModuleConstants {
 
     private void initStateTrigger1(int[][] nArray, int[][] nArray2) {
         nArray[1] = new int[]{1};
-        nArray2[1] = new int[]{547424000};
-        nArray[3] = new int[]{1, 2, 1741, 1742, 631310080};
-        nArray2[3] = new int[]{664864512, 681641728, 648087296, 648087296, 933299968};
-        nArray[4] = new int[]{1, 2, -1132068608};
-        nArray2[4] = new int[]{950077184, 966854400, 983631616};
+        nArray2[1] = new int[]{500000};
+        nArray[3] = new int[]{1, 2, 1741, 1742, 500005};
+        nArray2[3] = new int[]{500007, 500008, 500006, 500006, 500023};
+        nArray[4] = new int[]{1, 2, 100028};
+        nArray2[4] = new int[]{500024, 500025, 500026};
         nArray[5] = new int[]{1, 2, 1741, 1742};
-        nArray2[5] = new int[]{1033963264, 1050740480, 1067517696, 1067517696};
+        nArray2[5] = new int[]{500029, 500030, 500031, 500031};
         nArray[6] = nArray[5];
-        nArray2[6] = new int[]{547424000, 782305024, 799082240, 799082240};
+        nArray2[6] = new int[]{500000, 500014, 500015, 500015};
         nArray[7] = nArray[5];
-        nArray2[7] = new int[]{882968320, 899745536, 916522752, 916522752};
-        nArray[8] = new int[]{2, 1, 597755648};
-        nArray2[8] = new int[]{698418944, 715196160, 849413888};
-        nArray[9] = new int[]{580978432};
-        nArray2[9] = new int[]{832636672};
-        nArray[10] = new int[]{2, 1, -182843904};
-        nArray2[10] = new int[]{564201216, 580978432, 597755648};
+        nArray2[7] = new int[]{500020, 500021, 500022, 500022};
+        nArray[8] = new int[]{2, 1, 500003};
+        nArray2[8] = new int[]{500009, 500010, 500018};
+        nArray[9] = new int[]{500002};
+        nArray2[9] = new int[]{500017};
+        nArray[10] = new int[]{2, 1, 400117};
+        nArray2[10] = new int[]{500001, 500002, 500003};
         nArray[11] = nArray[1];
-        nArray2[11] = new int[]{614532864};
-        nArray[12] = new int[]{547424000, 614532864};
-        nArray2[12] = new int[]{631310080, 866191104};
-        nArray[13] = new int[]{664864512};
-        nArray2[13] = new int[]{1000408832};
-        nArray[14] = new int[]{1, 2446, -887355904, 698418944};
-        nArray2[14] = new int[]{815859456, 1151403776, 1017186048, 1134626560};
-        nArray[15] = new int[]{564201216, 1741, 1742};
-        nArray2[15] = new int[]{748750592, 731973376, 731973376};
+        nArray2[11] = new int[]{500004};
+        nArray[12] = new int[]{500000, 500004};
+        nArray2[12] = new int[]{500005, 500019};
+        nArray[13] = new int[]{500007};
+        nArray2[13] = new int[]{500027};
+        nArray[14] = new int[]{1, 2446, 400587, 500009};
+        nArray2[14] = new int[]{500016, 500036, 500028, 500035};
+        nArray[15] = new int[]{500001, 1741, 1742};
+        nArray2[15] = new int[]{500012, 500011, 500011};
         nArray[16] = nArray[1];
-        nArray2[16] = new int[]{765527808};
+        nArray2[16] = new int[]{500013};
         nArray[18] = new int[]{2, 1750};
-        nArray2[18] = new int[]{1084294912, 1101072128};
+        nArray2[18] = new int[]{500032, 500033};
     }
 
     private void initStateMediatorList() {
         int[][] nArrayArray = new int[19][];
-        nArrayArray[8] = new int[]{597755648};
-        nArrayArray[9] = new int[]{547424000};
-        nArrayArray[10] = new int[]{564201216};
-        nArrayArray[13] = new int[]{580978432};
-        nArrayArray[14] = new int[]{631310080};
+        nArrayArray[8] = new int[]{500003};
+        nArrayArray[9] = new int[]{500000};
+        nArrayArray[10] = new int[]{500001};
+        nArrayArray[13] = new int[]{500002};
+        nArrayArray[14] = new int[]{500005};
         this.smm.setStateMediatorList(nArrayArray);
     }
 
@@ -119,7 +120,7 @@ implements SMModuleConstants {
         this.smm.setSyncTargetList(sMSyncTargetArray);
     }
 
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         return this.smm.getModel(n);
     }
 }

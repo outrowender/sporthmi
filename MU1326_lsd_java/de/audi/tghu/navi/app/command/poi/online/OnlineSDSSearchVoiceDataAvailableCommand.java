@@ -27,39 +27,35 @@ extends AbstractOnlineSearchCommand {
         this.spellingSuggestion = bl;
     }
 
-    @Override
     public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) {
         super.poiValueList(n, n2, poiOnlineSearchValuelist, n3, n4);
-        this.logChannel.log(1078071040, "OnlineSDSSearchVoiceDataAvailableCommand#poiValueList: Forwarding value list without suggestions to SDS!");
+        this.logChannel.log(1000000, "OnlineSDSSearchVoiceDataAvailableCommand#poiValueList: Forwarding value list without suggestions to SDS!");
         this.sds.poiValueList(poiOnlineSearchValuelist, this.suggestions);
     }
 
-    @Override
     public void poiResult(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchVoiceDataAvailableCommand#poiResult: Called, resultsource %1, returnCode %2, type %3", (long)n2, (long)n3, (long)n);
+        this.logChannel.log(1000000, "OnlineSDSSearchVoiceDataAvailableCommand#poiResult: Called, resultsource %1, returnCode %2, type %3", (long)n2, (long)n3, (long)n);
         this.returnCode = n3;
         if (n3 != 10) {
             this.sds.blockDUM(true);
         }
         if (this.sds.indicateError(n3)) {
-            this.logChannel.log(1078071040, "OnlineSDSSearchVoiceDataAvailableCommand#poiResult: forwarding error handling to haptic");
+            this.logChannel.log(1000000, "OnlineSDSSearchVoiceDataAvailableCommand#poiResult: forwarding error handling to haptic");
             super.poiResult(n, n2, n3);
         }
     }
 
-    @Override
     public void poiSpellingSuggestion(int n, String string, String[] stringArray) {
-        this.logChannel.log(1078071040, "OnlineSDSSearchVoiceDataAvailableCommand#poiSpellingSuggestion: called");
+        this.logChannel.log(1000000, "OnlineSDSSearchVoiceDataAvailableCommand#poiSpellingSuggestion: called");
         this.suggestions = stringArray;
     }
 
-    @Override
     public void execute() {
         if (!this.sds.isSearchCanceled()) {
-            this.logChannel.log(1078071040, "OnlineSDSSearchVoiceDataAvailableCommand#execute: Called.");
+            this.logChannel.log(1000000, "OnlineSDSSearchVoiceDataAvailableCommand#execute: Called.");
             this.dsiOnlineSearch.poiRawVoiceDataAvailable(this.path, this.audioFormat);
         } else {
-            this.logChannel.log(1078071040, "OnlineSDSSearchVoiceDataAvailableCommand#execute: search has been canceled, not executing command");
+            this.logChannel.log(1000000, "OnlineSDSSearchVoiceDataAvailableCommand#execute: search has been canceled, not executing command");
         }
     }
 }

@@ -8,7 +8,7 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVPresetStation
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 536111538927937038L;
     public long namePID;
     public int servicePID;
     public String name;

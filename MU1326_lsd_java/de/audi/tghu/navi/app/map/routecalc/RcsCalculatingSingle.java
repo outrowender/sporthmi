@@ -12,20 +12,17 @@ extends RcsCalculatingBase {
         super(routeCalcSM, "RcsCalculatingSingle");
     }
 
-    @Override
     public void abortRouteCalculation() {
-        this.getLogger().log(-2137614336, "RcsCalculatingSingle#abortRouteCalculation()");
+        this.getLogger().log(10000000, "RcsCalculatingSingle#abortRouteCalculation()");
     }
 
-    @Override
     protected void onFirstMatchFound() {
-        this.getLogger().log(-2137614336, "RcsCalculatingSingle#onFirstMatchFound()");
+        this.getLogger().log(10000000, "RcsCalculatingSingle#onFirstMatchFound()");
         this.stateMachine.startRG(0, false);
         this.stateMachine.fireOnMatchFound();
         this.goTo(8);
     }
 
-    @Override
     public void setSelectedRouteIndex(int n) {
         this.data.iRouteIndex = 0;
         if (n != 0) {
@@ -34,7 +31,6 @@ extends RcsCalculatingBase {
         }
     }
 
-    @Override
     public int getValue4Model() {
         return 1;
     }

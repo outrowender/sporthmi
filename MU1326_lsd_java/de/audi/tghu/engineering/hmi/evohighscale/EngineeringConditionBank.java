@@ -5,28 +5,6 @@ package de.audi.tghu.engineering.hmi.evohighscale;
 
 import de.audi.atip.hmi.HMIConditionBank;
 import de.audi.atip.hmi.model.AbstractCondition;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$1;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$10;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$11;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$12;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$13;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$14;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$15;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$16;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$17;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$18;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$19;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$2;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$20;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$21;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$22;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$3;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$4;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$5;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$6;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$7;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$8;
-import de.audi.tghu.engineering.hmi.evohighscale.EngineeringConditionBank$9;
 import de.audi.tghu.engineering.hmi.evohighscale.EngineeringScreenFactory;
 
 public class EngineeringConditionBank
@@ -37,81 +15,274 @@ implements HMIConditionBank {
         this.screenFactory = engineeringScreenFactory;
     }
 
-    @Override
     public AbstractCondition getCondition(int n) {
         switch (n) {
             case 1300009: {
-                return new EngineeringConditionBank$1(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{375, 392, 543, 3849};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringScreenFactory.evalCond1300009(n);
+                    }
+                };
             }
             case 1300010: {
-                return new EngineeringConditionBank$2(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300061};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n, 3);
+                    }
+                };
             }
             case 1300011: {
-                return new EngineeringConditionBank$3(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300061};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n, 2);
+                    }
+                };
             }
             case 1300012: {
-                return new EngineeringConditionBank$4(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300061};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n, 1);
+                    }
+                };
             }
             case 1300013: {
-                return new EngineeringConditionBank$5(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300061};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300061, n, 0);
+                    }
+                };
             }
             case 1300014: {
-                return new EngineeringConditionBank$6(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300063};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n, 1);
+                    }
+                };
             }
             case 1300015: {
-                return new EngineeringConditionBank$7(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300063};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n, 0);
+                    }
+                };
             }
             case 1300016: {
-                return new EngineeringConditionBank$8(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1700148};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1700148, n, 1);
+                    }
+                };
             }
             case 1300017: {
-                return new EngineeringConditionBank$9(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1700148};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1700148, n, 0);
+                    }
+                };
             }
             case 1300018: {
-                return new EngineeringConditionBank$10(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300063};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n, 1);
+                    }
+                };
             }
             case 1300019: {
-                return new EngineeringConditionBank$11(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300063};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300063, n, 0);
+                    }
+                };
             }
             case 1300020: {
-                return new EngineeringConditionBank$12(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 1);
+                    }
+                };
             }
             case 1300021: {
-                return new EngineeringConditionBank$13(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 0);
+                    }
+                };
             }
             case 1300022: {
-                return new EngineeringConditionBank$14(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 1);
+                    }
+                };
             }
             case 1300023: {
-                return new EngineeringConditionBank$15(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 0);
+                    }
+                };
             }
             case 1300024: {
-                return new EngineeringConditionBank$16(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 1);
+                    }
+                };
             }
             case 1300025: {
-                return new EngineeringConditionBank$17(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 0);
+                    }
+                };
             }
             case 1300026: {
-                return new EngineeringConditionBank$18(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 1);
+                    }
+                };
             }
             case 1300027: {
-                return new EngineeringConditionBank$19(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300024};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(1300024, n, 0);
+                    }
+                };
             }
             case 1300028: {
-                return new EngineeringConditionBank$20(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{1300028};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringScreenFactory.evalCond1300028(n);
+                    }
+                };
             }
             case 1300030: {
-                return new EngineeringConditionBank$21(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{523};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringScreenFactory.evalCond1300030(n);
+                    }
+                };
             }
             case 1300031: {
-                return new EngineeringConditionBank$22(this);
+                return new AbstractCondition(){
+
+                    public int[] getModelIds() {
+                        return new int[]{3300026};
+                    }
+
+                    public boolean evaluate(int n) {
+                        return EngineeringConditionBank.this.screenFactory.evaluateSimpleChoiceModelValueEqualsCondition(3300026, n, 1);
+                    }
+                };
             }
         }
         return null;
-    }
-
-    static /* synthetic */ EngineeringScreenFactory access$000(EngineeringConditionBank engineeringConditionBank) {
-        return engineeringConditionBank.screenFactory;
     }
 }
 

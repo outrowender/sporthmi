@@ -6,7 +6,7 @@ package de.eso.vcalendar.b;
 import java.io.ByteArrayOutputStream;
 
 public class b {
-    public static final String a;
+    public static final String a = "ATTACH";
     private String b;
     private String c;
     private ByteArrayOutputStream d;

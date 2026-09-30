@@ -6,16 +6,12 @@ package de.audi.tv.app.lists.favorites;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public interface IFavoriteActionHandler {
-    default public void handleDeleteFavorite(int n) {
-    }
+    public void handleDeleteFavorite(int var1);
 
-    default public void handleAddFavorite(int n) {
-    }
+    public void handleAddFavorite(int var1);
 
-    default public void handleAddFavorite(ServiceInfo serviceInfo) {
-    }
+    public void handleAddFavorite(ServiceInfo var1);
 
-    default public void handleDeleteAllFavorites() {
-    }
+    public void handleDeleteAllFavorites();
 }
 

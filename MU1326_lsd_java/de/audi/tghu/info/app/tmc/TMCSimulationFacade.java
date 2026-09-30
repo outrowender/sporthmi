@@ -25,11 +25,10 @@ implements DSITmc {
         this.logCh = iFrameworkAccess.getLogChannel("App.Info.SimFacade");
     }
 
-    @Override
     public void requestTmcWindow(int n, int n2, int n3, int[] nArray, int n4) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#requestTmcWindow] Called, window ID: %1", (long)n);
+        this.logCh.log(10000000, "[TMCSimulationFacade#requestTmcWindow] Called, window ID: %1", (long)n);
         this.getSimulation(0).requestTmcWindow(n, n2, n3, nArray, n4);
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#requestTmcWindow] Finished, window ID: %1 (=WINDOW_OVERVIEW_LIST) ", 0L);
+        this.logCh.log(10000000, "[TMCSimulationFacade#requestTmcWindow] Finished, window ID: %1 (=WINDOW_OVERVIEW_LIST) ", 0L);
     }
 
     /*
@@ -49,17 +48,16 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#clearNotification] called. ");
+        this.logCh.log(10000000, "[TMCSimulationFacade#clearNotification] called. ");
     }
 
     public void clearNotification(short[] sArray, DSIListener dSIListener) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#clearNotification] called. ");
+        this.logCh.log(10000000, "[TMCSimulationFacade#clearNotification] called. ");
     }
 
     public void clearNotification(short s, DSIListener dSIListener) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#clearNotification] called. ");
+        this.logCh.log(10000000, "[TMCSimulationFacade#clearNotification] called. ");
     }
 
     public String getName() {
@@ -70,52 +68,42 @@ implements DSITmc {
         return null;
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#setNotification] called. ");
+        this.logCh.log(10000000, "[TMCSimulationFacade#setNotification] called. ");
     }
 
     public void setNotification(short[] sArray, DSIListener dSIListener) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#setNotification] called. ");
+        this.logCh.log(10000000, "[TMCSimulationFacade#setNotification] called. ");
     }
 
     public void setNotification(short s, DSIListener dSIListener) {
-        this.logCh.log(-2137614336, "[TMCSimulationFacade#setNotification] called. ");
+        this.logCh.log(10000000, "[TMCSimulationFacade#setNotification] called. ");
     }
 
-    @Override
     public void setMessageFilter(int n, int n2) {
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
     }
 
-    @Override
     public void getMessageIdsForListElement(long l) {
     }
 
-    @Override
     public void getBoundingRectangleForTrafficMessages(long[] lArray) {
     }
 
-    @Override
     public void enableAreaWarnings(boolean bl) {
     }
 
-    @Override
     public void enableTrafficFlowStatistics(boolean bl) {
     }
 }

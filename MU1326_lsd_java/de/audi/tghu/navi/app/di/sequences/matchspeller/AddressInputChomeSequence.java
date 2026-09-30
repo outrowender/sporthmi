@@ -17,10 +17,9 @@ import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenM
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AbstractAddressInputMatchSpellerSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputChomeSequence$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputChomeSequence$2;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
@@ -32,12 +31,11 @@ extends AbstractAddressInputMatchSpellerSequence {
 
     public AddressInputChomeSequence(ICommandListFactory iCommandListFactory, NavigationEnv navigationEnv, IMatchspellerModelAccess iMatchspellerModelAccess, IPreviewMap iPreviewMap, SpellerStack spellerStack, IAddressInputManager iAddressInputManager) {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager);
-        this.logChannel.log(-2137614336, "%1#AddressInputChomeSequence(), modelAccess: %2 ", (Object)this.CLASS_NAME, (Object)iMatchspellerModelAccess);
+        this.logChannel.log(10000000, "%1#AddressInputChomeSequence(), modelAccess: %2 ", (Object)this.CLASS_NAME, (Object)iMatchspellerModelAccess);
     }
 
-    @Override
     public CommandList getStartCommandList() {
-        this.logChannel.log(-2137614336, "%1#getStartCommandList(), modelAccess: %2 ", (Object)this.CLASS_NAME, (Object)this.modelAccess);
+        this.logChannel.log(10000000, "%1#getStartCommandList(), modelAccess: %2 ", (Object)this.CLASS_NAME, (Object)this.modelAccess);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
         commandList.add(new LISPCancelSpellerCommand());
@@ -49,12 +47,33 @@ extends AbstractAddressInputMatchSpellerSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new AddressInputChomeSequence$1(this, "Check whether center is selected"));
-        commandList.add(new AddressInputChomeSequence$2(this, "Update value of housenumber_available choice model"));
+        commandList.add(new NavCommand("Check whether center is selected"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (AddressInputChomeSequence.this.isCenterSelected(navLocation)) {
+                    AddressInputChomeSequence.setIsChomeCenterSelected(true);
+                } else {
+                    AddressInputChomeSequence.setIsChomeCenterSelected(false);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.add(new NavCommand("Update value of housenumber_available choice model"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid() && !AddressInputChomeSequence.this.isHouseNumberNeeded(this.dsiResponseContainer)) {
+                    AddressInputChomeSequence.this.modelAccess.onElementSelected(navLocation);
+                } else {
+                    AddressInputChomeSequence.this.modelAccess.onAmbiguousElementSelected();
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, 1, null, null));
         commandList.add(new SetBackupLocationForAddressInputFormCommand(this.inputManager));
@@ -81,17 +100,8 @@ extends AbstractAddressInputMatchSpellerSequence {
         return isChomeCenterSelected;
     }
 
-    @Override
     public CommandList getSelectElementByIdentifierCommandList(String string) {
         return null;
-    }
-
-    static /* synthetic */ boolean access$000(AddressInputChomeSequence addressInputChomeSequence, NavLocation navLocation) {
-        return addressInputChomeSequence.isCenterSelected(navLocation);
-    }
-
-    static /* synthetic */ boolean access$100(AddressInputChomeSequence addressInputChomeSequence, DSIResponseContainer dSIResponseContainer) {
-        return addressInputChomeSequence.isHouseNumberNeeded(dSIResponseContainer);
     }
 }
 

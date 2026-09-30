@@ -14,20 +14,20 @@ import org.dsi.ifc.trafficregulation.RoadClassSpeedInfo;
 
 public class RoadClassSpeedInfoRow
 extends ListRow {
-    public static final int CELL_0_ROAD_CLASS_ICON;
-    public static final int CELL_1_ROAD_SIGN_ICON;
-    public static final int CELL_2_ROAD_CLASS_TEXT;
-    public static final int CELL_3_RECOMMENDED_SPEED;
-    public static final int CELL_6_SELECTABLE;
-    public static final int ROW_NUMBER_OF_CELLS;
-    public static final int SPEED_UNIT_METRIC;
-    public static final int SPEED_UNIT_IMPERIAL;
-    public static final int ROAD_CLASS_INNERCITY;
-    public static final int ROAD_CLASS_OUTERCITY;
-    public static final int ROAD_CLASS_RURAL;
-    public static final int ROAD_CLASS_MOTORWAY;
-    public static final int RECOMMENDED_SPEED_ON;
-    public static final int RECOMMENDED_SPEED_OFF;
+    public static final int CELL_0_ROAD_CLASS_ICON = 0;
+    public static final int CELL_1_ROAD_SIGN_ICON = 1;
+    public static final int CELL_2_ROAD_CLASS_TEXT = 2;
+    public static final int CELL_3_RECOMMENDED_SPEED = 3;
+    public static final int CELL_6_SELECTABLE = 6;
+    public static final int ROW_NUMBER_OF_CELLS = 7;
+    public static final int SPEED_UNIT_METRIC = 0;
+    public static final int SPEED_UNIT_IMPERIAL = 1;
+    public static final int ROAD_CLASS_INNERCITY = 0;
+    public static final int ROAD_CLASS_OUTERCITY = 1;
+    public static final int ROAD_CLASS_RURAL = 2;
+    public static final int ROAD_CLASS_MOTORWAY = 3;
+    public static final int RECOMMENDED_SPEED_ON = 0;
+    public static final int RECOMMENDED_SPEED_OFF = 1;
 
     public RoadClassSpeedInfoRow(IconHandler iconHandler, RoadClassSpeedInfo roadClassSpeedInfo) {
         super(new ListCell[7]);
@@ -41,7 +41,6 @@ extends ListRow {
         }
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == null) {
             return false;
@@ -67,7 +66,6 @@ extends ListRow {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode();
     }

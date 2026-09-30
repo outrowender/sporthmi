@@ -7,7 +7,6 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.Route;
 
 public interface IStartGuidanceModelAccess {
-    default public void onStart(Route route, NavLocation navLocation, boolean bl) {
-    }
+    public void onStart(Route var1, NavLocation var2, boolean var3);
 }
 

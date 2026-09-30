@@ -9,12 +9,10 @@ import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.RGSetPosition;
 import de.audi.tghu.navi.app.command.RGStopGuidanceCommand;
 import de.audi.tghu.navi.app.guidance.IVehicle;
-import de.audi.tghu.navi.app.presentationmode.DemoModeManager$1;
-import de.audi.tghu.navi.app.presentationmode.DemoModeManager$2;
-import de.audi.tghu.navi.app.presentationmode.DemoModeManager$3;
 import de.audi.tghu.navi.app.presentationmode.EtcSetDemoModeCommand;
 import de.audi.tghu.navi.app.presentationmode.IDemoModeModelAccess;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceManager;
@@ -27,11 +25,11 @@ import org.dsi.ifc.navigation.Route;
 
 public class DemoModeManager
 implements TimerListener {
-    public static final int DEMO_MODE_REPEAT_TIME;
-    public static final int DEMO_MODE_CHOICE_ON;
-    public static final int DEMO_MODE_CHOICE_OFF;
-    public static final boolean DEMO_MODE_BOOLEAN_OFF;
-    public static final boolean DEMO_MODE_BOOLEAN_ON;
+    public static final int DEMO_MODE_REPEAT_TIME = 5000;
+    public static final int DEMO_MODE_CHOICE_ON = 1;
+    public static final int DEMO_MODE_CHOICE_OFF = 0;
+    public static final boolean DEMO_MODE_BOOLEAN_OFF = false;
+    public static final boolean DEMO_MODE_BOOLEAN_ON = true;
     private NavigationEnv env;
     private final LogChannel logChannel;
     private ICommandListFactory commandListFactory;
@@ -50,7 +48,7 @@ implements TimerListener {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getDemoModeLogChannel();
         this.startGuidanceManager = iStartGuidanceManager;
-        this.repeatDemoModeTimer = new Timer("RepeatDemoModeTimer", 0, true, this);
+        this.repeatDemoModeTimer = new Timer("RepeatDemoModeTimer", 5000L, true, this);
         iDemoModeModelAccess.setDemoStatus(this.isCarMoving() ? 3 : 1);
     }
 
@@ -64,11 +62,23 @@ implements TimerListener {
         if (!bl && !Util.isHURegionAsia()) {
             commandList.add(new RGStopGuidanceCommand());
         }
-        commandList.add(new DemoModeManager$1(this, "DemoModeManager#getCommandListToTurnDemoMode - stopCurrentDemoModeGuidance"));
+        commandList.add(new NavCommand("DemoModeManager#getCommandListToTurnDemoMode - stopCurrentDemoModeGuidance"){
+
+            public void execute() {
+                DemoModeManager.this.stopCurrentDemoModeGuidance();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(new EtcSetDemoModeCommand(bl));
-        commandList.add(new DemoModeManager$2(this, "DemoModeManager#getCommandListToTurnDemoMode - updateDemoModeState"));
+        commandList.add(new NavCommand("DemoModeManager#getCommandListToTurnDemoMode - updateDemoModeState"){
+
+            public void execute() {
+                DemoModeManager.this.modelAccess.updateDemoModeState(this.env.getContainer().isEtcDemoMode());
+                this.getCommandList().commandFinished();
+            }
+        });
         if (bl) {
-            this.logChannel.log(-2137614336, "DemoModeManager#setDemoMode() - RGSetPosition will be added to the commandList");
+            this.logChannel.log(10000000, "DemoModeManager#setDemoMode() - RGSetPosition will be added to the commandList");
             if (navLocation != null) {
                 commandList.add(new RGSetPosition(navLocation));
             } else if (this.getStartPosition() != null) {
@@ -87,17 +97,31 @@ implements TimerListener {
             this.repeatDemoModeTimer.cancel();
         }
         if (this.env.getContainer().isEtcDemoMode() && this.demoRoute != null) {
-            this.logChannel.log(-2137614336, "DemoModeManager#checkRepeatingDemoMode() - repeatDemoModeTimer restarted! ");
+            this.logChannel.log(10000000, "DemoModeManager#checkRepeatingDemoMode() - repeatDemoModeTimer restarted! ");
             this.repeatDemoModeTimer.restart();
         } else {
-            this.logChannel.log(-2137614336, "DemoModeManager#checkRepeatingDemoMode() - condition not fulfilled!");
+            this.logChannel.log(10000000, "DemoModeManager#checkRepeatingDemoMode() - condition not fulfilled!");
         }
     }
 
     public void restartDemoModeRoute() {
-        this.logChannel.log(-2137614336, "DemoModeManager#restartDemoModeRoute()");
+        this.logChannel.log(10000000, "DemoModeManager#restartDemoModeRoute()");
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new DemoModeManager$3(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                boolean bl;
+                boolean bl2 = this.dsiResponseContainer.isEtcDemoMode();
+                boolean bl3 = this.dsiResponseContainer.isRgActive();
+                boolean bl4 = bl = DemoModeManager.this.demoRoute != null;
+                if (!bl2 || !bl || bl3) {
+                    this.logger.log(100000, "DemoModeManager#restartDemoModeRoute() - etcDemoMode: %1, demoModeRouteSet: %2, rgActive: %3 ", bl2, bl, bl3);
+                    this.getCommandList().commandAborted("Demo mode not longer active or RG restarted");
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         NavLocation navLocation = this.getStartPosition();
         commandList.add(new RGSetPosition(navLocation));
         commandList.add(this.startGuidanceManager.getRestartRouteGuidanceCommandList(false, this.demoRoute));
@@ -112,7 +136,7 @@ implements TimerListener {
     }
 
     public void setDemoModeRoute(Route route) {
-        this.logChannel.log(-2137614336, "DemoModeManager#setDemoModeRoute( %1 ) ", (Object)RouteUtil.formatRouteShort(route));
+        this.logChannel.log(10000000, "DemoModeManager#setDemoModeRoute( %1 ) ", (Object)RouteUtil.formatRouteShort(route));
         if (this.repeatDemoModeTimer.isRunning()) {
             this.repeatDemoModeTimer.cancel();
         }
@@ -120,7 +144,7 @@ implements TimerListener {
     }
 
     public void setDemoModeLocation(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "DemoModeManager#setDemoModeLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "DemoModeManager#setDemoModeLocation( %1 )", (Object)LocationFormatter.formatLocationShort(navLocation));
         this.demoLocationWasSet(navLocation);
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new RGSetPosition(this.getStartPosition()));
@@ -131,14 +155,12 @@ implements TimerListener {
         this.startPosition = navLocation;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer == this.repeatDemoModeTimer) {
             this.restartDemoModeRoute();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
         this.demoRoute = null;
     }
@@ -172,23 +194,15 @@ implements TimerListener {
             PosPosition posPosition = this.vehicle.getPosition();
             if (posPosition.longitude != 0 && posPosition.latitude != 0) {
                 this.startPosition = Util.getLocationFromGeoPos(posPosition.longitude, posPosition.latitude);
-                this.logChannel.log(-2137614336, "DemoModeManager#getStartPosition() - returning current vehicle position %1", (Object)LocationFormatter.formatLocationShort(this.startPosition));
+                this.logChannel.log(10000000, "DemoModeManager#getStartPosition() - returning current vehicle position %1", (Object)LocationFormatter.formatLocationShort(this.startPosition));
             } else {
                 this.startPosition = Util.getFallbackLocation();
-                this.logChannel.log(-2137614336, "DemoModeManager#getStartPosition() - returning TOR9");
+                this.logChannel.log(10000000, "DemoModeManager#getStartPosition() - returning TOR9");
             }
         } else {
-            this.logChannel.log(-2137614336, "DemoModeManager#getStartPosition() - returning %1", (Object)LocationFormatter.formatLocationShort(this.startPosition));
+            this.logChannel.log(10000000, "DemoModeManager#getStartPosition() - returning %1", (Object)LocationFormatter.formatLocationShort(this.startPosition));
         }
         return this.startPosition;
-    }
-
-    static /* synthetic */ IDemoModeModelAccess access$000(DemoModeManager demoModeManager) {
-        return demoModeManager.modelAccess;
-    }
-
-    static /* synthetic */ Route access$100(DemoModeManager demoModeManager) {
-        return demoModeManager.demoRoute;
     }
 }
 

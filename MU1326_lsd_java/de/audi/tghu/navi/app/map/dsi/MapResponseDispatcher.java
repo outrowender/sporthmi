@@ -11,15 +11,6 @@ import de.audi.tghu.command.ICommandResponseSupplier;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.map.AbstractMap;
 import de.audi.tghu.navi.app.map.command.IDSIMapViewerControlListener;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$1;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$2;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$3;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$4;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$5;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$6;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$7;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$8;
-import de.audi.tghu.navi.app.map.dsi.MapResponseDispatcher$9;
 import de.audi.tghu.navi.app.map.dsi.MapViewerDefaultHandler;
 import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.global.NavLocationWgs84;
@@ -39,7 +30,7 @@ implements ICommandResponseSupplier {
         this.manager = commandListManager;
         this.defaultHandler = new MapViewerDefaultHandler(abstractMap.getMapDSILogChannel());
         this.logChannel = logChannel;
-        this.listenerName = new StringBuffer().append("MapResponseDispatcher").append(abstractMap.getMapConfig().getMapInstanceId()).toString();
+        this.listenerName = "MapResponseDispatcher" + abstractMap.getMapConfig().getMapInstanceId();
     }
 
     public AbstractMap getMap() {
@@ -50,60 +41,101 @@ implements ICommandResponseSupplier {
         return this.defaultHandler;
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultHandler;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.manager.getActiveCommandList();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }
 
-    @Override
     public String getHandlerName() {
         return this.listenerName;
     }
 
-    public void configureFlags(long[] lArray) {
-        CommandResponse.execute(this, new MapResponseDispatcher$1(this, lArray));
+    public void configureFlags(final long[] lArray) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).configureFlags(lArray);
+            }
+        });
     }
 
-    public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84, boolean bl) {
-        CommandResponse.execute(this, new MapResponseDispatcher$2(this, navLocationWgs84, bl));
+    public void isDetailedMapMaterialAvailable(final NavLocationWgs84 navLocationWgs84, final boolean bl) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).isDetailedMapMaterialAvailable(navLocationWgs84, bl);
+            }
+        });
     }
 
-    public void updateDayNightView(boolean bl) {
-        CommandResponse.execute(this, new MapResponseDispatcher$3(this, bl));
+    public void updateDayNightView(final boolean bl) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateDayNightView(bl);
+            }
+        });
     }
 
-    public void updateCurrentViewType(int n) {
-        CommandResponse.execute(this, new MapResponseDispatcher$4(this, n));
+    public void updateCurrentViewType(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateCurrentViewType(n);
+            }
+        });
     }
 
-    public void updateViewScreenViewPort(Rect rect) {
-        CommandResponse.execute(this, new MapResponseDispatcher$5(this, rect));
+    public void updateViewScreenViewPort(final Rect rect) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateViewScreenViewPort(rect);
+            }
+        });
     }
 
-    public void updateCarPosition(Point point) {
-        CommandResponse.execute(this, new MapResponseDispatcher$6(this, point));
+    public void updateCarPosition(final Point point) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateCarPosition(point);
+            }
+        });
     }
 
-    public void updateMapOrientation(int n) {
-        CommandResponse.execute(this, new MapResponseDispatcher$7(this, n));
+    public void updateMapOrientation(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateMapOrientation(n);
+            }
+        });
     }
 
-    public void updateMapMode(int n) {
-        CommandResponse.execute(this, new MapResponseDispatcher$8(this, n));
+    public void updateMapMode(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateMapMode(n);
+            }
+        });
     }
 
-    public void updateSoftZoomEnabled(boolean bl) {
-        CommandResponse.execute(this, new MapResponseDispatcher$9(this, bl));
+    public void updateSoftZoomEnabled(final boolean bl) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((IDSIMapViewerControlListener)dSIListener).updateSoftZoomEnabled(bl);
+            }
+        });
     }
 }
 

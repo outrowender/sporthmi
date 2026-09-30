@@ -5,13 +5,13 @@ package de.audi.tghu.smi;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.State;
+import de.audi.atip.testsupport.ITestSupportDataProvider;
 import de.audi.atip.testsupport.ITestSupportService;
 import de.audi.atip.testsupport.ITestSupportSession;
 import de.audi.atip.testsupport.NullTestSupportSession;
 import de.audi.tghu.smi.PopupStack;
 import de.audi.tghu.smi.PopupStateMachine;
 import de.audi.tghu.smi.SMI;
-import de.audi.tghu.smi.SMIOnscreenStatisticsHandler$SMDataProvider;
 import de.audi.tghu.smi.StateMachine;
 import de.audi.tghu.smi.StateMachineTerminal;
 import de.esolutions.fw.util.commons.Buffer;
@@ -19,20 +19,20 @@ import de.esolutions.fw.util.commons.Buffer;
 public class SMIOnscreenStatisticsHandler {
     private final LogChannel logChan;
     private final SMI smi;
-    public static final int TYPE_MAIN;
-    public static final int TYPE_SDS;
+    public static final int TYPE_MAIN = 0;
+    public static final int TYPE_SDS = 1;
     private volatile ITestSupportSession bemSessionMain;
     private volatile ITestSupportSession bemSessionSDS;
-    private volatile SMIOnscreenStatisticsHandler$SMDataProvider mainDataProvider;
-    private volatile SMIOnscreenStatisticsHandler$SMDataProvider sdsDataProvider;
+    private volatile SMDataProvider mainDataProvider;
+    private volatile SMDataProvider sdsDataProvider;
 
     public SMIOnscreenStatisticsHandler(SMI sMI, LogChannel logChannel) {
         this.logChan = logChannel;
         this.smi = sMI;
-        this.bemSessionMain = new NullTestSupportSession(-1601830656, logChannel);
-        this.bemSessionSDS = new NullTestSupportSession(-1601830656, logChannel);
-        this.mainDataProvider = new SMIOnscreenStatisticsHandler$SMDataProvider(this, "SMI - Statistics - Main", 0);
-        this.sdsDataProvider = new SMIOnscreenStatisticsHandler$SMDataProvider(this, "SMI - Statistics - SDS", 6);
+        this.bemSessionMain = new NullTestSupportSession(100000, logChannel);
+        this.bemSessionSDS = new NullTestSupportSession(100000, logChannel);
+        this.mainDataProvider = new SMDataProvider("SMI - Statistics - Main", 0);
+        this.sdsDataProvider = new SMDataProvider("SMI - Statistics - SDS", 6);
     }
 
     public void updateStatistics() {
@@ -107,8 +107,8 @@ public class SMIOnscreenStatisticsHandler {
 
     public void setTestSupportService(ITestSupportService iTestSupportService) {
         if (iTestSupportService == null) {
-            this.bemSessionMain = new NullTestSupportSession(-1601830656, this.logChan);
-            this.bemSessionSDS = new NullTestSupportSession(-1601830656, this.logChan);
+            this.bemSessionMain = new NullTestSupportSession(100000, this.logChan);
+            this.bemSessionSDS = new NullTestSupportSession(100000, this.logChan);
             return;
         }
         this.bemSessionMain = iTestSupportService.registerDataProvider(this.mainDataProvider);
@@ -119,12 +119,38 @@ public class SMIOnscreenStatisticsHandler {
         this.bemSessionSDS.activateMenuEntry(true);
     }
 
-    static /* synthetic */ LogChannel access$000(SMIOnscreenStatisticsHandler sMIOnscreenStatisticsHandler) {
-        return sMIOnscreenStatisticsHandler.logChan;
-    }
+    private class SMDataProvider
+    implements ITestSupportDataProvider {
+        private volatile boolean visible;
+        private volatile ITestSupportSession session;
+        private final String providerName;
+        private final int terminalID;
 
-    static /* synthetic */ String[] access$100(SMIOnscreenStatisticsHandler sMIOnscreenStatisticsHandler, int n) {
-        return sMIOnscreenStatisticsHandler.getSMDetails(n);
+        protected SMDataProvider(String string, int n) {
+            this.session = new NullTestSupportSession(100000, SMIOnscreenStatisticsHandler.this.logChan);
+            this.providerName = string;
+            this.terminalID = n;
+        }
+
+        protected void setSession(ITestSupportSession iTestSupportSession) {
+            this.session = iTestSupportSession;
+        }
+
+        protected synchronized void updateData() {
+            if (this.visible) {
+                String[] stringArray = SMIOnscreenStatisticsHandler.this.getSMDetails(this.terminalID);
+                this.session.updateData(stringArray);
+            }
+        }
+
+        public synchronized void updateStatus(int n) {
+            this.visible = n == 2 || n == 3;
+            this.updateData();
+        }
+
+        public String getDataProviderName() {
+            return this.providerName;
+        }
     }
 }
 

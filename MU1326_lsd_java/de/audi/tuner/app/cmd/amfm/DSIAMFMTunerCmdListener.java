@@ -21,14 +21,12 @@ implements DSIAMFMTunerListener {
         this.cmdListManager = iRadioCmdManager;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.lc.log(10000, "[DSIAMFMTunerCmdListener.asyncException]", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void updateStationList(Station[] stationArray, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateStationList] #list:%1 valid:%2", (long)this.size(stationArray), (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateStationList] #list:%1 valid:%2", (long)this.size(stationArray), (long)n);
         if (stationArray != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateStationList(stationArray);
@@ -39,9 +37,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateStationListMW(Station[] stationArray, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateStationListMW] #list:%1 valid:%2", (long)this.size(stationArray), (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateStationListMW] #list:%1 valid:%2", (long)this.size(stationArray), (long)n);
         if (stationArray != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateStationListMW(stationArray);
@@ -52,9 +49,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateStationListLW(Station[] stationArray, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateStationListLW] #list:%1 valid:%2", (long)this.size(stationArray), (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateStationListLW] #list:%1 valid:%2", (long)this.size(stationArray), (long)n);
         if (stationArray != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateStationListLW(stationArray);
@@ -65,13 +61,12 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateWavebandInfoList] #wavebandInfosSize:%1 valid:%2", (long)this.size(wavebandInfoArray), (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateWavebandInfoList] #wavebandInfosSize:%1 valid:%2", (long)this.size(wavebandInfoArray), (long)n);
         if (wavebandInfoArray != null && n == 1) {
             if (this.lc.isDebug2()) {
                 for (int i2 = 0; i2 < wavebandInfoArray.length; ++i2) {
-                    this.lc.log(14808325, "[DSIAMFMTunerCmdListener.updateWavebandInfoList] [%2] %1", (Object)wavebandInfoArray[i2], (long)i2);
+                    this.lc.log(100000000, "[DSIAMFMTunerCmdListener.updateWavebandInfoList] [%2] %1", (Object)wavebandInfoArray[i2], (long)i2);
                 }
             }
             try {
@@ -83,9 +78,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateRadioText(AMFMRadioText aMFMRadioText, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateRadioText] %1 valid:%2", (Object)aMFMRadioText, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateRadioText] %1 valid:%2", (Object)aMFMRadioText, (long)n);
         if (aMFMRadioText != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateRadioText(aMFMRadioText);
@@ -96,9 +90,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateAFSwitchStatus(boolean bl, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateAFSwitchStatus] status:%1 valid:%2", bl, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateAFSwitchStatus] status:%1 valid:%2", bl, (long)n);
         if (n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateAFSwitchStatus(bl);
@@ -109,9 +102,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateREGSwitchStatus(int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateREGSwitchStatus] status:%1 valid:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateREGSwitchStatus] status:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateREGSwitchStatus(n);
@@ -122,9 +114,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateLinkingUsageStatus(int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateLinkingUsageStatus] status:%1 valid:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateLinkingUsageStatus] status:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateLinkingUsageStatus(n);
@@ -135,9 +126,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateDetectedDevice(int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateDetectedDevice] device:%1 valid:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateDetectedDevice] device:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateDetectedDevice(n);
@@ -148,9 +138,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void tuneFrequencyStepsStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.tuneFrequencyStepsStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.tuneFrequencyStepsStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().tuneFrequencyStepsStatus(n);
         }
@@ -159,9 +148,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void selectStationStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.selectStationStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.selectStationStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().selectStationStatus(n);
         }
@@ -170,9 +158,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void seekStationStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.seekStationStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.seekStationStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().seekStationStatus(n);
         }
@@ -181,9 +168,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateRadioTextPlus(int[] nArray, String[] stringArray, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateRadioTextPlus] #tags:%1 #content:%2 valid:%3", (long)this.size(nArray), (long)this.size(stringArray), (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateRadioTextPlus] #tags:%1 #content:%2 valid:%3", (long)this.size(nArray), (long)this.size(stringArray), (long)n);
         if (nArray != null && stringArray != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateRadioTextPlus(nArray, stringArray);
@@ -194,9 +180,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateSelectedStation(Station station, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateSelectedStation] %1 valid:%2", (Object)station, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateSelectedStation] %1 valid:%2", (Object)station, (long)n);
         if (station != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateSelectedStation(station);
@@ -207,9 +192,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateSelectedStationHD(Station station, int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateSelectedStationHD] %1, hdStructure %2  valid:%3", (Object)station, (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateSelectedStationHD] %1, hdStructure %2  valid:%3", (Object)station, (long)n, (long)n2);
         if (station != null && n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateSelectedStationHD(station, n);
@@ -220,9 +204,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void prepareTuningStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.prepareTuningStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.prepareTuningStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().prepareTuningStatus(n);
         }
@@ -231,9 +214,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void selectFrequencyStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.selectFrequencyStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.selectFrequencyStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().selectFrequencyStatus(n);
         }
@@ -242,9 +224,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void setAMBandRangeStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.setAMBandRangeStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.setAMBandRangeStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().setAMBandRangeStatus(n);
         }
@@ -253,9 +234,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void forceFMUpdateStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.forceFMUpdateStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.forceFMUpdateStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().forceFMUpdateStatus(n);
         }
@@ -264,9 +244,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updatePiIgnoreSwitchStatus(boolean bl, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updatePiIgnoreSwitchStatus] status:%1 valid:%2", bl, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updatePiIgnoreSwitchStatus] status:%1 valid:%2", bl, (long)n);
         if (n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updatePiIgnoreSwitchStatus(bl);
@@ -277,9 +256,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void forceAMUpdateStatus(int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.forceAMUpdateStatus] status:%1", (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.forceAMUpdateStatus] status:%1", (long)n);
         try {
             this.cmdListManager.getActiveAMFMCommand().forceAMUpdateStatus(n);
         }
@@ -288,9 +266,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateRDSIgnoreSwitchStatus(boolean bl, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateRDSIgnoreSwitchStatus] status:%1 valid:%2", bl, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateRDSIgnoreSwitchStatus] status:%1 valid:%2", bl, (long)n);
         if (n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateRDSIgnoreSwitchStatus(bl);
@@ -301,9 +278,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateMESwitchStatus(boolean bl, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateMESwitchStatus] status:%1 valid:%2", bl, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateMESwitchStatus] status:%1 valid:%2", bl, (long)n);
         if (n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateMESwitchStatus(bl);
@@ -314,9 +290,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateHdStatus(int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateHdStatus] status:%1 valid:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateHdStatus] status:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateHdStatus(n);
@@ -327,9 +302,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateHdMode(int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateHdMode] mode:%1 valid:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateHdMode] mode:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateHdMode(n);
@@ -340,9 +314,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateHdStationInfo(HdStationInfo hdStationInfo, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateHdStationInfo] %1 valid:%2", (Object)hdStationInfo, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateHdStationInfo] %1 valid:%2", (Object)hdStationInfo, (long)n);
         if (hdStationInfo != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateHdStationInfo(hdStationInfo);
@@ -353,9 +326,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateAvailability(int n, int n2) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateAvailability] availability:%1 valid:%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateAvailability] availability:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateAvailability(n);
@@ -366,9 +338,8 @@ implements DSIAMFMTunerListener {
         }
     }
 
-    @Override
     public void updateElectronicSerialCode(String string, int n) {
-        this.lc.log(-2137614336, "[DSIAMFMTunerCmdListener.updateElectronicSerialCode] code:%1 valid:%2", (Object)string, (long)n);
+        this.lc.log(10000000, "[DSIAMFMTunerCmdListener.updateElectronicSerialCode] code:%1 valid:%2", (Object)string, (long)n);
         if (string != null && n == 1) {
             try {
                 this.cmdListManager.getActiveAMFMCommand().updateElectronicSerialCode(string);
@@ -387,23 +358,18 @@ implements DSIAMFMTunerListener {
         return nArray != null ? nArray.length : -1;
     }
 
-    @Override
     public void updateProfileState(int n, int n2, int n3) {
     }
 
-    @Override
     public void profileChanged(int n, int n2) {
     }
 
-    @Override
     public void profileCopied(int n, int n2, int n3) {
     }
 
-    @Override
     public void profileReset(int n, int n2) {
     }
 
-    @Override
     public void profileResetAll(int n) {
     }
 }

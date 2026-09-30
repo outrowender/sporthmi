@@ -4,14 +4,14 @@
 package de.audi.tghu.navi.app.map.routecalc;
 
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.WaitForMapReadyCommand;
 import de.audi.tghu.navi.app.map.context.CtxRubberBand;
+import de.audi.tghu.navi.app.map.gui.SimpleButtonListener;
 import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator;
-import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator$IRouteCalcEnv;
-import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator$RouteCalculationListener;
 import de.audi.tghu.navi.app.map.routecalc.RcciEvent;
 import de.audi.tghu.navi.app.map.routecalc.RcsBase;
 import de.audi.tghu.navi.app.map.routecalc.RcsBetterRouteAvailable;
@@ -27,13 +27,6 @@ import de.audi.tghu.navi.app.map.routecalc.RcsRGActivated;
 import de.audi.tghu.navi.app.map.routecalc.RcsRestartAfterAltRoutesCanceled;
 import de.audi.tghu.navi.app.map.routecalc.RcsWaitForActivation;
 import de.audi.tghu.navi.app.map.routecalc.RouteCalcDataContainer;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$1;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$2;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$3;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$4;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$5;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$6;
-import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM$7;
 import de.audi.tghu.navi.app.map.routecalc.RubberbandFactory;
 import de.audi.tghu.navi.app.map.utils.MapUtils;
 import de.audi.tghu.navi.app.util.RouteUtil;
@@ -57,8 +50,8 @@ import org.dsi.ifc.navigation.RouteOptions;
 public class RouteCalcSM
 extends RouteCalcDataContainer
 implements IRouteCalculator {
-    private static final long THRESHOLD_DEFINITIVE_BETTER;
-    private static final int SCREEN_SWITCH_DELAY;
+    private static final long THRESHOLD_DEFINITIVE_BETTER = 1800000L;
+    private static final int SCREEN_SWITCH_DELAY = 5000;
     private int currentState = 0;
     private int lastState = 0;
     private final LogChannel logger;
@@ -75,12 +68,12 @@ implements IRouteCalculator {
     protected NavigationEnv env;
     private RouteOptions[] routeOptionsUsedForCalculation;
     private NavRouteListData[] lastRgDestinationInfo = null;
-    protected final IRouteCalculator$IRouteCalcEnv naviMap;
+    protected final IRouteCalculator.IRouteCalcEnv naviMap;
 
-    public RouteCalcSM(NavigationEnv navigationEnv, IRouteCalculator$IRouteCalcEnv iRouteCalculator$IRouteCalcEnv) {
+    public RouteCalcSM(NavigationEnv navigationEnv, final IRouteCalculator.IRouteCalcEnv iRouteCalcEnv) {
         this.logger = navigationEnv.getLogChannel("App.Map.RouteCalc");
         this.env = navigationEnv;
-        this.naviMap = iRouteCalculator$IRouteCalcEnv;
+        this.naviMap = iRouteCalcEnv;
         this.currentState = 0;
         this.states = new RcsBase[13];
         this.states[0] = new RcsIdle(this);
@@ -96,31 +89,76 @@ implements IRouteCalculator {
         this.states[10] = new RcsCalculatingFurtherAlternativeAsia(this);
         this.states[11] = new RcsRestartAfterAltRoutesCanceled(this);
         this.states[12] = new RcsCalculatingSingleOffroad(this);
-        this.startRGTimer = new Timer("StartRGTimer", 0, true, new RouteCalcSM$1(this, iRouteCalculator$IRouteCalcEnv));
-        this.screenSwitchDelayer = new Timer("", 0, true, new RouteCalcSM$2(this, iRouteCalculator$IRouteCalcEnv));
-        this.shortBetterRouteAvailableInfoTimer = new Timer("availableRouteTimer", 0, true, new RouteCalcSM$3(this, iRouteCalculator$IRouteCalcEnv));
-        this.abortCalculationTimer = new Timer("abortCalculationTimer", 0, true, new RouteCalcSM$4(this));
-        this.createSwitchToSemiDynListener(navigationEnv, iRouteCalculator$IRouteCalcEnv);
-        this.createIgnoreBetterRouteListener(iRouteCalculator$IRouteCalcEnv);
-        this.createIgnoreDetourListener(iRouteCalculator$IRouteCalcEnv);
-        this.createDetourNowListener(navigationEnv, iRouteCalculator$IRouteCalcEnv);
+        this.startRGTimer = new Timer("StartRGTimer", 15000L, true, new DefaultTimerListener(){
+
+            public void fireTimer(Timer timer) {
+                RouteCalcSM.this.getLogger().log(1000000, "RouteCalcSM#StartRGTimer#fireTimer()");
+                iRouteCalcEnv.onEvent(203);
+                iRouteCalcEnv.onFiredRGAutoStartTimer();
+            }
+        });
+        this.screenSwitchDelayer = new Timer("", 5000L, true, new DefaultTimerListener(){
+
+            public void fireTimer(Timer timer) {
+                RouteCalcSM.this.getLogger().log(10000000, "RouteCalcSM#screenSwitchDelayer#fireTimer() - switch to a shown context");
+                iRouteCalcEnv.switchToAShownContext();
+            }
+        });
+        this.shortBetterRouteAvailableInfoTimer = new Timer("availableRouteTimer", 10000L, true, new DefaultTimerListener(){
+
+            public void fireTimer(Timer timer) {
+                iRouteCalcEnv.getViews().getSemidynRGView().showShortInfo();
+            }
+        });
+        this.abortCalculationTimer = new Timer("abortCalculationTimer", 90000L, true, new DefaultTimerListener(){
+
+            public void fireTimer(Timer timer) {
+                RouteCalcSM.this.getLogger().log(100000, "RouteCalcSM#abortCalculationTimer#fireTimer() - route calculation timeout");
+                RouteCalcSM.this.abortRouteCalculation(false);
+            }
+        });
+        this.createSwitchToSemiDynListener(navigationEnv, iRouteCalcEnv);
+        this.createIgnoreBetterRouteListener(iRouteCalcEnv);
+        this.createIgnoreDetourListener(iRouteCalcEnv);
+        this.createDetourNowListener(navigationEnv, iRouteCalcEnv);
         int n = this.getState().getValue4Model();
-        navigationEnv.getChoiceModel(706545152).setValue(n);
+        navigationEnv.getChoiceModel(400682).setValue(n);
     }
 
-    protected void createDetourNowListener(NavigationEnv navigationEnv, IRouteCalculator$IRouteCalcEnv iRouteCalculator$IRouteCalcEnv) {
+    protected void createDetourNowListener(NavigationEnv navigationEnv, IRouteCalculator.IRouteCalcEnv iRouteCalcEnv) {
     }
 
-    protected void createIgnoreDetourListener(IRouteCalculator$IRouteCalcEnv iRouteCalculator$IRouteCalcEnv) {
-        iRouteCalculator$IRouteCalcEnv.getViews().getSemidynRGView().setIgnoreDetourListener(new RouteCalcSM$5(this, iRouteCalculator$IRouteCalcEnv));
+    protected void createIgnoreDetourListener(final IRouteCalculator.IRouteCalcEnv iRouteCalcEnv) {
+        iRouteCalcEnv.getViews().getSemidynRGView().setIgnoreDetourListener(new SimpleButtonListener(){
+
+            public void keyPressed(int n, int n2, int n3) {
+                RouteCalcSM.this.getLogger().log(10000000, "RouteCalcSM#<IgnoreDetourListener>#keyPressed()");
+                RouteCalcSM.this.isPopupDueToBlockingIgnored = true;
+                iRouteCalcEnv.getViews().getSemidynRGView().hidePopupSemidynBlockMain();
+            }
+        });
     }
 
-    protected void createIgnoreBetterRouteListener(IRouteCalculator$IRouteCalcEnv iRouteCalculator$IRouteCalcEnv) {
-        iRouteCalculator$IRouteCalcEnv.getViews().getSemidynRGView().setIgnoreBetterRouteListener(new RouteCalcSM$6(this, iRouteCalculator$IRouteCalcEnv));
+    protected void createIgnoreBetterRouteListener(final IRouteCalculator.IRouteCalcEnv iRouteCalcEnv) {
+        iRouteCalcEnv.getViews().getSemidynRGView().setIgnoreBetterRouteListener(new SimpleButtonListener(){
+
+            public void keyPressed(int n, int n2, int n3) {
+                RouteCalcSM.this.getLogger().log(10000000, "RouteCalcSM#<IgnoreBetterRouteListener>#keyPressed()");
+                RouteCalcSM.this.isPopupDefinitiveBetterIgnored = true;
+                iRouteCalcEnv.getViews().getSemidynRGView().hidePopupSemidynBetterMain();
+            }
+        });
     }
 
-    protected void createSwitchToSemiDynListener(NavigationEnv navigationEnv, IRouteCalculator$IRouteCalcEnv iRouteCalculator$IRouteCalcEnv) {
-        iRouteCalculator$IRouteCalcEnv.getViews().getSemidynRGView().addSwitchToSemidynListener(new RouteCalcSM$7(this, navigationEnv));
+    protected void createSwitchToSemiDynListener(final NavigationEnv navigationEnv, IRouteCalculator.IRouteCalcEnv iRouteCalcEnv) {
+        iRouteCalcEnv.getViews().getSemidynRGView().addSwitchToSemidynListener(new SimpleButtonListener(){
+
+            public void keyPressed(int n, int n2, int n3) {
+                RouteCalcSM.this.getLogger().log(10000000, "RouteCalcSM#<SwitchToSemidynListener>#keyPressed()");
+                navigationEnv.fireModelEvent(n, n3);
+                RouteCalcSM.this.switchToSemidynamic(n);
+            }
+        });
     }
 
     protected RcsBase createRcsBetterRouteAvailable(RouteCalcSM routeCalcSM) {
@@ -131,13 +169,12 @@ implements IRouteCalculator {
         return this.logger;
     }
 
-    @Override
     public void abortRouteCalculation(boolean bl) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#abortRouteCalculation()");
+        this.getLogger().log(10000000, "RouteCalcSM#abortRouteCalculation()");
         this.getState().reset();
         this.setCalcFurtherAltRoutes(false);
         this.setWaitForAvailableRoute(false);
-        this.env.getChoiceModel(1360856576).setValue(0);
+        this.env.getChoiceModel(400721).setValue(0);
         if (this.naviMap.getNavigationEnv().getFramework().isFrontMU()) {
             this.naviMap.getNaviInterface().stopRouteGuidance();
         } else {
@@ -159,67 +196,58 @@ implements IRouteCalculator {
         this.goTo(0);
     }
 
-    @Override
     public void cancelTimer() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#cancelTimer()");
+        this.getLogger().log(10000000, "RouteCalcSM#cancelTimer()");
         this.startRGTimer.cancel();
     }
 
     private boolean check(int n, int n2) {
         if (n2 == 9 && !Util.isSemidynamicRgAvailable(this.env.getFramework())) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#check() - invalid switch from %1 to %2, ignored. Rubberband not available", (long)n, (long)n2);
+            this.getLogger().log(100000, "RouteCalcSM#check() - invalid switch from %1 to %2, ignored. Rubberband not available", (long)n, (long)n2);
             return false;
         }
         if (n == 7 && n2 == 8) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#check() - invalid switch from %1 to %2, ignored", (long)n, (long)n2);
+            this.getLogger().log(100000, "RouteCalcSM#check() - invalid switch from %1 to %2, ignored", (long)n, (long)n2);
             return false;
         }
         return true;
     }
 
-    @Override
     public void cleanup() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#cleanup()");
+        this.getLogger().log(10000000, "RouteCalcSM#cleanup()");
         this.reset();
     }
 
-    @Override
     public void reset() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#reset()");
+        this.getLogger().log(10000000, "RouteCalcSM#reset()");
         this.isRGAboutToBeStarted = false;
         this.cancelAbortCalculationTimer();
         this.getState().reset();
         this.goTo(0);
     }
 
-    @Override
     public void enableTimer(boolean bl) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#enableTimer( %1 )", bl);
+        this.getLogger().log(10000000, "RouteCalcSM#enableTimer( %1 )", bl);
         this.getState().enableTimer(bl);
         this.disableTimer = !bl;
     }
 
-    @Override
     public CalculatedRouteListElement[] getCalculatedRouteListElement() {
         return this.mCalculatedRouteListElement;
     }
 
-    @Override
     public RgRouteCostChangeInformation getRgRCCI() {
         return this.rgRCCI;
     }
 
-    @Override
     public int getRgRouteCalculationState() {
         return this.iRgRouteCalculationState;
     }
 
-    @Override
     public Route getRoute() {
         return this.currentRoute;
     }
 
-    @Override
     public int getSelectedRouteIndex() {
         return this.iRouteIndex;
     }
@@ -246,11 +274,11 @@ implements IRouteCalculator {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
             if (this.currentState == n) {
-                this.logger.log(1078071040, "RouteCalcSM#goTo() - it is alreay in state %1, cancel switch.", (Object)this.states[n]);
+                this.logger.log(1000000, "RouteCalcSM#goTo() - it is alreay in state %1, cancel switch.", (Object)this.states[n]);
                 return;
             }
             if (this.check(this.currentState, n)) {
-                this.logger.log(1078071040, "RouteCalcSM#goTo() - %1 -> %2 ", (Object)this.states[this.currentState], (Object)this.states[n]);
+                this.logger.log(1000000, "RouteCalcSM#goTo() - %1 -> %2 ", (Object)this.states[this.currentState], (Object)this.states[n]);
                 try {
                     this.states[this.currentState].exit();
                     this.lastState = this.currentState;
@@ -263,14 +291,14 @@ implements IRouteCalculator {
                     this.logger.log(10000, "RouteCalcSM#goTo() - %1 enter : %2", (Object)this.states[n], (Throwable)exception);
                 }
             } else {
-                this.logger.log(-1601830656, "RouteCalcSM#goTo() - %1 -> %2 : invalid or not allowed", (Object)this.states[this.currentState], (Object)this.states[n]);
+                this.logger.log(100000, "RouteCalcSM#goTo() - %1 -> %2 : invalid or not allowed", (Object)this.states[this.currentState], (Object)this.states[n]);
             }
         }
         if (bl) {
             this.postSwitch();
         }
         int n2 = this.getState().getValue4Model();
-        this.env.getChoiceModel(706545152).setValue(n2);
+        this.env.getChoiceModel(400682).setValue(n2);
     }
 
     private void postSwitch() {
@@ -282,7 +310,6 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public boolean isCalculatingAltRoutes() {
         switch (this.currentState) {
             case 2: 
@@ -298,7 +325,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isMatchingRoutesFound() {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -306,7 +332,6 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public boolean isRouteCalculationActive() {
         switch (this.currentState) {
             case 1: 
@@ -322,45 +347,40 @@ implements IRouteCalculator {
         return false;
     }
 
-    @Override
     public boolean isRouteCalculationNotIdle() {
         return this.currentState != 0;
     }
 
-    @Override
     public boolean isRubberbandReady() {
         return this.iRgRouteCalculationState == 3;
     }
 
-    @Override
     public boolean isWaitingForAlternativRoutes() {
         return this.currentState == 2 || this.currentState == 10;
     }
 
-    @Override
-    public void removeRouteCalculationListener(IRouteCalculator$RouteCalculationListener iRouteCalculator$RouteCalculationListener) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#removeRouteCalculationListener()");
+    public void removeRouteCalculationListener(IRouteCalculator.RouteCalculationListener routeCalculationListener) {
+        this.getLogger().log(10000000, "RouteCalcSM#removeRouteCalculationListener()");
         if (this.routeCalculationListeners == null) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#removeRouteCalculationListener() - no listener.");
+            this.getLogger().log(100000, "RouteCalcSM#removeRouteCalculationListener() - no listener.");
         } else {
-            this.routeCalculationListeners.remove(iRouteCalculator$RouteCalculationListener);
+            this.routeCalculationListeners.remove(routeCalculationListener);
         }
     }
 
-    @Override
     public void restartTimerIfCalculationStateIsReady() {
         if (this.disableTimer) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignored: timer disabled");
+            this.getLogger().log(10000000, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignored: timer disabled");
             this.cancelTimer();
             return;
         }
         if (!this.isAutoStartRGAndSwitchEnabled) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignored: auto start temporarily disabled");
+            this.getLogger().log(10000000, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignored: auto start temporarily disabled");
             this.cancelTimer();
             return;
         }
         if (this.iRgRouteCalculationState != 2) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignored: calculation state = %1", (long)this.iRgRouteCalculationState);
+            this.getLogger().log(10000000, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignored: calculation state = %1", (long)this.iRgRouteCalculationState);
             this.cancelTimer();
             return;
         }
@@ -374,37 +394,35 @@ implements IRouteCalculator {
                 break;
             }
             case 3: {
-                this.getLogger().log(14808325, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignore");
+                this.getLogger().log(100000000, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - ignore");
                 break;
             }
             default: {
-                this.getLogger().log(-1601830656, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - unknown state : %1", (long)this.currentState);
+                this.getLogger().log(100000, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - unknown state : %1", (long)this.currentState);
             }
         }
         if (n > 0) {
-            this.getLogger().log(1078071040, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - rcsState:%1, delay:%2", (long)this.currentState, (long)n);
+            this.getLogger().log(1000000, "RouteCalcSM#restartTimerIfCalculationStateIsReady() - rcsState:%1, delay:%2", (long)this.currentState, (long)n);
             this.startRGTimer.setDelay(n);
             this.startRGTimer.restart();
         }
     }
 
-    @Override
-    public void setRouteCalculationListener(IRouteCalculator$RouteCalculationListener iRouteCalculator$RouteCalculationListener) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#setRouteCalculationListener()");
+    public void setRouteCalculationListener(IRouteCalculator.RouteCalculationListener routeCalculationListener) {
+        this.getLogger().log(10000000, "RouteCalcSM#setRouteCalculationListener()");
         if (this.routeCalculationListeners == null) {
             this.routeCalculationListeners = new ArrayList();
-            this.routeCalculationListeners.add(iRouteCalculator$RouteCalculationListener);
-        } else if (!this.routeCalculationListeners.contains(iRouteCalculator$RouteCalculationListener)) {
-            this.routeCalculationListeners.add(iRouteCalculator$RouteCalculationListener);
+            this.routeCalculationListeners.add(routeCalculationListener);
+        } else if (!this.routeCalculationListeners.contains(routeCalculationListener)) {
+            this.routeCalculationListeners.add(routeCalculationListener);
         } else {
-            this.getLogger().log(14808325, "RouteCalcSM#setRouteCalculationListener() - listener already registered");
+            this.getLogger().log(100000000, "RouteCalcSM#setRouteCalculationListener() - listener already registered");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSelectedRouteIndex(int n) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -412,7 +430,6 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public boolean startRG(int n) {
         try {
             boolean bl = this.isCalculatingAltRoutes();
@@ -434,19 +451,19 @@ implements IRouteCalculator {
                 int n2;
                 int n3 = n2 = this.getCalculatedRouteListElement() != null ? this.getCalculatedRouteListElement().length : 0;
                 if (0 > n || n >= n2) {
-                    this.getLogger().log(-1601830656, "RouteCalcSM#doRestartAfterAlRoutes( ) - invalid route index = %1, route count = %2", (long)n, (long)n2);
+                    this.getLogger().log(100000, "RouteCalcSM#doRestartAfterAlRoutes( ) - invalid route index = %1, route count = %2", (long)n, (long)n2);
                     return false;
                 }
                 if (!MapUtils.isCRLElementCalculated(this.getCalculatedRouteListElement()[n])) {
-                    this.getLogger().log(-1601830656, "RouteCalcSM#doRestartAfterAlRoutes( ) - invalid route index = %1, not calculated", (long)n);
+                    this.getLogger().log(100000, "RouteCalcSM#doRestartAfterAlRoutes( ) - invalid route index = %1, not calculated", (long)n);
                     return false;
                 }
                 this.iRouteIndex = n;
                 this.currentNavSegmentID = this.getCalculatedRouteListElement()[n].getSegmentIDList();
-                this.getLogger().log(1078071040, "RouteCalcSM#doRestartAfterAlRoutes() - routeIndex = %3, waitForAvailableRoute = %2, %1", (Object)this.currentNavSegmentID, (Object)Boolean.toString(this.getWaitForAvailableRoute()), (long)n);
+                this.getLogger().log(1000000, "RouteCalcSM#doRestartAfterAlRoutes() - routeIndex = %3, waitForAvailableRoute = %2, %1", (Object)this.currentNavSegmentID, (Object)Boolean.toString(this.getWaitForAvailableRoute()), (long)n);
                 this.setCalcFurtherAltRoutes(false);
                 if (this.isRGAboutToBeStarted()) {
-                    this.getLogger().log(-1601830656, "RouteCalcSM#doRestartAfterAlRoutes( ) - isRGAboutToBeStarted = true : this should have been set to false.");
+                    this.getLogger().log(100000, "RouteCalcSM#doRestartAfterAlRoutes( ) - isRGAboutToBeStarted = true : this should have been set to false.");
                     this.isRGAboutToBeStarted = false;
                 }
                 this.cancelAbortCalculationTimer();
@@ -469,7 +486,6 @@ implements IRouteCalculator {
         return this.currentState == 11;
     }
 
-    @Override
     public boolean gotoRestartAfterAltRoutesCancelled(int n) {
         try {
             if (this.currentState != 7) {
@@ -489,19 +505,19 @@ implements IRouteCalculator {
         int n2;
         int n3 = n2 = this.getCalculatedRouteListElement() != null ? this.getCalculatedRouteListElement().length : 0;
         if (0 > n || n >= n2) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#startRG( ) - invalid route index = %1, route count = %2", (long)n, (long)n2);
+            this.getLogger().log(100000, "RouteCalcSM#startRG( ) - invalid route index = %1, route count = %2", (long)n, (long)n2);
             return false;
         }
         if (!MapUtils.isCRLElementCalculated(this.getCalculatedRouteListElement()[n])) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#startRG( ) - invalid route index = %1, not calculated", (long)n);
+            this.getLogger().log(100000, "RouteCalcSM#startRG( ) - invalid route index = %1, not calculated", (long)n);
             return false;
         }
         this.iRouteIndex = n;
         this.currentNavSegmentID = this.getCalculatedRouteListElement()[n].getSegmentIDList();
-        this.getLogger().log(1078071040, "RouteCalcSM#startRG() - routeIndex = %3, waitForAvailableRoute = %2, %1", (Object)this.currentNavSegmentID, (Object)Boolean.toString(this.getWaitForAvailableRoute()), (long)n);
+        this.getLogger().log(1000000, "RouteCalcSM#startRG() - routeIndex = %3, waitForAvailableRoute = %2, %1", (Object)this.currentNavSegmentID, (Object)Boolean.toString(this.getWaitForAvailableRoute()), (long)n);
         this.setCalcFurtherAltRoutes(false);
         if (this.isRGAboutToBeStarted()) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#startRG( ) - isRGAboutToBeStarted = true : this should have been set to false.");
+            this.getLogger().log(100000, "RouteCalcSM#startRG( ) - isRGAboutToBeStarted = true : this should have been set to false.");
             this.isRGAboutToBeStarted = false;
         }
         this.cancelAbortCalculationTimer();
@@ -520,10 +536,9 @@ implements IRouteCalculator {
         return true;
     }
 
-    @Override
     public void startRGByUID(NavSegmentID navSegmentID) {
         this.currentNavSegmentID = navSegmentID;
-        this.getLogger().log(1078071040, "RouteCalcSM#startRGByUID( ) - %1", (Object)this.currentNavSegmentID);
+        this.getLogger().log(1000000, "RouteCalcSM#startRGByUID( ) - %1", (Object)this.currentNavSegmentID);
         this.setCalcFurtherAltRoutes(false);
         this.cancelTimer();
         CommandList commandList = this.naviMap.getNaviInterface().startGuidanceCalculatedRouteByUID(navSegmentID);
@@ -535,7 +550,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startRGByUID(int n) {
         Object object;
         switch (n) {
@@ -552,7 +566,7 @@ implements IRouteCalculator {
                             this.isBetterRouteIgnored = true;
                         }
                     } else {
-                        this.getLogger().log(-2137614336, "RouteCalcSM#startRGByUID( %1 ) - new Route vansished do not set isBetterRouteIgnored flag", (long)n);
+                        this.getLogger().log(10000000, "RouteCalcSM#startRGByUID( %1 ) - new Route vansished do not set isBetterRouteIgnored flag", (long)n);
                     }
                     this.newRouteVanished = false;
                     break;
@@ -575,7 +589,7 @@ implements IRouteCalculator {
         this.isAutoStartRGAndSwitchEnabled = false;
         this.setCalcFurtherAltRoutes(false);
         this.setSelectedRouteIndex(n);
-        this.getLogger().log(1078071040, "RouteCalcSM#startRGByUID( %2 ) - %1", (Object)this.currentNavSegmentID, (long)n);
+        this.getLogger().log(1000000, "RouteCalcSM#startRGByUID( %2 ) - %1", (Object)this.currentNavSegmentID, (long)n);
         this.cancelTimer();
         object = this.naviMap.getNaviInterface().startGuidanceCalculatedRouteByUID(this.currentNavSegmentID);
         ((CommandList)object).execute("RouteCalcSM#startRGByUID()");
@@ -592,45 +606,44 @@ implements IRouteCalculator {
     }
 
     void dispatchRcciEvent(RcciEvent rcciEvent) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#dispatchRcciEvent() - %1", (Object)rcciEvent);
+        this.getLogger().log(10000000, "RouteCalcSM#dispatchRcciEvent() - %1", (Object)rcciEvent);
         this.pushRcciEvent(rcciEvent);
         try {
             this.naviMap.getViews().getMainMapView().setTrafficDelay(rcciEvent.reliable ? this.rcciEvent.delay : -1L);
         }
         catch (Exception exception) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
+            this.getLogger().log(100000, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
         }
         try {
             this.naviMap.getNaviInterface().getClusterService().updateSemidynamicRouteGuidance(rcciEvent);
         }
         catch (Exception exception) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
+            this.getLogger().log(100000, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
         }
         try {
-            this.naviMap.getNaviInterface().getTMCGateWay().updateSemidynamicRouteGuidance(rcciEvent.delay, rcciEvent.reliable, rcciEvent.hasBetterRoute, (int)(rcciEvent.savingTime / 0));
+            this.naviMap.getNaviInterface().getTMCGateWay().updateSemidynamicRouteGuidance(rcciEvent.delay, rcciEvent.reliable, rcciEvent.hasBetterRoute, (int)(rcciEvent.savingTime / 60000L));
         }
         catch (Exception exception) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
+            this.getLogger().log(100000, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
         }
         try {
             this.naviMap.getNaviInterface().updateDelayOnCurrentRoute(rcciEvent.delay);
         }
         catch (Exception exception) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
+            this.getLogger().log(100000, "RouteCalcSM#dispatchRcciEvent() - %1", (Throwable)exception);
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startRouteCalculation(Route route, int n, boolean bl, boolean bl2, boolean bl3) {
         Buffer buffer = new Buffer();
         buffer.append("numOfAltRoutes:").append(n);
         buffer.append(" prepareMap:").append(bl);
         buffer.append(" waitForAltRoutes:").append(bl2);
         buffer.append(" route:").append(route);
-        this.getLogger().log(1078071040, "RouteCalcSM#startRouteCalculation() - %1", (Object)buffer.toString());
+        this.getLogger().log(1000000, "RouteCalcSM#startRouteCalculation() - %1", (Object)buffer.toString());
         this.iRouteIndex = 0;
         if (route != null && route.getRoutelist() != null && route.getRoutelist().length > 0 && route.getRoutelist()[0] != null) {
             int n2;
@@ -645,9 +658,9 @@ implements IRouteCalculator {
                 buffer.append(this.routeOptionsUsedForCalculation[n2].dynamic).append(" ");
             }
             buffer.append("]");
-            this.getLogger().log(-2137614336, "RouteCalcSM#startRouteCalculation() - %1", (Object)buffer.toString());
+            this.getLogger().log(10000000, "RouteCalcSM#startRouteCalculation() - %1", (Object)buffer.toString());
             n2 = RouteUtil.getNumberOfDestinations(route, 1);
-            this.env.getChoiceModel(1360856576).setValue(n2);
+            this.env.getChoiceModel(400721).setValue(n2);
         }
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -659,7 +672,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAvailableRoutes(AvailableRoute[] availableRouteArray, int n) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -670,9 +682,8 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#updateRgCalculatedRoutes(%1)", (Object)(calculatedRouteListElementArray == null || calculatedRouteListElementArray.length == 0 ? "empty" : Integer.toString(calculatedRouteListElementArray.length)));
+        this.getLogger().log(10000000, "RouteCalcSM#updateRgCalculatedRoutes(%1)", (Object)(calculatedRouteListElementArray == null || calculatedRouteListElementArray.length == 0 ? "empty" : Integer.toString(calculatedRouteListElementArray.length)));
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
             this.getState().updateRgCalculatedRoutes(calculatedRouteListElementArray);
@@ -688,9 +699,8 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgRouteCalculationState(int n) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#updateRgRouteCalculationState(%1)", (long)n);
+        this.getLogger().log(10000000, "RouteCalcSM#updateRgRouteCalculationState(%1)", (long)n);
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
             this.getState().updateRgRouteCalculationState(n);
@@ -701,9 +711,8 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#updateRgRouteCostChangeInformation(%1), current Route calc state: --[%2]--", (Object)(rgRouteCostChangeInformation == null ? "null" : rgRouteCostChangeInformation.toString()), (Object)Util.getClassNameFromPackageName(super.getClass()));
+        this.getLogger().log(10000000, "RouteCalcSM#updateRgRouteCostChangeInformation(%1), current Route calc state: --[%2]--", (Object)(rgRouteCostChangeInformation == null ? "null" : rgRouteCostChangeInformation.toString()), (Object)Util.getClassNameFromPackageName(this.getState().getClass()));
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
             this.getState().updateRgRouteCostChangeInformation(rgRouteCostChangeInformation);
@@ -713,11 +722,10 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgActive(boolean bl) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#updateRgActive(%1)", bl);
+            this.getLogger().log(10000000, "RouteCalcSM#updateRgActive(%1)", bl);
             this.getState().updateRgActive(bl);
             this.refreshRubberbandActiveFlag();
             if (!bl) {
@@ -727,19 +735,17 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#updateRgInfoForNextDestination()");
+        this.getLogger().log(10000000, "RouteCalcSM#updateRgInfoForNextDestination()");
         this.sRGInfoForNextDestReceived = true;
     }
 
-    @Override
     public boolean isRgInfoForNexDestinationReceived() {
         return this.sRGInfoForNextDestReceived;
     }
 
     protected void resetIgnoreBetterRouteFlags() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#resetIgnoreBetterRouteFlags()");
+        this.getLogger().log(10000000, "RouteCalcSM#resetIgnoreBetterRouteFlags()");
         this.isBetterRouteIgnored = false;
         this.isPopupDefinitiveBetterIgnored = false;
         this.isPopupDueToBlockingIgnored = false;
@@ -756,15 +762,15 @@ implements IRouteCalculator {
             if (this.routeCalculationListeners != null) {
                 for (int i2 = 0; i2 < this.routeCalculationListeners.size(); ++i2) {
                     try {
-                        ((IRouteCalculator$RouteCalculationListener)this.routeCalculationListeners.get(i2)).onMatchFound();
+                        ((IRouteCalculator.RouteCalculationListener)this.routeCalculationListeners.get(i2)).onMatchFound();
                         continue;
                     }
                     catch (Exception exception) {
-                        this.getLogger().log(-1601830656, "RouteCalcSM#fireOnMatchFound() %1", (Throwable)exception);
+                        this.getLogger().log(100000, "RouteCalcSM#fireOnMatchFound() %1", (Throwable)exception);
                     }
                 }
             } else {
-                this.getLogger().log(-1601830656, "RouteCalcSM#fireOnMatchFound() - no listener.");
+                this.getLogger().log(100000, "RouteCalcSM#fireOnMatchFound() - no listener.");
             }
         }
     }
@@ -779,15 +785,15 @@ implements IRouteCalculator {
             if (this.routeCalculationListeners != null) {
                 for (int i2 = 0; i2 < this.routeCalculationListeners.size(); ++i2) {
                     try {
-                        ((IRouteCalculator$RouteCalculationListener)this.routeCalculationListeners.get(i2)).onAllMatchFound(n);
+                        ((IRouteCalculator.RouteCalculationListener)this.routeCalculationListeners.get(i2)).onAllMatchFound(n);
                         continue;
                     }
                     catch (Exception exception) {
-                        this.getLogger().log(-1601830656, "RouteCalcSM#fireOnAllMatchFound() %1", (Throwable)exception);
+                        this.getLogger().log(100000, "RouteCalcSM#fireOnAllMatchFound() %1", (Throwable)exception);
                     }
                 }
             } else {
-                this.getLogger().log(-1601830656, "RouteCalcSM#fireOnAllMatchFound() - no listener.");
+                this.getLogger().log(100000, "RouteCalcSM#fireOnAllMatchFound() - no listener.");
             }
         }
     }
@@ -802,38 +808,35 @@ implements IRouteCalculator {
             if (this.routeCalculationListeners != null) {
                 for (int i2 = 0; i2 < this.routeCalculationListeners.size(); ++i2) {
                     try {
-                        ((IRouteCalculator$RouteCalculationListener)this.routeCalculationListeners.get(i2)).onFailedCalculation();
+                        ((IRouteCalculator.RouteCalculationListener)this.routeCalculationListeners.get(i2)).onFailedCalculation();
                         continue;
                     }
                     catch (Exception exception) {
-                        this.getLogger().log(-1601830656, "RouteCalcSM#fireOnFailedCalculation() %1", (Throwable)exception);
+                        this.getLogger().log(100000, "RouteCalcSM#fireOnFailedCalculation() %1", (Throwable)exception);
                     }
                 }
             } else {
-                this.getLogger().log(-1601830656, "RouteCalcSM#fireOnFailedCalculation() - no listener.");
+                this.getLogger().log(100000, "RouteCalcSM#fireOnFailedCalculation() - no listener.");
             }
         }
     }
 
     void setIsRGAboutToBeStarted(boolean bl, boolean bl2) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#setIsRGAboutToBeStarted( about2Start:%1, isSingle:%2 ) - rgActive:%3", bl, bl2, this.isRGActive);
+        this.getLogger().log(10000000, "RouteCalcSM#setIsRGAboutToBeStarted( about2Start:%1, isSingle:%2 ) - rgActive:%3", bl, bl2, this.isRGActive);
         this.isRGAboutToBeStarted = bl;
         this.isSingleRoute = bl2;
     }
 
-    @Override
     public boolean isRGAboutToBeStarted() {
         return this.isRGAboutToBeStarted;
     }
 
-    @Override
     public boolean isSingleRoute() {
         return this.isSingleRoute;
     }
 
-    @Override
     public void onStartRouteCalculation(boolean bl, boolean bl2, NavLocation navLocation) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#onStartRouteCalculation() - isSingle:%1, state:%2, dest:%3", bl, (Object)Integer.toString(this.currentState), (Object)navLocation);
+        this.getLogger().log(10000000, "RouteCalcSM#onStartRouteCalculation() - isSingle:%1, state:%2, dest:%3", bl, (Object)Integer.toString(this.currentState), (Object)navLocation);
         this.startAbortCalculationTimer();
         this.isAutoStartRGAndSwitchEnabled = bl2;
         if (navLocation != null) {
@@ -848,37 +851,32 @@ implements IRouteCalculator {
         this.setIsRGAboutToBeStarted(true, bl);
     }
 
-    @Override
     public void calculateAlternativeRoutes() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#calculateAlternativeRoutes( )");
+        this.getLogger().log(10000000, "RouteCalcSM#calculateAlternativeRoutes( )");
         int n = Util.isHURegionAsia() && !Util.isPorsche(this.env.getFramework()) && !Util.isPorscheGen2(this.env.getFramework()) && !Util.isBentley(this.env.getFramework()) ? 10 : 2;
         this.goTo(n);
     }
 
-    @Override
     public boolean isAutoStartRGAndSwitchEnabled() {
         return this.isAutoStartRGAndSwitchEnabled;
     }
 
-    @Override
     public boolean isCalculatingRubberband() {
         return this.currentState == 3;
     }
 
-    @Override
     public boolean isCalculatingSingleRoute() {
         return this.currentState == 1 || this.currentState == 6;
     }
 
-    @Override
     public void switchToSemidynamic(int n) {
         if (!Util.isSemidynamicRgAvailable(this.env.getFramework())) {
-            this.getLogger().log(-1601830656, "RouteCalcSM#switchToSemidynamic() - Semidynamic Route Guidance is not available");
+            this.getLogger().log(100000, "RouteCalcSM#switchToSemidynamic() - Semidynamic Route Guidance is not available");
             return;
         }
         this.naviMap.getMapDataContainer().sRcciEnterTrigger = n;
         if (this.currentState == 9) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#switchToSemidynamic()");
+            this.getLogger().log(10000000, "RouteCalcSM#switchToSemidynamic()");
             try {
                 this.switchToRCCIContext();
             }
@@ -886,8 +884,8 @@ implements IRouteCalculator {
                 this.getLogger().log(10000, "RouteCalcSM#<SwitchToSemidynListener>#keyPressed() - %1", (Throwable)exception);
             }
         } else {
-            this.getLogger().log(-1601830656, "RouteCalcSM#switchToSemidynamic() - no better route, ignore");
-            this.naviMap.getNavigationEnv().getListModel(1125910016).fireEvent(0);
+            this.getLogger().log(100000, "RouteCalcSM#switchToSemidynamic() - no better route, ignore");
+            this.naviMap.getNavigationEnv().getListModel(400451).fireEvent(0);
         }
     }
 
@@ -895,49 +893,43 @@ implements IRouteCalculator {
         this.naviMap.switchToContext(20);
     }
 
-    @Override
     public NavLocation getDestination() {
         return this.sDestination;
     }
 
-    @Override
     public int getSemidynRouteState() {
         return this.iBetterRouteState;
     }
 
-    @Override
     public boolean isBetterRouteIgnored() {
         return this.isBetterRouteIgnored || this.isPopupDefinitiveBetterIgnored || this.isPopupDueToBlockingIgnored;
     }
 
-    @Override
     public boolean hasBetterRoute() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#hasBetterRoute() - current state = %1", (long)this.currentState);
+        this.getLogger().log(10000000, "RouteCalcSM#hasBetterRoute() - current state = %1", (long)this.currentState);
         return this.currentState == 9;
     }
 
-    @Override
     public int getSavingTime() {
         if (this.hasBetterRoute()) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#getSavingTime() - better route exists");
+            this.getLogger().log(10000000, "RouteCalcSM#getSavingTime() - better route exists");
             if (this.sSavingTimeOfBetterRoute < 0L) {
-                this.getLogger().log(-2137614336, "RouteCalcSM#getSavingTime() - saved time < 0, beacause of blocking route");
+                this.getLogger().log(10000000, "RouteCalcSM#getSavingTime() - saved time < 0, beacause of blocking route");
                 return -1;
             }
-            return (int)(this.sSavingTimeOfBetterRoute / 0);
+            return (int)(this.sSavingTimeOfBetterRoute / 60000L);
         }
-        this.getLogger().log(-2137614336, "RouteCalcSM#getSavingTime() - better route doesn't exist");
+        this.getLogger().log(10000000, "RouteCalcSM#getSavingTime() - better route doesn't exist");
         return -1;
     }
 
-    @Override
     public void selectRoute(int n, boolean bl) {
         if (n != 0 && n != 1) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#selectRoute( ) - invalid route index : %1", (long)n);
+            this.getLogger().log(10000000, "RouteCalcSM#selectRoute( ) - invalid route index : %1", (long)n);
             return;
         }
         if (!this.hasBetterRoute()) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#selectRoute( ) - abort : no better route");
+            this.getLogger().log(10000000, "RouteCalcSM#selectRoute( ) - abort : no better route");
             return;
         }
         if (this.naviMap.getActiveContextIndex() != 20) {
@@ -945,22 +937,19 @@ implements IRouteCalculator {
         }
         this.naviMap.getActiveContext().itemFocused(-1, n);
         if (bl) {
-            this.naviMap.getActiveContext().itemSelected(1125910016, n, 1, -1);
+            this.naviMap.getActiveContext().itemSelected(400451, n, 1, -1);
         }
     }
 
-    @Override
     public void setWaitForAvailableRoute(boolean bl) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#setWaitForAvailableRoute( %1 )", bl);
+        this.getLogger().log(10000000, "RouteCalcSM#setWaitForAvailableRoute( %1 )", bl);
         this.sWaitForAvailableRoute = bl;
     }
 
-    @Override
     public boolean getWaitForAvailableRoute() {
         return this.sWaitForAvailableRoute;
     }
 
-    @Override
     public int getCountOfMatchRoute(int n) {
         if (0 <= n && n < this.sMatchingRoutesFound.length) {
             return this.sMatchingRoutesFound[n];
@@ -968,7 +957,6 @@ implements IRouteCalculator {
         return 0;
     }
 
-    @Override
     public boolean isCalculationFinished() {
         switch (this.iRgRouteCalculationState) {
             case 2: 
@@ -980,12 +968,12 @@ implements IRouteCalculator {
     }
 
     private void startAbortCalculationTimer() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#startAbortCalculationTimer()");
+        this.getLogger().log(10000000, "RouteCalcSM#startAbortCalculationTimer()");
         this.abortCalculationTimer.restart();
     }
 
     void cancelAbortCalculationTimer() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#cancelAbortCalculationTimer()");
+        this.getLogger().log(10000000, "RouteCalcSM#cancelAbortCalculationTimer()");
         this.abortCalculationTimer.cancel();
     }
 
@@ -997,17 +985,16 @@ implements IRouteCalculator {
         synchronized (object) {
             if (this.mCalculatedRouteListElement != null && this.mCalculatedRouteListElement.length > 0) {
                 if (bl) {
-                    this.getLogger().log(-1601830656, "RouteCalcSM#cleanCalculatedRouteListElements( %1 ) - clean up all 3 CalculatedRouteListElement", bl);
+                    this.getLogger().log(100000, "RouteCalcSM#cleanCalculatedRouteListElements( %1 ) - clean up all 3 CalculatedRouteListElement", bl);
                     this.mCalculatedRouteListElement = new CalculatedRouteListElement[0];
                 } else {
-                    this.getLogger().log(-1601830656, "RouteCalcSM#cleanCalculatedRouteListElements( %1 ) - clean up 2nd and 3rd CalculatedRouteListElement", bl);
+                    this.getLogger().log(100000, "RouteCalcSM#cleanCalculatedRouteListElements( %1 ) - clean up 2nd and 3rd CalculatedRouteListElement", bl);
                     this.mCalculatedRouteListElement = new CalculatedRouteListElement[]{this.mCalculatedRouteListElement[0]};
                 }
             }
         }
     }
 
-    @Override
     public long getTrafficDelayOnCurrentRoute() {
         RcciEvent rcciEvent = this.getRcciEvent();
         if (rcciEvent != null) {
@@ -1016,18 +1003,15 @@ implements IRouteCalculator {
         return 0L;
     }
 
-    @Override
     public void setCalcFurtherAltRoutes(boolean bl) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#setCalcFurtherAltRoutes( %1 )", bl);
+        this.getLogger().log(10000000, "RouteCalcSM#setCalcFurtherAltRoutes( %1 )", bl);
         this.calcFurtherAltRoute = bl;
     }
 
-    @Override
     public boolean isCalcFurtherAltRoutes() {
         return this.currentState == 2 || this.currentState == 10;
     }
 
-    @Override
     public RcciEvent getRcciEvent() {
         return this.rcciEvent;
     }
@@ -1039,7 +1023,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray) {
         boolean bl = this.onlyRemainingTravelTimeChanged(navRouteListDataArray);
         Object object = this.naviMap.getMutexSwitchToContext();
@@ -1144,7 +1127,6 @@ implements IRouteCalculator {
         return false;
     }
 
-    @Override
     public void setMapReadyCallback(WaitForMapReadyCommand waitForMapReadyCommand) {
         if (this.waitForMapReadyCommand != null) {
             this.getLogger().log(10000, "RouteCalcSM#setMapReadyCallback() - waitForMapReadyCommand still registered - unblock previous command!");
@@ -1153,26 +1135,24 @@ implements IRouteCalculator {
         this.waitForMapReadyCommand = waitForMapReadyCommand;
     }
 
-    @Override
     public void notifyMapUnfrozen() {
         if (this.waitForMapReadyCommand != null) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#notifyMapUnfrozen()");
+            this.getLogger().log(10000000, "RouteCalcSM#notifyMapUnfrozen()");
             this.waitForMapReadyCommand.mapReadyCallBack();
             this.waitForMapReadyCommand = null;
         } else {
-            this.getLogger().log(14808325, "RouteCalcSM#notifyMapUnfrozen() - no active waitForMapReadyCommand");
+            this.getLogger().log(100000000, "RouteCalcSM#notifyMapUnfrozen() - no active waitForMapReadyCommand");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void prepareRubberband(boolean bl, int n) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
-            this.getLogger().log(-2137614336, "RouteCalcSM#prepareRubberband()");
-            this.env.getChoiceModel(1360856576).setValue(0);
+            this.getLogger().log(10000000, "RouteCalcSM#prepareRubberband()");
+            this.env.getChoiceModel(400721).setValue(0);
             this.goTo(3);
             this.getState().prepareRubberband(bl, n);
         }
@@ -1181,7 +1161,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startRubberband(int n) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -1192,7 +1171,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void initRubberbandPoint(NavLocationWgs84 navLocationWgs84) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -1203,7 +1181,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void cancel() {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -1211,7 +1188,6 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public NavLocationWgs84 getRubberbandPoint() {
         return this.rbbPoint;
     }
@@ -1219,7 +1195,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setRubberbandPoint(NavLocationWgs84 navLocationWgs84) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -1227,7 +1202,6 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public int getRubberbandState() {
         return this.rbbState;
     }
@@ -1235,7 +1209,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startRubberbandRG() {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -1243,14 +1216,12 @@ implements IRouteCalculator {
         }
     }
 
-    @Override
     public boolean isRubberbandActive() {
         return this.isRubberbandActive;
     }
 
-    @Override
     public void setRubberbandActive(boolean bl) {
-        this.getLogger().log(1078071040, "RouteCalcSM#setRubberbandActive( %1 ) ", bl);
+        this.getLogger().log(1000000, "RouteCalcSM#setRubberbandActive( %1 ) ", bl);
         this.isRubberbandActive = bl;
     }
 
@@ -1263,7 +1234,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void rgStartRubberbandManipulationResult(int n) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {
@@ -1272,18 +1242,16 @@ implements IRouteCalculator {
     }
 
     void fireEvent(int n) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#fireEvent( %1 )", (long)n);
+        this.getLogger().log(10000000, "RouteCalcSM#fireEvent( %1 )", (long)n);
         this.naviMap.getMapEventDispatcher().fireEvent(n);
     }
 
-    @Override
     public RouteOptions[] getRouteOptionsUsedForCalculation() {
         return this.routeOptionsUsedForCalculation;
     }
 
-    @Override
     public boolean isBaseRouteReconstructable() {
-        this.getLogger().log(-2137614336, "RouteCalcSM#isBaseRouteReconstructable() - %1", this.isBaseRouteReconstructable);
+        this.getLogger().log(10000000, "RouteCalcSM#isBaseRouteReconstructable() - %1", this.isBaseRouteReconstructable);
         return this.isBaseRouteReconstructable;
     }
 
@@ -1292,16 +1260,15 @@ implements IRouteCalculator {
     }
 
     protected long getTresholdDefinitiveBetter() {
-        return 0;
+        return 1800000L;
     }
 
     protected long getThresholdDefinitiveBetter(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
         return this.getTresholdDefinitiveBetter();
     }
 
-    @Override
     public void setNewRouteVanished(boolean bl) {
-        this.getLogger().log(-2137614336, "RouteCalcSM#setNewRouteVanished() %1", bl);
+        this.getLogger().log(10000000, "RouteCalcSM#setNewRouteVanished() %1", bl);
         this.newRouteVanished = bl;
     }
 
@@ -1309,7 +1276,6 @@ implements IRouteCalculator {
         return this.env;
     }
 
-    @Override
     public void setIsSingleRoute(boolean bl) {
         this.isSingleRoute = bl;
     }
@@ -1317,7 +1283,6 @@ implements IRouteCalculator {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRGCurrentRouteOptions(RouteOptions routeOptions) {
         Object object = this.naviMap.getMutexSwitchToContext();
         synchronized (object) {

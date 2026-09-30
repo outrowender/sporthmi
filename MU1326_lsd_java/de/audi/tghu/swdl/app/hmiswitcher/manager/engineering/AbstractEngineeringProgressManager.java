@@ -69,25 +69,22 @@ implements ButtonListener {
         return this.selectedProgressDetail != null && !"".equals(this.selectedProgressDetail);
     }
 
-    @Override
     public void updateGeneralProgress(GeneralProgress generalProgress) {
-        this.getLogHMI().log(1078071040, "SwdlDownloadManager.updateGeneralProgress: %1", (Object)generalProgress);
+        this.getLogHMI().log(1000000, "SwdlDownloadManager.updateGeneralProgress: %1", (Object)generalProgress);
         String string = this.getTextFactory().getUpdateGeneralProgressText(generalProgress);
         this.getSwdlModels().getProgressLabel().setText(string);
         if (!this.changedToProgress) {
-            this.getLogHMI().log(1078071040, "Changing to main progress screen generalProgress = %1", (Object)generalProgress);
+            this.getLogHMI().log(1000000, "Changing to main progress screen generalProgress = %1", (Object)generalProgress);
             this.showProgressScreen();
             this.showProgress(this.getSwdlEnv().getTerminalId());
             this.changedToProgress = true;
         }
     }
 
-    @Override
     public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray) {
         this.swdlProgressList.updateList(deviceOverviewProgressArray);
     }
 
-    @Override
     public String getSelectedDevice() {
         if (this.swdlInProgress) {
             return this.swdlProgressList.getSelectedDevice();
@@ -95,22 +92,20 @@ implements ButtonListener {
         return "";
     }
 
-    @Override
     public void selectForDetails(String string) {
         this.selectedProgressDetail = string;
     }
 
-    @Override
     public void triggerPanel(int n) {
-        this.getLogHMI().log(1078071040, "EngineeringProgressManager.triggerPanel(%1)", (long)n);
+        this.getLogHMI().log(1000000, "EngineeringProgressManager.triggerPanel(%1)", (long)n);
         if (this.getSwdlEnv().isSwdlHMIActive() || this.getSwdlEnv().isRebootToDownload()) {
             switch (n) {
                 case 0: {
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): No trigger panel to activate!");
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): No trigger panel to activate!");
                     break;
                 }
                 case 1: {
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): Trigger reboot panel");
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): Trigger reboot panel");
                     if (!this.isVersionUploadDone) {
                         this.getSwdlEnv().getHMISwitcher().getProgressManager().swdlProgressExit();
                         this.getSwdlModels().getRebootCountdown().setText("");
@@ -120,11 +115,11 @@ implements ButtonListener {
                         this.startRebootCountdown();
                         break;
                     }
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): ignore reboot trigger because version upload is done!");
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): ignore reboot trigger because version upload is done!");
                     break;
                 }
                 case 2: {
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): Trigger summary panel");
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): Trigger summary panel");
                     if (this.readingMetainfo) {
                         this.getProgressDSIHandler().stopReadMetadataProgressUpdate();
                         this.readingMetainfo = false;
@@ -135,7 +130,7 @@ implements ButtonListener {
                     break;
                 }
                 case 3: {
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): Trigger reading Meta Info panel");
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): Trigger reading Meta Info panel");
                     if (!this.changedToProgress) {
                         this.readingMetainfo = true;
                         this.getProgressDSIHandler().startReadMetadataProgressUpdate();
@@ -144,19 +139,19 @@ implements ButtonListener {
                         this.getPopupManager().indicateDismissPopUp(15, "");
                         break;
                     }
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): Already switched to main progress. Do not show reading metainfo screen!");
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): Already switched to main progress. Do not show reading metainfo screen!");
                     break;
                 }
                 default: {
-                    this.getLogHMI().log(-2137614336, "EngineeringProgressManager.triggerPanel(): ignore triggerPanel( %1 ) Event!", (long)n);
+                    this.getLogHMI().log(10000000, "EngineeringProgressManager.triggerPanel(): ignore triggerPanel( %1 ) Event!", (long)n);
                     break;
                 }
             }
         } else if (!this.getSwdlEnv().isRebootToDownload() && !this.getSwdlEnv().isFrontMU() && n == 3) {
-            this.getLogHMI().log(-1601830656, "SwdlProgress.updateTriggerPanel: %1, enter joined download!", (long)n);
+            this.getLogHMI().log(100000, "SwdlProgress.updateTriggerPanel: %1, enter joined download!", (long)n);
             this.swdlJoinedDownloadState.startJoinedDownload();
         } else {
-            this.getLogHMI().log(-1601830656, "SwdlProgress.updateTriggerPanel: %1, ignore this, no swdl active", (long)n);
+            this.getLogHMI().log(100000, "SwdlProgress.updateTriggerPanel: %1, ignore this, no swdl active", (long)n);
             switch (n) {
                 case 1: {
                     this.getSwdlModels().getRebootCountdown().setText("");
@@ -170,18 +165,16 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void updateLostDevices(String[] stringArray) {
-        this.getLogHMI().log(1078071040, "SwdlProgress.updateLostDevices: %1", (Object)stringArray);
+        this.getLogHMI().log(1000000, "SwdlProgress.updateLostDevices: %1", (Object)stringArray);
         String string = this.getTextFactory().getUpdateLostDevicesText(stringArray);
         this.getSwdlModels().getLostDevicesLabel().setText(string);
     }
 
-    @Override
     public void updateActiveDevices(String[] stringArray) {
-        this.getLogHMI().log(1078071040, "SwdlProgress.updateActiveDevices: %1", (Object)stringArray);
+        this.getLogHMI().log(1000000, "SwdlProgress.updateActiveDevices: %1", (Object)stringArray);
         if (this.isDetailSelected()) {
-            this.getLogHMI().log(1078071040, "SwdlProgress.updateActiveDevices: [detailDevice=%1]", (Object)this.selectedProgressDetail);
+            this.getLogHMI().log(1000000, "SwdlProgress.updateActiveDevices: [detailDevice=%1]", (Object)this.selectedProgressDetail);
             String string = this.selectedProgressDetail;
             int n = string.indexOf(47);
             if (n > 0) {
@@ -201,9 +194,8 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void updateStaticProgressDetails(int n, int n2, short s, String string) {
-        this.getLogHMI().log(1078071040, "SwdlProgress.updateStaticProgressDetails: %1 %2 %3 %4", (Object)string, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)new Short(s));
+        this.getLogHMI().log(1000000, "SwdlProgress.updateStaticProgressDetails: %1 %2 %3 %4", (Object)string, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)new Short(s));
         this.selectedProgressDetailTextWithProgress = this.getTextFactory().getUpdateStaticProgressDetailsWithProgressText(n, n2, s, string);
         this.selectedProgressDetailTextWithoutProgress = this.getTextFactory().getUpdateStaticProgressDetailsWithoutProgressText(n, n2, s, string);
         this.updateDynamicProgressDetails("", (byte)0);
@@ -215,9 +207,8 @@ implements ButtonListener {
         this.updateDynamicProgressDetails("", (byte)0);
     }
 
-    @Override
     public void updateDynamicProgressDetails(String string, byte by) {
-        this.getLogHMI().log(1078071040, "SwdlProgress.updateDynamicProgressDetails: %1 %2", (Object)string, (long)by);
+        this.getLogHMI().log(1000000, "SwdlProgress.updateDynamicProgressDetails: %1 %2", (Object)string, (long)by);
         if (by >= 0) {
             this.getSwdlModels().getProgressDetailLabel().setText(StringUtilities.formatMessage(this.selectedProgressDetailTextWithProgress, new String[]{string, Byte.toString(by)}));
         } else {
@@ -225,90 +216,76 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) {
         this.getPopupManager().indicatePopUp(n, string, by, n2, n3, string2);
     }
 
-    @Override
     public void indicateDismissPopUp(int n, String string) {
         this.getPopupManager().indicateDismissPopUp(n, string);
     }
 
-    @Override
     public boolean swdlProgressEntered() {
         if (!this.swdlInProgress) {
-            this.getSwdlEnv().getLogMain().log(1078071040, "swdlProgressEntered(): changedToProgress=%1", this.changedToProgress);
+            this.getSwdlEnv().getLogMain().log(1000000, "swdlProgressEntered(): changedToProgress=%1", this.changedToProgress);
             this.getProgressDSIHandler().startProgressUpdates();
             this.swdlInProgress = true;
         }
         return false;
     }
 
-    @Override
     public void swdlProgressExit() {
-        this.getSwdlEnv().getLogMain().log(1078071040, "swdlProgressExit()");
+        this.getSwdlEnv().getLogMain().log(1000000, "swdlProgressExit()");
         this.getProgressDSIHandler().stopProgressUpdates();
         this.swdlInProgress = false;
     }
 
-    @Override
     public void swdlProgressDetailEntered() {
         this.getProgressDSIHandler().notifyForUpdateDetails(this.selectedProgressDetail);
     }
 
-    @Override
     public void swdlProgressDetailExit() {
         this.selectedProgressDetail = "";
         this.getProgressDSIHandler().notifyForUpdateDetails("");
     }
 
-    @Override
     public void swdlStartWaitLostDevices() {
-        this.getLogHMI().log(1078071040, "swdlStartWaitLostDevices()");
+        this.getLogHMI().log(1000000, "swdlStartWaitLostDevices()");
         this.getProgressDSIHandler().startLostDeviceNotification();
         this.getProgressDSIHandler().startProgressUpdates();
         this.getSwdlModels().getLostDevicesLabel().setText(this.getTextFactory().getTextConstantProgress3());
     }
 
-    @Override
     public void swdlStopWaitLostDevices() {
-        this.getLogHMI().log(1078071040, "swdlStopWaitLostDevices()");
+        this.getLogHMI().log(1000000, "swdlStopWaitLostDevices()");
         this.getProgressDSIHandler().stopLostDeviceNotification();
     }
 
-    @Override
     public void swdlSummaryEntered() {
-        this.getLogHMI().log(1078071040, "swdlSummaryEntered()");
+        this.getLogHMI().log(1000000, "swdlSummaryEntered()");
         this.getDeviceInfoDSIHandler().startSummaryChangedNotification();
         this.getEngineeringDeviceInfoManager().doGetDevices(2, null, true);
         this.getSwdlEnv().setSwdlSummaryEntered(true);
     }
 
-    @Override
     public void swdlSummaryExit() {
-        this.getLogHMI().log(1078071040, "swdlSummaryExit()");
+        this.getLogHMI().log(1000000, "swdlSummaryExit()");
         this.getSwdlEnv().setSwdlSummaryEntered(false);
     }
 
-    @Override
     public void versionUploadDone(boolean bl) {
         this.isVersionUploadDone = bl;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.getLogHMI().log(14808325, "ignore keyPressed(%1) Event!", (long)n);
+        this.getLogHMI().log(100000000, "ignore keyPressed(%1) Event!", (long)n);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.getLogHMI().log(14808325, "ignore keyReleased(%1) Event!", (long)n);
+        this.getLogHMI().log(100000000, "ignore keyReleased(%1) Event!", (long)n);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogHMI().log(1078071040, "Key Typed: %1", (long)n);
+        this.getLogHMI().log(1000000, "Key Typed: %1", (long)n);
         switch (n) {
             case 1700162: {
                 this.getEngineeringDeviceInfoManager().doGetDevices(1, this.getTextFactory().getTextConstantRetryDownload(), true);
@@ -331,34 +308,26 @@ implements ButtonListener {
                 break;
             }
             default: {
-                this.getLogHMI().log(-2137614336, "ignore keyTyped(%1) Event!", (long)n);
+                this.getLogHMI().log(10000000, "ignore keyTyped(%1) Event!", (long)n);
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    protected abstract void showProgress(int n) {
-    }
+    protected abstract void showProgress(int var1);
 
-    protected abstract void showTriggerReboot(int n) {
-    }
+    protected abstract void showTriggerReboot(int var1);
 
-    protected abstract void showSummary(int n) {
-    }
+    protected abstract void showSummary(int var1);
 
-    protected abstract void showReadMetaInfo(int n) {
-    }
+    protected abstract void showReadMetaInfo(int var1);
 
-    protected abstract void fireSMEventHKReturn(int n) {
-    }
+    protected abstract void fireSMEventHKReturn(int var1);
 
-    protected abstract void showPopupSwdlReboot() {
-    }
+    protected abstract void showPopupSwdlReboot();
 
-    protected abstract void showProgressScreen() {
-    }
+    protected abstract void showProgressScreen();
 }
 

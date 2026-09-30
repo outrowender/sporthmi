@@ -16,15 +16,13 @@ extends NavCommand {
         this.description = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "PersistBlockCommand#execute() - calling setBlockDescription()");
+        this.logger.log(10000000, "PersistBlockCommand#execute() - calling setBlockDescription()");
         this.getDSIBlocking().setBlockDescription(this.uid, this.description);
     }
 
-    @Override
     public void setBlockDescriptionResult(long[] lArray, int n) {
-        this.logger.log(-2137614336, "BlockRouteBasedOnLengthCommand#setBlockDescriptionResult()");
+        this.logger.log(10000000, "BlockRouteBasedOnLengthCommand#setBlockDescriptionResult()");
         if (n == 0) {
             this.getCommandList().commandFinished();
         } else {

@@ -7,24 +7,18 @@ import de.audi.tghu.exlap.ExlapListener;
 import de.audi.tghu.exlap.ResultReceiver;
 
 public interface ExlapService {
-    public static final String SERVICE_NAME;
+    public static final String SERVICE_NAME = "service_name";
 
-    default public void addListener(int n, ExlapListener exlapListener) {
-    }
+    public void addListener(int var1, ExlapListener var2);
 
-    default public void addListener(int[] nArray, ExlapListener exlapListener) {
-    }
+    public void addListener(int[] var1, ExlapListener var2);
 
-    default public void removeListener(int n, ExlapListener exlapListener) {
-    }
+    public void removeListener(int var1, ExlapListener var2);
 
-    default public void removeListener(int[] nArray, ExlapListener exlapListener) {
-    }
+    public void removeListener(int[] var1, ExlapListener var2);
 
-    default public void setResultReceiver(ResultReceiver resultReceiver) {
-    }
+    public void setResultReceiver(ResultReceiver var1);
 
-    default public void init() {
-    }
+    public void init();
 }
 

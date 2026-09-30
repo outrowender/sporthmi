@@ -11,12 +11,11 @@ import de.audi.tghu.navi.app.command.RGSetRouteOptionsCommand;
 
 public class LoadPersistencyCommand
 extends NavCommand {
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LoadPersistencyCommand#execute()");
+        this.logger.log(10000000, "LoadPersistencyCommand#execute()");
         NavigationStartup navigationStartup = this.navigation.getNavigationStartup();
         CommandList commandList = null;
-        this.logger.log(-2137614336, "LoadPersistencyCommand#execute() - persistencyLoaded: %1", navigationStartup.isPersistencyLoaded());
+        this.logger.log(10000000, "LoadPersistencyCommand#execute() - persistencyLoaded: %1", navigationStartup.isPersistencyLoaded());
         if (!navigationStartup.isPersistencyLoaded()) {
             ((IPersistenceHandler)((Object)this.navigation.getRouteManager())).loadPersistence();
             this.navigation.getSpeechManager().loadState();

@@ -9,7 +9,6 @@ import de.audi.tghu.earlyapps.sm.EarlyAppsSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new EarlyAppsSMM[8];
         if (this.framework.isFrontMU()) {

@@ -19,9 +19,8 @@ extends AbstractOnlineDestinationCommand {
     public UpdateSdsServiceCommand() {
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "UpdateSdsServiceCommand#execute()");
+        this.logger.log(1000000, "UpdateSdsServiceCommand#execute()");
         IOnlineSDSMyAudiServiceListener iOnlineSDSMyAudiServiceListener = this.getSdsServiceListener();
         if (iOnlineSDSMyAudiServiceListener == null) {
             this.logger.log(10000, "UpdateSdsServiceCommand#execute() no DSI!");
@@ -30,7 +29,7 @@ extends AbstractOnlineDestinationCommand {
         if (this.contacts == null) {
             this.contacts = OnlineDestinationSdsHandler.convertPortalToSdsEntries(this.application.getModelHandler().getPortalEntryList());
         }
-        this.logger.log(1078071040, "UpdateSdsServiceCommand#execute() sending Contancs: %1", (long)this.contacts.length);
+        this.logger.log(1000000, "UpdateSdsServiceCommand#execute() sending Contancs: %1", (long)this.contacts.length);
         iOnlineSDSMyAudiServiceListener.updateMyAudiContacts(this.contacts);
         this.getCommandList().commandFinished();
     }

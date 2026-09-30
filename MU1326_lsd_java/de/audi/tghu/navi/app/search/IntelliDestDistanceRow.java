@@ -6,37 +6,26 @@ package de.audi.tghu.navi.app.search;
 import de.audi.atip.metrics.Distance;
 
 public interface IntelliDestDistanceRow {
-    default public boolean hasGeoCoordinates() {
-    }
+    public boolean hasGeoCoordinates();
 
-    default public void setHasGeoCoordinates(boolean bl) {
-    }
+    public void setHasGeoCoordinates(boolean var1);
 
-    default public boolean hasRRD() {
-    }
+    public boolean hasRRD();
 
-    default public void setHasRRD(boolean bl) {
-    }
+    public void setHasRRD(boolean var1);
 
-    default public int getLongitude() {
-    }
+    public int getLongitude();
 
-    default public int getLatitude() {
-    }
+    public int getLatitude();
 
-    default public void setLongitude(int n) {
-    }
+    public void setLongitude(int var1);
 
-    default public void setLatitude(int n) {
-    }
+    public void setLatitude(int var1);
 
-    default public void setArrowColumn(int n) {
-    }
+    public void setArrowColumn(int var1);
 
-    default public void setDistanceColumn(Distance distance) {
-    }
+    public void setDistanceColumn(Distance var1);
 
-    default public void setLayoutWithDirection() {
-    }
+    public void setLayoutWithDirection();
 }
 

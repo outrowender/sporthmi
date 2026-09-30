@@ -7,10 +7,8 @@ import java.util.Dictionary;
 import org.osgi.framework.ServiceRegistration;
 
 public interface IServiceDelegator {
-    default public ServiceRegistration createServiceRegistration(String string, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration createServiceRegistration(String var1, Object var2, Dictionary var3);
 
-    default public ServiceRegistration createServiceRegistration(String[] stringArray, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration createServiceRegistration(String[] var1, Object var2, Dictionary var3);
 }
 

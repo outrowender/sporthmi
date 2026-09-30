@@ -3,6 +3,7 @@
  */
 package de.audi.tuner.app.rthyperlinking;
 
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.interapp.IMessagingService;
 import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.def.NullNaviService;
@@ -15,8 +16,6 @@ import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.rthyperlinking.IPendingHyperlinkAction;
 import de.audi.tuner.app.rthyperlinking.NavPendingHyperlinkAction;
 import de.audi.tuner.app.rthyperlinking.PhonePendingHyperlinkAction;
-import de.audi.tuner.app.rthyperlinking.RadiotextHyperlinkProcessor$AbstractPendingHyperlinkAction;
-import de.audi.tuner.app.rthyperlinking.RadiotextHyperlinkProcessor$ButtonListener;
 import de.audi.tuner.app.rthyperlinking.SMSPendingHyperlinkAction;
 import de.audi.tuner.ifc.NullMessagingService;
 
@@ -36,11 +35,11 @@ public class RadiotextHyperlinkProcessor {
         this.phone = new NullITelServiceSDS(this.basics.getLogger().hmi);
         this.navi = new NullNaviService(this.basics.getLogger().hmi);
         this.messaging = new NullMessagingService(this.basics.getLogger().hmi);
-        RadiotextHyperlinkProcessor$ButtonListener radiotextHyperlinkProcessor$ButtonListener = new RadiotextHyperlinkProcessor$ButtonListener(this, null);
-        this.models.getButtonModel(-1115094784).setButtonListener(radiotextHyperlinkProcessor$ButtonListener);
-        this.models.getButtonModel(-1064763136).setButtonListener(radiotextHyperlinkProcessor$ButtonListener);
-        this.models.getButtonModel(-1131872000).setButtonListener(radiotextHyperlinkProcessor$ButtonListener);
-        this.models.getButtonModel(-1148649216).setButtonListener(radiotextHyperlinkProcessor$ButtonListener);
+        ButtonListener buttonListener = new ButtonListener();
+        this.models.getButtonModel(100797).setButtonListener(buttonListener);
+        this.models.getButtonModel(100800).setButtonListener(buttonListener);
+        this.models.getButtonModel(100796).setButtonListener(buttonListener);
+        this.models.getButtonModel(100795).setButtonListener(buttonListener);
     }
 
     public void register(ITelService iTelService) {
@@ -75,48 +74,76 @@ public class RadiotextHyperlinkProcessor {
     }
 
     private IPendingHyperlinkAction createPendingHyperlinkAction(int n, String string) {
-        RadiotextHyperlinkProcessor$AbstractPendingHyperlinkAction radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction;
+        AbstractPendingHyperlinkAction abstractPendingHyperlinkAction;
         switch (n) {
             case 41: 
             case 42: 
             case 43: {
-                radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction = new PhonePendingHyperlinkAction(this, this.basics, string, this.phone);
+                abstractPendingHyperlinkAction = new PhonePendingHyperlinkAction(this, this.basics, string, this.phone);
                 break;
             }
             case 59: {
-                radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction = new NavPendingHyperlinkAction(this, this.basics, string, this.navi);
+                abstractPendingHyperlinkAction = new NavPendingHyperlinkAction(this, this.basics, string, this.navi);
                 break;
             }
             case 44: 
             case 45: {
                 if (Utilities.isStd()) {
-                    radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction = null;
+                    abstractPendingHyperlinkAction = null;
                     break;
                 }
-                radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction = new SMSPendingHyperlinkAction(this, this.basics, string, this.messaging);
+                abstractPendingHyperlinkAction = new SMSPendingHyperlinkAction(this, this.basics, string, this.messaging);
                 break;
             }
             default: {
-                radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction = null;
+                abstractPendingHyperlinkAction = null;
             }
         }
-        return radiotextHyperlinkProcessor$AbstractPendingHyperlinkAction;
+        return abstractPendingHyperlinkAction;
     }
 
     private void setLastPreparedPendingAction(IPendingHyperlinkAction iPendingHyperlinkAction) {
         this.lastPreparedPendingAction = iPendingHyperlinkAction;
     }
 
-    static /* synthetic */ void access$100(RadiotextHyperlinkProcessor radiotextHyperlinkProcessor, IPendingHyperlinkAction iPendingHyperlinkAction) {
-        radiotextHyperlinkProcessor.setLastPreparedPendingAction(iPendingHyperlinkAction);
+    private class ButtonListener
+    extends DefaultButtonListener {
+        private ButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (RadiotextHyperlinkProcessor.this.lastPreparedPendingAction != null) {
+                RadiotextHyperlinkProcessor.this.lastPreparedPendingAction.execute();
+                RadiotextHyperlinkProcessor.this.models.getButtonModel(n).fireEvent(n3);
+            }
+        }
     }
 
-    static /* synthetic */ IPendingHyperlinkAction access$200(RadiotextHyperlinkProcessor radiotextHyperlinkProcessor) {
-        return radiotextHyperlinkProcessor.lastPreparedPendingAction;
-    }
+    public static abstract class AbstractPendingHyperlinkAction
+    implements IPendingHyperlinkAction {
+        public static final int ACTIONTYPE_NAV = 0;
+        public static final int ACTIONTYPE_PHONE = 1;
+        public static final int ACTIONTYPE_SMS = 2;
+        public static final int ACTIONTYPE_MAIL = 3;
+        private final RadiotextHyperlinkProcessor processor;
+        protected final TunerModels models;
+        protected final int actionType;
+        protected final String hyperlinkContent;
+        protected final TunerBasics basics;
 
-    static /* synthetic */ TunerModels access$300(RadiotextHyperlinkProcessor radiotextHyperlinkProcessor) {
-        return radiotextHyperlinkProcessor.models;
+        public AbstractPendingHyperlinkAction(RadiotextHyperlinkProcessor radiotextHyperlinkProcessor, TunerBasics tunerBasics, int n, String string) {
+            this.processor = radiotextHyperlinkProcessor;
+            this.models = tunerBasics.getModels();
+            this.actionType = n;
+            this.hyperlinkContent = string;
+            this.basics = tunerBasics;
+        }
+
+        public void prepare() {
+            this.processor.setLastPreparedPendingAction(this);
+            this.models.getLabelModel(100799).setText(this.hyperlinkContent);
+            this.models.getChoiceModel(100798).setValue(this.actionType);
+        }
     }
 }
 

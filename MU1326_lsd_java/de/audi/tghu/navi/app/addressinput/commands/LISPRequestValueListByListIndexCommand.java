@@ -18,16 +18,14 @@ extends NavCommand {
         this.nextPage = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute() - anchorIndex = %2, nextPage = %3", (Object)this.CLASS_NAME, (Object)String.valueOf(this.anchorIndex), (Object)String.valueOf(this.nextPage));
+        this.logger.log(10000000, "%1#execute() - anchorIndex = %2, nextPage = %3", (Object)this.CLASS_NAME, (Object)String.valueOf(this.anchorIndex), (Object)String.valueOf(this.nextPage));
         this.getDSINavigation().lispRequestValueListByListIndex(this.anchorIndex, this.nextPage);
         if (!this.dsiResponseContainer.isLiIsSpellerActive()) {
             this.logger.log(10000, "%1#execute() - speller is not active", (Object)this.CLASS_NAME);
         }
     }
 
-    @Override
     public void liValueList(LIValueList lIValueList, long l) {
         this.dsiResponseContainer.setLiValueList(lIValueList, l);
         this.liValueListResponded = true;
@@ -40,7 +38,6 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
         this.dsiResponseContainer.setLispUpdateSpellerResult(string, n, bl, bl2, string2, n2, n3, bl3, bl4, n4);
         if (l == 0L) {

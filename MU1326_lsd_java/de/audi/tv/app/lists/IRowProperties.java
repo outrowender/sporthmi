@@ -4,40 +4,28 @@
 package de.audi.tv.app.lists;
 
 public interface IRowProperties {
-    default public void setElementIsFavorite(boolean bl) {
-    }
+    public void setElementIsFavorite(boolean var1);
 
-    default public void setDatabroadcastIsAvailable(boolean bl) {
-    }
+    public void setDatabroadcastIsAvailable(boolean var1);
 
-    default public void setDatabroadcastIsLoading(boolean bl) {
-    }
+    public void setDatabroadcastIsLoading(boolean var1);
 
-    default public void setDatabroadcastIsCheckingOrUnavailable(boolean bl) {
-    }
+    public void setDatabroadcastIsCheckingOrUnavailable(boolean var1);
 
-    default public void setVisualAudioIsAvailable(boolean bl) {
-    }
+    public void setVisualAudioIsAvailable(boolean var1);
 
-    default public void setVisualAudioIsLoading(boolean bl) {
-    }
+    public void setVisualAudioIsLoading(boolean var1);
 
-    default public void setVisualAudioIsUnavailable(boolean bl) {
-    }
+    public void setVisualAudioIsUnavailable(boolean var1);
 
-    default public void setTeletextIsAvailable(boolean bl) {
-    }
+    public void setTeletextIsAvailable(boolean var1);
 
-    default public void setTeletextIsLoading(boolean bl) {
-    }
+    public void setTeletextIsLoading(boolean var1);
 
-    default public void setTeletextIsUnavailable(boolean bl) {
-    }
+    public void setTeletextIsUnavailable(boolean var1);
 
-    default public int[] toArray() {
-    }
+    public int[] toArray();
 
-    default public int getCategory() {
-    }
+    public int getCategory();
 }
 

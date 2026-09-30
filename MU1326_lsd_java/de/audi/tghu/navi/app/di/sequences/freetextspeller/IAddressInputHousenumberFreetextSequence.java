@@ -7,16 +7,12 @@ import de.audi.tghu.navi.app.di.sequences.freetextspeller.IAddressInputFreetextS
 
 public interface IAddressInputHousenumberFreetextSequence
 extends IAddressInputFreetextSpellerSequence {
-    default public void selectAlternativeHousenumber() {
-    }
+    public void selectAlternativeHousenumber();
 
-    default public void ignoreHousenumber() {
-    }
+    public void ignoreHousenumber();
 
-    default public void setHousenumber(String string, boolean bl) {
-    }
+    public void setHousenumber(String var1, boolean var2);
 
-    default public void updatePreviewHousenumber(String string) {
-    }
+    public void updatePreviewHousenumber(String var1);
 }
 

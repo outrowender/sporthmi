@@ -3,7 +3,10 @@
  */
 package de.audi.tv.app.lists;
 
+import de.audi.atip.hmi.model.DefaultOptionListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.tv.app.TVUtil;
@@ -17,11 +20,7 @@ import de.audi.tv.app.lists.IListContentSupplier;
 import de.audi.tv.app.lists.ITVListsListener;
 import de.audi.tv.app.lists.NormAreaSublist;
 import de.audi.tv.app.lists.StationMapper;
-import de.audi.tv.app.lists.TVFavoritesList$CallListener;
-import de.audi.tv.app.lists.TVFavoritesList$ListListener;
-import de.audi.tv.app.lists.TVFavoritesList$OptionListener;
-import de.audi.tv.app.lists.TVFavoritesList$TVListenerImpl;
-import de.audi.tv.app.lists.favorites.FavoritesActionListener$FavoriteMoveModeListener;
+import de.audi.tv.app.lists.favorites.FavoritesActionListener;
 import de.audi.tv.app.lists.favorites.IFavoritesList;
 import de.audi.tv.app.storage.FavoriteListSaver;
 import de.audi.tv.app.storage.TVStorage;
@@ -35,28 +34,28 @@ public class TVFavoritesList
 extends AbstractStationList
 implements IFavoritesList,
 IListContentSupplier {
-    private static final int LOAD_MODE;
-    private static final int MOVE_MODE;
+    private static final int LOAD_MODE = 0;
+    private static final int MOVE_MODE = 1;
     private int operationMode = 0;
     private AbstractTVStationRow moveRow;
     private int moveIndex;
-    public final DefaultTVListener tvListener = new TVFavoritesList$TVListenerImpl(this, null);
-    public final DSICallListener callListener = new TVFavoritesList$CallListener(this, null);
+    public final DefaultTVListener tvListener = new TVListenerImpl();
+    public final DSICallListener callListener = new CallListener();
     private final FavoriteListSaver listSaver;
     private final NormAreaSublist normAreaSublist;
     public List favoritesListeners = new ArrayList(4);
     private final StationMapper mapper;
-    private final FavoritesActionListener$FavoriteMoveModeListener moveModeListener;
+    private final FavoritesActionListener.FavoriteMoveModeListener moveModeListener;
     private ProgramInfo activeProgram = null;
     static /* synthetic */ Class class$de$audi$tv$app$lists$TVFavoritesList;
 
-    public TVFavoritesList(TVEnv tVEnv, TVStorage tVStorage, DSITV dSITV, StationMapper stationMapper, NormAreaSublist normAreaSublist, FavoritesActionListener$FavoriteMoveModeListener favoriteMoveModeListener) {
-        super(tVEnv, tVStorage, dSITV, 1839998720, (class$de$audi$tv$app$lists$TVFavoritesList == null ? (class$de$audi$tv$app$lists$TVFavoritesList = TVFavoritesList.class$("de.audi.tv.app.lists.TVFavoritesList")) : class$de$audi$tv$app$lists$TVFavoritesList).getName());
+    public TVFavoritesList(TVEnv tVEnv, TVStorage tVStorage, DSITV dSITV, StationMapper stationMapper, NormAreaSublist normAreaSublist, FavoritesActionListener.FavoriteMoveModeListener favoriteMoveModeListener) {
+        super(tVEnv, tVStorage, dSITV, 2600045, (class$de$audi$tv$app$lists$TVFavoritesList == null ? (class$de$audi$tv$app$lists$TVFavoritesList = TVFavoritesList.class$("de.audi.tv.app.lists.TVFavoritesList")) : class$de$audi$tv$app$lists$TVFavoritesList).getName());
         this.listSaver = new FavoriteListSaver(tVEnv.framework, this, tVStorage);
         this.mapper = stationMapper;
-        this.stationList.setListener(new TVFavoritesList$ListListener(this, null));
-        TVFavoritesList$OptionListener tVFavoritesList$OptionListener = new TVFavoritesList$OptionListener(this, null);
-        tVEnv.getOptionModel(-1683216640).setListener(tVFavoritesList$OptionListener, 1839998720);
+        this.stationList.setListener(new ListListener());
+        OptionListener optionListener = new OptionListener();
+        tVEnv.getOptionModel(2600091).setListener(optionListener, 2600045);
         this.normAreaSublist = normAreaSublist;
         this.moveModeListener = favoriteMoveModeListener;
     }
@@ -100,7 +99,6 @@ IListContentSupplier {
         this.clearList(true);
     }
 
-    @Override
     public ServiceInfo[] getServices() {
         BaseListModelApp baseListModelApp = this.stationList.getCopy();
         ServiceInfo[] serviceInfoArray = new ServiceInfo[baseListModelApp.getLength()];
@@ -110,12 +108,10 @@ IListContentSupplier {
         return serviceInfoArray;
     }
 
-    @Override
     public ServiceInfo[] getServicesFromMemory() {
         return this.storage.loadMemoryList();
     }
 
-    @Override
     public long[] getFavoritesIDs() {
         long[] lArray = new long[this.stationList.getLength()];
         for (int i2 = 0; i2 < this.stationList.getLength(); ++i2) {
@@ -132,10 +128,9 @@ IListContentSupplier {
         this.stationList.setSelectedUniqueID(l);
     }
 
-    @Override
     public void removeService(long l) {
         AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)this.stationList.getRowByUniqueID(l);
-        this.env.lcMain.log(-2137614336, "[TVFavoritesList.removeService] %1", (Object)abstractTVStationRow.service);
+        this.env.lcMain.log(10000000, "[TVFavoritesList.removeService] %1", (Object)abstractTVStationRow.service);
         this.stationList.remove(abstractTVStationRow);
         this.normAreaSublist.remove(abstractTVStationRow.service);
         this.updateSelection(this.stationList, this.activeProgram.serviceInfo, null);
@@ -143,7 +138,6 @@ IListContentSupplier {
         this.listSaver.save();
     }
 
-    @Override
     public void clearList(boolean bl) {
         this.stationList.removeAll();
         this.normAreaSublist.clear();
@@ -154,14 +148,13 @@ IListContentSupplier {
         this.listSaver.save();
     }
 
-    @Override
     public void setFavorites(ServiceInfo[] serviceInfoArray, long[] lArray, long l) {
         BaseListModelApp baseListModelApp = this.stationList.getEmptyCopy();
         for (int i2 = 0; i2 < serviceInfoArray.length; ++i2) {
             if (serviceInfoArray[i2] == null) continue;
             AbstractTVStationRow abstractTVStationRow = this.env.getRowFactory().createTVStationRow(lArray[i2], serviceInfoArray[i2], 0);
             abstractTVStationRow.makeFavorite(true);
-            this.env.lcMain.log(-2137614336, "[TVFavoritesList.addService] %1", (Object)abstractTVStationRow);
+            this.env.lcMain.log(10000000, "[TVFavoritesList.addService] %1", (Object)abstractTVStationRow);
             baseListModelApp.append(abstractTVStationRow);
         }
         baseListModelApp.setSelectedUniqueID(l);
@@ -170,13 +163,12 @@ IListContentSupplier {
         this.updateListSize();
     }
 
-    @Override
     public void addFavorite(ServiceInfo serviceInfo, long l, boolean bl) {
         if (serviceInfo != null && this.getFavoriteID(l) == 0L) {
             BaseListModelApp baseListModelApp = this.stationList.getCopy();
             AbstractTVStationRow abstractTVStationRow = this.env.getRowFactory().createTVStationRow(l, serviceInfo, 0);
             abstractTVStationRow.makeFavorite(true);
-            this.env.lcMain.log(-2137614336, "[TVFavoritesList.addService] %2, selected: %1", bl, (Object)abstractTVStationRow);
+            this.env.lcMain.log(10000000, "[TVFavoritesList.addService] %2, selected: %1", bl, (Object)abstractTVStationRow);
             baseListModelApp.append(abstractTVStationRow);
             if (bl) {
                 baseListModelApp.setSelectedUniqueID(l);
@@ -192,7 +184,6 @@ IListContentSupplier {
         }
     }
 
-    @Override
     public ServiceInfo getServiceByIndex(int n) {
         AbstractTVStationRow abstractTVStationRow = this.getRowByIndex(n);
         if (abstractTVStationRow == null) {
@@ -201,12 +192,10 @@ IListContentSupplier {
         return abstractTVStationRow.service;
     }
 
-    @Override
     public AbstractTVStationRow getRowByIndex(int n) {
         return (AbstractTVStationRow)this.stationList.getRow(n);
     }
 
-    @Override
     public boolean updateSelectedProgram(ProgramInfo programInfo) {
         boolean bl;
         this.activeProgram = TVUtil.getClonedProgramInfo(programInfo);
@@ -223,7 +212,6 @@ IListContentSupplier {
         return bl;
     }
 
-    @Override
     public boolean updateSelectedService(ServiceInfo serviceInfo) {
         boolean bl;
         long l = this.getFavoriteID(serviceInfo);
@@ -240,7 +228,6 @@ IListContentSupplier {
         return bl;
     }
 
-    @Override
     public long getFavoriteID(ServiceInfo serviceInfo) {
         long l = this.mapper.getServiceID(serviceInfo);
         return this.getFavoriteID(l);
@@ -258,7 +245,6 @@ IListContentSupplier {
         return 0L;
     }
 
-    @Override
     public ServiceInfo getServiceForUniqueID(long l) {
         AbstractTVStationRow abstractTVStationRow = (AbstractTVStationRow)this.stationList.getRowByUniqueID(l);
         if (abstractTVStationRow == null) {
@@ -267,22 +253,18 @@ IListContentSupplier {
         return abstractTVStationRow.service;
     }
 
-    @Override
     public int getIndexForUniqueID(long l) {
         return this.stationList.getIndexForUniqueID(this.getFavoriteID(l));
     }
 
-    @Override
     public BaseListModelApp getTmpList() {
         return this.stationList.getCopy();
     }
 
-    @Override
     public SelectedItem getSelected() {
         return this.stationList.getSelected();
     }
 
-    @Override
     public void updateStationLogos(LogoInfo[] logoInfoArray) {
     }
 
@@ -301,43 +283,72 @@ IListContentSupplier {
         }
     }
 
-    static /* synthetic */ void access$400(TVFavoritesList tVFavoritesList, BaseListModelApp baseListModelApp) {
-        tVFavoritesList.deactivateMoveMode(baseListModelApp);
+    private class CallListener
+    extends DSICallListener {
+        private CallListener() {
+        }
+
+        public void selectService(ServiceInfo serviceInfo, boolean bl) {
+            TVFavoritesList.this.deactivateMoveMode(TVFavoritesList.this.stationList);
+        }
     }
 
-    static /* synthetic */ int access$502(TVFavoritesList tVFavoritesList, int n) {
-        tVFavoritesList.operationMode = n;
-        return tVFavoritesList.operationMode;
+    private class ListListener
+    extends DefaultBaseListModelListener {
+        private ListListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (TVFavoritesList.this.operationMode == 0) {
+                TVFavoritesList.this.env.lcHMI.log(100000000, "[TVFavoritesList.itemSelected] [%2] %1", (Object)evoListRow, (long)n2);
+                TVFavoritesList.this.dsi.changeService(((AbstractTVStationRow)evoListRow).service, true);
+                TVFavoritesList.this.stationList.fireEvent(n4);
+            } else if (n2 != TVFavoritesList.this.moveIndex) {
+                TVFavoritesList.this.env.lcMain.log(10000000, "[TVFavoritesList.itemSelected] move favorite from index %1 to index %2 .", (long)TVFavoritesList.this.moveIndex, (long)n2);
+                BaseListModelApp baseListModelApp = TVFavoritesList.this.stationList.getCopy();
+                long l = evoListRow.getUniqueID();
+                if (n2 < TVFavoritesList.this.moveIndex) {
+                    baseListModelApp.remove(TVFavoritesList.this.moveRow);
+                    baseListModelApp.insertBefore(l, TVFavoritesList.this.moveRow);
+                } else if (n2 > TVFavoritesList.this.moveIndex) {
+                    baseListModelApp.remove(TVFavoritesList.this.moveRow);
+                    baseListModelApp.insertAfter(l, TVFavoritesList.this.moveRow);
+                }
+                TVFavoritesList.this.deactivateMoveMode(baseListModelApp);
+                TVFavoritesList.this.stationList.update(baseListModelApp);
+                TVFavoritesList.this.updateList();
+                TVFavoritesList.this.listSaver.save();
+            } else {
+                TVFavoritesList.this.deactivateMoveMode(TVFavoritesList.this.stationList);
+            }
+        }
     }
 
-    static /* synthetic */ AbstractTVStationRow access$602(TVFavoritesList tVFavoritesList, AbstractTVStationRow abstractTVStationRow) {
-        tVFavoritesList.moveRow = abstractTVStationRow;
-        return tVFavoritesList.moveRow;
+    private class OptionListener
+    extends DefaultOptionListener {
+        private OptionListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3, int n4, int n5) {
+            if (n == 2600091) {
+                TVFavoritesList.this.env.lcMain.log(10000000, "[TVFavoritesList.itemSelected] entering favorite move mode.");
+                TVFavoritesList.this.operationMode = 1;
+                TVFavoritesList.this.moveRow = (AbstractTVStationRow)TVFavoritesList.this.stationList.getRow(n3);
+                TVFavoritesList.this.moveIndex = TVFavoritesList.this.stationList.getIndexForUniqueID(TVFavoritesList.this.moveRow.getUniqueID());
+                TVFavoritesList.this.moveModeListener.enterMoveMode();
+                TVFavoritesList.this.stationList.trigger(ModelTrigger.ACTIVATE_MOVE_MODE);
+            }
+        }
     }
 
-    static /* synthetic */ int access$702(TVFavoritesList tVFavoritesList, int n) {
-        tVFavoritesList.moveIndex = n;
-        return tVFavoritesList.moveIndex;
-    }
+    private class TVListenerImpl
+    extends DefaultTVListener {
+        private TVListenerImpl() {
+        }
 
-    static /* synthetic */ AbstractTVStationRow access$600(TVFavoritesList tVFavoritesList) {
-        return tVFavoritesList.moveRow;
-    }
-
-    static /* synthetic */ FavoritesActionListener$FavoriteMoveModeListener access$800(TVFavoritesList tVFavoritesList) {
-        return tVFavoritesList.moveModeListener;
-    }
-
-    static /* synthetic */ int access$500(TVFavoritesList tVFavoritesList) {
-        return tVFavoritesList.operationMode;
-    }
-
-    static /* synthetic */ int access$700(TVFavoritesList tVFavoritesList) {
-        return tVFavoritesList.moveIndex;
-    }
-
-    static /* synthetic */ FavoriteListSaver access$900(TVFavoritesList tVFavoritesList) {
-        return tVFavoritesList.listSaver;
+        public void updateMuteState(int n) {
+            TVFavoritesList.this.setMuteStatus(n);
+        }
     }
 }
 

@@ -14,16 +14,15 @@ extends NavCommand {
         this.modelID = n;
     }
 
-    @Override
     public void execute() {
         ChoiceModelApp choiceModelApp = this.env.getChoiceModel(this.modelID);
         if (choiceModelApp != null) {
-            this.logger.log(-2137614336, "ToggleMediatorCommand#execute() - toggle mediator: %1", (long)this.modelID);
+            this.logger.log(10000000, "ToggleMediatorCommand#execute() - toggle mediator: %1", (long)this.modelID);
             int n = choiceModelApp.getValue();
             int n2 = n == 0 ? 1 : 0;
             choiceModelApp.setValue(n2);
         } else {
-            this.logger.log(-1601830656, "ToggleMediatorCommand#execute() - failed to resolve modelID: %1", (long)this.modelID);
+            this.logger.log(100000, "ToggleMediatorCommand#execute() - failed to resolve modelID: %1", (long)this.modelID);
         }
         this.getCommandList().commandFinished();
     }

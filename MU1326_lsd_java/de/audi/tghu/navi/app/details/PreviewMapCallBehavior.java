@@ -6,7 +6,6 @@ package de.audi.tghu.navi.app.details;
 import org.dsi.ifc.global.NavLocation;
 
 public interface PreviewMapCallBehavior {
-    default public void preview(NavLocation navLocation) {
-    }
+    public void preview(NavLocation var1);
 }
 

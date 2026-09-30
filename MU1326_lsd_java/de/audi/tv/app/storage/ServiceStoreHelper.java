@@ -5,12 +5,13 @@ package de.audi.tv.app.storage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.tvtuner.LogoInfo;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 final class ServiceStoreHelper {
-    static void serializeServices(ServiceInfo serviceInfo, DataOutputStream dataOutputStream) {
+    static void serializeServices(ServiceInfo serviceInfo, DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeLong(serviceInfo.namePID);
         dataOutputStream.writeInt(serviceInfo.servicePID);
         dataOutputStream.writeInt(serviceInfo.sType);
@@ -18,7 +19,7 @@ final class ServiceStoreHelper {
         dataOutputStream.writeUTF(serviceInfo.name);
     }
 
-    static ServiceInfo deserializeServices(DataInputStream dataInputStream) {
+    static ServiceInfo deserializeServices(DataInputStream dataInputStream) throws IOException {
         ServiceInfo serviceInfo = new ServiceInfo();
         serviceInfo.namePID = dataInputStream.readLong();
         serviceInfo.servicePID = dataInputStream.readInt();
@@ -28,7 +29,7 @@ final class ServiceStoreHelper {
         return serviceInfo;
     }
 
-    static void serializeLogo(LogoInfo logoInfo, DataOutputStream dataOutputStream) {
+    static void serializeLogo(LogoInfo logoInfo, DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeLong(logoInfo.namePID);
         if (logoInfo.channelLogo != null) {
             dataOutputStream.writeInt(logoInfo.channelLogo.id);
@@ -39,7 +40,7 @@ final class ServiceStoreHelper {
         }
     }
 
-    static LogoInfo deserializeLogo(DataInputStream dataInputStream) {
+    static LogoInfo deserializeLogo(DataInputStream dataInputStream) throws IOException {
         LogoInfo logoInfo = new LogoInfo();
         logoInfo.namePID = dataInputStream.readLong();
         ResourceLocator resourceLocator = new ResourceLocator();

@@ -7,25 +7,18 @@ import de.audi.tghu.navi.app.popup.IPopupHandler;
 
 public interface IFuelWarningModelAccess
 extends IPopupHandler {
-    default public void cleanup() {
-    }
+    public void cleanup();
 
-    default public void showPopUp(int n) {
-    }
+    public void showPopUp(int var1);
 
-    default public void hidePopUp() {
-    }
+    public void hidePopUp();
 
-    default public void setFuelWarningActive(boolean bl) {
-    }
+    public void setFuelWarningActive(boolean var1);
 
-    default public void onStartSequence(boolean bl) {
-    }
+    public void onStartSequence(boolean var1);
 
-    default public void setFuelWarningChoiceModel(boolean bl) {
-    }
+    public void setFuelWarningChoiceModel(boolean var1);
 
-    default public boolean isFuelWarningActive() {
-    }
+    public boolean isFuelWarningActive();
 }
 

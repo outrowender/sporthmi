@@ -5,24 +5,35 @@ package de.audi.tghu.navi.app.addressinput.poi.fuelwarning;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.addressinput.poi.fuelwarning.FuelWarningTimer$1;
 import de.audi.tghu.navi.app.addressinput.poi.fuelwarning.IPoiFuelWarningService;
 
 public class FuelWarningTimer {
-    private static final int FUEL_WARNING_TIMERDELAY;
+    private static final int FUEL_WARNING_TIMERDELAY = 5000;
     protected Timer timer;
     public NavigationEnv env;
     public LogChannel logChannel;
     public IPoiFuelWarningService fuelWarningService;
     static /* synthetic */ Class class$de$audi$tghu$navi$app$addressinput$poi$fuelwarning$FuelWarningTimer;
 
-    protected FuelWarningTimer(NavigationEnv navigationEnv, LogChannel logChannel, IPoiFuelWarningService iPoiFuelWarningService) {
+    protected FuelWarningTimer(NavigationEnv navigationEnv, final LogChannel logChannel, IPoiFuelWarningService iPoiFuelWarningService) {
         this.env = navigationEnv;
         this.logChannel = logChannel;
         this.fuelWarningService = iPoiFuelWarningService;
-        FuelWarningTimer$1 fuelWarningTimer$1 = new FuelWarningTimer$1(this, logChannel);
-        this.timer = new Timer("fuelWarningTimer", 5, logChannel, fuelWarningTimer$1, 0, false);
+        TimerListener timerListener = new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                if (logChannel != null) {
+                    logChannel.log(10000000, "%1#fireTimer() -> showPopup()", (Object)(class$de$audi$tghu$navi$app$addressinput$poi$fuelwarning$FuelWarningTimer == null ? (class$de$audi$tghu$navi$app$addressinput$poi$fuelwarning$FuelWarningTimer = FuelWarningTimer.class$("de.audi.tghu.navi.app.addressinput.poi.fuelwarning.FuelWarningTimer")) : class$de$audi$tghu$navi$app$addressinput$poi$fuelwarning$FuelWarningTimer).getName());
+                }
+                FuelWarningTimer.this.showPopup();
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        };
+        this.timer = new Timer("fuelWarningTimer", 5, logChannel, timerListener, 5000L, false);
     }
 
     public void start() {
@@ -47,10 +58,6 @@ public class FuelWarningTimer {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(FuelWarningTimer fuelWarningTimer) {
-        fuelWarningTimer.showPopup();
     }
 }
 

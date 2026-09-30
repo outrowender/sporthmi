@@ -26,307 +26,246 @@ implements IMyLocationAccessor {
         return this.accessor;
     }
 
-    @Override
     public int getAdditionalFlags() {
         return this.accessor.getAdditionalFlags();
     }
 
-    @Override
     public int getAdditionalPoiAttributeBoolean(int n) {
         return this.accessor.getAdditionalPoiAttributeBoolean(n);
     }
 
-    @Override
     public int getAdditionalPoiAttributeInt(int n) {
         return this.accessor.getAdditionalPoiAttributeInt(n);
     }
 
-    @Override
     public float getAdditionalPoiAttributeFloat(int n) {
         return this.accessor.getAdditionalPoiAttributeFloat(n);
     }
 
-    @Override
     public String getAdditionalPoiAttributeString(int n) {
         return this.accessor.getAdditionalPoiAttributeString(n);
     }
 
-    @Override
     public String getChome() {
         return this.accessor.getChome();
     }
 
-    @Override
     public int getConnectorCount() {
         return this.accessor.getConnectorCount();
     }
 
-    @Override
     public int getConnectorAttributeBoolean(int n, int n2) {
         return this.accessor.getConnectorAttributeBoolean(n, n2);
     }
 
-    @Override
     public float getConnectorAttributeFloat(int n, int n2) {
         return this.accessor.getConnectorAttributeFloat(n, n2);
     }
 
-    @Override
     public String getConnectorAttributeString(int n, int n2) {
         return this.accessor.getConnectorAttributeString(n, n2);
     }
 
-    @Override
     public int getConnectorAttributeInt(int n, int n2) {
         return this.accessor.getConnectorAttributeInt(n, n2);
     }
 
-    @Override
     public String getCountry() {
         return this.accessor.getCountry();
     }
 
-    @Override
     public int getCountryIconIndex() {
         return this.accessor.getCountryIconIndex();
     }
 
-    @Override
     public String getCountryAbbreviation() {
         return this.accessor.getCountryAbbreviation();
     }
 
-    @Override
     public String getCountryCode() {
         return this.accessor.getCountryCode();
     }
 
-    @Override
     public String getDistrict() {
         return this.accessor.getDistrict();
     }
 
-    @Override
     public String getHousenumber() {
         return this.accessor.getHousenumber();
     }
 
-    @Override
     public int getIconIndex() {
         return this.accessor.getIconIndex();
     }
 
-    @Override
     public String getJunction() {
         return this.accessor.getJunction();
     }
 
-    @Override
     public int getLatitude() {
         return this.accessor.getLatitude();
     }
 
-    @Override
     public int getLongitude() {
         return this.accessor.getLongitude();
     }
 
-    @Override
     public String getMapCode() {
         return this.accessor.getMapCode();
     }
 
-    @Override
     public String getMmiInternalData() {
         return this.accessor.getMmiInternalData();
     }
 
-    @Override
     public String getMotorWayExit() {
         return this.accessor.getMotorWayExit();
     }
 
-    @Override
     public PhonemeData getPhoneme(int n) {
         return this.accessor.getPhoneme(n);
     }
 
-    @Override
     public String getPhonenumber() {
         return this.accessor.getPhonenumber();
     }
 
-    @Override
     public String getPlaceName() {
         return this.accessor.getPlaceName();
     }
 
-    @Override
     public String getPoiCategory() {
         return this.accessor.getPoiCategory();
     }
 
-    @Override
     public int getPoiCategoryNumber() {
         return this.accessor.getPoiCategoryNumber();
     }
 
-    @Override
     public String getPoiClass() {
         return this.accessor.getPoiClass();
     }
 
-    @Override
     public String getPoiName() {
         return this.accessor.getPoiName();
     }
 
-    @Override
     public String getState() {
         return Util.isHURegionNAR() || Util.isHURegionAsia() ? this.accessor.getState() : null;
     }
 
-    @Override
     public String getStateAbbreviation() {
         return Util.isHURegionNAR() || Util.isHURegionAsia() ? this.accessor.getStateAbbreviation() : null;
     }
 
-    @Override
     public String getStreet() {
         return this.accessor.getStreet();
     }
 
-    @Override
     public String getStreetRefinement() {
         return this.accessor.getStreetRefinement();
     }
 
-    @Override
     public int getSubIconIndex() {
         return this.accessor.getSubIconIndex();
     }
 
-    @Override
     public String getSubmunicipalTown() {
         return this.accessor.getSubmunicipalTown();
     }
 
-    @Override
     public String getStreetIconText() {
         return this.accessor.getStreetIconText();
     }
 
-    @Override
     public int getStreetIconId() {
         return this.accessor.getStreetIconId();
     }
 
-    @Override
     public String getTown() {
         return this.accessor.getTown();
     }
 
-    @Override
     public String getTowncenter() {
         return this.accessor.getTowncenter();
     }
 
-    @Override
     public String getTownOriginalName() {
         return this.accessor.getTownOriginalName();
     }
 
-    @Override
     public String getTownRefinement() {
         return this.accessor.getTownRefinement();
     }
 
-    @Override
     public int getType() {
         return this.accessor.getType();
     }
 
-    @Override
     public String getURLAddress() {
         return this.accessor.getURLAddress();
     }
 
-    @Override
     public String getVillage() {
         return this.accessor.getVillage();
     }
 
-    @Override
     public String getWard() {
         return this.accessor.getWard();
     }
 
-    @Override
     public String getZipCode() {
         return this.accessor.getZipCode();
     }
 
-    @Override
     public boolean isLocationDisambiguationPossible() {
         return this.accessor.isLocationDisambiguationPossible();
     }
 
-    @Override
     public boolean isNavigable() {
         return this.accessor.isNavigable();
     }
 
-    @Override
     public boolean isParentOfPOIs() {
         return this.accessor.isParentOfPOIs();
     }
 
-    @Override
     public boolean isStateSpelled() {
         return Util.isHURegionNAR() ? this.accessor.isStateSpelled() : false;
     }
 
-    @Override
     public boolean isStreetBasename() {
         return Util.isHURegionNAR() ? this.accessor.isStreetBasename() : false;
     }
 
-    @Override
     public boolean isTownOrder9() {
         return this.accessor.isTownOrder9();
     }
 
-    @Override
     public boolean isTownRefinementNeededForRefinement() {
         return this.accessor.isTownRefinementNeededForRefinement();
     }
 
-    @Override
     public boolean isZipCodeNeededForRefinement() {
         return this.accessor.isZipCodeNeededForRefinement();
     }
 
-    @Override
     public boolean isZipCodeSpelled() {
         return this.accessor.isZipCodeSpelled();
     }
 
-    @Override
     public void removeAll() {
         this.accessor.removeAll();
     }
 
-    @Override
     public void setLocation(NavLocation navLocation) {
         this.accessor.setLocation(navLocation);
     }
 
-    @Override
-    public void setMmiInternalData(String string) {
+    public void setMmiInternalData(String string) throws IllegalArgumentException {
         this.accessor.setMmiInternalData(string);
     }
 
-    @Override
     public String getAdditionalLocationInformation(int n) {
         return this.accessor.getAdditionalLocationInformation(n);
     }
@@ -431,12 +370,10 @@ implements IMyLocationAccessor {
         return stringBuffer.toString();
     }
 
-    @Override
     public boolean isFullPostalCode() {
         return this.accessor.isFullPostalCode();
     }
 
-    @Override
     public boolean isLocationInCityState() {
         return this.accessor.isLocationInCityState();
     }

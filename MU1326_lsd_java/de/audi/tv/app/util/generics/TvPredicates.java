@@ -4,11 +4,31 @@
 package de.audi.tv.app.util.generics;
 
 import de.audi.atip.utils.collections.Predicate;
-import de.audi.tv.app.util.generics.TvPredicates$1;
-import de.audi.tv.app.util.generics.TvPredicates$2;
 
 public class TvPredicates {
-    public static final Predicate IS_FALSE = new TvPredicates$1();
-    public static final Predicate IS_TRUE = new TvPredicates$2();
+    public static final Predicate<Boolean> IS_FALSE = new Predicate<Boolean>(){
+
+        @Override
+        public boolean apply(Boolean bl) {
+            return bl == false;
+        }
+
+        @Override
+        public /* synthetic */ boolean apply(Object object) {
+            return this.apply((Boolean)object);
+        }
+    };
+    public static final Predicate<Boolean> IS_TRUE = new Predicate<Boolean>(){
+
+        @Override
+        public boolean apply(Boolean bl) {
+            return bl;
+        }
+
+        @Override
+        public /* synthetic */ boolean apply(Object object) {
+            return this.apply((Boolean)object);
+        }
+    };
 }
 

@@ -4,19 +4,14 @@
 package de.audi.tv.app.tm;
 
 public interface ITouchFlickGestureRecognitionListener {
-    default public void flickUp() {
-    }
+    public void flickUp();
 
-    default public void flickDown() {
-    }
+    public void flickDown();
 
-    default public void flickLeft() {
-    }
+    public void flickLeft();
 
-    default public void flickRight() {
-    }
+    public void flickRight();
 
-    default public void tap() {
-    }
+    public void tap();
 }
 

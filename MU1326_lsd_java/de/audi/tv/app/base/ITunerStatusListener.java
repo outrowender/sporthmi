@@ -4,22 +4,16 @@
 package de.audi.tv.app.base;
 
 public interface ITunerStatusListener {
-    default public void onTunerAvailable() {
-    }
+    public void onTunerAvailable();
 
-    default public void onTunerUnavailable() {
-    }
+    public void onTunerUnavailable();
 
-    default public void onEsmEntered() {
-    }
+    public void onEsmEntered();
 
-    default public void onEsmLeft() {
-    }
+    public void onEsmLeft();
 
-    default public void onDsiLockStateChanged(boolean bl) {
-    }
+    public void onDsiLockStateChanged(boolean var1);
 
-    default public void onHighTemperatureShutdown() {
-    }
+    public void onHighTemperatureShutdown();
 }
 

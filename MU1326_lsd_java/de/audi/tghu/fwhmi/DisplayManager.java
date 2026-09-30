@@ -31,9 +31,9 @@ implements ServiceTrackerCustomizer,
 BundleActivator,
 IDisplayManager,
 ATIPEventListener {
-    private static final int MAX_DISPLAYABLES;
-    private static final int WAIT_FOR_CONTEXT_SWITCH;
-    private static final int WAIT_FOR_LOCK_RESULT;
+    private static final int MAX_DISPLAYABLES = 110;
+    private static final int WAIT_FOR_CONTEXT_SWITCH = 200;
+    private static final int WAIT_FOR_LOCK_RESULT = 1000;
     private static int[] requestedContexts;
     private static int[] confirmedActiveContext;
     private static int[][] displayableOpacities;
@@ -119,10 +119,10 @@ ATIPEventListener {
     private void waitForDSIDisplayManagement() {
         Object object = this.syncDisplayManagement;
         synchronized (object) {
-            this.log.log(-2137614336, "waitForDSIDisplayManagement: wait up to 5");
+            this.log.log(10000000, "waitForDSIDisplayManagement: wait up to 5");
             if (!this.initialized) {
                 try {
-                    this.syncDisplayManagement.wait(0);
+                    this.syncDisplayManagement.wait(5000L);
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();
@@ -130,7 +130,7 @@ ATIPEventListener {
             }
         }
         if (this.initialized) {
-            this.log.log(-2137614336, "waitForDSIDisplayManagement: succeeded!");
+            this.log.log(10000000, "waitForDSIDisplayManagement: succeeded!");
         } else {
             this.log.log(10000, "waitForDSIDisplayManagement: failed!");
             this.framework.getErrorMgr().handleError(null, "waitForDSIDisplayManagement: failed!", 0, 3, 1);
@@ -158,7 +158,6 @@ ATIPEventListener {
         return null;
     }
 
-    @Override
     public int[] getDisplayables(int n) {
         DisplayContext displayContext = this.getContext(n);
         if (displayContext != null) {
@@ -168,7 +167,6 @@ ATIPEventListener {
         return null;
     }
 
-    @Override
     public synchronized void switchContext(int n, int n2, IDisplayListener iDisplayListener) {
         int n3 = n;
         this.displayListeners[n2] = iDisplayListener;
@@ -183,15 +181,15 @@ ATIPEventListener {
                     int n5 = this.getMappedInternalContext(n3);
                     this.lastRequestAnswered[n2] = false;
                     this.sessionIDs[n2] = ++sessionID;
-                    this.log.log(1078071040, "DisplayManager#switchContext switch to external context %1 on external terminal %2 ", (long)n3, (long)n2);
-                    this.log.log(-2137614336, "Displaymanager#switchContext using internal terminal %1, internal context %2 for switch, sessionID %3", (long)n4, (long)n5, (long)this.sessionIDs[n2]);
+                    this.log.log(1000000, "DisplayManager#switchContext switch to external context %1 on external terminal %2 ", (long)n3, (long)n2);
+                    this.log.log(10000000, "Displaymanager#switchContext using internal terminal %1, internal context %2 for switch, sessionID %3", (long)n4, (long)n5, (long)this.sessionIDs[n2]);
                     this.dsiDispMgmt.switchContext(n5, n4, this.sessionIDs[n2]);
                     this.bufferedContext = -1;
                     this.bufferedTerm = -1;
                     DisplayManager.requestedContexts[n2] = n3;
                     try {
                         this.waitForContextSwitch[n2] = true;
-                        super.wait(0);
+                        this.wait(200L);
                         this.waitForContextSwitch[n2] = false;
                     }
                     catch (InterruptedException interruptedException) {
@@ -199,22 +197,22 @@ ATIPEventListener {
                         this.waitForContextSwitch[n2] = false;
                     }
                     if (this.lastRequestAnswered[n2]) {
-                        this.log.log(-2137614336, "call for switch to context %1 on terminal %2 succeeded in time inform listener directly", (long)n3, (long)n2);
+                        this.log.log(10000000, "call for switch to context %1 on terminal %2 succeeded in time inform listener directly", (long)n3, (long)n2);
                         if (this.displayListeners[n2] != null) {
                             int n6 = confirmedActiveContext[n2] % 79;
                             this.displayListeners[n2].activeContext(n6, n2);
                         }
                     } else {
                         this.log.log(10000, "DisplayManager#switchContext last active confirmed context after call for switch to context %1 on terminal %2 is %3 ", (long)n3, (long)n2, (long)confirmedActiveContext[n2]);
-                        this.log.log(1078071040, "DisplayManager#switchContext trying AGAIN to switch to context %1 on terminal %2 !!!", (long)n3, (long)n2);
-                        this.log.log(-2137614336, "DisplayManager#switchContext using internal terminal %1, internal context %2 for switch", (long)n4, (long)n5);
+                        this.log.log(1000000, "DisplayManager#switchContext trying AGAIN to switch to context %1 on terminal %2 !!!", (long)n3, (long)n2);
+                        this.log.log(10000000, "DisplayManager#switchContext using internal terminal %1, internal context %2 for switch", (long)n4, (long)n5);
                         this.dsiDispMgmt.switchContext(n5, n4, this.sessionIDs[n2]);
                     }
                 } else {
                     DisplayManager.requestedContexts[n2] = n3;
                 }
             } else {
-                this.log.log(1078071040, "DisplayManager#switchContext terminal with ID: %1 is not a valid terminalID", (long)n2);
+                this.log.log(1000000, "DisplayManager#switchContext terminal with ID: %1 is not a valid terminalID", (long)n2);
             }
         } else if (this.framework.isSimulator()) {
             DisplayManager.requestedContexts[n2] = n3;
@@ -232,11 +230,11 @@ ATIPEventListener {
         if (!this.isVideoOnlyContext(n3)) {
             if (n2 == 4) {
                 if (n3 < 35) {
-                    this.log.log(-2137614336, "DisplayManager#switchContext changing requested context: %1  for terminal 2 to: %2", (long)n3, (long)(35 + n3));
+                    this.log.log(10000000, "DisplayManager#switchContext changing requested context: %1  for terminal 2 to: %2", (long)n3, (long)(35 + n3));
                     n3 = 35 + n3;
                 }
             } else if (n2 == 0 && n3 >= 35) {
-                this.log.log(-2137614336, "DisplayManager#switchContext changing requested context: %1  for terminal 1 to: %2", (long)n3, (long)(35 - n3));
+                this.log.log(10000000, "DisplayManager#switchContext changing requested context: %1  for terminal 1 to: %2", (long)n3, (long)(35 - n3));
                 n3 = 35 - n3;
             }
         }
@@ -290,12 +288,11 @@ ATIPEventListener {
         return 4;
     }
 
-    @Override
     public void lockDisplay(int n) {
         if (this.framework.isSimulator()) {
             return;
         }
-        this.log.log(1078071040, "DisplayManager: Displaymanager: lockDisplay %1", (long)n);
+        this.log.log(1000000, "DisplayManager: Displaymanager: lockDisplay %1", (long)n);
         if (this.dsiDispMgmt != null && this.initialized) {
             this.dsiDispMgmt.lockDisplay(n);
             this.lastCallWasLock = true;
@@ -304,19 +301,18 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public synchronized void lockDisplayAndWait(int n) {
         if (this.framework.isSimulator()) {
             return;
         }
-        this.log.log(1078071040, "DisplayManager: Displaymanager: lockDisplayAndWait %1", (long)n);
+        this.log.log(1000000, "DisplayManager: Displaymanager: lockDisplayAndWait %1", (long)n);
         if (this.dsiDispMgmt != null && this.initialized) {
             this.dsiDispMgmt.lockDisplay(n);
             this.lastCallWasLock = true;
             try {
                 this.waitForLock = true;
-                super.wait(0);
-                this.log.log(-2137614336, "DisplayManager#lockDisplay now continue");
+                this.wait(1000L);
+                this.log.log(10000000, "DisplayManager#lockDisplay now continue");
                 this.waitForLock = false;
             }
             catch (InterruptedException interruptedException) {
@@ -328,14 +324,13 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void unlockDisplay(int n) {
         if (this.framework.isSimulator()) {
             return;
         }
-        this.log.log(1078071040, "DisplayManager: Displaymanager: unlockDisplay %1", (long)n);
+        this.log.log(1000000, "DisplayManager: Displaymanager: unlockDisplay %1", (long)n);
         if (!this.lastCallWasLock) {
-            this.log.log(1078071040, "DisplayManager: unlockDisplay not calling unlock because lock was not called before");
+            this.log.log(1000000, "DisplayManager: unlockDisplay not calling unlock because lock was not called before");
             return;
         }
         if (this.dsiDispMgmt != null && this.initialized) {
@@ -346,14 +341,13 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public synchronized void unlockDisplayAndWait(int n) {
         if (this.framework.isSimulator()) {
             return;
         }
-        this.log.log(1078071040, "DisplayManager: Displaymanager: unlockDisplayAndWait %1", (long)n);
+        this.log.log(1000000, "DisplayManager: Displaymanager: unlockDisplayAndWait %1", (long)n);
         if (!this.lastCallWasLock) {
-            this.log.log(1078071040, "DisplayManager: unlockDisplayAndWait not calling unlock because lock was not called before");
+            this.log.log(1000000, "DisplayManager: unlockDisplayAndWait not calling unlock because lock was not called before");
             return;
         }
         if (this.dsiDispMgmt != null && this.initialized) {
@@ -361,8 +355,8 @@ ATIPEventListener {
             this.lastCallWasLock = false;
             try {
                 this.waitForUnLock = true;
-                super.wait(0);
-                this.log.log(-2137614336, "DisplayManager#unlockDisplay now continue");
+                this.wait(1000L);
+                this.log.log(10000000, "DisplayManager#unlockDisplay now continue");
                 this.waitForUnLock = false;
             }
             catch (InterruptedException interruptedException) {
@@ -374,7 +368,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public synchronized int getCurrentContextID(int n) {
         if (n >= 0 && n < 8) {
             if (this.lastRequestAnswered[n]) {
@@ -382,11 +375,10 @@ ATIPEventListener {
             }
             return requestedContexts[n];
         }
-        this.log.log(1078071040, "DisplayManager:getCurrentContextID terminal with ID: %1 is not a valid terminalID", (long)n);
+        this.log.log(1000000, "DisplayManager:getCurrentContextID terminal with ID: %1 is not a valid terminalID", (long)n);
         return -1;
     }
 
-    @Override
     public void setOpacity(int n, int n2, int n3) {
         if (this.framework.isSimulator()) {
             return;
@@ -394,36 +386,34 @@ ATIPEventListener {
         if (n2 == 5) {
             return;
         }
-        this.log.log(-2137614336, "DisplayManager#setOpacity displayable: %1, opacity: %2", (long)n, (long)n3);
+        this.log.log(10000000, "DisplayManager#setOpacity displayable: %1, opacity: %2", (long)n, (long)n3);
         int n4 = this.getInternalDisplayID(n2);
-        this.log.log(-2137614336, "DisplayManager#setOpacity using internal terminal %1 for setOpacity", (long)n4);
+        this.log.log(10000000, "DisplayManager#setOpacity using internal terminal %1 for setOpacity", (long)n4);
         if (displayableOpacities[n2][n] != n3) {
             this.dsiDispMgmt.setOpacity(n, n4, n3);
             DisplayManager.displayableOpacities[n2][n] = n3;
         } else {
-            this.log.log(-2137614336, "DisplayManager#setOpacity displayable %1 on terminal %2 already has opacity %3", (long)n, (long)n4, (long)n3);
+            this.log.log(10000000, "DisplayManager#setOpacity displayable %1 on terminal %2 already has opacity %3", (long)n, (long)n4, (long)n3);
         }
     }
 
-    @Override
     public void fadeToOpacity(int n, int n2, int n3, int n4) {
         if (this.dsiDispMgmt != null && this.initialized) {
-            this.log.log(-2137614336, "DisplayManager#fadeToOpacity displayable: %1, opacity: %2, time: %3", (long)n, (long)n3, (long)n4);
+            this.log.log(10000000, "DisplayManager#fadeToOpacity displayable: %1, opacity: %2, time: %3", (long)n, (long)n3, (long)n4);
             this.dsiDispMgmt.fadeToOpacity(n, n2, n3, n4);
         } else {
             this.log.log(10000, "Displaymanager not initialized");
         }
     }
 
-    @Override
     public void takeScreenshot(int n, String string) {
         if (n == 5) {
             return;
         }
-        this.log.log(1078071040, "DisplayManager: Displaymanager: take s screenshot!");
+        this.log.log(1000000, "DisplayManager: Displaymanager: take s screenshot!");
         if (this.dsiDispMgmt != null && this.initialized) {
             int n2 = this.getInternalDisplayID(n);
-            this.log.log(-2137614336, "DisplayManager#takeScreenshot using internal terminal %1 for takeScreenShot", (long)n2);
+            this.log.log(10000000, "DisplayManager#takeScreenshot using internal terminal %1 for takeScreenShot", (long)n2);
             System.err.println(new StringBuffer().append("DisplayManager#takeScreenshot() filename: ").append(string).toString());
             this.dsiDispMgmt.takeScreenshot(n2, string);
         } else {
@@ -432,26 +422,24 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void setDisplayBrightness(int n, int n2) {
         if (this.dsiDispMgmt != null && this.initialized) {
-            this.log.log(-2137614336, "DisplayManager.setDisplayBrightness displayID = %1, percentage = %2", (long)n, (long)n2);
+            this.log.log(10000000, "DisplayManager.setDisplayBrightness displayID = %1, percentage = %2", (long)n, (long)n2);
             int n3 = this.getInternalDisplayID(n);
-            this.log.log(-2137614336, "DisplayManager#setDisplayBrightness using internal terminal %1 for setDisplayBrightness", (long)n3);
+            this.log.log(10000000, "DisplayManager#setDisplayBrightness using internal terminal %1 for setDisplayBrightness", (long)n3);
             this.dsiDispMgmt.setDisplayBrightness(n3, n2);
         } else {
             this.log.log(10000, "Displaymanager not initialized");
         }
     }
 
-    @Override
     public synchronized Object addingService(ServiceReference serviceReference) {
         this.srDisplayManagement = serviceReference;
         this.dsiDispMgmt = (DSIDisplayManagement)this.bc.getService(serviceReference);
         this.initDSI();
         if (this.bufferedContext != -1 && this.bufferedTerm != -1) {
             this.switchContext(this.bufferedContext, this.bufferedTerm, this.displayListeners[this.bufferedTerm]);
-            this.log.log(-2137614336, "switched to buffered context: %1 on terminal: %2", (long)this.bufferedContext, (long)this.bufferedTerm);
+            this.log.log(10000000, "switched to buffered context: %1 on terminal: %2", (long)this.bufferedContext, (long)this.bufferedTerm);
             this.bufferedContext = -1;
             this.bufferedTerm = -1;
         }
@@ -459,11 +447,9 @@ ATIPEventListener {
         return this.dsiDispMgmt;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.bc.ungetService(serviceReference);
         this.srDisplayManagement = null;
@@ -471,9 +457,8 @@ ATIPEventListener {
         this.initialized = false;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
-        this.log.log(-2137614336, "start");
+        this.log.log(10000000, "start");
         this.bc = bundleContext;
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener == null ? (class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener = DisplayManager.class$("org.dsi.ifc.displaymanagement.DSIDisplayManagementListener")) : class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener).getName());
@@ -487,7 +472,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.initialized = false;
         if (this.displayManagerTracker != null) {
@@ -505,7 +489,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void setPosition(int n, int n2, int n3, int n4) {
         if (this.framework.isSimulator()) {
             return;
@@ -514,27 +497,25 @@ ATIPEventListener {
             return;
         }
         if (this.dsiDispMgmt != null && this.initialized) {
-            this.log.log(-2137614336, "DisplayManager#setPosition displayable: %1, xPos: %2 , yPos: %3", (long)n, (long)n3, (long)n4);
+            this.log.log(10000000, "DisplayManager#setPosition displayable: %1, xPos: %2 , yPos: %3", (long)n, (long)n3, (long)n4);
             int n5 = this.getInternalDisplayID(n2);
-            this.log.log(-2137614336, "DisplayManager#setPosition using internal terminal %1 for setPosition", (long)n5);
+            this.log.log(10000000, "DisplayManager#setPosition using internal terminal %1 for setPosition", (long)n5);
             if (displayablePositions[n2][n][0] != n3 || displayablePositions[n2][n][1] != n4) {
                 this.dsiDispMgmt.setPosition(n, n5, n3, n4);
                 DisplayManager.displayablePositions[n2][n][0] = n3;
                 DisplayManager.displayablePositions[n2][n][1] = n4;
             } else {
-                this.log.log(-2137614336, "DisplayManager#setPosition displayable %1 on terminal %2 already has desired position", (long)n, (long)n5);
+                this.log.log(10000000, "DisplayManager#setPosition displayable %1 on terminal %2 already has desired position", (long)n, (long)n5);
             }
         } else {
             this.log.log(10000, "Displaymanager not initialized");
         }
     }
 
-    @Override
     public int[] getPosition(int n, int n2) {
         return displayablePositions[n2][n];
     }
 
-    @Override
     public int getOpacity(int n, int n2) {
         return displayableOpacities[n2][n];
     }
@@ -542,83 +523,76 @@ ATIPEventListener {
     protected synchronized void setActiveContext(int n, int n2, int n3) {
         int n4 = this.getExternalDisplayID(n2);
         int n5 = this.getMappedExternalContext(n);
-        this.log.log(-2137614336, "DisplayManager#setActiveContext confirmed external active context: %1 for external terminal %2", (long)n, (long)n4);
+        this.log.log(10000000, "DisplayManager#setActiveContext confirmed external active context: %1 for external terminal %2", (long)n, (long)n4);
         if (this.sessionIDs[n4] != n3 && n3 > 0) {
-            this.log.log(-1601830656, "DisplayManager#setActiveContext activeContext for terminal: %1 is confirmed for sessionID: %2, but newest session is: %3", (long)n4, (long)n3, (long)this.sessionIDs[n4]);
+            this.log.log(100000, "DisplayManager#setActiveContext activeContext for terminal: %1 is confirmed for sessionID: %2, but newest session is: %3", (long)n4, (long)n3, (long)this.sessionIDs[n4]);
         } else {
             DisplayManager.confirmedActiveContext[n4] = n5;
             this.lastRequestAnswered[n4] = true;
             if (!this.waitForContextSwitch[n4] && this.displayListeners[n4] != null) {
                 ActiveContextEvent activeContextEvent = new ActiveContextEvent(this, n4, n5, n3, this.displayListeners[n4]);
-                this.log.log(-2137614336, "DisplayManager#processEvent confirmation for context: %1 for external terminal %2 comes late, now post event", (long)n5, (long)n4);
+                this.log.log(10000000, "DisplayManager#processEvent confirmation for context: %1 for external terminal %2 comes late, now post event", (long)n5, (long)n4);
                 this.framework.getHMIService().getEventDispatcher().postEvent(activeContextEvent);
             }
         }
-        super.notifyAll();
+        this.notifyAll();
     }
 
     protected synchronized void lockDisplayResult(int n) {
-        this.log.log(-2137614336, "DisplayManager#lockDisplayResult received resultCode: %1", (long)n);
+        this.log.log(10000000, "DisplayManager#lockDisplayResult received resultCode: %1", (long)n);
         if (!this.waitForLock) {
-            this.log.log(-2137614336, "DisplayManager#lockDisplayResult received but not waiting for result any more");
+            this.log.log(10000000, "DisplayManager#lockDisplayResult received but not waiting for result any more");
         } else {
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
     protected synchronized void unlockDisplayResult(int n) {
-        this.log.log(-2137614336, "DisplayManager#unlockDisplayResult received resultCode: %1", (long)n);
+        this.log.log(10000000, "DisplayManager#unlockDisplayResult received resultCode: %1", (long)n);
         if (!this.waitForUnLock) {
-            this.log.log(-2137614336, "DisplayManager#unlockDisplayResult received but not waiting for result any more");
+            this.log.log(10000000, "DisplayManager#unlockDisplayResult received but not waiting for result any more");
         } else {
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
-    @Override
     public synchronized void processEvent(ATIPEvent aTIPEvent) {
         int n = ((ActiveContextEvent)aTIPEvent).getSessionID();
         int n2 = ((ActiveContextEvent)aTIPEvent).getTerminal();
-        this.log.log(-2137614336, "DisplayManager#processEvent process delayed confirmed context: %1 for external terminal %2", (Object)confirmedActiveContext, (long)n2);
+        this.log.log(10000000, "DisplayManager#processEvent process delayed confirmed context: %1 for external terminal %2", (Object)confirmedActiveContext, (long)n2);
         if (n == this.sessionIDs[n2]) {
             IDisplayListener iDisplayListener = ((ActiveContextEvent)aTIPEvent).getDisplayListener();
             int n3 = ((ActiveContextEvent)aTIPEvent).getActiveContext() % 79;
             iDisplayListener.activeContext(n3, n2);
         } else {
-            this.log.log(-2137614336, "DisplayManager#processEvent delayed confirmed context: %1 for external terminal %2 has old sessionID,  is not processed further", (Object)confirmedActiveContext, (long)n2);
+            this.log.log(10000000, "DisplayManager#processEvent delayed confirmed context: %1 for external terminal %2 has old sessionID,  is not processed further", (Object)confirmedActiveContext, (long)n2);
         }
     }
 
-    protected abstract int getMappedInternalContext(int n) {
-    }
+    protected abstract int getMappedInternalContext(int var1);
 
-    protected abstract int getMappedExternalContext(int n) {
-    }
+    protected abstract int getMappedExternalContext(int var1);
 
-    protected abstract void defineContexts() {
-    }
+    protected abstract void defineContexts();
 
-    protected abstract void configureDM() {
-    }
+    protected abstract void configureDM();
 
-    @Override
     public void setDisplayType(int n, int n2) {
         if (this.dsiDispMgmt != null && this.initialized) {
-            this.log.log(-2137614336, "DisplayManager.setDisplayType displayID = %1, type = %2", (long)n, (long)n2);
+            this.log.log(10000000, "DisplayManager.setDisplayType displayID = %1, type = %2", (long)n, (long)n2);
             int n3 = this.getInternalDisplayID(n);
-            this.log.log(-2137614336, "DisplayManager#setUpdateRate using internal terminal %1 for setDisplayBrightness", (long)n3);
+            this.log.log(10000000, "DisplayManager#setUpdateRate using internal terminal %1 for setDisplayBrightness", (long)n3);
             this.dsiDispMgmt.setDisplayType(n3, n2);
         } else {
             this.log.log(10000, "Displaymanager not initialized");
         }
     }
 
-    @Override
     public void setUpdateRate(int n, int n2) {
         if (this.dsiDispMgmt != null && this.initialized) {
-            this.log.log(-2137614336, "DisplayManager.setUpdateRate displayID = %1, updateRate = %2", (long)n, (long)n2);
+            this.log.log(10000000, "DisplayManager.setUpdateRate displayID = %1, updateRate = %2", (long)n, (long)n2);
             int n3 = this.getInternalDisplayID(n);
-            this.log.log(-2137614336, "DisplayManager#setUpdateRate using internal terminal %1 for setUpdateRate", (long)n3);
+            this.log.log(10000000, "DisplayManager#setUpdateRate using internal terminal %1 for setUpdateRate", (long)n3);
             this.dsiDispMgmt.setUpdateRate(n3, n2);
         } else {
             this.log.log(10000, "Displaymanager not initialized");
@@ -631,11 +605,11 @@ ATIPEventListener {
 
     private void setupImageDisplayable(ResourceLocator resourceLocator, int n, boolean bl) {
         if (this.framework.getKombiType() == 4) {
-            this.log.log(-2137614336, "DisplayManager.createImageDisplayable not supported for TT, not calling not existent method on DSI");
+            this.log.log(10000000, "DisplayManager.createImageDisplayable not supported for TT, not calling not existent method on DSI");
             return;
         }
         if (this.dsiDispMgmt != null) {
-            this.log.log(-2137614336, "DisplayManager.createImageDisplayable displayable = %2, path = %1", (Object)resourceLocator.getUrl(), (long)n);
+            this.log.log(10000000, "DisplayManager.createImageDisplayable displayable = %2, path = %1", (Object)resourceLocator.getUrl(), (long)n);
             if (bl) {
                 this.dsiDispMgmt.requestUpdateImageDisplayable(resourceLocator, n);
             } else {
@@ -650,9 +624,8 @@ ATIPEventListener {
         this.setupImageDisplayable(resourceLocator, n, true);
     }
 
-    @Override
     public int[] getExtends(int n) {
-        this.log.log(-2137614336, "DisplayManager.getExtends displayable = %1", (long)n);
+        this.log.log(10000000, "DisplayManager.getExtends displayable = %1", (long)n);
         Object object = this.displayableExtents.get(new Integer(n));
         if (object != null) {
             return (int[])object;
@@ -661,15 +634,14 @@ ATIPEventListener {
         return null;
     }
 
-    @Override
     public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
         if (this.framework.isSimulator()) {
             return;
         }
         if (this.dsiDispMgmt != null && this.initialized) {
-            this.log.log(-2137614336, "DisplayManager#setCropping displayable: %1, srcX: %2, srcY: %3", (long)n, (long)n3, (long)n4);
+            this.log.log(10000000, "DisplayManager#setCropping displayable: %1, srcX: %2, srcY: %3", (long)n, (long)n3, (long)n4);
             int n11 = this.getInternalDisplayID(n2);
-            this.log.log(-2137614336, "DisplayManager#setCropping using internal terminal %1 for setCropping", (long)n11);
+            this.log.log(10000000, "DisplayManager#setCropping using internal terminal %1 for setCropping", (long)n11);
             this.dsiDispMgmt.setCropping(n11, n, n3, n4, n5, n6, n7, n8, n9, n10);
             DisplayManager.displayablePositions[n11][n][0] = n7;
             DisplayManager.displayablePositions[n11][n][1] = n8;

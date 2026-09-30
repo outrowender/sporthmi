@@ -27,7 +27,6 @@ extends EPGListRow {
         this.nowOrNext = ePGListRowInfo.nowOrNext;
     }
 
-    @Override
     public EvoListRow copy() {
         return new EPGListRowInfo(this);
     }

@@ -29,50 +29,47 @@ public class HMIViewListPOIListener
 extends AbstractHMIViewListener
 implements ListListener,
 TimerListener {
-    private static final long TIMER_DELAY;
+    private static final long TIMER_DELAY = 5000L;
     private ListModelApp listModel;
     private Timer timer = null;
     private HMIProperties lastProps;
     private LabelModelApp fastScrollPreviewModel;
-    private static final int MAX_COLUMS;
+    private static final int MAX_COLUMS = 7;
     private String[] textlists;
 
     public HMIViewListPOIListener(LogChannel logChannel, ModelGroup modelGroup, OnlineModelBankAccess onlineModelBankAccess, HMIService hMIService, RemoteHMIService remoteHMIService) {
         super(logChannel, modelGroup, onlineModelBankAccess, hMIService, remoteHMIService);
-        modelGroup.add(onlineModelBankAccess.getModelApp(924459776));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-333896960));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-317119744));
-        this.configureSoftkeyModels(new int[]{-1239866624, -1273421056, -1206312192, -1172757760});
-        this.listModel = onlineModelBankAccess.getListModel(-1306975488);
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300471));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300396));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300397));
+        this.configureSoftkeyModels(new int[]{2300342, 2300340, 2300344, 2300346});
+        this.listModel = onlineModelBankAccess.getListModel(2300338);
         this.listModel.setListListener(this);
         this.listModel.setMaxColumns(7);
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1105648896));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1139203328));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1122426112));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1223089408));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1256643840));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1155980544));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1189534976));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1290198272));
-        modelGroup.add(onlineModelBankAccess.getModelApp(-1306975488));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300350));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300348));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300349));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300343));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300341));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300347));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300345));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300339));
+        modelGroup.add(onlineModelBankAccess.getModelApp(2300338));
         this.fastScrollPreviewModel = onlineModelBankAccess.getLabelModel(0);
         this.fastScrollPreviewModel.setText("");
     }
 
-    @Override
     public synchronized void updateViewProperties(HMIProperties hMIProperties, boolean bl, RemoteHMIContext remoteHMIContext) {
         super.updateViewProperties(hMIProperties, bl, remoteHMIContext);
         this.lastProps = hMIProperties;
-        this.setTitles(-1105648896, -1088871680, -1139203328, -1122426112, hMIProperties);
-        this.setSoftkeys(new int[]{-1223089408, -1256643840, -1189534976, -1155980544}, -1290198272, hMIProperties);
+        this.setTitles(2300350, 2300351, 2300348, 2300349, hMIProperties);
+        this.setSoftkeys(new int[]{2300343, 2300341, 2300345, 2300347}, 2300339, hMIProperties);
         this.updateListModel(hMIProperties, bl);
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 2300338: {
@@ -82,7 +79,6 @@ TimerListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         String string = this.textlists != null && this.textlists.length > n2 ? this.textlists[n2] : "";
         this.fastScrollPreviewModel.setText(string);
@@ -91,7 +87,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onExit() {
         super.onExit();
         HMIViewListPOIListener hMIViewListPOIListener = this;
@@ -102,7 +97,6 @@ TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.listModel == null) {
             return;
@@ -116,7 +110,7 @@ TimerListener {
             if (this.timer != null) {
                 this.timer.cancel();
             }
-            this.timer = new Timer("HMIViewListPOITimer", 0, false, this);
+            this.timer = new Timer("HMIViewListPOITimer", 5000L, false, this);
             this.timer.start();
         } else {
             this.listModel.addHint(8);
@@ -147,7 +141,7 @@ TimerListener {
                 n3 = naviService.computeRelativeDirection(n2, n);
                 n4 = naviService.computeRelativeAirDistance(n2, n);
             } else {
-                this.logChannel.log(-1601830656, "HMIViewListPOIListener#updateListModel: no navi service");
+                this.logChannel.log(100000, "HMIViewListPOIListener#updateListModel: no navi service");
             }
             listCellArray[2] = new IntegerListCell(n3);
             String string = RemoteHMICalculationHelper.calculateDistance(n4);
@@ -168,7 +162,6 @@ TimerListener {
         this.listModel.endTransaction();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 

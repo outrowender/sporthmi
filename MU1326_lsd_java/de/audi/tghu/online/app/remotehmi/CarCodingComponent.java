@@ -8,33 +8,31 @@ import de.audi.atip.sysapp.carcoding.ISysConstManager;
 import de.audi.remotehmi.HMIProperties;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess$IRemoteHMIDSIListener;
+import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 
 public class CarCodingComponent
 extends AbstractRemoteHMIComponent
-implements RemoteHMIDSIAccess$IRemoteHMIDSIListener {
-    private static final int ONLY_UOTA_PACKAGE_PPOI;
+implements RemoteHMIDSIAccess.IRemoteHMIDSIListener {
+    private static final int ONLY_UOTA_PACKAGE_PPOI = 0;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
     }
 
-    @Override
     public void remoteHmiDsiReady() {
         this.sendCarCoding(this.getCarCoding());
     }
 
     private void sendCarCoding(HMIProperties hMIProperties) {
-        this.logChannel.log(1078071040, "CarCodingComponent#sendCarCoding");
-        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(-107374592);
+        this.logChannel.log(1000000, "CarCodingComponent#sendCarCoding");
+        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(0x9899F9);
         remoteHMIAction.setParameters(hMIProperties);
         this.remoteHmiService.invokeAction(remoteHMIAction);
     }
 
     private HMIProperties getCarCoding() {
-        this.logChannel.log(-2137614336, "CarCodingComponent#getCarCoding");
+        this.logChannel.log(10000000, "CarCodingComponent#getCarCoding");
         HMIProperties hMIProperties = new HMIProperties();
         ISysConstManager iSysConstManager = this.getFrameworkAccess().getSysConstManager();
         hMIProperties.put("googleEarth", new Integer(iSysConstManager.getSysConst(479)));
@@ -73,13 +71,13 @@ implements RemoteHMIDSIAccess$IRemoteHMIDSIListener {
 
     private void overrideSystemproperty(HMIProperties hMIProperties, String string, String string2) {
         String string3 = System.getProperty(string2, "");
-        this.logChannel.log(1078071040, "CarCodingComponent#overrideSystemproperty vmvalue for %1: %2", (Object)string2, (Object)string3);
+        this.logChannel.log(1000000, "CarCodingComponent#overrideSystemproperty vmvalue for %1: %2", (Object)string2, (Object)string3);
         if (string3.length() == 0) {
             return;
         }
         if (string3.equalsIgnoreCase("installed") || string3.equalsIgnoreCase("true")) {
             Integer n = (Integer)hMIProperties.get(string);
-            this.logChannel.log(1078071040, "CarCodingComponent#overrideSystemproperty overriding EOL Falg %1 with vmArgumewnt 1", (Object)n);
+            this.logChannel.log(1000000, "CarCodingComponent#overrideSystemproperty overriding EOL Falg %1 with vmArgumewnt 1", (Object)n);
             hMIProperties.put(string, new Integer(1));
         } else if (string3.equalsIgnoreCase("notinstalled") || string3.equalsIgnoreCase("false")) {
             hMIProperties.put(string, new Integer(0));
@@ -87,7 +85,7 @@ implements RemoteHMIDSIAccess$IRemoteHMIDSIListener {
     }
 
     private void printCoding(HMIProperties hMIProperties) {
-        this.logChannel.log(1078071040, "CarCodingComponent#printCoding %1", (Object)hMIProperties.toString());
+        this.logChannel.log(1000000, "CarCodingComponent#printCoding %1", (Object)hMIProperties.toString());
     }
 }
 

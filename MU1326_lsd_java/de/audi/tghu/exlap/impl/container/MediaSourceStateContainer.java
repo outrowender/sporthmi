@@ -15,16 +15,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class MediaSourceStateContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_MEDIA_SOURCE_STATE;
-    private static final int ELEMENT_ID_SOURCE;
-    private static final int ELEMENT_ID_STATE;
-    private static final int ELEMENT_ID_DATABASE_SYNCED;
+    private static final int CONTAINER_ID_MEDIA_SOURCE_STATE = 32;
+    private static final int ELEMENT_ID_SOURCE = 69;
+    private static final int ELEMENT_ID_STATE = 70;
+    private static final int ELEMENT_ID_DATABASE_SYNCED = 125;
     private Map map = new HashMap();
     private MediaCapabilitiesContainer capabilities;
 
@@ -87,7 +86,6 @@ extends AbstractContainer {
         return this.capabilities;
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         int n4 = n2 + 1;
@@ -100,7 +98,6 @@ extends AbstractContainer {
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -111,19 +108,19 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 69: {
-                    hASDataElementArray[n++] = new IntegerElement(69, ((MediaSourceEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(69, ((MediaSourceEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 70: {
-                    hASDataElementArray[n++] = new IntegerElement(70, ((MediaSourceStateEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(70, ((MediaSourceStateEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 125: {
-                    hASDataElementArray[n++] = new BooleanElement(125, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(125, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
             }
@@ -131,7 +128,6 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("MediaSourceStateContainer(");
         stringWriter.write("capabilities(MediaCapabilitiesContainer)='");
@@ -146,35 +142,35 @@ extends AbstractContainer {
         }
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 69: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("source(MediaSourceEnumeration)=null");
                         break;
                     }
                     stringWriter.write("source(MediaSourceEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 70: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("state(MediaSourceStateEnumeration)=null");
                         break;
                     }
                     stringWriter.write("state(MediaSourceStateEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 125: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("databaseSynced(boolean)=null");
                         break;
                     }
                     stringWriter.write("databaseSynced(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -185,7 +181,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         MediaSourceStateContainer mediaSourceStateContainer = new MediaSourceStateContainer(this);
         return mediaSourceStateContainer;

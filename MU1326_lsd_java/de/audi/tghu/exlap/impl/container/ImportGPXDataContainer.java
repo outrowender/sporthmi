@@ -14,17 +14,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class ImportGPXDataContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_IMPORT_GPXDATA;
-    private static final int ELEMENT_ID_RESOURCE;
-    private static final int ELEMENT_ID_NAME;
-    private static final int ELEMENT_ID_TYPE;
+    private static final int CONTAINER_ID_IMPORT_GPXDATA = 59;
+    private static final int ELEMENT_ID_RESOURCE = 134;
+    private static final int ELEMENT_ID_NAME = 135;
+    private static final int ELEMENT_ID_TYPE = 138;
     private Map map = new HashMap();
 
     public ImportGPXDataContainer(ResourceLocator resourceLocator, String string, GPXDataTypeEnumeration gPXDataTypeEnumeration) {
@@ -68,14 +67,12 @@ extends AbstractContainer {
         return (GPXDataTypeEnumeration)this.map.get(new Integer(138));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(59, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -86,19 +83,19 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 134: {
-                    hASDataElementArray[n++] = new ResourceElement(134, (ResourceLocator)map$Entry.getValue());
+                    hASDataElementArray[n++] = new ResourceElement(134, (ResourceLocator)entry.getValue());
                     break;
                 }
                 case 135: {
-                    hASDataElementArray[n++] = new StringElement(135, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(135, (String)entry.getValue());
                     break;
                 }
                 case 138: {
-                    hASDataElementArray[n++] = new IntegerElement(138, ((GPXDataTypeEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(138, ((GPXDataTypeEnumeration)entry.getValue()).ordinal());
                     break;
                 }
             }
@@ -106,40 +103,39 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("ImportGPXDataContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 134: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("resource(ResourceLocator)=null");
                         break;
                     }
                     stringWriter.write("resource(ResourceLocator)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 135: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("name(String)=null");
                         break;
                     }
                     stringWriter.write("name(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 138: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("type(GPXDataTypeEnumeration)=null");
                         break;
                     }
                     stringWriter.write("type(GPXDataTypeEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -150,7 +146,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         ImportGPXDataContainer importGPXDataContainer = new ImportGPXDataContainer(this);
         return importGPXDataContainer;

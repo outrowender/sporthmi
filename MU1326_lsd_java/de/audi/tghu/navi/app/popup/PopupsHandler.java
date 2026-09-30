@@ -23,9 +23,8 @@ implements IPopupHandler {
         this.handlers.add(iPopupHandler);
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
-        this.logger.log(-2137614336, "PopupsHandler#popupVisible( %1 ) ", (long)n);
+        this.logger.log(10000000, "PopupsHandler#popupVisible( %1 ) ", (long)n);
         Iterator iterator = this.handlers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -38,9 +37,8 @@ implements IPopupHandler {
         }
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
-        this.logger.log(-2137614336, "Navigation#popupHidden( %1 ) ", (long)n);
+        this.logger.log(10000000, "Navigation#popupHidden( %1 ) ", (long)n);
         Iterator iterator = this.handlers.iterator();
         while (iterator.hasNext()) {
             try {

@@ -35,17 +35,14 @@ implements ISdarsDsiDownManager {
         this.mutex = object;
     }
 
-    @Override
     public void setDeviceService(DSISDARSTuner dSISDARSTuner) {
         this.dsi = dSISDARSTuner;
     }
 
-    @Override
     public boolean isDsiFound() {
         return !(this.dsi instanceof NullDSISDARSTunerService);
     }
 
-    @Override
     public void register(RadioInfo radioInfo) {
         if (radioInfo instanceof SDARSDsiDownInfo) {
             SDARSDsiDownInfo[] sDARSDsiDownInfoArray = new SDARSDsiDownInfo[this.listeners.length + 1];
@@ -60,7 +57,6 @@ implements ISdarsDsiDownManager {
         }
     }
 
-    @Override
     public SDARSDsiUpInfo getDsiUpListener() {
         return this.tuningQueue.dsiUpListener;
     }
@@ -68,9 +64,8 @@ implements ISdarsDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.setNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[SDARSDSIDownManager.setNotification] %1", (Object)nArray);
         SimpleIntObjectMap simpleIntObjectMap = this.notifications;
         synchronized (simpleIntObjectMap) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -83,9 +78,8 @@ implements ISdarsDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.clearNotification] %1", (Object)nArray);
+        this.log.log(10000000, "[SDARSDSIDownManager.clearNotification] %1", (Object)nArray);
         SimpleIntObjectMap simpleIntObjectMap = this.notifications;
         synchronized (simpleIntObjectMap) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -98,13 +92,12 @@ implements ISdarsDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reNotification(int n) {
         SimpleIntObjectMap simpleIntObjectMap = this.notifications;
         synchronized (simpleIntObjectMap) {
             DSIListener dSIListener = (DSIListener)this.notifications.get(n);
             if (dSIListener != null) {
-                this.log.log(-2137614336, "[SDARSDSIDownManager.setNotification] again for arrt %1", (long)n);
+                this.log.log(10000000, "[SDARSDSIDownManager.setNotification] again for arrt %1", (long)n);
                 this.dsi.setNotification(n, dSIListener);
             }
         }
@@ -116,7 +109,7 @@ implements ISdarsDsiDownManager {
     public void selectStation(int n) {
         Object object = this.mutex;
         synchronized (object) {
-            this.log.log(-2137614336, "[SDARSDSIDownManager.selectStation] sid %1", (long)n);
+            this.log.log(10000000, "[SDARSDSIDownManager.selectStation] sid %1", (long)n);
             SDARSDsiDownInfo[] sDARSDsiDownInfoArray = this.listeners;
             for (int i2 = 0; i2 < sDARSDsiDownInfoArray.length; ++i2) {
                 sDARSDsiDownInfoArray[i2].blockUpdatesForNextTune();
@@ -128,9 +121,8 @@ implements ISdarsDsiDownManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void selectStation(StationInfoExt stationInfoExt, int n) {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.selectStation]:%1", (Object)stationInfoExt);
+        this.log.log(10000000, "[SDARSDSIDownManager.selectStation]:%1", (Object)stationInfoExt);
         SDARSDsiDownInfo[] sDARSDsiDownInfoArray = this.listeners;
         RadioInfo[] radioInfoArray = this.basicListeners;
         Object object = this.mutex;
@@ -156,33 +148,28 @@ implements ISdarsDsiDownManager {
         ++this.selectionCounter;
     }
 
-    @Override
     public void getTime() {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.getTime] ");
+        this.log.log(10000000, "[SDARSDSIDownManager.getTime] ");
         this.dsi.getTime();
     }
 
-    @Override
     public void reset(int n) {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.reset] %1", (long)n);
+        this.log.log(10000000, "[SDARSDSIDownManager.reset] %1", (long)n);
         this.dsi.reset(n);
     }
 
-    @Override
     public void setHmiReady() {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.setHmiReady] ");
+        this.log.log(10000000, "[SDARSDSIDownManager.setHmiReady] ");
         this.dsi.notifyHMIReady(7);
     }
 
-    @Override
     public void getEPG24Hour(int n) {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.getEPG24Hour] sId:%1", (long)n);
+        this.log.log(10000000, "[SDARSDSIDownManager.getEPG24Hour] sId:%1", (long)n);
         this.dsi.getEPG24Hour(n);
     }
 
-    @Override
     public void getEPGDescription(int n, int n2) {
-        this.log.log(-2137614336, "[SDARSDSIDownManager.getEPGDescription] sId:%1 programId:%2", (long)n, (long)n2);
+        this.log.log(10000000, "[SDARSDSIDownManager.getEPGDescription] sId:%1 programId:%2", (long)n, (long)n2);
         this.dsi.getEPGDescription(n, n2);
     }
 }

@@ -38,7 +38,6 @@ extends AbstractMemoryRow {
         this.station = uniMemoryRow.station;
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         UnifiedStationExt unifiedStationExt = new UnifiedStationExt(this.station);
         unifiedStationExt.shortName = this.getText(0);
@@ -59,7 +58,6 @@ extends AbstractMemoryRow {
         this.setInteger(3, this.station.isPsFreezed() ? 1 : 0);
     }
 
-    @Override
     public void resetProgramData() {
         super.resetProgramData();
         this.setHMIResourceLocator(10, this.station.getImage(0));
@@ -68,7 +66,6 @@ extends AbstractMemoryRow {
         this.resetOverwrite();
     }
 
-    @Override
     public void setProgramData(TunerObjectContainer tunerObjectContainer, int n) {
         super.setProgramData(tunerObjectContainer, n);
         if (tunerObjectContainer.getReceptionStatus() == 2) {
@@ -79,20 +76,17 @@ extends AbstractMemoryRow {
         this.tmpOverwrite(tunerObjectContainer);
     }
 
-    @Override
     protected void tmpOverwrite(TunerObjectContainer tunerObjectContainer) {
         super.tmpOverwrite(tunerObjectContainer);
         this.setInteger(3, tunerObjectContainer.getUniStation().isPsFreezed() ? 1 : 0);
     }
 
-    @Override
     protected void resetOverwrite() {
         super.resetOverwrite();
         this.setText(0, this.station.getName(true));
         this.setInteger(3, this.station.isPsFreezed() ? 1 : 0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new UniMemoryRow(this);
     }

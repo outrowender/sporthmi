@@ -7,19 +7,14 @@ import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 
 public interface IPSFreezeDB {
-    default public void add(AMFMStation aMFMStation) {
-    }
+    public void add(AMFMStation var1);
 
-    default public void remove(AMFMStation aMFMStation) {
-    }
+    public void remove(AMFMStation var1);
 
-    default public String getFreezedName(AMFMStation aMFMStation) {
-    }
+    public String getFreezedName(AMFMStation var1);
 
-    default public String getFreezedName(UnifiedStationExt unifiedStationExt) {
-    }
+    public String getFreezedName(UnifiedStationExt var1);
 
-    default public void removeAll() {
-    }
+    public void removeAll();
 }
 

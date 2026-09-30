@@ -19,15 +19,13 @@ extends NavCommand {
         this.windowSize = n3;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LISPRequestNVCValidCharsCommand#execute() with nvcRange = %1, offset = %2, windowSize = %3", (long)this.nvcRange, (long)this.offset, (long)this.windowSize);
+        this.logger.log(10000000, "LISPRequestNVCValidCharsCommand#execute() with nvcRange = %1, offset = %2, windowSize = %3", (long)this.nvcRange, (long)this.offset, (long)this.windowSize);
         this.getDSINavigation().lispRequestNVCList(this.nvcRange, this.offset, this.windowSize);
     }
 
-    @Override
     public void liResult(long l) {
-        this.logger.log(-2137614336, "LISPRequestNVCValidCharsCommand#liResult - returnCode=%1", l);
+        this.logger.log(10000000, "LISPRequestNVCValidCharsCommand#liResult - returnCode=%1", l);
         if (l == 0L) {
             this.liResultResponsed = true;
             this.checkFinished();
@@ -42,9 +40,8 @@ extends NavCommand {
         }
     }
 
-    @Override
     public void lispRequestNVCListResult(int n, String string, int n2) {
-        this.logger.log(-2137614336, "LISPRequestNVCValidCharsCommand#lispRequestNVCListResult - validCharacters=%1, totalCount = %2", (Object)string, (long)n2);
+        this.logger.log(10000000, "LISPRequestNVCValidCharsCommand#lispRequestNVCListResult - validCharacters=%1, totalCount = %2", (Object)string, (long)n2);
         this.dsiResponseContainer.setNextValidCharsAndCount(string, n2);
         this.lispRequestNVCListResultResponsed = true;
         this.checkFinished();

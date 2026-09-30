@@ -8,10 +8,11 @@ import de.audi.atip.storage.IStorageAccess;
 import de.audi.tghu.navi.app.PersistentState;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class CountrySelectionState
 extends PersistentState {
-    private static final int VERSION;
+    private static final int VERSION = 5;
     protected String persistedCountryCode;
     protected int persistedCountryIconId;
 
@@ -19,31 +20,26 @@ extends PersistentState {
         super(iStorageAccess, 5, 1004, 920, logChannel);
     }
 
-    @Override
     protected void initWithDefaultValues() {
         this.persistedCountryCode = "XX";
         this.persistedCountryIconId = -1;
     }
 
-    @Override
     protected void initFromOldKeys(IStorageAccess iStorageAccess) {
         this.persistedCountryCode = "XX";
         this.persistedCountryIconId = -1;
     }
 
-    @Override
     protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
         this.serializeStringArray(new String[]{this.persistedCountryCode}, dataOutputStream);
         this.serializeIntArray(new int[]{this.persistedCountryIconId}, dataOutputStream);
-        this.logChannel.log(-2137614336, "CountrySelectionState serialize: persistedCountryCode=%1, persistedCountryIconId=%2", (Object)this.persistedCountryCode, (long)this.persistedCountryIconId);
+        this.logChannel.log(10000000, "CountrySelectionState serialize: persistedCountryCode=%1, persistedCountryIconId=%2", (Object)this.persistedCountryCode, (long)this.persistedCountryIconId);
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
         String[] stringArray = this.deserializeStringArray(dataInputStream);
         int[] nArray = this.deserializeIntArray(dataInputStream);
         try {
@@ -53,11 +49,11 @@ extends PersistentState {
             }
         }
         catch (Exception exception) {
-            this.logChannel.log(-1601830656, "CountrySelectionState WARNING deserialized: %1, deserializedString=%2, deserializedInt=%3", (Object)exception, (Object)stringArray, (Object)nArray);
+            this.logChannel.log(100000, "CountrySelectionState WARNING deserialized: %1, deserializedString=%2, deserializedInt=%3", (Object)exception, (Object)stringArray, (Object)nArray);
             this.persistedCountryCode = "XX";
             this.persistedCountryIconId = -1;
         }
-        this.logChannel.log(-2137614336, "CountrySelectionState deserialize: persistedCountryCode=%1, persistedCountryIconId=%2", (Object)this.persistedCountryCode, (long)this.persistedCountryIconId);
+        this.logChannel.log(10000000, "CountrySelectionState deserialize: persistedCountryCode=%1, persistedCountryIconId=%2", (Object)this.persistedCountryCode, (long)this.persistedCountryIconId);
     }
 
     public String getCountryCode() {

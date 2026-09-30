@@ -3,24 +3,22 @@
  */
 package de.audi.tuner.app.ann;
 
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.audio.IAnnouncementStateListener;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.TunerAudioMgmt;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerConfiguration;
+import de.audi.tuner.app.TunerDiagnosisApplication;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.amfm.AMFMStation;
 import de.audi.tuner.app.amfm.IPSFreezeDB;
 import de.audi.tuner.app.ann.AnnoncementVolumeChangeHandler;
-import de.audi.tuner.app.ann.AnnouncementHandler$1;
-import de.audi.tuner.app.ann.AnnouncementHandler$ChoiceListener;
-import de.audi.tuner.app.ann.AnnouncementHandler$PowerEventListener;
-import de.audi.tuner.app.ann.AnnouncementHandler$TunerActionProxyListenerExt;
-import de.audi.tuner.app.ann.AnnouncementHandler$TunerDiagnosisSessionListener;
 import de.audi.tuner.app.ap.TunerActionProxyListener;
 import de.audi.tuner.app.storage.TunerStorage;
+import de.audi.tuner.ifc.IPowerEvent;
 import de.audi.tuner.ifc.ITunerAnnounce;
 import de.audi.tuner.ifc.ITunerVariantExt;
 import de.audi.tuner.sds.UpdateListenerHandler;
@@ -36,21 +34,21 @@ public final class AnnouncementHandler
 extends UpdateListenerHandler
 implements DSITunerAnnouncementListener,
 ITunerAnnounce {
-    public final AnnouncementHandler$PowerEventListener powerEventListener = new AnnouncementHandler$PowerEventListener(this, null);
-    public final AnnouncementHandler$TunerDiagnosisSessionListener diagnosisListener = new AnnouncementHandler$TunerDiagnosisSessionListener(null);
-    public static final int ANNOUNCEMENTS_OFF;
-    private static final int ANNOUNCEMENTS_FM;
-    public static final int ANNOUNCEMENTS_FM_AND_DAB;
-    public static final int FILTER_MASK_NONE;
-    private static final int FILTER_MASK_DAB_ADD;
-    private static final int FILTER_MASK_FM_TA;
-    private static final int FILTER_MASK_FM_EON_TA;
-    private static final int FILTER_MASK_AMFM_TA;
-    private static final int FILTER_MASK_PTY31;
-    private static final int FILTER_MASK_DAB_ALARM;
-    private static final int FILTER_MASK_DAB_TA;
-    private static final int FILTER_MASK_DAB_TRANSPORT;
-    public final TunerActionProxyListener actionProxyListener = new AnnouncementHandler$TunerActionProxyListenerExt(this, null);
+    public final PowerEventListener powerEventListener = new PowerEventListener();
+    public final TunerDiagnosisSessionListener diagnosisListener = new TunerDiagnosisSessionListener();
+    public static final int ANNOUNCEMENTS_OFF = 0;
+    private static final int ANNOUNCEMENTS_FM = 1;
+    public static final int ANNOUNCEMENTS_FM_AND_DAB = 2;
+    public static final int FILTER_MASK_NONE = 0;
+    private static final int FILTER_MASK_DAB_ADD = 16320;
+    private static final int FILTER_MASK_FM_TA = 1;
+    private static final int FILTER_MASK_FM_EON_TA = 4;
+    private static final int FILTER_MASK_AMFM_TA = 5;
+    private static final int FILTER_MASK_PTY31 = 2;
+    private static final int FILTER_MASK_DAB_ALARM = 8;
+    private static final int FILTER_MASK_DAB_TA = 16;
+    private static final int FILTER_MASK_DAB_TRANSPORT = 32;
+    public final TunerActionProxyListener actionProxyListener = new TunerActionProxyListenerExt();
     private DSITunerAnnouncement dsi;
     private int activeFilter = 0;
     private boolean taReceiveStatus = false;
@@ -87,20 +85,26 @@ ITunerAnnounce {
         }
         this.dsi = new NullDSITunerAnnouncement(this.logger.announce);
         this.models.getLabelModel(397).setText("");
-        this.models.getChoiceModel(1535574272).setStatus(0);
-        this.models.getChoiceModel(-1534656256).setStatus(1);
-        this.models.getChoiceModel(0x880100).setStatus(0);
-        AnnouncementHandler$ChoiceListener announcementHandler$ChoiceListener = new AnnouncementHandler$ChoiceListener(this, null);
-        this.models.getChoiceModel(1535574272).setChoiceListener(announcementHandler$ChoiceListener);
-        this.models.getChoiceModel(-1534656256).setChoiceListener(announcementHandler$ChoiceListener);
-        this.models.getChoiceModel(0x880100).setChoiceListener(announcementHandler$ChoiceListener);
-        this.models.getChoiceModel(-1635254016).setChoiceListener(announcementHandler$ChoiceListener);
-        this.models.getButtonModel(-1115225856).setButtonListener(announcementHandler$ChoiceListener);
-        this.models.getButtonModel(5551).setButtonListener(announcementHandler$ChoiceListener);
-        this.models.getButtonModel(3826).setButtonListener(announcementHandler$ChoiceListener);
-        this.models.getButtonModel(3827).setButtonListener(announcementHandler$ChoiceListener);
-        this.suppressTAPopupChoice = this.models.getChoiceModel(-2138504960);
-        this.suppressTAPopupChoice.setChoiceListener(new AnnouncementHandler$1(this));
+        this.models.getChoiceModel(100187).setStatus(0);
+        this.models.getChoiceModel(100260).setStatus(1);
+        this.models.getChoiceModel(100352).setStatus(0);
+        ChoiceListener choiceListener = new ChoiceListener();
+        this.models.getChoiceModel(100187).setChoiceListener(choiceListener);
+        this.models.getChoiceModel(100260).setChoiceListener(choiceListener);
+        this.models.getChoiceModel(100352).setChoiceListener(choiceListener);
+        this.models.getChoiceModel(100510).setChoiceListener(choiceListener);
+        this.models.getButtonModel(100285).setButtonListener(choiceListener);
+        this.models.getButtonModel(5551).setButtonListener(choiceListener);
+        this.models.getButtonModel(3826).setButtonListener(choiceListener);
+        this.models.getButtonModel(3827).setButtonListener(choiceListener);
+        this.suppressTAPopupChoice = this.models.getChoiceModel(100736);
+        this.suppressTAPopupChoice.setChoiceListener(new DefaultChoiceListener(){
+
+            public void itemSelected(int n, int n2, int n3, int n4) {
+                AnnouncementHandler.this.suppressTAPopupChoice.setValue(n2);
+                AnnouncementHandler.this.storage.storeSupressTAPopup(TunerModels.checkboxConstantToBoolean(n2));
+            }
+        });
         this.setDABAvailable(Utilities.isDABPresent());
     }
 
@@ -118,7 +122,6 @@ ITunerAnnounce {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setAudioAvailable(boolean bl) {
         this.amAvailable = bl;
         Object object = this.mutex;
@@ -131,7 +134,7 @@ ITunerAnnounce {
     }
 
     private void init() {
-        this.logger.announce.log(1078071040, "[AnnouncementHandler.init] firstAudioReached:%1 DSI:%2", this.firstAudioReached, (Object)this.dsi);
+        this.logger.announce.log(1000000, "[AnnouncementHandler.init] firstAudioReached:%1 DSI:%2", this.firstAudioReached, (Object)this.dsi);
         if (!(this.dsi instanceof NullDSITunerAnnouncement) && this.firstAudioReached) {
             int[] nArray = this.storage.loadTASetup();
             this.taLastMode = nArray[1];
@@ -143,16 +146,16 @@ ITunerAnnounce {
     }
 
     public void deinit() {
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.deinit]");
+        this.logger.announce.log(10000000, "[AnnouncementHandler.deinit]");
         int[] nArray = new int[]{1, 4, 3, 2};
-        this.logger.announce.log(1078071040, "[AnnouncementHandler.deinit] Clearing notification on announce attributes ");
+        this.logger.announce.log(1000000, "[AnnouncementHandler.deinit] Clearing notification on announce attributes ");
         this.dsi.clearNotification(nArray, (DSIListener)this);
         this.dsiNotificationDone = false;
     }
 
     public void addAnnouncementStateListener(IAnnouncementStateListener iAnnouncementStateListener) {
         if (!this.announcementStateListenerList.contains(iAnnouncementStateListener)) {
-            this.logger.announce.log(-2137614336, "[AnnouncementHandler.addAnnouncementStateListener] listener:%1", (Object)iAnnouncementStateListener);
+            this.logger.announce.log(10000000, "[AnnouncementHandler.addAnnouncementStateListener] listener:%1", (Object)iAnnouncementStateListener);
             this.announcementStateListenerList.add(iAnnouncementStateListener);
             if (this.dsiNotificationDone) {
                 this.setNotification(new int[]{1});
@@ -162,7 +165,7 @@ ITunerAnnounce {
 
     public void removeAnnouncementStateListener(IAnnouncementStateListener iAnnouncementStateListener) {
         if (this.announcementStateListenerList.contains(iAnnouncementStateListener)) {
-            this.logger.announce.log(-2137614336, "[AnnouncementHandler.removeAnnouncementStateListener] listener:%1", (Object)iAnnouncementStateListener);
+            this.logger.announce.log(10000000, "[AnnouncementHandler.removeAnnouncementStateListener] listener:%1", (Object)iAnnouncementStateListener);
             this.announcementStateListenerList.remove(iAnnouncementStateListener);
         }
     }
@@ -171,14 +174,13 @@ ITunerAnnounce {
         return this.activeFilter;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.announce.log(-1601830656, "[AnnouncementHandler.asyncException] msg:%1 error:%2 request:%3", (Object)string, (long)n, (long)n2);
+        this.logger.announce.log(100000, "[AnnouncementHandler.asyncException] msg:%1 error:%2 request:%3", (Object)string, (long)n, (long)n2);
     }
 
     public void switchTrafficAnnouncements(int n, boolean bl) {
         int n2;
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.switchTrafficAnnouncements] %1", (long)n);
+        this.logger.announce.log(10000000, "[AnnouncementHandler.switchTrafficAnnouncements] %1", (long)n);
         if (Utilities.isTASupported()) {
             n2 = n > 0 ? 1 : 0;
             this.setTpIcon(n2 != 0);
@@ -189,20 +191,20 @@ ITunerAnnounce {
         }
         switch (n) {
             case 0: {
-                this.logger.announce.log(-2137614336, "[AnnouncementHandler.switchTrafficAnnouncements] Disable traffic announcements");
+                this.logger.announce.log(10000000, "[AnnouncementHandler.switchTrafficAnnouncements] Disable traffic announcements");
                 if (this.activeAnnouncement == 20) break;
                 this.abortAnnouncement();
                 break;
             }
             case 1: {
-                this.logger.announce.log(-2137614336, "[AnnouncementHandler.switchTrafficAnnouncements] Enable FM traffic announcements");
+                this.logger.announce.log(10000000, "[AnnouncementHandler.switchTrafficAnnouncements] Enable FM traffic announcements");
                 n2 |= 5;
                 if (this.activeAnnouncement == 3 || this.activeAnnouncement == 1) break;
                 this.abortAnnouncement();
                 break;
             }
             case 2: {
-                this.logger.announce.log(-2137614336, "[AnnouncementHandler.switchTrafficAnnouncements] Enable FM+DAB traffic announcements");
+                this.logger.announce.log(10000000, "[AnnouncementHandler.switchTrafficAnnouncements] Enable FM+DAB traffic announcements");
                 n2 = n2 | 5 | 0x10 | 0x20;
                 if (bl || !AnnouncementHandler.isDABAnnouncement(this.activeAnnouncement)) break;
                 this.abortAnnouncement();
@@ -237,26 +239,24 @@ ITunerAnnounce {
     }
 
     private void setTpIcon(boolean bl) {
-        ChoiceModelApp choiceModelApp = this.models.getChoiceModel(-1635254016);
+        ChoiceModelApp choiceModelApp = this.models.getChoiceModel(100510);
         choiceModelApp.setPressed(bl);
         choiceModelApp.setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void updateAvailability(int n, int n2) {
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateAvailability] availability:%1 valid:%2", (long)n, (long)n2);
+        this.logger.announce.log(10000000, "[AnnouncementHandler.updateAvailability] availability:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             boolean bl = this.taReceiveStatus = (n & 1) == 1 || (n & 4) == 4 || (n & 0x10) == 16 || (n & 0x20) == 32;
             if (Utilities.isTASupported()) {
-                boolean bl2 = this.models.getChoiceModel(1535574272).getValue() > 0;
+                boolean bl2 = this.models.getChoiceModel(100187).getValue() > 0;
                 this.setTpIcon(bl2);
             }
         }
     }
 
-    @Override
     public void updateFilter(int n, int n2) {
-        this.logger.announce.log(1078071040, "[AnnouncementHandler.updateFilter] filter:%1 valid:%2", (long)n, (long)n2);
+        this.logger.announce.log(1000000, "[AnnouncementHandler.updateFilter] filter:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             this.activeFilter = n;
             this.activeFilter <<= 8;
@@ -268,7 +268,7 @@ ITunerAnnounce {
             boolean bl5 = (n & 0x20) == 32;
             boolean bl6 = bl4 || bl5;
             boolean bl7 = (n & 0x3FC0) == 16320;
-            this.logger.announce.log(1078071040, "[AnnouncementHandler.updateFilter] fm:%1 dab:%2 dabAdd:%3", bl3, bl6, bl7);
+            this.logger.announce.log(1000000, "[AnnouncementHandler.updateFilter] fm:%1 dab:%2 dabAdd:%3", bl3, bl6, bl7);
             boolean bl8 = true;
             int n3 = 0;
             if (!bl3) {
@@ -280,19 +280,19 @@ ITunerAnnounce {
                 n3 = 2;
             }
             if (bl7) {
-                this.models.getChoiceModel(0x880100).setValue(1);
+                this.models.getChoiceModel(100352).setValue(1);
             } else {
-                this.models.getChoiceModel(0x880100).setValue(0);
+                this.models.getChoiceModel(100352).setValue(0);
             }
-            if (n3 != this.models.getChoiceModel(1535574272).getValue()) {
-                this.taLastMode = this.models.getChoiceModel(1535574272).getValue();
+            if (n3 != this.models.getChoiceModel(100187).getValue()) {
+                this.taLastMode = this.models.getChoiceModel(100187).getValue();
             }
-            this.models.getChoiceModel(1535574272).setValue(n3);
-            this.models.getChoiceModel(-1534656256).setValue(n3 == 0 ? 0 : 1);
+            this.models.getChoiceModel(100187).setValue(n3);
+            this.models.getChoiceModel(100260).setValue(n3 == 0 ? 0 : 1);
             this.setTpIcon(bl8);
             this.storage.storeTASetup(n3, this.taLastMode, bl7);
             int n4 = 10 + n3;
-            this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateFilter] sending %1 to IAnnouncementStateListener", (long)n4);
+            this.logger.announce.log(10000000, "[AnnouncementHandler.updateFilter] sending %1 to IAnnouncementStateListener", (long)n4);
             for (int i2 = 0; i2 < this.announcementStateListenerList.size(); ++i2) {
                 IAnnouncementStateListener iAnnouncementStateListener = (IAnnouncementStateListener)this.announcementStateListenerList.get(i2);
                 iAnnouncementStateListener.updateAnnouncementState(n4, 2);
@@ -300,14 +300,13 @@ ITunerAnnounce {
         }
     }
 
-    @Override
     public void updateStationName(String string, int n, long l, int n2) {
         Object object;
         if (this.logger.announce.isDebug()) {
             object = new Buffer(100);
             ((Buffer)object).append("Name: ").append(string).append(" pi: ").append(n);
             ((Buffer)object).append(" f: ").append(l).append(" valid: ").append(n2);
-            this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateStationName] %1", (Object)((Buffer)object).toString());
+            this.logger.announce.log(10000000, "[AnnouncementHandler.updateStationName] %1", (Object)((Buffer)object).toString());
         }
         if (n2 == 1) {
             String string2 = null;
@@ -318,15 +317,15 @@ ITunerAnnounce {
                 aMFMStation.rds = true;
                 string2 = this.psFreezeDB.getFreezedName(aMFMStation);
             }
-            if (string2 != null && l < 0) {
+            if (string2 != null && l < 110000L) {
                 object = string2;
-                this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateStationName] found freezedName %1", string2);
+                this.logger.announce.log(10000000, "[AnnouncementHandler.updateStationName] found freezedName %1", string2);
             } else {
                 Object object2 = object = string != null ? string.trim() : "";
             }
             if (Utilities.isEmpty((String)object) && l != 0L) {
                 object = Utilities.kHzToMHz(l);
-                this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateStationName] Replaced empty station name with %1", object);
+                this.logger.announce.log(10000000, "[AnnouncementHandler.updateStationName] Replaced empty station name with %1", object);
             }
             this.models.getLabelModel(397).setText((String)object);
             this.propagateUpdatedTAStationName((String)object, n, l);
@@ -337,22 +336,21 @@ ITunerAnnounce {
         }
     }
 
-    @Override
     public void updateStatus(int n, int n2) {
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateStatus] status:%1 valid:%2", (long)n, (long)n2);
+        this.logger.announce.log(10000000, "[AnnouncementHandler.updateStatus] status:%1 valid:%2", (long)n, (long)n2);
         if (n2 == 1) {
             if (this.pwrevt == 0 || this.pwrevt == 1 || n == 20) {
                 this.backupStatus = 20;
                 this.updateStatus(n);
             } else {
-                this.logger.announce.log(1078071040, "[AnnouncementHandler.updateStatus] status backed up");
+                this.logger.announce.log(1000000, "[AnnouncementHandler.updateStatus] status backed up");
                 this.backupStatus = n;
             }
         }
     }
 
     private void updateStatus(int n) {
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateStatus] status:%1 ", (long)n);
+        this.logger.announce.log(10000000, "[AnnouncementHandler.updateStatus] status:%1 ", (long)n);
         boolean bl = false;
         switch (n) {
             case 1: 
@@ -364,7 +362,7 @@ ITunerAnnounce {
                     this.audio.returnAnnouncementAudio(35);
                 }
                 this.setActiveAnnouncement(n);
-                if (this.models.getChoiceModel(1535574272).getValue() <= 0 && !AnnouncementHandler$TunerDiagnosisSessionListener.access$600(this.diagnosisListener)) break;
+                if (this.models.getChoiceModel(100187).getValue() <= 0 && !this.diagnosisListener.diagSessionRunning) break;
                 this.audio.requestAudioChannel(31, 0);
                 this.audio.unlockVolume(1, "Unlock Volume caused by FM_TA");
                 this.showPopup(1);
@@ -390,7 +388,7 @@ ITunerAnnounce {
             case 5: 
             case 6: {
                 this.setActiveAnnouncement(n);
-                if (this.models.getChoiceModel(1535574272).getValue() != 2 && !AnnouncementHandler$TunerDiagnosisSessionListener.access$600(this.diagnosisListener)) break;
+                if (this.models.getChoiceModel(100187).getValue() != 2 && !this.diagnosisListener.diagSessionRunning) break;
                 this.audio.requestAudioChannel(32, 0);
                 this.audio.unlockVolume(5, "Unlock Volume caused by DAB_TA");
                 this.showPopup(n);
@@ -400,7 +398,7 @@ ITunerAnnounce {
             case 22: {
                 n = 1;
                 this.setActiveAnnouncement(n);
-                if (this.models.getChoiceModel(1535574272).getValue() <= 0 && !AnnouncementHandler$TunerDiagnosisSessionListener.access$600(this.diagnosisListener)) break;
+                if (this.models.getChoiceModel(100187).getValue() <= 0 && !this.diagnosisListener.diagSessionRunning) break;
                 this.audio.requestAudioChannel(32, 0);
                 this.audio.unlockVolume(5, "Unlock Volume caused by DAB_TA");
                 this.showPopup(n);
@@ -416,7 +414,7 @@ ITunerAnnounce {
             case 13: 
             case 14: {
                 this.setActiveAnnouncement(n);
-                if (this.models.getChoiceModel(0x880100).getValue() != 1 && !AnnouncementHandler$TunerDiagnosisSessionListener.access$600(this.diagnosisListener)) break;
+                if (this.models.getChoiceModel(100352).getValue() != 1 && !this.diagnosisListener.diagSessionRunning) break;
                 this.audio.requestAudioChannel(35, 0);
                 this.audio.unlockVolume(5, "Unlock Volume caused by DAB_ANN");
                 this.showPopup(n);
@@ -424,7 +422,7 @@ ITunerAnnounce {
                 break;
             }
             default: {
-                this.logger.announce.log(-2137614336, "[AnnouncementHandler.updateStatus] TA inactive");
+                this.logger.announce.log(10000000, "[AnnouncementHandler.updateStatus] TA inactive");
                 this.showPopup(0);
                 if (this.getActiveAnnouncement() != 20) {
                     this.audio.returnAnnouncementAudio(31);
@@ -449,7 +447,7 @@ ITunerAnnounce {
 
     public boolean abortAnnouncement() {
         if (this.getActiveAnnouncement() != 20) {
-            this.logger.announce.log(-2137614336, "[AnnouncementHandler.abortAnnouncement] Abort announcements and release AC");
+            this.logger.announce.log(10000000, "[AnnouncementHandler.abortAnnouncement] Abort announcements and release AC");
             this.showPopup(0);
             int n = this.audio.getActiveAnnouncementConnection();
             if (n != -1) {
@@ -463,12 +461,12 @@ ITunerAnnounce {
 
     private void setFilter(int n) {
         int n2 = Utilities.isTASupported() ? n : 0;
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.setFilter] %1", (long)n2);
+        this.logger.announce.log(10000000, "[AnnouncementHandler.setFilter] %1", (long)n2);
         this.dsi.setFilter(n2);
     }
 
     public void setNotification(int[] nArray) {
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.setNotification] %1", (Object)nArray);
+        this.logger.announce.log(10000000, "[AnnouncementHandler.setNotification] %1", (Object)nArray);
         this.dsi.setNotification(nArray, (DSIListener)this);
     }
 
@@ -479,13 +477,13 @@ ITunerAnnounce {
     private void setDABAvailable(boolean bl) {
         this.dabAvailable = bl;
         if (bl) {
-            this.models.getChoiceModel(1535574272).setStatus(1);
-            this.models.getChoiceModel(-1534656256).setStatus(0);
-            this.models.getChoiceModel(0x880100).setStatus(1);
+            this.models.getChoiceModel(100187).setStatus(1);
+            this.models.getChoiceModel(100260).setStatus(0);
+            this.models.getChoiceModel(100352).setStatus(1);
         } else {
-            this.models.getChoiceModel(1535574272).setStatus(0);
-            this.models.getChoiceModel(-1534656256).setStatus(1);
-            this.models.getChoiceModel(0x880100).setStatus(0);
+            this.models.getChoiceModel(100187).setStatus(0);
+            this.models.getChoiceModel(100260).setStatus(1);
+            this.models.getChoiceModel(100352).setStatus(0);
         }
     }
 
@@ -508,7 +506,6 @@ ITunerAnnounce {
         return n;
     }
 
-    @Override
     public int getActiveAnnouncement() {
         return this.activeAnnouncement;
     }
@@ -522,12 +519,12 @@ ITunerAnnounce {
     }
 
     public void resetVolumeAdjustment() {
-        this.logger.announce.log(-2137614336, "[AnnouncementHandler.resetTAVolumeAdjustment]");
+        this.logger.announce.log(10000000, "[AnnouncementHandler.resetTAVolumeAdjustment]");
         this.annVolChange.resetVolumeAdjustment();
     }
 
     public boolean toggleTaMode() {
-        int n = this.models.getChoiceModel(1535574272).getValue();
+        int n = this.models.getChoiceModel(100187).getValue();
         if (n == 1 || n == 2) {
             this.switchTrafficAnnouncements(0, false);
             return false;
@@ -570,58 +567,118 @@ ITunerAnnounce {
         }
     }
 
-    static /* synthetic */ ChoiceModelApp access$400(AnnouncementHandler announcementHandler) {
-        return announcementHandler.suppressTAPopupChoice;
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 100285: {
+                    if (AnnouncementHandler.this.toggleTaMode()) {
+                        AnnouncementHandler.this.variantExt.showPartialPopup(8);
+                        break;
+                    }
+                    AnnouncementHandler.this.variantExt.showPartialPopup(7);
+                    break;
+                }
+                case 5551: {
+                    AnnouncementHandler.this.showPopup(0);
+                    break;
+                }
+                case 3826: {
+                    AnnouncementHandler.this.abortAnnouncement();
+                    break;
+                }
+                case 3827: {
+                    AnnouncementHandler.this.abortAnnouncement();
+                    AnnouncementHandler.this.switchTrafficAnnouncements(0, false);
+                    break;
+                }
+            }
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 100187: 
+                case 100260: {
+                    AnnouncementHandler.this.models.getChoiceModel(n).setValue(n2);
+                    int n5 = AnnouncementHandler.this.models.getChoiceModel(100352).getValue();
+                    AnnouncementHandler.this.switchTrafficAnnouncements(n2, n5 == 1);
+                    break;
+                }
+                case 100352: {
+                    AnnouncementHandler.this.models.getChoiceModel(n).setValue(n2);
+                    int n6 = AnnouncementHandler.this.models.getChoiceModel(100187).getValue();
+                    AnnouncementHandler.this.switchTrafficAnnouncements(n6, n2 == 1);
+                    break;
+                }
+                case 100510: {
+                    if (AnnouncementHandler.this.toggleTaMode()) {
+                        AnnouncementHandler.this.variantExt.showPartialPopup(8);
+                        break;
+                    }
+                    AnnouncementHandler.this.variantExt.showPartialPopup(7);
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TunerStorage access$500(AnnouncementHandler announcementHandler) {
-        return announcementHandler.storage;
+    private class PowerEventListener
+    implements IPowerEvent {
+        private PowerEventListener() {
+        }
+
+        public void notifyPowerEvent(int n, int n2) {
+            AnnouncementHandler.this.pwrevt = n;
+            switch (AnnouncementHandler.this.pwrevt) {
+                case 2: 
+                case 3: 
+                case 4: {
+                    if (AnnouncementHandler.this.activeAnnouncement == 20) break;
+                    AnnouncementHandler.this.abortAnnouncement();
+                    break;
+                }
+                case 0: 
+                case 1: {
+                    if (AnnouncementHandler.this.backupStatus == 20) break;
+                    AnnouncementHandler.this.updateStatus(AnnouncementHandler.this.backupStatus);
+                    AnnouncementHandler.this.backupStatus = 20;
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$700(AnnouncementHandler announcementHandler, int n) {
-        announcementHandler.taVolumeAdjustmentActivated(n);
+    private class TunerActionProxyListenerExt
+    extends TunerActionProxyListener {
+        private TunerActionProxyListenerExt() {
+        }
+
+        public void taVolumeAdjustmentActivated() {
+            AnnouncementHandler.this.taVolumeAdjustmentActivated(this.terminalID);
+        }
+
+        public void taVolumeAdjustmentDeactivated() {
+            AnnouncementHandler.this.taVolumeAdjustmentDeactivated(this.terminalID);
+        }
     }
 
-    static /* synthetic */ void access$800(AnnouncementHandler announcementHandler, int n) {
-        announcementHandler.taVolumeAdjustmentDeactivated(n);
-    }
+    private static class TunerDiagnosisSessionListener
+    implements TunerDiagnosisApplication.ITunerDiagnosisSessionListener {
+        private volatile boolean diagSessionRunning = false;
 
-    static /* synthetic */ ITunerVariantExt access$900(AnnouncementHandler announcementHandler) {
-        return announcementHandler.variantExt;
-    }
+        private TunerDiagnosisSessionListener() {
+        }
 
-    static /* synthetic */ void access$1000(AnnouncementHandler announcementHandler, int n) {
-        announcementHandler.showPopup(n);
-    }
+        public void diagnosisSessionStarted() {
+            this.diagSessionRunning = true;
+        }
 
-    static /* synthetic */ TunerModels access$1100(AnnouncementHandler announcementHandler) {
-        return announcementHandler.models;
-    }
-
-    static /* synthetic */ int access$1202(AnnouncementHandler announcementHandler, int n) {
-        announcementHandler.pwrevt = n;
-        return announcementHandler.pwrevt;
-    }
-
-    static /* synthetic */ int access$1200(AnnouncementHandler announcementHandler) {
-        return announcementHandler.pwrevt;
-    }
-
-    static /* synthetic */ int access$1300(AnnouncementHandler announcementHandler) {
-        return announcementHandler.activeAnnouncement;
-    }
-
-    static /* synthetic */ int access$1400(AnnouncementHandler announcementHandler) {
-        return announcementHandler.backupStatus;
-    }
-
-    static /* synthetic */ void access$1500(AnnouncementHandler announcementHandler, int n) {
-        announcementHandler.updateStatus(n);
-    }
-
-    static /* synthetic */ int access$1402(AnnouncementHandler announcementHandler, int n) {
-        announcementHandler.backupStatus = n;
-        return announcementHandler.backupStatus;
+        public void diagnosisSessionStopped() {
+            this.diagSessionRunning = false;
+        }
     }
 }
 

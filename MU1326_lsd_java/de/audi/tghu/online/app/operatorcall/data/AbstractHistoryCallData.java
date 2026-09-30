@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.tghu.online.app.operatorcall.data;
 
@@ -20,7 +17,7 @@ import org.dsi.ifc.online.OperatorCallAddressEntry;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public abstract class AbstractHistoryCallData {
-    public static final int PERSISTENCE_UNIQUE_ID_NONE;
+    public static final int PERSISTENCE_UNIQUE_ID_NONE = -1;
     protected OperatorCallResult[] operatorCallResults;
     protected PoiResultListRow[] poiResultItems;
     protected AbstractHistoryCallListRow historyCallItem;
@@ -32,8 +29,7 @@ public abstract class AbstractHistoryCallData {
     protected Date dateTime;
     private int persistenceUniqueId = -1;
 
-    protected abstract AbstractHistoryCallListRow createHistoryCallListRow(boolean bl) {
-    }
+    protected abstract AbstractHistoryCallListRow createHistoryCallListRow(boolean var1);
 
     public AbstractHistoryCallData(IFrameworkAccess iFrameworkAccess, NavigationHandler navigationHandler, OperatorCallResult[] operatorCallResultArray, ArrayList arrayList, String string, Date date) {
         this.framework = iFrameworkAccess;
@@ -98,7 +94,7 @@ public abstract class AbstractHistoryCallData {
 
     public OperatorCallResult getPoi(int n) {
         if (n > this.operatorCallResults.length - 1) {
-            this.logChannel.log(-1601830656, "AbstractHistoryCallData#getPoi: index exceeds limits! Requested index = %1, poi list size = %2", (long)n, (long)this.operatorCallResults.length);
+            this.logChannel.log(100000, "AbstractHistoryCallData#getPoi: index exceeds limits! Requested index = %1, poi list size = %2", (long)n, (long)this.operatorCallResults.length);
         }
         return this.operatorCallResults[n];
     }
@@ -113,8 +109,8 @@ public abstract class AbstractHistoryCallData {
         double d2 = this.convertToWgs(n2);
         double d3 = this.convertToWgs(n3);
         DecimalFormat decimalFormat = new DecimalFormat("0.00000");
-        d2 = Double.parseDouble((String)decimalFormat.format(d2));
-        d3 = Double.parseDouble((String)decimalFormat.format(d3));
+        d2 = Double.parseDouble(decimalFormat.format(d2));
+        d3 = Double.parseDouble(decimalFormat.format(d3));
         remoteHMILocation.setLatitude(d2);
         remoteHMILocation.setLongitude(d3);
         remoteHMILocation.setStreet(operatorCallAddressEntry.getStreet());
@@ -148,7 +144,7 @@ public abstract class AbstractHistoryCallData {
     }
 
     public void setPersistenceUniqueId(int n) {
-        this.logChannel.log(-2137614336, "AbstractHistoryCallData#setPersistenceUniqueId: %1 -> %2", (long)this.persistenceUniqueId, (long)n);
+        this.logChannel.log(10000000, "AbstractHistoryCallData#setPersistenceUniqueId: %1 -> %2", (long)this.persistenceUniqueId, (long)n);
         this.persistenceUniqueId = n;
         this.historyCallItem.setPersistenceUniqueId(n);
     }

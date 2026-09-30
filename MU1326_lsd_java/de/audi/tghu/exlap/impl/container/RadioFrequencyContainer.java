@@ -14,16 +14,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class RadioFrequencyContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_RADIO_FREQUENCY;
-    private static final int ELEMENT_ID_BAND;
-    private static final int ELEMENT_ID_FREQUENCY;
-    private static final int ELEMENT_ID_FREQUENCY_LABEL;
+    private static final int CONTAINER_ID_RADIO_FREQUENCY = 43;
+    private static final int ELEMENT_ID_BAND = 94;
+    private static final int ELEMENT_ID_FREQUENCY = 95;
+    private static final int ELEMENT_ID_FREQUENCY_LABEL = 96;
     private Map map = new HashMap();
 
     public RadioFrequencyContainer() {
@@ -91,14 +90,12 @@ extends AbstractContainer {
         return (String)this.map.get(new Integer(96));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(43, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -109,19 +106,19 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 94: {
-                    hASDataElementArray[n++] = new IntegerElement(94, ((RadioBandEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(94, ((RadioBandEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 95: {
-                    hASDataElementArray[n++] = new LongElement(95, (long)((Long)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new LongElement(95, (long)((Long)entry.getValue()));
                     break;
                 }
                 case 96: {
-                    hASDataElementArray[n++] = new StringElement(96, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(96, (String)entry.getValue());
                     break;
                 }
             }
@@ -129,40 +126,39 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("RadioFrequencyContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 94: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("band(RadioBandEnumeration)=null");
                         break;
                     }
                     stringWriter.write("band(RadioBandEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 95: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("frequency(long)=null");
                         break;
                     }
                     stringWriter.write("frequency(long)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 96: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("frequencyLabel(String)=null");
                         break;
                     }
                     stringWriter.write("frequencyLabel(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -173,7 +169,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         RadioFrequencyContainer radioFrequencyContainer = new RadioFrequencyContainer(this);
         return radioFrequencyContainer;

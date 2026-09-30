@@ -16,9 +16,8 @@ extends NavCommand {
         this.operationMode = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "PredictiveNavigationSetActivationModeCommand#execute( %1 )", (long)this.operationMode);
+        this.logger.log(10000000, "PredictiveNavigationSetActivationModeCommand#execute( %1 )", (long)this.operationMode);
         if (this.env.hasService(class$de$audi$tghu$navi$app$predictivenav$IPredictiveNavController == null ? (class$de$audi$tghu$navi$app$predictivenav$IPredictiveNavController = PredictiveNavigationSetActivationModeCommand.class$("de.audi.tghu.navi.app.predictivenav.IPredictiveNavController")) : class$de$audi$tghu$navi$app$predictivenav$IPredictiveNavController)) {
             ((IPredictiveNavController)this.env.getService(class$de$audi$tghu$navi$app$predictivenav$IPredictiveNavController == null ? (class$de$audi$tghu$navi$app$predictivenav$IPredictiveNavController = PredictiveNavigationSetActivationModeCommand.class$("de.audi.tghu.navi.app.predictivenav.IPredictiveNavController")) : class$de$audi$tghu$navi$app$predictivenav$IPredictiveNavController)).setActivationMode(this.operationMode);
         }

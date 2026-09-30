@@ -14,7 +14,6 @@ extends NavCommand {
         this.provider = abstractNaviSearchDataProvider;
     }
 
-    @Override
     public void execute() {
         this.provider.invalidateData();
         this.getCommandList().commandFinished();

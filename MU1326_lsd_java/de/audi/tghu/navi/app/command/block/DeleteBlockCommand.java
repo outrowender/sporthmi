@@ -16,20 +16,18 @@ extends NavCommand {
         this.uid = l;
     }
 
-    @Override
     public void execute() {
         if (this.simpleDetourHandler.isBlockUidAvailable(this.uid)) {
-            this.logger.log(1078071040, "DeleteBlockCommand#execute() - calling deleteBlock()");
+            this.logger.log(1000000, "DeleteBlockCommand#execute() - calling deleteBlock()");
             this.getDSIBlocking().deleteBlock(new long[]{this.uid});
         } else {
-            this.logger.log(1078071040, "DeleteBlockCommand#execute() - blocking already vanished, do nothing");
+            this.logger.log(1000000, "DeleteBlockCommand#execute() - blocking already vanished, do nothing");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void deleteBlockResult(long[] lArray, int n) {
-        this.logger.log(1078071040, "DeleteBlockCommand#deleteBlockResult() resultCode = %1", (long)n);
+        this.logger.log(1000000, "DeleteBlockCommand#deleteBlockResult() resultCode = %1", (long)n);
         if (n == 0) {
             this.getCommandList().commandFinished();
         } else {

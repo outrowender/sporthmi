@@ -25,9 +25,8 @@ extends AbstractNaviSearchDataProvider {
         super(logChannel, iFrameworkAccess, bundleContext, n);
     }
 
-    @Override
     protected DataSet[] getDataSet() {
-        logChannel.log(1078071040, "IntelliDestOperatorCallDataProvider#getDataSet: ... called!");
+        logChannel.log(1000000, "IntelliDestOperatorCallDataProvider#getDataSet: ... called!");
         ArrayList arrayList = new ArrayList();
         if (this.callDatas != null) {
             Object object;
@@ -41,21 +40,21 @@ extends AbstractNaviSearchDataProvider {
             }
             int n = arrayList.size();
             if (n == 0) {
-                logChannel.log(1078071040, "IntelliDestOperatorCallDataProvider#getDataSet: no pois");
+                logChannel.log(1000000, "IntelliDestOperatorCallDataProvider#getDataSet: no pois");
                 return new DataSet[0];
             }
             dataSetArray = new DataSet[n];
             object = arrayList.listIterator();
             while (object.hasNext()) {
                 OperatorCallResult operatorCallResult = (OperatorCallResult)object.next();
-                logChannel.log(-2137614336, "IntelliDestOperatorCallDataProvider#getDataSet(): Creating searchable for poi %1", (Object)operatorCallResult);
+                logChannel.log(10000000, "IntelliDestOperatorCallDataProvider#getDataSet(): Creating searchable for poi %1", (Object)operatorCallResult);
                 Searchable[] searchableArray = this.getSearchablesForPoiCall(operatorCallResult);
                 dataSetArray[object.previousIndex()] = new DataSet(uniqueID, 0, 0, searchableArray);
                 ++uniqueID;
             }
             return dataSetArray;
         }
-        logChannel.log(-1601830656, "IntelliDestOperatorCallDataProvider#getDataSet: calls-array is null");
+        logChannel.log(100000, "IntelliDestOperatorCallDataProvider#getDataSet: calls-array is null");
         return new DataSet[0];
     }
 
@@ -70,10 +69,10 @@ extends AbstractNaviSearchDataProvider {
     public void saveInTruffles(ArrayList arrayList) {
         if (arrayList != null) {
             this.callDatas = arrayList;
-            logChannel.log(1078071040, "IntelliDestOperatorCallDataProvider#saveInTruffles: invalidateData ...!");
+            logChannel.log(1000000, "IntelliDestOperatorCallDataProvider#saveInTruffles: invalidateData ...!");
             this.invalidateData();
         } else {
-            logChannel.log(-1601830656, "IntelliDestOperatorCallDataProvider#saveInTruffles: call list is null !");
+            logChannel.log(100000, "IntelliDestOperatorCallDataProvider#saveInTruffles: call list is null !");
         }
     }
 }

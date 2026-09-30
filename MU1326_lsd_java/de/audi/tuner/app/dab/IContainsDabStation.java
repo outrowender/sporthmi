@@ -6,7 +6,6 @@ package de.audi.tuner.app.dab;
 import de.audi.tuner.app.dab.DabStation;
 
 public interface IContainsDabStation {
-    default public DabStation getDabStation() {
-    }
+    public DabStation getDabStation();
 }
 

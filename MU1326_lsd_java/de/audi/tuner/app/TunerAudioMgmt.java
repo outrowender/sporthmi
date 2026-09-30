@@ -9,8 +9,6 @@ import de.audi.atip.audio.HMIAudioServiceListener;
 import de.audi.atip.interapp.def.NullHMIAudioService;
 import de.audi.tuner.app.AudioInfo;
 import de.audi.tuner.app.Logger;
-import de.audi.tuner.app.TunerAudioMgmt$TunerAnnouncementConnectionMngr;
-import de.audi.tuner.app.TunerAudioMgmt$UserMuteConnectionMngr;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.TunerProxyManager;
@@ -27,9 +25,9 @@ import de.audi.tuner.ifc.NullTunerAnnounce;
 public class TunerAudioMgmt
 implements HMIAudioServiceListener,
 IRadioAudioService {
-    private static final int TUNER_DEFAULT_SOURCE;
-    private static final AudioGroup TUNER_FM;
-    private static final String LOGCLASS;
+    private static final int TUNER_DEFAULT_SOURCE = 1;
+    private static final AudioGroup TUNER_FM = new AudioGroup(3, 1, 1, 2, 0);
+    private static final String LOGCLASS = "TunerAudioMgmt";
     private int activeAnnouncementConnection = -1;
     private boolean sdsUplinkActive = false;
     private boolean sdsDownlinkActive = false;
@@ -43,8 +41,8 @@ IRadioAudioService {
     private final IScanHandler scanHandler;
     private ITunerAnnounce announcement = new NullTunerAnnounce();
     private IRadioCmdManager cmdManager;
-    private final TunerAudioMgmt$TunerAnnouncementConnectionMngr announcementController = new TunerAudioMgmt$TunerAnnouncementConnectionMngr(this, null);
-    private final TunerAudioMgmt$UserMuteConnectionMngr userMuteConnectionMngr = new TunerAudioMgmt$UserMuteConnectionMngr(this, null);
+    private final TunerAnnouncementConnectionMngr announcementController = new TunerAnnouncementConnectionMngr();
+    private final UserMuteConnectionMngr userMuteConnectionMngr = new UserMuteConnectionMngr();
     private AudioInfo[] listeners = new AudioInfo[0];
     private boolean isStartup;
 
@@ -83,12 +81,10 @@ IRadioAudioService {
         this.audioServiceFound = hMIAudioService != null;
     }
 
-    @Override
     public boolean isActive(int n) {
         return this.audioService.isActive(n);
     }
 
-    @Override
     public int getStatus(int n) {
         return this.audioService.getStatus(n);
     }
@@ -102,7 +98,6 @@ IRadioAudioService {
         return bl;
     }
 
-    @Override
     public void requestAudioChannel(int n, int n2) {
         if (!this.isAMAvailable()) {
             return;
@@ -113,11 +108,11 @@ IRadioAudioService {
             this.activeAnnouncementConnection = n;
         }
         if (this.status.hasAudioFocus(0) && !this.isAnnouncementConnection(n)) {
-            this.logger.main.log(-2137614336, "[%1.requestAudioChannel] Release TIM connection!", (Object)"TunerAudioMgmt");
+            this.logger.main.log(10000000, "[%1.requestAudioChannel] Release TIM connection!", (Object)LOGCLASS);
             this.audioService.releaseConnection(114);
             this.audioService.releaseConnection(115);
         }
-        this.logger.audio.log(-2137614336, "[%1.requestAudioChannel] AC:%2 HT:%3", (Object)"TunerAudioMgmt", (long)n, (long)n2);
+        this.logger.audio.log(10000000, "[%1.requestAudioChannel] AC:%2 HT:%3", (Object)LOGCLASS, (long)n, (long)n2);
         if (this.status.hasAudioFocus(n2) || this.isAnnouncementConnection(n)) {
             if (!this.isAnnouncementConnection(n)) {
                 this.releaseConnectionIfNotTarget(301, 2, n, n2);
@@ -139,11 +134,11 @@ IRadioAudioService {
     }
 
     private void requestOtherTerminals(int n, int n2) {
-        this.logger.audio.log(-2137614336, "[%1.requestOtherTerminals] AC:%2 HT:%3", (Object)"TunerAudioMgmt", (long)n, (long)n2);
+        this.logger.audio.log(10000000, "[%1.requestOtherTerminals] AC:%2 HT:%3", (Object)LOGCLASS, (long)n, (long)n2);
         if (this.isTunerAudioConnection(n)) {
             int n3 = n2 == 0 ? 2 : 0;
             boolean bl = this.status.hasAudioFocus(n3);
-            this.logger.audio.log(-2137614336, "[%1.requestOtherTerminals] hasFocus:%2 otherTerm:%3", (Object)"TunerAudioMgmt", (Object)(bl ? "true" : "false"), (long)n3);
+            this.logger.audio.log(10000000, "[%1.requestOtherTerminals] hasFocus:%2 otherTerm:%3", (Object)LOGCLASS, (Object)(bl ? "true" : "false"), (long)n3);
             if (bl) {
                 int n4 = this.getBandByConnection(n);
                 this.audioService.requestConnection(Utilities.getConnectionByBand(n4, n3), n3, TUNER_FM.getID());
@@ -156,7 +151,7 @@ IRadioAudioService {
             return;
         }
         this.audioService.requestAndFadeToConnection(n);
-        this.logger.audio.log(-2137614336, "[%1.requestAndFadeIn] request and fadeIn for AC:%2", (Object)"TunerAudioMgmt", (long)n);
+        this.logger.audio.log(10000000, "[%1.requestAndFadeIn] request and fadeIn for AC:%2", (Object)LOGCLASS, (long)n);
     }
 
     public void releaseAudioChannel(int n, int n2) {
@@ -164,10 +159,9 @@ IRadioAudioService {
             return;
         }
         this.audioService.releaseConnection(n, n2);
-        this.logger.audio.log(-2137614336, "[%1.releaseAudio] AC:%2", (Object)"TunerAudioMgmt", (long)n);
+        this.logger.audio.log(10000000, "[%1.releaseAudio] AC:%2", (Object)LOGCLASS, (long)n);
     }
 
-    @Override
     public void demute() {
         this.demute(0);
     }
@@ -177,25 +171,25 @@ IRadioAudioService {
             return;
         }
         if (this.isStartup) {
-            this.logger.audio.log(-2137614336, "[%1.demute] we are in Startup => ignore demute", (Object)"TunerAudioMgmt");
+            this.logger.audio.log(10000000, "[%1.demute] we are in Startup => ignore demute", (Object)LOGCLASS);
             this.setStartup(false);
             return;
         }
         if (this.status.hasAudioFocus(n)) {
-            this.logger.audio.log(1078071040, "[%1.demute] release MUTE_ENT for HT:%2", (Object)"TunerAudioMgmt", (long)n);
+            this.logger.audio.log(1000000, "[%1.demute] release MUTE_ENT for HT:%2", (Object)LOGCLASS, (long)n);
             this.audioService.releaseConnection(8, n);
             this.audioService.releaseA2LSConnection();
         } else {
-            this.logger.main.log(1078071040, "[%1.demute] Tuner has no audio focus for HT:%2, ignore demute", (Object)"TunerAudioMgmt", (long)n);
+            this.logger.main.log(1000000, "[%1.demute] Tuner has no audio focus for HT:%2, ignore demute", (Object)LOGCLASS, (long)n);
         }
     }
 
     public void toggleUserMute() {
         if (this.userMuteConnectionMngr.userMuteConnectionActive) {
-            this.logger.audio.log(1078071040, "[%1.toggleUserMute] release MUTE_ENT", (Object)"TunerAudioMgmt");
+            this.logger.audio.log(1000000, "[%1.toggleUserMute] release MUTE_ENT", (Object)LOGCLASS);
             this.audioService.releaseConnection(8, 0);
         } else {
-            this.logger.audio.log(1078071040, "[%1.toggleUserMute] requeste MUTE_ENT", (Object)"TunerAudioMgmt");
+            this.logger.audio.log(1000000, "[%1.toggleUserMute] requeste MUTE_ENT", (Object)LOGCLASS);
             this.audioService.requestConnection(8, 0);
         }
     }
@@ -209,11 +203,10 @@ IRadioAudioService {
     }
 
     public void returnAnnouncementAudio(int n) {
-        this.logger.audio.log(-2137614336, "[%1.returnAnnouncementAudio] release AC:%2", (Object)"TunerAudioMgmt", (long)n);
+        this.logger.audio.log(10000000, "[%1.returnAnnouncementAudio] release AC:%2", (Object)LOGCLASS, (long)n);
         this.audioService.releaseConnection(n);
     }
 
-    @Override
     public int getConnectionForActiveTuner(int n) {
         return Utilities.getConnectionByBand(this.models.getActiveTuner(), n);
     }
@@ -246,9 +239,8 @@ IRadioAudioService {
         return n2;
     }
 
-    @Override
     public void fadeTo(int n, int n2) {
-        this.logger.audio.log(1078071040, "[%1.fadeTo] AC:%2", (Object)"TunerAudioMgmt", (long)n);
+        this.logger.audio.log(1000000, "[%1.fadeTo] AC:%2", (Object)LOGCLASS, (long)n);
         this.audioService.fadeToConnection(n);
     }
 
@@ -260,9 +252,8 @@ IRadioAudioService {
         return this.activeAnnouncementConnection;
     }
 
-    @Override
     public void startConnection(int n, int n2) {
-        this.logger.audio.log(1078071040, "[%1.startConnection] AC:%2 HT:%3", (Object)"TunerAudioMgmt", (long)n, (long)n2);
+        this.logger.audio.log(1000000, "[%1.startConnection] AC:%2 HT:%3", (Object)LOGCLASS, (long)n, (long)n2);
         if (n == 113) {
             this.sdsUplinkActive = true;
             this.scanHandler.abortScan();
@@ -271,7 +262,7 @@ IRadioAudioService {
             this.scanHandler.abortScan();
         } else if (this.isTunerAudioConnection(n)) {
             if (this.cmdManager.isControlledbyCmd(n)) {
-                this.logger.audio.log(1078071040, "[%1.startConnection] AC:%2 is controlled by a command", (Object)"TunerAudioMgmt", (long)n);
+                this.logger.audio.log(1000000, "[%1.startConnection] AC:%2 is controlled by a command", (Object)LOGCLASS, (long)n);
             } else {
                 this.audioService.fadeToConnection(n, n2);
             }
@@ -315,14 +306,13 @@ IRadioAudioService {
         return 8;
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
         if (n == 113) {
             this.sdsUplinkActive = false;
         } else if (n == 112) {
             this.sdsDownlinkActive = false;
         } else if (this.isTunerAudioConnection(n)) {
-            this.logger.audio.log(1078071040, "[%1.stopConnection]Tuner AC:%2 closed ", (Object)"TunerAudioMgmt", (long)n);
+            this.logger.audio.log(1000000, "[%1.stopConnection]Tuner AC:%2 closed ", (Object)LOGCLASS, (long)n);
         } else if (this.isAnnouncementConnection(n) && n == this.activeAnnouncementConnection) {
             this.announcementController.announcementConnectionStopped();
             this.activeAnnouncementConnection = -1;
@@ -335,13 +325,12 @@ IRadioAudioService {
         }
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
         switch (n) {
             case 12: 
             case 13: 
             case 26: {
-                this.logger.audio.log(1078071040, "[%1.pauseConnection] Tuner AC:%2 paused ", (Object)"TunerAudioMgmt", (long)n);
+                this.logger.audio.log(1000000, "[%1.pauseConnection] Tuner AC:%2 paused ", (Object)LOGCLASS, (long)n);
                 break;
             }
             case 31: 
@@ -349,17 +338,16 @@ IRadioAudioService {
             case 33: 
             case 34: 
             case 35: {
-                this.logger.audio.log(1078071040, "[%1.pauseConnection] Tuner announcement AC:%2 paused", (Object)"TunerAudioMgmt", (long)n);
+                this.logger.audio.log(1000000, "[%1.pauseConnection] Tuner announcement AC:%2 paused", (Object)LOGCLASS, (long)n);
                 this.announcementController.announcementConnectionStopped();
                 break;
             }
         }
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
         if (this.isTunerAudioConnection(n)) {
-            this.logger.audio.log(1078071040, "[%1.fadedIn] Tuner AC:%2 is audible.", (Object)"TunerAudioMgmt", (long)n);
+            this.logger.audio.log(1000000, "[%1.fadedIn] Tuner AC:%2 is audible.", (Object)LOGCLASS, (long)n);
             Utilities.getFramework().getLastmodeHandler().triggerFirstAudio(n2);
             AudioInfo[] audioInfoArray = this.listeners;
             for (int i2 = 0; i2 < audioInfoArray.length; ++i2) {
@@ -370,7 +358,7 @@ IRadioAudioService {
                 this.returnAnnouncementAudio(n);
                 return;
             }
-            this.logger.audio.log(1078071040, "[%1.fadedIn] Tuner annoncement AC:%2 is audible.", (Object)"TunerAudioMgmt", (long)n);
+            this.logger.audio.log(1000000, "[%1.fadedIn] Tuner annoncement AC:%2 is audible.", (Object)LOGCLASS, (long)n);
             Utilities.getFramework().getLastmodeHandler().triggerFirstAudio(n2);
         } else {
             AudioInfo[] audioInfoArray = this.listeners;
@@ -380,19 +368,17 @@ IRadioAudioService {
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
-        this.logger.audio.log(10000, "[%1.errorConnection] AC:%2, errorCode:%3", (Object)"TunerAudioMgmt", (long)n, (long)n3);
+        this.logger.audio.log(10000, "[%1.errorConnection] AC:%2, errorCode:%3", (Object)LOGCLASS, (long)n, (long)n3);
         this.stopConnection(n, 0);
         if (this.amAvailable && n3 == 2 && n == this.getConnectionForActiveTuner(n2) && this.status.hasAudioFocus(n2)) {
-            this.logger.main.log(1078071040, "[%1.errorConnection] ERRORCODE_RR_REQUEST_NOT_POSSIBLE -> request AC:%2 again", (Object)"TunerAudioMgmt", (long)n);
+            this.logger.main.log(1000000, "[%1.errorConnection] ERRORCODE_RR_REQUEST_NOT_POSSIBLE -> request AC:%2 again", (Object)LOGCLASS, (long)n);
             this.audioService.requestConnection(n, n2);
         }
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
-        this.logger.audio.log(-2137614336, "[%1.updateAMAvailable] amAvailable:%2", (Object)"TunerAudioMgmt", (Object)(bl ? "true" : "false"));
+        this.logger.audio.log(10000000, "[%1.updateAMAvailable] amAvailable:%2", (Object)LOGCLASS, (Object)(bl ? "true" : "false"));
         this.amAvailable = bl;
         this.announcement.setAudioAvailable(bl);
         if (bl) {
@@ -425,7 +411,6 @@ IRadioAudioService {
         return n == 31 || n == 33 || n == 32 || n == 34 || n == 35;
     }
 
-    @Override
     public boolean isTunerAudioConnection(int n) {
         return n == 28 || n == 26 || n == 12 || n == 13 || n == 15 || n == 301 || n == 300 || n == 302 || n == 304 || n == 303;
     }
@@ -440,12 +425,11 @@ IRadioAudioService {
         this.audioService.setVolumelock(n3, n2, false, object);
     }
 
-    @Override
     public boolean isAMAvailable() {
         if (!this.amAvailable) {
-            this.logger.audio.log(-1601830656, "[%1.isAMAvailable] amAvailable: false", (Object)"TunerAudioMgmt");
+            this.logger.audio.log(100000, "[%1.isAMAvailable] amAvailable: false", (Object)LOGCLASS);
         } else {
-            this.logger.audio.log(-2137614336, "[%1.isAMAvailable] amAvailable: true", (Object)"TunerAudioMgmt");
+            this.logger.audio.log(10000000, "[%1.isAMAvailable] amAvailable: true", (Object)LOGCLASS);
         }
         return this.amAvailable;
     }
@@ -456,27 +440,74 @@ IRadioAudioService {
     }
 
     public void setLastMode(int n) {
-        this.logger.audio.log(1078071040, "[%1.setLastMode] lastMode:%2", (Object)"TunerAudioMgmt", (long)n);
+        this.logger.audio.log(1000000, "[%1.setLastMode] lastMode:%2", (Object)LOGCLASS, (long)n);
         if (this.lastActiveEntConnection == -1) {
             this.lastActiveEntConnection = this.getConnectionByBand(n);
         }
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
-        this.logger.audio.log(1078071040, "[%1.updateVolumeLock] VL:%2", (Object)"TunerAudioMgmt", (Object)(bl ? "true" : "false"));
+        this.logger.audio.log(1000000, "[%1.updateVolumeLock] VL:%2", (Object)LOGCLASS, (Object)(bl ? "true" : "false"));
     }
 
     public void setStartup(boolean bl) {
         this.isStartup = bl;
     }
 
-    static /* synthetic */ AudioInfo[] access$200(TunerAudioMgmt tunerAudioMgmt) {
-        return tunerAudioMgmt.listeners;
+    private class UserMuteConnectionMngr {
+        boolean userMuteConnectionActive = false;
+
+        private UserMuteConnectionMngr() {
+        }
+
+        public void userMuteConnStarted() {
+            if (!this.userMuteConnectionActive) {
+                this.userMuteConnectionActive = true;
+                this.informListeners();
+            }
+        }
+
+        private void informListeners() {
+            AudioInfo[] audioInfoArray = TunerAudioMgmt.this.listeners;
+            for (int i2 = 0; i2 < audioInfoArray.length; ++i2) {
+                audioInfoArray[i2].userMuteConnectionStarted(this.userMuteConnectionActive);
+            }
+        }
+
+        public void userMuteConnectionStopped() {
+            if (this.userMuteConnectionActive) {
+                this.userMuteConnectionActive = false;
+                this.informListeners();
+            }
+        }
     }
 
-    static {
-        TUNER_FM = new AudioGroup(3, 1, 1, 2, 0);
+    private class TunerAnnouncementConnectionMngr {
+        boolean announcementConnectionActive = false;
+
+        private TunerAnnouncementConnectionMngr() {
+        }
+
+        public void announcementConnStarted() {
+            if (!this.announcementConnectionActive) {
+                this.announcementConnectionActive = true;
+                this.informListeners();
+            }
+        }
+
+        private void informListeners() {
+            AudioInfo[] audioInfoArray = TunerAudioMgmt.this.listeners;
+            for (int i2 = 0; i2 < audioInfoArray.length; ++i2) {
+                audioInfoArray[i2].tunerAnnouncementConnectionStarted(this.announcementConnectionActive);
+            }
+        }
+
+        public void announcementConnectionStopped() {
+            if (this.announcementConnectionActive) {
+                this.announcementConnectionActive = false;
+                this.informListeners();
+            }
+        }
     }
 }
 

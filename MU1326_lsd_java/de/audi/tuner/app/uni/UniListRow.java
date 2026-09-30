@@ -13,21 +13,21 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class UniListRow
 extends AbstractRadioListRow {
-    private static final int INDEX_NAME;
-    private static final int INDEX_AUDIO_STATUS;
-    private static final int INDEX_ARTIST;
-    private static final int INDEX_TITLE;
-    private static final int INDEX_IMAGE;
-    private static final int INDEX_PTY;
-    private static final int INDEX_DASH;
-    private static final int INDEX_SEPARATOR;
-    private static final int INDEX_PSFREEZE_STATUS;
-    protected static final int INDEX_PROPERTIES;
-    private static final int INDEX_RADIOTEXT_ICON;
-    private static final int INDEX_SLIDESHOW_ICON;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_INDENTEND;
-    public static final int NUM_OF_COLS;
+    private static final int INDEX_NAME = 0;
+    private static final int INDEX_AUDIO_STATUS = 1;
+    private static final int INDEX_ARTIST = 2;
+    private static final int INDEX_TITLE = 3;
+    private static final int INDEX_IMAGE = 4;
+    private static final int INDEX_PTY = 5;
+    private static final int INDEX_DASH = 6;
+    private static final int INDEX_SEPARATOR = 7;
+    private static final int INDEX_PSFREEZE_STATUS = 8;
+    protected static final int INDEX_PROPERTIES = 9;
+    private static final int INDEX_RADIOTEXT_ICON = 10;
+    private static final int INDEX_SLIDESHOW_ICON = 11;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 12;
+    private static final int INDEX_INDENTEND = 13;
+    public static final int NUM_OF_COLS = 14;
     private final UnifiedStationExt station;
     private boolean tmpStation;
 
@@ -61,7 +61,6 @@ extends AbstractRadioListRow {
         return this.tmpStation;
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         return new TunerObjectContainer(new UnifiedStationExt(this.station));
     }
@@ -114,7 +113,6 @@ extends AbstractRadioListRow {
         }
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(300);
         buffer.append(this.station).append(' ');

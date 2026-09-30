@@ -14,13 +14,13 @@ public class OperatorCallPhoneData {
 
     public void savePhoneData(String string, String[] stringArray, int n) {
         if (stringArray != null && string != null) {
-            this.logChannel.log(-2137614336, "OperatorCallPhoneData#savePhoneData: serviceId = %1, number of phoneNumbers: %2", (Object)string, (long)stringArray.length);
+            this.logChannel.log(10000000, "OperatorCallPhoneData#savePhoneData: serviceId = %1, number of phoneNumbers: %2", (Object)string, (long)stringArray.length);
         } else {
             if (string == null) {
-                this.logChannel.log(-2137614336, "OperatorCallPhoneData#savePhoneData: serviceId is null.");
+                this.logChannel.log(10000000, "OperatorCallPhoneData#savePhoneData: serviceId is null.");
             }
             if (stringArray == null) {
-                this.logChannel.log(-2137614336, "OperatorCallPhoneData#savePhoneData: array of phoneNumbers is null.");
+                this.logChannel.log(10000000, "OperatorCallPhoneData#savePhoneData: array of phoneNumbers is null.");
             }
         }
         this.serviceId = string;

@@ -190,7 +190,7 @@ public class a {
                 l2 = l2 << 8 | (long)(byArray[n] & 0xFF);
             }
         }
-        string = new StringBuffer().append(a.a(l >> 32, 8)).append("-").append(a.a(l >> 16, 4)).append("-").append(a.a(l, 4)).append("-").append(a.a(l2 >> 48, 4)).append("-").append(a.a(l2, 12)).toString();
+        string = a.a(l >> 32, 8) + "-" + a.a(l >> 16, 4) + "-" + a.a(l, 4) + "-" + a.a(l2 >> 48, 4) + "-" + a.a(l2, 12);
         return string;
     }
 }

@@ -44,15 +44,14 @@ implements InvocationHandler {
         return this.logger;
     }
 
-    @Override
-    public Object invoke(Object object, Method method, Object[] objectArray) {
+    public Object invoke(Object object, Method method, Object[] objectArray) throws Throwable {
         if (this.printTrace) {
             new NullFactoryException().printStackTrace();
         }
         if (this.getLogger() != null) {
             this.getLogger().log(10000, "%1#%2() - unexpected call", (Object)this.clazz.getName(), (Object)method.getName());
         } else {
-            System.out.println(new StringBuffer().append("ERROR: ").append(this.clazz.getName()).append("#").append(method.getName()).append(" unexpected call [").append(this.name).append("]").toString());
+            System.out.println("ERROR: " + this.clazz.getName() + "#" + method.getName() + " unexpected call [" + this.name + "]");
         }
         Class clazz = method.getReturnType();
         if (clazz.isPrimitive()) {
@@ -78,7 +77,7 @@ implements InvocationHandler {
             if (this.getLogger() != null) {
                 this.getLogger().log(10000, "%1#%2() - can not fake %3", (Object)this.clazz.getName(), (Object)method.getName(), (Object)clazz.getName());
             } else {
-                System.out.println(new StringBuffer().append("ERROR: ").append(this.clazz.getName()).append("#").append(method.getName()).append(" can not fake [").append(clazz.getName()).append("]").toString());
+                System.out.println("ERROR: " + this.clazz.getName() + "#" + method.getName() + " can not fake [" + clazz.getName() + "]");
             }
         }
         return null;

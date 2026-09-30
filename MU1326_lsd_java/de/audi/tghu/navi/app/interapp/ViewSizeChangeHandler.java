@@ -24,10 +24,9 @@ implements IViewSizeChangeHandler {
         this.listeners = new ArrayList(5);
     }
 
-    @Override
     public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
         if (iViewSizeManager != null) {
-            this.logChannel.log(-2137614336, "ViewSizeChangeHandler#setViewSizeManager() listeners.size()=%1 ", (long)this.listeners.size());
+            this.logChannel.log(10000000, "ViewSizeChangeHandler#setViewSizeManager() listeners.size()=%1 ", (long)this.listeners.size());
             this.viewSizeManager = iViewSizeManager;
             try {
                 for (int i2 = 0; i2 < this.listeners.size(); ++i2) {
@@ -38,15 +37,14 @@ implements IViewSizeChangeHandler {
                 this.logChannel.log(10000, "ViewSizeChangeHandler#setViewSizeManager() - ERROR = %1", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "ViewSizeChangeHandler#setViewSizeManager( null )");
+            this.logChannel.log(100000, "ViewSizeChangeHandler#setViewSizeManager( null )");
             this.viewSizeManager = null;
         }
     }
 
-    @Override
     public boolean isSmallStageActive() {
         if (this.viewSizeManager != null) {
-            this.logChannel.log(-2137614336, "ViewSizeChangeHandler#isSmallStageActive()");
+            this.logChannel.log(10000000, "ViewSizeChangeHandler#isSmallStageActive()");
             try {
                 return this.viewSizeManager.getCurrentViewSize() == 1;
             }
@@ -55,15 +53,14 @@ implements IViewSizeChangeHandler {
                 return false;
             }
         }
-        this.logChannel.log(-1601830656, "ViewSizeChangeHandler#isSmallStageActive() - null");
+        this.logChannel.log(100000, "ViewSizeChangeHandler#isSmallStageActive() - null");
         return false;
     }
 
-    @Override
     public void addViewSizeChangedListener(IViewSizeListener iViewSizeListener) {
         this.listeners.add(iViewSizeListener);
         if (this.viewSizeManager != null) {
-            this.logChannel.log(-2137614336, "ViewSizeChangeHandler#addViewSizeChangedListener()");
+            this.logChannel.log(10000000, "ViewSizeChangeHandler#addViewSizeChangedListener()");
             try {
                 this.viewSizeManager.addViewSizeListener(iViewSizeListener);
             }
@@ -71,14 +68,13 @@ implements IViewSizeChangeHandler {
                 this.logChannel.log(10000, "ViewSizeChangeHandler#addViewSizeChangedListener() - ERROR = %1", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "ViewSizeChangeHandler#addViewSizeChangedListener() - null");
+            this.logChannel.log(100000, "ViewSizeChangeHandler#addViewSizeChangedListener() - null");
         }
     }
 
-    @Override
     public void requestLargeViewSize(int n) {
         if (this.viewSizeManager != null) {
-            this.logChannel.log(-2137614336, "ViewSizeChangeHandler#requestLargeViewSize()");
+            this.logChannel.log(10000000, "ViewSizeChangeHandler#requestLargeViewSize()");
             try {
                 this.viewSizeManager.requestLargeViewSize(n);
             }
@@ -86,14 +82,13 @@ implements IViewSizeChangeHandler {
                 this.logChannel.log(10000, "ViewSizeChangeHandler#requestViewSizeChange() - ERROR = %1", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "ViewSizeChangeHandler#requestViewSizeChange() - null");
+            this.logChannel.log(100000, "ViewSizeChangeHandler#requestViewSizeChange() - null");
         }
     }
 
-    @Override
     public void unrequestLargeViewSize(int n) {
         if (this.viewSizeManager != null) {
-            this.logChannel.log(-2137614336, "ViewSizeChangeHandler#unrequestLargeViewSize()");
+            this.logChannel.log(10000000, "ViewSizeChangeHandler#unrequestLargeViewSize()");
             try {
                 this.viewSizeManager.unrequestLargeViewSize(n);
             }
@@ -101,7 +96,7 @@ implements IViewSizeChangeHandler {
                 this.logChannel.log(10000, "ViewSizeChangeHandler#requestViewSizeChange() - ERROR = %1", (Throwable)exception);
             }
         } else {
-            this.logChannel.log(-1601830656, "ViewSizeChangeHandler#requestViewSizeChange() - null");
+            this.logChannel.log(100000, "ViewSizeChangeHandler#requestViewSizeChange() - null");
         }
     }
 }

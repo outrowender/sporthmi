@@ -20,16 +20,14 @@ extends NavCommand {
         this.cache = navLocationsCache;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute() - calling liTryMatchLocation() tmlData: %2 ", (Object)this.CLASS_NAME, (Object)this.tmlData);
+        this.logger.log(10000000, "%1#execute() - calling liTryMatchLocation() tmlData: %2 ", (Object)this.CLASS_NAME, (Object)this.tmlData);
         this.getDSINavigation().liTryMatchLocation(this.tmlData);
     }
 
-    @Override
     public void liTryMatchLocationResult(TryMatchLocationResultData[] tryMatchLocationResultDataArray) {
         if (tryMatchLocationResultDataArray != null && tryMatchLocationResultDataArray.length > 0 && tryMatchLocationResultDataArray[0] != null) {
-            this.logger.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#liTryMatchLocationResult() matchLevel=%2, result.length=%3, result[0].getLocation(): %1").toString(), (Object)LocationFormatter.formatLocationShort(tryMatchLocationResultDataArray[0].getLocation()), (long)tryMatchLocationResultDataArray[0].matchLevel, (long)tryMatchLocationResultDataArray.length);
+            this.logger.log(10000000, this.CLASS_NAME + "#liTryMatchLocationResult() matchLevel=%2, result.length=%3, result[0].getLocation(): %1", (Object)LocationFormatter.formatLocationShort(tryMatchLocationResultDataArray[0].getLocation()), (long)tryMatchLocationResultDataArray[0].matchLevel, (long)tryMatchLocationResultDataArray.length);
         } else {
             this.logger.log(10000, "%1#liTryMatchLocationResult() invalid result: %2", (Object)this.CLASS_NAME, (Object)Arrays.asList(tryMatchLocationResultDataArray));
         }

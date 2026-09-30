@@ -18,19 +18,16 @@ implements DataConnectionStateListener {
         this.remoteHmiService = remoteHMIService;
     }
 
-    @Override
     public void updateDataConnectionErrorState(int n) {
-        this.logger.log(1078071040, "RemoteHMIDataConnectionStateListener#updateDataConnectionErrorState: state %1", (Object)Integer.toString(n));
+        this.logger.log(1000000, "RemoteHMIDataConnectionStateListener#updateDataConnectionErrorState: state %1", (Object)Integer.toString(n));
         RemoteHMIAction remoteHMIAction = this.getAction(1600);
         this.remoteHmiService.invokeAction(remoteHMIAction);
     }
 
-    @Override
     public void updateDataConnectionState(int n) {
-        this.logger.log(1078071040, "RemoteHMIDataConnectionStateListener#updateDataConnectionState: state %1", (Object)Integer.toString(n));
+        this.logger.log(1000000, "RemoteHMIDataConnectionStateListener#updateDataConnectionState: state %1", (Object)Integer.toString(n));
     }
 
-    @Override
     public void resetOfflineFlags() {
     }
 

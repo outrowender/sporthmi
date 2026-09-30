@@ -3,8 +3,7 @@
  */
 package de.dreisoft.lsd;
 
-import de.dreisoft.lsd.LSDLogService$LogServiceObserver;
-import de.dreisoft.lsd.LSDLogService$SingletonHolder;
+import de.dreisoft.lsd.ServiceInfo;
 import de.dreisoft.lsd.ServiceObserver;
 import de.dreisoft.lsd.ServiceRegistry;
 import org.osgi.framework.ServiceReference;
@@ -14,7 +13,7 @@ final class LSDLogService
 implements LogService {
     private static final String[] LOG_SERVICE_CLASS = new String[]{(class$org$osgi$service$log$LogService == null ? (class$org$osgi$service$log$LogService = LSDLogService.class$("org.osgi.service.log.LogService")) : class$org$osgi$service$log$LogService).toString()};
     private LogService logService = null;
-    private ServiceObserver logServiceObserver = new LSDLogService$LogServiceObserver(this, null);
+    private ServiceObserver logServiceObserver = new LogServiceObserver();
     static /* synthetic */ Class class$org$osgi$service$log$LogService;
 
     private LSDLogService() {
@@ -22,10 +21,9 @@ implements LogService {
     }
 
     static LSDLogService getInstance() {
-        return LSDLogService$SingletonHolder.INSTANCE;
+        return SingletonHolder.INSTANCE;
     }
 
-    @Override
     public void log(int n, String string) {
         if (this.logService != null) {
             this.logService.log(n, string);
@@ -34,7 +32,6 @@ implements LogService {
         }
     }
 
-    @Override
     public void log(int n, String string, Throwable throwable) {
         if (this.logService != null) {
             this.logService.log(n, string, throwable);
@@ -43,7 +40,6 @@ implements LogService {
         }
     }
 
-    @Override
     public void log(ServiceReference serviceReference, int n, String string) {
         if (this.logService != null) {
             this.logService.log(serviceReference, n, string);
@@ -52,7 +48,6 @@ implements LogService {
         }
     }
 
-    @Override
     public void log(ServiceReference serviceReference, int n, String string, Throwable throwable) {
         if (this.logService != null) {
             this.logService.log(serviceReference, n, string, throwable);
@@ -107,17 +102,32 @@ implements LogService {
         }
     }
 
-    static /* synthetic */ String[] access$200() {
-        return LOG_SERVICE_CLASS;
+    private static class SingletonHolder {
+        static final LSDLogService INSTANCE = new LSDLogService();
+
+        private SingletonHolder() {
+        }
     }
 
-    static /* synthetic */ LogService access$302(LSDLogService lSDLogService, LogService logService) {
-        lSDLogService.logService = logService;
-        return lSDLogService.logService;
-    }
+    private class LogServiceObserver
+    implements ServiceObserver {
+        private LogServiceObserver() {
+        }
 
-    static /* synthetic */ LogService access$300(LSDLogService lSDLogService) {
-        return lSDLogService.logService;
+        public String[] getObservedClasses() {
+            return LOG_SERVICE_CLASS;
+        }
+
+        public boolean addingService(ServiceInfo serviceInfo) {
+            LSDLogService.this.logService = (LogService)serviceInfo.getService();
+            return true;
+        }
+
+        public void removedService(ServiceInfo serviceInfo) {
+            if (LSDLogService.this.logService == (LogService)serviceInfo.getService()) {
+                LSDLogService.this.logService = null;
+            }
+        }
     }
 }
 

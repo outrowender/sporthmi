@@ -13,10 +13,10 @@ import de.audi.tone.app.dsi.IDSISoundHandler;
 public class BalanceFader
 extends ToneDefaultListener
 implements RangeListener2D {
-    public static final int STATUS_NONE_ACTIVE;
-    static final int STATUS_BALANCE_ACTIVE;
-    static final int STATUS_FADER_ACTIVE;
-    static final int MODEL;
+    public static final int STATUS_NONE_ACTIVE = 0;
+    static final int STATUS_BALANCE_ACTIVE = 1;
+    static final int STATUS_FADER_ACTIVE = 2;
+    static final int MODEL = 1000037;
     private volatile int tempBalanceValue;
     private volatile int tempFaderValue;
     private final IDSISoundHandler dsiSound;
@@ -26,7 +26,7 @@ implements RangeListener2D {
     BalanceFader(ToneEnv toneEnv, IDSISoundHandler iDSISoundHandler, int n) {
         this.env = toneEnv;
         this.dsiSound = iDSISoundHandler;
-        this.model = toneEnv.getRangeModel2D(n, 1698828032);
+        this.model = toneEnv.getRangeModel2D(n, 1000037);
         this.model.setRangeListener(this);
         this.setActiveStatus(0);
     }
@@ -47,29 +47,28 @@ implements RangeListener2D {
 
     void updateBalance(int n) {
         if (this.env.getSysConst(4542) == 1) {
-            this.env.lcHMI.log(-2137614336, "[BalanceFader.updateBalance] In Porsche widget is updating itself. balance: %1", (long)n);
+            this.env.lcHMI.log(10000000, "[BalanceFader.updateBalance] In Porsche widget is updating itself. balance: %1", (long)n);
             this.tempBalanceValue = n;
         } else {
             int n2 = this.normalize(n, this.getBalanceMin(), this.getBalanceMax());
             this.model.setValue(n2, this.getFader());
         }
-        this.env.getChoiceModel(1866600192).setValue(n);
+        this.env.getChoiceModel(1000047).setValue(n);
     }
 
     void updateFader(int n) {
         if (this.env.getSysConst(4542) == 1) {
-            this.env.lcHMI.log(-2137614336, "[BalanceFader.updateFader] In Porsche widget is updating itself. fader :%1", (long)n);
+            this.env.lcHMI.log(10000000, "[BalanceFader.updateFader] In Porsche widget is updating itself. fader :%1", (long)n);
             this.tempFaderValue = n;
         } else {
             int n2 = this.normalize(n, this.getFaderMin(), this.getFaderMax());
             this.model.setValue(this.getBalance(), n2);
         }
-        this.env.getChoiceModel(1900154624).setValue(n);
+        this.env.getChoiceModel(1000049).setValue(n);
     }
 
-    @Override
     public void setValueHit(int n, int n2, int n3, int n4) {
-        this.env.lcHMI.log(-2137614336, "[BalanceFader.setValueHit] x/balance:%1 y/fader:%2", (long)n2, (long)n3);
+        this.env.lcHMI.log(10000000, "[BalanceFader.setValueHit] x/balance:%1 y/fader:%2", (long)n2, (long)n3);
         if (n2 != 0) {
             this.dsiSound.changeBalance(n4, n2);
         }
@@ -85,7 +84,7 @@ implements RangeListener2D {
     public final void writeBackModelValue() {
         int n = this.normalize(this.tempBalanceValue, this.getBalanceMin(), this.getBalanceMax());
         int n2 = this.normalize(this.tempFaderValue, this.getFaderMin(), this.getFaderMax());
-        this.env.lcHMI.log(-2137614336, "[BalanceFader.writeBackModelValue] x/balance:%1 y/fader:%2", (long)n, (long)n2);
+        this.env.lcHMI.log(10000000, "[BalanceFader.writeBackModelValue] x/balance:%1 y/fader:%2", (long)n, (long)n2);
         this.model.setValue(n, n2);
     }
 
@@ -116,10 +115,10 @@ implements RangeListener2D {
     private int normalize(int n, int n2, int n3) {
         int n4 = n;
         if (n < n2) {
-            this.env.lcMain.log(1078071040, "[BalanceFader.normalize] value:%2 < min:%3 (%1)", (Object)this.model, (long)n, (long)n2);
+            this.env.lcMain.log(1000000, "[BalanceFader.normalize] value:%2 < min:%3 (%1)", (Object)this.model, (long)n, (long)n2);
             n4 = n2;
         } else if (n > n3) {
-            this.env.lcMain.log(1078071040, "[BalanceFader.normalize] value:%2 > max:%3 (%1)", (Object)this.model, (long)n, (long)n3);
+            this.env.lcMain.log(1000000, "[BalanceFader.normalize] value:%2 > max:%3 (%1)", (Object)this.model, (long)n, (long)n3);
             n4 = n3;
         }
         return n4;

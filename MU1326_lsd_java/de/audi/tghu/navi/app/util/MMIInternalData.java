@@ -12,19 +12,19 @@ import java.util.Map;
 import org.dsi.ifc.global.NavLocation;
 
 public class MMIInternalData {
-    private static final String MMI_INTERNAL_DATA_SEPARATOR;
-    private static final String MMI_INTERNAL_DATA_KEY_VALUE_SEPARATOR;
-    public static final String KEY_ONLINEPOI;
-    public static final String KEY_TITLE;
-    public static final String KEY_MYSCREEN;
-    public static final String KEY_FAVORITE_NAME;
-    public static final String KEY_PETROL;
-    public static final String KEY_URL;
-    public static final String KEY_PHONE;
-    public static final String KEY_GEOPOS;
-    public static final String VALUE_BOOLEAN_TRUE;
-    public static final String KEY_ONLINE_POI_ID;
-    public static final String KEY_AREA;
+    private static final String MMI_INTERNAL_DATA_SEPARATOR = "@@";
+    private static final String MMI_INTERNAL_DATA_KEY_VALUE_SEPARATOR = "=";
+    public static final String KEY_ONLINEPOI = "OnlineName";
+    public static final String KEY_TITLE = "Title";
+    public static final String KEY_MYSCREEN = "Myscreen";
+    public static final String KEY_FAVORITE_NAME = "FAVORITE_NAME";
+    public static final String KEY_PETROL = "Petrol";
+    public static final String KEY_URL = "URL";
+    public static final String KEY_PHONE = "Phone";
+    public static final String KEY_GEOPOS = "GeoPos";
+    public static final String VALUE_BOOLEAN_TRUE = "Y";
+    public static final String KEY_ONLINE_POI_ID = "OnlienPoiID";
+    public static final String KEY_AREA = "Area";
     private final Map internalData = new HashMap();
 
     public void init(String string) {
@@ -95,17 +95,17 @@ public class MMIInternalData {
         int n = 0;
         int n2 = 0;
         while (true) {
-            n2 = string.indexOf("=", n);
+            n2 = string.indexOf(MMI_INTERNAL_DATA_KEY_VALUE_SEPARATOR, n);
             if (n >= string.length() || n2 < n || n2 < 0) break;
             string2 = string.substring(n, n2);
-            n = n2 + "=".length();
-            if ((n2 = string.indexOf("@@", n)) < 0) {
+            n = n2 + MMI_INTERNAL_DATA_KEY_VALUE_SEPARATOR.length();
+            if ((n2 = string.indexOf(MMI_INTERNAL_DATA_SEPARATOR, n)) < 0) {
                 n2 = string.length();
             }
             if (n >= string.length() || n2 < n || n2 < 0) break;
             string3 = string.substring(n, n2);
             this.internalData.put(string2, string3);
-            n = n2 + "@@".length();
+            n = n2 + MMI_INTERNAL_DATA_SEPARATOR.length();
         }
     }
 
@@ -118,10 +118,10 @@ public class MMIInternalData {
             String string = (String)map.get(object);
             if (Util.isEmpty(string)) continue;
             if (n++ > 0) {
-                buffer.append("@@");
+                buffer.append(MMI_INTERNAL_DATA_SEPARATOR);
             }
             buffer.append(object);
-            buffer.append("=");
+            buffer.append(MMI_INTERNAL_DATA_KEY_VALUE_SEPARATOR);
             buffer.append(string);
         }
         return buffer.toString();

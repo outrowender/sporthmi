@@ -4,15 +4,13 @@
 package de.audi.tuner.app.sdars;
 
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.TunerBasics;
 import de.audi.tuner.app.TunerModels;
-import de.audi.tuner.app.sdars.CategoryFilter$ChoiceListener;
-import de.audi.tuner.app.sdars.CategoryFilter$DsiUpListener;
-import de.audi.tuner.app.sdars.CategoryFilter$ICategoryFilter;
-import de.audi.tuner.app.sdars.CategoryFilter$ListListener;
 import de.audi.tuner.app.sdars.CategoryFilterRow;
 import de.audi.tuner.app.sdars.CategoryInfoExt;
 import de.audi.tuner.app.sdars.SDARSStationListHandler;
@@ -26,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CategoryFilter {
-    final SDARSDsiUpInfo dsiUpInfo = new CategoryFilter$DsiUpListener(this, null);
+    final SDARSDsiUpInfo dsiUpInfo = new DsiUpListener();
     private final TunerModels models;
     private final BaseListModelApp filterList;
     private final BaseListModelApp jumpModel;
@@ -37,22 +35,22 @@ public class CategoryFilter {
     private StationInfoExt[] stationList = new StationInfoExt[0];
     private CategoryInfoExt[] categoryList = new CategoryInfoExt[0];
     private SimpleIntIntMap filterStates;
-    private CategoryFilter$ICategoryFilter[] catListeners = new CategoryFilter$ICategoryFilter[0];
+    private ICategoryFilter[] catListeners = new ICategoryFilter[0];
 
     CategoryFilter(TunerBasics tunerBasics, LanguageManager languageManager, SDARSStationListHandler sDARSStationListHandler, TunerStorage tunerStorage) {
         this.models = tunerBasics.getModels();
         this.langMngr = languageManager;
         this.storage = tunerStorage;
         this.stationListHandler = sDARSStationListHandler;
-        this.filterList = this.models.getBaseListModel(2122842368);
-        this.filterList.setListener(new CategoryFilter$ListListener(this, null));
-        this.jumpModel = this.models.getBaseListModel(2139619584);
-        this.allChoice = this.models.getChoiceModel(914817280);
-        CategoryFilter$ChoiceListener categoryFilter$ChoiceListener = new CategoryFilter$ChoiceListener(this, null);
-        this.allChoice.setChoiceListener(categoryFilter$ChoiceListener);
-        this.models.getButtonModel(-276299520).setButtonListener(categoryFilter$ChoiceListener);
-        this.models.getButtonModel(-242745088).setButtonListener(categoryFilter$ChoiceListener);
-        this.models.getButtonModel(-259522304).setButtonListener(categoryFilter$ChoiceListener);
+        this.filterList = this.models.getBaseListModel(100478);
+        this.filterList.setListener(new ListListener());
+        this.jumpModel = this.models.getBaseListModel(100479);
+        this.allChoice = this.models.getChoiceModel(100150);
+        ChoiceListener choiceListener = new ChoiceListener();
+        this.allChoice.setChoiceListener(choiceListener);
+        this.models.getButtonModel(100591).setButtonListener(choiceListener);
+        this.models.getButtonModel(100593).setButtonListener(choiceListener);
+        this.models.getButtonModel(100592).setButtonListener(choiceListener);
         this.filterStates = tunerStorage.loadSDARSFilterStates();
     }
 
@@ -175,7 +173,7 @@ public class CategoryFilter {
         this.stationListHandler.catFilterChanged();
         this.informListener();
         this.createJumpList();
-        this.models.getButtonModel(-259522304).setStatus(bl ? 1 : 3);
+        this.models.getButtonModel(100592).setStatus(bl ? 1 : 3);
     }
 
     /*
@@ -204,24 +202,24 @@ public class CategoryFilter {
         this.activateDeactivateAll(true);
     }
 
-    public void addListener(CategoryFilter$ICategoryFilter categoryFilter$ICategoryFilter) {
-        CategoryFilter$ICategoryFilter[] categoryFilter$ICategoryFilterArray = new CategoryFilter$ICategoryFilter[this.catListeners.length + 1];
-        System.arraycopy((Object)this.catListeners, 0, (Object)categoryFilter$ICategoryFilterArray, 0, this.catListeners.length);
-        categoryFilter$ICategoryFilterArray[this.catListeners.length] = categoryFilter$ICategoryFilter;
-        this.catListeners = categoryFilter$ICategoryFilterArray;
-        this.informListener(categoryFilter$ICategoryFilter, this.extractFilterInfo());
+    public void addListener(ICategoryFilter iCategoryFilter) {
+        ICategoryFilter[] iCategoryFilterArray = new ICategoryFilter[this.catListeners.length + 1];
+        System.arraycopy((Object)this.catListeners, 0, (Object)iCategoryFilterArray, 0, this.catListeners.length);
+        iCategoryFilterArray[this.catListeners.length] = iCategoryFilter;
+        this.catListeners = iCategoryFilterArray;
+        this.informListener(iCategoryFilter, this.extractFilterInfo());
     }
 
     private void informListener() {
         boolean[] blArray = this.extractFilterInfo();
-        CategoryFilter$ICategoryFilter[] categoryFilter$ICategoryFilterArray = this.catListeners;
-        for (int i2 = 0; i2 < categoryFilter$ICategoryFilterArray.length; ++i2) {
-            this.informListener(categoryFilter$ICategoryFilterArray[i2], blArray);
+        ICategoryFilter[] iCategoryFilterArray = this.catListeners;
+        for (int i2 = 0; i2 < iCategoryFilterArray.length; ++i2) {
+            this.informListener(iCategoryFilterArray[i2], blArray);
         }
     }
 
-    private void informListener(CategoryFilter$ICategoryFilter categoryFilter$ICategoryFilter, boolean[] blArray) {
-        categoryFilter$ICategoryFilter.categoryFilterChanged(blArray);
+    private void informListener(ICategoryFilter iCategoryFilter, boolean[] blArray) {
+        iCategoryFilter.categoryFilterChanged(blArray);
     }
 
     private boolean[] extractFilterInfo() {
@@ -240,33 +238,79 @@ public class CategoryFilter {
         return stationInfoExtArray;
     }
 
-    static /* synthetic */ void access$400(CategoryFilter categoryFilter) {
-        categoryFilter.doListUpdate();
-    }
-
     static /* synthetic */ CategoryInfoExt[] access$502(CategoryFilter categoryFilter, CategoryInfoExt[] categoryInfoExtArray) {
         categoryFilter.categoryList = categoryInfoExtArray;
         return categoryInfoExtArray;
     }
 
-    static /* synthetic */ BaseListModelApp access$600(CategoryFilter categoryFilter) {
-        return categoryFilter.filterList;
+    private class ListListener
+    extends DefaultBaseListModelListener {
+        private ListListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            CategoryFilterRow categoryFilterRow = (CategoryFilterRow)evoListRow;
+            if (categoryFilterRow.isChecked()) {
+                categoryFilterRow.setChecked(false);
+            } else {
+                categoryFilterRow.setChecked(true);
+            }
+            CategoryFilter.this.filterList.setRow(n2, categoryFilterRow);
+            CategoryFilter.this.updateFilterState();
+        }
     }
 
-    static /* synthetic */ void access$700(CategoryFilter categoryFilter) {
-        categoryFilter.updateFilterState();
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateStationList(StationInfoExt[] stationInfoExtArray) {
+            CategoryFilter.access$302(CategoryFilter.this, stationInfoExtArray);
+            CategoryFilter.this.doListUpdate();
+        }
+
+        public void updateCategoryList(CategoryInfoExt[] categoryInfoExtArray) {
+            CategoryFilter.access$502(CategoryFilter.this, categoryInfoExtArray);
+            CategoryFilter.this.doListUpdate();
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$800(CategoryFilter categoryFilter) {
-        return categoryFilter.allChoice;
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (CategoryFilter.this.allChoice.getValue() != 1) {
+                CategoryFilter.this.allChoice.setValue(1);
+                CategoryFilter.this.activateDeactivateAll(true);
+            } else {
+                CategoryFilter.this.allChoice.setValue(0);
+                CategoryFilter.this.activateDeactivateAll(false);
+            }
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            switch (n) {
+                case 100593: {
+                    CategoryFilter.this.activateDeactivateAll(true);
+                    break;
+                }
+                case 100591: {
+                    CategoryFilter.this.activateDeactivateAll(false);
+                    break;
+                }
+                case 100592: {
+                    CategoryFilter.this.models.getButtonModel(n).fireEvent(n3);
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$900(CategoryFilter categoryFilter, boolean bl) {
-        categoryFilter.activateDeactivateAll(bl);
-    }
-
-    static /* synthetic */ TunerModels access$1000(CategoryFilter categoryFilter) {
-        return categoryFilter.models;
+    public static interface ICategoryFilter {
+        public void categoryFilterChanged(boolean[] var1);
     }
 }
 

@@ -20,7 +20,7 @@ extends CommandList {
         this.logger = commandListManager.getLogChannel();
         this.dsiOnlineListener = onlineDSIPoiListener;
         this.dsiOnlineSearch = dSIPoiOnlineSearch;
-        this.logger.log(1078071040, "OnlinePoiCommandList#OnlinePoiCommandList()");
+        this.logger.log(1000000, "OnlinePoiCommandList#OnlinePoiCommandList()");
     }
 
     public OnlinePoiCommandList(CommandListManager commandListManager, OnlineDSIPoiListener onlineDSIPoiListener, int n, DSIPoiOnlineSearch dSIPoiOnlineSearch) {
@@ -31,7 +31,7 @@ extends CommandList {
     }
 
     public OnlineDSIPoiListener getDefaultHandler() {
-        this.logger.log(1078071040, "OnlinePoiCommandList#getDefaultHandler()");
+        this.logger.log(1000000, "OnlinePoiCommandList#getDefaultHandler()");
         return (OnlineDSIPoiListener)this.dsiOnlineListener.getDSIDefaultHandler();
     }
 

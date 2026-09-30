@@ -8,7 +8,6 @@ import de.audi.tghu.navi.app.INaviComponent;
 
 public interface ITelServiceController
 extends INaviComponent {
-    default public ITelService getTelService() {
-    }
+    public ITelService getTelService();
 }
 

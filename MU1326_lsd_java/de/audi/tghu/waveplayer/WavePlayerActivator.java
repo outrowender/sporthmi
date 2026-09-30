@@ -35,11 +35,10 @@ implements ServiceTrackerCustomizer {
         return this.wavePlayer;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.lc = this.framework.getLogChannel("Fw.Waveplayer");
-        this.lc.log(-2137614336, "[WavePlayerActivator#startLastMode] Called.");
-        this.lc.log(-2137614336, "[WavePlayerActivator.start]");
+        this.lc.log(10000000, "[WavePlayerActivator#startLastMode] Called.");
+        this.lc.log(10000000, "[WavePlayerActivator.start]");
         this.wavePlayer = new WavePlayerImpl(this.framework);
         this.sRegDSIWavePlayerListenerRingTone = this.registerDSIListener(class$org$dsi$ifc$waveplayer$DSIWavePlayerListener == null ? (class$org$dsi$ifc$waveplayer$DSIWavePlayerListener = WavePlayerActivator.class$("org.dsi.ifc.waveplayer.DSIWavePlayerListener")) : class$org$dsi$ifc$waveplayer$DSIWavePlayerListener, this.wavePlayer.getRingToneListener(), 0);
         this.sRegDSIWavePlayerListenerSystemTone = this.registerDSIListener(class$org$dsi$ifc$waveplayer$DSIWavePlayerListener == null ? (class$org$dsi$ifc$waveplayer$DSIWavePlayerListener = WavePlayerActivator.class$("org.dsi.ifc.waveplayer.DSIWavePlayerListener")) : class$org$dsi$ifc$waveplayer$DSIWavePlayerListener, this.wavePlayer.getSystemToneListener(), 1);
@@ -49,19 +48,17 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$waveplayer$DSIWavePlayer == null ? (class$org$dsi$ifc$waveplayer$DSIWavePlayer = WavePlayerActivator.class$("org.dsi.ifc.waveplayer.DSIWavePlayer")) : class$org$dsi$ifc$waveplayer$DSIWavePlayer).getName(), 1);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.lc.log(-2137614336, "[WavePlayerActivator.stop]");
+        this.lc.log(10000000, "[WavePlayerActivator.stop]");
         this.sRegDSIWavePlayerListenerRingTone = this.unregister(this.sRegDSIWavePlayerListenerRingTone);
         this.sRegDSIWavePlayerListenerSystemTone = this.unregister(this.sRegDSIWavePlayerListenerSystemTone);
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         DSIWavePlayer dSIWavePlayer = (DSIWavePlayer)this.getBundleContext().getService(serviceReference);
         int n = (Integer)serviceReference.getProperty("DEVICE_INSTANCE");
-        this.lc.log(-2137614336, "[WavePlayerActivator.addingService] %1 instance:%2", (Object)dSIWavePlayer, (long)n);
+        this.lc.log(10000000, "[WavePlayerActivator.addingService] %1 instance:%2", (Object)dSIWavePlayer, (long)n);
         if (n == 0) {
             this.wavePlayer.registerRingTonePlayer(dSIWavePlayer);
         } else if (n == 1) {
@@ -70,13 +67,11 @@ implements ServiceTrackerCustomizer {
         return dSIWavePlayer;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.lc.log(-2137614336, "[WavePlayerActivator.removedService] %1 %2", (Object)serviceReference, object);
+        this.lc.log(10000000, "[WavePlayerActivator.removedService] %1 %2", (Object)serviceReference, object);
     }
 
     private ServiceRegistration registerDSIListener(Class clazz, DSIListener dSIListener, int n) {
@@ -84,13 +79,13 @@ implements ServiceTrackerCustomizer {
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", string);
         hashtable.put("DEVICE_INSTANCE", new Integer(n));
-        this.lc.log(-2137614336, "[WavePlayerActivator.registerDSIListener] name:%1 listener:%2 instance:%3", (Object)string, (Object)dSIListener, (long)n);
+        this.lc.log(10000000, "[WavePlayerActivator.registerDSIListener] name:%1 listener:%2 instance:%3", (Object)string, (Object)dSIListener, (long)n);
         return this.getBundleContext().registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = WavePlayerActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)dSIListener, (Dictionary)hashtable);
     }
 
     private ServiceRegistration unregister(ServiceRegistration serviceRegistration) {
         if (serviceRegistration != null) {
-            this.lc.log(-2137614336, "[WavePlayerActivator.unregister] %1", (Object)serviceRegistration);
+            this.lc.log(10000000, "[WavePlayerActivator.unregister] %1", (Object)serviceRegistration);
             serviceRegistration.unregister();
         }
         return null;

@@ -6,7 +6,7 @@ package de.audi.tghu.online.app;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.HMIProperties;
-import de.audi.tghu.online.app.AbstractDistributedServiceComponent$1;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIComponent;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import de.audi.tghu.online.app.standard.IDistributedServiceCallListener;
@@ -16,34 +16,43 @@ import java.util.List;
 
 public abstract class AbstractDistributedServiceComponent
 extends AbstractRemoteHMIComponent {
-    public static final int SERVICE_POIONLINE;
-    public static final int SERVICE_DESTIMPORT;
-    public static final int SERVICE_GOOGLE;
-    public static final int SERVICE_MEDIA;
-    public static final int SERVICE_SPECIAL;
-    public static final int SERVICE_PICNAV;
-    public static final int SERVICE_WLAN;
-    public static final int SERVICE_UPDATE;
-    public static final int SERVICE_SMS;
-    public static final int SERVICE_STREET;
-    public static final int SERVICE_TRAFFIC;
-    public static final int SERVICE_MAIN_WIZARD;
-    public static final int SERVICE_EMAIL;
-    public static final int SERVICE_WIFIPLAYER;
-    public static final int SERVICE_LOGIN;
-    public static final int SERVICE_USERSETTINGS;
-    public static final int SERVICE_ALERT_SERVICES;
-    public static final int SERVICE_TRAFFFICLIGHT;
-    public static final int WLAN_SLOT;
+    public static final int SERVICE_POIONLINE = 0;
+    public static final int SERVICE_DESTIMPORT = 1;
+    public static final int SERVICE_GOOGLE = 2;
+    public static final int SERVICE_MEDIA = 3;
+    public static final int SERVICE_SPECIAL = 4;
+    public static final int SERVICE_PICNAV = 5;
+    public static final int SERVICE_WLAN = 6;
+    public static final int SERVICE_UPDATE = 7;
+    public static final int SERVICE_SMS = 8;
+    public static final int SERVICE_STREET = 9;
+    public static final int SERVICE_TRAFFIC = 10;
+    public static final int SERVICE_MAIN_WIZARD = 11;
+    public static final int SERVICE_EMAIL = 12;
+    public static final int SERVICE_WIFIPLAYER = 13;
+    public static final int SERVICE_LOGIN = 21;
+    public static final int SERVICE_USERSETTINGS = 22;
+    public static final int SERVICE_ALERT_SERVICES = 23;
+    public static final int SERVICE_TRAFFFICLIGHT = 24;
+    public static final int WLAN_SLOT = 0;
     protected List listeners = new ArrayList(0);
     protected String appContext;
     protected HMIService hmiService;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
         this.hmiService = this.getFrameworkAccess().getHMIService();
-        this.remoteHmiService.addCommandHandler(-644311040, new AbstractDistributedServiceComponent$1(this, "hmi-fct-call"));
+        this.remoteHmiService.addCommandHandler(0x9898D9, new AbstractCommandHandler("hmi-fct-call"){
+
+            public void indicateCommand(int n, Object object) {
+                String string = AbstractDistributedServiceComponent.this.extractDestination(object);
+                boolean bl = AbstractDistributedServiceComponent.this.informListeners(string);
+                AbstractDistributedServiceComponent.this.logChannel.log(1000000, "DistributedServiceComponent#indicateCommand handling Destination %1, handled = %2", (Object)string, (Object)Boolean.toString(bl));
+                if (!bl) {
+                    AbstractDistributedServiceComponent.this.initiateHMIJump(string);
+                }
+            }
+        });
     }
 
     public void addListener(IDistributedServiceCallListener iDistributedServiceCallListener) {
@@ -130,31 +139,14 @@ extends AbstractRemoteHMIComponent {
         return n;
     }
 
-    protected abstract void initiateHMIJump(String string) {
-    }
+    protected abstract void initiateHMIJump(String var1);
 
-    protected abstract boolean handleSDSJump(int n, String string) {
-    }
+    protected abstract boolean handleSDSJump(int var1, String var2);
 
-    protected abstract void disableLineNumbers(HMIService hMIService) {
-    }
+    protected abstract void disableLineNumbers(HMIService var1);
 
-    protected abstract void setLicenseDetailScreen(int n) {
-    }
+    protected abstract void setLicenseDetailScreen(int var1);
 
-    public abstract int getCurrentSelectedDistributedService() {
-    }
-
-    static /* synthetic */ String access$000(AbstractDistributedServiceComponent abstractDistributedServiceComponent, Object object) {
-        return abstractDistributedServiceComponent.extractDestination(object);
-    }
-
-    static /* synthetic */ boolean access$100(AbstractDistributedServiceComponent abstractDistributedServiceComponent, String string) {
-        return abstractDistributedServiceComponent.informListeners(string);
-    }
-
-    static /* synthetic */ LogChannel access$200(AbstractDistributedServiceComponent abstractDistributedServiceComponent) {
-        return abstractDistributedServiceComponent.logChannel;
-    }
+    public abstract int getCurrentSelectedDistributedService();
 }
 

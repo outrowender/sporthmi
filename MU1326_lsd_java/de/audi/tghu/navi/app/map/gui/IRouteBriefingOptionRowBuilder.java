@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.ListCell;
 import de.audi.tghu.navi.app.setup.IRouteCriteria;
 
 interface IRouteBriefingOptionRowBuilder {
-    default public ListCell[] buildListRow(IRouteCriteria iRouteCriteria, int n) {
-    }
+    public ListCell[] buildListRow(IRouteCriteria var1, int var2);
 
-    default public int getColumnCount() {
-    }
+    public int getColumnCount();
 }
 

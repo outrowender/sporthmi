@@ -7,7 +7,7 @@ public class Counter {
     private static int value = 0;
 
     public static synchronized int getNext() {
-        if (value == -129) {
+        if (value == Integer.MAX_VALUE) {
             value = 0;
         }
         return ++value;

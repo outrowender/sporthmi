@@ -15,6 +15,7 @@ import de.audi.tuner.app.storage.SerializingHelpers;
 import de.audi.tuner.ifc.ISimpleTuner;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -25,11 +26,11 @@ import org.dsi.ifc.radio.ServiceInfo;
 public class DabStation
 implements Serializable,
 IContainsDabStation {
-    private static final long serialVersionUID;
-    public static final int TYPE_ENSEMBLE;
-    public static final int TYPE_SERVICE;
-    public static final int TYPE_COMPONENT;
-    private static final RadioTextPlus EMPTY_RADIOTEXTPLUS;
+    private static final long serialVersionUID = 7241439756220637715L;
+    public static final int TYPE_ENSEMBLE = 1;
+    public static final int TYPE_SERVICE = 2;
+    public static final int TYPE_COMPONENT = 3;
+    private static final RadioTextPlus EMPTY_RADIOTEXTPLUS = new RadioTextPlus(new SimpleIntObjectMap(0), NullLogChannel.getInstance());
     public EnsembleInfo ensemble;
     public ServiceInfo service;
     public ComponentInfo component;
@@ -218,7 +219,7 @@ IContainsDabStation {
         return RadioObjectIds.getDabId(this.ensemble.ensID, this.ensemble.ensECC, this.service.sID, this.component.sCIDI, this.component.primaryService);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeInt(this.type);
         objectOutputStream.writeUTF(this.ensemble.fullName);
         objectOutputStream.writeUTF(this.ensemble.shortName);
@@ -237,7 +238,7 @@ IContainsDabStation {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         this.slsImage = ISimpleTuner.EMPTY_RADIO_RL;
         this.stationLogo = ISimpleTuner.EMPTY_RL;
         this.dbStationLogo = ISimpleTuner.EMPTY_RL;
@@ -291,13 +292,8 @@ IContainsDabStation {
         return new DabStation(this.ensemble, this.service);
     }
 
-    @Override
     public DabStation getDabStation() {
         return this;
-    }
-
-    static {
-        EMPTY_RADIOTEXTPLUS = new RadioTextPlus(new SimpleIntObjectMap(0), NullLogChannel.getInstance());
     }
 }
 

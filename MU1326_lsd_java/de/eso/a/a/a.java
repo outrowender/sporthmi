@@ -4,7 +4,6 @@
 package de.eso.a.a;
 
 public interface a {
-    default public void a() {
-    }
+    public void a();
 }
 

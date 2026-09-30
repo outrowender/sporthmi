@@ -23,15 +23,13 @@ extends PoiSearchAreaSequence {
         super(iPoiSearchAreaModelAccess, spellerStack, poiSearchArea, iCommandListFactory, iVehicle, navigationEnv, cityHistory, iRouteManager, iAddressInputForm, iPreviewMap);
     }
 
-    @Override
     public void startCountryInputSequence(IMatchspellerModelAccess iMatchspellerModelAccess, boolean bl) {
         this.currentInputSequence = new PoiCountryInputSequenceNAR(iMatchspellerModelAccess, this.modelAccess, this.spellerStack, this.commandListFactory, this.tempSearchArea, this.addressInputForm, this.previewMap, this.env);
         this.currentInputSequence.start(bl);
     }
 
-    @Override
     public void startCountryInputSequence(char c2, IMatchspellerModelAccess iMatchspellerModelAccess, boolean bl) {
-        this.logChannel.log(-2137614336, "PoiSearchAreaSequenceNAR#startCountryInputSequence(latestChar=%1)", c2);
+        this.logChannel.log(10000000, "PoiSearchAreaSequenceNAR#startCountryInputSequence(latestChar=%1)", c2);
         PoiCountryInputSequenceNAR poiCountryInputSequenceNAR = new PoiCountryInputSequenceNAR(iMatchspellerModelAccess, this.modelAccess, this.spellerStack, this.commandListFactory, this.tempSearchArea, this.addressInputForm, this.previewMap, this.env);
         this.currentInputSequence = poiCountryInputSequenceNAR;
         poiCountryInputSequenceNAR.start(c2, bl);

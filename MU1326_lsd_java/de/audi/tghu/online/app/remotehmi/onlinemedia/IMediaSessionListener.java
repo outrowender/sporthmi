@@ -8,34 +8,24 @@ import de.audi.tghu.online.app.remotehmi.onlinemedia.IPlaytimeStrategy;
 import de.audi.tghu.online.app.remotehmi.onlinemedia.OnlineMediaSession;
 
 public interface IMediaSessionListener {
-    default public void updatePlayPosition(int n, int n2) {
-    }
+    public void updatePlayPosition(int var1, int var2);
 
-    default public void processState(IOnlineMediaSession iOnlineMediaSession) {
-    }
+    public void processState(IOnlineMediaSession var1);
 
-    default public void close(OnlineMediaSession onlineMediaSession) {
-    }
+    public void close(OnlineMediaSession var1);
 
-    default public void processGenericEvent(String string, IOnlineMediaSession iOnlineMediaSession, Object object) {
-    }
+    public void processGenericEvent(String var1, IOnlineMediaSession var2, Object var3);
 
-    default public void processShuffleChanged(IOnlineMediaSession iOnlineMediaSession, boolean bl) {
-    }
+    public void processShuffleChanged(IOnlineMediaSession var1, boolean var2);
 
-    default public void processRepeatChanged(IOnlineMediaSession iOnlineMediaSession, boolean bl) {
-    }
+    public void processRepeatChanged(IOnlineMediaSession var1, boolean var2);
 
-    default public void setPlaytimeStrategy(IPlaytimeStrategy iPlaytimeStrategy) {
-    }
+    public void setPlaytimeStrategy(IPlaytimeStrategy var1);
 
-    default public void processBufferChangedEvent(IOnlineMediaSession iOnlineMediaSession) {
-    }
+    public void processBufferChangedEvent(IOnlineMediaSession var1);
 
-    default public void processSkipEvent(IOnlineMediaSession iOnlineMediaSession) {
-    }
+    public void processSkipEvent(IOnlineMediaSession var1);
 
-    default public void updateMetadata(String string, String string2, String string3, String string4) {
-    }
+    public void updateMetadata(String var1, String var2, String var3, String var4);
 }
 

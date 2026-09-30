@@ -4,16 +4,12 @@
 package de.audi.tghu.navi.app.addressinput.poi.personal;
 
 public interface IPersonalPoiModelAccess {
-    default public void onUpdateDataBaseAvailable(boolean bl) {
-    }
+    public void onUpdateDataBaseAvailable(boolean var1);
 
-    default public void onUpdateSearchStatus(int n) {
-    }
+    public void onUpdateSearchStatus(int var1);
 
-    default public void onDatabaseDeleted(String[] stringArray) {
-    }
+    public void onDatabaseDeleted(String[] var1);
 
-    default public boolean isPpoiavailable() {
-    }
+    public boolean isPpoiavailable();
 }
 

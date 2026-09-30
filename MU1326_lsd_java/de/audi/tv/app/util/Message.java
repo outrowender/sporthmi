@@ -11,8 +11,8 @@ public final class Message {
     private final int code;
     final Runnable callback;
     volatile boolean removed;
-    public volatile int arg1 = 143898342;
-    public volatile int arg2 = 143898342;
+    public volatile int arg1 = -424242424;
+    public volatile int arg2 = -424242424;
     public volatile Object obj;
     public volatile String tag;
 
@@ -45,10 +45,10 @@ public final class Message {
         } else {
             buffer.append(this.tag);
         }
-        if (this.arg1 != 143898342) {
+        if (this.arg1 != -424242424) {
             buffer.append("[").append(this.arg1).append("]");
         }
-        if (this.arg2 != 143898342) {
+        if (this.arg2 != -424242424) {
             buffer.append("[").append(this.arg2).append("]");
         }
         if (this.obj != null) {

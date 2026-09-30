@@ -25,17 +25,14 @@ extends AbstractBaseModelHandler {
         this.listener = abstractMiniAppHandler;
     }
 
-    @Override
     protected int[] getButtonIdsToRegister() {
-        return new int[]{1847403264};
+        return new int[]{2301294};
     }
 
-    @Override
     protected int[] getTiledListIdsToRegister() {
         return new int[0];
     }
 
-    @Override
     protected void buttonKeyPressed(int n) {
         switch (n) {
             case 2301294: {
@@ -45,20 +42,17 @@ extends AbstractBaseModelHandler {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "PoiCallMiniAppModelHandler#keyPressed: unknown button (%1) pressed", (long)n);
+                this.logChannel.log(100000, "PoiCallMiniAppModelHandler#keyPressed: unknown button (%1) pressed", (long)n);
             }
         }
     }
 
-    @Override
     protected void listItemSelected(EvoListRow evoListRow, int n, int n2) {
     }
 
-    @Override
     protected void listItemFocused(EvoListRow evoListRow, int n, int n2) {
     }
 
-    @Override
     protected void optionKeyPressed(int n, int n2, int n3) {
         switch (n2) {
             case 2301175: {
@@ -75,7 +69,7 @@ extends AbstractBaseModelHandler {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "optionKeyPressed#keyPressed: unknown button (%1) pressed", (long)n2);
+                this.logChannel.log(100000, "optionKeyPressed#keyPressed: unknown button (%1) pressed", (long)n2);
             }
         }
     }
@@ -87,33 +81,26 @@ extends AbstractBaseModelHandler {
         this.listener.triggerMiniApp(remoteHMILocation, n);
     }
 
-    @Override
     public void showPopup(int n) {
     }
 
-    @Override
     protected int[] getMenuModelIdsToRegister() {
         return new int[0];
     }
 
-    @Override
     protected void menuModelItemFocused(int n, long l, int n2) {
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     protected int[] getChoiceIdsToRegister() {
         return new int[0];
     }
 
-    @Override
     protected void choiceModelItemSelected(int n, int n2, int n3) {
     }
 }

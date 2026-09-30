@@ -9,27 +9,26 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class AmplifierVariant
 extends AbstractAppListener {
-    private static final int FALLBACK_DEFAULT;
-    private static final int BASIC_SOUND;
-    private static final int BASIC_PLUS_SOUND;
-    private static final int STANDARD_SOUND;
-    private static final int PREMIUM_SOUND_BOSE;
-    private static final int PREMIUM_SOUND_BO;
-    private static final int ADVANCED_SOUND;
-    private static final int ADVANCED_BURMESTER_PORSCHE;
-    private static final int PREMIUM_BOSE_PORSCHE;
-    private static final int PREMIUM_ALPINE_BENTLEY;
-    private static final int ADVANCED_B_O_BENTLEY;
+    private static final int FALLBACK_DEFAULT = 0;
+    private static final int BASIC_SOUND = 1;
+    private static final int BASIC_PLUS_SOUND = 2;
+    private static final int STANDARD_SOUND = 3;
+    private static final int PREMIUM_SOUND_BOSE = 4;
+    private static final int PREMIUM_SOUND_BO = 5;
+    private static final int ADVANCED_SOUND = 6;
+    private static final int ADVANCED_BURMESTER_PORSCHE = 7;
+    private static final int PREMIUM_BOSE_PORSCHE = 8;
+    private static final int PREMIUM_ALPINE_BENTLEY = 9;
+    private static final int ADVANCED_B_O_BENTLEY = 10;
     private final ToneEnv env;
     private volatile int amplifierTypeDSI = -1;
     private volatile String amplifierDescription = null;
 
     public AmplifierVariant(ToneEnv toneEnv) {
         this.env = toneEnv;
-        toneEnv.getChoiceModel(1665273600).setValue(0);
+        toneEnv.getChoiceModel(1000035).setValue(0);
     }
 
-    @Override
     public void updateAmplifier(int n) {
         int n2;
         this.amplifierTypeDSI = n;
@@ -91,8 +90,8 @@ extends AbstractAppListener {
                 this.amplifierDescription = "Default-Screen";
             }
         }
-        this.env.lcHMI.log(1078071040, "[AmplifierVariant.updateAmplifier] amplifier:%2 -> %1", (Object)this.amplifierDescription, (long)n);
-        this.env.getChoiceModel(1665273600).setValue(n2);
+        this.env.lcHMI.log(1000000, "[AmplifierVariant.updateAmplifier] amplifier:%2 -> %1", (Object)this.amplifierDescription, (long)n);
+        this.env.getChoiceModel(1000035).setValue(n2);
     }
 
     public boolean isStandardOrBasicSound() {

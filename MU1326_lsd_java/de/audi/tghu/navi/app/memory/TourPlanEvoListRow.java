@@ -8,14 +8,14 @@ import de.audi.tghu.navi.app.memory.RouteListData;
 
 public class TourPlanEvoListRow
 extends EvoListRow {
-    public static final int COLUMN_LAYOUT;
-    public static final int COLUMN_NAME;
-    public static final int COLUMN_SHORTCUT;
-    public static final int COLUMN_CHECKBOX;
-    public static final int COLUMN_COUNT;
-    public static final int LAYOUT_TOUR;
-    public static final int LAYOUT_TRAILS;
-    private static long UID;
+    public static final int COLUMN_LAYOUT = 0;
+    public static final int COLUMN_NAME = 1;
+    public static final int COLUMN_SHORTCUT = 2;
+    public static final int COLUMN_CHECKBOX = 3;
+    public static final int COLUMN_COUNT = 4;
+    public static final int LAYOUT_TOUR = 0;
+    public static final int LAYOUT_TRAILS = 1;
+    private static long UID = 0L;
     private final RouteListData route;
 
     TourPlanEvoListRow(RouteListData routeListData) {
@@ -39,7 +39,6 @@ extends EvoListRow {
         this.route = tourPlanEvoListRow.route;
     }
 
-    @Override
     public EvoListRow copy() {
         return new TourPlanEvoListRow(this);
     }
@@ -60,10 +59,6 @@ extends EvoListRow {
         int n = 1 - this.getInteger(3);
         this.setInteger(3, n);
         return n == 1;
-    }
-
-    static {
-        UID = 0L;
     }
 }
 

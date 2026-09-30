@@ -18,7 +18,6 @@ public class ATIPHMIActivatorEvo
 extends AbstractActivator {
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         TopLevelScreenActionProxyImpl topLevelScreenActionProxyImpl = new TopLevelScreenActionProxyImpl(this.framework);

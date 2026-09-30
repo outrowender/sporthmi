@@ -12,9 +12,9 @@ import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.navigation.PosPosition;
 
 public class MekkaCompassUpdater {
-    public static final double KAABA_POSITION_LATITUDE;
-    public static final double KAABA_POSITION_LONGITUDE;
-    public static final NavLocationWgs84 kaabaPosition;
+    public static final double KAABA_POSITION_LATITUDE = 21.4225;
+    public static final double KAABA_POSITION_LONGITUDE = 39.826181;
+    public static final NavLocationWgs84 kaabaPosition = new NavLocationWgs84(NavigationUtilities.degreeToWgs84(39.826181), NavigationUtilities.degreeToWgs84(21.4225));
     private final NavigationEnv navigationEnv;
     private final IVehicle vehicle;
     public final ChoiceModelApp directionToMekkaModel;
@@ -22,7 +22,7 @@ public class MekkaCompassUpdater {
     public MekkaCompassUpdater(NavigationEnv navigationEnv, IVehicle iVehicle) {
         this.navigationEnv = navigationEnv;
         this.vehicle = iVehicle;
-        this.directionToMekkaModel = navigationEnv.getChoiceModel(1445070336);
+        this.directionToMekkaModel = navigationEnv.getChoiceModel(402006);
     }
 
     private int getDirectionToKaaba() {
@@ -34,7 +34,7 @@ public class MekkaCompassUpdater {
             return -1;
         }
         int n = posPosition.getDirectionAngle();
-        if (n == -65536) {
+        if (n == 65535) {
             return -1;
         }
         int n2 = Util.computeAbsoluteDirection(posPosition, kaabaPosition.getLongitude(), kaabaPosition.getLatitude());
@@ -44,15 +44,11 @@ public class MekkaCompassUpdater {
     public void onSoPosPositionUpdated() {
         if (this.directionToMekkaModel != null) {
             int n = this.getDirectionToKaaba();
-            this.navigationEnv.getLogChannel().log(-2137614336, "QiblaUpdater#onSoPosPositionUpdated() - direction to Kaaba: %1", (long)n);
+            this.navigationEnv.getLogChannel().log(10000000, "QiblaUpdater#onSoPosPositionUpdated() - direction to Kaaba: %1", (long)n);
             this.directionToMekkaModel.setValue(n);
         } else {
-            this.navigationEnv.getLogChannel().log(-2137614336, "QiblaUpdater#onSoPosPositionUpdated() - model not available");
+            this.navigationEnv.getLogChannel().log(10000000, "QiblaUpdater#onSoPosPositionUpdated() - model not available");
         }
-    }
-
-    static {
-        kaabaPosition = new NavLocationWgs84(NavigationUtilities.degreeToWgs84(39.826181), NavigationUtilities.degreeToWgs84(21.4225));
     }
 }
 

@@ -13,37 +13,26 @@ import de.audi.tghu.exlap.impl.container.RadioStationInfoContainer;
 public interface ExlapRadioService
 extends ExlapService,
 ExlapRadioListener {
-    default public void activateRadioBand(int n, RadioBandContainer radioBandContainer) {
-    }
+    public void activateRadioBand(int var1, RadioBandContainer var2);
 
-    default public void tuneStation(int n, RadioStationInfoContainer radioStationInfoContainer) {
-    }
+    public void tuneStation(int var1, RadioStationInfoContainer var2);
 
-    default public void tune(int n, RadioFrequencyContainer radioFrequencyContainer) {
-    }
+    public void tune(int var1, RadioFrequencyContainer var2);
 
-    default public void nextRadioStation(int n) {
-    }
+    public void nextRadioStation(int var1);
 
-    default public void previousRadioStation(int n) {
-    }
+    public void previousRadioStation(int var1);
 
-    default public void seekForward(int n) {
-    }
+    public void seekForward(int var1);
 
-    default public void seekBackward(int n) {
-    }
+    public void seekBackward(int var1);
 
-    default public void increaseRadioFrequency(int n) {
-    }
+    public void increaseRadioFrequency(int var1);
 
-    default public void decreaseRadioFrequency(int n) {
-    }
+    public void decreaseRadioFrequency(int var1);
 
-    default public void storePreset(int n, RadioPresetIndexContainer radioPresetIndexContainer) {
-    }
+    public void storePreset(int var1, RadioPresetIndexContainer var2);
 
-    default public void deletePreset(int n, RadioPresetIndexContainer radioPresetIndexContainer) {
-    }
+    public void deletePreset(int var1, RadioPresetIndexContainer var2);
 }
 

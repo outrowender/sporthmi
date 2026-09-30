@@ -20,26 +20,25 @@ implements DSIOperatorCallListener {
         this.dsiHandler = dSIHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "DownloadPoiCommand#execute: entered");
+        this.logger.log(1000000, "DownloadPoiCommand#execute: entered");
         if (this.dsiHandler.isDSIAvailable()) {
-            this.logger.log(1078071040, "DownloadPoiCommand#execute: dsi is available");
+            this.logger.log(1000000, "DownloadPoiCommand#execute: dsi is available");
             if (TestHandler.isDsiSimulation()) {
-                this.logger.log(-1601830656, "DownloadPoiCommand#execute: DSISimulation is running!");
+                this.logger.log(100000, "DownloadPoiCommand#execute: DSISimulation is running!");
                 if (TestHandler.usePoiTimeout()) {
                     for (int i2 = 0; i2 < TestHandler.getTimer(); ++i2) {
                         if (i2 % TestHandler.getTimerMod() != 0) continue;
-                        this.logger.log(1078071040, "DownloadPoiCommand#execute: timer = %1", (long)i2);
+                        this.logger.log(1000000, "DownloadPoiCommand#execute: timer = %1", (long)i2);
                     }
                 }
-                this.logger.log(-2137614336, "DownloadPoiCommand#execute: serviceType is %1", (long)this.listener.getServiceType());
+                this.logger.log(10000000, "DownloadPoiCommand#execute: serviceType is %1", (long)this.listener.getServiceType());
                 OperatorCallResult[] operatorCallResultArray = TestHandler.getPOI(this.listener.getServiceType());
                 this.dsiHandler.responseOperatorCallResult(TestHandler.getPOIResult(), operatorCallResultArray);
             } else {
                 String string = this.listener.getServiceId();
                 int n = this.listener.getServiceType();
-                this.logger.log(1078071040, "DownloadPoiCommand#execute: requestOperatorCallResult(serviceId = %1, serviceType = %2)", (Object)string, (long)n);
+                this.logger.log(1000000, "DownloadPoiCommand#execute: requestOperatorCallResult(serviceId = %1, serviceType = %2)", (Object)string, (long)n);
                 this.dsiHandler.requestOperatorCallResult(string, n);
             }
         } else {
@@ -49,18 +48,16 @@ implements DSIOperatorCallListener {
         }
     }
 
-    @Override
     public void responseOperatorCallResult(int n, OperatorCallResult[] operatorCallResultArray) {
         int n2 = 0;
         if (operatorCallResultArray != null) {
             n2 = operatorCallResultArray.length;
         }
-        this.logger.log(1078071040, "DownloadPoiCommand#responseOperatorCallResult: resultType = %1, results.length = %2", (long)n, (long)n2);
+        this.logger.log(1000000, "DownloadPoiCommand#responseOperatorCallResult: resultType = %1, results.length = %2", (long)n, (long)n2);
         this.getCommandList().commandFinished();
         this.listener.responseOperatorCallResult(n, operatorCallResultArray);
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }

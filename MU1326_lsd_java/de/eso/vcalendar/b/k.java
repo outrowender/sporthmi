@@ -7,6 +7,6 @@ import de.eso.vcalendar.b.e;
 
 public class k
 extends e {
-    public static final String b;
+    public static final String b = "VTODO";
 }
 

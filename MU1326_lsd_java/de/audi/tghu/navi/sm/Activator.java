@@ -10,7 +10,6 @@ import de.audi.tghu.navi.sm.NaviSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new NaviSMM[8];
         if (this.framework.isFrontMU()) {

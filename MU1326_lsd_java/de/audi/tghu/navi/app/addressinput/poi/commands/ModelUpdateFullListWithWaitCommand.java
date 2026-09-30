@@ -19,7 +19,7 @@ extends NavCommand {
     private final int minimumResultsToGoOn;
     private final int requestID;
     private final int startIndex;
-    private static final int NO_MAX;
+    private static final int NO_MAX = 0;
 
     public ModelUpdateFullListWithWaitCommand(IMatchspellerModelAccess iMatchspellerModelAccess, ICommandListFactory iCommandListFactory, int n) {
         this(iMatchspellerModelAccess, iCommandListFactory, -2, -2, n);
@@ -41,9 +41,8 @@ extends NavCommand {
         this.startIndex = n2;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "ModelUpdateFullListWithWaitCommand#execute - maxResults: %1", (long)this.minimumResultsToGoOn);
+        this.logger.log(1000000, "ModelUpdateFullListWithWaitCommand#execute - maxResults: %1", (long)this.minimumResultsToGoOn);
         int n = 0;
         LIValueList lIValueList = this.dsiResponseContainer.getLispValueList();
         if (lIValueList == null || lIValueList.getList() == null) {
@@ -57,15 +56,15 @@ extends NavCommand {
             return;
         }
         CommandList commandList = this.commandListFactory.createCommandList();
-        this.logger.log(1078071040, "ModelUpdateFullListWithWaitCommand#execute - valueListSize = %1", (long)n);
+        this.logger.log(1000000, "ModelUpdateFullListWithWaitCommand#execute - valueListSize = %1", (long)n);
         boolean bl = n < this.minimumResultsToGoOn;
         boolean bl2 = valueListStatus.getStatus() != 1;
         boolean bl3 = valueListStatus.getStatus() != 3;
         boolean bl4 = valueListStatus.getNumberOfAvailableItems() >= this.minimumResultsToGoOn;
-        this.logger.log(1078071040, "ModelUpdateFullListWithWaitCommand#execute - isValueListTooSmall = %1, searchIsNotCanceled = %2, searchisNotFinished = %3", bl, bl2, bl3);
+        this.logger.log(1000000, "ModelUpdateFullListWithWaitCommand#execute - isValueListTooSmall = %1, searchIsNotCanceled = %2, searchisNotFinished = %3", bl, bl2, bl3);
         if (bl && bl2 && bl3 || bl && !bl3 && bl4) {
             if (n == 0) {
-                this.logger.log(1078071040, "ModelUpdateFullListWithWaitCommand#execute - valueListSize = %1", (long)n);
+                this.logger.log(1000000, "ModelUpdateFullListWithWaitCommand#execute - valueListSize = %1", (long)n);
                 commandList.add(new LISPRequestValueListByListIndexCommand(n, true));
             } else {
                 commandList.add(new LISPRequestValueListByListIndexCommand(lIValueList.getList()[n - 1].getListIndex(), true));
@@ -73,13 +72,13 @@ extends NavCommand {
             commandList.add(new ModelUpdateFullListWithWaitCommand(this.modelAccess, this.commandListFactory, this.requestID, this.startIndex, this.minimumResultsToGoOn));
         } else {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "ModelUpdateFullListWithWaitCommand#execute - requestID = %1, startIndex = %2, minimumResults = %3", (long)this.requestID, (long)this.startIndex, (long)this.minimumResultsToGoOn);
+                this.logger.log(100000000, "ModelUpdateFullListWithWaitCommand#execute - requestID = %1, startIndex = %2, minimumResults = %3", (long)this.requestID, (long)this.startIndex, (long)this.minimumResultsToGoOn);
             }
             if (this.requestID == -2 || this.startIndex == -2) {
                 commandList.add(new ModelUpdateResultListCommand(this.modelAccess));
             } else {
                 if (this.logger.isDebug2()) {
-                    this.logger.log(14808325, "modelAccess: %1", (Object)this.modelAccess);
+                    this.logger.log(100000000, "modelAccess: %1", (Object)this.modelAccess);
                 }
                 commandList.add(new ModelUpdateResultListCommand(this.modelAccess, this.requestID, this.startIndex));
             }

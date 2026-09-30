@@ -83,10 +83,10 @@ public class RcciEvent {
         if (this.fingerPrint == null) {
             Buffer buffer = new Buffer();
             buffer.append("type:").append(this.type);
-            buffer.append(", delay:").append(this.delay / 0).append("s");
+            buffer.append(", delay:").append(this.delay / 1000L).append("s");
             buffer.append(", reliable:").append(this.reliable);
             buffer.append(", hasBetterRoute:").append(this.hasBetterRoute);
-            buffer.append(", savingTime:").append(this.savingTime / 0).append("s");
+            buffer.append(", savingTime:").append(this.savingTime / 1000L).append("s");
             this.fingerPrint = buffer.toString();
         }
         return this.fingerPrint;

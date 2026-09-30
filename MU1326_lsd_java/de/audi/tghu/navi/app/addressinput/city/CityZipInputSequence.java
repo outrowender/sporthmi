@@ -26,7 +26,6 @@ extends CityZipInputSimpleSequence {
         super(iMatchspellerModelAccess, spellerStack, iCommandListFactory, cityHistory, n, iPreviewMap, iAddressInputForm);
     }
 
-    @Override
     public CommandList createStartCommandList(boolean bl) {
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addGetStateCommand(commandList, bl, null);

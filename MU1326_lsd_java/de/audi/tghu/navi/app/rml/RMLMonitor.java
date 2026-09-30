@@ -13,7 +13,6 @@ extends Monitor {
         super(logChannel);
     }
 
-    @Override
     protected boolean checkStop(CommandList commandList) {
         return !commandList.hasActiveCommand();
     }

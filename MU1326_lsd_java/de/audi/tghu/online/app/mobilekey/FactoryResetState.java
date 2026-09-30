@@ -4,7 +4,6 @@
 package de.audi.tghu.online.app.mobilekey;
 
 public interface FactoryResetState {
-    default public boolean isFactoryResetAllowed() {
-    }
+    public boolean isFactoryResetAllowed();
 }
 

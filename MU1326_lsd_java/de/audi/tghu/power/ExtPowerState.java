@@ -125,8 +125,8 @@ public final class ExtPowerState {
     }
 
     void setExtendedPowerState(int n, PowerFSM powerFSM) {
-        this.fsmLog.log(-2137614336, "processSetExtendedPowerState(state=%1, terminalID=%2)", (long)n, (long)this.terminalID);
-        this.extLog.log(-2137614336, "processSetExtendedPowerState(state=%1, terminalID=%2)", (long)n, (long)this.terminalID);
+        this.fsmLog.log(10000000, "processSetExtendedPowerState(state=%1, terminalID=%2)", (long)n, (long)this.terminalID);
+        this.extLog.log(10000000, "processSetExtendedPowerState(state=%1, terminalID=%2)", (long)n, (long)this.terminalID);
         this.powerFSM = powerFSM;
         if (this.terminalID == 0) {
             switch (n) {
@@ -246,8 +246,8 @@ public final class ExtPowerState {
     }
 
     private void processOnlinePannenruf(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processOnlinePannenruf(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processOnlinePannenruf(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processOnlinePannenruf(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processOnlinePannenruf(%1)", bl);
         if (this.onlinePannenrufActive != bl) {
             this.onlinePannenrufActive = bl;
             this.powerFSM.triggerCarStateChange(this.onlinePannenrufActive);
@@ -255,8 +255,8 @@ public final class ExtPowerState {
     }
 
     private void processSos(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processSos(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processSos(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processSos(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processSos(%1)", bl);
         if (this.sosActive != bl) {
             this.sosActive = bl;
             this.powerFSM.triggerCarStateChange(this.sosActive);
@@ -264,8 +264,8 @@ public final class ExtPowerState {
     }
 
     private void processRearview(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processRearview(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processRearview(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processRearview(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processRearview(%1)", bl);
         if (this.rearviewActive != bl) {
             this.rearviewActive = bl;
             this.powerFSM.triggerCarStateChange(this.rearviewActive);
@@ -273,8 +273,8 @@ public final class ExtPowerState {
     }
 
     private void processSeatControl(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processSeatControl(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processSeatControl(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processSeatControl(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processSeatControl(%1)", bl);
         if (this.seatControlActive != bl) {
             this.seatControlActive = bl;
             this.powerFSM.triggerCarStateChange(this.seatControlActive);
@@ -282,16 +282,16 @@ public final class ExtPowerState {
     }
 
     private void processSteeringIntervention(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processSteeringIntervention(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processSteeringIntervention(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processSteeringIntervention(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processSteeringIntervention(%1)", bl);
         if (this.steeringInterventionActive != bl) {
             this.steeringInterventionActive = bl;
         }
     }
 
     private void processDriveSelect(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processDriveSelect(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processDriveSelect(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processDriveSelect(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processDriveSelect(%1)", bl);
         if (this.driveSelectActive != bl) {
             this.driveSelectActive = bl;
             this.powerFSM.triggerCarStateChange(this.driveSelectActive);
@@ -299,8 +299,8 @@ public final class ExtPowerState {
     }
 
     private void processWirelessCharging(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processWirelessCharging(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processWirelessCharging(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processWirelessCharging(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processWirelessCharging(%1)", bl);
         if (this.wirelessChargingActive != bl) {
             this.wirelessChargingActive = bl;
             this.powerFSM.triggerWirelessCharging();
@@ -308,8 +308,8 @@ public final class ExtPowerState {
     }
 
     private void processOnlineHint(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processOnlineHint(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processOnlineHint(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processOnlineHint(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processOnlineHint(%1)", bl);
         if (this.onlineHintActive != bl) {
             this.onlineHintActive = bl;
             this.powerFSM.triggerOnlineHint();
@@ -321,16 +321,16 @@ public final class ExtPowerState {
     }
 
     private void processQ4(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processQ4(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processQ4(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processQ4(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processQ4(%1)", bl);
         if (this.q4active != bl) {
             this.q4active = bl;
         }
     }
 
     private void processQ21(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processQ21(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processQ21(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processQ21(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processQ21(%1)", bl);
         if (this.q21active != bl) {
             this.q21active = bl;
             if (this.q21active) {
@@ -344,8 +344,8 @@ public final class ExtPowerState {
     }
 
     private void processClimate(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processClimate(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processClimate(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processClimate(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processClimate(%1)", bl);
         if (this.climateActive != bl) {
             this.climateActive = bl;
             this.powerFSM.triggerClimateChange(this.climateActive);
@@ -357,8 +357,8 @@ public final class ExtPowerState {
     }
 
     private void processTelMaxPopup(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processTelMaxPopup(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processTelMaxPopup(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processTelMaxPopup(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processTelMaxPopup(%1)", bl);
         if (this.telMaxActive != bl) {
             this.telMaxActive = bl;
             if (this.telMaxActive) {
@@ -372,8 +372,8 @@ public final class ExtPowerState {
     }
 
     private void processUrgentTmc(boolean bl) {
-        this.fsmLog.log(-2137614336, "ExtPowerState.processUrgentTmc(%1)", bl);
-        this.extLog.log(-2137614336, "ExtPowerState.processUrgentTmc(%1)", bl);
+        this.fsmLog.log(10000000, "ExtPowerState.processUrgentTmc(%1)", bl);
+        this.extLog.log(10000000, "ExtPowerState.processUrgentTmc(%1)", bl);
         if (this.urgentTmcActive != bl) {
             this.urgentTmcActive = bl;
             this.powerFSM.triggerUrgentTmc(this.urgentTmcActive);

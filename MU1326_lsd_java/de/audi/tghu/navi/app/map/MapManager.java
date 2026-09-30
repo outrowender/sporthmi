@@ -32,8 +32,6 @@ import de.audi.tghu.navi.app.map.ISatelliteMapsGUI;
 import de.audi.tghu.navi.app.map.ITENMIndication;
 import de.audi.tghu.navi.app.map.MapConsts;
 import de.audi.tghu.navi.app.map.MapInterface;
-import de.audi.tghu.navi.app.map.MapManager$1;
-import de.audi.tghu.navi.app.map.MapManager$2;
 import de.audi.tghu.navi.app.map.MapTester;
 import de.audi.tghu.navi.app.map.SatelliteMapsMediator;
 import de.audi.tghu.navi.app.map.TENMIndication;
@@ -47,6 +45,7 @@ import de.audi.tghu.navi.app.map.dsi.MVRequestGoogleCtrl;
 import de.audi.tghu.navi.app.map.event.IEventBroker;
 import de.audi.tghu.navi.app.map.event.MapEventDispatcher;
 import de.audi.tghu.navi.app.map.gui.GUIEventDispatcher;
+import de.audi.tghu.navi.app.map.gui.SimpleChoiceListener;
 import de.audi.tghu.navi.app.map.gui.ViewFactory;
 import de.audi.tghu.navi.app.map.handler.CruiseModeHandler;
 import de.audi.tghu.navi.app.map.handler.DSIStateChangeListener;
@@ -70,7 +69,6 @@ import de.audi.tghu.navi.app.map.instances.MapMain;
 import de.audi.tghu.navi.app.map.instances.MinorMap;
 import de.audi.tghu.navi.app.map.minimap.ITrafficMiniMap;
 import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator;
-import de.audi.tghu.navi.app.map.routecalc.IRouteCalculator$IRouteCalcEnv;
 import de.audi.tghu.navi.app.map.routecalc.RouteCalcSM;
 import de.audi.tghu.navi.app.map.settings.MapOptionValidator;
 import de.audi.tghu.navi.app.map.utils.MapArrayUtils;
@@ -100,11 +98,11 @@ INaviLogChannels,
 DSIStateChangeListener,
 IViewSizeListener,
 IGoogleMapLicenseService {
-    public static final int MAP_MAIN;
-    public static final int MAP_MINOR;
-    public static final int MAP_MOST;
-    public static final int MAP_FPK;
-    public static final int MAP_MAX;
+    public static final int MAP_MAIN = 0;
+    public static final int MAP_MINOR = 1;
+    public static final int MAP_MOST = 2;
+    public static final int MAP_FPK = 3;
+    public static final int MAP_MAX = 4;
     protected final NavigationEnv env;
     protected final INaviInterface naviInterface;
     protected final AbstractMap[] maps = new AbstractMap[4];
@@ -157,7 +155,7 @@ IGoogleMapLicenseService {
         this.mapSelectionHandlerFactory = mapSelectionHandlerFactory;
         this.sLogChannel = navigationEnv.getLogChannel("App.Map.Main");
         Buffer buffer = new Buffer("isClusterMMI=").append(Util.isClusterMMI(navigationEnv.getFramework())).append(" (ScreenRes=").append(navigationEnv.getFramework().getScreenRes()).append("), KombiMode=").append(navigationEnv.getFramework().getSysConst(541)).append("(0=RGI, 1=MOST, 2=FPK)").append(", isHURegionNAR=").append(Util.isHURegionNAR());
-        this.sLogChannel.log(1078071040, "MapManager#MapManager() - %1", (Object)buffer.toString());
+        this.sLogChannel.log(1000000, "MapManager#MapManager() - %1", (Object)buffer.toString());
         this.mapPropertyProvider = iMapPropertyProvider;
         this.naviInterface = iNaviInterface;
         this.sdsController = iSDSController;
@@ -174,18 +172,18 @@ IGoogleMapLicenseService {
         this.routeCalculationHandler = this.createRouteCalculationHandler(navigationEnv, mapMain.getRouteCalcEnv());
         if (Util.isClusterMapAvailable(navigationEnv.getFramework())) {
             if (Util.isClusterMapFPK(navigationEnv.getFramework())) {
-                this.sLogChannel.log(1078071040, "MapManager#MapManager() - init with cluster FPK");
+                this.sLogChannel.log(1000000, "MapManager#MapManager() - init with cluster FPK");
                 this.maps[3] = this.initializeCombi(iconHandler, locationSerializer);
             } else if (Util.isClusterMapMOST(navigationEnv.getFramework())) {
-                this.sLogChannel.log(1078071040, "MapManager#MapManager() - init with cluster MOST");
+                this.sLogChannel.log(1000000, "MapManager#MapManager() - init with cluster MOST");
                 this.maps[2] = this.initializeCombiMOST(iconHandler, locationSerializer);
             }
         } else {
             object = Util.isClusterMapMOST(navigationEnv.getFramework()) ? "MOST (KDK only)" : (Util.isClusterRGI(navigationEnv.getFramework()) ? "RGI" : "MMI");
-            this.sLogChannel.log(1078071040, "MapManager#MapManager() - init with cluster %1", object);
+            this.sLogChannel.log(1000000, "MapManager#MapManager() - init with cluster %1", object);
         }
         if (Util.isMapInMapAvailable(navigationEnv.getFramework())) {
-            this.sLogChannel.log(1078071040, "MapManager#MapManager() - init with map-in-map");
+            this.sLogChannel.log(1000000, "MapManager#MapManager() - init with map-in-map");
             this.maps[1] = object = new MinorMap(navigationEnv, this, MapConfigFactory.createMapConfig(1, navigationEnv), iconHandler, mapInterface, iNaviInterface, locationSerializer, mapSelectionHandlerFactory);
             this.routeInfoContextHandler.setMinorMap((MinorMap)object);
         }
@@ -272,8 +270,7 @@ IGoogleMapLicenseService {
         return new MapKombiMOST(this.env, this, MapConfigFactory.createMapConfig(2, this.env), iconHandler, this.mapInterface, this.naviInterface, locationSerializer, this.mapSelectionHandlerFactory);
     }
 
-    protected abstract IPreviewMap initPreviewMapHandler(MapMain mapMain) {
-    }
+    protected abstract IPreviewMap initPreviewMapHandler(MapMain var1);
 
     protected IDrawerStateHandler initDrawerStateHandler() {
         return null;
@@ -404,7 +401,12 @@ IGoogleMapLicenseService {
 
     private final void initSetupHandlers() {
         this.setupKombi = null;
-        this.setupMinor = new MapManager$1(this, this.env, this.setupMain, this.mapOptionValidator);
+        this.setupMinor = new VirtualSetupHandler(this.env, this.setupMain, this.mapOptionValidator){
+
+            public int getMapRepresentation() {
+                return 0;
+            }
+        };
         this.getMapMain().setSetupHandler(this.setupMain);
         this.setupMain.bind(this.getMapMain());
         if (this.getMinorMap() != null) {
@@ -416,7 +418,24 @@ IGoogleMapLicenseService {
             this.getMapKombi().setSetupHandler(this.setupKombi);
             this.setupKombi.bind(this.getMapKombi());
         }
-        this.env.getChoiceModel(-1843526144).setChoiceListener(new MapManager$2(this));
+        this.env.getChoiceModel(401042).setChoiceListener(new SimpleChoiceListener(){
+
+            public void itemSelected(int n, int n2, int n3, int n4) {
+                boolean bl = n2 != 1;
+                try {
+                    MapManager.this.getLogChannel().log(1000000, "MapManager# - panorama changed to %1 (0=MMI, 1=FPK)", (long)n2);
+                    MapManager.this.getSetupMain().setPanorama(bl, true);
+                    ISetupHandler iSetupHandler = MapManager.this.getSetupKombi();
+                    if (MapManager.this.getMapKombi() != null && iSetupHandler != null) {
+                        iSetupHandler.setPanorama(!bl, true);
+                    }
+                    MapManager.this.env.getChoiceModel(401042).setValue(n2);
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
         this.getViews().getMapSetupView().addChoiceListener(new int[]{1, 2, 3, 4, 5, 6}, (ChoiceListener)this.setupMain);
         if (this.getMapKombi() != null) {
             this.getViews().getMapSetupView().addChoiceListener(new int[]{1, 3}, (ChoiceListener)this.setupKombi);
@@ -474,7 +493,7 @@ IGoogleMapLicenseService {
 
     public DSIListener getDSIMapControlListener(int n) {
         if (0 <= n && n < 5 && this.requests[n] != null) {
-            this.getLogChannel().log(-2137614336, "MapManager#getDSIMapControlListener( %1 )", (long)n);
+            this.getLogChannel().log(10000000, "MapManager#getDSIMapControlListener( %1 )", (long)n);
             return this.requests[n].getMVResponseControl();
         }
         this.getLogChannel().log(10000, "MapManager#getDSIMapControlListener( %1 ) - ID %1 NOT FOUND", (long)n);
@@ -537,12 +556,11 @@ IGoogleMapLicenseService {
         return false;
     }
 
-    @Override
     public void onOperabilityChanged(AbstractRequester abstractRequester) {
         boolean bl = abstractRequester.isOperable();
         String string = bl ? "operable" : "inoperable";
-        this.getLogChannel().log(1078071040, "MapManager#onOperabilityChanged() - #%2 becomes %1.", (Object)string, (long)abstractRequester.getID());
-        this.getLogChannel().log(1078071040, "MapManager#onOperabilityChanged() - %1", (Object)this.getBindStatus());
+        this.getLogChannel().log(1000000, "MapManager#onOperabilityChanged() - #%2 becomes %1.", (Object)string, (long)abstractRequester.getID());
+        this.getLogChannel().log(1000000, "MapManager#onOperabilityChanged() - %1", (Object)this.getBindStatus());
         switch (abstractRequester.getID()) {
             case 0: {
                 break;
@@ -555,7 +573,7 @@ IGoogleMapLicenseService {
             case 1: {
                 this.naviInterface.googleEarthUpdateStatusCompleted(1, bl);
                 abstractRequester.getMap().getGuiInterface().refreshMapRepresentation();
-                this.env.getChoiceModel(85722624).setValue(bl ? 1 : 0);
+                this.env.getChoiceModel(400389).setValue(bl ? 1 : 0);
                 break;
             }
             case 3: {
@@ -707,13 +725,13 @@ IGoogleMapLicenseService {
     public void setMapRepresentation(int n, boolean bl, boolean bl2) {
         int n2;
         if (n == 1 && Util.isLockFeatureNavMapAdvancedMapEnabled(this.env) && this.getNaviInterface().isFeatureToBeLocked()) {
-            this.getLogChannel().log(-1601830656, "MapManager#setMapRepresentation() - Switch to Google Earth is not allowed while driving!");
+            this.getLogChannel().log(100000, "MapManager#setMapRepresentation() - Switch to Google Earth is not allowed while driving!");
             return;
         }
         int n3 = this.getMapMain().getSetup().getMapRepresentation();
-        this.getLogChannel().log(-2137614336, "MapManager#setMapRepresentation() - representationMode: %1, currentMapMainRepresentation: %2, persist: %3", (long)n, (long)n3, bl2);
+        this.getLogChannel().log(10000000, "MapManager#setMapRepresentation() - representationMode: %1, currentMapMainRepresentation: %2, persist: %3", (long)n, (long)n3, bl2);
         if (n == 1 && n != n3) {
-            this.env.getChoiceModel(-1843395072).setValue(0);
+            this.env.getChoiceModel(401554).setValue(0);
         }
         int n4 = n2 = Util.isTrafficMapAvailable(this.env.getFramework()) ? 2 : 0;
         if (!bl || n != n2 || this.getMapMain().getSetup().getMapRepresentation() != 3) {
@@ -727,7 +745,7 @@ IGoogleMapLicenseService {
     public void restoreBackupMapRepresentationForStandardMap() {
         int n = this.getMapMain().getSetup().getBackupMapRepresentation();
         int n2 = n == 2 ? 2 : (n == 3 ? 3 : 0);
-        this.getLogChannel().log(-2137614336, "MapManager#restoreBackupMapRepresentationForStandardMap(): Restoring: %1", (long)n2);
+        this.getLogChannel().log(10000000, "MapManager#restoreBackupMapRepresentationForStandardMap(): Restoring: %1", (long)n2);
         this.getMapMain().getSetup().setMapRepresentation(n2, true);
         if (this.getMapKombi() != null) {
             this.getMapKombi().getSetup().setMapRepresentation(n2, true);
@@ -792,7 +810,7 @@ IGoogleMapLicenseService {
         if (Util.isGoogleEarthPresent(this.env.getFramework())) {
             return this.googleMapLicenseHandler;
         }
-        this.getLogChannel().log(-1601830656, "MapManager#getGoogleMapLicsceHandler() - not available");
+        this.getLogChannel().log(100000, "MapManager#getGoogleMapLicsceHandler() - not available");
         return null;
     }
 
@@ -835,31 +853,30 @@ IGoogleMapLicenseService {
     private void print() {
         for (int i2 = 0; i2 < 5; ++i2) {
             if (this.requests[i2] == null) continue;
-            this.getLogChannel().log(1078071040, "MapManager#print() - %1", (Object)this.requests[i2]);
+            this.getLogChannel().log(1000000, "MapManager#print() - %1", (Object)this.requests[i2]);
         }
-        this.getLogChannel().log(1078071040, "MapManager#print() - %1", (Object)this.guiEventDispatcher);
+        this.getLogChannel().log(1000000, "MapManager#print() - %1", (Object)this.guiEventDispatcher);
     }
 
-    @Override
     public void viewSizeChanged(int n) {
-        this.getLogChannel().log(1078071040, "MapManager#viewSizeChanged( %1 )", (long)n);
-        this.env.getChoiceModel(1495533056).setValue(n);
+        this.getLogChannel().log(1000000, "MapManager#viewSizeChanged( %1 )", (long)n);
+        this.env.getChoiceModel(402521).setValue(n);
         try {
             if (Util.isClusterMMI(this.env.getFramework())) {
                 this.getMapMain().viewSizeChanged(n);
             } else if (Util.isClusterMapFPK(this.env.getFramework())) {
                 this.getMapKombiFPK().viewSizeChanged(n);
             } else {
-                this.getLogChannel().log(-1601830656, "MapManager#viewSizeChanged() - received invalid call!");
+                this.getLogChannel().log(100000, "MapManager#viewSizeChanged() - received invalid call!");
             }
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "MapManager#viewSizeChanged() - was unable to invoke");
+            this.getLogChannel().log(100000, "MapManager#viewSizeChanged() - was unable to invoke");
         }
     }
 
     public void setConnectivityNaviStateListener(IConnectivityNaviStateListener iConnectivityNaviStateListener) {
-        this.getLogChannel().log(14808325, "MapManager#setConnectivityNaviStateListener( %1 )", (Object)iConnectivityNaviStateListener);
+        this.getLogChannel().log(100000000, "MapManager#setConnectivityNaviStateListener( %1 )", (Object)iConnectivityNaviStateListener);
         this.connectivityNaviStateListener = iConnectivityNaviStateListener;
         if (iConnectivityNaviStateListener != null && this.getMapMain().getMapDataContainer().isInOnlineMap) {
             try {
@@ -876,7 +893,7 @@ IGoogleMapLicenseService {
     }
 
     public void signalNaviNotOperable() {
-        this.getLogChannel().log(-2137614336, "MapManager#signalNaviNotOperable()");
+        this.getLogChannel().log(10000000, "MapManager#signalNaviNotOperable()");
         for (int i2 = 0; i2 < this.maps.length; ++i2) {
             if (this.maps[i2] == null) continue;
             this.maps[i2].getActiveContext().signalNaviNotOperable();
@@ -886,7 +903,7 @@ IGoogleMapLicenseService {
     }
 
     public void setMapServiceListener(MapServiceListener mapServiceListener) {
-        this.getLogChannel().log(14808325, "MapManager#setMapServiceListener( %1 )", (Object)mapServiceListener);
+        this.getLogChannel().log(100000000, "MapManager#setMapServiceListener( %1 )", (Object)mapServiceListener);
         this.mapServiceListener = mapServiceListener;
     }
 
@@ -903,7 +920,6 @@ IGoogleMapLicenseService {
     public void showCCP() {
     }
 
-    @Override
     public boolean isGoogleMapActive() {
         return this.mapInterface.isGoogleActive();
     }
@@ -911,16 +927,15 @@ IGoogleMapLicenseService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void disableGoogleMap() {
         Object object = this.getMutexSwitchToContext();
         synchronized (object) {
             this.satelliteMapsMediator.resetEnterMapState();
             if (this.isGoogleMapActive()) {
-                this.getLogChannel().log(-2137614336, "MapManager#disableGoogleMap() - Google map active - switch to STD map ");
+                this.getLogChannel().log(10000000, "MapManager#disableGoogleMap() - Google map active - switch to STD map ");
                 this.restoreBackupMapRepresentationForStandardMap();
             } else {
-                this.getLogChannel().log(-2137614336, "MapManager#disableGoogleMap() - Google map not active - ignore ");
+                this.getLogChannel().log(10000000, "MapManager#disableGoogleMap() - Google map not active - ignore ");
             }
         }
     }
@@ -934,11 +949,11 @@ IGoogleMapLicenseService {
     }
 
     public int getThreePlusOneMixedListID() {
-        return 1562117632;
+        return 400477;
     }
 
     public int getSemiDynListID() {
-        return 1125910016;
+        return 400451;
     }
 
     public void setEtaMode(int n) {
@@ -1006,11 +1021,10 @@ IGoogleMapLicenseService {
     }
 
     public void test() {
-        this.getLogChannel().log(1078071040, "MapManager#test()");
+        this.getLogChannel().log(1000000, "MapManager#test()");
     }
 
-    protected abstract IMapPartialPopupHandler createMapPartialPopupHandler() {
-    }
+    protected abstract IMapPartialPopupHandler createMapPartialPopupHandler();
 
     public void stopRRD() {
     }

@@ -15,9 +15,9 @@ import java.util.Iterator;
 
 public class MapCommandListSupplier
 implements ICommandListSupplier {
-    private static final int DEBUG_POPUP_UNDEFINED;
-    private static final int DEBUG_POPUP_DEACTIVATED;
-    private static final int DEBUG_POPUP_ACTIVATED;
+    private static final int DEBUG_POPUP_UNDEFINED = -1;
+    private static final int DEBUG_POPUP_DEACTIVATED = 0;
+    private static final int DEBUG_POPUP_ACTIVATED = 1;
     private final NavigationEnv env;
     private final AbstractMap naviMap;
     private int debugPopupActivated = -1;
@@ -34,12 +34,11 @@ implements ICommandListSupplier {
         return this.debugPopupActivated == 1;
     }
 
-    @Override
     public void showDebugPopup(CommandList commandList, String string, String string2) {
         if (!this.isDebugPopupActivated()) {
             return;
         }
-        ListModelApp listModelApp = this.env.getListModel(286983680);
+        ListModelApp listModelApp = this.env.getListModel(400145);
         listModelApp.setMaxRows(40);
         listModelApp.clear();
         listModelApp.addRow(new TextListCell(string));
@@ -53,26 +52,22 @@ implements ICommandListSupplier {
         while (iterator.hasNext()) {
             String string3 = ((MapCommand)iterator.next()).getName();
             string3 = string3.substring(string3.lastIndexOf(46) + 1);
-            listModelApp.addRow(new TextListCell(new StringBuffer().append(n++).append("/").append(n2).append(": ").append(string3).toString()));
+            listModelApp.addRow(new TextListCell(n++ + "/" + n2 + ": " + string3));
         }
     }
 
-    @Override
     public boolean isApplicationOperable() {
         return this.naviMap.isInitialized();
     }
 
-    @Override
     public boolean isDSIsAvailable(CommandList commandList) {
         return this.naviMap.getMainRequestCtl().isReady();
     }
 
-    @Override
     public String getApplicationName(CommandList commandList) {
         return "AppNavi";
     }
 
-    @Override
     public void handleException(Exception exception) {
         Util.handleDSIException(exception, this.env);
     }

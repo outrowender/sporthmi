@@ -43,152 +43,104 @@ public abstract class AbstractSwdlTextFactory {
         return buffer.toString();
     }
 
-    public abstract String getTextConstantInterruptDownload() {
-    }
+    public abstract String getTextConstantInterruptDownload();
 
-    public abstract String getTextConstantCustProgressUserInterrupt() {
-    }
+    public abstract String getTextConstantCustProgressUserInterrupt();
 
-    public abstract String getTextConstantUnknown() {
-    }
+    public abstract String getTextConstantUnknown();
 
-    public abstract String getTextConstantCustDevInfoManagerAlreadyOn() {
-    }
+    public abstract String getTextConstantCustDevInfoManagerAlreadyOn();
 
-    public abstract String getTextConstantCustDevInfoManagerUnsuccess() {
-    }
+    public abstract String getTextConstantCustDevInfoManagerUnsuccess();
 
-    public abstract String getTextConstantCustDevInfoManagerSuccess() {
-    }
+    public abstract String getTextConstantCustDevInfoManagerSuccess();
 
-    public abstract String getTextConstantCustNoDevice() {
-    }
+    public abstract String getTextConstantCustNoDevice();
 
-    public abstract String getLabelForAccessType(int n, String string) {
-    }
+    public abstract String getLabelForAccessType(int var1, String var2);
 
-    public abstract String getTextConstantDeviceInfo7() {
-    }
+    public abstract String getTextConstantDeviceInfo7();
 
-    public abstract String getTextConstantDeviceInfo6() {
-    }
+    public abstract String getTextConstantDeviceInfo6();
 
-    public abstract String getUpdateGeneralInformationText(boolean bl, String string, String string2, boolean bl2, String string3, int n, int[] nArray, boolean bl3, int n2) {
-    }
+    public abstract String getUpdateGeneralInformationText(boolean var1, String var2, String var3, boolean var4, String var5, int var6, int[] var7, boolean var8, int var9);
 
     public String getUpdateSignatureText(int[] nArray) {
         return "";
     }
 
-    public abstract String getPopupTemplateText(int n) {
-    }
+    public abstract String getPopupTemplateText(int var1);
 
-    public abstract String getFileErrorText(int n) {
-    }
+    public abstract String getFileErrorText(int var1);
 
-    public abstract String getSubTitleText(int n) {
-    }
+    public abstract String getSubTitleText(int var1);
 
-    public abstract String getTextConstantCustProgressPleaseInsert() {
-    }
+    public abstract String getTextConstantCustProgressPleaseInsert();
 
-    public abstract String getTextConstantPopupMessage14() {
-    }
+    public abstract String getTextConstantPopupMessage14();
 
-    public abstract String getUpdateGeneralProgressText(GeneralProgress generalProgress) {
-    }
+    public abstract String getUpdateGeneralProgressText(GeneralProgress var1);
 
-    public abstract String getUpdateLostDevicesText(String[] stringArray) {
-    }
+    public abstract String getUpdateLostDevicesText(String[] var1);
 
-    public abstract String getUpdateStaticProgressDetailsWithProgressText(int n, int n2, short s, String string) {
-    }
+    public abstract String getUpdateStaticProgressDetailsWithProgressText(int var1, int var2, short var3, String var4);
 
-    public abstract String getUpdateStaticProgressDetailsWithoutProgressText(int n, int n2, short s, String string) {
-    }
+    public abstract String getUpdateStaticProgressDetailsWithoutProgressText(int var1, int var2, short var3, String var4);
 
-    public abstract String getTextConstantProgress3() {
-    }
+    public abstract String getTextConstantProgress3();
 
-    public abstract String getTextConstantRetryDownload() {
-    }
+    public abstract String getTextConstantRetryDownload();
 
-    public abstract String getSelectionErrorNoFittingText() {
-    }
+    public abstract String getSelectionErrorNoFittingText();
 
-    public abstract String getSelectionErrorMoreThanOneText() {
-    }
+    public abstract String getSelectionErrorMoreThanOneText();
 
-    public abstract String getSelectionErrorUpdateInconsistentText() {
-    }
+    public abstract String getSelectionErrorUpdateInconsistentText();
 
-    public abstract String getSelectionErrorIncompDevicesText() {
-    }
+    public abstract String getSelectionErrorIncompDevicesText();
 
-    public abstract String getTextConstantCustUotaUpdateUnavailable() {
-    }
+    public abstract String getTextConstantCustUotaUpdateUnavailable();
 
-    public abstract String getTextConstantCustUotaAlreadyInstalled() {
-    }
+    public abstract String getTextConstantCustUotaAlreadyInstalled();
 
-    public abstract String getTextConstantWaiting() {
-    }
+    public abstract String getTextConstantWaiting();
 
-    public abstract String getTextConstantOK() {
-    }
+    public abstract String getTextConstantOK();
 
-    public abstract String getTextConstantUnexpectedResultFromConsistencyCheck() {
-    }
+    public abstract String getTextConstantUnexpectedResultFromConsistencyCheck();
 
-    public abstract String getTextConstantRequires() {
-    }
+    public abstract String getTextConstantRequires();
 
-    public abstract String getTextConstantEngSelectManagerAbort() {
-    }
+    public abstract String getTextConstantEngSelectManagerAbort();
 
-    public abstract String getTextConstantEngSelectManagerConfirmed() {
-    }
+    public abstract String getTextConstantEngSelectManagerConfirmed();
 
-    public abstract String getTextConstantEngSelectManagerFailed() {
-    }
+    public abstract String getTextConstantEngSelectManagerFailed();
 
-    public abstract String getTextConstantDeviceInfo1() {
-    }
+    public abstract String getTextConstantDeviceInfo1();
 
-    public abstract String getDetailedSummaryText(int n) {
-    }
+    public abstract String getDetailedSummaryText(int var1);
 
-    public abstract String[] getDefaultFiles() {
-    }
+    public abstract String[] getDefaultFiles();
 
-    public abstract String getLanguageErrorText() {
-    }
+    public abstract String getLanguageErrorText();
 
-    public abstract String getErrorText(int n) {
-    }
+    public abstract String getErrorText(int var1);
 
-    public abstract String getErrorText9() {
-    }
+    public abstract String getErrorText9();
 
-    public abstract String[] getUnusualEventData(int n) {
-    }
+    public abstract String[] getUnusualEventData(int var1);
 
-    public abstract String getDlProgressAsText(int n) {
-    }
+    public abstract String getDlProgressAsText(int var1);
 
-    public abstract String getTextConstantDevicesReady() {
-    }
+    public abstract String getTextConstantDevicesReady();
 
-    public abstract String getReleaseErrorTemplate(int n) {
-    }
+    public abstract String getReleaseErrorTemplate(int var1);
 
-    public abstract String getTextConstantUndefinedError() {
-    }
+    public abstract String getTextConstantUndefinedError();
 
-    public abstract String getConsistencyMessage(int n, String string, int n2) {
-    }
+    public abstract String getConsistencyMessage(int var1, String var2, int var3);
 
-    public abstract String getMetainfoErrorTemplate(int n) {
-    }
+    public abstract String getMetainfoErrorTemplate(int var1);
 }
 

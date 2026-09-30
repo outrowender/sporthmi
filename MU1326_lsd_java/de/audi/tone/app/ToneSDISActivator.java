@@ -30,7 +30,6 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$audio$HMIAudioServiceListener;
     static /* synthetic */ Class class$org$dsi$ifc$audio$DSISound;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.lc = this.framework.getLogChannel("App.Tone.SDIS");
@@ -47,7 +46,6 @@ implements ServiceTrackerCustomizer {
         new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$audio$DSISound == null ? (class$org$dsi$ifc$audio$DSISound = ToneSDISActivator.class$("org.dsi.ifc.audio.DSISound")) : class$org$dsi$ifc$audio$DSISound).getName(), (ServiceTrackerCustomizer)this).open();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         Object object2 = null;
@@ -57,21 +55,19 @@ implements ServiceTrackerCustomizer {
         }
         if (object2 != null) {
             Object object3 = serviceReference.getProperty("objectClass");
-            this.lc.log(-2137614336, "[ToneSDISActivator.addingService] %1 -> %2", object3, object);
+            this.lc.log(10000000, "[ToneSDISActivator.addingService] %1 -> %2", object3, object);
         } else {
             this.bundleContext.ungetService(serviceReference);
         }
         return object2;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         Object object2 = serviceReference.getProperty("objectClass");
-        this.lc.log(-2137614336, "[ToneSDISActivator.removedService] %1 -> %2", object2, object);
+        this.lc.log(10000000, "[ToneSDISActivator.removedService] %1 -> %2", object2, object);
         if (object instanceof DSISound) {
             this.asiProvider.deregisterDSISound();
         }

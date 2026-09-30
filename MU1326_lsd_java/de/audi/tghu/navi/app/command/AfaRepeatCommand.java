@@ -13,9 +13,8 @@ extends NavCommand {
         this.source = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "AfaRepeatCommand#execute() - calling afaRepeat( %1 ) ", (long)this.source);
+        this.logger.log(1000000, "AfaRepeatCommand#execute() - calling afaRepeat( %1 ) ", (long)this.source);
         this.getDSINavigation().afaRepeat(this.source);
         this.getCommandList().commandFinished();
     }

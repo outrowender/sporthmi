@@ -11,9 +11,8 @@ import java.util.Comparator;
 public class SortAlgoFrequency
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -4693186874261793027L;
 
-    @Override
     public int compare(Object object, Object object2) {
         AMFMStation aMFMStation;
         AMFMStation aMFMStation2;

@@ -18,9 +18,8 @@ extends NavCommand {
         this.logChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     public void execute() {
-        this.logChannel.log(1078071040, "AbortPOICommand#execute - Current state of the speller stack: [%1]", (Object)SpellerStack.getInstance().toString());
+        this.logChannel.log(1000000, "AbortPOICommand#execute - Current state of the speller stack: [%1]", (Object)SpellerStack.getInstance().toString());
         this.getCommandList().commandFinished();
     }
 }

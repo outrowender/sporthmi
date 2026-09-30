@@ -14,12 +14,10 @@ extends AbstractArtistTitleComparatorAndIndexer {
         super(languageManager, true);
     }
 
-    @Override
     protected String getStringUsedForIndexing(ArtistTitleRow artistTitleRow) {
         return artistTitleRow.getRadioText().longArtistName;
     }
 
-    @Override
     protected int compare(ArtistTitleRow artistTitleRow, ArtistTitleRow artistTitleRow2, Collator collator) {
         int n = collator.compare(artistTitleRow.getRadioText().longArtistName, artistTitleRow2.getRadioText().longArtistName);
         if (n != 0) {

@@ -14,15 +14,13 @@ extends NavCommand {
         this.viaPointId = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "LiSelectViaPointCommand#execute() - calling liSelectViaPoint() ");
+        this.logger.log(10000000, "LiSelectViaPointCommand#execute() - calling liSelectViaPoint() ");
         this.getDSINavigation().liSelectViaPoint(this.viaPointId);
     }
 
-    @Override
     public void liSelectViaPointResult(NavLocation navLocation, int n) {
-        this.logger.log(-2137614336, "LiSelectViaPointCommand#liSelectViaPointResult()");
+        this.logger.log(10000000, "LiSelectViaPointCommand#liSelectViaPointResult()");
         if (n == 0) {
             this.getCommandList().commandFinished();
         } else {

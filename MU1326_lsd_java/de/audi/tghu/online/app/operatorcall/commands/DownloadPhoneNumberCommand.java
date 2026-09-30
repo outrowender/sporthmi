@@ -28,12 +28,11 @@ implements DSIOperatorCallListener {
         this.currentPositionInfo = operatorCallData;
     }
 
-    @Override
     public void execute() {
         this.listener.setCurrentCallStatus(0);
-        this.logger.log(1078071040, "DownloadPhoneNumberCommand#execute: entered");
+        this.logger.log(1000000, "DownloadPhoneNumberCommand#execute: entered");
         if (this.dsiHandler.isDSIAvailable()) {
-            this.logger.log(1078071040, "DownloadPhoneNumberCommand#execute: dsi is available");
+            this.logger.log(1000000, "DownloadPhoneNumberCommand#execute: dsi is available");
             int n = this.listener.getServiceType();
             Buffer buffer = new Buffer("serviceType =");
             buffer.append(n);
@@ -41,14 +40,14 @@ implements DSIOperatorCallListener {
             buffer.append(this.currentPositionInfo);
             buffer.append(", ignoreOldSession = ");
             buffer.append(this.ignoreOldSession);
-            this.logger.log(1078071040, "DownloadPhoneNumberCommand#execute: requestOperatorPhoneNumber(%1)", (Object)buffer.toString());
+            this.logger.log(1000000, "DownloadPhoneNumberCommand#execute: requestOperatorPhoneNumber(%1)", (Object)buffer.toString());
             if (TestHandler.isDsiSimulation()) {
                 int n2;
-                this.logger.log(-1601830656, "DownloadPhoneNumberCommand#execute: DSISimulation is running!");
+                this.logger.log(100000, "DownloadPhoneNumberCommand#execute: DSISimulation is running!");
                 if (TestHandler.usePhoneTimeout()) {
                     for (n2 = 0; n2 < TestHandler.getTimer(); ++n2) {
                         if (n2 % TestHandler.getTimerMod() != 0) continue;
-                        this.logger.log(1078071040, "DownloadPhoneNumberCommand#execute: timer = %1", (long)n2);
+                        this.logger.log(1000000, "DownloadPhoneNumberCommand#execute: timer = %1", (long)n2);
                     }
                 }
                 PhoneResult phoneResult = TestHandler.getPhoneResults();
@@ -58,7 +57,7 @@ implements DSIOperatorCallListener {
                 CommandListManager commandListManager = this.getCmdList().getManager();
                 OperatorCallCommandListManager operatorCallCommandListManager = (OperatorCallCommandListManager)commandListManager;
                 String string = operatorCallCommandListManager.getLanguage();
-                this.logger.log(1078071040, "DownloadPhoneNumberCommand#execute: setLanguage(%1)", (Object)string);
+                this.logger.log(1000000, "DownloadPhoneNumberCommand#execute: setLanguage(%1)", (Object)string);
                 this.dsiHandler.setLanguage(string);
                 this.dsiHandler.requestOperatorPhoneNumber(n, this.currentPositionInfo, this.ignoreOldSession);
             }
@@ -69,9 +68,8 @@ implements DSIOperatorCallListener {
         }
     }
 
-    @Override
     public void responseOperatorPhoneNumber(int n, String string, String[] stringArray, int n2) {
-        this.logger.log(1078071040, "DownloadPhoneNumberCommand#responseOperatorPhoneNumber: got response!");
+        this.logger.log(1000000, "DownloadPhoneNumberCommand#responseOperatorPhoneNumber: got response!");
         Buffer buffer = new Buffer("DownloadPhoneNumberCommand#responseOperatorPhoneNumber: resultType = ");
         buffer.append(n);
         buffer.append(", serviceId = ");
@@ -84,7 +82,7 @@ implements DSIOperatorCallListener {
         }
         buffer.append(", transferType = ");
         buffer.append(n2);
-        this.logger.log(-2137614336, buffer.toString());
+        this.logger.log(10000000, buffer.toString());
         this.listener.responseOperatorPhoneNumber(n, string, stringArray, n2, this.getCmdList(), this.ignoreOldSession);
     }
 }

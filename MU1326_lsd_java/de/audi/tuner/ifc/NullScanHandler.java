@@ -14,18 +14,15 @@ implements IScanHandler {
         super(logChannel, "NullScanHandler");
     }
 
-    @Override
     public void abortScan() {
         this.log();
     }
 
-    @Override
     public boolean handleHkPrevHkNext(boolean bl) {
         this.log();
         return false;
     }
 
-    @Override
     public boolean isScanActive() {
         this.log();
         return false;

@@ -3,7 +3,7 @@
  */
 package de.audi.tghu.navi.app.map;
 
-import de.audi.atip.interapp.NaviOnlineService$NaviOnlineMapOverlay;
+import de.audi.atip.interapp.NaviOnlineService;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.navi.app.favorite.IFavorite;
@@ -46,7 +46,7 @@ public class MapDataContainer {
     public NavLocation sEnterInMapLocation = null;
     public boolean keepLocationFocus = false;
     public NavLocation sFocusedPosition = null;
-    public float sFocusedZoom = 32959;
+    public float sFocusedZoom = -1.0f;
     public short sFocusedRotation = 0;
     public boolean sForceUseEnterInMapLocation = false;
     public boolean sForceUseEnterInMapRestoreZoom = false;
@@ -55,8 +55,8 @@ public class MapDataContainer {
     public boolean sPicNavMapShowPicNavIcons = false;
     public String sPicNavMapTooltipString = null;
     public ResourceLocator sPicNavMapTooltipLocator = null;
-    public float fUserZoomLevel = 32959;
-    public float lastZoomLevelInCrossHairMode = 32959;
+    public float fUserZoomLevel = -1.0f;
+    public float lastZoomLevelInCrossHairMode = -1.0f;
     int sFrozenLevel = 0;
     int sKeptContext = 0;
     public int sDistanceToNextManeuver = 0;
@@ -113,7 +113,7 @@ public class MapDataContainer {
     public NavRectangle focusRectangle;
     public TimerListener sHideToolTipTimer = null;
     public int sAutoOrientationThreshold = -1;
-    public float sOrientationThresholdPM = 32959;
+    public float sOrientationThresholdPM = -1.0f;
     public int sRcciEnterTrigger = -1;
     public CalculatedRouteListElement[] rcciRoutes;
     public int rcciFocusedRoute;
@@ -148,7 +148,7 @@ public class MapDataContainer {
     public int sPreviewMapOffsetY;
     public int distToNextDest = 0;
     public int weatherSetId;
-    public NaviOnlineService$NaviOnlineMapOverlay[] weatherData = null;
+    public NaviOnlineService.NaviOnlineMapOverlay[] weatherData = null;
     public int weatherDelayInMillisBetweenImages;
     public NavLocationWgs84 sRubberbandPoint = null;
     public boolean enterRbbFromRightDrawer = false;

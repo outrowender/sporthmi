@@ -16,7 +16,6 @@ extends NavCommand {
         this.guiTooltipInformationContainer = guiTooltipInformationContainer;
     }
 
-    @Override
     public void execute() {
         NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
         PreviewMapUtils.fillToolTipInformationContainerByNavLocation(this.env, navLocation, null, this.guiTooltipInformationContainer);

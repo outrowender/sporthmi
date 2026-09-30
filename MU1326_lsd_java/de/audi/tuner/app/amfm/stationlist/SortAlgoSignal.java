@@ -13,13 +13,12 @@ class SortAlgoSignal
 extends SortAlgoAlphabetically
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2964570796209432590L;
 
     SortAlgoSignal(LanguageManager languageManager) {
         super(languageManager);
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         int n = ((Station)object).receptionQuality;
         int n2 = ((Station)object2).receptionQuality;

@@ -17,7 +17,6 @@ extends TimerTask {
         this.a = a2;
     }
 
-    @Override
     public void run() {
         try {
             if (de.eso.vcalendar.starter.client.a.a(this.a).isDead()) {
@@ -39,7 +38,7 @@ extends TimerTask {
             de.eso.vcalendar.starter.client.a.d(this.a).log((short)3, "___________>parseVCalendar called<_________");
         }
         catch (MethodException methodException) {
-            de.eso.vcalendar.starter.client.a.d(this.a).log((short)3, new StringBuffer().append("___________>MethodException e<_________").append(methodException.getMessage()).toString());
+            de.eso.vcalendar.starter.client.a.d(this.a).log((short)3, "___________>MethodException e<_________" + methodException.getMessage());
             methodException.printStackTrace();
         }
     }

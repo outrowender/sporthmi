@@ -6,46 +6,32 @@ package de.audi.tuner.ifc.listener;
 import org.dsi.ifc.radio.WavebandInfo;
 
 public interface IUpdateListener {
-    default public void updatedBandList(int[] nArray) {
-    }
+    public void updatedBandList(int[] var1);
 
-    default public void updatedMemoryList() {
-    }
+    public void updatedMemoryList();
 
-    default public void updatedStationList(int n) {
-    }
+    public void updatedStationList(int var1);
 
-    default public void updatedWaveband(int n) {
-    }
+    public void updatedWaveband(int var1);
 
-    default public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray) {
-    }
+    public void updateWavebandInfoList(WavebandInfo[] var1);
 
-    default public void updatedActiveList(int n) {
-    }
+    public void updatedActiveList(int var1);
 
-    default public void updatedActiveStation(int n) {
-    }
+    public void updatedActiveStation(int var1);
 
-    default public void updatedActiveInfoState(int n) {
-    }
+    public void updatedActiveInfoState(int var1);
 
-    default public void updatedAnnouncementStatus(int n) {
-    }
+    public void updatedAnnouncementStatus(int var1);
 
-    default public void updatedSeekStatus(boolean bl) {
-    }
+    public void updatedSeekStatus(boolean var1);
 
-    default public void updatedScanStatus(boolean bl) {
-    }
+    public void updatedScanStatus(boolean var1);
 
-    default public void updatedForceStationListUpdateStatus(int n, int n2) {
-    }
+    public void updatedForceStationListUpdateStatus(int var1, int var2);
 
-    default public void updatedMuteStatus(int n, boolean bl) {
-    }
+    public void updatedMuteStatus(int var1, boolean var2);
 
-    default public void updatedTAStationName(String string, int n, long l) {
-    }
+    public void updatedTAStationName(String var1, int var2, long var3);
 }
 

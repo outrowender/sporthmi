@@ -9,15 +9,15 @@ import org.dsi.ifc.filebrowser.BrowsedFile;
 
 public class EvoFileListRow
 extends AbstractEvoFileListRow {
-    protected static final int COLUMNS;
-    protected static final int IDX_FILE_NAME;
-    protected static final int IDX_FILE_TYPE;
-    protected static final int IDX_SELECTED;
-    protected static final int IDX_FOLDER;
-    protected static final int IDX_FILE_SIZE;
-    protected static final int IDX_FILE_ID;
-    protected static final int IDX_FILE_OFFSET;
-    protected static final int IDX_FILE;
+    protected static final int COLUMNS = 8;
+    protected static final int IDX_FILE_NAME = 0;
+    protected static final int IDX_FILE_TYPE = 1;
+    protected static final int IDX_SELECTED = 2;
+    protected static final int IDX_FOLDER = 3;
+    protected static final int IDX_FILE_SIZE = 4;
+    protected static final int IDX_FILE_ID = 5;
+    protected static final int IDX_FILE_OFFSET = 6;
+    protected static final int IDX_FILE = 7;
 
     public EvoFileListRow(BrowsedFile browsedFile, int n) {
         super(browsedFile, n, 8);
@@ -34,23 +34,19 @@ extends AbstractEvoFileListRow {
         this.setLong(6, this.getOffset());
     }
 
-    @Override
     public boolean equals(Object object) {
         return null != object && object instanceof EvoFileListRow && this.getUniqueID() == ((EvoFileListRow)object).getUniqueID();
     }
 
-    @Override
     public int hashCode() {
         long l = this.getUniqueID();
         return (int)(l ^ l >>> 32);
     }
 
-    @Override
     public EvoListRow copy() {
         return new EvoFileListRow(this.getBrowsedFile(), this.getOffset());
     }
 
-    @Override
     public void setSelected(boolean bl) {
         super.setSelected(bl);
         this.setInteger(2, bl ? 1 : 0);

@@ -9,24 +9,19 @@ import de.audi.tghu.navi.app.interapp.IViewSizeChangeHandler;
 
 public class NullViewSizeChangeHandler
 implements IViewSizeChangeHandler {
-    @Override
     public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
     }
 
-    @Override
     public void addViewSizeChangedListener(IViewSizeListener iViewSizeListener) {
     }
 
-    @Override
     public boolean isSmallStageActive() {
         return false;
     }
 
-    @Override
     public void requestLargeViewSize(int n) {
     }
 
-    @Override
     public void unrequestLargeViewSize(int n) {
     }
 }

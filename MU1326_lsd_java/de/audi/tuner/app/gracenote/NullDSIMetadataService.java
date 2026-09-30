@@ -13,50 +13,41 @@ class NullDSIMetadataService
 extends NullService
 implements DSIMetadataService {
     protected NullDSIMetadataService(LogChannel logChannel) {
-        super(logChannel, 14808325, "DSIMetadataService");
+        super(logChannel, 100000000, "DSIMetadataService");
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void requestCoverArt(int n, CoverartInfo coverartInfo) {
         this.log();
     }
 
-    @Override
     public void disableOnlineLookup() {
         this.log();
     }
 
-    @Override
     public void enableOnlineLookup() {
         this.log();
     }

@@ -6,7 +6,7 @@ package de.audi.tghu.navi.app.map.routeinfo;
 import de.audi.atip.hmi.model.BaseListRow;
 import de.audi.atip.hmi.model.LongListCell;
 import de.audi.atip.hmi.model.TextListCell;
-import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler$TravelData;
+import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHandler;
 import de.audi.tghu.navi.app.map.routeinfo.RouteInfoHelper;
 import de.audi.tghu.navi.app.map.utils.MixedListRow;
 
@@ -48,11 +48,10 @@ implements Comparable {
         return this.mUID;
     }
 
-    public abstract Object getEvent() {
-    }
+    public abstract Object getEvent();
 
     protected void setUID(int n, long l) {
-        this.mUID = l == -1L ? (long)(-129 - n) : (long)((int)l * 100 - n);
+        this.mUID = l == -1L ? (long)(Integer.MAX_VALUE - n) : (long)((int)l * 100 - n);
         this.mMixedListRow.setInteger(48, (int)this.mUID);
     }
 
@@ -73,7 +72,7 @@ implements Comparable {
         long l2 = Math.max(l - this.mRttToFinalDest, 0L);
         if (l2 != this.mRttToCar) {
             this.mRttToCar = l2;
-            long l3 = l2 * 0;
+            long l3 = l2 * 1000L;
             this.mMixedListRow.setCell(52, new TextListCell(this.helper.formatMillisecond(l3)));
             this.mMixedListRow.setCell(63, new LongListCell(l3));
             return true;
@@ -88,14 +87,13 @@ implements Comparable {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         MixedListItem mixedListItem = (MixedListItem)object;
         return this.mUID == mixedListItem.mUID;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             return -1;
@@ -124,7 +122,7 @@ implements Comparable {
     }
 
     public boolean isWithinHorizon() {
-        return this.getDistanceToCar() <= 0;
+        return this.getDistanceToCar() <= 500L;
     }
 
     public MixedListRow getMixedListRow() {

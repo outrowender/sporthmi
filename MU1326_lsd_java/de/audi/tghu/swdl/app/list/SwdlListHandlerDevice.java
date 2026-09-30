@@ -14,13 +14,12 @@ import de.audi.tghu.swdl.app.list.SwdlListItemDevice;
 
 public class SwdlListHandlerDevice
 extends AbstractSwdlListHandlerDeviceInfo {
-    private static final int ITEM_CELL_COUNT;
+    private static final int ITEM_CELL_COUNT = 5;
 
     public SwdlListHandlerDevice(SwdlEnv swdlEnv, IDeviceInfoManager iDeviceInfoManager, ListModelApp listModelApp) {
         super(iDeviceInfoManager, swdlEnv, listModelApp, listModelApp.getID(), 5);
     }
 
-    @Override
     public ListCell[] getNewRow() {
         ListCell[] listCellArray = super.getNewRow();
         listCellArray[4] = new IntegerListCell(-1, 0);

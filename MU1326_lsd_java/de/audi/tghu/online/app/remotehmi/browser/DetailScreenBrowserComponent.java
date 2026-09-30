@@ -13,9 +13,9 @@ import de.audi.tghu.online.app.remotehmi.browser.RemoteHMIBrowserComponent;
 
 public class DetailScreenBrowserComponent
 extends RemoteHMIBrowserComponent {
-    public static final String URL_PREFIX;
-    public static final String EXTURL_PREFIX;
-    public static final String EXTURL_PREFIX_SECURE;
+    public static final String URL_PREFIX = "file://";
+    public static final String EXTURL_PREFIX = "http://";
+    public static final String EXTURL_PREFIX_SECURE = "https://";
     private boolean visible;
     private IBrowserHandler browserPOIHandler;
     private String poiUrl;
@@ -23,9 +23,8 @@ extends RemoteHMIBrowserComponent {
     private boolean browsersSuspended;
     private boolean initialized;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
-        logChannel.log(1078071040, "DetailScreenBrowser#init()");
+        logChannel.log(1000000, "DetailScreenBrowser#init()");
         super.init(logChannel, remoteHMIService);
         this.initialized = true;
     }
@@ -34,7 +33,6 @@ extends RemoteHMIBrowserComponent {
         return this.initialized;
     }
 
-    @Override
     public void setBrowserHandler(IBrowserHandler iBrowserHandler) {
         ChoiceModelApp choiceModelApp;
         ChoiceModelApp choiceModelApp2;
@@ -42,17 +40,17 @@ extends RemoteHMIBrowserComponent {
         VirtualButtonModelApp virtualButtonModelApp;
         int n;
         if (iBrowserHandler != null) {
-            this.logChannel.log(-2137614336, "DetailScreenBrowser#setBrowserHandler() INSTANCE_REMOTEHMI");
+            this.logChannel.log(10000000, "DetailScreenBrowser#setBrowserHandler() INSTANCE_REMOTEHMI");
             n = 7;
-            virtualButtonModelApp = this.getModelBank().getVirtualButtonModel(1076168192);
-            choiceModelApp3 = this.getModelBank().getChoiceModel(1126499840);
-            choiceModelApp2 = this.getModelBank().getChoiceModel(1160054272);
-            choiceModelApp = this.getModelBank().getChoiceModel(1109722624);
+            virtualButtonModelApp = this.getModelBank().getVirtualButtonModel(402752);
+            choiceModelApp3 = this.getModelBank().getChoiceModel(402755);
+            choiceModelApp2 = this.getModelBank().getChoiceModel(402757);
+            choiceModelApp = this.getModelBank().getChoiceModel(402754);
             if (choiceModelApp != null) {
                 choiceModelApp.setValue(1);
             }
         } else {
-            this.logChannel.log(-1601830656, "DetailScreenBrowser#setBrowserHandler() - unknown instance: %1", (Object)iBrowserHandler);
+            this.logChannel.log(100000, "DetailScreenBrowser#setBrowserHandler() - unknown instance: %1", (Object)iBrowserHandler);
             this.browserPOIHandler = null;
             return;
         }
@@ -64,11 +62,11 @@ extends RemoteHMIBrowserComponent {
 
     public boolean loadURL(int n, String string, boolean bl) {
         if (n != 5) {
-            this.logChannel.log(-1601830656, "DetailScreenBrowser#loadURL( %1 ) Instance %2 is not processed by detail screen browser", (Object)string, (long)n);
+            this.logChannel.log(100000, "DetailScreenBrowser#loadURL( %1 ) Instance %2 is not processed by detail screen browser", (Object)string, (long)n);
         }
-        this.logChannel.log(-2137614336, "DetailScreenBrowser#loadURL( %1 ) Instance %2", (Object)string, (long)n);
+        this.logChannel.log(10000000, "DetailScreenBrowser#loadURL( %1 ) Instance %2", (Object)string, (long)n);
         this.poiUrl = string;
-        this.logChannel.log(-2137614336, "DetailScreenBrowser#loadURL bufferedURL:  %1 ", (Object)this.poiUrl);
+        this.logChannel.log(10000000, "DetailScreenBrowser#loadURL bufferedURL:  %1 ", (Object)this.poiUrl);
         this.deleteCache = bl;
         if (this.browserPOIHandler == null) {
             this.logChannel.log(10000, "DetailScreenBrowser#loadURL() - browser not ready [browserHandler[%1] == null]!", (long)n);
@@ -80,7 +78,7 @@ extends RemoteHMIBrowserComponent {
     }
 
     public void browserVisible(boolean bl) {
-        this.logChannel.log(-2137614336, "DetailScreenBrowser#browserVisible( %1)", bl);
+        this.logChannel.log(10000000, "DetailScreenBrowser#browserVisible( %1)", bl);
         if (this.browserPOIHandler == null) {
             this.logChannel.log(10000, "DetailScreenBrowser#browserVisible() - POI detail browser not ready [browserHandler == null]!");
             return;
@@ -88,7 +86,7 @@ extends RemoteHMIBrowserComponent {
         this.visible = bl;
         if (bl) {
             if (this.browsersSuspended) {
-                this.logChannel.log(-2137614336, "DetailScreenBrowser#browserVisible() - resuming POI detail browser");
+                this.logChannel.log(10000000, "DetailScreenBrowser#browserVisible() - resuming POI detail browser");
                 this.browserPOIHandler.resumeBrowser();
                 this.browsersSuspended = false;
                 if (this.poiUrl != null && this.poiUrl.length() != 0) {
@@ -97,31 +95,30 @@ extends RemoteHMIBrowserComponent {
                 } else if (this.browserPOIHandler.getBrowserSyncModel() != null) {
                     String string = this.browserPOIHandler.getLastActiveUrl();
                     if (this.browserPOIHandler.getBrowserSyncModel().getStatus() == 2 && string != null && string.length() > 0) {
-                        this.logChannel.log(-2137614336, "DetailScreenBrowser#browserVisible() - last state was error, loading last URL again. %1", (Object)string);
+                        this.logChannel.log(10000000, "DetailScreenBrowser#browserVisible() - last state was error, loading last URL again. %1", (Object)string);
                         this.browserPOIHandler.loadUrl(string, false);
                     }
                 }
             } else {
                 if (this.poiUrl != null && this.poiUrl.length() != 0) {
-                    this.logChannel.log(-2137614336, "DetailScreenBrowser#browserVisible() - startBrowser( %1 ) - buffer set", (Object)this.poiUrl);
+                    this.logChannel.log(10000000, "DetailScreenBrowser#browserVisible() - startBrowser( %1 ) - buffer set", (Object)this.poiUrl);
                     this.browserPOIHandler.loadUrl(this.poiUrl, this.deleteCache);
                     this.poiUrl = null;
                 } else {
-                    this.logChannel.log(-2137614336, "DetailScreenBrowser#browserVisible() - startBrowser( ) - enter by history");
+                    this.logChannel.log(10000000, "DetailScreenBrowser#browserVisible() - startBrowser( ) - enter by history");
                     this.browserPOIHandler.loadUrl(null, false);
                 }
                 this.deleteCache = false;
             }
         } else {
-            this.logChannel.log(-2137614336, "DetailScreenBrowser#browserVisible() - stopBrowser() ");
+            this.logChannel.log(10000000, "DetailScreenBrowser#browserVisible() - stopBrowser() ");
             this.browserPOIHandler.suspendBrowser();
             this.browsersSuspended = true;
         }
     }
 
-    @Override
     public void onExit() {
-        this.logChannel.log(-2137614336, "DetailScreenBrowser#onExit() called set empty page on browser and suspend it.");
+        this.logChannel.log(10000000, "DetailScreenBrowser#onExit() called set empty page on browser and suspend it.");
         this.loadURL(5, null, true);
         this.browserVisible(false);
     }

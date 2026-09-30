@@ -24,7 +24,6 @@ implements DSIMapViewerManeuverView {
         return this.mDSIMV != null;
     }
 
-    @Override
     protected void cleanup() {
         super.cleanup();
     }
@@ -41,19 +40,17 @@ implements DSIMapViewerManeuverView {
         return (MVResponseManeuverView)this.getResponser();
     }
 
-    @Override
     protected DSIBase getDSIBase() {
         return this.mDSIMV;
     }
 
-    @Override
     public void selectManoeuvreView(int n, boolean bl) {
         if (!this.isDSIMVAvailable()) {
             this.getLogger().log(10000, "MVRequestManeuverView#selectManoeuvreView() - DSIMV not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestManeuverView#selectManoeuvreView(%2, %1)", bl, (long)n);
+            this.getLogger().log(10000000, "MVRequestManeuverView#selectManoeuvreView(%2, %1)", bl, (long)n);
             this.mDSIMV.selectManoeuvreView(n, bl);
         }
         catch (Exception exception) {
@@ -61,14 +58,13 @@ implements DSIMapViewerManeuverView {
         }
     }
 
-    @Override
     public void hideManoeuvreView() {
         if (!this.isDSIMVAvailable()) {
             this.getLogger().log(10000, "MVRequestManeuverView#hideManoeuvreView() - DSIMV not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestManeuverView#hideManoeuvreView()");
+            this.getLogger().log(10000000, "MVRequestManeuverView#hideManoeuvreView()");
             this.mDSIMV.hideManoeuvreView();
         }
         catch (Exception exception) {
@@ -76,14 +72,13 @@ implements DSIMapViewerManeuverView {
         }
     }
 
-    @Override
     public void setDistanceString(String string) {
         if (!this.isDSIMVAvailable()) {
             this.getLogger().log(10000, "MVRequestManeuverView#setDistanceString() - DSIMV not available!");
             return;
         }
         try {
-            this.getLogger().log(14808325, "MVRequestManeuverView#setDistanceString(%1)", (Object)string);
+            this.getLogger().log(100000000, "MVRequestManeuverView#setDistanceString(%1)", (Object)string);
             this.mDSIMV.setDistanceString(string);
         }
         catch (Exception exception) {
@@ -91,14 +86,13 @@ implements DSIMapViewerManeuverView {
         }
     }
 
-    @Override
     public void disableManeuverViewGeneration(boolean bl) {
         if (!this.isDSIMVAvailable()) {
             this.getLogger().log(10000, "MVRequestManeuverView#disableManeuverViewGeneration() - DSIMV not available!");
             return;
         }
         try {
-            this.getLogger().log(-2137614336, "MVRequestManeuverView#disableManeuverViewGeneration(%1)", bl);
+            this.getLogger().log(10000000, "MVRequestManeuverView#disableManeuverViewGeneration(%1)", bl);
             this.mDSIMV.disableManeuverViewGeneration(bl);
         }
         catch (Exception exception) {
@@ -106,7 +100,6 @@ implements DSIMapViewerManeuverView {
         }
     }
 
-    @Override
     public void resetMemberVariables() {
     }
 }

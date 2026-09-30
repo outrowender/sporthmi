@@ -11,12 +11,13 @@ import de.audi.tghu.navi.app.addressinput.poi.commands.LIRestoreStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LiGetStateCommand;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiClassCategoriesInputSequence;
+import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultsGeneralInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.AbstractWrapperSequence;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiCategoriesOrResultsWrapperSequence$1;
-import de.audi.tghu.navi.app.addressinput.poi.sequences.wrappers.PoiCategoriesOrResultsWrapperSequence$2;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import org.dsi.ifc.navigation.LISpellerData;
+import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiCategoriesOrResultsWrapperSequence
@@ -45,48 +46,47 @@ extends AbstractWrapperSequence {
         this.minimumResults = n;
     }
 
-    @Override
     public void start() {
-        this.env.getLogChannel().log(-2137614336, "[PoiInput] PoiCategoriesOrResultsInputSequence#start() - classElementIndex: %1 ", (Object)this.classElement);
+        this.env.getLogChannel().log(10000000, "[PoiInput] PoiCategoriesOrResultsInputSequence#start() - classElementIndex: %1 ", (Object)this.classElement);
         PoiClassCategoriesInputSequence poiClassCategoriesInputSequence = new PoiClassCategoriesInputSequence(this.poiModelAccess.getCategoriesScreen(), this.commandListFactory, this.searchArea, this.env, this.classElement, this.vehicle, this.detailsScreen);
         this.currentInputSequence = poiClassCategoriesInputSequence;
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LiGetStateCommand());
-        commandList.add(new PoiCategoriesOrResultsWrapperSequence$1(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiCategoriesOrResultsWrapperSequence.this.initialSpellerState = this.dsiResponseContainer.getSpellerState();
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.add(poiClassCategoriesInputSequence.createStartSequence());
-        commandList.add(new PoiCategoriesOrResultsWrapperSequence$2(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                long l = this.dsiResponseContainer.getLispValueListCount();
+                LIValueList lIValueList = this.dsiResponseContainer.getLispValueList();
+                if (l == 1L && lIValueList != null && lIValueList.getList() != null && lIValueList.getList().length == 1) {
+                    LIValueListElement lIValueListElement = lIValueList.getList()[0];
+                    PoiResultsGeneralInputSequence poiResultsGeneralInputSequence = new PoiResultsGeneralInputSequence(PoiCategoriesOrResultsWrapperSequence.this.poiModelAccess.getResultsScreen(), PoiCategoriesOrResultsWrapperSequence.this.commandListFactory, PoiCategoriesOrResultsWrapperSequence.this.searchArea, this.env, lIValueListElement, PoiCategoriesOrResultsWrapperSequence.this.vehicle, false, PoiCategoriesOrResultsWrapperSequence.this.minimumResults, PoiCategoriesOrResultsWrapperSequence.this.detailsScreen);
+                    PoiCategoriesOrResultsWrapperSequence.this.currentInputSequence = poiResultsGeneralInputSequence;
+                    this.logger.log(10000000, "[PoiInput] PoiCategoriesOrResultsInputSequence#navCommand#execute() - continue directly to results screen");
+                    this.getCommandList().commandFinishedWithPostSequence(poiResultsGeneralInputSequence.createStartSequence());
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.execute("PoiCategoriesOrResultsInputSequence#start");
     }
 
-    @Override
     protected CommandList restoreCurrent() {
         if (this.initialSpellerState == null) {
-            this.env.getLogChannel().log(-1601830656, "[PoiInput] PoiBrandsFromSpellerStateWrapperSequence#Invalid sequence state - spellerState is null.");
+            this.env.getLogChannel().log(100000, "[PoiInput] PoiBrandsFromSpellerStateWrapperSequence#Invalid sequence state - spellerState is null.");
             return null;
         }
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LIRestoreStateCommand(this.initialSpellerState));
         return commandList;
-    }
-
-    static /* synthetic */ IPoiCategoriesOrResultsModelAccess access$000(PoiCategoriesOrResultsWrapperSequence poiCategoriesOrResultsWrapperSequence) {
-        return poiCategoriesOrResultsWrapperSequence.poiModelAccess;
-    }
-
-    static /* synthetic */ ICommandListFactory access$100(PoiCategoriesOrResultsWrapperSequence poiCategoriesOrResultsWrapperSequence) {
-        return poiCategoriesOrResultsWrapperSequence.commandListFactory;
-    }
-
-    static /* synthetic */ PoiSearchArea access$200(PoiCategoriesOrResultsWrapperSequence poiCategoriesOrResultsWrapperSequence) {
-        return poiCategoriesOrResultsWrapperSequence.searchArea;
-    }
-
-    static /* synthetic */ IVehicle access$300(PoiCategoriesOrResultsWrapperSequence poiCategoriesOrResultsWrapperSequence) {
-        return poiCategoriesOrResultsWrapperSequence.vehicle;
-    }
-
-    static /* synthetic */ int access$400(PoiCategoriesOrResultsWrapperSequence poiCategoriesOrResultsWrapperSequence) {
-        return poiCategoriesOrResultsWrapperSequence.minimumResults;
     }
 }
 

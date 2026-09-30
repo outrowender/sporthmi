@@ -18,59 +18,45 @@ TTSListener {
     private NullSamplePlayer() {
     }
 
-    @Override
     public void play() {
     }
 
-    @Override
     public void stop() {
     }
 
-    @Override
     public void registerService(Object object) {
     }
 
-    @Override
     public void deregisterService(Object object) {
     }
 
-    @Override
     public void sessionStarted() {
     }
 
-    @Override
     public void sessionStopped() {
     }
 
-    @Override
     public void speakingFinished() {
     }
 
-    @Override
     public void speakingAborted() {
     }
 
-    @Override
     public void sessionPaused() {
     }
 
-    @Override
     public void sessionResumed() {
     }
 
-    @Override
     public void speakingFailed() {
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
     }
 
-    @Override
     public void speakingStarted() {
     }
 
-    @Override
     public void speakingPaused() {
     }
 }

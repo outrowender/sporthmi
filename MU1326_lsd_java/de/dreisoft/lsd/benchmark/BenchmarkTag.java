@@ -6,10 +6,10 @@ package de.dreisoft.lsd.benchmark;
 import de.dreisoft.lsd.benchmark.BenchmarkSuite;
 
 public class BenchmarkTag {
-    public static final int TYPE_UNDEFINED;
-    public static final int TYPE_START;
-    public static final int TYPE_END;
-    public static final int TYPE_COUNT;
+    public static final int TYPE_UNDEFINED = 0;
+    public static final int TYPE_START = 1;
+    public static final int TYPE_END = 2;
+    public static final int TYPE_COUNT = 3;
     private final int type;
     private final int category;
     private final int samples;

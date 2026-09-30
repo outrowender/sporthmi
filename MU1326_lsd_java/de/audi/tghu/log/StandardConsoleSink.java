@@ -60,7 +60,6 @@ IStandardConsoleLogSink {
         buffer.append("\u001b[0m");
     }
 
-    @Override
     public synchronized void writeLog(LogEntry logEntry) {
         if (logEntry != null) {
             this.doWriteAnsiColorStart(buf, logEntry.getLevel());

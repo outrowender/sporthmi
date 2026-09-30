@@ -13,11 +13,10 @@ extends RouteGuidanceStateModelAccess {
         super(navigationEnv);
     }
 
-    @Override
     public void updateRgActive(boolean bl, Route route) {
         super.updateRgActive(bl, route);
         if (!bl) {
-            this.env.getChoiceModel(136578560).setValue(0);
+            this.env.getChoiceModel(402440).setValue(0);
         }
     }
 }

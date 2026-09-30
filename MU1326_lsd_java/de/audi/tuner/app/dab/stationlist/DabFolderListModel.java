@@ -6,6 +6,8 @@ package de.audi.tuner.app.dab.stationlist;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.BaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.list.SelectedItem;
+import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.tuner.app.Logger;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.TunerBasics;
@@ -13,7 +15,6 @@ import de.audi.tuner.app.TunerModels;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.app.dab.DabStation;
 import de.audi.tuner.app.dab.stationlist.DabFolderListHandler;
-import de.audi.tuner.app.dab.stationlist.DabFolderListModel$ListListener;
 import de.audi.tuner.app.dab.stationlist.DabListRow;
 import de.audi.tuner.app.dab.stationlist.IFolderListModel;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
@@ -23,9 +24,9 @@ import java.util.List;
 
 class DabFolderListModel
 implements IFolderListModel {
-    private static final int FOLDERSTATE_CLOSED;
-    private static final int FOLDERSTATE_OPEN;
-    private static final int FOLDERSTATE_NEW;
+    private static final int FOLDERSTATE_CLOSED = 0;
+    private static final int FOLDERSTATE_OPEN = 1;
+    private static final int FOLDERSTATE_NEW = Utilities.isPGen1OrBentley() ? 0 : 1;
     private final Logger logger;
     private final BaseListModelApp viewModel;
     private final TunerModels models;
@@ -41,12 +42,11 @@ implements IFolderListModel {
         this.viewModel = this.models.getBaseListModel(n);
         this.logger = tunerBasics.getLogger();
         this.folderListHandler = dabFolderListHandler;
-        this.viewModel.setListener(new DabFolderListModel$ListListener(this, null));
+        this.viewModel.setListener(new ListListener());
         this.listArray = new ArrayList(250);
         this.imgType = n2;
     }
 
-    @Override
     public void setListener(BaseListModelListener baseListModelListener) {
         this.listListener = baseListModelListener;
     }
@@ -54,7 +54,6 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void update(List list, DabStation dabStation) {
         List list2 = this.listArray;
         synchronized (list2) {
@@ -68,10 +67,9 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSelectedIndex(int n, DabStation dabStation, int n2) {
         BaseListModelApp baseListModelApp;
-        this.logger.dabList.log(-2137614336, "[DFLM.setSelectedIndex]index %3->%2 : %1", (Object)dabStation, (long)n, (long)n2);
+        this.logger.dabList.log(10000000, "[DFLM.setSelectedIndex]index %3->%2 : %1", (Object)dabStation, (long)n, (long)n2);
         List list = this.listArray;
         synchronized (list) {
             int n3;
@@ -136,7 +134,6 @@ implements IFolderListModel {
         this.viewModel.update(baseListModelApp);
     }
 
-    @Override
     public int getSelected() {
         if (this.selectedRowId == -1L) {
             return -1;
@@ -147,7 +144,6 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public DabListRow getRow(int n) {
         List list = this.listArray;
         synchronized (list) {
@@ -172,7 +168,6 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getIndexForUniqueID(long l) {
         List list = this.listArray;
         synchronized (list) {
@@ -191,7 +186,6 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getLength() {
         List list = this.listArray;
         synchronized (list) {
@@ -199,7 +193,6 @@ implements IFolderListModel {
         }
     }
 
-    @Override
     public void setFolderStates(SimpleIntIntMap simpleIntIntMap) {
         this.idStateMapping = simpleIntIntMap;
     }
@@ -207,7 +200,6 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public SimpleIntIntMap getFolderStates() {
         SimpleIntIntMap simpleIntIntMap = new SimpleIntIntMap();
         List list = this.listArray;
@@ -226,7 +218,6 @@ implements IFolderListModel {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setReceptionStatus(int n, int n2) {
         long l = 0L;
         if (this.selectedRowId != -1L) {
@@ -350,57 +341,76 @@ implements IFolderListModel {
         return null;
     }
 
-    @Override
     public void setPrefImgType(int n) {
         this.imgType = n;
     }
 
-    static /* synthetic */ List access$100(DabFolderListModel dabFolderListModel) {
-        return dabFolderListModel.listArray;
-    }
+    private class ListListener
+    implements BaseListModelListener {
+        private volatile boolean focusSet = false;
 
-    static /* synthetic */ BaseListModelApp access$200(DabFolderListModel dabFolderListModel) {
-        return dabFolderListModel.viewModel;
-    }
+        private ListListener() {
+        }
 
-    static /* synthetic */ DabFolderListHandler access$300(DabFolderListModel dabFolderListModel) {
-        return dabFolderListModel.folderListHandler;
-    }
+        public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+        }
 
-    static /* synthetic */ boolean access$400(DabFolderListModel dabFolderListModel, DabListRow dabListRow) {
-        return dabFolderListModel.isOpen(dabListRow);
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (((DabListRow)evoListRow).isEnsemble()) {
+                BaseListModelApp baseListModelApp;
+                List list = DabFolderListModel.this.listArray;
+                synchronized (list) {
+                    baseListModelApp = DabFolderListModel.this.viewModel.getCopy();
+                    SelectedItem selectedItem = baseListModelApp.getSelected();
+                    long l = selectedItem != null ? selectedItem.getUniqueID() : 0L;
+                    DabListRow dabListRow = (DabListRow)DabFolderListModel.this.listArray.get(DabFolderListModel.this.getIndexForUniqueID(evoListRow.getUniqueID()));
+                    DabStation dabStation = DabFolderListModel.this.folderListHandler.getCurrentStation();
+                    if (dabListRow.isActive(dabStation)) {
+                        baseListModelApp.setSelectedIndex(-1);
+                    }
+                    if (DabFolderListModel.this.isOpen(dabListRow)) {
+                        int n5 = DabFolderListModel.this.getNumOfChildren(dabListRow);
+                        baseListModelApp.removeAndClose(evoListRow.getUniqueID(), n5);
+                        dabListRow.close(dabStation);
+                        if (dabListRow.isActive(dabStation)) {
+                            l = dabListRow.getUniqueID();
+                        }
+                        DabFolderListModel.this.close(dabListRow);
+                    } else {
+                        EvoListRow[] evoListRowArray = DabFolderListModel.this.getChildrenOf(dabListRow);
+                        baseListModelApp.insertAfterAndOpen(evoListRow.getUniqueID(), evoListRowArray);
+                        if (DabFolderListModel.this.selectedRowId != -1L && dabListRow.isActive(dabStation)) {
+                            l = DabFolderListModel.this.selectedRowId;
+                        }
+                        dabListRow.open(dabStation);
+                        DabFolderListModel.this.open(dabListRow);
+                    }
+                    baseListModelApp.setRow(n2, dabListRow);
+                    baseListModelApp.setSelectedUniqueID(l);
+                }
+                DabFolderListModel.this.viewModel.update(baseListModelApp);
+                DabFolderListModel.this.models.getMenuModel(100370).setFocusedItem(n, FocusAdvice.KEEP_POSITION, evoListRow.getUniqueID());
+                this.focusSet = true;
+            } else {
+                int n6 = DabFolderListModel.this.getIndexForUniqueID(evoListRow.getUniqueID());
+                DabFolderListModel.this.listListener.itemSelected(evoListRow, n, n6, n3, n4);
+            }
+        }
 
-    static /* synthetic */ int access$500(DabFolderListModel dabFolderListModel, DabListRow dabListRow) {
-        return dabFolderListModel.getNumOfChildren(dabListRow);
-    }
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            int n5 = DabFolderListModel.this.getIndexForUniqueID(evoListRow.getUniqueID());
+            DabFolderListModel.this.listListener.itemLongSelected(evoListRow, n, n5, n3, n4);
+        }
 
-    static /* synthetic */ void access$600(DabFolderListModel dabFolderListModel, DabListRow dabListRow) {
-        dabFolderListModel.close(dabListRow);
-    }
-
-    static /* synthetic */ EvoListRow[] access$700(DabFolderListModel dabFolderListModel, DabListRow dabListRow) {
-        return dabFolderListModel.getChildrenOf(dabListRow);
-    }
-
-    static /* synthetic */ long access$800(DabFolderListModel dabFolderListModel) {
-        return dabFolderListModel.selectedRowId;
-    }
-
-    static /* synthetic */ void access$900(DabFolderListModel dabFolderListModel, DabListRow dabListRow) {
-        dabFolderListModel.open(dabListRow);
-    }
-
-    static /* synthetic */ TunerModels access$1000(DabFolderListModel dabFolderListModel) {
-        return dabFolderListModel.models;
-    }
-
-    static /* synthetic */ BaseListModelListener access$1100(DabFolderListModel dabFolderListModel) {
-        return dabFolderListModel.listListener;
-    }
-
-    static {
-        FOLDERSTATE_NEW = Utilities.isPGen1OrBentley() ? 0 : 1;
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (this.focusSet) {
+                DabFolderListModel.this.models.getMenuModel(100370).resetFocusedItem();
+                this.focusSet = false;
+            }
+        }
     }
 }
 

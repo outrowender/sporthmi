@@ -24,12 +24,10 @@ implements IStorageAccess {
         storageProvider.start();
     }
 
-    @Override
     public IStorageStatistic getStorageStatistic() {
         return this.statistic;
     }
 
-    @Override
     public boolean getBoolean(int n, int n2, boolean bl) {
         boolean bl2 = bl;
         try {
@@ -45,7 +43,6 @@ implements IStorageAccess {
         return bl2;
     }
 
-    @Override
     public int getInt(int n, int n2, int n3) {
         int n4 = n3;
         try {
@@ -61,7 +58,6 @@ implements IStorageAccess {
         return n4;
     }
 
-    @Override
     public long getLong(int n, int n2, long l) {
         long l2 = l;
         try {
@@ -77,7 +73,6 @@ implements IStorageAccess {
         return l2;
     }
 
-    @Override
     public String getString(int n, int n2, String string) {
         String string2 = string;
         try {
@@ -96,7 +91,6 @@ implements IStorageAccess {
         return string2;
     }
 
-    @Override
     public byte[] getByteArray(int n, int n2, byte[] byArray) {
         byte[] byArray2 = byArray;
         try {
@@ -115,7 +109,6 @@ implements IStorageAccess {
         return byArray2;
     }
 
-    @Override
     public int[] getIntArray(int n, int n2, int[] nArray) {
         int[] nArray2 = nArray;
         try {
@@ -134,7 +127,6 @@ implements IStorageAccess {
         return nArray2;
     }
 
-    @Override
     public void setBoolean(int n, int n2, boolean bl) {
         this.setDirtyFlag(n, n2);
         try {
@@ -148,7 +140,6 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void setInt(int n, int n2, int n3) {
         this.setDirtyFlag(n, n2);
         try {
@@ -162,7 +153,6 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void setLong(int n, int n2, long l) {
         this.setDirtyFlag(n, n2);
         try {
@@ -176,7 +166,6 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void setString(int n, int n2, String string) {
         this.setDirtyFlag(n, n2);
         try {
@@ -190,7 +179,6 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void setByteArray(int n, int n2, byte[] byArray) {
         this.setDirtyFlag(n, n2);
         try {
@@ -204,7 +192,6 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void setIntArray(int n, int n2, int[] nArray) {
         this.setDirtyFlag(n, n2);
         try {
@@ -218,12 +205,10 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void enterSetupScreen() {
         this.clearDirtyFlag();
     }
 
-    @Override
     public void exitSetupScreen() {
         if (this.isDirtyFlagSet()) {
             this.storageProvider.flush();
@@ -231,12 +216,10 @@ implements IStorageAccess {
         }
     }
 
-    @Override
     public void startReset2FactorySettings() {
         this.storageProvider.blockFlush();
     }
 
-    @Override
     public void endReset2FactorySettings() {
         this.storageProvider.unblockFlush();
     }

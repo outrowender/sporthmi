@@ -13,7 +13,6 @@ extends MapOptionValidator {
         super(iFrameworkAccess);
     }
 
-    @Override
     public boolean isAdditionalInfosValid(int n) {
         switch (n) {
             case 2: {
@@ -28,7 +27,6 @@ extends MapOptionValidator {
         return false;
     }
 
-    @Override
     public boolean isMapRepresentationValid(int n) {
         switch (n) {
             case 0: {

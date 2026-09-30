@@ -27,7 +27,7 @@ implements VCalendarDbProviderReply,
 ILifecycleListener {
     private static final String[] e = new String[]{"myEven.ics", "test_attaced.ics", "4.4_bastille_day_party.ics", "4.6.1_anniversary_implicitly_transparent.ics", "4.6.1_business_event.ics", "4.6.1_transparent.ics", "eso_Brotzeitservice_Outlook2007.ics", "sc_calendar.ics", "test_attaced.ics", "test.ics", "Ferien_Bayern_2010.ics", "Ferien_Bayern_2011.ics", "Ferien_Bayern_2012.ics", "Kalenderwochen-2011-2020.ics"};
     int a = 0;
-    private static final int f;
+    private static final int f = 500;
     private int g;
     private VCalendarDbProviderProxy h = null;
     private Proxy i = null;
@@ -44,8 +44,8 @@ ILifecycleListener {
         this.h.getProxy().getLifecycle().setListener(this);
         this.i = this.h.getProxy();
         this.i.connectAsync();
-        de.eso.a.d.b.c(new StringBuffer().append("VCalendarParser starting on instance id=").append(this.g).toString());
-        this.c.schedule(this.d, 0, (long)0);
+        de.eso.a.d.b.c("VCalendarParser starting on instance id=" + this.g);
+        this.c.schedule(this.d, 140000L, 20000L);
         if (this.b == null) {
             de.eso.a.d.b.c("SerializationWorker starting");
             this.b = new d("SerializationWorker", 500);
@@ -97,7 +97,7 @@ ILifecycleListener {
 
     public void c() {
         if (this.i != null) {
-            de.eso.a.d.b.c(new StringBuffer().append("CalendarDBClient alive state =").append(this.i.isAlive()).toString());
+            de.eso.a.d.b.c("CalendarDBClient alive state =" + this.i.isAlive());
         }
     }
 
@@ -112,9 +112,9 @@ ILifecycleListener {
     }
 
     public void e() {
-        de.eso.a.d.b.b(new StringBuffer().append("-> JVCALENDAR[").append(this.g).append("] initialization started.").toString());
+        de.eso.a.d.b.b("-> JVCALENDAR[" + this.g + "] initialization started.");
         this.b.start(Activator.a);
-        de.eso.a.d.b.b(new StringBuffer().append("<- JVCALENDAR[").append(this.g).append("] initialization done.").toString());
+        de.eso.a.d.b.b("<- JVCALENDAR[" + this.g + "] initialization done.");
     }
 
     private boolean a(int n) {
@@ -139,10 +139,10 @@ ILifecycleListener {
 
     public void a(String string) {
         this.j.log((short)3, "_______________>parseVCalendar<_______________");
-        de.eso.a.d.b.c(new StringBuffer().append(string).append(" should be parsed.").toString());
+        de.eso.a.d.b.c(string + " should be parsed.");
         File file = new File(string);
         if (!file.exists()) {
-            de.eso.a.d.b.d(new StringBuffer().append("VCalendar not found: ").append(file.getAbsolutePath()).toString());
+            de.eso.a.d.b.d("VCalendar not found: " + file.getAbsolutePath());
             return;
         }
         if (this.h != null && this.i != null && this.i.isAlive()) {
@@ -155,22 +155,18 @@ ILifecycleListener {
         this.h.addEntries(n, n2, vCalendarArray);
     }
 
-    @Override
     public void addEntriesResult(int n) {
         this.j.log((short)3, "_______________>addEntriesResult <_______________");
         this.a(n);
     }
 
-    @Override
     public void beginTransactionResult(int n) {
     }
 
-    @Override
     public void commitTransactionResult(int n) {
         this.h.commitTransaction();
     }
 
-    @Override
     public void forceGetData() {
         int n = 0;
         this.h.forceGetDataResult(n);
@@ -179,52 +175,40 @@ ILifecycleListener {
     public void a(VersionInfo[] versionInfoArray) {
     }
 
-    @Override
     public void removeAllResult(int n) {
     }
 
-    @Override
     public void removeEntriesResult(int n) {
     }
 
-    @Override
     public void removeProfileResult(int n) {
     }
 
-    @Override
     public void setActiveProfilesResult(int n) {
     }
 
-    @Override
     public void lifecycleChanged(Lifecycle lifecycle, Object object) {
         this.j.log((short)3, "_______________>lifecycleChanged: Connected <_______________");
     }
 
-    @Override
     public void getVersionResult(VersionInfo[] versionInfoArray) {
     }
 
-    @Override
     public void deleteProfileResult(int n) {
     }
 
-    @Override
     public void getCalendarConfigResult(int n, CalendarConfig calendarConfig) {
     }
 
-    @Override
     public void getCalendarEntryResult(int n, VEvent vEvent) {
     }
 
-    @Override
     public void getCalendarSummariesResult(int n, VEvent[] vEventArray) {
     }
 
-    @Override
     public void insertProfileResult(int n) {
     }
 
-    @Override
     public void setCalendarConfigResult(int n) {
     }
 

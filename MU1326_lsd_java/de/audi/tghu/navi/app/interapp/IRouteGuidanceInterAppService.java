@@ -7,25 +7,18 @@ import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.tghu.navi.app.details.IDestinationHandler;
 
 public interface IRouteGuidanceInterAppService {
-    default public IDestinationHandler getDestinationHandler() {
-    }
+    public IDestinationHandler getDestinationHandler();
 
-    default public boolean getRgActiveStatus() {
-    }
+    public boolean getRgActiveStatus();
 
-    default public boolean isEtcDemoMode() {
-    }
+    public boolean isEtcDemoMode();
 
-    default public void stopRouteGuidance(NaviServiceListener naviServiceListener) {
-    }
+    public void stopRouteGuidance(NaviServiceListener var1);
 
-    default public void restartRouteGuidance(NaviServiceListener naviServiceListener) {
-    }
+    public void restartRouteGuidance(NaviServiceListener var1);
 
-    default public void startRouteGuidance(NaviServiceListener naviServiceListener, boolean bl) {
-    }
+    public void startRouteGuidance(NaviServiceListener var1, boolean var2);
 
-    default public void addSelectedDestinationAtIndex(int n, boolean bl, NaviServiceListener naviServiceListener) {
-    }
+    public void addSelectedDestinationAtIndex(int var1, boolean var2, NaviServiceListener var3);
 }
 

@@ -15,36 +15,33 @@ import de.audi.tghu.navi.app.util.addressformatting.audi.FormatAddressNarUSAEvo;
 
 public class FormatAddressNarEvo
 extends FormatAddress {
-    private static final String COUNTRY_ABBREVIATION_USA;
-    private static final String COUNTRY_ABBREVIATION_MEX;
-    private static final String COUNTRY_ABBREVIATION_CAN;
+    private static final String COUNTRY_ABBREVIATION_USA = "USA";
+    private static final String COUNTRY_ABBREVIATION_MEX = "MEX";
+    private static final String COUNTRY_ABBREVIATION_CAN = "CAN";
 
     public FormatAddressNarEvo(NavigationEnv navigationEnv) {
         super(navigationEnv);
     }
 
-    @Override
     protected LocationFormattingResponse asTwoLines(LocationFormattingRequest locationFormattingRequest) {
-        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase("CAN")) {
+        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase(COUNTRY_ABBREVIATION_CAN)) {
             return new FormatAddressNarCANEvo(this.env).asTwoLines(locationFormattingRequest);
         }
-        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase("MEX")) {
+        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase(COUNTRY_ABBREVIATION_MEX)) {
             return new FormatAddressNarMEXEvo(this.env).asTwoLines(locationFormattingRequest);
         }
         return new FormatAddressNarUSAEvo(this.env).asTwoLines(locationFormattingRequest);
     }
 
-    @Override
     protected LocationFormattingResponse asThreeLines(LocationFormattingRequest locationFormattingRequest) {
         return null;
     }
 
-    @Override
     protected LocationFormattingResponse asSingleLine(LocationFormattingRequest locationFormattingRequest) {
-        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase("CAN")) {
+        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase(COUNTRY_ABBREVIATION_CAN)) {
             return new FormatAddressNarCANEvo(this.env).asSingleLine(locationFormattingRequest);
         }
-        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase("MEX")) {
+        if (locationFormattingRequest.countryAbbreviation.formattedText.equalsIgnoreCase(COUNTRY_ABBREVIATION_MEX)) {
             return new FormatAddressNarMEXEvo(this.env).asSingleLine(locationFormattingRequest);
         }
         return new FormatAddressNarUSAEvo(this.env).asSingleLine(locationFormattingRequest);
@@ -53,10 +50,10 @@ extends FormatAddress {
     protected LocationFormattingResponse formatGeoCoordinateAddress(LocationFormattingRequest locationFormattingRequest) {
         LocationFormattingResponse locationFormattingResponse = new LocationFormattingResponse();
         if (!locationFormattingRequest.countryAbbreviation.isEmpty()) {
-            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(new StringBuffer().append("(").append(locationFormattingRequest.countryAbbreviation.formattedText).append(") ").toString()));
+            locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText("(" + locationFormattingRequest.countryAbbreviation.formattedText + ") "));
         }
         GeoMetric geoMetric = new GeoMetric(Integer.parseInt(locationFormattingRequest.latitude.formattedText), Integer.parseInt(locationFormattingRequest.longitude.formattedText));
-        locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString()));
+        locationFormattingResponse.appendToFirstLine(new FormattedHighlightedText(geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude()));
         return locationFormattingResponse;
     }
 }

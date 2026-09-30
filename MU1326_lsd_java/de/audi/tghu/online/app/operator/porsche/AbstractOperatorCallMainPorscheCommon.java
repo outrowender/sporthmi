@@ -20,12 +20,10 @@ extends AbstractOperatorCallMain {
         conciergeCallPorscheCommon.setNaviHandler(this.naviHandler);
     }
 
-    @Override
     public void setLanguage(Language language) {
         this.cmdListManager.setLanguage(language.getHmiCode());
     }
 
-    @Override
     public void setTelService(ITelService iTelService) {
         super.setTelService(iTelService);
         ConciergeCallPorscheCommon conciergeCallPorscheCommon = (ConciergeCallPorscheCommon)this.operatorCallHandler.getOperatorCall(1);

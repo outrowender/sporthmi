@@ -4,45 +4,44 @@
 package de.audi.tghu.navi.app.map.constants;
 
 public class MapOption {
-    public static final int S_AutoZoom;
-    public static final int S_Color;
-    public static final int S_3DBuilding;
-    public static final int S_3DLandmarks;
-    public static final int S_Type;
-    public static final int S_Orientation;
-    public static final int S_SpeedAndFlow;
-    public static final int S_OnlineTraffic;
-    public static final int S_RoadClass;
-    public static final int S_BrandIconStyle;
-    public static final int S_CrossingView;
-    public static final int S_TmcSymbols;
-    public static final int S_WeatherIcons;
-    public static final int S_Range;
-    public static final int S_PicNav;
-    public static final int S_Google3DCityModel;
-    public static final int S_Pois;
-    public static final int S_PoiCategories;
-    public static final int S_TrafficEventNoticeMap;
-    public static final int S_UncrowdedRoad;
-    public static final int S_Favorites;
-    public static final int S_EtaMode;
-    public static final int C_TypeAndOrientation;
-    public static final int C_TrafficFlow;
-    public static final int C_Style;
-    public static final int C_AdditionalInfo;
-    public static final int MaxCount;
-    public static final String Unknown;
-    private static String[] names;
+    public static final int S_AutoZoom = 0;
+    public static final int S_Color = 1;
+    public static final int S_3DBuilding = 2;
+    public static final int S_3DLandmarks = 3;
+    public static final int S_Type = 4;
+    public static final int S_Orientation = 5;
+    public static final int S_SpeedAndFlow = 6;
+    public static final int S_OnlineTraffic = 7;
+    public static final int S_RoadClass = 8;
+    public static final int S_BrandIconStyle = 9;
+    public static final int S_CrossingView = 10;
+    public static final int S_TmcSymbols = 11;
+    public static final int S_WeatherIcons = 12;
+    public static final int S_Range = 13;
+    public static final int S_PicNav = 14;
+    public static final int S_Google3DCityModel = 15;
+    public static final int S_Pois = 16;
+    public static final int S_PoiCategories = 17;
+    public static final int S_TrafficEventNoticeMap = 18;
+    public static final int S_UncrowdedRoad = 19;
+    public static final int S_Favorites = 20;
+    public static final int S_EtaMode = 21;
+    public static final int C_TypeAndOrientation = 22;
+    public static final int C_TrafficFlow = 23;
+    public static final int C_Style = 24;
+    public static final int C_AdditionalInfo = 25;
+    public static final int MaxCount = 26;
+    public static final String Unknown = "Unknown";
+    private static String[] names = new String[26];
 
     public static String getName(int n) {
         if (n < 0 || names.length <= n) {
-            return "Unknown";
+            return Unknown;
         }
         return names[n];
     }
 
     static {
-        names = new String[26];
         MapOption.names[0] = "AutoZoom";
         MapOption.names[1] = "Color";
         MapOption.names[2] = "3DBuilding";

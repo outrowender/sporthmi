@@ -4,6 +4,7 @@
 package de.audi.tv.app.truffles;
 
 import de.audi.atip.log.LogChannel;
+import de.audi.tv.app.lists.DefaultTVListsListener;
 import de.audi.tv.app.lists.ISearchBreak;
 import de.audi.tv.app.lists.IStationList;
 import de.audi.tv.app.lists.ITVListsListener;
@@ -11,9 +12,6 @@ import de.audi.tv.app.lists.StationMapper;
 import de.audi.tv.app.lists.favorites.IFavoritesList;
 import de.audi.tv.app.truffles.ISearchGUI;
 import de.audi.tv.app.truffles.NullDSISearchDataProvider;
-import de.audi.tv.app.truffles.TVSearchDataProvider$InvalidationTruffleCmd;
-import de.audi.tv.app.truffles.TVSearchDataProvider$ListsListener;
-import de.audi.tv.app.truffles.TVSearchDataProvider$SearchBreakListener;
 import de.audi.tv.app.truffles.TrufflesCommandHandler;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import org.dsi.ifc.base.DSIBase;
@@ -25,8 +23,8 @@ import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class TVSearchDataProvider
 implements DSISearchDataProviderListener {
-    public final ITVListsListener listsListener = new TVSearchDataProvider$ListsListener(this, null);
-    public final ISearchBreak searchListener = new TVSearchDataProvider$SearchBreakListener(this, null);
+    public final ITVListsListener listsListener = new ListsListener();
+    public final ISearchBreak searchListener = new SearchBreakListener();
     private DSISearchDataProvider dsi;
     private final LogChannel log;
     private final IStationList stationList;
@@ -61,30 +59,25 @@ implements DSISearchDataProviderListener {
         this.dsi.registerProviderSource(27);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-2137614336, "[TVSearchDataProvider.asyncException] %1", (Object)string);
+        this.log.log(10000000, "[TVSearchDataProvider.asyncException] %1", (Object)string);
     }
 
-    @Override
     public void registerProviderSourceResult(int n, int n2) {
-        this.log.log(-2137614336, "[TVSearchDataProvider.registerProviderSourceResult] success:%1 source:%2", (long)n, (long)n2);
+        this.log.log(10000000, "[TVSearchDataProvider.registerProviderSourceResult] success:%1 source:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void activateProviderSource(int n) {
-        this.log.log(-2137614336, "[TVSearchDataProvider.activateProviderSource] %1", (long)n);
+        this.log.log(10000000, "[TVSearchDataProvider.activateProviderSource] %1", (long)n);
     }
 
-    @Override
     public void invalidateAllDataResult(int n, int n2) {
-        this.log.log(-2137614336, "[TVSearchDataProvider.invalidateAllDataResult] success:%1 source:%2", (long)n, (long)n2);
+        this.log.log(10000000, "[TVSearchDataProvider.invalidateAllDataResult] success:%1 source:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void provideData(int n, int n2, int n3) {
         int n4;
-        this.log.log(-2137614336, "[TVSearchDataProvider.provideData] source:%1 offset:%2 count:%3", (long)n, (long)n2, (long)n3);
+        this.log.log(10000000, "[TVSearchDataProvider.provideData] source:%1 offset:%2 count:%3", (long)n, (long)n2, (long)n3);
         ServiceInfo[] serviceInfoArray = new ServiceInfo[]{};
         boolean bl = false;
         switch (n) {
@@ -108,7 +101,7 @@ implements DSISearchDataProviderListener {
         if (n4 > 0) {
             System.arraycopy((Object)dataSetArray, n2, (Object)dataSetArray2, 0, n4);
         }
-        this.log.log(-2137614336, "[TVSearchDataProvider.provideData] source:%1 count:%2", (long)n, (long)dataSetArray2.length);
+        this.log.log(10000000, "[TVSearchDataProvider.provideData] source:%1 count:%2", (long)n, (long)dataSetArray2.length);
         this.dsi.storeDataSets(n, dataSetArray2, dataSetArray2.length);
     }
 
@@ -120,44 +113,91 @@ implements DSISearchDataProviderListener {
         return new DataSet(l, 19, 0, new Searchable[]{new Searchable(22, serviceInfo.getName(), 0)});
     }
 
-    @Override
     public void storeDataSetsResult(int n, int n2) {
-        this.log.log(-2137614336, "[TVSearchDataProvider.storeDataSetsResult] success:%1 source:%2", (long)n, (long)n2);
+        this.log.log(10000000, "[TVSearchDataProvider.storeDataSetsResult] success:%1 source:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void deleteDataSetResult(int n, int n2, long l) {
-        this.log.log(-2137614336, "[TVSearchDataProvider.deleteDataSetResult] success:%1 source:%2 dataSetId%3", (long)n, (long)n2, l);
+        this.log.log(10000000, "[TVSearchDataProvider.deleteDataSetResult] success:%1 source:%2 dataSetId%3", (long)n, (long)n2, l);
     }
 
     private void invalidateData(int n) {
-        this.cmdHandler.add(new TVSearchDataProvider$InvalidationTruffleCmd(this, n));
+        this.cmdHandler.add(new InvalidationTruffleCmd(n));
         this.searchGUI.runCommands();
     }
 
-    static /* synthetic */ LogChannel access$200(TVSearchDataProvider tVSearchDataProvider) {
-        return tVSearchDataProvider.log;
+    private class ListsListener
+    extends DefaultTVListsListener {
+        private ListsListener() {
+        }
+
+        public void updateStationList() {
+            TVSearchDataProvider.this.log.log(10000000, "[TVSearchDataProvider.updateStationList] invalidate data for station list]");
+            this.invalidate(27);
+        }
+
+        public void updateFavoritesList() {
+            TVSearchDataProvider.this.log.log(10000000, "[TVSearchDataProvider.updateFavoritesList] invalidate data for favorites]");
+            this.invalidate(20027);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        private void invalidate(int n) {
+            SimpleIntIntMap simpleIntIntMap = TVSearchDataProvider.this.waitingInvalids;
+            synchronized (simpleIntIntMap) {
+                if (TVSearchDataProvider.this.searchIsBlocked) {
+                    TVSearchDataProvider.this.waitingInvalids.add(n, n);
+                } else {
+                    TVSearchDataProvider.this.invalidateData(n);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ SimpleIntIntMap access$300(TVSearchDataProvider tVSearchDataProvider) {
-        return tVSearchDataProvider.waitingInvalids;
+    private class SearchBreakListener
+    implements ISearchBreak {
+        private SearchBreakListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void cursorInSearchResult(boolean bl) {
+            if (bl) {
+                SimpleIntIntMap simpleIntIntMap = TVSearchDataProvider.this.waitingInvalids;
+                synchronized (simpleIntIntMap) {
+                    TVSearchDataProvider.this.searchIsBlocked = true;
+                }
+            }
+            SimpleIntIntMap simpleIntIntMap = TVSearchDataProvider.this.waitingInvalids;
+            synchronized (simpleIntIntMap) {
+                int[] nArray = TVSearchDataProvider.this.waitingInvalids.getKeys();
+                TVSearchDataProvider.this.waitingInvalids.clear();
+                for (int i2 = 0; i2 < nArray.length; ++i2) {
+                    TVSearchDataProvider.this.invalidateData(nArray[i2]);
+                }
+                TVSearchDataProvider.this.searchIsBlocked = false;
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$400(TVSearchDataProvider tVSearchDataProvider) {
-        return tVSearchDataProvider.searchIsBlocked;
-    }
+    private class InvalidationTruffleCmd
+    implements TrufflesCommandHandler.ITrufflesCommand {
+        private int id;
 
-    static /* synthetic */ void access$500(TVSearchDataProvider tVSearchDataProvider, int n) {
-        tVSearchDataProvider.invalidateData(n);
-    }
+        public InvalidationTruffleCmd(int n) {
+            this.id = n;
+        }
 
-    static /* synthetic */ boolean access$402(TVSearchDataProvider tVSearchDataProvider, boolean bl) {
-        tVSearchDataProvider.searchIsBlocked = bl;
-        return tVSearchDataProvider.searchIsBlocked;
-    }
+        public int getPriority() {
+            return 0;
+        }
 
-    static /* synthetic */ DSISearchDataProvider access$600(TVSearchDataProvider tVSearchDataProvider) {
-        return tVSearchDataProvider.dsi;
+        public void execute() {
+            TVSearchDataProvider.this.dsi.invalidateAllData(this.id);
+        }
     }
 }
 

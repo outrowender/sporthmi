@@ -24,8 +24,8 @@ import org.dsi.ifc.organizer.PersonalData;
 import org.dsi.ifc.organizer.PhoneData;
 
 public class a {
-    public static final String a;
-    protected static SimpleDateFormat b;
+    public static final String a = "UTF-8";
+    protected static SimpleDateFormat b = new SimpleDateFormat("yyyy-MM-dd");
     protected File c;
     protected AdbEntry d;
     private Writer e = null;
@@ -45,7 +45,7 @@ public class a {
         }
         try {
             int n;
-            this.e = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.c), "UTF-8"));
+            this.e = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.c), a));
             this.b("BEGIN:VCARD");
             this.b();
             this.b("VERSION:3.0");
@@ -105,7 +105,7 @@ public class a {
         if (string == null || string.length() < 1) {
             return;
         }
-        this.b(new StringBuffer().append("URL:").append(string).toString());
+        this.b("URL:" + string);
         this.b();
     }
 
@@ -255,7 +255,7 @@ public class a {
             return;
         }
         this.b(string);
-        this.b(new StringBuffer().append("GEO:").append(addressData.geoPosition).toString());
+        this.b("GEO:" + addressData.geoPosition);
         this.b();
     }
 
@@ -394,10 +394,6 @@ public class a {
         adbEntry.urlData = new String[]{"http://www.esolutions.de"};
         a a2 = new a(adbEntry, new File("testexport.vcf"));
         a2.a();
-    }
-
-    static {
-        b = new SimpleDateFormat("yyyy-MM-dd");
     }
 }
 

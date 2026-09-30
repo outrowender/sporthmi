@@ -4,13 +4,10 @@
 package de.audi.tghu.navi.app.rml;
 
 public interface IRMLSequence {
-    default public void start() {
-    }
+    public void start();
 
-    default public void requestCombinedRouteList(long[] lArray, long l, int n, int n2, boolean bl) {
-    }
+    public void requestCombinedRouteList(long[] var1, long var2, int var4, int var5, boolean var6);
 
-    default public void stop() {
-    }
+    public void stop();
 }
 

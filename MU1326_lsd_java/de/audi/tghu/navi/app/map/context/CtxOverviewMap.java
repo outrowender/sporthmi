@@ -19,12 +19,10 @@ implements IsViewSizeDepended {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public synchronized void cleanup() {
         super.cleanup();
     }
 
-    @Override
     public void enter() {
         super.enter();
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
@@ -47,7 +45,7 @@ implements IsViewSizeDepended {
             iMapRequest.setMobilityHorizonZoomMode(1);
             iMapRequest.setMode(14);
         } else {
-            this.getLogChannel().log(-1601830656, "CtxOverviewMap#enter - neither RG is active nor range map ready!");
+            this.getLogChannel().log(100000, "CtxOverviewMap#enter - neither RG is active nor range map ready!");
         }
         this.initAdditionalInfos();
         if (this.getRGActive()) {
@@ -56,8 +54,8 @@ implements IsViewSizeDepended {
         AbstractMap abstractMap = this.naviMap;
         int n4 = this.getZoomEngineState();
         int n5 = this.getSetupAutoZoom();
-        this.getLogChannel().log(14808325, "CtxOverviewMap#enter - sManoeuvreZoomDisabledWithReturn( %1 )", this.container.sManoeuvreZoomDisabledWithReturn);
-        this.getLogChannel().log(14808325, "CtxOverviewMap#enter - ZoomEngineState( %1 ), SetupAutoZoom( %2 )", (long)n4, (long)n5);
+        this.getLogChannel().log(100000000, "CtxOverviewMap#enter - sManoeuvreZoomDisabledWithReturn( %1 )", this.container.sManoeuvreZoomDisabledWithReturn);
+        this.getLogChannel().log(100000000, "CtxOverviewMap#enter - ZoomEngineState( %1 ), SetupAutoZoom( %2 )", (long)n4, (long)n5);
         if (!(this.container.sManoeuvreZoomDisabledWithReturn || n4 != 3 || n5 != 1 && n5 != 0 || Util.isPorscheGen2(this.env.getFramework()))) {
             abstractMap.setSwitchBackToContext(10);
             abstractMap.switchToContext(8);
@@ -66,7 +64,6 @@ implements IsViewSizeDepended {
         this.refreshCarPositionForZoomEngine();
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.refreshAutoZoomIcon();
@@ -84,7 +81,6 @@ implements IsViewSizeDepended {
         }
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         super.updateRgActive(bl);
         this.setAutoZoomIcon(bl);
@@ -95,7 +91,6 @@ implements IsViewSizeDepended {
         }
     }
 
-    @Override
     public void updateRgRouteCalculationState(int n) {
         super.updateRgRouteCalculationState(n);
         if (!this.getRouteActiveOrRangeMapReady()) {
@@ -105,41 +100,37 @@ implements IsViewSizeDepended {
         }
     }
 
-    @Override
     public void initAdditionalInfos() {
         super.initAdditionalInfos();
         this.setVisibleArea();
         this.centerCarPosition();
     }
 
-    @Override
     public void updateManoeuvreViewActive(int n) {
         super.updateManoeuvreViewActive(n);
-        this.getLogChannel().log(-2137614336, "CtxOverviewMap#updateManoeuvreViewActive( %1 )", (long)n);
+        this.getLogChannel().log(10000000, "CtxOverviewMap#updateManoeuvreViewActive( %1 )", (long)n);
         this.setVisibleArea();
     }
 
-    @Override
     public void updateZoomEngineState(int n) {
         super.updateZoomEngineState(n);
         int n2 = this.getSetupAutoZoom();
-        this.getLogChannel().log(-2137614336, "CtxOverviewMap#updateZoomEngineState - setupAutoZoom = %1", (long)n2);
+        this.getLogChannel().log(10000000, "CtxOverviewMap#updateZoomEngineState - setupAutoZoom = %1", (long)n2);
         if (n2 == 1 || n2 == 0) {
-            this.getLogChannel().log(14808325, "CtxOverviewMap#updateZoomEngineState - zoomEngineState = %1", (long)n);
+            this.getLogChannel().log(100000000, "CtxOverviewMap#updateZoomEngineState - zoomEngineState = %1", (long)n);
             if (n == 3) {
                 this.container.sManoeuvreZoomDisabledWithReturn = false;
             }
         }
     }
 
-    @Override
     public void updateRecommendedZoom(float f2) {
         super.updateRecommendedZoom(f2);
         int n = this.getSetupAutoZoom();
-        this.getLogChannel().log(-2137614336, "CtxOverviewMap#updateRecommendedZoom - setupAutoZoom = %1", (long)n);
+        this.getLogChannel().log(10000000, "CtxOverviewMap#updateRecommendedZoom - setupAutoZoom = %1", (long)n);
         if (n == 1 || n == 0) {
             int n2 = this.getZoomEngineState();
-            this.getLogChannel().log(14808325, "CtxOverviewMap#updateRecommendedZoom - zoomEngineState = %1", (long)n2);
+            this.getLogChannel().log(100000000, "CtxOverviewMap#updateRecommendedZoom - zoomEngineState = %1", (long)n2);
             if (!this.container.sManoeuvreZoomDisabledWithReturn && n2 == 3) {
                 AbstractMap abstractMap = this.naviMap;
                 abstractMap.switchToContext(8);
@@ -148,20 +139,17 @@ implements IsViewSizeDepended {
         }
     }
 
-    @Override
     protected void onDDSClicked() {
-        this.getLogChannel().log(-2137614336, "CtxOverview#onDDSClicked()");
+        this.getLogChannel().log(10000000, "CtxOverview#onDDSClicked()");
         this.getZoomHandler().stopOverviewMapSwitchBackTimer();
         this.getMap().setSwitchBackToContext(10);
         this.getMap().switchToContext(12);
     }
 
-    @Override
     public boolean supportsAdditionalInfo() {
         return true;
     }
 
-    @Override
     public void updateViewFreeze(boolean bl) {
         super.updateViewFreeze(bl);
         if (this.naviMap.getActiveContextIndex() == 10 && !bl) {
@@ -170,7 +158,7 @@ implements IsViewSizeDepended {
     }
 
     protected void setAutoZoomIcon(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxOverviewMap#setAutoZoomIcon( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxOverviewMap#setAutoZoomIcon( %1 )", bl);
         if (bl) {
             this.naviMap.getGuiInterface().setSideBarRotaryIcon(3);
         } else {
@@ -179,16 +167,14 @@ implements IsViewSizeDepended {
     }
 
     protected void setSoftZoom(boolean bl) {
-        this.getLogChannel().log(-2137614336, "CtxOverviewMap#setSoftZoom( %1 )", bl);
+        this.getLogChannel().log(10000000, "CtxOverviewMap#setSoftZoom( %1 )", bl);
         this.naviMap.getMVRequest().setEnableSoftZoomConditional(bl);
     }
 
-    @Override
     public void automaticOrientateMap() {
         this.setVisibleArea();
     }
 
-    @Override
     public void updateMobilityHorizonStatus(int n) {
         super.updateMobilityHorizonStatus(n);
         if (!this.getRouteActiveOrRangeMapReady()) {

@@ -22,7 +22,6 @@ extends AbstractStationConsistencyCheck {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Station[] checkList(Station[] stationArray) {
         Object object = this.mutex;
         synchronized (object) {
@@ -38,7 +37,6 @@ extends AbstractStationConsistencyCheck {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public AMFMStation[] checkList(AMFMStation[] aMFMStationArray) {
         Object object = this.mutex;
         synchronized (object) {
@@ -55,7 +53,6 @@ extends AbstractStationConsistencyCheck {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public AMFMStation checkStation(AMFMStation aMFMStation) {
         String string;
         Object object = this.mutex;
@@ -72,12 +69,11 @@ extends AbstractStationConsistencyCheck {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setJpAMFMStationInfo(AMFMStationInfo[] aMFMStationInfoArray) {
         SimpleIntObjectMap simpleIntObjectMap = new SimpleIntObjectMap();
         for (int i2 = 0; i2 < aMFMStationInfoArray.length; ++i2) {
             if (aMFMStationInfoArray[i2].stationName == null || aMFMStationInfoArray[i2].stationName.equals("")) continue;
-            this.logger.dd.log(14808325, "AMFMStationInfo: %1 - %2", (Object)aMFMStationInfoArray[i2].stationName, (long)aMFMStationInfoArray[i2].frequency);
+            this.logger.dd.log(100000000, "AMFMStationInfo: %1 - %2", (Object)aMFMStationInfoArray[i2].stationName, (long)aMFMStationInfoArray[i2].frequency);
             simpleIntObjectMap.add(aMFMStationInfoArray[i2].frequency, aMFMStationInfoArray[i2].stationName);
         }
         Object object = this.mutex;

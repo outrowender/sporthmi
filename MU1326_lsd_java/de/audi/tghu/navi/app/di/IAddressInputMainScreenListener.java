@@ -9,16 +9,12 @@ import org.dsi.ifc.global.NavLocation;
 
 public interface IAddressInputMainScreenListener
 extends IAddressInputListener {
-    default public CommandList getStartCommandList(NavLocation navLocation) {
-    }
+    public CommandList getStartCommandList(NavLocation var1);
 
-    default public CommandList getStartCommandListForOnline() {
-    }
+    public CommandList getStartCommandListForOnline();
 
-    default public CommandList getStartCommandListForOnline(NavLocation navLocation) {
-    }
+    public CommandList getStartCommandListForOnline(NavLocation var1);
 
-    default public void resetPreviousLocation() {
-    }
+    public void resetPreviousLocation();
 }
 

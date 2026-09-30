@@ -8,7 +8,7 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.rrd.IRRDListProvider;
-import de.audi.tghu.navi.app.addressinput.poi.rrd.RRDCalculator$1;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.poi.RRDStartCalculationForPositionCommand;
 import de.audi.tghu.navi.app.command.poi.RRDStopCalculationCommand;
 import org.dsi.ifc.global.NavLocationWgs84;
@@ -27,27 +27,39 @@ public class RRDCalculator {
         if (commandList != null) {
             commandList.execute("RRDCalculator#startRRDCalculation");
         } else {
-            this.logChannel.log(-1601830656, "RRDCalculator#startRRDCalculation() - no list to start");
+            this.logChannel.log(100000, "RRDCalculator#startRRDCalculation() - no list to start");
         }
     }
 
-    public CommandList createStartRRDCalculation(IRRDListProvider iRRDListProvider) {
+    public CommandList createStartRRDCalculation(final IRRDListProvider iRRDListProvider) {
         if (iRRDListProvider == null) {
-            this.logChannel.log(-1601830656, "RRDCalculator#startRRDCalculation() - calculation not started. IRRDListProvider is null! ");
+            this.logChannel.log(100000, "RRDCalculator#startRRDCalculation() - calculation not started. IRRDListProvider is null! ");
             return null;
         }
-        this.logChannel.log(1078071040, "RRDCalculator#startRRDCalculation() ");
+        this.logChannel.log(1000000, "RRDCalculator#startRRDCalculation() ");
         CommandList commandList = this.commandListFactory.createCommandList(1);
-        commandList.add(new RRDCalculator$1(this, "GetRRDListForCalculation", iRRDListProvider));
+        commandList.add(new NavCommand("GetRRDListForCalculation"){
+
+            public void execute() {
+                NavLocationWgs84[] navLocationWgs84Array = iRRDListProvider.getRRDCalculationList();
+                if (navLocationWgs84Array != null && navLocationWgs84Array.length > 0) {
+                    RRDCalculator.this.logChannel.log(1000000, "RRDCalculator#createStartRRDCalculation - Command = GetRRDListForCalculation. List has Elements. Start RRDCalculation");
+                    this.getCommandList().commandFinishedWithPostSequence(RRDCalculator.this.createStartRRDCalculation(navLocationWgs84Array));
+                } else {
+                    RRDCalculator.this.logChannel.log(1000000, "RRDCalculator#createStartRRDCalculation - Command = GetRRDListForCalculation. The list is null or has no elements");
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         return commandList;
     }
 
     public CommandList createStartRRDCalculation(NavLocationWgs84[] navLocationWgs84Array) {
         if (navLocationWgs84Array == null || navLocationWgs84Array.length <= 0) {
-            this.logChannel.log(-1601830656, "RRDCalculator#createStartRRDCalculation() - calculation not started. NavLocationWgs84 array is null or empty: %1 ! ", (Object)navLocationWgs84Array);
+            this.logChannel.log(100000, "RRDCalculator#createStartRRDCalculation() - calculation not started. NavLocationWgs84 array is null or empty: %1 ! ", (Object)navLocationWgs84Array);
             return null;
         }
-        this.logChannel.log(1078071040, "RRDCalculator#createStartRRDCalculation() - prepare calculation for: %1 with size %2! ", (Object)navLocationWgs84Array, (long)navLocationWgs84Array.length);
+        this.logChannel.log(1000000, "RRDCalculator#createStartRRDCalculation() - prepare calculation for: %1 with size %2! ", (Object)navLocationWgs84Array, (long)navLocationWgs84Array.length);
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new RRDStopCalculationCommand());
         commandList.add(new RRDStartCalculationForPositionCommand(navLocationWgs84Array));
@@ -55,14 +67,10 @@ public class RRDCalculator {
     }
 
     public void stopRRDCalculation() {
-        this.logChannel.log(-2137614336, "RRDCalculator#stopRRDCalculation() ");
+        this.logChannel.log(10000000, "RRDCalculator#stopRRDCalculation() ");
         CommandList commandList = this.commandListFactory.createCommandList(1);
         commandList.add(new RRDStopCalculationCommand());
         commandList.execute("RRDCalculator#stopRRDCalculation");
-    }
-
-    static /* synthetic */ LogChannel access$000(RRDCalculator rRDCalculator) {
-        return rRDCalculator.logChannel;
     }
 }
 

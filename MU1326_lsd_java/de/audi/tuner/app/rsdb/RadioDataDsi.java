@@ -33,32 +33,32 @@ public class RadioDataDsi {
     }
 
     public void setNotification(int[] nArray, DSIListener dSIListener) {
-        this.lc.log(1078071040, "[RadioDataDsi.setNotification] %1", (Object)nArray);
+        this.lc.log(1000000, "[RadioDataDsi.setNotification] %1", (Object)nArray);
         this.dsi.setNotification(nArray, dSIListener);
     }
 
     public void requestRadioStationData(RadioStationDataRequest[] radioStationDataRequestArray, int n) {
-        this.lc.log(1078071040, "[RadioDataDsi.requestRadioStationData]: size:%1 session:%2", (long)radioStationDataRequestArray.length, (long)n);
+        this.lc.log(1000000, "[RadioDataDsi.requestRadioStationData]: size:%1 session:%2", (long)radioStationDataRequestArray.length, (long)n);
         if (this.lc.isDebug2()) {
             Buffer buffer = new Buffer(radioStationDataRequestArray.length * 100);
             buffer.append('\n');
             for (int i2 = 0; i2 < radioStationDataRequestArray.length; ++i2) {
                 buffer.append(i2).append(':').append(Utilities.toString(radioStationDataRequestArray[i2])).append('\n');
             }
-            this.lc.log(14808325, "%1", (Object)buffer);
+            this.lc.log(100000000, "%1", (Object)buffer);
         }
         this.dsi.requestRadioStationData(radioStationDataRequestArray, n);
     }
 
     public void requestRadioStationLogos(RadioStationLogoRequest[] radioStationLogoRequestArray, int n) {
-        this.lc.log(1078071040, "[RadioDataDsi.requestRadioStationLogos]: size:%1 session:%2", (long)radioStationLogoRequestArray.length, (long)n);
+        this.lc.log(1000000, "[RadioDataDsi.requestRadioStationLogos]: size:%1 session:%2", (long)radioStationLogoRequestArray.length, (long)n);
         if (this.lc.isDebug2()) {
             Buffer buffer = new Buffer(radioStationLogoRequestArray.length * 100);
             buffer.append('\n');
             for (int i2 = 0; i2 < radioStationLogoRequestArray.length; ++i2) {
                 buffer.append(i2).append(':').append(Utilities.toString(radioStationLogoRequestArray[i2])).append('\n');
             }
-            this.lc.log(14808325, "%1", (Object)buffer);
+            this.lc.log(100000000, "%1", (Object)buffer);
         }
         this.dsi.requestRadioStationLogos(radioStationLogoRequestArray, n);
     }
@@ -80,12 +80,12 @@ public class RadioDataDsi {
     }
 
     public void requestCountryRegionData(int n) {
-        this.lc.log(14808325, "[RadioDataDsi.requestCountryRegionData]");
+        this.lc.log(100000000, "[RadioDataDsi.requestCountryRegionData]");
         this.dsi.requestCountryRegionData(n);
     }
 
     public void requestCountryRegionTranslationData(int n, String string, int n2) {
-        this.lc.log(14808325, "[RadioDataDsi.requestCountryRegionTranslationData] %1", (Object)string);
+        this.lc.log(100000000, "[RadioDataDsi.requestCountryRegionTranslationData] %1", (Object)string);
         this.dsi.requestCountryRegionTranslationData(n, string, n2);
     }
 }

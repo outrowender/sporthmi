@@ -28,12 +28,12 @@ public final class DiagnosisApp {
     }
 
     public void addDiagnosisApplication(IDiagnosisApp iDiagnosisApp) {
-        this.lc.log(-2137614336, "addDiagnosisApplication: app=%1", (Object)iDiagnosisApp);
+        this.lc.log(10000000, "addDiagnosisApplication: app=%1", (Object)iDiagnosisApp);
         this.diagApps.add(iDiagnosisApp);
     }
 
     public void removeDiagnosisApplication(IDiagnosisApp iDiagnosisApp) {
-        this.lc.log(-2137614336, "addDiagnosisApplication: app=%1", (Object)iDiagnosisApp);
+        this.lc.log(10000000, "addDiagnosisApplication: app=%1", (Object)iDiagnosisApp);
         this.diagApps.remove(iDiagnosisApp);
     }
 
@@ -42,7 +42,7 @@ public final class DiagnosisApp {
     }
 
     void performAction(int n, Object object) {
-        this.lc.log(-2137614336, "PerformAction(action=%2, param=%1)", object, (long)n);
+        this.lc.log(10000000, "PerformAction(action=%2, param=%1)", object, (long)n);
         try {
             ListIterator listIterator = this.diagApps.listIterator();
             while (listIterator.hasNext()) {
@@ -55,7 +55,7 @@ public final class DiagnosisApp {
     }
 
     void startDiagSession() {
-        this.lc.log(-2137614336, "startDiagSession");
+        this.lc.log(10000000, "startDiagSession");
         try {
             ListIterator listIterator = this.diagApps.listIterator();
             while (listIterator.hasNext()) {
@@ -68,7 +68,7 @@ public final class DiagnosisApp {
     }
 
     void stopDiagSession() {
-        this.lc.log(-2137614336, "stopDiagSession");
+        this.lc.log(10000000, "stopDiagSession");
         try {
             ListIterator listIterator = this.diagApps.listIterator();
             while (listIterator.hasNext()) {
@@ -81,7 +81,7 @@ public final class DiagnosisApp {
     }
 
     void switch2OriginSource(int n, int n2) {
-        this.lc.log(-2137614336, "switch2OriginSource app=%1", (long)n2);
+        this.lc.log(10000000, "switch2OriginSource app=%1", (long)n2);
         try {
             ListIterator listIterator = this.diagApps.listIterator();
             while (listIterator.hasNext()) {

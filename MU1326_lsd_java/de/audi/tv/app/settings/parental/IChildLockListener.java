@@ -4,13 +4,10 @@
 package de.audi.tv.app.settings.parental;
 
 public interface IChildLockListener {
-    default public void onChildLockEnabled() {
-    }
+    public void onChildLockEnabled();
 
-    default public void onChildLockDisabled() {
-    }
+    public void onChildLockDisabled();
 
-    default public void parentalLevelSettingChanged(int n) {
-    }
+    public void parentalLevelSettingChanged(int var1);
 }
 

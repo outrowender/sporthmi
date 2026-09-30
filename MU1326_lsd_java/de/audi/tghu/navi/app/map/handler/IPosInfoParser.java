@@ -9,60 +9,45 @@ import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.map.PosInfo;
 
 public interface IPosInfoParser {
-    public static final int UNKOWN;
-    public static final int DONE;
-    public static final int Resolve_OnlineResult;
-    public static final int Resolve_TMC;
-    public static final int Resolve_PicNav;
-    public static final int Resolve_XT;
-    public static final int Resolve_GEOnboardPOI;
-    public static final int Resolve_Favorite;
-    public static final int Resolve;
-    public static final int Resolve_BuildListPOI;
+    public static final int UNKOWN = -1;
+    public static final int DONE = 0;
+    public static final int Resolve_OnlineResult = 1;
+    public static final int Resolve_TMC = 2;
+    public static final int Resolve_PicNav = 3;
+    public static final int Resolve_XT = 4;
+    public static final int Resolve_GEOnboardPOI = 5;
+    public static final int Resolve_Favorite = 6;
+    public static final int Resolve = 7;
+    public static final int Resolve_BuildListPOI = 8;
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public PosInfo getPosInfo() {
-    }
+    public PosInfo getPosInfo();
 
-    default public String getUrl() {
-    }
+    public String getUrl();
 
-    default public ResourceLocator getPicNavLocator() {
-    }
+    public ResourceLocator getPicNavLocator();
 
-    default public boolean hasStackedPOIIndex() {
-    }
+    public boolean hasStackedPOIIndex();
 
-    default public boolean hasPicNavIndex() {
-    }
+    public boolean hasPicNavIndex();
 
-    default public MapPin getMapPin() {
-    }
+    public MapPin getMapPin();
 
-    default public NavLocation getHomeOrOffice() {
-    }
+    public NavLocation getHomeOrOffice();
 
-    default public void setActiveInfoListIndex(int n) {
-    }
+    public void setActiveInfoListIndex(int var1);
 
-    default public int getActiveInfoListIndex() {
-    }
+    public int getActiveInfoListIndex();
 
-    default public int parseInfoList(PosInfo[] posInfoArray) {
-    }
+    public int parseInfoList(PosInfo[] var1);
 
-    default public int parseInfoListForTmcMessages(PosInfo[] posInfoArray) {
-    }
+    public int parseInfoListForTmcMessages(PosInfo[] var1);
 
-    default public boolean isRouteSegment() {
-    }
+    public boolean isRouteSegment();
 
-    default public long getRouteSegmentIndex() {
-    }
+    public long getRouteSegmentIndex();
 
-    default public NavLocation getResolvedOnlineNavLocation() {
-    }
+    public NavLocation getResolvedOnlineNavLocation();
 }
 

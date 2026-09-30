@@ -17,19 +17,19 @@ import java.util.NoSuchElementException;
 
 public class WirelessChargingSMM
 extends AbstractAppSMM {
-    public static final int MODULE_ID;
-    public static final String SMM_NAME;
+    public static final int MODULE_ID = 34;
+    public static final String SMM_NAME = "WirelessChargingSMM";
     private WirelessChargingSMMInitStates smmInitStates;
     private WirelessChargingSMMInitTransitions smmInitTransitions;
     private WirelessChargingSMMInitMediators smmInitMediators;
     private WirelessChargingSMMActions smmActions;
 
     public WirelessChargingSMM(IFrameworkAccess iFrameworkAccess, int n, String string) {
-        super(iFrameworkAccess, n, string, 0, 34, "WirelessChargingSMM");
+        super(iFrameworkAccess, n, string, 0, 34, SMM_NAME);
     }
 
     public WirelessChargingSMM(IFrameworkAccess iFrameworkAccess, int n, String string, int n2) {
-        super(iFrameworkAccess, n, string, n2, 34, "WirelessChargingSMM");
+        super(iFrameworkAccess, n, string, n2, 34, SMM_NAME);
     }
 
     private void initSubclasses() {
@@ -39,16 +39,15 @@ extends AbstractAppSMM {
         this.smmActions = new WirelessChargingSMMActions(this, this.logChannel);
     }
 
-    @Override
     protected void init() {
         this.initSubclasses();
-        this.topLevelStateID = 1088500480;
-        this.popupIDList = new int[]{1088500480, 1105277696};
+        this.topLevelStateID = 3400000;
+        this.popupIDList = new int[]{3400000, 3400001};
         this.popupPriorityList = new int[]{1000, 1000};
-        this.popupTopLevelStateIDList = new int[]{1122054912, 1155609344};
+        this.popupTopLevelStateIDList = new int[]{3400002, 3400004};
         this.popupZPMPriorityList = new int[]{140, 135};
         this.popupZPMSlotList = new int[]{5, 5};
-        this.extStateIDList = new int[]{1088500480};
+        this.extStateIDList = new int[]{3400000};
         this.extStateLabelList = new String[]{"wirelessChargingDesktop"};
         this.incSlotList = EMPTY_INT_LIST;
         this.incSlotStateIDList = EMPTY_INT_LIST;
@@ -57,7 +56,6 @@ extends AbstractAppSMM {
         this.smmInitTransitions.initTransitions();
     }
 
-    @Override
     public boolean checkGuard(int n, int n2) {
         try {
             switch (n) {
@@ -79,53 +77,44 @@ extends AbstractAppSMM {
     }
 
     private void logCheckGuardDefault() {
-        this.smLogChannel.log(-2137614336, "[WirelessChargingSMM.java#checkGuard] else-case, always true");
+        this.smLogChannel.log(10000000, "[WirelessChargingSMM.java#checkGuard] else-case, always true");
     }
 
     private void logCheckGuard(String string) {
-        this.smLogChannel.log(-2137614336, "[WirelessChargingSMM.java#checkGuard] checking: '%1'", (Object)string);
+        this.smLogChannel.log(10000000, "[WirelessChargingSMM.java#checkGuard] checking: '%1'", (Object)string);
     }
 
-    @Override
     public void execSDForState(TTSASR tTSASR, ITTSASRContext iTTSASRContext, int n) {
     }
 
-    @Override
     public void execFocusGainedAction(SMServices sMServices, int n) {
         this.smmActions.execFocusGainedAction(sMServices, n);
     }
 
-    @Override
     public void execFocusLostAction(SMServices sMServices, int n) {
         this.smmActions.execFocusLostAction(sMServices, n);
     }
 
-    @Override
     public void execExitAction(SMServices sMServices, int n) {
         this.smmActions.execExitAction(sMServices, n);
     }
 
-    @Override
     public void execEnteredAction(SMServices sMServices, int n) {
         this.smmActions.execEnteredAction(sMServices, n);
     }
 
-    @Override
     public void execEnterAction(SMServices sMServices, int n) {
         this.smmActions.execEnterAction(sMServices, n);
     }
 
-    @Override
     public void execTransitionAction(SMServices sMServices, int n, int n2) {
         this.smmActions.execTransitionAction(sMServices, n, n2);
     }
 
-    @Override
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         return this.smmActions.addActionProxy(n, actionProxy);
     }
 
-    @Override
     public void removeActionProxy(int n, ActionProxy actionProxy) {
         this.smmActions.removeActionProxy(n, actionProxy);
     }

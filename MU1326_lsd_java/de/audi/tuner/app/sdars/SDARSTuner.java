@@ -36,8 +36,6 @@ import de.audi.tuner.app.sdars.SDARSManTune;
 import de.audi.tuner.app.sdars.SDARSStationDescriptions;
 import de.audi.tuner.app.sdars.SDARSStationListHandler;
 import de.audi.tuner.app.sdars.SDARSStatusManager;
-import de.audi.tuner.app.sdars.SDARSTuner$DsiDownListener;
-import de.audi.tuner.app.sdars.SDARSTuner$DsiUpListener;
 import de.audi.tuner.app.sdars.SDARSVolumeLockHandler;
 import de.audi.tuner.app.sdars.SDARSWatch;
 import de.audi.tuner.app.sdars.SdarsRadioTextHistory;
@@ -77,13 +75,15 @@ import org.dsi.ifc.sdars.DSISDARSSeek;
 import org.dsi.ifc.sdars.DSISDARSSeekListener;
 import org.dsi.ifc.sdars.DSISDARSTuner;
 import org.dsi.ifc.sdars.DSISDARSTunerListener;
+import org.dsi.ifc.sdars.ServiceStatus3;
+import org.dsi.ifc.sdars.StationDescription;
 import org.dsi.ifc.sdars.StationInfo;
 
 public class SDARSTuner
 extends UpdateListenerHandler
 implements ISDARSTuner {
-    public static final int SXM_DEFAULT_CHANNEL_SID;
-    public static final short SXM_DEFAULT_CHANNEL_NUMBER;
+    public static final int SXM_DEFAULT_CHANNEL_SID = 1;
+    public static final short SXM_DEFAULT_CHANNEL_NUMBER = 1;
     private DSISDARSTunerListener dsiSDARSTunerListener;
     private IRadioCmdManager cmdManager;
     private final GUIHandlerSDARS guiHandler;
@@ -166,7 +166,7 @@ implements ISDARSTuner {
         SdarsRadioTextHistory sdarsRadioTextHistory = new SdarsRadioTextHistory(tunerBasics, this.pdtHandler, radiotextHyperlinkProcessor);
         sdarsRadioTextHistory.init();
         this.activeStation = tunerStorage.loadLastSDARSStation();
-        this.dsiUpManager.register(new SDARSTuner$DsiUpListener(this, null));
+        this.dsiUpManager.register(new DsiUpListener());
         this.dsiUpManager.register(this.sdarsLabels.dsiUpInfo);
         this.dsiUpManager.register(this.guiHandler.getSdarsListHandler().dsiUpInfo);
         this.dsiUpManager.register(this.pdtHandler.dsiUpListener);
@@ -184,7 +184,7 @@ implements ISDARSTuner {
         this.dsiUpManager.register(this.alertHandler.dsiUpListener);
         this.dsiUpManager.register(sdarsRadioTextHistory.dsiUpInfo);
         this.dsiUpManager.register(memoryListHandler.highlightListener);
-        this.dsiDownManager.register(new SDARSTuner$DsiDownListener(this, null));
+        this.dsiDownManager.register(new DsiDownListener());
         this.dsiDownManager.register(memoryListHandler.highlightListener);
         this.dsiDownManager.register(sdarsRadioTextHistory.dsiDownInfo);
         this.dsiDownManager.register(this.seekHandler.dsiDownListener);
@@ -205,7 +205,6 @@ implements ISDARSTuner {
         this.defaultChannel.sID = 1;
     }
 
-    @Override
     public TunerActionProxyListener[] getActionProxyListeners() {
         ArrayList arrayList = new ArrayList(2);
         arrayList.add(this.gameAlertHandler.actionProxy);
@@ -219,47 +218,38 @@ implements ISDARSTuner {
         return (TunerActionProxyListener[])arrayList.toArray(new TunerActionProxyListener[arrayList.size()]);
     }
 
-    @Override
     public IUpdateListener getUpdateListener(IMemoryList iMemoryList) {
         return this.dsiUpManager.getUpdateListener(iMemoryList);
     }
 
-    @Override
     public SDARSEPGHandler getSdarsEpgHandler() {
         return this.epgHandler;
     }
 
-    @Override
     public AlertHandler getAlertHandler() {
         return this.alertHandler;
     }
 
-    @Override
     public SDARSDSISeekDownManager getDsiSeekDownManager() {
         return this.dsiSeekDownManager;
     }
 
-    @Override
     public void setCmdManager(IRadioCmdManager iRadioCmdManager) {
         this.cmdManager = iRadioCmdManager;
     }
 
-    @Override
     public IRadioCmdManager getCmdManager() {
         return this.cmdManager;
     }
 
-    @Override
     public DSISDARSSeekListener getSeekListener() {
         return this.seekListener;
     }
 
-    @Override
     public void audioManagementJustBecameAvailable() {
         this.volumeLockHandler.audioManagementJustBecameAvailable();
     }
 
-    @Override
     public void sdarsSelected(StationInfoExt stationInfoExt, int n) {
         this.statusManager.sdarsSelected();
         RadioCommandList radioCommandList = this.cmdManager.clSwitchToSDARS(n);
@@ -267,12 +257,10 @@ implements ISDARSTuner {
         this.cmdManager.enqueue(radioCommandList);
     }
 
-    @Override
     public void register(DSIListener dSIListener) {
         this.dsiSDARSTunerListener = (DSISDARSTunerListener)dSIListener;
     }
 
-    @Override
     public void registerDsiUpDownListener(RadioInfo radioInfo) {
         if (radioInfo instanceof SDARSDsiUpInfo) {
             this.dsiUpManager.register(radioInfo);
@@ -285,34 +273,28 @@ implements ISDARSTuner {
         }
     }
 
-    @Override
     public void register(IGracenoteRequest iGracenoteRequest) {
         this.pdtHandler.register(iGracenoteRequest);
     }
 
-    @Override
     public void register(ITaggingManager iTaggingManager) {
         this.sdarsLabels.register(iTaggingManager);
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         this.dsiDownManager.setNotification(nArray, this.dsiSDARSTunerListener);
     }
 
-    @Override
     public void setHmiReady() {
         this.dsiDownManager.setHmiReady();
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         this.dsiDownManager.clearNotification(nArray, this.dsiSDARSTunerListener);
     }
 
-    @Override
     public void setInitDone() {
-        this.logger.main.log(-2137614336, "[SDARSTuner.setInitDone]");
+        this.logger.main.log(10000000, "[SDARSTuner.setInitDone]");
         this.initDone = true;
     }
 
@@ -323,17 +305,16 @@ implements ISDARSTuner {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int init() {
-        this.logger.main.log(1078071040, "[SDARSTuner.init]");
+        this.logger.main.log(1000000, "[SDARSTuner.init]");
         Object object = this.mutexInit;
         synchronized (object) {
             if (this.initAlreadyTriggered) {
-                this.logger.main.log(1078071040, "[SDARSTuner.init] Already triggered!");
+                this.logger.main.log(1000000, "[SDARSTuner.init] Already triggered!");
                 return 0;
             }
             if (!this.isDsiFound()) {
-                this.logger.startup.log(1078071040, "[SDARSTuner.init] abort: No dsi available!");
+                this.logger.startup.log(1000000, "[SDARSTuner.init] abort: No dsi available!");
                 return 2;
             }
             if (this.getActiveStation() != null) {
@@ -349,34 +330,29 @@ implements ISDARSTuner {
         return 1;
     }
 
-    @Override
     public void reRequestCoverArt() {
         this.sdarsLabels.reRequestCoverArt();
     }
 
-    @Override
     public void initSeek() {
-        this.logger.sdarsSeekDSI.log(1078071040, "[SDARSTuner.initSeek]");
+        this.logger.sdarsSeekDSI.log(1000000, "[SDARSTuner.initSeek]");
         this.dsiSeekDownManager.initNotifications();
-        this.models.getChoiceModel(1149763840).setStatus(0);
-        this.models.getChoiceModel(763953408).setStatus(1);
+        this.models.getChoiceModel(100420).setStatus(0);
+        this.models.getChoiceModel(100653).setStatus(1);
     }
 
-    @Override
     public void initSetup() {
         this.guiHandler.initSetup();
         this.setNotification(this.attributes);
         this.watch.init();
     }
 
-    @Override
     public IDoTagging getTagging() {
         return this.sdarsLabels.getTagging();
     }
 
-    @Override
     public void executeInitialCommands() {
-        this.logger.sdarsDSI.log(1078071040, "[SDARSTuner.executeInitialCommands]");
+        this.logger.sdarsDSI.log(1000000, "[SDARSTuner.executeInitialCommands]");
         boolean bl = this.models.getActiveTuner() == 7;
         boolean bl2 = this.status.hasAudioFocus(0) && bl;
         RadioCommandList radioCommandList = this.cmdManager.createCmdList("DONT_ABORT");
@@ -407,9 +383,8 @@ implements ISDARSTuner {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logger.hmi.log(-2137614336, "[SDARSTuner#deinit]");
+        this.logger.hmi.log(10000000, "[SDARSTuner#deinit]");
         this.dsiDownManager.clearNotification(this.attributes, this.dsiSDARSTunerListener);
         Object object = this.mutexInit;
         synchronized (object) {
@@ -418,7 +393,6 @@ implements ISDARSTuner {
         }
     }
 
-    @Override
     public boolean isDsiFound() {
         return this.dsiDownManager.isDsiFound();
     }
@@ -431,14 +405,12 @@ implements ISDARSTuner {
         return this.audioDrawerStateTracker.isEntertainmentDrawerOpened();
     }
 
-    @Override
     public ITunerGUIHandler getGUIHandler() {
         return this.guiHandler;
     }
 
-    @Override
     public void setDeviceService(DSIBase dSIBase) {
-        this.logger.startup.log(-2137614336, "[SDARSTuner#setDeviceService]");
+        this.logger.startup.log(10000000, "[SDARSTuner#setDeviceService]");
         if (dSIBase instanceof DSISDARSTuner) {
             this.dsiDownManager.setDeviceService((DSISDARSTuner)dSIBase);
         } else if (dSIBase instanceof DSISDARSSeek) {
@@ -449,14 +421,12 @@ implements ISDARSTuner {
         }
     }
 
-    @Override
     public void seekStation(int n, int n2) {
         throw new IllegalStateException("[SDARSTuner.seekStation] NotImplemented");
     }
 
-    @Override
     public void resetToDefaultSettings() {
-        this.logger.main.log(1078071040, "SDARS Tuner, reset to default settings called");
+        this.logger.main.log(1000000, "SDARS Tuner, reset to default settings called");
         this.dsiDownManager.reset(1);
         this.dsiDownManager.reset(2);
         this.selectStation(new StationInfoExt(new StationInfo(1, 1, "", "", 2, 0, false, null)), 0);
@@ -482,7 +452,7 @@ implements ISDARSTuner {
     public void updateSelectedStation(StationInfoExt stationInfoExt) {
         if (stationInfoExt.subscription == 1 || !this.isGivenStationContainedInList(stationInfoExt)) {
             if (stationInfoExt.getSID() != 1) {
-                this.logger.sdarsDSI.log(1078071040, "SelectedStation is not subscribed, tuning default channel");
+                this.logger.sdarsDSI.log(1000000, "SelectedStation is not subscribed, tuning default channel");
                 this.selectStation(new StationInfoExt(new StationInfo(1, 1, "", "", 2, 0, false, null)), 0);
             } else {
                 this.logger.sdarsDSI.log(10000, "SelectedStation is not subscribed, NO tuning because default channel unsubscribed!");
@@ -500,7 +470,7 @@ implements ISDARSTuner {
         }
         if (this.logger.sdarsDSI.isDebug2()) {
             for (n = 0; n < stationInfoExtArray.length; ++n) {
-                this.logger.sdarsDSI.log(14808325, "%1", (Object)stationInfoExtArray[n]);
+                this.logger.sdarsDSI.log(100000000, "%1", (Object)stationInfoExtArray[n]);
             }
         }
         this.checkActiveStationSubscription(stationInfoExtArray);
@@ -514,7 +484,7 @@ implements ISDARSTuner {
         }
         for (n = 0; n < stationInfoExtArray.length; ++n) {
             if (stationInfoExtArray[n].sID <= 0 || stationInfoExtArray[n].subscription != 2) continue;
-            this.models.getChoiceModel(981926144).setValue(1);
+            this.models.getChoiceModel(100154).setValue(1);
             this.propagateUpdatedActiveInfoState(7);
             break;
         }
@@ -529,7 +499,7 @@ implements ISDARSTuner {
             this.defaultChannel = stationInfoExtArray[i2];
         }
         if (this.defaultChannel != null) {
-            this.logger.sdarsDSI.log(14808325, "[SDARSTCheckActiveStationSubscription] select default channel");
+            this.logger.sdarsDSI.log(100000000, "[SDARSTCheckActiveStationSubscription] select default channel");
             this.selectStation(this.defaultChannel, 0);
         }
     }
@@ -537,20 +507,19 @@ implements ISDARSTuner {
     public void updateCategoryList(CategoryInfoExt[] categoryInfoExtArray) {
         if (this.logger.sdarsDSI.isDebug2()) {
             for (int i2 = 0; i2 < categoryInfoExtArray.length; ++i2) {
-                this.logger.sdarsDSI.log(14808325, "%1", (Object)categoryInfoExtArray[i2]);
+                this.logger.sdarsDSI.log(100000000, "%1", (Object)categoryInfoExtArray[i2]);
             }
         }
     }
 
     public void selectStationStatus(int n) {
         if (n == 5) {
-            this.logger.sdarsDSI.log(-1601830656, "received selectStationStatus NOT_SUBSCRIBED");
+            this.logger.sdarsDSI.log(100000, "received selectStationStatus NOT_SUBSCRIBED");
             this.advisoryHandler.requestAdvisory(3);
             this.dsiDownManager.selectStation(this.defaultChannel, 0);
         }
     }
 
-    @Override
     public void selectStation(StationInfoExt stationInfoExt, int n) {
         this.dsiDownManager.selectStation(stationInfoExt, n);
     }
@@ -568,16 +537,13 @@ implements ISDARSTuner {
         }
     }
 
-    @Override
     public boolean isDeviceInUse() {
         return true;
     }
 
-    @Override
     public void setComponentUsage(boolean bl) {
     }
 
-    @Override
     public void setComponentUnused() {
     }
 
@@ -586,17 +552,14 @@ implements ISDARSTuner {
         this.advisoryHandler.flushAdvisoryGroup();
     }
 
-    @Override
     public SDARSAdvisoryHandler getAdvisoryHandler() {
         return this.advisoryHandler;
     }
 
-    @Override
     public SDARSStatusManager getStatusManager() {
         return this.statusManager;
     }
 
-    @Override
     public boolean forceStationListUpdate(boolean bl) {
         return false;
     }
@@ -604,15 +567,14 @@ implements ISDARSTuner {
     public void updateAvailability(int n) {
         if (this.availability != n) {
             if (this.availability == 2 && n == 1) {
-                this.models.getChoiceModel(981926144).setValue(0);
+                this.models.getChoiceModel(100154).setValue(0);
             } else if (n == 2 && this.firstStationListSDARSReceived) {
-                this.models.getChoiceModel(981926144).setValue(1);
+                this.models.getChoiceModel(100154).setValue(1);
             }
             this.availability = n;
         }
     }
 
-    @Override
     public PdtInfoHandler getPdtHandler() {
         return this.pdtHandler;
     }
@@ -621,7 +583,6 @@ implements ISDARSTuner {
         this.activeStation = stationInfoExt;
     }
 
-    @Override
     public StationInfoExt getActiveStation() {
         return this.activeStation;
     }
@@ -630,7 +591,6 @@ implements ISDARSTuner {
         return this.sdarsLabels;
     }
 
-    @Override
     public final SDARSStationDescriptions getSdarsStationDescriptions() {
         return this.sdarsStationDescriptions;
     }
@@ -643,7 +603,6 @@ implements ISDARSTuner {
         return null;
     }
 
-    @Override
     public void setPhoneService(ITelService iTelService) {
         this.advisoryHandler.setPhoneService(iTelService);
     }
@@ -652,17 +611,14 @@ implements ISDARSTuner {
         this.dsiDownManager.getTime();
     }
 
-    @Override
     public CmdDefaultListener getDSIUpManager() {
         return this.dsiUpManager;
     }
 
-    @Override
     public SDARSManTune getManualTuneHandler() {
         return this.manTune;
     }
 
-    @Override
     public IPrevNext getPrevNextHandler() {
         return this.guiHandler.getSdarsListHandler().prevNextHandler;
     }
@@ -675,7 +631,6 @@ implements ISDARSTuner {
         }
     }
 
-    @Override
     public TunerObjectContainer getNextChannelByGenre(short s) {
         TunerObjectContainer[] tunerObjectContainerArray = this.startScan();
         for (int i2 = 0; i2 < tunerObjectContainerArray.length; ++i2) {
@@ -685,7 +640,6 @@ implements ISDARSTuner {
         return null;
     }
 
-    @Override
     public TunerObjectContainer[] startScan() {
         int n;
         int n2;
@@ -705,33 +659,69 @@ implements ISDARSTuner {
         return (TunerObjectContainer[])arrayList.toArray(new TunerObjectContainer[arrayList.size()]);
     }
 
-    @Override
     public void stopScan() {
     }
 
-    @Override
     public void performLanguageChange() {
     }
 
-    @Override
     public IRadioDatabaseListener getDatabaseListener() {
         throw new IllegalArgumentException();
     }
 
-    static /* synthetic */ TunerModels access$200(SDARSTuner sDARSTuner) {
-        return sDARSTuner.models;
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(StationInfoExt stationInfoExt) {
+            SDARSTuner.this.updateSelectedStation(stationInfoExt);
+        }
+
+        public void updateStationList(StationInfoExt[] stationInfoExtArray) {
+            SDARSTuner.this.updateStationList(stationInfoExtArray);
+        }
+
+        public void updateElectronicSerialCode(String string) {
+            SDARSTuner.this.models.getLabelModel(222).setText(string);
+            SDARSTuner.this.models.getLabelModel(125).setText(string);
+        }
+
+        public void updateServiceStatus3(ServiceStatus3 serviceStatus3) {
+            SDARSTuner.this.statusManager.updateServiceStatus(serviceStatus3);
+        }
+
+        public void updateCategoryList(CategoryInfoExt[] categoryInfoExtArray) {
+            SDARSTuner.this.updateCategoryList(categoryInfoExtArray);
+        }
+
+        public void updateDetectedDevice(int n) {
+            SDARSTuner.this.updateDetectedDevice(n);
+        }
+
+        public void updateAvailability(int n) {
+            SDARSTuner.this.updateAvailability(n);
+        }
+
+        public void selectStationStatus(int n) {
+            SDARSTuner.this.selectStationStatus(n);
+        }
+
+        public void updateStationDescription(StationDescription[] stationDescriptionArray) {
+            SDARSTuner.this.sdarsStationDescriptions.updateStationDescriptions(stationDescriptionArray);
+        }
     }
 
-    static /* synthetic */ TunerAudioMgmt access$300(SDARSTuner sDARSTuner) {
-        return sDARSTuner.audio;
-    }
+    private class DsiDownListener
+    extends SDARSDsiDownInfo {
+        private DsiDownListener() {
+        }
 
-    static /* synthetic */ SDARSStatusManager access$400(SDARSTuner sDARSTuner) {
-        return sDARSTuner.statusManager;
-    }
-
-    static /* synthetic */ SDARSStationDescriptions access$500(SDARSTuner sDARSTuner) {
-        return sDARSTuner.sdarsStationDescriptions;
+        public void postTuneAction(StationInfoExt stationInfoExt, int n, int n2) {
+            if (n != 0 && SDARSTuner.this.models.getActiveTuner() == 7) {
+                SDARSTuner.this.audio.demute(n2);
+            }
+        }
     }
 }
 

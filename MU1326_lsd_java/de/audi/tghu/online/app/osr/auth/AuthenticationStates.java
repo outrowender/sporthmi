@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public final class AuthenticationStates
 extends HashMap {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4403503394299271753L;
 
     public AuthenticationStates() {
         this.put(new Integer(19), new Integer(1));

@@ -15,7 +15,6 @@ extends PreviewMapStateAbstract {
         super(previewMapHandlerAbstract, null, null);
     }
 
-    @Override
     public void applyToScreenDetail() {
         this.getPreviewMapHandler().getPreviewMapEventVisibilities().resetEventVisibilities();
         this.getPreviewMapHandler().setPreviewMapModeAndFrameRate(1);
@@ -23,11 +22,9 @@ extends PreviewMapStateAbstract {
         this.getMapForPreview().getGuiInterface().showPreviewMap(true);
     }
 
-    @Override
     public void applyToScreenDetailModels() {
     }
 
-    @Override
     public void applyToScreenFullMap() {
         AbstractMap abstractMap = this.getMapForFullScreen();
         NavLocation navLocation = abstractMap.getNaviInterface().getVehicle().getVehicleLocation();
@@ -35,7 +32,6 @@ extends PreviewMapStateAbstract {
         abstractMap.getGuiInterface().checkToShowToolTipForNaviWithoutPin(navLocation, null, this.guiTooltipInformationContainer, false);
     }
 
-    @Override
     public NavLocation getNavLocationForEnterInMap() {
         return this.getMapForFullScreen().getNaviInterface().getVehicle().getVehicleLocation();
     }

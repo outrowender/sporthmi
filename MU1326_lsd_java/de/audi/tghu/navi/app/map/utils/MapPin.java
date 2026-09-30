@@ -36,7 +36,6 @@ extends MapFlag {
         return false;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("geoX:").append(this.geoX);

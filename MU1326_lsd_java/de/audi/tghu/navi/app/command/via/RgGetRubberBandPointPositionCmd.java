@@ -12,13 +12,11 @@ extends NavCommand {
         super("RgGetRubberBandPointPositionCmd");
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "RgGetRubberBandPointPositionCmd#execute() - call rgGetRubberBandPointPosition()");
+        this.logger.log(10000000, "RgGetRubberBandPointPositionCmd#execute() - call rgGetRubberBandPointPosition()");
         this.getDSINavigation().rgGetRubberBandPointPosition();
     }
 
-    @Override
     public void rgGetRubberBandPointPositionResult(NavLocationWgs84 navLocationWgs84, boolean bl) {
     }
 }

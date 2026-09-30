@@ -13,9 +13,8 @@ extends NavCommand {
         this.sortOrder = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "POISetSortOrderCommand#execute() - calling poiSetSortOrder( %1 ) ", (long)this.sortOrder);
+        this.logger.log(1000000, "POISetSortOrderCommand#execute() - calling poiSetSortOrder( %1 ) ", (long)this.sortOrder);
         this.getDSINavigation().poiSetSortOrder2(this.sortOrder);
         this.getCommandList().commandFinished();
     }

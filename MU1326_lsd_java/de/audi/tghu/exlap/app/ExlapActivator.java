@@ -37,11 +37,10 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$org$dsi$ifc$base$DSIListener;
     static /* synthetic */ Class class$org$dsi$ifc$exlap$DSIExlapListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.log = this.framework.getLogChannel("App.Exlap.Main");
-        this.log.log(1078071040, "ExlapActivator#start(): bundleContext: %1", (Object)bundleContext);
+        this.log.log(1000000, "ExlapActivator#start(): bundleContext: %1", (Object)bundleContext);
         this.exlapHandler = new ExlapHandlerImpl(bundleContext, this.framework);
         this.initTracker();
         this.registerHasListener(this.exlapHandler);
@@ -62,7 +61,7 @@ implements ServiceTrackerCustomizer {
 
     private synchronized void deinit() {
         if (this.log != null) {
-            this.log.log(1078071040, "[ExlapActivator.deinit()] stopping ExlapActivator");
+            this.log.log(1000000, "[ExlapActivator.deinit()] stopping ExlapActivator");
             this.log = null;
         }
         if (this.tracker != null) {
@@ -95,7 +94,7 @@ implements ServiceTrackerCustomizer {
         ((Dictionary)hashtable).put("DEVICE_INSTANCE", new Integer(0));
         ((Dictionary)hashtable).put("DEVICE_NAME", (class$org$dsi$ifc$has$DSIHASListener == null ? (class$org$dsi$ifc$has$DSIHASListener = ExlapActivator.class$("org.dsi.ifc.has.DSIHASListener")) : class$org$dsi$ifc$has$DSIHASListener).getName());
         this.serviceRegistrationHas = this.bundleContext.registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = ExlapActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)exlapHandler, (Dictionary)hashtable);
-        this.log.log(1078071040, "ExlapActivator#registerHasListener(): HAS Listener registered");
+        this.log.log(1000000, "ExlapActivator#registerHasListener(): HAS Listener registered");
     }
 
     private void registerExlapListener(ExlapHandler exlapHandler) {
@@ -103,17 +102,16 @@ implements ServiceTrackerCustomizer {
         ((Dictionary)hashtable).put("DEVICE_INSTANCE", new Integer(0));
         ((Dictionary)hashtable).put("DEVICE_NAME", (class$org$dsi$ifc$exlap$DSIExlapListener == null ? (class$org$dsi$ifc$exlap$DSIExlapListener = ExlapActivator.class$("org.dsi.ifc.exlap.DSIExlapListener")) : class$org$dsi$ifc$exlap$DSIExlapListener).getName());
         this.serviceRegistrationExlap = this.bundleContext.registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = ExlapActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)exlapHandler, (Dictionary)hashtable);
-        this.log.log(1078071040, "ExlapActivator#registerExlapListener(): Exlap Listener registered");
+        this.log.log(1000000, "ExlapActivator#registerExlapListener(): Exlap Listener registered");
     }
 
     private void initTracker() {
         String[] stringArray = new String[]{(class$org$dsi$ifc$has$DSIHAS == null ? (class$org$dsi$ifc$has$DSIHAS = ExlapActivator.class$("org.dsi.ifc.has.DSIHAS")) : class$org$dsi$ifc$has$DSIHAS).getName(), (class$org$dsi$ifc$exlap$DSIExlap == null ? (class$org$dsi$ifc$exlap$DSIExlap = ExlapActivator.class$("org.dsi.ifc.exlap.DSIExlap")) : class$org$dsi$ifc$exlap$DSIExlap).getName()};
         this.tracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);
         this.tracker.open();
-        this.log.log(1078071040, "ExlapActivator#initTracker(): Exlap tracker opened");
+        this.log.log(1000000, "ExlapActivator#initTracker(): Exlap tracker opened");
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.deinit();
         super.stop(bundleContext);
@@ -124,21 +122,20 @@ implements ServiceTrackerCustomizer {
             ExlapExlapServiceImpl exlapExlapServiceImpl = new ExlapExlapServiceImpl();
             this.exlapHandler.init(this.dsiHas, this.dsiExlap, exlapExlapServiceImpl);
             this.exlapStarted = true;
-            this.log.log(1078071040, "ExlapActivator#checkServices(): ExlapHandler initialized");
+            this.log.log(1000000, "ExlapActivator#checkServices(): ExlapHandler initialized");
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIExlap) {
-            this.log.log(1078071040, "ExlapActivator#addingService(): Exlap service received");
+            this.log.log(1000000, "ExlapActivator#addingService(): Exlap service received");
             this.dsiExlap = (DSIExlap)object;
             this.checkServices();
             return this.dsiExlap;
         }
         if (object instanceof DSIHAS) {
-            this.log.log(1078071040, "ExlapActivator#addingService(): HAS service received");
+            this.log.log(1000000, "ExlapActivator#addingService(): HAS service received");
             this.dsiHas = (DSIHAS)object;
             this.checkServices();
             return this.dsiHas;
@@ -147,11 +144,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object == this.dsiExlap) {
             this.dsiExlap = null;

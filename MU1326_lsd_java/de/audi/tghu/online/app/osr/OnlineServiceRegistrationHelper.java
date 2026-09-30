@@ -30,7 +30,7 @@ public class OnlineServiceRegistrationHelper {
             return 0;
         }
         if (logChannel != null) {
-            logChannel.log(-1601830656, "[OnlineServiceRegistrationHelper#getReminderStatus] no reminder status set > OnlineCoreService south problem");
+            logChannel.log(100000, "[OnlineServiceRegistrationHelper#getReminderStatus] no reminder status set > OnlineCoreService south problem");
         }
         return 0;
     }

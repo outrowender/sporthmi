@@ -19,8 +19,8 @@ import org.dsi.ifc.navigation.ValueListStatus;
 
 public abstract class AbstractPoiBaseListModelAccess
 implements IPoiSpellerModelAccess {
-    public static final int CHOICE_ENABLED;
-    public static final int CHOICE_DISABLED;
+    public static final int CHOICE_ENABLED = 1;
+    public static final int CHOICE_DISABLED = 0;
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected final BaseListModelApp previewListModel;
@@ -29,22 +29,20 @@ implements IPoiSpellerModelAccess {
     protected AbstractPoiBaseListModelAccess(NavigationEnv navigationEnv, BaseListModelListener baseListModelListener, IEvoListRowBuilder iEvoListRowBuilder, int n) {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getPOILogChannel();
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#AbstractPoiModelAccess()");
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#AbstractPoiModelAccess()");
         this.listRowBuilder = iEvoListRowBuilder;
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#AbstractPoiModelAccess(), previewList = %1", (long)n);
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#AbstractPoiModelAccess(), previewList = %1", (long)n);
         this.previewListModel = navigationEnv.getBaseListModel(n);
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#AbstractPoiModelAccess() model = %1", (Object)this.previewListModel);
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#AbstractPoiModelAccess() model = %1", (Object)this.previewListModel);
         if (baseListModelListener != null) {
             this.previewListModel.setListener(baseListModelListener);
         }
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         this.clearPreviewList();
     }
 
-    @Override
     public void onInputChanged() {
         this.clearPreviewList();
     }
@@ -54,23 +52,21 @@ implements IPoiSpellerModelAccess {
         this.setPoiResultsAvailableModel(false);
     }
 
-    @Override
     public void onUpdateSearchStatus(ValueListStatus valueListStatus) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
-        this.env.getChoiceModel(35456512).setValue((int)l);
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
+        this.env.getChoiceModel(400642).setValue((int)l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.clearPreviewList();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = lIValueListElementArray.length;
         int n2 = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
         try {
             Object object;
             int n3;
@@ -84,7 +80,7 @@ implements IPoiSpellerModelAccess {
             for (n3 = 0; n3 < this.previewListModel.getLength(); ++n3) {
                 object = this.previewListModel.getRow(n3);
                 if (!this.logChannel.isDebug2()) continue;
-                this.logChannel.log(14808325, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - row = %1, Text = %2 modelID = %3", (Object)new StringBuffer().append(n3).append("").toString(), (Object)((EvoListRow)object).getText(1), (long)this.previewListModel.getID());
+                this.logChannel.log(100000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - row = %1, Text = %2 modelID = %3", (Object)(n3 + ""), (Object)((EvoListRow)object).getText(1), (long)this.previewListModel.getID());
             }
         }
         catch (Exception exception) {
@@ -92,12 +88,11 @@ implements IPoiSpellerModelAccess {
         }
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
-        this.env.getChoiceModel(35456512).setValue((int)l);
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList( %1, %2, %3 )", (Object)string, l, (long)n);
+        this.env.getChoiceModel(400642).setValue((int)l);
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList( %1, %2, %3 )", (Object)string, l, (long)n);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewListModel.clearAll();
             if (n > -1) {
                 this.previewListModel.setRows(n, n2, null);
@@ -106,7 +101,7 @@ implements IPoiSpellerModelAccess {
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n3 = lIValueListElementArray.length;
-        this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList - previewlistlength: %1", (long)n3);
+        this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList - previewlistlength: %1", (long)n3);
         EvoListRow[] evoListRowArray = new EvoListRow[n3];
         try {
             for (int i2 = 0; i2 < n3; ++i2) {
@@ -122,36 +117,28 @@ implements IPoiSpellerModelAccess {
         this.setPoiResultsAvailableModel(this.previewListModel.getLength() > 0);
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.previewListModel.clearRows(n, n2);
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void onUpdatePoiList(LIValueList lIValueList) {
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 
-    @Override
     public void onRestore() {
     }
 

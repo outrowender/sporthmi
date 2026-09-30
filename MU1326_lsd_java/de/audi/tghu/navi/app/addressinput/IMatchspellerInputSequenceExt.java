@@ -9,14 +9,10 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public interface IMatchspellerInputSequenceExt
 extends IMatchspellerInputSequence {
-    default public CommandList createStartCommandList(boolean bl) {
-    }
+    public CommandList createStartCommandList(boolean var1);
 
-    @Override
-    default public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement, boolean bl) {
-    }
+    public CommandList getSelectListElementCommandList(LIValueListElement var1, boolean var2);
 
-    default public CommandList getSelectElementByIdentifierCommandList(String string) {
-    }
+    public CommandList getSelectElementByIdentifierCommandList(String var1);
 }
 

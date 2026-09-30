@@ -13,18 +13,18 @@ import org.dsi.ifc.sdars.SeekEntry;
 
 public class AlertRow
 extends AbstractRadioListRow {
-    public static final int INDEX_RECORDSET;
-    private static final int INDEX_TEXT1;
-    private static final int INDEX_TEXT2;
-    private static final int INDEX_TEXT3;
-    private static final int INDEX_ICON;
-    protected static final int INDEX_CHANNEL_NUMBER;
-    protected static final int INDEX_CHANNEL_NAME;
-    private static final int INDEX_CHANNEL_CATEGORY;
-    protected static final int INDEX_PROPERTIES;
-    protected static final int COLUMN_COUNT;
-    private static final int RECORDSET_DEFAULT;
-    private static final String DEFAULT_TEXT2;
+    public static final int INDEX_RECORDSET = 0;
+    private static final int INDEX_TEXT1 = 1;
+    private static final int INDEX_TEXT2 = 2;
+    private static final int INDEX_TEXT3 = 3;
+    private static final int INDEX_ICON = 4;
+    protected static final int INDEX_CHANNEL_NUMBER = 5;
+    protected static final int INDEX_CHANNEL_NAME = 6;
+    private static final int INDEX_CHANNEL_CATEGORY = 7;
+    protected static final int INDEX_PROPERTIES = 8;
+    protected static final int COLUMN_COUNT = 9;
+    private static final int RECORDSET_DEFAULT = 0;
+    private static final String DEFAULT_TEXT2 = "-";
     private final StationInfoExt stationInfo;
     private final SeekEntry seekEntry;
 
@@ -38,7 +38,7 @@ extends AbstractRadioListRow {
         this.seekEntry = seekEntry;
         this.setInteger(0, 0);
         this.setText(1, string);
-        this.setText(2, "-");
+        this.setText(2, DEFAULT_TEXT2);
         this.setText(3, string2);
         this.setInteger(4, SeekAlertIconTypeEnum.forSeekEntry((SeekEntry)seekEntry).ordinal);
         this.setText(5, Utilities.getFormatedStationNumber(stationInfoExt.stationNumber));
@@ -52,7 +52,6 @@ extends AbstractRadioListRow {
         this.seekEntry = alertRow.seekEntry;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AlertRow(this);
     }
@@ -70,7 +69,6 @@ extends AbstractRadioListRow {
         }
     }
 
-    @Override
     public TunerObjectContainer getTOContainer() {
         return new TunerObjectContainer(this.stationInfo);
     }

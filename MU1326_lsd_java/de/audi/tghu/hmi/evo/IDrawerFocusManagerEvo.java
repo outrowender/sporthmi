@@ -28,176 +28,121 @@ public interface IDrawerFocusManagerEvo
 extends IEventListenerEvo,
 ScreenChangeAnimationItem,
 ILockingListener {
-    public static final int STATE_SELECTION_MENU;
-    public static final int STATE_OPTION_MENU;
-    public static final int STATE_MAIN_AREA;
-    public static final int STATE_ENTERTAINMENT_MENU;
-    public static final int STATE_PARTIAL_POPUP;
-    public static final int STATE_CONNECT;
-    public static final int ILLUNINATION_KEY_EVENT_LEFT;
-    public static final int ILLUNINATION_KEY_EVENT_RIGHT;
+    public static final int STATE_SELECTION_MENU = 4;
+    public static final int STATE_OPTION_MENU = 8;
+    public static final int STATE_MAIN_AREA = 16;
+    public static final int STATE_ENTERTAINMENT_MENU = 32;
+    public static final int STATE_PARTIAL_POPUP = 64;
+    public static final int STATE_CONNECT = 256;
+    public static final int ILLUNINATION_KEY_EVENT_LEFT = 77;
+    public static final int ILLUNINATION_KEY_EVENT_RIGHT = 78;
 
-    default public void setPartialPopupManager(IPartialPopupManager iPartialPopupManager) {
-    }
+    public void setPartialPopupManager(IPartialPopupManager var1);
 
-    default public void setPresetPopupHandler(IPresetInputHandler iPresetInputHandler) {
-    }
+    public void setPresetPopupHandler(IPresetInputHandler var1);
 
-    default public void setPhoneKeyHandler(IPhoneKeyHandler iPhoneKeyHandler) {
-    }
+    public void setPhoneKeyHandler(IPhoneKeyHandler var1);
 
-    default public void setGEMKeyHandler(IGEMKeyHandler iGEMKeyHandler) {
-    }
+    public void setGEMKeyHandler(IGEMKeyHandler var1);
 
-    default public void setScreen(IScreenData iScreenData, Screen screen) {
-    }
+    public void setScreen(IScreenData var1, Screen var2);
 
-    default public void setSelectionDrawer(Object object) {
-    }
+    public void setSelectionDrawer(Object var1);
 
-    default public void setOptionDrawer(Object object, Comparable comparable) {
-    }
+    public void setOptionDrawer(Object var1, Comparable var2);
 
-    default public Object getSelectionDrawer() {
-    }
+    public Object getSelectionDrawer();
 
-    default public Object getOptionDrawer() {
-    }
+    public Object getOptionDrawer();
 
-    default public Object getEntertainmentDrawer() {
-    }
+    public Object getEntertainmentDrawer();
 
-    default public Object getPreviousSelectionDrawer() {
-    }
+    public Object getPreviousSelectionDrawer();
 
-    default public Object getPreviousOptionDrawer() {
-    }
+    public Object getPreviousOptionDrawer();
 
-    default public void setEntertainmentDrawer(Object object) {
-    }
+    public void setEntertainmentDrawer(Object var1);
 
-    default public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processModelUpdateEvent(ModelUpdateEvent var1);
 
-    @Override
-    default public void screenChangeFinished() {
-    }
+    public void screenChangeFinished();
 
-    default public void screenFadedOut() {
-    }
+    public void screenFadedOut();
 
-    default public void paintDrawers() {
-    }
+    public void paintDrawers();
 
-    default public int getDrawerState() {
-    }
+    public int getDrawerState();
 
-    default public int getPredictedDrawerState(Screen screen, IScreenData iScreenData) {
-    }
+    public int getPredictedDrawerState(Screen var1, IScreenData var2);
 
-    default public void setDrawerState(int n, boolean bl) {
-    }
+    public void setDrawerState(int var1, boolean var2);
 
-    default public void registerDrawerFocusManagerService(IFrameworkAccess iFrameworkAccess) {
-    }
+    public void registerDrawerFocusManagerService(IFrameworkAccess var1);
 
-    default public void startTrackingServices(BundleContext bundleContext, HMITerminal hMITerminal) {
-    }
+    public void startTrackingServices(BundleContext var1, HMITerminal var2);
 
-    default public boolean requestDrawerState(int n) {
-    }
+    public boolean requestDrawerState(int var1);
 
-    default public void registerFocusPropertyProvider(IFocusedPropertyProvider iFocusedPropertyProvider) {
-    }
+    public void registerFocusPropertyProvider(IFocusedPropertyProvider var1);
 
-    default public void deRegisterFocusPropertyProvider(IFocusedPropertyProvider iFocusedPropertyProvider) {
-    }
+    public void deRegisterFocusPropertyProvider(IFocusedPropertyProvider var1);
 
-    default public IPresetPopupData getPresetPopupData() {
-    }
+    public IPresetPopupData getPresetPopupData();
 
-    default public void setViewSize(int n, boolean bl) {
-    }
+    public void setViewSize(int var1, boolean var2);
 
-    default public void requestDrawerClose(int n) {
-    }
+    public void requestDrawerClose(int var1);
 
-    default public boolean isDrawerClosingRequested(int n) {
-    }
+    public boolean isDrawerClosingRequested(int var1);
 
-    default public void setUsePersistence(boolean bl) {
-    }
+    public void setUsePersistence(boolean var1);
 
-    default public boolean isUsePersistence() {
-    }
+    public boolean isUsePersistence();
 
-    default public void updateOptionDrawerContent() {
-    }
+    public void updateOptionDrawerContent();
 
-    default public void setDrawersAndPopupsInvalid() {
-    }
+    public void setDrawersAndPopupsInvalid();
 
-    default public void processDrawerEvent(DrawerEvent drawerEvent) {
-    }
+    public void processDrawerEvent(DrawerEvent var1);
 
-    default public IDrawerControllerEvo getLastValidOptionDrawer() {
-    }
+    public IDrawerControllerEvo getLastValidOptionDrawer();
 
-    default public void reconnectDrawers() {
-    }
+    public void reconnectDrawers();
 
-    default public void setLongpressKeyHandler(ILongpressKeyHandler iLongpressKeyHandler) {
-    }
+    public void setLongpressKeyHandler(ILongpressKeyHandler var1);
 
-    default public void setDisclaimerActive(boolean bl) {
-    }
+    public void setDisclaimerActive(boolean var1);
 
-    default public void registerDrawerAnimationListener(DrawerAnimationListener drawerAnimationListener) {
-    }
+    public void registerDrawerAnimationListener(DrawerAnimationListener var1);
 
-    default public void unregisterDrawerAnimationListener(DrawerAnimationListener drawerAnimationListener) {
-    }
+    public void unregisterDrawerAnimationListener(DrawerAnimationListener var1);
 
-    default public void closeCurrentOptionDrawer() {
-    }
+    public void closeCurrentOptionDrawer();
 
-    default public void initializeDrawerAnimation(DrawerAnimationListener drawerAnimationListener) {
-    }
+    public void initializeDrawerAnimation(DrawerAnimationListener var1);
 
-    default public void addDrawerListener(IDrawerListener iDrawerListener) {
-    }
+    public void addDrawerListener(IDrawerListener var1);
 
-    default public void removeDrawerListener(IDrawerListener iDrawerListener) {
-    }
+    public void removeDrawerListener(IDrawerListener var1);
 
-    default public void registerPopupDrawerAction(Runnable runnable) {
-    }
+    public void registerPopupDrawerAction(Runnable var1);
 
-    default public void setPartialPopupDrawerOpen(boolean bl) {
-    }
+    public void setPartialPopupDrawerOpen(boolean var1);
 
-    default public void reinitScreen(Screen screen) {
-    }
+    public void reinitScreen(Screen var1);
 
-    default public void changeToCurrentConnectedScreen(boolean bl) {
-    }
+    public void changeToCurrentConnectedScreen(boolean var1);
 
-    default public void setOptionIconOffset(int n, int n2) {
-    }
+    public void setOptionIconOffset(int var1, int var2);
 
-    default public int getDrawerTargetState() {
-    }
+    public int getDrawerTargetState();
 
-    default public void atLeastOnePartialPopupVisible(boolean bl) {
-    }
+    public void atLeastOnePartialPopupVisible(boolean var1);
 
-    default public void setOptionDrawerOpenedDuringScreenChange(boolean bl) {
-    }
+    public void setOptionDrawerOpenedDuringScreenChange(boolean var1);
 
-    default public void setEarlyEntertainmentDrawerVisibility(boolean bl) {
-    }
+    public void setEarlyEntertainmentDrawerVisibility(boolean var1);
 
-    default public void setMenuMoveModeActive(boolean bl) {
-    }
+    public void setMenuMoveModeActive(boolean var1);
 }
 

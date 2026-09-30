@@ -15,7 +15,6 @@ extends FormatAddressAsiaNativeEvo {
         super(navigationEnv);
     }
 
-    @Override
     protected void formatStreet(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.junction.isEmpty()) {
             if (locationFormattingRequest.houseNumber.isEmpty()) {
@@ -35,7 +34,6 @@ extends FormatAddressAsiaNativeEvo {
         }
     }
 
-    @Override
     protected void formatDefaultTwoLines(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (locationFormattingRequest.district.isEmpty()) {
             if (!locationFormattingRequest.city.isEmpty()) {
@@ -46,7 +44,7 @@ extends FormatAddressAsiaNativeEvo {
             } else if (!locationFormattingRequest.state.isEmpty()) {
                 locationFormattingResponse.appendToFirstLine(locationFormattingRequest.state);
             } else {
-                this.logChannel.log(-2137614336, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information!", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#formatDefaultTwoLines -- formatRequest contains no any useful information!", (Object)this.CLASS_NAME);
             }
         } else {
             locationFormattingResponse.appendToFirstLine(locationFormattingRequest.district);
@@ -58,7 +56,6 @@ extends FormatAddressAsiaNativeEvo {
         }
     }
 
-    @Override
     protected void formatFullAddressInformationForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         this.formatThreeLevelCityForSecondLine(locationFormattingRequest, locationFormattingResponse);
         if (!locationFormattingRequest.street.isEmpty() || !locationFormattingRequest.houseNumber.isEmpty()) {
@@ -78,7 +75,6 @@ extends FormatAddressAsiaNativeEvo {
         }
     }
 
-    @Override
     protected void formatThreeLevelCityForSecondLine(LocationFormattingRequest locationFormattingRequest, LocationFormattingResponse locationFormattingResponse) {
         if (!locationFormattingRequest.state.isEmpty()) {
             if (!locationFormattingRequest.city.isEmpty() && !locationFormattingRequest.state.equals(locationFormattingRequest.city)) {

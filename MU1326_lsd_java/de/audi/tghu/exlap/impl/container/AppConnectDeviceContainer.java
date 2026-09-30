@@ -14,17 +14,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.has.HASDataContainer;
 import org.dsi.ifc.has.HASDataElement;
 
 public class AppConnectDeviceContainer
 extends AbstractContainer {
-    private static final int CONTAINER_ID_APP_CONNECT_DEVICE;
-    private static final int ELEMENT_ID_AVAILABLE;
-    private static final int ELEMENT_ID_ENTERTAINMENT_ACTIVE;
-    private static final int ELEMENT_ID_TYPE;
-    private static final int ELEMENT_ID_DEVICE_NAME;
+    private static final int CONTAINER_ID_APP_CONNECT_DEVICE = 64;
+    private static final int ELEMENT_ID_AVAILABLE = 146;
+    private static final int ELEMENT_ID_ENTERTAINMENT_ACTIVE = 147;
+    private static final int ELEMENT_ID_TYPE = 148;
+    private static final int ELEMENT_ID_DEVICE_NAME = 149;
     private Map map = new HashMap();
 
     public AppConnectDeviceContainer(boolean bl) {
@@ -101,14 +100,12 @@ extends AbstractContainer {
         return (String)this.map.get(new Integer(149));
     }
 
-    @Override
     public List createContainer(int n, int n2, int n3) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new HASDataContainer(64, n2, n, this.createElements(), n3));
         return arrayList;
     }
 
-    @Override
     public HASDataContainer[] createContainer() {
         List list = this.createContainer(-1, 1, -1);
         return (HASDataContainer[])list.toArray(new HASDataContainer[list.size()]);
@@ -119,23 +116,23 @@ extends AbstractContainer {
         HASDataElement[] hASDataElementArray = new HASDataElement[this.map.size()];
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            if (map$Entry.getValue() == null) continue;
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            if (entry.getValue() == null) continue;
+            switch ((Integer)entry.getKey()) {
                 case 146: {
-                    hASDataElementArray[n++] = new BooleanElement(146, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(146, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 147: {
-                    hASDataElementArray[n++] = new BooleanElement(147, (boolean)((Boolean)map$Entry.getValue()));
+                    hASDataElementArray[n++] = new BooleanElement(147, (boolean)((Boolean)entry.getValue()));
                     break;
                 }
                 case 148: {
-                    hASDataElementArray[n++] = new IntegerElement(148, ((AppConnectDeviceTypeEnumeration)map$Entry.getValue()).ordinal());
+                    hASDataElementArray[n++] = new IntegerElement(148, ((AppConnectDeviceTypeEnumeration)entry.getValue()).ordinal());
                     break;
                 }
                 case 149: {
-                    hASDataElementArray[n++] = new StringElement(149, (String)map$Entry.getValue());
+                    hASDataElementArray[n++] = new StringElement(149, (String)entry.getValue());
                     break;
                 }
             }
@@ -143,50 +140,49 @@ extends AbstractContainer {
         return hASDataElementArray;
     }
 
-    @Override
     public void toString(StringWriter stringWriter) {
         stringWriter.write("AppConnectDeviceContainer(");
         Iterator iterator = this.map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            switch ((Integer)map$Entry.getKey()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            switch ((Integer)entry.getKey()) {
                 case 146: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("available(boolean)=null");
                         break;
                     }
                     stringWriter.write("available(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 147: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("entertainmentActive(boolean)=null");
                         break;
                     }
                     stringWriter.write("entertainmentActive(boolean)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 148: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("type(AppConnectDeviceTypeEnumeration)=null");
                         break;
                     }
                     stringWriter.write("type(AppConnectDeviceTypeEnumeration)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
                 case 149: {
-                    if (map$Entry.getValue() == null) {
+                    if (entry.getValue() == null) {
                         stringWriter.write("deviceName(String)=null");
                         break;
                     }
                     stringWriter.write("deviceName(String)='");
-                    stringWriter.write(map$Entry.getValue().toString());
+                    stringWriter.write(entry.getValue().toString());
                     stringWriter.write("'");
                     break;
                 }
@@ -197,7 +193,6 @@ extends AbstractContainer {
         stringWriter.write(")");
     }
 
-    @Override
     protected Object clone() {
         AppConnectDeviceContainer appConnectDeviceContainer = new AppConnectDeviceContainer(this);
         return appConnectDeviceContainer;

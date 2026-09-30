@@ -3,29 +3,28 @@
  */
 package de.audi.tghu.navi.app.guidance;
 
+import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.DateMetric;
 import de.audi.tghu.navi.app.NavigationEnv;
-import de.audi.tghu.navi.app.guidance.SemidynamicRouteGuidance$ModelAccess;
-import de.audi.tghu.navi.app.guidance.SemidynamicRouteGuidance$ModelAccessImpl;
 import java.util.Date;
 import org.dsi.ifc.navigation.CalculatedRouteListElement;
 import org.dsi.ifc.navigation.RgRouteCostChangeInformation;
 
 public class SemidynamicRouteGuidance {
-    public static final String NO_DURATION;
-    public static final long TRAFFIC_OFFSET_THRESHOLD;
+    public static final String NO_DURATION = "- -";
+    public static final long TRAFFIC_OFFSET_THRESHOLD = 60000L;
     private final LogChannel logChannel;
     private int huRegion;
-    private final SemidynamicRouteGuidance$ModelAccess modelAccess;
+    private final ModelAccess modelAccess;
     private final Object modelMonitor = new Object();
 
     public SemidynamicRouteGuidance(NavigationEnv navigationEnv) {
-        this(navigationEnv, new SemidynamicRouteGuidance$ModelAccessImpl(navigationEnv));
+        this(navigationEnv, new ModelAccessImpl(navigationEnv));
     }
 
-    public SemidynamicRouteGuidance(NavigationEnv navigationEnv, SemidynamicRouteGuidance$ModelAccess semidynamicRouteGuidance$ModelAccess) {
-        this.modelAccess = semidynamicRouteGuidance$ModelAccess;
+    public SemidynamicRouteGuidance(NavigationEnv navigationEnv, ModelAccess modelAccess) {
+        this.modelAccess = modelAccess;
         this.logChannel = navigationEnv.getLogChannel();
     }
 
@@ -51,9 +50,9 @@ public class SemidynamicRouteGuidance {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation) {
-        this.logChannel.log(1078071040, "SemidynamicRouteGuidance#updateRgRouteCostChangeInformation( %1 ) ", (Object)rgRouteCostChangeInformation);
+        this.logChannel.log(1000000, "SemidynamicRouteGuidance#updateRgRouteCostChangeInformation( %1 ) ", (Object)rgRouteCostChangeInformation);
         if (!this.isActive()) {
-            this.logChannel.log(1078071040, "SemidynamicRouteGuidance#updateRgRouteCostChangeInformation - not active, ignoring update");
+            this.logChannel.log(1000000, "SemidynamicRouteGuidance#updateRgRouteCostChangeInformation - not active, ignoring update");
             return;
         }
         boolean bl = SemidynamicRouteGuidance.isDynamicBypassAvailable(rgRouteCostChangeInformation);
@@ -83,7 +82,7 @@ public class SemidynamicRouteGuidance {
             return 0L;
         }
         long l = calculatedRouteListElement.etaWithSpeedAndFlow - calculatedRouteListElement.eta;
-        if (l < 0) {
+        if (l < 60000L) {
             return 0L;
         }
         return l;
@@ -99,7 +98,7 @@ public class SemidynamicRouteGuidance {
 
     public static String formatDurationShort(long l) {
         if (l == 0L) {
-            return "- -";
+            return NO_DURATION;
         }
         DateMetric dateMetric = new DateMetric(new Date(l), 7);
         return dateMetric.format();
@@ -107,7 +106,7 @@ public class SemidynamicRouteGuidance {
 
     public static String formatDurationLong(long l) {
         if (l == 0L) {
-            return "- -";
+            return NO_DURATION;
         }
         DateMetric dateMetric = new DateMetric(new Date(l), 5);
         return dateMetric.format();
@@ -122,9 +121,60 @@ public class SemidynamicRouteGuidance {
             synchronized (object) {
                 this.modelAccess.setDynamicBypassAvailable(false);
                 this.modelAccess.setSidebarButtonMode(0);
-                this.modelAccess.setTrafficOffsetShort("- -");
-                this.modelAccess.setTrafficOffsetLong("- -");
+                this.modelAccess.setTrafficOffsetShort(NO_DURATION);
+                this.modelAccess.setTrafficOffsetLong(NO_DURATION);
             }
+        }
+    }
+
+    public static interface ModelAccess {
+        public static final int SIDEBAR_ALTERNATIVE_ROUTES = 0;
+        public static final int SIDEBAR_DYNAMIC_BYPASS = 1;
+
+        public void setDynamicBypassAvailable(boolean var1);
+
+        public boolean isDynamicBypassAvailable();
+
+        public void setTrafficOffsetShort(String var1);
+
+        public void setTrafficOffsetLong(String var1);
+
+        public void setSidebarButtonMode(int var1);
+    }
+
+    private static class ModelAccessImpl
+    implements ModelAccess {
+        private final NavigationEnv env;
+        private final LogChannel logChannel;
+
+        public ModelAccessImpl(NavigationEnv navigationEnv) {
+            this.env = navigationEnv;
+            this.logChannel = navigationEnv.getLogChannel();
+        }
+
+        public void setDynamicBypassAvailable(boolean bl) {
+            this.logChannel.log(10000000, "SemidynamicRouteGuidance#setDynamicBypassAvailable( %1 ) ", bl);
+            this.env.getChoiceModel(160).setValue(bl ? 1 : 0);
+        }
+
+        public boolean isDynamicBypassAvailable() {
+            return this.env.getChoiceModel(160).getValue() == 1;
+        }
+
+        public void setTrafficOffsetShort(String string) {
+            this.logChannel.log(10000000, "SemidynamicRouteGuidance#setTrafficOffsetShort( %1 ) ", (Object)string);
+            this.env.getLabelModel(164).setText(string);
+        }
+
+        public void setTrafficOffsetLong(String string) {
+            this.logChannel.log(10000000, "SemidynamicRouteGuidance#setTrafficOffsetLong( %1 ) ", (Object)string);
+            this.env.getLabelModel(163).setText(string);
+        }
+
+        public void setSidebarButtonMode(int n) {
+            this.logChannel.log(10000000, "SemidynamicRouteGuidance#setSidebarButtonMode( %1 ) ", (long)n);
+            ChoiceModelApp choiceModelApp = this.env.getChoiceModel(400880);
+            choiceModelApp.setValue(n);
         }
     }
 }

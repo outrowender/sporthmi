@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(24, "TestSupport", System.getProperty("variant.skin", "EvoHighScale"), new TestSupportModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new TestSupportScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new TestSupportConditionBank((TestSupportScreenFactory)this.getScreenFactory());

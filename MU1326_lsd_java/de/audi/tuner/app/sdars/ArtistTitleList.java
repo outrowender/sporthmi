@@ -5,18 +5,17 @@ package de.audi.tuner.app.sdars;
 
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.tuner.app.LanguageManager;
 import de.audi.tuner.app.TunerBasics;
+import de.audi.tuner.app.TunerProxyManager;
 import de.audi.tuner.app.Utilities;
-import de.audi.tuner.app.sdars.ArtistTitleList$CatFilterListener;
-import de.audi.tuner.app.sdars.ArtistTitleList$ChoiceListener;
-import de.audi.tuner.app.sdars.ArtistTitleList$DsiUpListener;
-import de.audi.tuner.app.sdars.ArtistTitleList$ListListener;
 import de.audi.tuner.app.sdars.ArtistTitleRow;
-import de.audi.tuner.app.sdars.CategoryFilter$ICategoryFilter;
+import de.audi.tuner.app.sdars.CategoryFilter;
 import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.sdars.dsi.SDARSDsiUpInfo;
 import de.audi.tuner.app.sdars.sortandindex.artisttitle.AbstractArtistTitleComparatorAndIndexer;
@@ -27,10 +26,11 @@ import de.audi.tuner.ifc.AbstractListRowFactory;
 import java.util.ArrayList;
 import java.util.List;
 import org.dsi.ifc.sdars.RadioText;
+import org.dsi.ifc.sdars.SeekAlert;
 
 class ArtistTitleList {
-    final SDARSDsiUpInfo dsiUpListener = new ArtistTitleList$DsiUpListener(this, null);
-    final CategoryFilter$ICategoryFilter catFilterListener = new ArtistTitleList$CatFilterListener(this, null);
+    final SDARSDsiUpInfo dsiUpListener = new DsiUpListener();
+    final CategoryFilter.ICategoryFilter catFilterListener = new CatFilterListener();
     private final BaseListModelApp listModel;
     private final BaseListModelApp indexListModel;
     private final ChoiceModelApp sortChoice;
@@ -46,17 +46,17 @@ class ArtistTitleList {
     private final AbstractListRowFactory rowFactory;
 
     ArtistTitleList(TunerBasics tunerBasics, LanguageManager languageManager, AbstractListRowFactory abstractListRowFactory) {
-        this.listModel = tunerBasics.getModels().getBaseListModel(-175636224);
-        this.indexListModel = tunerBasics.getModels().getBaseListModel(948568320);
+        this.listModel = tunerBasics.getModels().getBaseListModel(100597);
+        this.indexListModel = tunerBasics.getModels().getBaseListModel(100920);
         this.log = tunerBasics.getLogger().sdarsRadioText;
         this.rowFactory = abstractListRowFactory;
-        this.listModel.setListener(new ArtistTitleList$ListListener(null));
+        this.listModel.setListener(new ListListener());
         this.modelGroup.add(this.listModel);
         this.allComps = new AbstractArtistTitleComparatorAndIndexer[]{new SortAlgoArtistName(languageManager), new SortAlgoTitleName(languageManager)};
-        this.sortChoice = tunerBasics.getModels().getChoiceModel(-91750144);
-        this.sortChoice.setChoiceListener(new ArtistTitleList$ChoiceListener(this, null));
+        this.sortChoice = tunerBasics.getModels().getChoiceModel(100602);
+        this.sortChoice.setChoiceListener(new ChoiceListener());
         this.sortChoice.setValue(0);
-        this.selectionChoice = tunerBasics.getModels().getChoiceModel(-1165426432);
+        this.selectionChoice = tunerBasics.getModels().getChoiceModel(100794);
     }
 
     private void update(RadioText radioText) {
@@ -162,55 +162,94 @@ class ArtistTitleList {
         this.indexListModel.update(baseListModelApp2);
     }
 
-    static /* synthetic */ StationInfoExt access$402(ArtistTitleList artistTitleList, StationInfoExt stationInfoExt) {
-        artistTitleList.selectedStation = stationInfoExt;
-        return artistTitleList.selectedStation;
-    }
-
-    static /* synthetic */ void access$500(ArtistTitleList artistTitleList) {
-        artistTitleList.doHighlighting();
-    }
-
-    static /* synthetic */ ModelGroup access$600(ArtistTitleList artistTitleList) {
-        return artistTitleList.modelGroup;
-    }
-
     static /* synthetic */ StationInfoExt[] access$702(ArtistTitleList artistTitleList, StationInfoExt[] stationInfoExtArray) {
         artistTitleList.stationList = stationInfoExtArray;
         return stationInfoExtArray;
     }
 
-    static /* synthetic */ Object access$800(ArtistTitleList artistTitleList) {
-        return artistTitleList.mutex;
-    }
-
-    static /* synthetic */ void access$900(ArtistTitleList artistTitleList, RadioText radioText) {
-        artistTitleList.update(radioText);
-    }
-
-    static /* synthetic */ LogChannel access$1000(ArtistTitleList artistTitleList) {
-        return artistTitleList.log;
-    }
-
-    static /* synthetic */ void access$1100(ArtistTitleList artistTitleList, int n, boolean bl) {
-        artistTitleList.update(n, bl);
-    }
-
-    static /* synthetic */ AbstractArtistTitleComparatorAndIndexer[] access$1200(ArtistTitleList artistTitleList) {
-        return artistTitleList.allComps;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$1300(ArtistTitleList artistTitleList) {
-        return artistTitleList.sortChoice;
-    }
-
-    static /* synthetic */ void access$1400(ArtistTitleList artistTitleList) {
-        artistTitleList.buildNewList();
-    }
-
     static /* synthetic */ boolean[] access$1502(ArtistTitleList artistTitleList, boolean[] blArray) {
         artistTitleList.catFilter = blArray;
         return blArray;
+    }
+
+    private static class ListListener
+    extends DefaultBaseListModelListener {
+        private ListListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            ArtistTitleRow artistTitleRow = (ArtistTitleRow)evoListRow;
+            StationInfoExt stationInfoExt = artistTitleRow.getStation();
+            TunerProxyManager.getInstance().getSDARSTuner().selectStation(stationInfoExt, 0);
+        }
+    }
+
+    private class DsiUpListener
+    extends SDARSDsiUpInfo {
+        private DsiUpListener() {
+        }
+
+        public void updateSelectedStation(StationInfoExt stationInfoExt) {
+            ArtistTitleList.this.selectedStation = stationInfoExt;
+            ArtistTitleList.this.doHighlighting();
+            ArtistTitleList.this.modelGroup.flush();
+        }
+
+        public void updateStationList(StationInfoExt[] stationInfoExtArray) {
+            ArtistTitleList.access$702(ArtistTitleList.this, stationInfoExtArray);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void informationRadioText2(RadioText[] radioTextArray) {
+            Object object = ArtistTitleList.this.mutex;
+            synchronized (object) {
+                for (int i2 = 0; i2 < radioTextArray.length; ++i2) {
+                    if (radioTextArray[i2].sID >= 0 && radioTextArray[i2].sID < 384) {
+                        ArtistTitleList.this.update(radioTextArray[i2]);
+                        continue;
+                    }
+                    ArtistTitleList.this.log.log(10000, "[ATL.informationRadioText2] received invalid sId %1", (long)radioTextArray[i2].sID);
+                }
+            }
+            ArtistTitleList.this.doHighlighting();
+            ArtistTitleList.this.modelGroup.flush();
+        }
+
+        public void updateSeekAlert(SeekAlert seekAlert) {
+            ArtistTitleList.this.update(seekAlert.getSID(), seekAlert.getAlertType() == 1);
+        }
+    }
+
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (n2 >= 0 && n2 < ArtistTitleList.this.allComps.length) {
+                ArtistTitleList.this.sortChoice.setValue(n2);
+                ArtistTitleList.this.buildNewList();
+            }
+        }
+    }
+
+    private class CatFilterListener
+    implements CategoryFilter.ICategoryFilter {
+        private CatFilterListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void categoryFilterChanged(boolean[] blArray) {
+            Object object = ArtistTitleList.this.mutex;
+            synchronized (object) {
+                ArtistTitleList.access$1502(ArtistTitleList.this, blArray);
+                ArtistTitleList.this.buildNewList();
+            }
+        }
     }
 }
 

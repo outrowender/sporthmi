@@ -24,7 +24,6 @@ extends AbstractSwdlListItemText {
         return this.deviceInfoManager;
     }
 
-    @Override
     public void updateListRow(BaseListRow baseListRow) {
         baseListRow.setInteger(0, this.getId());
         baseListRow.setText(1, this.getName());

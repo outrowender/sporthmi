@@ -14,6 +14,7 @@ import de.audi.tghu.navi.app.addressinput.commands.AddressInputRequestValueListB
 import de.audi.tghu.navi.app.addressinput.commands.GetLastStateHistoryEntryCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPRequestValueListByListIndexCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LISPSelectListItemCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
 import de.audi.tghu.navi.app.addressinput.commands.LIStartSpellerCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelSelectListElementCommand;
 import de.audi.tghu.navi.app.addressinput.commands.ModelStartCommand;
@@ -21,14 +22,14 @@ import de.audi.tghu.navi.app.addressinput.commands.ModelUpdateSpellerAndResultLi
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.country.SetBackupLocationForAddressInputFormCommand;
 import de.audi.tghu.navi.app.command.LISPCancelSpellerCommand;
+import de.audi.tghu.navi.app.command.LISetCountryForCityAndStreetHistoryCommand;
+import de.audi.tghu.navi.app.command.LiLastStateHistoryAddCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.sds.LIStripLocationCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSequence;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputProvinceSequenceAsia$1;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputProvinceSequenceAsia$2;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputProvinceSequenceAsia$3;
-import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputProvinceSequenceAsia$4;
 import de.audi.tghu.navi.app.li.SpellerStack;
+import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIStateHistoryEntry;
@@ -40,7 +41,6 @@ extends AddressInputCityZipSequence {
         super(iCommandListFactory, navigationEnv, iMatchspellerModelAccess, iPreviewMap, spellerStack, iAddressInputManager, cityHistory);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new ModelStartCommand(this.modelAccess));
@@ -54,11 +54,32 @@ extends AddressInputCityZipSequence {
         return commandList;
     }
 
-    @Override
     public CommandList getSelectListElementCommandList(LIValueListElement lIValueListElement) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new LISPSelectListItemCommand(lIValueListElement.getListIndex()));
-        commandList.add(new AddressInputProvinceSequenceAsia$1(this, new StringBuffer().append(this.CLASS_NAME).append("#getSelectListElementCommandList Strip location and add to history").toString()));
+        commandList.add(new NavCommand(this.CLASS_NAME + "#getSelectListElementCommandList Strip location and add to history"){
+
+            public void execute() {
+                NavLocation navLocation = this.dsiResponseContainer.getLiCurrentLD();
+                if (navLocation.isPositionValid()) {
+                    CommandList commandList = AddressInputProvinceSequenceAsia.this.commandListFactory.createCommandList();
+                    commandList.add(new LIStripLocationCommand(navLocation, 1));
+                    commandList.add(new NavCommand(){
+
+                        public void execute() {
+                            NavLocation navLocation = (NavLocation)this.getCommandList().get("STRIPPED_LOCATION");
+                            CommandList commandList = (this).AddressInputProvinceSequenceAsia.this.commandListFactory.createCommandList();
+                            commandList.add(new LISetCountryForCityAndStreetHistoryCommand(LocationFormatter.formatState(navLocation)));
+                            commandList.add(new LiLastStateHistoryAddCommand(navLocation, false, LocationFormatter.formatState(navLocation)));
+                            this.getCommandList().commandFinishedWithPostSequence(commandList);
+                        }
+                    });
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    this.getCommandList().commandFinished();
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -70,7 +91,13 @@ extends AddressInputCityZipSequence {
         CommandList commandList = this.commandListFactory.createCommandList();
         NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
         commandList.add(new LIStripLocationCommand(navLocation, 15));
-        commandList.add(new AddressInputProvinceSequenceAsia$2(this, "Set stripped location as currentLd"));
+        commandList.add(new NavCommand("Set stripped location as currentLd"){
+
+            public void execute() {
+                NavLocation navLocation = (NavLocation)this.getCommandList().get("STRIPPED_LOCATION");
+                this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand(navLocation));
+            }
+        });
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
         commandList.add(new SetBackupLocationForAddressInputFormCommand(this.inputManager));
@@ -81,7 +108,22 @@ extends AddressInputCityZipSequence {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.put("selectedElement", lIStateHistoryEntry);
         commandList.add(new GetLastStateHistoryEntryCommand(lIStateHistoryEntry));
-        commandList.add(new AddressInputProvinceSequenceAsia$3(this, new StringBuffer().append(this.CLASS_NAME).append("#getSelectHistoryElementCommandList - get history location from command list context").toString()));
+        commandList.add(new NavCommand(this.CLASS_NAME + "#getSelectHistoryElementCommandList - get history location from command list context"){
+
+            public void execute() {
+                Object object = this.getCommandList().get("NavLocation from History");
+                if (object instanceof NavLocation) {
+                    NavLocation navLocation = (NavLocation)object;
+                    CommandList commandList = AddressInputProvinceSequenceAsia.this.commandListFactory.createCommandList();
+                    commandList.add(new LISetCountryForCityAndStreetHistoryCommand(LocationFormatter.formatState(navLocation)));
+                    commandList.add(new LiLastStateHistoryAddCommand(navLocation, false, LocationFormatter.formatState(navLocation)));
+                    commandList.add(new LISetCurrentLDCommand(navLocation));
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                } else {
+                    this.getCommandList().commandAborted("unexpected Object");
+                }
+            }
+        });
         commandList.add(new ModelSelectListElementCommand(this.modelAccess));
         commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccess));
         commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
@@ -89,16 +131,27 @@ extends AddressInputCityZipSequence {
         return commandList;
     }
 
-    public void showHistoryLocationInPreviewMap(IPreviewMap iPreviewMap, LIStateHistoryEntry lIStateHistoryEntry) {
+    public void showHistoryLocationInPreviewMap(final IPreviewMap iPreviewMap, LIStateHistoryEntry lIStateHistoryEntry) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.add(new GetLastStateHistoryEntryCommand(lIStateHistoryEntry));
-        commandList.add(new AddressInputProvinceSequenceAsia$4(this, new StringBuffer().append(this.CLASS_NAME).append("#showHistoryLocationInPreviewMap - SetNavLocationForPreviewMap").toString(), iPreviewMap));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showHistoryLocationInPreviewMap").toString());
+        commandList.add(new NavCommand(this.CLASS_NAME + "#showHistoryLocationInPreviewMap - SetNavLocationForPreviewMap"){
+
+            public void execute() {
+                Object object = this.getCommandList().get("NavLocation from History");
+                if (object instanceof NavLocation) {
+                    NavLocation navLocation = (NavLocation)object;
+                    iPreviewMap.setPreviewLocationCity(navLocation, 1, null, null);
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.getCommandList().commandAborted("unexpected Object");
+                }
+            }
+        });
+        commandList.execute(this.CLASS_NAME + "#showHistoryLocationInPreviewMap");
     }
 
-    @Override
     public void requestNextResultListWindow(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#requestNextResultListWindow(), anchorIndex = %2, requestID = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#requestNextResultListWindow(), anchorIndex = %2, requestID = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         CommandList commandList = this.commandListFactory.createCommandList(1);
         if (Util.isPorsche(this.env.getFramework()) || Util.isPorscheGen2(this.env.getFramework()) || Util.isBentley(this.env.getFramework())) {
             commandList.add(new AddressInputRequestValueListByIndexCommand(n, true));
@@ -112,7 +165,7 @@ extends AddressInputCityZipSequence {
             commandList.add(new LISPRequestValueListByListIndexCommand(n - n3, true));
             commandList.add(new ModelUpdateSpellerAndResultListCommand(this.modelAccess, n2, n));
         }
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#requestNextResultListWindows").toString());
+        commandList.execute(this.CLASS_NAME + "#requestNextResultListWindows");
     }
 }
 
