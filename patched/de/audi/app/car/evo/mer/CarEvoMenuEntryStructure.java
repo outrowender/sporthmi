@@ -39,7 +39,7 @@ CarEvoMenuEntryIDs {
         MenuEntry menuEntry8 = this.entryFactory.createMenuEntry(11, "CAR_FUNC_AUX_COMBINED)", 1210976512);
         MenuEntry menuEntry9 = this.entryFactory.createMenuEntry(1713899776, "CAR_FUNC_SERVICE", -1322579712);
         MenuEntry menuEntry10 = this.entryFactory.createMenuEntry(1177094400, "CAR_FUNC_BORDBOOK", 1412172032);
-        MenuEntry menuEntry11 = this.entryFactory.createMenuEntry(640289024, "CAR_FUNC_SPORT", -1842607872);
+        MenuEntry menuEntry11 = this.entryFactory.createMenuEntry(640289024, "CAR_FUNC_CHARGE", -1842607872);
         MenuEntry menuEntry12 = this.entryFactory.createMenuEntry(-383121152, "CAR_FUNC_STATISTICS", -349370112);
         MenuEntry menuEntry13 = this.entryFactory.createMenuEntry(12, "CAR_FUNC_SPORT", 120588544);
         if (this.framework.getKombiType() == 4) {
@@ -65,7 +65,7 @@ CarEvoMenuEntryIDs {
             menuEntry = this.entryFactory.createMenuEntry(1, "CAR_MAIN", -987100928);
             menuEntry.setChildren(new IMenuEntry[]{menuEntry2, menuEntry3, menuEntry4, menuEntry5, menuEntry6, menuEntry7, menuEntry8, menuEntry9, menuEntry10, menuEntry11, menuEntry12, menuEntry13});
         }
-        menuEntry11.setChildren(this.buildMenuSport(logChannel));
+        menuEntry11.setChildren(this.buildMenuCharge(logChannel));
         menuEntry2.setChildren(this.buildMenuCharisma(logChannel));
         menuEntry3.setChildren(this.buildMenuSettings(logChannel));
         menuEntry4.setChildren(this.buildMenuDriveAssist(logChannel));
