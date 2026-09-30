@@ -9,6 +9,8 @@ de/audi/app/car/evo/mer/CarEvoMenuEntryStructure.java \
 ${JAVA_HOME}/bin/javac -version
 ${JAVA_HOME}/bin/java -version
 
+rm -f SportHMI.jar
+
 for j in $FILES; do
 echo "Compiling $j"
 ${JAVA_HOME}/bin/javac -source 1.6 -target 1.6 -cp ".:${JAR}" $j

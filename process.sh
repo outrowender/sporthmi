@@ -17,18 +17,13 @@ ASM=${SCRIPT_DIR}/${JXE%.jxe}_asm
 
 if [ ! -e $JAR ]; then
   echo "Converting $JXE -> $JAR"
-  python2 -m pip install bitstring 2> /dev/null
-  python2 jxe2jar/src/JXE2JAR.py $JXE $JAR
+  python3 -m pip install bitstring 2> /dev/null
+  python3 jxe2jar/src/jxe2jar.py $JXE $JAR
 fi
 
 if [ ! -e $JAVA ]; then
   echo "Decompiling $JAR -> $JAVA"
   java -jar cfr-0.152.jar --previewfeatures false --switchexpression false --outputdir $JAVA $JAR
-fi
-
-if [ ! -e $ASM ]; then
-  echo "Disassembling $JAR -> $ASM"
-  python2 Krakatau/disassemble.py -roundtrip -out $ASM $JAR
 fi
 
 if [ ! -e $JAVA_HOME ]; then
